@@ -1,0 +1,85 @@
+FIPS 203 ML-KEM-768 -- official NIST ACVP known-answer test results (MEASURED)
+Generated: 2026-09-28 UTC
+Produced by: tb/golden/fetch_acvp_vectors.py + tb/golden/run_kat.py
+Model under test: tb/golden/mlkem.py, tb/golden/kpke.py, tb/golden/primitives.py
+
+SOURCE
+------
+Repository:     https://github.com/usnistgov/ACVP-Server
+Pinned commit:  975de31eb83d87039ec88934fdc47d8c312b892d
+Base URL:       https://raw.githubusercontent.com/usnistgov/ACVP-Server/975de31eb83d87039ec88934fdc47d8c312b892d/gen-val/json-files
+
+File 1: ML-KEM-keyGen-FIPS203/internalProjection.json
+  sha256 (expected, kat_sources.md): d7a62a2c3476957f56dd8d24f9004ea6776ccfe995ffe71a65bb9506dc9c7b1b
+  sha256 (downloaded, verified):     d7a62a2c3476957f56dd8d24f9004ea6776ccfe995ffe71a65bb9506dc9c7b1b  -- MATCH
+  size: 558841 bytes
+  top-level "isSample": false   <-- NOTE: this differs from the assumption in
+  .claude/skills/mlkem-guard/reference/kat_sources.md and in the Phase 0 prompt
+  pack ("isSample: true"). As actually downloaded and verified against the
+  pinned sha256, the keyGen vector set's own JSON says isSample=false, i.e.
+  NIST's ACVP-Server repository ships this as its full keyGen vector set for
+  this revision, not a reduced sample. Reported here exactly as found; not
+  corrected or reinterpreted.
+
+File 2: ML-KEM-encapDecap-FIPS203/internalProjection.json
+  sha256 (expected, kat_sources.md): a556952ce869bb89c3a3196a701dad89647c193a34c86eafb61a9d710d5b810f
+  sha256 (downloaded, verified):     a556952ce869bb89c3a3196a701dad89647c193a34c86eafb61a9d710d5b810f  -- MATCH
+  size: 1465634 bytes
+  top-level "isSample": true
+
+Both files verified successfully; neither was modified after download.
+Local copies: tb/vectors/acvp/*.json (NOT committed to git; see .gitignore).
+
+SCOPE
+-----
+Only the ML-KEM-768 test groups were used (ML-KEM-512 and ML-KEM-1024 groups
+present in the same files were skipped). Every group has 25 or 10 test cases
+each (see per-group table below) -- this is NIST's shipped ACVP-Server vector
+set at the pinned commit for this revision, not an independently exhaustive
+test suite; it does not replace exhaustive verification (e.g. it does not
+cover every possible decapsulation-failure path or every invalid-key
+construction).
+
+RESULTS (per ML-KEM-768 test group)
+------------------------------------
+tgId  function                 testType  total  passed  failed
+2     keyGen                   AFT       25     25      0
+2     encapsulation            AFT       25     25      0
+5     decapsulation            VAL       10     10      0
+9     decapsulationKeyCheck    VAL       10     10      0
+10    encapsulationKeyCheck    VAL       10     10      0
+----------------------------------------------------------------
+TOTAL                                    80     80      0
+
+Failed tcId list: (none -- 0 failures across all 5 groups)
+
+Comparison method: exact byte-value match after hex decode (ek, dk, c,
+shared secret k), hex strings compared case-insensitively; for
+encapsulationKeyCheck/decapsulationKeyCheck, our boolean check function's
+result compared against the vector's "testPassed" field.
+
+Group detail:
+- keyGen (tgId 2, AFT, 25 cases): (d, z) -> ml_kem_keygen_internal -> (ek, dk),
+  compared against vector's ek, dk.
+- encapsulation (tgId 2, AFT, 25 cases): (ek, m) -> ml_kem_encaps_internal ->
+  (K, c), compared against vector's c, k.
+- decapsulation (tgId 5, VAL, 10 cases): (dk, c) -> ml_kem_decaps_internal ->
+  K', compared against vector's k. Of the 10 cases, 5 have reason "valid
+  decapsulation" and 5 have reason "modified ciphertext" (these exercise the
+  implicit-rejection branch, Algorithm 18 lines 9-11); all 10 passed,
+  including all 5 "modified ciphertext" cases.
+- decapsulationKeyCheck (tgId 9, VAL, 10 cases): our
+  check_decapsulation_input(dk, dummy_c) (Section 7.3 dk-length and
+  H(ek_PKE) checks only; dummy_c has the correct length CT_BYTES=1088 but
+  its content is irrelevant to the check) compared against "testPassed".
+- encapsulationKeyCheck (tgId 10, VAL, 10 cases): our
+  check_encapsulation_key(ek) (Section 7.2 type + modulus checks) compared
+  against "testPassed".
+
+No failing tcId to debug and no errata suspicion: all 80/80 ML-KEM-768 cases
+passed on the first run, with no change to the model, the comparison, or any
+tolerance.
+
+Vektor ini adalah set sampel NIST (isSample per-file dicatat di atas; file
+encapDecap: isSample=true, file keyGen: isSample=false per JSON aslinya), 25
+kasus per grup AFT / 10 kasus per grup VAL, bukan cakupan menyeluruh.
