@@ -1,0 +1,5 @@
+# Versions verified together with OSS CAD Suite 2026-09-23 (Verilator 5.053, Icarus 14 devel)
+# in the tooling audit. Note: cocotb 2.1 does NOT build against Ubuntu 24.04's apt Verilator 5.020.
+cocotb==2.1.0
+pyslang==11.0.0
+pytest==9.1.1

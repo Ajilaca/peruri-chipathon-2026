@@ -1,0 +1,36 @@
+{
+  "enabledPlugins": {
+    "rtl-agent-team@rtl-agent-marketplace": true
+  },
+  "extraKnownMarketplaces": {
+    "rtl-agent-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "babyworm/rtl-agent-team"
+      }
+    }
+  },
+  "permissions": {
+    "allow": [
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git branch *)",
+      "Bash(verilator --lint-only *)",
+      "Bash(slang *)"
+    ],
+    "ask": [
+      "Bash(git push *)",
+      "Bash(git reset --hard *)",
+      "Bash(git checkout -- *)",
+      "Bash(rm -rf *)"
+    ],
+    "deny": [
+      "Bash(git push --force *)",
+      "Bash(git push -f *)",
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./secrets/**)"
+    ]
+  }
+}

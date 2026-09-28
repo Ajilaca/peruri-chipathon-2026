@@ -1,0 +1,15 @@
+# Toolchain smoke test: SymbiYosys proves a trivial property of smoke_counter.
+[options]
+mode prove
+
+[engines]
+smtbmc
+
+[script]
+read -formal smoke_counter.sv
+read -formal smoke_counter_props.sv
+prep -top smoke_counter_props
+
+[files]
+smoke_counter.sv
+smoke_counter_props.sv

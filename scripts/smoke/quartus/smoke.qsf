@@ -1,0 +1,7 @@
+# Toolchain smoke test: DE10-Nano device, no pin assignments (see smoke_top.sv).
+set_global_assignment -name FAMILY "Cyclone V"
+set_global_assignment -name DEVICE 5CSEBA6U23I7
+set_global_assignment -name TOP_LEVEL_ENTITY smoke_top
+set_global_assignment -name SYSTEMVERILOG_FILE smoke_top.sv
+set_global_assignment -name SDC_FILE smoke.sdc
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
