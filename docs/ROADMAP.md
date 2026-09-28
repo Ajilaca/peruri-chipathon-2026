@@ -1,9 +1,12 @@
 # Roadmap — ML-KEM-768 accelerator on DE10-Nano
 
 **Status line (update only from verified evidence):**
-Phase 0 not started · tooling verified (Quartus 25.1std smoke compile MEASURED, see
-`docs/TOOLING_INSTALL_LOG.md`) · no DE10-Nano attached at last check (`jtagconfig` empty,
-2026-09-24) · competition schedule unknown.
+Phase 0 golden model + KAT: technically DONE, human approval pending (see
+`docs/results/result_phase0.md`: 80/80 ML-KEM-768 ACVP sample-vector cases passed, 2000/2000
+matched an independent oracle (kyber-py); ML-KEM-512/1024 untested; model is not constant-time)
+· tooling verified (Quartus 25.1std smoke compile MEASURED, see `docs/TOOLING_INSTALL_LOG.md`)
+· no DE10-Nano attached at last check (`jtagconfig` empty, 2026-09-24) · competition schedule
+unknown.
 
 Gate rules: Phases 0-5 are mandatory and sequential. Phase 6 only after Phase 5 is verified.
 Human approval between phases. Evidence lives in `docs/evidence/`. Skill: `/phase-gate`.

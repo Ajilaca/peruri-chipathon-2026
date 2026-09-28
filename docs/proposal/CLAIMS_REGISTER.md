@@ -40,7 +40,7 @@ Update the status column only from evidence.
 | Cycles / µs for KeyGen, Encaps, Decaps | testbench + board logs in `docs/evidence/` | not measured |
 | Constant cycle count across inputs (incl. failing-ciphertext path) | test log in `docs/evidence/` | not measured |
 | Speed-up vs software on the same board | baseline + accelerator runs | not measured (may be small or negative) |
-| Bit-exact match with official KATs | `docs/evidence/golden/` | not started |
+| Bit-exact match with official KATs | `docs/evidence/golden/` | MEASURED: golden model passed 80/80 ML-KEM-768 cases from NIST's pinned ACVP-Server sample vector set (commit `975de31eb...b892`), and matched an independent implementation (kyber-py) on 2000/2000 random trials. ML-KEM-512/1024 not tested; not exhaustive coverage; see `docs/results/result_phase0.md` |
 | Anything about power/EM leakage | TVLA data | later stage; **no claim** |
 
 ## D. Reference hygiene (found 2026-09-28)
