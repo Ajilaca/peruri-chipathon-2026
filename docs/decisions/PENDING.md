@@ -12,7 +12,7 @@ Update this list whenever something is decided (move it to an ADR) or discovered
 | 6 | **Second software baseline** (e.g. soft core in fabric at a low clock) | Cortex-A9 baseline may show little or negative speed-up | Phase 5 |
 | 7 | **Emulated protocol / message flow** ("PQ-PACE" is not a standard; ICAO is still specifying) | Needed to define latency at protocol level | Phase 4 |
 | 8 | **Board availability**: is a DE10-Nano provided or owned? (`jtagconfig` showed none on 2026-09-24; an older Cyclone III board is not a target: no HPS, Quartus II 13.1 only) | Without a board only simulation + Quartus evidence exist | Phases 3-5 |
-| 9 | **FIPS 203 errata**: content of NIST's list (planning note 17 Nov 2025) not yet read | May change test vectors | Phase 0 |
+| 9 | **FIPS 203 errata**: findings written up, ADR 0003 drafted (Proposed) — needs team sign-off to close | May change test vectors | Phase 0 |
 | 10 | **Prior-art search** extension (IEEE Xplore, IACR ePrint, Google Patents) | Needed before any novelty wording beyond the current scoped claim | Before submission |
 | 11 | **Repository licence** (repo is public; without one, default copyright applies) | Affects reuse and the demo repository link | Before publishing code |
 | 12 | Does the **Appendix** count toward the 6-page limit? | Decides where figures go | Section 3 layout |
