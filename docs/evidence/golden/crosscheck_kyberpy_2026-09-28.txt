@@ -1,0 +1,11 @@
+ML-KEM-768 golden model cross-check against kyber-py (MEASURED)
+Generated: 2026-09-28 UTC
+Oracle: kyber-py (https://github.com/GiacomoPope/kyber-py), license MIT OR Apache-2.0, Copyright Giacomo Pope
+kyber-py version: 1.2.0
+Installed in a throwaway virtualenv outside this repository (not in scripts/requirements-dev.txt, not copied into the repo)
+N = 2000 trials, fixed RNG seed = 20260928 (random.Random(seed), reproducible)
+Per trial: fresh (d, z, m) from the seeded RNG -> compare keygen_internal, encaps_internal, decaps_internal (valid ciphertext), and decaps_internal on a randomly 1-bit-flipped ciphertext (implicit rejection path).
+
+RESULT: 2000/2000 trials fully matched kyber-py at every stage; 0 mismatch(es).
+
+No mismatches. This is not exhaustive coverage: it is N pseudorandom trials from one fixed seed, not a proof.
