@@ -23,6 +23,17 @@ evidence a reviewer could open.
    tolerance, or assertion to turn a row green.
 6. Update the status line at the top of `docs/ROADMAP.md` only to reflect what you just
    verified, with the date and the evidence path.
+7. **Result artifact.** When a phase is finished (or the user asks), create
+   `docs/results/result_phase<N>.md` from `docs/results/TEMPLATE_result_phase.md` (N follows the
+   roadmap, 0-6). Fill it only from evidence. Overall Status is DONE only if every criterion is PASS;
+   otherwise PARTIAL or NOT DONE. Then validate:
+
+   ```bash
+   python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/result_phase<N>.md
+   ```
+
+   Fix until 0 errors (never by editing the checker). **Leave the Approval box unticked**: a team member
+   ticks it after reading the evidence.
 
 ## Also check at every gate
 

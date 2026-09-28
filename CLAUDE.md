@@ -57,6 +57,8 @@ Accelerator · 03 AI/Edge Accelerator · 04 Secure Communication. The team chose
   on 5CSEBA6U23I7); proposal Sections 1-2.
 - Next: **Phase 0** (golden model + official KATs + FIPS 203 errata). See `docs/ROADMAP.md`.
 - Do not start RTL for a block until its golden model exists and its phase is approved.
+- Prompts for the current phase: `docs/prompts/phase0.md`. Each phase ends with a validated result artifact
+  (`docs/results/`); a human approves it before the next phase. Never tick the Approval box yourself.
 
 ## 3. Engineering rules (non-negotiable)
 1. **Never fabricate** synthesis, timing, resource, simulation or hardware results. If a tool
@@ -112,7 +114,7 @@ supports the technical problem; it never overrides feasibility on the DE10-Nano.
 | `/proposal-claims` | drafting or editing text for judges; before committing docs/README |
 | `/mlkem-guard` | any NTT/Keccak/sampler/FO/KAT work; anyone proposes changing the maths |
 | `/decision-record` | the team decides something, or a pending choice is noticed |
-| `/phase-gate` | "is phase N done?", "what next?", before starting a new block |
+| `/phase-gate` | "is phase N done?", "what next?", before starting a new block; writes `docs/results/result_phase<N>.md` |
 
 ### 6.2 Quartus is the only source of FPGA implementation numbers
 - Numbers come **only** from `quartus_sh --flow compile <rev>` and the `.fit.summary`,

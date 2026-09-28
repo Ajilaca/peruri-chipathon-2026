@@ -60,6 +60,8 @@ file with exactly these names: `Q N ZETA K ETA1 ETA2 DU DV EK_BYTES DK_BYTES CT_
 1. **Golden model first** (`tb/golden/`, Python, independent of RTL). Cross-check it
    against at least one independent implementation and official NIST known-answer
    vectors. Do not invent vectors. If official vectors cannot be fetched, say so and stop.
+   Verified sources, pinned commit, checksums and the vector layout are in
+   `reference/kat_sources.md` (they are NIST *sample* sets; state that in every result).
 2. **Check FIPS 203 errata first.** NIST's publication page carries a planning note
    (17 Nov 2025) about an issue to be corrected; read its errata spreadsheet before
    locking vectors, and record what you found in `docs/decisions/`.

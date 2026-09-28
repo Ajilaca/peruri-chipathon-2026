@@ -7,15 +7,22 @@ Phase 0 not started · tooling verified (Quartus 25.1std smoke compile MEASURED,
 
 Gate rules: Phases 0-5 are mandatory and sequential. Phase 6 only after Phase 5 is verified.
 Human approval between phases. Evidence lives in `docs/evidence/`. Skill: `/phase-gate`.
+**Every phase ends with a result artifact** `docs/results/result_phase<N>.md` (template
+`docs/results/TEMPLATE_result_phase.md`), validated by `check_result.py`; a human ticks its Approval box
+before the next phase starts. Prompts for the current phase: `docs/prompts/phase0.md`.
 
 ## Phase 0 — Foundations
-- **Work:** read FIPS 203 and the NIST errata list; write the Python golden model
-  (`tb/golden/`, constants in `params.py`); obtain official KAT vectors; cross-check against
-  one independent implementation.
+- **Work:** read FIPS 203 and the NIST errata list; write the Python golden model (`tb/golden/`, constants in
+  `params.py`); run the official NIST ACVP vectors; cross-check against one independent implementation.
+  Step-by-step prompts: `docs/prompts/phase0.md`.
 - **Done when:**
-  1. `check_params.py` passes (locked parameters).
-  2. Golden model passes the official KATs (raw output in `docs/evidence/golden/`).
-  3. Errata findings recorded in an ADR.
+  1. `check_params.py` passes (locked parameters), and k/eta/du/dv are confirmed against the FIPS 203 parameter table.
+  2. Golden model reproduces the official ML-KEM-768 vectors (NIST ACVP, pinned commit in
+     `.claude/skills/mlkem-guard/reference/kat_sources.md`; these are NIST **sample** sets, 25 cases per group;
+     raw output in `docs/evidence/golden/`).
+  3. Errata findings recorded (evidence file + ADR).
+  4. Independent cross-check log on random inputs in `docs/evidence/golden/` (oracle: kyber-py in a throwaway venv).
+  5. `docs/results/result_phase0.md` passes `check_result.py`, and a human has approved it.
 - **Proposal use:** references, specification, corner-case list.
 
 ## Phase 1 — NTT / INTT + pointwise multiplication
