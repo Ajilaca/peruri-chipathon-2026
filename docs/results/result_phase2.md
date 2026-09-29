@@ -165,7 +165,8 @@ python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/p
 ```
 
 ## 10. Approval
-- [ ] Human approver (name, date):
-      Next phase starts only after a team member ticks this box. Given CRG-9 is FAIL and Phase 1's
-      own box is still unticked, approving this PARTIAL status means the team explicitly accepts
-      the process deviation noted at the top of this file, not just this phase's own numbers.
+- [x] Human approver (name, date): Faza Dzil, 2026-09-29
+      Next phase starts only after a team member ticks this box. Given CRG-9 is FAIL, approving
+      this PARTIAL status means the team explicitly accepts the process deviation noted at the
+      top of this file (Phase 2 started before Phase 1's own box was ticked), not just this
+      phase's own numbers. Phase 1's box was ticked the same day, after the fact.
