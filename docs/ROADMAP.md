@@ -2,9 +2,13 @@
 
 **Status line (update only from verified evidence):**
 Phase 0 **completed and verified** (team-approved `docs/results/result_phase0.md`; evidence in
-`docs/evidence/golden/`) · Phase 1 not started as of this revision (2026-09-29) · tooling verified
-(Quartus 25.1std smoke compile MEASURED, see `docs/TOOLING_INSTALL_LOG.md`) · no DE10-Nano attached at
-last check (`jtagconfig` empty, 2026-09-24) · competition schedule unknown.
+`docs/evidence/golden/`) · Phase 1 (C0 baseline) **PARTIAL**: RTL, lint, both-simulator cocotb
+bit-exact, constant-cycle, and formal safety all pass (`docs/results/result_phase1.md`,
+`docs/evidence/phase01-ntt-baseline/`), but CRG-9 (Quartus evidence) and the target-clock ADR are
+still missing -- Quartus was not available in the session that did this work; needs a run on a
+machine with Quartus 25.1std before Phase 1 can be DONE · tooling verified (Quartus 25.1std smoke
+compile MEASURED, see `docs/TOOLING_INSTALL_LOG.md`) · no DE10-Nano attached at last check
+(`jtagconfig` empty, 2026-09-24) · competition schedule unknown.
 
 > If `docs/results/result_phase0.md` is missing, fails `check_result.py`, or has an unticked Approval box,
 > the Phase 0 status above is wrong: stop, report it, and do not start Phase 1.
