@@ -18,3 +18,6 @@ Update this list whenever something is decided (move it to an ADR) or discovered
 | 13 | **Activate `rtl-agent-team` hooks** by running `/rtl-agent-team:rat-init-project` (creates `.rat/`)? The original blocker ("idea not chosen") is resolved by ADR 0001 | Its Stop-gates block ending a session after unverified RTL edits, which mechanically enforces verify-before-claim; but it also adds structure to the repo | Before Phase 1 |
 
 Closed: #9 FIPS 203 errata — accepted as ADR 0003 (2026-09-29, decided by Faza Dzil, Team J5).
+Closed: #14 Phase 3 lane-count (L) selection criterion — accepted as ADR 0004 (2026-09-29,
+decided by Faza Dzil, Team J5): primary = min cycle count within a 25% ALM budget
+(10,478 ALM); secondary = informational AT re-check once timing is valid.
