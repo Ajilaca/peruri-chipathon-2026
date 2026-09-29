@@ -1,70 +1,401 @@
 # Roadmap — ML-KEM-768 accelerator on DE10-Nano
 
 **Status line (update only from verified evidence):**
-Phase 0 golden model + KAT: technically DONE, human approval pending (see
-`docs/results/result_phase0.md`: 80/80 ML-KEM-768 ACVP sample-vector cases passed, 2000/2000
-matched an independent oracle (kyber-py); ML-KEM-512/1024 untested; model is not constant-time)
-· tooling verified (Quartus 25.1std smoke compile MEASURED, see `docs/TOOLING_INSTALL_LOG.md`)
-· no DE10-Nano attached at last check (`jtagconfig` empty, 2026-09-24) · competition schedule
-unknown.
+Phase 0 **completed and verified** (team-approved `docs/results/result_phase0.md`; evidence in
+`docs/evidence/golden/`) · Phase 1 not started as of this revision (2026-09-29) · tooling verified
+(Quartus 25.1std smoke compile MEASURED, see `docs/TOOLING_INSTALL_LOG.md`) · no DE10-Nano attached at
+last check (`jtagconfig` empty, 2026-09-24) · competition schedule unknown.
 
-Gate rules: Phases 0-5 are mandatory and sequential. Phase 6 only after Phase 5 is verified.
-Human approval between phases. Evidence lives in `docs/evidence/`. Skill: `/phase-gate`.
-**Every phase ends with a result artifact** `docs/results/result_phase<N>.md` (template
-`docs/results/TEMPLATE_result_phase.md`), validated by `check_result.py`; a human ticks its Approval box
-before the next phase starts. Prompts for the current phase: `docs/prompts/phase0.md`.
+> If `docs/results/result_phase0.md` is missing, fails `check_result.py`, or has an unticked Approval box,
+> the Phase 0 status above is wrong: stop, report it, and do not start Phase 1.
 
-## Phase 0 — Foundations
-- **Work:** read FIPS 203 and the NIST errata list; write the Python golden model (`tb/golden/`, constants in
-  `params.py`); run the official NIST ACVP vectors; cross-check against one independent implementation.
-  Step-by-step prompts: `docs/prompts/phase0.md`.
-- **Done when:**
-  1. `check_params.py` passes (locked parameters), and k/eta/du/dv are confirmed against the FIPS 203 parameter table.
-  2. Golden model reproduces the official ML-KEM-768 vectors (NIST ACVP, pinned commit in
-     `.claude/skills/mlkem-guard/reference/kat_sources.md`; these are NIST **sample** sets, 25 cases per group;
-     raw output in `docs/evidence/golden/`).
-  3. Errata findings recorded (evidence file + ADR).
-  4. Independent cross-check log on random inputs in `docs/evidence/golden/` (oracle: kyber-py in a throwaway venv).
-  5. `docs/results/result_phase0.md` passes `check_result.py`, and a human has approved it.
-- **Proposal use:** references, specification, corner-case list.
+## How this roadmap works
 
-## Phase 1 — NTT / INTT + pointwise multiplication
-- **Work:** `rtl/`: 7-layer incomplete NTT, INTT, binomial pointwise product, modular
-  reduction; DSP 18x18 mapping; polynomial RAM in M10K.
-- **Done when:**
-  1. cocotb bit-exact vs golden on random + edge inputs, on Verilator **and** Icarus.
-  2. `verilator --lint-only -Wall` and `slang` clean.
-  3. Constant cycle count across inputs (evidence).
-  4. Quartus compile of the block; MEASURED evidence file (ALM, registers, M10K, DSP, slack, Fmax).
+- **Strict gates.** Phases run in order. A phase starts only after the previous phase's result artifact
+  passes `check_result.py` **and** a team member has ticked its Approval box. Skill: `/phase-gate`.
+- **Correct baseline first.** No optimisation phase starts until the configuration it modifies is
+  bit-exact against the golden model and measured.
+- **One major change at a time.** Phases with sub-steps (5, 6, 8) measure and record each sub-step on its
+  own; a human reviews each sub-step checkpoint before the next one starts. Never combine two
+  optimisations in one measurement.
+- **Nothing invented.** Every resource, timing or performance number is `MEASURED` (Quartus report or
+  simulation/board log in this repository, with its path) or labelled `ESTIMATE` with method and
+  assumptions. Literature values are context only.
+- **Failed gate = stop.** Do not proceed after a failed gate. Write the result artifact with Status
+  `NOT DONE` or `PARTIAL`, record the failure and its log path, and ask the team. Do not weaken a test,
+  tolerance, assertion or timing constraint to pass.
+- **Every phase ends with a result artifact** `docs/results/result_phase<N>.md` (template
+  `docs/results/TEMPLATE_result_phase.md`), validated by
+  `python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/result_phase<N>.md`.
+- Evidence for phase N lives in `docs/evidence/phaseNN-<topic>/` (Phase 0 keeps `docs/evidence/golden/`).
+  Prompts per phase: `docs/prompts/phase<N>.md`; only `docs/prompts/phase0.md` exists so far.
 
-## Phase 2 — Keccak-f[1600] + SHA3 / SHAKE
-- **Done when:** matches `hashlib` (SHA3-256/512, SHAKE128/256) for random and boundary
-  lengths (empty, rate boundaries); lint/slang clean; MEASURED evidence file.
+## Locked FIPS 203 requirements (apply to every phase; never modified)
 
-## Phase 3 — Integration (HPS + fabric)
-- **Work:** Platform Designer system, HPS-FPGA bridge, HPS driver, sampler, compress/encode,
-  FO comparison; full KeyGen / Encaps / Decaps.
-- **Done when:** full operations match golden KATs (in simulation; on the board if one is
-  available; each labelled accordingly); transfer mechanism chosen by measurement (ADR).
+The mathematics is locked; only the hardware architecture changes (ADR 0002, `/mlkem-guard`).
 
-## Phase 4 — Protocol demonstration
-- **Blocked by decisions:** card-side vs reader-side target; concrete emulated message flow.
-- **Done when:** handshake demonstrated end to end; logs and SignalTap captures stored
-  (board required; without one, mark simulation only).
+| Requirement | Value / rule | Source |
+|---|---|---|
+| Ring | R_q = Z_q[X]/(X^256 + 1), q = 3329, n = 256 | FIPS 203; `/mlkem-guard` |
+| ML-KEM-768 parameters | k = 3, η1 = 2, η2 = 2, du = 10, dv = 4 | FIPS 203 Table 2 (confirmed in Phase 0) |
+| Sizes | ek 1184 B, dk 2400 B, ct 1088 B, shared key 32 B | FIPS 203; NIST ACVP vectors |
+| NTT | ζ = 17; **incomplete** NTT: 7 layers (block lengths 128 → 2), 128 butterflies per layer | FIPS 203 Alg. 9/10 |
+| Pointwise product | 128 base-case products of degree-1 polynomials modulo (X² − ζ^(2·BitRev7(i)+1)), not scalar products | FIPS 203 Alg. 11/12 |
+| Hash / XOF | SHA3-256, SHA3-512, SHAKE128, SHAKE256 over Keccak-f[1600] | FIPS 203; FIPS 202 |
+| Compress / Decompress, encode | exactly as defined in FIPS 203; no division on secret data | FIPS 203 |
+| Input checks and implicit rejection | encapsulation-key and decapsulation-key checks; Decaps re-encrypts, compares in constant time and selects K or the implicit-rejection key | FIPS 203 |
+| Correctness reference | Python golden model in `tb/golden/` (Phase 0), locked constants checked by `check_params.py` | Phase 0 |
 
-## Phase 5 — Measurement
-- **Done when:** MEASURED cycles and time for KeyGen/Encaps/Decaps; ALM/registers/M10K/DSP/Fmax;
-  cycle-count invariance; software baseline on the same board (and a second baseline if the
-  team decides); transfer overhead separated; `docs/proposal/CLAIMS_REGISTER.md` updated.
+## Common definitions
 
-## Phase 6 — Advanced (optional)
-TVLA with the oscilloscope, masking/shuffling, fault detection inside the datapath,
-ML-KEM-512/1024 parameterisation, hybrid ECDH + ML-KEM at the HPS. Each item needs its own
-ADR and evidence; no claim before then.
+### Metrics tracked (per configuration)
+
+| Metric | Definition | Source |
+|---|---|---|
+| ALM | Logic utilisation in ALMs | Fitter summary |
+| Registers | Total registers | Fitter summary |
+| M10K | Total RAM blocks | Fitter summary |
+| DSP | Total DSP blocks | Fitter summary |
+| Utilisation | Used / available, **with the denominators printed by the fitter** | Fitter summary |
+| Fmax | Per clock, from the Timing Analyzer "Fmax Summary" (slow model) | STA report |
+| Slack | Worst setup **and** hold slack, all corners, at the constrained clock | STA summary |
+| Cycles/op | Clock cycles per operation from a cycle counter (simulation first, later on board) | Test logs |
+| Stall cycles | Cycles lost to bank conflicts or pipeline hazards | Test logs |
+| Latency | cycles ÷ f_clk, where f_clk is the **constrained clock that met timing** (not Fmax); state the clock with every latency | Derived from MEASURED values |
+| Area-time (AT) | ALM × latency (report DSP and M10K alongside; they are not folded into AT) | Derived from MEASURED values |
+
+Reference capacity of the target device 5CSEBA6U23I7, as printed by the fitter in the team's smoke compile
+(MEASURED, `docs/TOOLING_INSTALL_LOG.md`): 41,910 ALMs, 553 RAM blocks (5,662,720 block-memory bits) and
+112 DSP blocks. Always quote the denominators of the current fitter report.
+
+Cycles/op has two scopes. **Kernel scope:** cycles per NTT, per INTT, per pointwise product (one
+polynomial), per Keccak-f permutation. **Operation scope:** cycles per KeyGen, Encaps, Decaps. Compare
+configurations only within the same scope.
+
+### Measurement protocol (every Quartus measurement)
+
+- Same Quartus version (25.1std unless an ADR changes it), same device, same timing-constraint method,
+  fitter seed recorded. One Quartus revision per configuration; revision name = configuration ID from the
+  ablation matrix.
+- Kernel-only compiles use virtual pins so that I/O does not distort area or timing.
+- Target clock: a team decision recorded as an ADR at the Phase 1 gate. Until then, constrain with a
+  documented provisional period and report Fmax. Never state a latency without its clock.
+- Extract evidence with the `/quartus-report` skill, writing into the phase folder:
+  `extract_quartus_report.py <output_files> <revision> --log <compile.log> --out docs/evidence/phaseNN-<topic>/quartus_<revision>_<UTCdate>.md --note "<git sha, parameters, clock>"`.
+  Raw `.rpt` files and `output_files/` are not committed.
+- Critical warnings are triaged in writing in the result artifact.
+
+### Common RTL gate (CRG) — required at every RTL phase
+
+| ID | Check | Tool |
+|---|---|---|
+| CRG-1 | Lint clean | `verilator --lint-only -Wall` |
+| CRG-2 | Elaboration clean | `slang` |
+| CRG-3 | Bit-exact against the golden model, on **both** simulators | cocotb on Verilator **and** Icarus |
+| CRG-4 | Corner cases listed in the test plan before tests are written (zeros, all coefficients q−1, impulses, maximum values, boundary lengths) | Test plan in the phase evidence folder |
+| CRG-5 | Regression: all tests of every earlier phase still pass | pytest / cocotb |
+| CRG-6 | Locked parameters | `check_params.py` |
+| CRG-7 | Constant-cycle evidence where applicable: identical cycle count for different secret inputs with identical public inputs | Cycle-count log |
+| CRG-8 | Formal properties for new control/address logic (FSM reaches done, no out-of-range address, and phase-specific properties) | SymbiYosys |
+| CRG-9 | Quartus evidence where the phase requires it; no negative worst slack at the constrained clock, or the failure documented | `/quartus-report` |
+| CRG-10 | Result artifact validated; text for judges passes the claim checker | `check_result.py`; `claim_lint.py` |
+
+## Renumbering note (2026-09-29)
+
+This revision replaces the earlier 0-6 phase list. Old → new: old 1 (NTT) → new 1-6; old 2 (Keccak) →
+new 7-8; old 3 (integration) → new 9-10; old 4 (protocol demonstration) → new 10 (functional) and 11
+(measured); old 5 (measurement) → new 11; old 6 (advanced) → new 12. Other files that still cite old
+numbers must be updated separately (not part of this revision).
+
+---
+
+## Phase 0 — Golden model / FIPS 203 — **COMPLETED (verified, team-approved)**
+
+1. **Goal.** An independent, trusted Python reference for ML-KEM-768 that every later gate compares against.
+2. **Implementation scope (delivered).** `tb/golden/`: locked constants (`params.py`), primitives (NTT,
+   INTT, pointwise, sampling, encode, compress), K-PKE and ML-KEM top level; FIPS 203 errata reviewed.
+3. **Tests / verification (done).** Property tests; NIST ACVP ML-KEM-768 vectors (pinned commit and
+   sha256 in `.claude/skills/mlkem-guard/reference/kat_sources.md`; NIST **sample** sets, 25 cases per
+   group); random cross-check against kyber-py in a throwaway virtualenv.
+4. **Quartus.** Not applicable.
+5. **PASS criteria (met).** `check_params.py` passes and k/η/du/dv confirmed against FIPS 203; golden model
+   reproduces the pinned vectors; errata recorded (evidence + ADR); cross-check log present;
+   `result_phase0.md` validated and approved.
+6. **Not allowed from now on.** Changing the golden model without an ADR and a full Phase 0 re-run;
+   using old CRYSTALS-Kyber vectors; treating the sample vectors as exhaustive coverage.
+7. **Evidence artifact.** `docs/evidence/golden/`, `docs/results/result_phase0.md`.
+8. **Approval gate.** Approved (see the Approval box in `result_phase0.md`).
+
+## Phase 1 — Minimal RTL baseline: L = 1 NTT/INTT + pointwise multiplication
+
+1. **Goal.** The first correct, measured hardware reference for the arithmetic kernel (configuration
+   **C0**). Every later optimisation is compared against it.
+2. **Implementation scope.** `rtl/ntt/`: one butterfly unit (forward Cooley-Tukey and inverse
+   Gentleman-Sande modes), one modular multiplier with a straightforward, documented reduction method,
+   base-case multiplier in the direct 5-multiplication form, twiddle ROM **generated by a script from the
+   golden model** (never hand-typed), INTT final scaling as specified in FIPS 203, a simple polynomial
+   memory (no banking), start/done control, fixed schedule.
+3. **Tests / verification.** CRG-1 to CRG-10. Bit-exact against `tb/golden` `ntt`, `intt` and the NTT-domain
+   product for random polynomials and the corner cases; `intt(ntt(f)) = f`; reduction output always < q
+   (assertion); formal: FSM completion, addresses in range.
+4. **Quartus.** Kernel-only compile of C0: ALM, registers, M10K, DSP, Fmax, worst setup/hold slack, triaged
+   warnings. Cycles per NTT, INTT and pointwise product from simulation.
+5. **PASS criteria.** All CRG checks pass; cycle count identical across all tested inputs; one Quartus
+   evidence file for C0; target-clock ADR recorded; C0 row of the ablation matrix filled with MEASURED values.
+6. **Not allowed yet.** More than one lane; memory banking; pipelining beyond what correctness needs;
+   q-specific reduction tricks, Montgomery-vs-Barrett comparison, lazy reduction, Karatsuba; Keccak; HPS
+   integration; any performance or speed-up claim.
+7. **Evidence artifact.** `docs/evidence/phase01-ntt-baseline/` (test plan, simulation and cycle logs for
+   both simulators, lint/slang logs, formal logs, `quartus_C0_<date>.md`); `docs/results/result_phase1.md`.
+8. **Approval gate.** A team member reviews and ticks Approval in `result_phase1.md` before Phase 2.
+
+## Phase 2 — Memory architecture: M10K storage, banking, address generation
+
+1. **Goal.** A polynomial memory and address generator that can feed L lanes without bank conflicts,
+   measured at L = 1 so that only the memory change is visible (configuration **C1**).
+2. **Implementation scope.** `rtl/mem/`: M10K polynomial storage with a documented packing (e.g. two
+   coefficients per word) and several polynomials per bank; bank-mapping function parameterised for
+   L ∈ {1, 2, 4, 8}; address generation for all 7 NTT layers, all 7 INTT layers and the pointwise product,
+   with no separate bit-reversal pass; twiddle-ROM organisation per lane; ping-pong buffering only if a
+   documented schedule requires it. Datapath stays at L = 1.
+3. **Tests / verification.** CRG-1 to CRG-10. Phase 1 bit-exact regression; **conflict-freedom proof**: for
+   every L ∈ {1, 2, 4, 8}, every layer and every cycle, no two accesses target the same bank port
+   (formal property on the generator plus exhaustive enumeration in a Python model); no out-of-range
+   address; stall cycles counted in simulation.
+4. **Quartus.** C1 compile: same metrics as C0, with the change in M10K and ALM stated against C0.
+5. **PASS criteria.** Conflict-freedom proven for all four L values; measured stall cycles = 0 at L = 1;
+   bit-exact; constant cycle count; C1 row filled.
+6. **Not allowed yet.** Activating more than one lane; pipeline changes; arithmetic changes; Keccak.
+7. **Evidence artifact.** `docs/evidence/phase02-memory/` (bank-map specification, proof and enumeration
+   logs, simulation logs, `quartus_C1_<date>.md`); `docs/results/result_phase2.md`.
+8. **Approval gate.** Human approval in `result_phase2.md` before Phase 3.
+
+## Phase 3 — Multi-lane exploration: L = 1 / 2 / 4 / 8
+
+1. **Goal.** Measure the resource-versus-performance trade-off of parallel butterflies on the Phase 2
+   memory, and let the team choose an operating point (configuration **C2**).
+2. **Implementation scope.** Lane count as a parameter; butterfly, arithmetic and memory as in Phase 2.
+   The selection criterion (for example, lowest AT within a stated resource budget) is written into an ADR
+   **before** the sweep is measured.
+3. **Tests / verification.** CRG-1 to CRG-10 for each L: bit-exact, constant cycle count, stall cycles = 0,
+   cycles per NTT, INTT and pointwise product.
+4. **Quartus.** One revision per L (`C2-L1`, `C2-L2`, `C2-L4`, `C2-L8`), identical constraints and seed.
+5. **PASS criteria.** All four configurations correct; four Quartus evidence files; comparison table
+   complete; ADR choosing L (or keeping L configurable) signed by the team.
+6. **Not allowed yet.** L > 8; pipeline or arithmetic changes; choosing L without measurements; comparing
+   against software or literature as if on the same platform.
+7. **Evidence artifact.** `docs/evidence/phase03-multilane/` (per-L logs, `quartus_C2-L<n>_<date>.md`,
+   comparison table); `docs/results/result_phase3.md`.
+8. **Approval gate.** Human approval in `result_phase3.md` (including the chosen L) before Phase 4.
+
+## Phase 4 — Butterfly pipeline optimisation
+
+1. **Goal.** Raise Fmax, and throughput if possible, at the chosen L by pipelining the butterfly
+   (configuration **C3**).
+2. **Implementation scope.** Pipeline depth P as a parameter over a small documented set; hazard handling
+   between NTT layers (stall or schedule), with the stall cost counted. No arithmetic changes; no layer merging.
+3. **Tests / verification.** CRG-1 to CRG-10; dedicated hazard tests at layer boundaries; cycles and stall
+   cycles per P; constant cycle count.
+4. **Quartus.** One revision per P: Fmax, slack and registers compared against the Phase 3 configuration.
+5. **PASS criteria.** Correct for every P; measured comparison complete; ADR for the chosen P; C3 row filled.
+6. **Not allowed yet.** Arithmetic optimisation; radix-4 layer merging; Keccak.
+7. **Evidence artifact.** `docs/evidence/phase04-pipeline/`; `docs/results/result_phase4.md`.
+8. **Approval gate.** Human approval in `result_phase4.md` before Phase 5.
+
+## Phase 5 — Modular arithmetic optimisation
+
+1. **Goal.** Cheaper and faster modular arithmetic for q = 3329 without changing any FIPS 203 result
+   (configuration **C4**). Sub-steps, each measured and reviewed separately, in this order:
+   - **5a** q-specific reduction: exploit the structure of q (multiplication by the constant q as
+     shift-and-add in ALMs) inside the current reduction method.
+   - **5b** Montgomery versus Barrett behind the same interface, both measured; choice by ADR. Tables in
+     Montgomery form (if chosen) are generated by script from the golden model.
+   - **5c** (optional) lazy reduction, only with proven value bounds.
+   - **5d** (optional) Karatsuba-style base-case multiplication (4 multiplications instead of 5).
+2. **Implementation scope.** `rtl/arith/` units only; the schedule, memory, L and P stay fixed.
+3. **Tests / verification.** CRG-1 to CRG-10 after each sub-step. The modular multiplier-reducer is tested
+   **exhaustively over all input pairs a, b in [0, q)** (feasible at this size); lazy reduction requires a
+   formal overflow/bound proof; full kernel bit-exact regression.
+4. **Quartus.** One revision per sub-step (`C4a` to `C4d`): DSP, ALM, Fmax and slack against the previous
+   sub-step.
+5. **PASS criteria.** Every attempted sub-step correct and measured; the 5b choice recorded in an ADR;
+   optional sub-steps either completed with evidence or explicitly marked "not attempted".
+6. **Not allowed yet.** Any change to q or to FIPS 203 arithmetic; approximate reduction without proof;
+   scheduling changes; Keccak.
+7. **Evidence artifact.** `docs/evidence/phase05-arith/5a/` to `5d/` (exhaustive-test logs, formal proofs,
+   Quartus files); `docs/results/result_phase5.md` with one section per sub-step.
+8. **Approval gate.** Human review of each sub-step checkpoint; approval of `result_phase5.md` before Phase 6.
+
+## Phase 6 — NTT scheduling at operation level
+
+1. **Goal.** Minimise transforms and data movement across whole ML-KEM operations while the inputs that
+   will later come from Keccak are still supplied by the testbench.
+2. **Implementation scope.** A scheduler for the K-PKE arithmetic of KeyGen, Encrypt and Decrypt: keep
+   operands in the NTT domain where FIPS 203 allows it; accumulate matrix-vector products in the NTT
+   domain and apply one INTT per output polynomial; no explicit reordering passes. Optional sub-step
+   **6b**: radix-4 layer merging, measured separately.
+   Expected transform counts (reference-model count from an instrumented kyber-py run, 2026-09-28; must be
+   reproduced by instrumenting `tb/golden` before use): KeyGen 6 NTT / 0 INTT / 9 pointwise polynomials;
+   Encaps 3 / 4 / 12; Decaps 6 / 5 / 15.
+3. **Tests / verification.** CRG-1 to CRG-10. Operation-level arithmetic bit-exact against the golden
+   model with matrices and noise polynomials injected from the golden model; transform counters equal
+   the reproduced expected counts; constant cycle count.
+4. **Quartus.** Kernel plus scheduler: metrics compared against C4; separate revision for 6b.
+5. **PASS criteria.** Bit-exact; counts match; cycles and Quartus evidence recorded.
+6. **Not allowed yet.** Keccak or samplers in hardware; streaming; changing the order of operations in a
+   way that alters any FIPS 203 output.
+7. **Evidence artifact.** `docs/evidence/phase06-scheduling/`; `docs/results/result_phase6.md`.
+8. **Approval gate.** Human approval in `result_phase6.md` before Phase 7.
+
+## Phase 7 — Keccak-f[1600] + SHA3/SHAKE baseline
+
+1. **Goal.** A correct, measured Keccak baseline (configuration **K0**) before any Keccak optimisation.
+2. **Implementation scope.** `rtl/keccak/`: iterative Keccak-f[1600], one round per cycle, fixed 24-cycle
+   permutation; sponge modes SHA3-256, SHA3-512, SHAKE128, SHAKE256 with multi-block absorb and squeeze.
+   If `tb/golden` has no permutation-level Keccak-f reference, add `tb/golden/keccak.py` first and verify
+   it against `hashlib`.
+3. **Tests / verification.** CRG-1 to CRG-10. Outputs against `hashlib` for random lengths and boundary
+   lengths (0, rate − 1, rate, rate + 1, multiples) for each rate (SHA3-256 136 B, SHA3-512 72 B,
+   SHAKE128 168 B, SHAKE256 136 B); multi-block squeeze; permutation-level tests; cycles per permutation
+   independent of data (total cycles may depend only on public message lengths).
+4. **Quartus.** Standalone K0 revision: ALM, registers, Fmax, slack.
+5. **PASS criteria.** All modes bit-exact; fixed permutation latency shown; K0 row filled.
+6. **Not allowed yet.** Two rounds per cycle or unrolling; streaming samplers; connection to the arithmetic kernel.
+7. **Evidence artifact.** `docs/evidence/phase07-keccak/`; `docs/results/result_phase7.md`.
+8. **Approval gate.** Human approval in `result_phase7.md` before Phase 8.
+
+## Phase 8 — Keccak optimisation and streaming
+
+1. **Goal.** Remove Keccak from the critical path. Sub-steps, each measured and reviewed separately:
+   - **8a** two rounds per cycle versus one (configuration **C5**).
+   - **8b** streaming samplers: CBD directly from the PRF stream; SampleNTT directly from the XOF stream.
+   - **8c** matrix A generated on the fly (no storage of Â).
+   - **8d** overlap of Keccak with arithmetic (sampling runs while the kernel computes).
+   Sub-steps 8b to 8d together form configuration **C6** (recorded as C6b, C6c, C6d).
+2. **Implementation scope.** `rtl/keccak/`, `rtl/sample/`, scheduler interface; arithmetic kernel unchanged.
+3. **Tests / verification.** CRG-1 to CRG-10 after each sub-step. SampleNTT bit-exact against the golden
+   model **including the exact number of XOF bytes consumed**; CBD bit-exact; generated matrix bit-exact.
+   Constant-cycle rule for rejection sampling: with fixed ρ and varied secret inputs, cycle counts are
+   identical; with varied ρ, cycle-count variation is fully explained by the golden model's rejection count
+   for that ρ (public data only).
+4. **Quartus.** One revision per sub-step: ALM, registers, M10K, Fmax, slack, and kernel/operation cycles.
+5. **PASS criteria.** Each attempted sub-step correct, measured and reviewed; C5 and C6 rows filled.
+6. **Not allowed yet.** Full KEM control; compress/encode/FO in hardware; HPS integration.
+7. **Evidence artifact.** `docs/evidence/phase08-keccak-stream/8a/` to `8d/`; `docs/results/result_phase8.md`.
+8. **Approval gate.** Human review of each sub-step checkpoint; approval of `result_phase8.md` before Phase 9.
+
+## Phase 9 — Full ML-KEM-768 RTL integration (simulation)
+
+1. **Goal.** Complete KeyGen, Encaps and Decaps in RTL, bit-exact against the official vectors
+   (configuration **C7-core**).
+2. **Implementation scope.** `rtl/mlkem/`: top-level controller for KeyGen_internal, Encaps_internal and
+   Decaps_internal (randomness enters as an input port); encode/decode; compress/decompress without
+   division; FO re-encryption, constant-time comparison and implicit-rejection selection; key storage;
+   the FIPS 203 input checks. Whether the input checks run in hardware or on the HPS is a team decision
+   (ADR) taken before this phase starts.
+3. **Tests / verification.** CRG-1 to CRG-10. All ML-KEM-768 groups of the pinned NIST ACVP vectors:
+   keyGen (25), encapsulation (25), decapsulation (10, including modified ciphertexts), and the key-check
+   groups (10 + 10) if the checks are in hardware. Random cross-check against the golden model on a
+   documented number of cases with a fixed seed. **Constant-cycle evidence for Decaps**: identical cycles
+   for valid and rejected ciphertexts and for different secret keys (fixed public inputs). Full regression.
+4. **Quartus.** Full core compile (virtual pins): all metrics.
+5. **PASS criteria.** 100% of the applicable vectors pass on both simulators; constant-cycle evidence
+   present; Quartus evidence; C7-core row filled.
+6. **Not allowed yet.** Any claim about the board; HPS integration; comparisons with software; protocol claims.
+7. **Evidence artifact.** `docs/evidence/phase09-integration/` (vector-run logs per group, cross-check log,
+   cycle-invariance log, `quartus_C7-core_<date>.md`); `docs/results/result_phase9.md`.
+8. **Approval gate.** Human approval in `result_phase9.md` before Phase 10.
+
+## Phase 10 — HPS-FPGA integration on DE10-Nano
+
+1. **Goal.** The accelerator working on the real board under HPS control (configuration **C7-soc**).
+   **Blocked until** a DE10-Nano is available (PENDING #8); the protocol flow needs PENDING #1 (target side) and PENDING #7 (emulated message flow).
+2. **Implementation scope.** Platform Designer system with the HPS; bridge chosen by measurement
+   (transfer mechanism by ADR, PENDING #3); command-level interface (HPS issues KeyGen/Encaps/Decaps, not
+   individual NTTs); secret keys and intermediate polynomials stay in the fabric; encode/decode in the
+   fabric; a fabric cycle counter readable by the HPS; key zeroisation on reset; driver and test programs
+   in `sw/hps/`; functional emulation of the PACE-style key-exchange flow described in the proposal.
+   SignalTap taps only on non-secret control signals in the demo bitstream.
+3. **Tests / verification.** The same pinned NIST vectors run **on the board** from the HPS; random
+   cross-check against the golden model; soak test over many iterations; clock-domain crossings reviewed;
+   SignalTap captures of control handshakes; transfer overhead measured separately from core time.
+4. **Quartus.** Full system compile with all clocks constrained: all metrics, slack for every clock domain.
+5. **PASS criteria.** 100% of the vectors pass on the board; timing met for every clock; bridge/transfer
+   ADR recorded; board logs and captures stored. Without a board this phase stays `NOT DONE`.
+6. **Not allowed yet.** Final performance claims; comparisons with the software baseline (Phase 11);
+   security claims beyond constant-cycle behaviour.
+7. **Evidence artifact.** `docs/evidence/phase10-hps-integration/` (board logs, SignalTap captures,
+   `quartus_C7-soc_<date>.md`, transfer measurements); `docs/results/result_phase10.md`.
+8. **Approval gate.** Human approval in `result_phase10.md` before Phase 11.
+
+## Phase 11 — Final benchmarking and comparison against the software baseline
+
+1. **Goal.** Honest end-to-end numbers for the proposal and the demo.
+2. **Implementation scope.** Software baseline on the HPS of the same board (implementation, compiler and
+   flags recorded; second baseline only if the team decides, PENDING #6); a written benchmark method
+   (warm-up, number of runs, median and spread, timer sources) fixed **before** measuring.
+3. **Tests / verification.** Per KeyGen/Encaps/Decaps: core cycles (fabric counter), end-to-end time
+   (HPS), transfer overhead, throughput; protocol-level latency of the emulated key exchange; cycle
+   invariance repeated on the board; vector runs repeated on the final bitstream.
+4. **Quartus.** Final bitstream evidence (the configuration actually measured), all metrics.
+5. **PASS criteria.** Every ablation-matrix cell is MEASURED or explicitly marked "not measured" with a
+   reason; `docs/proposal/CLAIMS_REGISTER.md` updated; proposal numbers changed from ESTIMATE only where
+   evidence exists; claim checker clean.
+6. **Not allowed.** Selecting favourable runs; comparing against literature numbers from other platforms
+   as if equivalent; power or energy claims without a power measurement; security claims beyond constant-cycle.
+7. **Evidence artifact.** `docs/evidence/phase11-benchmark/` (method, raw timing logs, summary tables,
+   final Quartus file); `docs/results/result_phase11.md`.
+8. **Approval gate.** Human approval in `result_phase11.md` before anything is published as a result or
+   before Phase 12.
+
+## Phase 12 — Advanced security features (optional)
+
+1. **Goal.** Optional hardening: masking/shuffling, fault detection (e.g. duplicated FO comparison, memory
+   parity), TVLA with the team's oscilloscope, ML-KEM-512/1024 parameterisation, hybrid ECDH + ML-KEM on
+   the HPS.
+2. **Implementation scope.** One feature at a time, each with its own ADR stating the threat, the method
+   and the claim it would support.
+3. **Tests / verification.** Full CRG and full vector regression after each feature; TVLA with a documented
+   acquisition set-up and trace count; overhead re-measured.
+4. **Quartus.** One revision per feature: overhead against the Phase 11 configuration.
+5. **PASS criteria.** Feature-specific criteria written in its ADR before implementation.
+6. **Not allowed.** Any side-channel or fault-resistance claim without its evidence; weakening the core
+   design's constant-cycle property.
+7. **Evidence artifact.** `docs/evidence/phase12-security/<feature>/`; `docs/results/result_phase12.md`.
+8. **Approval gate.** Human approval per feature.
+
+---
+
+## Optimisation ablation matrix
+
+Every row differs from the row it is compared with by **one** change. All cells are empty until a Quartus
+report or test log in this repository fills them; then the cell holds the value and the Evidence column
+holds the path. A row that regresses is kept and discussed in its phase's result; an ADR decides whether
+the change stays.
+
+| ID | Configuration | Change vs. compared row | Phase | Compared with | Scope | ALM | Registers | M10K | DSP | Fmax (MHz) | Worst slack (ns) | Cycles/op | Latency (µs @ f_clk) | AT (ALM × µs) | Evidence |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| C0 | Baseline | — (L = 1, simple memory) | 1 | — | Kernel | — | — | — | — | — | — | — | — | — | — |
+| C1 | + Memory banking | M10K banking + address generation | 2 | C0 | Kernel | — | — | — | — | — | — | — | — | — | — |
+| C2 | + Multi-lane | L = 2 / 4 / 8 (one sub-row per L) | 3 | C1 | Kernel | — | — | — | — | — | — | — | — | — | — |
+| C3 | + Pipeline | Butterfly pipeline depth P | 4 | C2 (chosen L) | Kernel | — | — | — | — | — | — | — | — | — | — |
+| C4 | + Arithmetic optimisation | 5a / 5b / 5c / 5d (one sub-row each) | 5 | C3 | Kernel | — | — | — | — | — | — | — | — | — | — |
+| S1 | NTT scheduling *(reference row)* | Operation-level schedule (+ 6b sub-row) | 6 | C4 | Kernel + scheduler | — | — | — | — | — | — | — | — | — | — |
+| K0 | Keccak baseline *(reference row)* | Iterative Keccak-f, 1 round/cycle | 7 | — | Keccak | — | — | — | — | — | — | — | — | — | — |
+| C5 | + Keccak optimisation | 2 rounds/cycle | 8a | K0 | Keccak | — | — | — | — | — | — | — | — | — | — |
+| C6 | + Streaming | 8b / 8c / 8d (one sub-row each) | 8 | C5 + S1 | Operation | — | — | — | — | — | — | — | — | — | — |
+| C7 | Full integration | Complete KEM (C7-core in simulation; C7-soc on board) | 9, 10 | C6 | Operation / system | — | — | — | — | — | — | — | — | — | — |
+
+Rows S1 and K0 are reference points added so that C5 and C6 each still differ by one change. Cycles/op:
+kernel rows report cycles per NTT, INTT and pointwise product; Keccak rows report cycles per permutation
+and per hash call; operation rows report cycles per KeyGen, Encaps and Decaps. Latency uses the
+constrained clock that met timing. The final measured copy of this matrix goes into
+`docs/evidence/phase11-benchmark/ablation_matrix.md`.
 
 ## Proposal pages (cover and references not counted; limit 6 pages)
 - Pages 1-3: Sections 1-2 (written).
-- Pages 4-6: Section 3 "Proposed Chip Design" (block diagram, RTL module list, resource
-  table, tools, test plan, success metrics). **Not written yet.** Resource cells stay
-  `ESTIMATE` or `[...]` until Phase 1-2 evidence exists.
+- Pages 4-6: Section 3 "Proposed Chip Design" (block diagram, RTL module list, resource table, tools,
+  test plan, success metrics). **Not written yet.** Resource cells stay `ESTIMATE` or `[...]` until the
+  corresponding phase produces Quartus evidence (kernel values from Phase 1 onward, full-core values from
+  Phase 9, system values from Phase 10); every number cites its evidence file.
 - Template error to avoid: it lists 415,000 flip-flops, while Intel's table says 166,036.
