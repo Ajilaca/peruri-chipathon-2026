@@ -2,9 +2,9 @@
 
 **Status line (update only from verified evidence):**
 Phase 0 **completed and verified** (team-approved `docs/results/result_phase0.md`; evidence in
-`docs/evidence/golden/`) · Phase 1 not started as of this revision (2026-09-29) · tooling verified
-(Quartus 25.1std smoke compile MEASURED, see `docs/TOOLING_INSTALL_LOG.md`) · no DE10-Nano attached at
-last check (`jtagconfig` empty, 2026-09-24) · competition schedule unknown.
+`docs/evidence/golden/`) · Phase 1 (C0 baseline) **PARTIAL**: RTL, lint, both-simulator cocotb bit-exact, constant-cycle and formal safety pass; Quartus C0 compile MEASURED (7,010 ALM, 3104 registers, 0 RAM blocks, 3 DSP; Fmax 14.64 MHz; worst setup slack -48.323 ns at the provisional 20.000 ns clock -> **timing not met**; `docs/evidence/phase01-ntt-baseline/quartus_C0_timing_analysis_2026-09-29.md`). Target-clock ADR still missing · tooling verified (Quartus 25.1std smoke
+compile MEASURED, see `docs/TOOLING_INSTALL_LOG.md`) · no DE10-Nano attached at last check
+(`jtagconfig` empty, 2026-09-24) · competition schedule unknown.
 
 > If `docs/results/result_phase0.md` is missing, fails `check_result.py`, or has an unticked Approval box,
 > the Phase 0 status above is wrong: stop, report it, and do not start Phase 1.
@@ -375,7 +375,7 @@ the change stays.
 
 | ID | Configuration | Change vs. compared row | Phase | Compared with | Scope | ALM | Registers | M10K | DSP | Fmax (MHz) | Worst slack (ns) | Cycles/op | Latency (µs @ f_clk) | AT (ALM × µs) | Evidence |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| C0 | Baseline | — (L = 1, simple memory) | 1 | — | Kernel | — | — | — | — | — | — | — | — | — | — |
+| C0 | Baseline | — (L = 1, simple memory) | 1 | — | Kernel | 7,010 / 41,910 | 3104 | 0 / 553 | 3 / 112 | 14.64 (Slow 100C) | -48.323 @ 20.000 ns (NOT met) | NTT 897, INTT 1153 (simulation) | not stated: timing not met at the constrained clock | not stated | `docs/evidence/quartus/C0-20260929.md`, `docs/evidence/phase01-ntt-baseline/quartus_C0_timing_analysis_2026-09-29.md`, `docs/evidence/phase01-ntt-baseline/cocotb_regression_2026-09-29.txt` |
 | C1 | + Memory banking | M10K banking + address generation | 2 | C0 | Kernel | — | — | — | — | — | — | — | — | — | — |
 | C2 | + Multi-lane | L = 2 / 4 / 8 (one sub-row per L) | 3 | C1 | Kernel | — | — | — | — | — | — | — | — | — | — |
 | C3 | + Pipeline | Butterfly pipeline depth P | 4 | C2 (chosen L) | Kernel | — | — | — | — | — | — | — | — | — | — |
