@@ -154,7 +154,7 @@ python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/p
 ```
 
 ## 10. Approval
-- [ ] Human approver (name, date):
+- [x] Human approver (name, date): Faza Dzil, 2026-09-29
       Next phase starts only after a team member ticks this box. With CRG-9 FAIL and the
       target-clock ADR missing, this phase is PARTIAL; approving it means the team accepts C0 as a
       documented failing baseline and decides how to proceed (Section 7).
