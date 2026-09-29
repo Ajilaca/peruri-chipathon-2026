@@ -1,0 +1,25 @@
+Phase 3 cocotb regression (ntt_core_c2, NUM_LANES in {1,2,4,8})
+Generated: 2026-09-29 12:39 UTC by tb/ntt/run_ntt_c2_tests.py
+Host: Linux ajil-VivoBook-ASUSLaptop-TP470EZ-TP470EZ 7.0.0-34-generic #34~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Fri Sep  4 15:38:29 UTC 2 x86_64 x86_64 x86_64 GNU/Linux
+
+=== Icarus Verilog ===
+L=1 cycles: NTT=897 INTT=1153
+L=2 cycles: NTT=449 INTT=705
+L=4 cycles: NTT=225 INTT=481
+L=8 cycles: NTT=113 INTT=369
+[icarus] ntt_core_c2 L=1: 4/4 PASS
+[icarus] ntt_core_c2 L=2: 4/4 PASS
+[icarus] ntt_core_c2 L=4: 4/4 PASS
+[icarus] ntt_core_c2 L=8: 4/4 PASS
+[icarus] TOTAL: 16/16 passed
+
+=== Verilator ===
+L=1 cycles: NTT=897 INTT=1153
+L=2 cycles: NTT=449 INTT=705
+L=4 cycles: NTT=225 INTT=481
+L=8 cycles: NTT=113 INTT=369
+[verilator] ntt_core_c2 L=1: 4/4 PASS
+[verilator] ntt_core_c2 L=2: 4/4 PASS
+[verilator] ntt_core_c2 L=4: 4/4 PASS
+[verilator] ntt_core_c2 L=8: 4/4 PASS
+[verilator] TOTAL: 16/16 passed
