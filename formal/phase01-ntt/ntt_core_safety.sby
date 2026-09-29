@@ -1,0 +1,36 @@
+# formal/phase01-ntt/ntt_core_safety.sby
+# CRG-8: proves the FSM safety property (busy_o never drops without done_o) for rtl/ntt/ntt_core.sv
+# by k-induction. The "reaches done" liveness property is validated dynamically instead (cocotb,
+# docs/evidence/phase01-ntt-baseline/cocotb_regression_2026-09-29.txt shows done_o firing at a
+# constant 897/1153 cycles on both simulators); a full bounded-model-check trace to that depth is
+# not attempted here as impractical for this phase, and is not claimed as formally proven.
+
+[options]
+mode prove
+depth 6
+
+[engines]
+smtbmc boolector
+
+[script]
+read -formal -D FORMAL ntt_pkg.sv
+read -formal -D FORMAL twiddle_rom.sv
+read -formal -D FORMAL modmul_reduce.sv
+read -formal -D FORMAL base_case_multiply.sv
+read -formal -D FORMAL butterfly.sv
+read -formal -D FORMAL poly_mem.sv
+read -formal -D FORMAL ntt_core.sv
+read -formal -D FORMAL ntt_core_props.sv
+read -formal -D FORMAL ntt_core_formal_top.sv
+prep -top ntt_core_formal_top
+
+[files]
+../../rtl/ntt/ntt_pkg.sv
+../../rtl/ntt/twiddle_rom.sv
+../../rtl/ntt/modmul_reduce.sv
+../../rtl/ntt/base_case_multiply.sv
+../../rtl/ntt/butterfly.sv
+../../rtl/ntt/poly_mem.sv
+../../rtl/ntt/ntt_core.sv
+ntt_core_props.sv
+ntt_core_formal_top.sv
