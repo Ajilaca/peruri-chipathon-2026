@@ -1,0 +1,28 @@
+Phase 2 (C1) cocotb regression -- both simulators, 2026-09-29 10:24:33 UTC
+===============================================================================
+
+--- Icarus Verilog ---
+cycles: NTT=897 (C0: 897) INTT=1153 (C0: 1153)  stall cycles = 0
+[icarus] bank_map_rom NUM_BANKS=1: 2/2 PASS
+[icarus] bank_map_rom NUM_BANKS=2: 2/2 PASS
+[icarus] bank_map_rom NUM_BANKS=4: 2/2 PASS
+[icarus] bank_map_rom NUM_BANKS=8: 2/2 PASS
+[icarus] ntt_core_c1: 4/4 PASS
+[icarus] TOTAL: 12/12 passed
+
+--- Verilator ---
+cycles: NTT=897 (C0: 897) INTT=1153 (C0: 1153)  stall cycles = 0
+[verilator] bank_map_rom NUM_BANKS=1: 2/2 PASS
+[verilator] bank_map_rom NUM_BANKS=2: 2/2 PASS
+[verilator] bank_map_rom NUM_BANKS=4: 2/2 PASS
+[verilator] bank_map_rom NUM_BANKS=8: 2/2 PASS
+[verilator] ntt_core_c1: 4/4 PASS
+[verilator] TOTAL: 12/12 passed
+
+Bank-map ROM tested exhaustively (256/256 addresses) for NUM_BANKS in {1,2,4,8}, both
+simulators: bit-exact against tb/mem/bank_model.py.
+
+ntt_core_c1 (C1 = C0 FSM/butterfly + poly_mem_banked at NUM_BANKS=1): bit-exact vs
+tb/golden/primitives.py (5 corners + 100 random per direction, 50-random roundtrip),
+cycle count EQUAL to C0 (NTT=897, INTT=1153) on every tested input -- 0 stall cycles
+introduced by the banked-memory abstraction at NUM_BANKS=1.
