@@ -1,0 +1,67 @@
+SBY 17:28:31 [ntt_core_c1_safety] Removing directory '/home/ajil/FPGA/Projects/CHIPATON/formal/phase02-mem/ntt_core_c1_safety'.
+SBY 17:28:31 [ntt_core_c1_safety] Copy '/home/ajil/FPGA/Projects/CHIPATON/formal/phase02-mem/../../rtl/ntt/ntt_pkg.sv' to '/home/ajil/FPGA/Projects/CHIPATON/formal/phase02-mem/ntt_core_c1_safety/src/ntt_pkg.sv'.
+SBY 17:28:31 [ntt_core_c1_safety] Copy '/home/ajil/FPGA/Projects/CHIPATON/formal/phase02-mem/../../rtl/ntt/twiddle_rom.sv' to '/home/ajil/FPGA/Projects/CHIPATON/formal/phase02-mem/ntt_core_c1_safety/src/twiddle_rom.sv'.
+SBY 17:28:31 [ntt_core_c1_safety] Copy '/home/ajil/FPGA/Projects/CHIPATON/formal/phase02-mem/../../rtl/ntt/modmul_reduce.sv' to '/home/ajil/FPGA/Projects/CHIPATON/formal/phase02-mem/ntt_core_c1_safety/src/modmul_reduce.sv'.
+SBY 17:28:31 [ntt_core_c1_safety] Copy '/home/ajil/FPGA/Projects/CHIPATON/formal/phase02-mem/../../rtl/ntt/base_case_multiply.sv' to '/home/ajil/FPGA/Projects/CHIPATON/formal/phase02-mem/ntt_core_c1_safety/src/base_case_multiply.sv'.
+SBY 17:28:31 [ntt_core_c1_safety] Copy '/home/ajil/FPGA/Projects/CHIPATON/formal/phase02-mem/../../rtl/ntt/butterfly.sv' to '/home/ajil/FPGA/Projects/CHIPATON/formal/phase02-mem/ntt_core_c1_safety/src/butterfly.sv'.
+SBY 17:28:31 [ntt_core_c1_safety] Copy '/home/ajil/FPGA/Projects/CHIPATON/formal/phase02-mem/../../rtl/mem/bank_map_rom.sv' to '/home/ajil/FPGA/Projects/CHIPATON/formal/phase02-mem/ntt_core_c1_safety/src/bank_map_rom.sv'.
+SBY 17:28:31 [ntt_core_c1_safety] Copy '/home/ajil/FPGA/Projects/CHIPATON/formal/phase02-mem/../../rtl/mem/poly_mem_banked.sv' to '/home/ajil/FPGA/Projects/CHIPATON/formal/phase02-mem/ntt_core_c1_safety/src/poly_mem_banked.sv'.
+SBY 17:28:31 [ntt_core_c1_safety] Copy '/home/ajil/FPGA/Projects/CHIPATON/formal/phase02-mem/../../rtl/mem/ntt_core_c1.sv' to '/home/ajil/FPGA/Projects/CHIPATON/formal/phase02-mem/ntt_core_c1_safety/src/ntt_core_c1.sv'.
+SBY 17:28:31 [ntt_core_c1_safety] Copy '/home/ajil/FPGA/Projects/CHIPATON/formal/phase02-mem/../phase01-ntt/ntt_core_props.sv' to '/home/ajil/FPGA/Projects/CHIPATON/formal/phase02-mem/ntt_core_c1_safety/src/ntt_core_props.sv'.
+SBY 17:28:31 [ntt_core_c1_safety] Copy '/home/ajil/FPGA/Projects/CHIPATON/formal/phase02-mem/ntt_core_c1_formal_top.sv' to '/home/ajil/FPGA/Projects/CHIPATON/formal/phase02-mem/ntt_core_c1_safety/src/ntt_core_c1_formal_top.sv'.
+SBY 17:28:31 [ntt_core_c1_safety] engine_0: smtbmc boolector
+SBY 17:28:31 [ntt_core_c1_safety] base: starting process "cd ntt_core_c1_safety/src; yosys -ql ../model/design.log ../model/design.ys"
+SBY 17:28:31 [ntt_core_c1_safety] base: butterfly.sv:43: Warning: Identifier `\sub_mod$func$butterfly.sv:43$59.$result' is implicitly declared.
+SBY 17:28:31 [ntt_core_c1_safety] base: butterfly.sv:47: Warning: Identifier `\add_mod$func$butterfly.sv:47$60.$result' is implicitly declared.
+SBY 17:28:31 [ntt_core_c1_safety] base: butterfly.sv:48: Warning: Identifier `\sub_mod$func$butterfly.sv:48$61.$result' is implicitly declared.
+SBY 17:28:31 [ntt_core_c1_safety] base: butterfly.sv:51: Warning: Identifier `\add_mod$func$butterfly.sv:51$62.$result' is implicitly declared.
+SBY 17:28:31 [ntt_core_c1_safety] base: Warning: Replacing memory \bank_rdata_b with list of registers. See poly_mem_banked.sv:61
+SBY 17:28:31 [ntt_core_c1_safety] base: Warning: Replacing memory \bank_rdata_a with list of registers. See poly_mem_banked.sv:60
+SBY 17:28:31 [ntt_core_c1_safety] base: Warning: Wire butterfly.\sub_mod$func$butterfly.sv:43$59.$result is used but has no driver.
+SBY 17:28:31 [ntt_core_c1_safety] base: Warning: Wire butterfly.\sub_mod$func$butterfly.sv:48$61.$result is used but has no driver.
+SBY 17:28:31 [ntt_core_c1_safety] base: Warning: Wire butterfly.\add_mod$func$butterfly.sv:47$60.$result is used but has no driver.
+SBY 17:28:31 [ntt_core_c1_safety] base: Warning: Wire butterfly.\add_mod$func$butterfly.sv:51$62.$result is used but has no driver.
+SBY 17:28:31 [ntt_core_c1_safety] base: Warning: Wire butterfly.\t_inv_diff is used but has no driver.
+SBY 17:28:31 [ntt_core_c1_safety] base: finished (returncode=0)
+SBY 17:28:31 [ntt_core_c1_safety] prep: starting process "cd ntt_core_c1_safety/model; yosys -ql design_prep.log design_prep.ys"
+SBY 17:28:31 [ntt_core_c1_safety] prep: Warning: Wire butterfly.\t_inv_diff is used but has no driver.
+SBY 17:28:31 [ntt_core_c1_safety] prep: Warning: Wire butterfly.\add_mod$func$butterfly.sv:51$62.$result is used but has no driver.
+SBY 17:28:31 [ntt_core_c1_safety] prep: Warning: Wire butterfly.\add_mod$func$butterfly.sv:47$60.$result is used but has no driver.
+SBY 17:28:31 [ntt_core_c1_safety] prep: Warning: Wire butterfly.\sub_mod$func$butterfly.sv:48$61.$result is used but has no driver.
+SBY 17:28:31 [ntt_core_c1_safety] prep: finished (returncode=0)
+SBY 17:28:31 [ntt_core_c1_safety] smt2: starting process "cd ntt_core_c1_safety/model; yosys -ql design_smt2.log design_smt2.ys"
+SBY 17:28:31 [ntt_core_c1_safety] smt2: finished (returncode=0)
+SBY 17:28:31 [ntt_core_c1_safety] engine_0.basecase: starting process "cd ntt_core_c1_safety; yosys-smtbmc -s boolector --presat --unroll --noprogress -t 6  --append 0 --dump-vcd engine_0/trace.vcd --dump-yw engine_0/trace.yw --dump-vlogtb engine_0/trace_tb.v --dump-smtc engine_0/trace.smtc model/design_smt2.smt2"
+SBY 17:28:31 [ntt_core_c1_safety] engine_0.induction: starting process "cd ntt_core_c1_safety; yosys-smtbmc -s boolector --presat --unroll -i --noprogress -t 6  --append 0 --dump-vcd engine_0/trace_induct.vcd --dump-yw engine_0/trace_induct.yw --dump-vlogtb engine_0/trace_induct_tb.v --dump-smtc engine_0/trace_induct.smtc model/design_smt2.smt2"
+SBY 17:28:31 [ntt_core_c1_safety] engine_0.basecase: ##   0:00:00  Solver: boolector
+SBY 17:28:31 [ntt_core_c1_safety] engine_0.induction: ##   0:00:00  Solver: boolector
+SBY 17:28:31 [ntt_core_c1_safety] engine_0.induction: ##   0:00:00  Trying induction in step 6..
+SBY 17:28:31 [ntt_core_c1_safety] engine_0.basecase: ##   0:00:00  Checking assumptions in step 0..
+SBY 17:28:31 [ntt_core_c1_safety] engine_0.induction: ##   0:00:00  Trying induction in step 5..
+SBY 17:28:31 [ntt_core_c1_safety] engine_0.induction: ##   0:00:00  Trying induction in step 4..
+SBY 17:28:31 [ntt_core_c1_safety] engine_0.induction: ##   0:00:00  Trying induction in step 3..
+SBY 17:28:31 [ntt_core_c1_safety] engine_0.induction: ##   0:00:00  Temporal induction successful.
+SBY 17:28:31 [ntt_core_c1_safety] engine_0.induction: ##   0:00:00  Status: passed
+SBY 17:28:31 [ntt_core_c1_safety] engine_0.induction: finished (returncode=0)
+SBY 17:28:31 [ntt_core_c1_safety] engine_0.induction: Status returned by engine for induction: pass
+SBY 17:28:31 [ntt_core_c1_safety] engine_0.basecase: ##   0:00:00  Checking assertions in step 0..
+SBY 17:28:31 [ntt_core_c1_safety] engine_0.basecase: ##   0:00:00  Checking assumptions in step 1..
+SBY 17:28:32 [ntt_core_c1_safety] engine_0.basecase: ##   0:00:00  Checking assertions in step 1..
+SBY 17:28:32 [ntt_core_c1_safety] engine_0.basecase: ##   0:00:00  Checking assumptions in step 2..
+SBY 17:28:32 [ntt_core_c1_safety] engine_0.basecase: ##   0:00:00  Checking assertions in step 2..
+SBY 17:28:32 [ntt_core_c1_safety] engine_0.basecase: ##   0:00:00  Checking assumptions in step 3..
+SBY 17:28:32 [ntt_core_c1_safety] engine_0.basecase: ##   0:00:00  Checking assertions in step 3..
+SBY 17:28:32 [ntt_core_c1_safety] engine_0.basecase: ##   0:00:00  Checking assumptions in step 4..
+SBY 17:28:32 [ntt_core_c1_safety] engine_0.basecase: ##   0:00:00  Checking assertions in step 4..
+SBY 17:28:32 [ntt_core_c1_safety] engine_0.basecase: ##   0:00:00  Checking assumptions in step 5..
+SBY 17:28:32 [ntt_core_c1_safety] engine_0.basecase: ##   0:00:00  Checking assertions in step 5..
+SBY 17:28:32 [ntt_core_c1_safety] engine_0.basecase: ##   0:00:00  Status: passed
+SBY 17:28:32 [ntt_core_c1_safety] engine_0.basecase: finished (returncode=0)
+SBY 17:28:32 [ntt_core_c1_safety] engine_0.basecase: Status returned by engine for basecase: pass
+SBY 17:28:32 [ntt_core_c1_safety] summary: Elapsed clock time [H:MM:SS (secs)]: 0:00:01 (1)
+SBY 17:28:32 [ntt_core_c1_safety] summary: Elapsed process time [H:MM:SS (secs)]: 0:00:01 (1)
+SBY 17:28:32 [ntt_core_c1_safety] summary: engine_0 (smtbmc boolector) returned pass for basecase
+SBY 17:28:32 [ntt_core_c1_safety] summary: engine_0 (smtbmc boolector) returned pass for induction
+SBY 17:28:32 [ntt_core_c1_safety] summary: engine_0 did not produce any traces
+SBY 17:28:32 [ntt_core_c1_safety] summary: successful proof by k-induction.
+SBY 17:28:32 [ntt_core_c1_safety] DONE (PASS, rc=0)

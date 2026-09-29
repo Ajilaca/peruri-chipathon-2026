@@ -1,0 +1,37 @@
+# formal/phase02-mem/ntt_core_c1_safety.sby
+# Re-proves Phase 1's FSM safety property (busy_o drop -> done_o one cycle later) on
+# rtl/mem/ntt_core_c1.sv, to catch any accidental divergence from C0's FSM when the memory was
+# swapped for the banked version. See formal/phase01-ntt/ntt_core_props.sv for the property and
+# why liveness/address-range are not formally proven here either.
+
+[options]
+mode prove
+depth 6
+
+[engines]
+smtbmc boolector
+
+[script]
+read -formal -D FORMAL ntt_pkg.sv
+read -formal -D FORMAL twiddle_rom.sv
+read -formal -D FORMAL modmul_reduce.sv
+read -formal -D FORMAL base_case_multiply.sv
+read -formal -D FORMAL butterfly.sv
+read -formal -D FORMAL bank_map_rom.sv
+read -formal -D FORMAL poly_mem_banked.sv
+read -formal -D FORMAL ntt_core_c1.sv
+read -formal -D FORMAL ntt_core_props.sv
+read -formal -D FORMAL ntt_core_c1_formal_top.sv
+prep -top ntt_core_c1_formal_top
+
+[files]
+../../rtl/ntt/ntt_pkg.sv
+../../rtl/ntt/twiddle_rom.sv
+../../rtl/ntt/modmul_reduce.sv
+../../rtl/ntt/base_case_multiply.sv
+../../rtl/ntt/butterfly.sv
+../../rtl/mem/bank_map_rom.sv
+../../rtl/mem/poly_mem_banked.sv
+../../rtl/mem/ntt_core_c1.sv
+../phase01-ntt/ntt_core_props.sv
+ntt_core_c1_formal_top.sv
