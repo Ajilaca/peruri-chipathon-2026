@@ -2,7 +2,7 @@
 # Result — Phase 0: Foundations
 
 - Status: DONE
-- Date (UTC): 2026-09-28 18:20
+- Date (UTC): 2026-09-29 01:16
 - Git commit (HEAD when verified): bac5637
 - Environment: Ubuntu 24.04.4 LTS, Python 3.12.3 (`.venv`, pytest 9.1.1); oracle cross-check run
   with a separate throwaway venv (`~/.cache/chip2026-oracle/venv`, kyber-py 1.2.0)
@@ -36,7 +36,7 @@ distinction starts in Phase 1).
 | `docs/evidence/golden/fips203_errata_2026-09-28.md` | FIPS 203 source hashes, errata items quoted + impact analysis, Table 2/3 parameter cross-check |
 | `docs/evidence/golden/kat_mlkem768_2026-09-28.txt` | Raw ACVP KAT comparison log (80/80 passed) |
 | `docs/evidence/golden/crosscheck_kyberpy_2026-09-28.txt` | Raw kyber-py cross-check log (2000/2000 matched) |
-| `docs/decisions/0003-fips-203-errata-findings-and-golden-model-handling.md` | ADR (Status: Proposed) on how the errata are handled |
+| `docs/decisions/0003-fips-203-errata-findings-and-golden-model-handling.md` | ADR (Status: Accepted, 2026-09-29, Faza Dzil / Team J5) on how the errata are handled |
 | `.claude/skills/mlkem-guard/reference/kat_sources.md` | Pinned ACVP commit, sha256, vector layout, oracle note (provided, not authored by this session) |
 
 ## 3. Numbers (each labelled MEASURED, ESTIMATE, or cited [n])
@@ -59,7 +59,7 @@ distinction starts in Phase 1).
   that access date (2025-03-31 Appendix A zeta-table clarification; 2025-10-17 Section 5.3
   comment typo), both non-normative. Full quotes and impact analysis in
   `docs/evidence/golden/fips203_errata_2026-09-28.md`. Handling recorded in ADR 0003
-  (**Status: Proposed**, not yet team-accepted -- see Section 7 below).
+  (**Status: Accepted**, 2026-09-29, decided by Faza Dzil / Team J5 -- see Section 7 below).
 - **NIST ACVP-Server** test vectors: repository `https://github.com/usnistgov/ACVP-Server`,
   pinned commit `975de31eb83d87039ec88934fdc47d8c312b892d`. Files used:
   `gen-val/json-files/ML-KEM-keyGen-FIPS203/internalProjection.json`
@@ -97,8 +97,7 @@ distinction starts in Phase 1).
 - **Invalid-input rejection paths for our own `check_encapsulation_key` /
   `check_decapsulation_input`** were exercised only through the 20 ACVP key-check cases (10+10);
   no additional fuzzing of malformed lengths/hashes was done beyond that.
-- **ADR 0003 (errata handling) is Proposed, not yet accepted** by a named team decider; see
-  Section 7.
+- **ADR 0003 (errata handling) is Accepted** (2026-09-29, Faza Dzil / Team J5); see Section 7.
 
 ## 6. Deviations, failures and open issues
 None. No test failed at any point in this phase; no tolerance, assertion, or comparison was
@@ -111,9 +110,9 @@ sha256-verified (2026-09-28), the **keyGen** file's own JSON says `"isSample": f
 reference file; see `docs/evidence/golden/kat_mlkem768_2026-09-28.txt` for the exact values.
 
 ## 7. Decisions needed
-- **ADR 0003** (`docs/decisions/0003-fips-203-errata-findings-and-golden-model-handling.md`,
-  Status: Proposed) needs a named team decider to accept it. Until accepted,
-  `docs/decisions/PENDING.md` item #9 stays open.
+- **ADR 0003** (`docs/decisions/0003-fips-203-errata-findings-and-golden-model-handling.md`) is
+  now **Accepted** (2026-09-29, decided by Faza Dzil / Team J5). `docs/decisions/PENDING.md`
+  item #9 is closed as a result.
 - No other `docs/decisions/PENDING.md` item blocks Phase 0 closure; items #1-#8 and #10-#13 all
   target later phases (see PENDING.md itself for the up-to-date list).
 

@@ -1,8 +1,8 @@
 # ADR 0003: FIPS 203 errata findings and golden-model handling
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-09-29
-- Decided by: pending team decision
+- Decided by: Faza Dzil (Team J5), 2026-09-29, via Claude Code session instruction "accept adr3"
 
 ## Context
 
@@ -51,13 +51,13 @@ current errata. Findings:
   dv=4 — **exact match, no discrepancy**. n=256 and q=3329 confirmed as fixed constants.
   Table 3 sizes (ek 1184 B, dk 2400 B, ct 1088 B, ss 32 B) also match.
 
-This is proposed for team sign-off, not yet accepted: no team decider has confirmed it.
-Pending confirmation, Phase 0 golden-model work (writing `tb/golden/params.py` and the
-NTT/K-PKE golden model) may proceed on the literal FIPS 203 text without waiting on NIST.
+**Accepted 2026-09-29 by Faza Dzil (Team J5).** Phase 0 golden-model work (`tb/golden/params.py`
+and the NTT/K-PKE golden model, already written against the literal FIPS 203 text without
+waiting on NIST) stands confirmed under this decision.
 
 ## Consequences
 
-- `docs/decisions/PENDING.md` item #9 can be removed once this ADR is accepted.
+- `docs/decisions/PENDING.md` item #9 is closed by this acceptance.
 - No proposal text, claim, or roadmap item needs to change: no parameter or algorithm
   deviates from FIPS 203 as published.
 - If NIST later issues a formal errata *update* or revision (beyond this "potential
