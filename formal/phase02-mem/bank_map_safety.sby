@@ -1,0 +1,22 @@
+# formal/phase02-mem/bank_map_safety.sby
+# CRG-8: proves bank(addr) != bank(addr XOR 2^d) for every addr in [0,255], every d in [1,7],
+# on the actual generated rtl/mem/bank_map_rom.sv contents (NUM_BANKS=8). Purely combinational
+# property; depth-1 BMC is exhaustive over the free addr_i/d_i inputs (SymbiYosys explores all
+# their values, not just one), so this is not a sample -- it is the same exhaustive check as the
+# Python proof, run independently against the synthesised ROM contents.
+
+[options]
+mode bmc
+depth 1
+
+[engines]
+smtbmc boolector
+
+[script]
+read -formal -D FORMAL bank_map_rom.sv
+read -formal -D FORMAL bank_map_props.sv
+prep -top bank_map_props
+
+[files]
+../../rtl/mem/bank_map_rom.sv
+bank_map_props.sv

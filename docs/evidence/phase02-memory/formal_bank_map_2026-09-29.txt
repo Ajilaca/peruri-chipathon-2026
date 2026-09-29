@@ -1,0 +1,22 @@
+SBY 17:28:30 [bank_map_safety] Removing directory '/home/ajil/FPGA/Projects/CHIPATON/formal/phase02-mem/bank_map_safety'.
+SBY 17:28:30 [bank_map_safety] Copy '/home/ajil/FPGA/Projects/CHIPATON/formal/phase02-mem/../../rtl/mem/bank_map_rom.sv' to '/home/ajil/FPGA/Projects/CHIPATON/formal/phase02-mem/bank_map_safety/src/bank_map_rom.sv'.
+SBY 17:28:30 [bank_map_safety] Copy '/home/ajil/FPGA/Projects/CHIPATON/formal/phase02-mem/bank_map_props.sv' to '/home/ajil/FPGA/Projects/CHIPATON/formal/phase02-mem/bank_map_safety/src/bank_map_props.sv'.
+SBY 17:28:30 [bank_map_safety] engine_0: smtbmc boolector
+SBY 17:28:30 [bank_map_safety] base: starting process "cd bank_map_safety/src; yosys -ql ../model/design.log ../model/design.ys"
+SBY 17:28:31 [bank_map_safety] base: finished (returncode=0)
+SBY 17:28:31 [bank_map_safety] prep: starting process "cd bank_map_safety/model; yosys -ql design_prep.log design_prep.ys"
+SBY 17:28:31 [bank_map_safety] prep: finished (returncode=0)
+SBY 17:28:31 [bank_map_safety] smt2: starting process "cd bank_map_safety/model; yosys -ql design_smt2.log design_smt2.ys"
+SBY 17:28:31 [bank_map_safety] smt2: finished (returncode=0)
+SBY 17:28:31 [bank_map_safety] engine_0: starting process "cd bank_map_safety; yosys-smtbmc -s boolector --presat --unroll --noprogress -t 1  --append 0 --dump-vcd engine_0/trace.vcd --dump-yw engine_0/trace.yw --dump-vlogtb engine_0/trace_tb.v --dump-smtc engine_0/trace.smtc model/design_smt2.smt2"
+SBY 17:28:31 [bank_map_safety] engine_0: ##   0:00:00  Solver: boolector
+SBY 17:28:31 [bank_map_safety] engine_0: ##   0:00:00  Checking assumptions in step 0..
+SBY 17:28:31 [bank_map_safety] engine_0: ##   0:00:00  Checking assertions in step 0..
+SBY 17:28:31 [bank_map_safety] engine_0: ##   0:00:00  Status: passed
+SBY 17:28:31 [bank_map_safety] engine_0: finished (returncode=0)
+SBY 17:28:31 [bank_map_safety] engine_0: Status returned by engine: pass
+SBY 17:28:31 [bank_map_safety] summary: Elapsed clock time [H:MM:SS (secs)]: 0:00:00 (0)
+SBY 17:28:31 [bank_map_safety] summary: Elapsed process time [H:MM:SS (secs)]: 0:00:00 (0)
+SBY 17:28:31 [bank_map_safety] summary: engine_0 (smtbmc boolector) returned pass
+SBY 17:28:31 [bank_map_safety] summary: engine_0 did not produce any traces
+SBY 17:28:31 [bank_map_safety] DONE (PASS, rc=0)
