@@ -147,5 +147,5 @@ python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/p
 ```
 
 ## 10. Approval
-- [ ] Human approver (name, date):
+- [x] Human approver (Faza Dzil, 2026-09-29):
       Next phase starts only after a team member ticks this box.
