@@ -1,0 +1,8 @@
+project_open phase02_mem_c1 -revision C1
+create_timing_netlist
+set_operating_conditions 7_slow_1100mv_100c
+read_sdc
+update_timing_netlist
+report_timing -setup -npaths 1 -detail full_path -file output_files/C1_worst_setup_path.rpt
+delete_timing_netlist
+project_close
