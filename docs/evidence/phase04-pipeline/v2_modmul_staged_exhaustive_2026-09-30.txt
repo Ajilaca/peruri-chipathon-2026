@@ -1,0 +1,23 @@
+Phase 4 test plan V2: modmul_reduce_staged.sv vs the frozen modmul_reduce.sv and vs (a*b) % 3329, exhaustive over every 12-bit pair
+Generated: 2026-09-30 15:04 UTC by tb/ntt/p4_reducer/run_modmul_staged_exhaustive.sh (Verilator 5.053 devel rev v5.052-183-g39e2d8e85 (mod))
+Configurations: REG_AFTER 0 (no registers), 8 (cut D_3, P=2), 129 (cuts X and D_7, P=4), 2081 (cuts X, D_5, D_11, P=6)
+
+REG_AFTER=0     latency=0 pairs_checked=16777216 (of which a,b<3329: 11082241) mismatches=0 modmul_reduce_vs_formula_mismatches=0
+REG_AFTER=8     latency=1 pairs_checked=16777216 (of which a,b<3329: 11082241) mismatches=0 modmul_reduce_vs_formula_mismatches=0
+REG_AFTER=129   latency=2 pairs_checked=16777216 (of which a,b<3329: 11082241) mismatches=0 modmul_reduce_vs_formula_mismatches=0
+REG_AFTER=2081  latency=3 pairs_checked=16777216 (of which a,b<3329: 11082241) mismatches=0 modmul_reduce_vs_formula_mismatches=0
+RESULT: PASS
+
+Negative control (the harness must be able to fail): REG_AFTER=8 checked with the wrong latency 0
+MISMATCH a=1 b=1 staged=0 modmul_reduce=1 formula=1
+MISMATCH a=1 b=2 staged=1 modmul_reduce=2 formula=2
+MISMATCH a=1 b=3 staged=2 modmul_reduce=3 formula=3
+MISMATCH a=1 b=4 staged=3 modmul_reduce=4 formula=4
+MISMATCH a=1 b=5 staged=4 modmul_reduce=5 formula=5
+MISMATCH a=1 b=6 staged=5 modmul_reduce=6 formula=6
+MISMATCH a=1 b=7 staged=6 modmul_reduce=7 formula=7
+MISMATCH a=1 b=8 staged=7 modmul_reduce=8 formula=8
+MISMATCH a=1 b=9 staged=8 modmul_reduce=9 formula=9
+MISMATCH a=1 b=10 staged=9 modmul_reduce=10 formula=10
+latency=0 pairs_checked=16777216 (of which a,b<3329: 11082241) mismatches=16769023 modmul_reduce_vs_formula_mismatches=0
+-> harness exit code non-zero, as required
