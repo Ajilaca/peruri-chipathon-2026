@@ -16,9 +16,11 @@ Update this list whenever something is decided (move it to an ADR) or discovered
 | 11 | **Repository licence** (repo is public; without one, default copyright applies) | Affects reuse and the demo repository link | Before publishing code |
 | 12 | Does the **Appendix** count toward the 6-page limit? | Decides where figures go | Section 3 layout |
 | 13 | **Activate `rtl-agent-team` hooks** by running `/rtl-agent-team:rat-init-project` (creates `.rat/`)? The original blocker ("idea not chosen") is resolved by ADR 0001 | Its Stop-gates block ending a session after unverified RTL edits, which mechanically enforces verify-before-claim; but it also adds structure to the repo | Before Phase 1 |
-| 15 | **Use the C2-K2-K1 supplementary configuration for the ADR 0004 L-selection?** (L=8 would then be selected: 9,754 ALM, within budget). Options and open items in `docs/decisions/0005-apply-adr-0004-l-selection-to-the-c2-k2-k1-supplementary-con.md` (Proposed) | K1 changes the butterfly, outside the written Phase 3 scope; decides the Phase 4 starting point (L=4 C2 vs L=8 C2-K2-K1) | Phase 3 approval / Phase 4 |
 
 Closed: #9 FIPS 203 errata — accepted as ADR 0003 (2026-09-29, decided by Faza Dzil, Team J5).
 Closed: #14 Phase 3 lane-count (L) selection criterion — accepted as ADR 0004 (2026-09-29,
 decided by Faza Dzil, Team J5): primary = min cycle count within a 25% ALM budget
 (10,478 ALM); secondary = informational AT re-check once timing is valid.
+Closed: #15 Use the C2-K2-K1 supplementary configuration for the ADR 0004 L-selection — accepted
+as ADR 0005 (2026-09-30, decided by Faza Dzil, Team J5): C2-K2-K1 adopted, L = 8 selected
+(9,754 ALM, within the 10,478 ALM budget); Phase 4 starts from C2-K2-K1 at L = 8.

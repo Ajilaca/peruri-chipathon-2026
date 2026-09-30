@@ -2,8 +2,10 @@
 # Result — Phase 3: Multi-lane exploration (L = 1/2/4/8, config C2)
 
 - Status: PARTIAL
-- Date (UTC): 2026-09-29 15:56
-- Git commit (HEAD when verified): 7b1d467
+- Date (UTC): 2026-09-29 15:56; updated 2026-09-30 (formal re-run; supplementary K2/K1 experiments;
+  ADR 0005)
+- Git commit (HEAD when verified): 7b1d467 for the C2 sweep; dbefa86 for the 2026-09-30 update
+- Selected operating point (ADR 0005, Accepted 2026-09-30): **C2-K2-K1 at L = 8** (Section 3b)
 - Environment: same as Phase 1/2 -- Ubuntu 24.04.4 LTS, OSS CAD Suite 2026-09-23, cocotb 2.1.0,
   pytest 9.1.1, Quartus Prime Lite 25.1std.0 Build 1129 (`~/altera_lite/25.1std`).
 
@@ -40,7 +42,7 @@ control/bank-capacity properties, not arithmetic correctness.
 | 1 | All four configurations correct | `docs/evidence/phase03-multilane/cocotb_regression_2026-09-29.txt` (bit-exact + roundtrip, all L, both simulators) | PASS |
 | 2 | Four Quartus evidence files | `docs/evidence/quartus/C2-L1-20260929.md` .. `C2-L8-20260929.md` | PASS |
 | 3 | Comparison table complete | `docs/ROADMAP.md` ablation matrix, rows C2-L1/L2/L4/L8 | PASS |
-| 4 | ADR choosing L (or keeping L configurable) signed by the team | `docs/decisions/0004-phase-3-lane-count-l-selection-criterion.md` (Accepted, Faza Dzil, 2026-09-29) fixes the *criterion* before measuring, satisfying the letter of this PASS criterion; **applying it to pick a value (Section 3 below) still needs a separate team sign-off**, not done unilaterally here | PASS |
+| 4 | ADR choosing L (or keeping L configurable) signed by the team | `docs/decisions/0004-phase-3-lane-count-l-selection-criterion.md` (Accepted, Faza Dzil, 2026-09-29) fixes the *criterion* before measuring; `docs/decisions/0005-apply-adr-0004-l-selection-to-the-c2-k2-k1-supplementary-con.md` (Accepted, Faza Dzil, 2026-09-30) applies it and selects L = 8 on the optimised C2-K2-K1 configuration (Section 3b) | PASS |
 
 ## 2. What was produced
 | Path | Purpose |
@@ -61,6 +63,12 @@ control/bank-capacity properties, not arithmetic correctness.
 | `docs/evidence/phase03-multilane/formal_verification_2026-09-29.txt` | First formal results per L (L>1 UNKNOWN) and the first investigation writeup; conclusion superseded by the next row |
 | `formal/run_formal_slang.py`, `docs/evidence/phase03-multilane/formal_rerun_2026-09-30.md` | Corrected formal flow: runs every Phase 1-3 proof plus negative controls; root-cause analysis and the 19/19 result table |
 | `docs/evidence/quartus/C2-L1-20260929.md` .. `C2-L8-20260929.md` | Standard fitter/STA/Fmax extracts, one per L |
+| `rtl/ntt/ntt_core_c2_k2.sv`, `rtl/ntt/ntt_core_c2_k2_l{1,2,4,8}.sv` | Supplementary experiment K2 (2026-09-30): C2 with `t_q` sized per L; separate files, C2 untouched |
+| `rtl/ntt/butterfly_shared.sv`, `rtl/ntt/ntt_core_c2_k2_k1.sv`, `rtl/ntt/ntt_core_c2_k2_k1_l{1,2,4,8}.sv` | Supplementary experiment K1 on top of K2 (config C2-K2-K1): one shared multiplier per butterfly. **Selected configuration at L=8 (ADR 0005)** |
+| `tb/ntt/run_k1_unit_tests.py`, `tb/ntt/k1_exhaustive/`, `formal/phase03-multilane/k1_*`, `formal/phase03-multilane/modmul_reduce_uf.sv` | K1 verification: butterfly unit test, exhaustive equivalence harness, formal equivalence with negative controls |
+| `scripts/quartus_entity_breakdown.py` | Groups the fitter's per-entity table by function (used for the L=8 ALM audit) |
+| `docs/decisions/0005-apply-adr-0004-l-selection-to-the-c2-k2-k1-supplementary-con.md` | ADR: adopts C2-K2-K1 and selects L = 8 |
+| `docs/evidence/phase03-multilane/k2_experiment_2026-09-30.md`, `k1_experiment_2026-09-30.md` and the `k1_*` / `k2_*` / `l8_opt_*` files beside them; `docs/evidence/quartus/C2-L{1,2,4,8}-K2-20260930.md`, `C2-K2-K1-L{1,2,4,8}-20260930.md` | Experiment records, regression/formal/equivalence logs, per-entity breakdowns, Quartus extracts |
 
 ## 3. Numbers (each labelled MEASURED, ESTIMATE, or cited [n])
 | Quantity | L=1 | L=2 | L=4 | L=8 |
@@ -86,6 +94,55 @@ candidates**. Per ADR 0004 this is reported as the primary-criterion result, not
 adopted as the team's final choice -- Section 7 asks the team to confirm it. The secondary
 (informational AT re-check) cannot run yet: no L meets timing at any clock, so there is no
 timing-valid Fmax to compute AT from (ADR 0004 anticipated exactly this case).
+
+## 3b. Supplementary optimisation experiments and the selected L (2026-09-30)
+After the C2 sweep the team asked whether L=8 could be brought under the ALM budget without reducing
+its 8 butterflies per cycle. Two experiments were run as separate configurations (the C2 RTL and
+evidence above are unchanged and remain the baseline):
+- **K2** -- sub-cycle counter `t_q` sized to what each L needs. Valid but insufficient, and not a
+  uniform improvement (`docs/evidence/phase03-multilane/k2_experiment_2026-09-30.md`).
+- **K1** -- one shared modular multiplier per butterfly instead of one per mode, on top of K2
+  (config **C2-K2-K1**, `rtl/ntt/butterfly_shared.sv`, `rtl/ntt/ntt_core_c2_k2_k1.sv`). This changes
+  the butterfly datapath, i.e. it is outside the written Phase 3 scope ("butterfly, arithmetic and
+  memory as in Phase 2"); the team approved it as a supplementary experiment and then adopted it
+  (ADR 0005). `modmul_reduce.sv` and the locked parameters are unchanged
+  (`docs/evidence/phase03-multilane/k1_experiment_2026-09-30.md`).
+
+| Quantity (MEASURED) | L=1 | L=2 | L=4 | L=8 |
+|---|---|---|---|---|
+| ALM, C2 (Section 3) | 6,018 | 5,728 | 7,629 | 11,446 |
+| ALM, C2-K2 | 6,389 | 5,788 | 7,600 | 11,232 |
+| **ALM, C2-K2-K1** | **5,566** | **5,374** | **6,775** | **9,754** |
+| C2-K2-K1 within the 10,478 ALM budget? | yes | yes | yes | **yes (724 below)** |
+| Registers, C2-K2-K1 | 3,099 | 3,095 | 3,098 | 3,094 |
+| M10K, C2-K2-K1 | 0 / 553 | 0 / 553 | 0 / 553 | 0 / 553 |
+| DSP, C2-K2-K1 | 2 / 112 | 3 / 112 | 5 / 112 | 9 / 112 |
+| Fmax (Slow 100C), C2-K2-K1 | 14.33 MHz | 12.63 MHz | 10.89 MHz | 7.68 MHz |
+| Worst setup slack @ 20.000 ns, C2-K2-K1 | -49.804 ns | -59.148 ns | -71.868 ns | -110.494 ns |
+| NTT / INTT cycles (simulation), identical to C2 | 897 / 1153 | 449 / 705 | 225 / 481 | 113 / 369 |
+| Formal (bank_overflow_o + FSM safety), C2-K2-K1 | PASS | PASS | PASS | PASS |
+
+Evidence: `docs/evidence/quartus/C2-K2-K1-L1-20260930.md`, `docs/evidence/quartus/C2-K2-K1-L2-20260930.md`,
+`docs/evidence/quartus/C2-K2-K1-L4-20260930.md`, `docs/evidence/quartus/C2-K2-K1-L8-20260930.md`,
+`docs/evidence/quartus/C2-L1-K2-20260930.md`, `docs/evidence/quartus/C2-L2-K2-20260930.md`,
+`docs/evidence/quartus/C2-L4-K2-20260930.md`, `docs/evidence/quartus/C2-L8-K2-20260930.md`,
+`docs/evidence/phase03-multilane/k1_cocotb_regression_2026-09-30.txt` (unit 2/2 and core 16/16 on both
+simulators), `docs/evidence/phase03-multilane/k1_entity_breakdown_2026-09-30.txt`,
+`docs/evidence/phase03-multilane/formal_rerun_2026-09-30.md`. Butterfly equivalence
+(`butterfly.sv` vs `butterfly_shared.sv`): formal proof with the multiplier abstracted, PASS with
+negative controls (`docs/evidence/phase03-multilane/k1_equiv_abstraction_2026-09-30.txt`), and
+exhaustive simulation of all 73,785,560,578 inputs, 0 mismatches
+(`docs/evidence/phase03-multilane/k1_exhaustive_equivalence_2026-09-30.txt`).
+
+**Selected L (ADR 0005, Accepted, Faza Dzil, Team J5, 2026-09-30):** applying ADR 0004's rule
+unchanged to C2-K2-K1, all four L are within budget and L=8 has the lowest cycle count, so the team
+selects **L = 8 on C2-K2-K1** (9,754 ALM; NTT 113 / INTT 369 cycles). Phase 4 starts from that
+configuration. The C2 result above (L=4) is kept as the baseline comparison.
+
+Limits carried with this selection (not resolved by it): timing is not met for any configuration;
+the 724-ALM margin is larger than, but not far above, the largest fitter-packing swing observed
+between compiles of identical logic (~370 ALM, K2 at L=1; no seed sweep was run); K1 lowers Fmax
+slightly at L=1/2/4; 0 M10K blocks are used.
 
 ## 4. Standards and sources pinned
 No new FIPS 203 reading this phase; no parameter or algorithm touched (`check_params.py` still
@@ -173,10 +230,10 @@ passes). Toolchain identical to Phase 1/2 (OSS CAD Suite `2026-09-23`, Quartus 2
 ## 7. Decisions needed
 - Everything already open from Phase 1/2 (`docs/results/result_phase2.md` Section 7): target-clock
   ADR, whether to pursue synchronous-read M10K mapping, how to read CRG-9.
-- **New:** confirm or override the ADR 0004 primary-criterion result (Section 3): L=4 has the
-  lowest cycle count among the in-budget (≤10,478 ALM) candidates. This result is reported, not
-  adopted -- ADR 0004 requires a team confirmation (or a follow-up ADR) before it is treated as
-  the selected L for Phase 4.
+- ~~Confirm or override the ADR 0004 primary-criterion result (L=4 on C2)~~ -- decided 2026-09-30
+  by ADR 0005: the team adopts the optimised C2-K2-K1 configuration and selects L = 8 (Section 3b).
+- **New (optional):** a fitter seed sweep on C2-K2-K1 L=8 to quantify the ALM-packing margin
+  against the 10,478 ALM budget (Section 3b limits).
 - ~~How to treat the CRG-8 formal gap for L=2/4/8~~ -- closed 2026-09-30: the gap was a harness
   artefact and all four L are proven (Section 6). Remaining, optional: formal properties beyond
   control/bank capacity (memory data integrity, liveness) if the team wants them.
@@ -209,6 +266,14 @@ python3 .claude/skills/mlkem-guard/scripts/check_params.py
 
 python3 formal/run_formal_slang.py   # every Phase 1-3 proof + negative controls (19 results)
 
+# Supplementary experiments (Section 3b): K2 and K2+K1 regressions, butterfly equivalence
+python3 tb/ntt/run_ntt_c2_tests.py verilator k2 && python3 tb/ntt/run_ntt_c2_tests.py icarus k2
+python3 tb/ntt/run_ntt_c2_tests.py verilator k1 && python3 tb/ntt/run_ntt_c2_tests.py icarus k1
+python3 tb/ntt/run_k1_unit_tests.py verilator && python3 tb/ntt/run_k1_unit_tests.py icarus
+(cd formal/phase03-multilane && sby -f k1_butterfly_equiv_abs.sby)   # PASS; k1_negctl_*.sby must FAIL
+tb/ntt/k1_exhaustive/run_k1_exhaustive.sh                            # ~20 min on 8 cores
+# Quartus revisions: C2-L<n>-K2 and C2-K2-K1-L<n> in quartus/phase03_multilane_c2/ (same flow as below)
+
 # Quartus (paths for this machine; QUARTUS_BIN in scripts/tooling.env, git-ignored)
 cd quartus/phase03_multilane_c2
 for L in 1 2 4 8; do
@@ -225,7 +290,8 @@ python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/p
 - [ ] Human approver (name, date):
       Next phase starts only after a team member ticks this box. Beyond the usual CRG-9
       (timing not met) pattern already accepted for C0/C1, this phase has two items that need an
-      explicit team decision before approval means what it usually means: (1) whether L=4's
-      primary-criterion result (Section 3) is accepted as the selected L per ADR 0004. (The
-      second item listed here originally, the CRG-8 formal gap for L=2/4/8, was closed on
-      2026-09-30, Section 6.)
+      explicit team decision before approval means what it usually means; both were settled on
+      2026-09-30: (1) the selected L is L = 8 on the optimised C2-K2-K1 configuration (ADR 0005,
+      Section 3b), and (2) the CRG-8 formal gap for L=2/4/8 was a harness artefact and is closed
+      (Section 6). Approving this PARTIAL status therefore means accepting CRG-9 (timing not
+      met) and the Section 3b limits as the documented starting point for Phase 4.

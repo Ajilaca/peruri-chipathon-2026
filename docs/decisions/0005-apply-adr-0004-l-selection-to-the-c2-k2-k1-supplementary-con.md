@@ -1,8 +1,8 @@
 # ADR 0005: Apply ADR 0004 L-selection to the C2-K2-K1 supplementary configuration
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-09-30
-- Decided by: pending team decision
+- Decided by: Faza Dzil, Team J5
 
 ## Context
 ADR 0004 (Accepted) fixes the Phase 3 lane-count criterion: minimise cycle count among the L values
@@ -54,12 +54,29 @@ L=1/2/4/8 for bank_overflow_o, the busy/done handshake and the counter ranges
 4. **Defer** (e.g. until a seed sweep quantifies the ALM-packing margin).
 
 ## Decision
-<!-- Not decided. Fill in only from what the team actually decides. Until then L=4 (C2) remains the
-     ADR 0004 result and L=8 (C2-K2-K1) is a candidate pending team approval. -->
+**Option 1.** The team adopts the optimised configuration **C2-K2-K1** as the Phase 3 configuration
+family and, applying ADR 0004's rule to it unchanged, selects **L = 8** (MEASURED 9,754 ALM, within the
+10,478 ALM budget; NTT 113 / INTT 369 cycles; 8 butterflies per cycle).
+
+This is a deliberate, recorded deviation from the written Phase 3 implementation scope ("butterfly,
+arithmetic and memory as in Phase 2"): K1 changes the butterfly datapath (one shared multiplier per
+butterfly). The modular reduction method (`modmul_reduce.sv`) and every locked FIPS 203 parameter are
+unchanged (ADR 0002 still holds). ADR 0004 itself is not edited; this record applies it.
 
 ## Consequences
-<!-- To be written with the decision. Whatever is chosen: ADR 0004 itself is not edited;
-     docs/results/result_phase3.md and docs/ROADMAP.md are updated only after the team decides. -->
+- Phase 4 (pipelining) starts from **C2-K2-K1 at L = 8** (`rtl/ntt/ntt_core_c2_k2_k1.sv`,
+  `rtl/ntt/butterfly_shared.sv`), not from C2 at L = 4. The earlier ADR 0004 result on the C2 family
+  (L = 4, `docs/results/result_phase3.md` Section 3) is kept as the measured baseline comparison, not
+  as the selected operating point.
+- The C2, C2-K2 and C2-K2-K1 RTL and their evidence files all stay in the repository so the
+  comparison remains reproducible.
+- Accepted with these known limits, none of which this decision resolves: timing is not met for any
+  configuration (Phase 4; no target-clock ADR yet); ADR 0004's secondary AT check still cannot run;
+  the 724-ALM margin under the budget is larger than, but not far above, the largest fitter-packing
+  swing observed (~370 ALM) and no seed sweep has been run; 0 M10K blocks are used.
+- Any later change of the selected L or of the configuration family needs a new ADR.
+- This decision does not tick the Approval box of `docs/results/result_phase3.md`; that remains a
+  separate human sign-off.
 
 ## Evidence
 - `docs/evidence/phase03-multilane/k1_experiment_2026-09-30.md`, `k1_entity_breakdown_2026-09-30.txt`,

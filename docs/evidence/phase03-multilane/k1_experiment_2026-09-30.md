@@ -3,9 +3,9 @@
 
 - Date (UTC): 2026-09-30
 - Branch: `phase3-multilane`, on top of `b11b08f` (K2 committed)
-- Status: **measured for all four L; L=8 is back under the ADR 0004 ALM budget — candidate pending
-  team approval, NOT an adopted choice.** ADR 0004 is unchanged; re-applying its criterion to this
-  family is proposed separately in `docs/decisions/0005-*.md` (Status: Proposed).
+- Status: **measured for all four L; L=8 is back under the ADR 0004 ALM budget. Selected by the team:
+  ADR 0005 (Accepted 2026-09-30, Faza Dzil, Team J5) adopts C2-K2-K1 and selects L=8.** ADR 0004 is
+  unchanged. (When this record was first written ADR 0005 was only Proposed and L=8 was a candidate.)
 - Scope: approved by the team (2026-09-30) as a *separate, supplementary* experiment, because it
   changes the butterfly datapath and so deviates from the written Phase 3 scope
   ("butterfly, arithmetic and memory as in Phase 2"). Built on K2, measured for L=1/2/4/8.
@@ -100,9 +100,9 @@ removed, ~5–8 ALM of mux added).
    fixes that and is required.
 
 ## Conclusion
-K1 is functionally correct in simulation, cycle-identical, keeps 8 butterflies/cycle at L=8, does not
+K1 is bit-exact (simulation on two simulators; butterfly equivalence proven with the multiplier
+abstracted and by exhaustive simulation), cycle-identical, keeps 8 butterflies/cycle at L=8, does not
 change the modular reduction method, and brings **C2-K2-K1-L8 to 9,754 ALM, 724 ALM under the ADR 0004
-budget**. It also shrinks every other L, so all four L of this family are within budget. Whether this
-supplementary configuration may be used for the ADR 0004 comparison, and therefore whether L=8 becomes
-the selected L, is a team decision: see the Proposed ADR 0005. Until then **L=4 (C2) remains the
-ADR 0004 candidate.**
+budget**. It also shrinks every other L, so all four L of this family are within budget. The team
+decided (ADR 0005, Accepted) to adopt this configuration and select **L=8**; Phase 4 starts from
+C2-K2-K1 at L=8. The C2 result (L=4) stays in `docs/results/result_phase3.md` as the baseline comparison.
