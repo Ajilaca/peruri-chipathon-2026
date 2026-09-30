@@ -1,0 +1,28 @@
+K1 formal (SymbiYosys k-induction, depth 6) -- ntt_core_c2_k2_k1 (C2-K2-K1), per L
+Generated: 2026-09-30 05:01 UTC
+Same properties and same (native read -formal) flow as C2 and K2, so the results are comparable; see docs/evidence/phase03-multilane/formal_verification_2026-09-29.txt for the L>1 investigation.
+
+=== L=1 ===
+[ntt_core_c2_k2_k1_l1_safety] summary: engine_0 (smtbmc boolector) returned pass for basecase
+[ntt_core_c2_k2_k1_l1_safety] summary: engine_0 (smtbmc boolector) returned pass for induction
+[ntt_core_c2_k2_k1_l1_safety] summary: engine_0 did not produce any traces
+[ntt_core_c2_k2_k1_l1_safety] summary: successful proof by k-induction.
+[ntt_core_c2_k2_k1_l1_safety] DONE (PASS, rc=0)
+
+=== L=2 ===
+[ntt_core_c2_k2_k1_l2_safety] summary: engine_0 (smtbmc boolector) returned pass for basecase
+[ntt_core_c2_k2_k1_l2_safety] summary: engine_0 (smtbmc boolector) returned FAIL for induction
+[ntt_core_c2_k2_k1_l2_safety] summary:   failed assertion ntt_core_c2_k2_k1_formal_top._witness_.check_assert_ntt_core_c2_k2_k1_formal_top_sv_54_16 at ntt_core_c2_k2_k1_formal_top.sv:54.17-54.42
+[ntt_core_c2_k2_k1_l2_safety] DONE (UNKNOWN, rc=4)
+
+=== L=4 ===
+[ntt_core_c2_k2_k1_l4_safety] summary: engine_0 (smtbmc boolector) returned pass for basecase
+[ntt_core_c2_k2_k1_l4_safety] summary: engine_0 (smtbmc boolector) returned FAIL for induction
+[ntt_core_c2_k2_k1_l4_safety] summary:   failed assertion ntt_core_c2_k2_k1_formal_top._witness_.check_assert_ntt_core_c2_k2_k1_formal_top_sv_54_16 at ntt_core_c2_k2_k1_formal_top.sv:54.17-54.42
+[ntt_core_c2_k2_k1_l4_safety] DONE (UNKNOWN, rc=4)
+
+=== L=8 ===
+[ntt_core_c2_k2_k1_l8_safety] summary: engine_0 (smtbmc boolector) returned pass for basecase
+[ntt_core_c2_k2_k1_l8_safety] summary: engine_0 (smtbmc boolector) returned FAIL for induction
+[ntt_core_c2_k2_k1_l8_safety] summary:   failed assertion ntt_core_c2_k2_k1_formal_top._witness_.check_assert_ntt_core_c2_k2_k1_formal_top_sv_54_16 at ntt_core_c2_k2_k1_formal_top.sv:54.17-54.42
+[ntt_core_c2_k2_k1_l8_safety] DONE (UNKNOWN, rc=4)

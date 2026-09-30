@@ -1,0 +1,35 @@
+Phase 3 L=8 ALM optimisation experiments -- per-entity breakdown (MEASURED, Quartus fitter)
+Generated: 2026-09-30 03:06 UTC by scripts/quartus_entity_breakdown.py
+Baselines C2-L4 / C2-L8 re-compiled from the committed RTL; totals reproduce docs/evidence/quartus/C2-L4-20260929.md and C2-L8-20260929.md exactly.
+
+=== Audit: C2-L4 vs C2-L8 ===
+TOTAL C2-L4: ALM=7629.0 ALUT=9069 REG=3102 DSP=9
+TOTAL C2-L8: ALM=11446.0 ALUT=16150 REG=3100 DSP=17
+group        | C2-L4: n ALM ALUT REG DSP | C2-L8: n ALM ALUT REG DSP | dALM dALUT
+fwd_mul      |  4    792.3   1552     0   4 |  8   1557.0   3104     0   8 |   +764.7  +1552
+inv_mul      |  4    766.6   1504     0   4 |  8   1511.7   3008     0   8 |   +745.1  +1504
+scale_mul    |  1    190.0    376     0   1 |  1    187.3    376     0   1 |     -2.7     +0
+bfly_own     |  4    268.6    495     0   0 |  8    501.2    976     0   0 |   +232.6   +481
+twiddle_rom  |  4    119.2    144     0   0 |  8    238.2    288     0   0 |   +119.0   +144
+bank_map_rom |  8     18.3     33     0   0 | 16     26.1     52     0   0 |     +7.8    +19
+mem_own      |  1   5023.5   4320  3072   0 |  1   6634.0   7231  3072   0 |  +1610.5  +2911
+core_own     |  1    427.7    644    30   0 |  1    768.1   1114    28   0 |   +340.4   +470
+top_own      |  1     20.5      1     0   0 |  1     20.5      1     0   0 |     +0.0     +0
+C2-L4: sum of groups ALM = 7626.7 (differs from TOTAL only by per-node rounding)
+C2-L8: sum of groups ALM = 11444.1 (differs from TOTAL only by per-node rounding)
+
+=== K2 (t_q width): C2-L8 vs C2-L8-K2 ===
+TOTAL C2-L8: ALM=11446.0 ALUT=16150 REG=3100 DSP=17
+TOTAL C2-L8-K2: ALM=11231.5 ALUT=15911 REG=3095 DSP=17
+group        | C2-L8: n ALM ALUT REG DSP | C2-L8-K2: n ALM ALUT REG DSP | dALM dALUT
+fwd_mul      |  8   1557.0   3104     0   8 |  8   1559.7   3104     0   8 |     +2.7     +0
+inv_mul      |  8   1511.7   3008     0   8 |  8   1512.2   3008     0   8 |     +0.5     +0
+scale_mul    |  1    187.3    376     0   1 |  1    187.5    376     0   1 |     +0.2     +0
+bfly_own     |  8    501.2    976     0   0 |  8    507.4    976     0   0 |     +6.2     +0
+twiddle_rom  |  8    238.2    288     0   0 |  8    240.0    288     0   0 |     +1.8     +0
+bank_map_rom | 16     26.1     52     0   0 | 16     26.2     53     0   0 |     +0.1     +1
+mem_own      |  1   6634.0   7231  3072   0 |  1   6542.1   7181  3072   0 |    -91.9    -50
+core_own     |  1    768.1   1114    28   0 |  1    635.5    924    23   0 |   -132.6   -190
+top_own      |  1     20.5      1     0   0 |  1     20.5      1     0   0 |     +0.0     +0
+C2-L8: sum of groups ALM = 11444.1 (differs from TOTAL only by per-node rounding)
+C2-L8-K2: sum of groups ALM = 11231.1 (differs from TOTAL only by per-node rounding)

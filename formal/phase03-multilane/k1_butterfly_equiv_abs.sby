@@ -1,0 +1,28 @@
+# formal/phase03-multilane/k1_butterfly_equiv_abs.sby
+# Experiment K1, equivalence option 1 (multiplier abstraction / Ackermann constraints): see
+# k1_butterfly_equiv_abs.sv. Combinational, so a depth-1 BMC covers the whole input space.
+# yosys-slang frontend (Yosys's native `read -formal` leaves ntt_pkg's add_mod/sub_mod undriven).
+# The full-arithmetic version (k1_butterfly_equiv.sby) timed out; this one abstracts only the
+# multiplier, which is the same unchanged module on both sides.
+
+[options]
+mode bmc
+depth 1
+
+[engines]
+smtbmc boolector
+
+[script]
+plugin -i slang
+read_slang -D FORMAL ntt_pkg.sv modmul_reduce_uf.sv butterfly.sv butterfly_shared.sv k1_butterfly_equiv_abs.sv --top k1_butterfly_equiv_abs
+# read_slang ties the stub's (* anyseq *) wire to constant x; turn every such x into a real
+# $anyseq cell BEFORE any optimisation can fold the consistency assumptions away.
+setundef -anyseq
+prep -top k1_butterfly_equiv_abs
+
+[files]
+../../rtl/ntt/ntt_pkg.sv
+modmul_reduce_uf.sv
+../../rtl/ntt/butterfly.sv
+../../rtl/ntt/butterfly_shared.sv
+k1_butterfly_equiv_abs.sv

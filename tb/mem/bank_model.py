@@ -100,3 +100,46 @@ def lane_p(num_banks: int, lane: int, t: int) -> int:
     """
     per_lane = 128 // num_banks
     return lane * per_lane + t
+
+
+def _blocks_in_layer(layer: int, mode_inv: int) -> int:
+    length, _ = layer_len(layer, mode_inv)
+    return N // (2 * length)
+
+
+def zeta_index_of(layer: int, mode_inv: int, block: int) -> int:
+    """Closed-form twiddle-ROM index for a given (layer, block), independent of any running
+    counter -- lets each Phase 3 lane compute its own zeta index combinationally instead of
+    sharing rtl/ntt/ntt_core.sv's single sequential `zeta_idx_q`, which does not generalise to
+    L>1 lanes advancing through different blocks in the same cycle.
+
+    Derived from rtl/ntt/ntt_core.sv's own update rule (zeta_idx starts at 1 for NTT / 127 for
+    INTT, and steps by +-1 once per finished block) and verified exhaustively against that exact
+    sequential rule for every one of the 127 (layer, block) pairs in both directions --
+    see scripts/gen_lane_schedule.py / docs/evidence/phase03-multilane/. Not used until that
+    verification passes; the formula is not trusted from derivation alone.
+
+    NTT (forward): k = 2^layer + block (cumulative block count before layer L is 2^L - 1).
+    INTT (inverse): k = 127 - (blocks processed in earlier layers) - block.
+    """
+    if not mode_inv:
+        return (1 << layer) + block
+    cumulative = sum(_blocks_in_layer(l, mode_inv) for l in range(layer))
+    return 127 - cumulative - block
+
+
+def reference_zeta_trace(mode_inv: int) -> dict[tuple[int, int], int]:
+    """The same zeta_idx sequence as rtl/ntt/ntt_core.sv's sequential FSM (one value per
+    finished block, in traversal order), used as the ground truth that `zeta_index_of` is
+    checked against -- not a second guess, a re-statement of the RTL's own already-proven update
+    rule (Phase 1 CRG-7/CRG-8), so a match here means the closed form reproduces hardware exactly.
+    """
+    trace: dict[tuple[int, int], int] = {}
+    zeta_idx = 127 if mode_inv else 1
+    for layer in range(7):
+        length, _ = layer_len(layer, mode_inv)
+        nblocks = N // (2 * length)
+        for block in range(nblocks):
+            trace[(layer, block)] = zeta_idx
+            zeta_idx += -1 if mode_inv else 1
+    return trace

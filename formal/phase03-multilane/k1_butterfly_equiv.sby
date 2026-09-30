@@ -1,0 +1,29 @@
+# formal/phase03-multilane/k1_butterfly_equiv.sby
+# Experiment K1: prove butterfly_shared == butterfly for all in-range inputs (combinational, so a
+# depth-1 BMC covers the whole input space).
+# Uses the yosys-slang frontend: Yosys's native `read -formal` leaves ntt_pkg's add_mod/sub_mod
+# function results undriven ("used but has no driver"), which makes its model of butterfly.sv wrong.
+# Result 2026-09-30: did NOT finish within a 30-minute timeout (boolector, full 12x12 multiplier +
+# 24/12 divider on both sides). Kept as a record, not a result. Equivalence was established instead by
+# k1_butterfly_equiv_abs.sby (multiplier abstraction, PASS + negative controls) and by the exhaustive
+# simulation in tb/ntt/k1_exhaustive/ (0 mismatches); see docs/evidence/phase03-multilane/
+# k1_experiment_2026-09-30.md, caveat 5.
+
+[options]
+mode bmc
+depth 1
+
+[engines]
+smtbmc boolector
+
+[script]
+plugin -i slang
+read_slang -D FORMAL ntt_pkg.sv modmul_reduce.sv butterfly.sv butterfly_shared.sv k1_butterfly_equiv.sv --top k1_butterfly_equiv
+prep -top k1_butterfly_equiv
+
+[files]
+../../rtl/ntt/ntt_pkg.sv
+../../rtl/ntt/modmul_reduce.sv
+../../rtl/ntt/butterfly.sv
+../../rtl/ntt/butterfly_shared.sv
+k1_butterfly_equiv.sv

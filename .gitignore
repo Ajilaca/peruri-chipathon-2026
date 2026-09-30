@@ -11,14 +11,18 @@ scripts/tooling.env
 db/
 incremental_db/
 output_files/
+output_files_*/
 *.qws
 greybox_tmp/
 .qsys_edit/
 c5_pin_model_dump.txt
-quartus/*/compile.log
+quartus/*/compile*.log
+quartus/*/all_compiles.log
 # SymbiYosys work dirs
 formal/**/*_prove/
 formal/**/*_bmc/
+formal/**/*_safety/
+formal/work/
 # Claude Code personal files (shared: .claude/settings.json and .claude/skills/)
 .claude/settings.local.json
 CLAUDE.local.md

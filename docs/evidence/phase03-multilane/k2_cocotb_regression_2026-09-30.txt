@@ -1,0 +1,24 @@
+K2 cocotb regression (ntt_core_c2_k2, NUM_LANES in {1,2,4,8})
+Generated: 2026-09-30 02:50 UTC by tb/ntt/run_ntt_c2_tests.py <sim> k2
+
+=== Verilator ===
+L=1 cycles: NTT=897 INTT=1153
+L=2 cycles: NTT=449 INTT=705
+L=4 cycles: NTT=225 INTT=481
+L=8 cycles: NTT=113 INTT=369
+[verilator] ntt_core_c2_k2 L=1: 4/4 PASS
+[verilator] ntt_core_c2_k2 L=2: 4/4 PASS
+[verilator] ntt_core_c2_k2 L=4: 4/4 PASS
+[verilator] ntt_core_c2_k2 L=8: 4/4 PASS
+[verilator] TOTAL: 16/16 passed
+
+=== Icarus Verilog ===
+L=1 cycles: NTT=897 INTT=1153
+L=2 cycles: NTT=449 INTT=705
+L=4 cycles: NTT=225 INTT=481
+L=8 cycles: NTT=113 INTT=369
+[icarus] ntt_core_c2_k2 L=1: 4/4 PASS
+[icarus] ntt_core_c2_k2 L=2: 4/4 PASS
+[icarus] ntt_core_c2_k2 L=4: 4/4 PASS
+[icarus] ntt_core_c2_k2 L=8: 4/4 PASS
+[icarus] TOTAL: 16/16 passed
