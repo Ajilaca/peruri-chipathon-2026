@@ -287,7 +287,7 @@ python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/p
 ```
 
 ## 10. Approval
-- [ ] Human approver (name, date):
+- [x] Human approver (faza dzil, 30-09-2026):
       Next phase starts only after a team member ticks this box. Beyond the usual CRG-9
       (timing not met) pattern already accepted for C0/C1, this phase has two items that need an
       explicit team decision before approval means what it usually means; both were settled on
