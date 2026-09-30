@@ -1,0 +1,17 @@
+Phase 4 planning: layer-boundary hazard slack of the existing lane schedule (perhitungan tim; no RTL, no Quartus)
+Generated: 2026-09-30 14:38 UTC by scripts/pipeline_hazard_slack.py
+
+Layer-boundary slack (cycles) of the current lane schedule; a pipeline of depth P needs no
+stall at a boundary iff slack >= P.
+L=1 NTT  T=128: slack per boundary [63, 95, 111, 119, 123, 125] -> largest stall-free P = 63
+L=1 INTT T=128: slack per boundary [125, 123, 119, 111, 95, 63] -> largest stall-free P = 63
+L=1 INTT last layer -> scaling pass: slack 127 (no stall before the scaling pass iff slack >= P)
+L=2 NTT  T= 64: slack per boundary [63, 31, 47, 55, 59, 61] -> largest stall-free P = 31
+L=2 INTT T= 64: slack per boundary [61, 59, 55, 47, 31, 63] -> largest stall-free P = 31
+L=2 INTT last layer -> scaling pass: slack 63 (no stall before the scaling pass iff slack >= P)
+L=4 NTT  T= 32: slack per boundary [31, 31, 15, 23, 27, 29] -> largest stall-free P = 15
+L=4 INTT T= 32: slack per boundary [29, 27, 23, 15, 31, 31] -> largest stall-free P = 15
+L=4 INTT last layer -> scaling pass: slack 31 (no stall before the scaling pass iff slack >= P)
+L=8 NTT  T= 16: slack per boundary [15, 15, 15, 7, 11, 13] -> largest stall-free P = 7
+L=8 INTT T= 16: slack per boundary [13, 11, 7, 15, 15, 15] -> largest stall-free P = 7
+L=8 INTT last layer -> scaling pass: slack 15 (no stall before the scaling pass iff slack >= P)
