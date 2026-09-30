@@ -32,12 +32,15 @@ simulators; cycle counts identical to C2):
 Applying ADR 0004's rule unchanged to this family gives **L=8** (lowest cycle count, within budget).
 ADR 0004's secondary AT check still cannot run: no configuration meets timing at any clock.
 
-Open items that bear on this decision (from the K1 record): the core formal gap for L>1 is unchanged; the fitter's
+Open items that bear on this decision (from the K1 record): the fitter's
 ALM packing varied by up to ~370 ALM (MEASURED, `k1_entity_breakdown_2026-09-30.txt`, K2-L1) between compiles of identical logic, versus a 724-ALM margin;
 K1 lowers Fmax slightly at L=1/2/4 (MEASURED, same Quartus evidence files).
 Closed since the first draft: `butterfly` vs `butterfly_shared` equivalence is established by a formal
 proof with the multiplier abstracted (PASS, two negative controls FAIL) and by exhaustive simulation of
 all 73,785,560,578 inputs (0 mismatches); see `k1_experiment_2026-09-30.md`, caveat 5.
+Also closed: the core formal gap for L>1 was a harness artefact; C2-K2-K1 now PASSes k-induction at
+L=1/2/4/8 for bank_overflow_o, the busy/done handshake and the counter ranges
+(`formal_rerun_2026-09-30.md`).
 
 ## Options considered
 1. **Adopt C2-K2-K1 as the Phase 3 configuration family and select L=8** under ADR 0004's rule.
@@ -48,8 +51,7 @@ all 73,785,560,578 inputs (0 mismatches); see `k1_experiment_2026-09-30.md`, cav
    worse at larger L). Contradicts ADR 0004's rule unless a new criterion is stated.
 3. **Keep the C2 result (L=4) for Phase 3 and carry K1 into a later phase** (e.g. Phase 5, arithmetic
    optimisation). Keeps Phase 3 strictly within its written scope; L=8 is revisited later.
-4. **Defer until the remaining open items are closed** (core formal gap for L>1 and the frontend
-   finding; optionally a seed sweep to quantify the ALM-packing margin).
+4. **Defer** (e.g. until a seed sweep quantifies the ALM-packing margin).
 
 ## Decision
 <!-- Not decided. Fill in only from what the team actually decides. Until then L=4 (C2) remains the

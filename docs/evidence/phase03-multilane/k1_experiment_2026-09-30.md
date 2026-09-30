@@ -31,7 +31,8 @@
 | Unit: `butterfly_shared` vs golden (unchanged `tb/ntt/test_butterfly.py`: corners + 1000 random per mode) | 2/2 Verilator, 2/2 Icarus | `k1_cocotb_regression_2026-09-30.txt` |
 | Core cocotb, L=1/2/4/8, bit-exact + round-trip + constant cycles + `bank_overflow_o`==0 | 16/16 Verilator, 16/16 Icarus | same file |
 | Cycle counts | identical to C2 for every L (L=8: NTT 113, INTT 369; 8 butterflies/cycle) | same file |
-| Core formal (same flow/properties as C2, K2) | unchanged: L=1 PASS; L=2/4/8 UNKNOWN | `k1_formal_2026-09-30.txt` |
+| Core formal, first flow (same as C2, K2 at the time) | L=1 PASS; L=2/4/8 UNKNOWN (harness artefact, caveat 4) | `k1_formal_2026-09-30.txt` |
+| Core formal, corrected flow (`read_slang` + `memory_map -rom-only`) | **PASS at L=1/2/4/8**, negative controls fail as required | `formal_rerun_2026-09-30.md` |
 | Formal equivalence `butterfly` vs `butterfly_shared`, full arithmetic | not completed: 30-min timeout (caveat 5) | `formal/phase03-multilane/k1_butterfly_equiv.sby` |
 | Equivalence, option 1: multiplier abstracted (uninterpreted function + Ackermann consistency), all modes, all inputs < q | **PASS**; both negative controls FAIL as required | `k1_equiv_abstraction_2026-09-30.txt`, `formal/phase03-multilane/k1_butterfly_equiv_abs.sby`, `k1_negctl_operand.sby`, `k1_negctl_noack.sby` |
 | Equivalence, option 2: exhaustive RTL simulation, all 2 x 3329^3 = 73,785,560,578 inputs, three-way vs golden | **PASS, 0 mismatches**, no assumptions | `k1_exhaustive_equivalence_2026-09-30.txt`, `tb/ntt/k1_exhaustive/` |
@@ -72,14 +73,16 @@ removed, ~5–8 ALM of mux added).
 2. **K2 is not a uniform improvement**: −214 (L8), −29 (L4), +60 (L2), +371 (L1, packing, see above).
 3. **Fmax drops slightly with K1 at L=1/2/4** (the operand mux sits in front of the multiplier, on the
    critical path through the divider); at L=8 it is within noise of C2. Timing closure is Phase 4.
-4. **Formal toolchain finding.** Yosys's native `read -formal` frontend does not elaborate the
-   `ntt_pkg` package functions `add_mod`/`sub_mod` (their results become undriven wires — "used but has
-   no driver"), so its model of `butterfly.sv` is wrong (e.g. inverse a=b=1920 gives a_o=0 instead of
-   511). With the `read_slang` frontend the model is correct (511). The C2/K2/K1 core proofs use the
-   same native flow for comparability; their FSM-safety and `bank_overflow_o` properties do not go
-   through those functions, and an L=2 C2 re-run with `read_slang` is also UNKNOWN, so the L>1 formal
-   gap is not explained by this alone. This affects how every existing SymbiYosys result in the repo
-   should be read and needs a separate review.
+4. **Formal toolchain findings (both now handled in the flow).** (a) Yosys's native `read -formal`
+   frontend does not elaborate the `ntt_pkg` package functions `add_mod`/`sub_mod` (their results
+   become undriven wires), so its model of `butterfly.sv` is wrong (inverse a=b=1920 gives a_o=0
+   instead of 511); `read_slang` models it correctly. (b) The L>1 core-proof UNKNOWN recorded in the
+   table above was a separate harness artefact: `proc_rom` turns the ROMs into memory cells whose
+   contents are free state in the induction step. With `read_slang` + `memory_map -rom-only`
+   (harness only, RTL unchanged) C2, C2-K2 and C2-K2-K1 all PASS at L=1/2/4/8, negative controls
+   fail as they must, and the Phase 1/2 proofs still PASS:
+   `formal_rerun_2026-09-30.md`. That file supersedes the L>1 lines of `k1_formal_2026-09-30.txt`
+   and `k2_formal_2026-09-30.txt`.
 5. **Butterfly equivalence: the full-arithmetic formal proof did not finish, but the equivalence is now
    established two other ways.** With `read_slang` the miter models the real 12x12 multiplier and 24/12
    divider on both sides; boolector did not finish in 30 min (multiplier/divider equivalence between

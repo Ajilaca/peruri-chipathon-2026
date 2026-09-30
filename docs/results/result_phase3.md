@@ -22,17 +22,17 @@ PATH going forward. This is a local machine-config fix, not a design change.
 | CRG-5 | Regression: Phase 0-2 tests still pass | `cmd: python3 -m pytest tb/golden/tests/ -q` (23/23), `cmd: python3 tb/ntt/run_ntt_tests.py icarus` (10/10, C0 unaffected), `cmd: python3 tb/mem/run_mem_tests.py icarus` (12/12, C1 unaffected) | PASS |
 | CRG-6 | Locked parameters | `cmd: python3 .claude/skills/mlkem-guard/scripts/check_params.py` | PASS |
 | CRG-7 | Constant-cycle evidence | `docs/evidence/phase03-multilane/cocotb_regression_2026-09-29.txt` -- constant per L, and L=1 equals C0/C1 exactly (897/1153); L>1 is **lower**, not equal, which is the expected/measured effect of parallel lanes, not a stall | PASS |
-| CRG-8 | Formal properties | `docs/evidence/phase03-multilane/formal_verification_2026-09-29.txt` -- **L=1 PASS** (full k-induction, both the reused busy/done property and bank_overflow_o==0); **L=2/4/8 do not close**: a SymbiYosys induction counterexample investigated in detail and cross-checked against the Python model, the RTL source text, and both simulators' cocotb regressions -- none reproduce it, so it is reported as a probable Yosys `-formal` reader artifact on the 256-entry bank ROM (Section 6), but the criterion's own status is FAIL until that is actually resolved, not softened to a passing grade | FAIL |
+| CRG-8 | Formal properties | `docs/evidence/phase03-multilane/formal_rerun_2026-09-30.md` (`cmd: python3 formal/run_formal_slang.py`, 19/19 results as expected): k-induction **PASS for L=1, 2, 4 and 8** on C2 (and on the supplementary C2-K2 / C2-K2-K1) for bank_overflow_o == 0, the busy/done handshake and the t_q / layer_q range invariants; four negative controls fail as they must. The earlier L=2/4/8 UNKNOWN (`docs/evidence/phase03-multilane/formal_verification_2026-09-29.txt`) was a formal-harness artefact (ROMs modelled as free memory state in the induction step), corrected in the harness only -- RTL unchanged (Section 6). Scope: these properties only, not NTT/INTT bit-exactness | PASS |
 | CRG-9 | Quartus evidence; no negative slack or the failure documented | `docs/evidence/quartus/C2-L1-20260929.md`, `C2-L2-20260929.md`, `C2-L4-20260929.md`, `C2-L8-20260929.md` -- all four compiled and measured; all four have negative worst setup slack (timing NOT met); **L=8 additionally exceeds ADR 0004's 10,478 ALM budget** (11,446 ALM measured) | FAIL |
 | CRG-10 | Result artifact + claim checker | `cmd: python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/result_phase3.md` and `cmd: python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal` | PASS |
 
 CRG-9 marked FAIL for the same reason as Phase 1/2's: timing not met at the provisional 20.000 ns
 clock is expected (no target-clock ADR exists yet) and is documented, not hidden, but the roadmap
 wording is read strictly here; whether "documented failure" should count as PASS is a team call,
-not made here. CRG-8 marked FAIL for the same discipline: one of the four L values (L=1) is fully
-proven by k-induction, but three are not, and an unresolved gap is FAIL even when it is
-investigated and has a documented, plausible explanation (Section 6) -- that explanation is not
-grounds for marking it PASS.
+not made here. CRG-8 was FAIL in the first version of this file (2026-09-29: L=1 proven, L=2/4/8
+UNKNOWN). It is PASS as of 2026-09-30, after the cause of the UNKNOWN was found in the formal
+harness and every L was re-proven with negative controls (Section 6); the PASS covers the stated
+control/bank-capacity properties, not arithmetic correctness.
 
 ## 1b. Phase 3 PASS criteria (docs/ROADMAP.md Phase 3, beyond the CRG table)
 | # | Criterion | Evidence | Status |
@@ -58,7 +58,8 @@ grounds for marking it PASS.
 | `docs/evidence/phase03-multilane/test_plan.md` | CRG-4 test plan, written before any RTL |
 | `docs/evidence/phase03-multilane/lane_schedule_verification_2026-09-29.txt` | Raw zeta-formula + p-coverage proof log |
 | `docs/evidence/phase03-multilane/cocotb_regression_2026-09-29.txt` | Raw cocotb pass/fail + cycle-count log, both simulators, all four L |
-| `docs/evidence/phase03-multilane/formal_verification_2026-09-29.txt` | Formal results per L, including the L>1 investigation writeup |
+| `docs/evidence/phase03-multilane/formal_verification_2026-09-29.txt` | First formal results per L (L>1 UNKNOWN) and the first investigation writeup; conclusion superseded by the next row |
+| `formal/run_formal_slang.py`, `docs/evidence/phase03-multilane/formal_rerun_2026-09-30.md` | Corrected formal flow: runs every Phase 1-3 proof plus negative controls; root-cause analysis and the 19/19 result table |
 | `docs/evidence/quartus/C2-L1-20260929.md` .. `C2-L8-20260929.md` | Standard fitter/STA/Fmax extracts, one per L |
 
 ## 3. Numbers (each labelled MEASURED, ESTIMATE, or cited [n])
@@ -73,7 +74,7 @@ grounds for marking it PASS.
 | Worst setup slack @ 20.000 ns | -47.733 ns | -54.644 ns | -66.690 ns | -111.219 ns |
 | NTT cycles (simulation) | 897 | 449 | 225 | 113 |
 | INTT cycles (simulation) | 1,153 | 705 | 481 | 369 |
-| Formal (bank_overflow_o + FSM safety) | PASS (k-induction) | UNKNOWN (see Section 6) | UNKNOWN | UNKNOWN |
+| Formal (bank_overflow_o + FSM safety), corrected flow 2026-09-30 | PASS (k-induction) | PASS (k-induction) | PASS (k-induction) | PASS (k-induction) |
 
 All MEASURED, `docs/evidence/quartus/C2-L{1,2,4,8}-20260929.md` and
 `docs/evidence/phase03-multilane/cocotb_regression_2026-09-29.txt`.
@@ -99,10 +100,11 @@ passes). Toolchain identical to Phase 1/2 (OSS CAD Suite `2026-09-23`, Quartus 2
   pipelining -- Phase 4 scope) and is reported plainly, not attributed to noise.
 - **No target-clock ADR exists yet** (inherited from Phase 1/2, still open) -- every Fmax/slack
   number above is relative-only, not a claim against a real target.
-- **Formal is incomplete for L>1** -- see Section 6. This is the most significant open item this
-  phase, more consequential than the usual timing-not-met pattern, because it means the
-  conflict-freedom guarantee that the whole multi-lane memory design rests on is *simulated and
-  reasoned about* but not *proven* for three of the four L values.
+- **Formal covers control and bank capacity only.** As of 2026-09-30 `bank_overflow_o`==0 (the
+  conflict-freedom guarantee the multi-lane memory rests on), the busy/done handshake and the
+  `t_q`/`layer_q` ranges are proven by k-induction for all four L (Section 6). NTT/INTT
+  bit-exactness, memory data integrity and liveness are NOT formally proven; they rest on the
+  cocotb regressions on two simulators.
 - Reduction method, address-range argument (still true here: `AW=8` cannot represent an address
   outside [0,255] by construction): same caveats as Phase 1/2, unchanged.
 
@@ -127,7 +129,24 @@ passes). Toolchain identical to Phase 1/2 (OSS CAD Suite `2026-09-23`, Quartus 2
   (`t_q <= TMax`, `layer_q <= 6`) via a `bind`-in per formal-only module was abandoned in favor of
   adding the `assert`s directly inside `rtl/ntt/ntt_core_c2.sv`, guarded by `` `ifdef FORMAL ``
   (never active in synthesis or normal simulation).
-- **CRG-8 formal gap, investigated in depth (not left as an unexplained FAIL):** adding the
+- **CRG-8 formal gap for L=2/4/8: resolved 2026-09-30 -- it was a formal-harness artefact, and the
+  explanation first written here was wrong about the mechanism.** Status then was UNKNOWN (base
+  case pass, induction fail), not FAIL and not a timeout. Root cause, from the induction trace
+  (L=2, first NTT cycle, addresses 0/128/64/192 exactly as scheduled, yet the `bank_map_rom`
+  instance for address 0 output bank 1 where the source says 0): Yosys's `proc_rom` turns
+  `bank_map_rom`'s 256-entry `case` and `twiddle_rom` into `$mem` cells, whose contents are free
+  state in the induction step, so the solver used a ROM whose contents are not the real table --
+  an unreachable state. Fix in the harness only: `memory_map -rom-only` (ROM contents are
+  constants: a design fact, not an assumption), plus the yosys-slang frontend (the native
+  `read -formal` leaves `ntt_pkg`'s `add_mod`/`sub_mod` undriven) and an equivalent reset
+  assumption. RTL unchanged. Result: all four L PASS; negative controls (a corrupted copy of
+  `bank_map_rom`) fail in the base case or in induction as they must; Phase 1/2 proofs still PASS
+  under the same flow. Full analysis: `docs/evidence/phase03-multilane/formal_rerun_2026-09-30.md`.
+  *Correction of the earlier text (kept below for the record):* it attributed the mismatch to
+  "how Yosys's `-formal` frontend evaluates the 256-entry `unique case` ROM" and called the
+  counterexample state "reachable-looking"; the FSM state was reachable, the ROM contents were not,
+  and the `t_q`/`layer_q` invariants added at the time did not address the cause.
+- *Superseded 2026-09-29 text, kept for the record:* adding the
   `t_q`/`layer_q` range invariants fixed nothing for L=2/4/8; k-induction still reports a
   `bank_overflow_o` counterexample, this time at a *reachable-looking* state (L=2, `layer_q=3`,
   `t_q=32`, `state_q=S_RUN`). Manually decoded from the counterexample's own VCD trace and
@@ -158,10 +177,9 @@ passes). Toolchain identical to Phase 1/2 (OSS CAD Suite `2026-09-23`, Quartus 2
   lowest cycle count among the in-budget (≤10,478 ALM) candidates. This result is reported, not
   adopted -- ADR 0004 requires a team confirmation (or a follow-up ADR) before it is treated as
   the selected L for Phase 4.
-- **New:** how to treat the CRG-8 formal gap for L=2/4/8 (Section 6) -- accept the simulation +
-  Python + source-text cross-check as sufficient evidence of correctness for now and revisit the
-  Yosys issue later, or block on resolving it (smaller repro case / bug report / alternate ROM
-  encoding) before Phase 4.
+- ~~How to treat the CRG-8 formal gap for L=2/4/8~~ -- closed 2026-09-30: the gap was a harness
+  artefact and all four L are proven (Section 6). Remaining, optional: formal properties beyond
+  control/bank capacity (memory data integrity, liveness) if the team wants them.
 - **New:** `QUARTUS_BIN` was filled in `scripts/tooling.env` this phase (Section "Process note"
   above) -- confirm the path is correct for every team member's machine or that each teammate
   sets their own local value (the file is git-ignored, so this is not shared automatically).
@@ -189,9 +207,7 @@ python3 tb/mem/run_mem_tests.py icarus   # Phase 2 regression, unaffected
 python3 -m pytest tb/golden/tests/ -q
 python3 .claude/skills/mlkem-guard/scripts/check_params.py
 
-for L in 1 2 4 8; do
-  (cd formal/phase03-multilane && sby -f ntt_core_c2_l${L}_safety.sby)
-done
+python3 formal/run_formal_slang.py   # every Phase 1-3 proof + negative controls (19 results)
 
 # Quartus (paths for this machine; QUARTUS_BIN in scripts/tooling.env, git-ignored)
 cd quartus/phase03_multilane_c2
@@ -210,5 +226,6 @@ python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/p
       Next phase starts only after a team member ticks this box. Beyond the usual CRG-9
       (timing not met) pattern already accepted for C0/C1, this phase has two items that need an
       explicit team decision before approval means what it usually means: (1) whether L=4's
-      primary-criterion result (Section 3) is accepted as the selected L per ADR 0004, and (2)
-      how to treat the CRG-8 formal gap for L=2/4/8 (Section 6) going into Phase 4.
+      primary-criterion result (Section 3) is accepted as the selected L per ADR 0004. (The
+      second item listed here originally, the CRG-8 formal gap for L=2/4/8, was closed on
+      2026-09-30, Section 6.)
