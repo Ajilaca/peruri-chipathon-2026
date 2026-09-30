@@ -8,7 +8,7 @@
 // (docs/evidence/phase03-multilane/lane_schedule_verification_2026-09-29.txt) that the lane
 // schedule never puts more than 2 ports on the same bank in one cycle, now checked against the
 // actual generated bank_map_rom.sv contents, not the Python model. NUM_LANES is overridden per
-// run by `chparam` in each formal/phase03-multilane/*.sby script (one per L).
+// run by `-G NUM_LANES=<L>` on the read_slang line of each formal/phase03-multilane/*.sby script.
 
 module ntt_core_c2_formal_top #(
     parameter int NUM_LANES = 1
@@ -48,7 +48,11 @@ module ntt_core_c2_formal_top #(
   );
 
 `ifdef FORMAL
-  initial assume (!rst_ni);
+  // First-cycle reset assumption. Written with a flag register instead of `initial assume (!rst_ni);`
+  // because the yosys-slang frontend rejects an initial-block read of an input net.
+  logic f_init = 1'b1;
+  always_ff @(posedge clk_i) f_init <= 1'b0;
+  always_comb if (f_init) assume (!rst_ni);
   always_ff @(posedge clk_i) begin
     if (rst_ni) assert (!bank_overflow_o);
   end

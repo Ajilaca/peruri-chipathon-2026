@@ -1,6 +1,13 @@
 # formal/phase03-multilane/ntt_core_c2_k2_l2_safety.sby
 # Proves ntt_core_c2_k2's (experiment K2) FSM safety property (busy_o drop -> done_o one cycle later, reused from
 # Phase 1) and bank_overflow_o == 0 always, at NUM_LANES=2.
+# Flow (2026-09-30): yosys-slang frontend + `memory_map -rom-only`.
+#  - read_slang: Yosys's native `read -formal` leaves ntt_pkg's add_mod/sub_mod results undriven.
+#  - memory_map -rom-only: proc_rom turns bank_map_rom's 256-entry case (and twiddle_rom) into $mem
+#    cells; in the induction step their contents are free state, which produced a spurious
+#    bank_overflow_o counterexample for NUM_LANES > 1 (the earlier UNKNOWN). Mapping ROMs back to
+#    constant logic states a design fact (ROM contents are constants), not an extra assumption.
+#  See docs/evidence/phase03-multilane/formal_rerun_2026-09-30.md.
 
 [options]
 mode prove
@@ -10,18 +17,10 @@ depth 6
 smtbmc boolector
 
 [script]
-read -formal -D FORMAL ntt_pkg.sv
-read -formal -D FORMAL twiddle_rom.sv
-read -formal -D FORMAL modmul_reduce.sv
-read -formal -D FORMAL base_case_multiply.sv
-read -formal -D FORMAL butterfly.sv
-read -formal -D FORMAL bank_map_rom.sv
-read -formal -D FORMAL poly_mem_multiport.sv
-read -formal -D FORMAL ntt_core_c2_k2.sv
-read -formal -D FORMAL ntt_core_props.sv
-read -formal -D FORMAL ntt_core_c2_k2_formal_top.sv
-chparam -set NUM_LANES 2 ntt_core_c2_k2_formal_top
+plugin -i slang
+read_slang -D FORMAL ntt_pkg.sv twiddle_rom.sv modmul_reduce.sv base_case_multiply.sv butterfly.sv bank_map_rom.sv poly_mem_multiport.sv ntt_core_c2_k2.sv ntt_core_props.sv ntt_core_c2_k2_formal_top.sv --top ntt_core_c2_k2_formal_top -G NUM_LANES=2
 prep -top ntt_core_c2_k2_formal_top
+memory_map -rom-only
 
 [files]
 ../../rtl/ntt/ntt_pkg.sv

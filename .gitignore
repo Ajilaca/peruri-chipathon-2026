@@ -22,6 +22,7 @@ quartus/*/all_compiles.log
 formal/**/*_prove/
 formal/**/*_bmc/
 formal/**/*_safety/
+formal/work/
 # Claude Code personal files (shared: .claude/settings.json and .claude/skills/)
 .claude/settings.local.json
 CLAUDE.local.md
