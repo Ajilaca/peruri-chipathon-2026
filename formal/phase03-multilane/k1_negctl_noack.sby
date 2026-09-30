@@ -1,0 +1,25 @@
+# formal/phase03-multilane/k1_negctl_noack.sby
+# NEGATIVE CONTROL for k1_butterfly_equiv_abs.sby: the real butterfly_shared, but the miter has NO
+# functional-consistency assumptions (k1_butterfly_equiv_abs_noack.sv), so the abstracted multiplier
+# outputs are unrelated free values. Expected result: FAIL. A PASS here would mean the consistency
+# assumptions are not what makes the main proof work.
+
+[options]
+mode bmc
+depth 1
+
+[engines]
+smtbmc boolector
+
+[script]
+plugin -i slang
+read_slang -D FORMAL ntt_pkg.sv modmul_reduce_uf.sv butterfly.sv butterfly_shared.sv k1_butterfly_equiv_abs_noack.sv --top k1_butterfly_equiv_abs
+setundef -anyseq
+prep -top k1_butterfly_equiv_abs
+
+[files]
+../../rtl/ntt/ntt_pkg.sv
+modmul_reduce_uf.sv
+../../rtl/ntt/butterfly.sv
+../../rtl/ntt/butterfly_shared.sv
+k1_butterfly_equiv_abs_noack.sv

@@ -1,0 +1,14 @@
+K1 equivalence option 2: exhaustive RTL simulation, rtl/ntt/butterfly.sv vs rtl/ntt/butterfly_shared.sv vs golden (C++ integer arithmetic)
+Generated: 2026-09-30 12:48 UTC by tb/ntt/k1_exhaustive/run_k1_exhaustive.sh (Verilator 5.053 devel rev v5.052-183-g39e2d8e85 (mod))
+Domain: mode in {0,1}, a, b, zeta in [0, 3329) -- every input combination, 2 * 3329^3 evaluations
+
+RANGE a=[0,416) evals=9220424512 mismatches=0
+RANGE a=[416,832) evals=9220424512 mismatches=0
+RANGE a=[832,1248) evals=9220424512 mismatches=0
+RANGE a=[1248,1664) evals=9220424512 mismatches=0
+RANGE a=[1664,2080) evals=9220424512 mismatches=0
+RANGE a=[2080,2496) evals=9220424512 mismatches=0
+RANGE a=[2496,2912) evals=9220424512 mismatches=0
+RANGE a=[2912,3329) evals=9242588994 mismatches=0
+TOTAL evals=73785560578 expected=73785560578 mismatches=0 jobs=8 wall_seconds=1229
+RESULT: PASS

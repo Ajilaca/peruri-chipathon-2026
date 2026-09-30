@@ -1,0 +1,18 @@
+K1 equivalence option 1: butterfly.sv vs butterfly_shared.sv, multiplier abstracted (uninterpreted function + Ackermann consistency), SymbiYosys BMC depth 1, yosys-slang frontend
+Generated: 2026-09-30 13:11 UTC from formal/phase03-multilane/k1_butterfly_equiv_abs.sby
+Assumptions: a, b, zeta < 3329; modmul_reduce is a pure function of its inputs (stated in modmul_reduce_uf.sv).
+
+=== main proof ===
+[k1_butterfly_equiv_abs] engine_0: Status returned by engine: pass
+[k1_butterfly_equiv_abs] summary: engine_0 (smtbmc boolector) returned pass
+[k1_butterfly_equiv_abs] DONE (PASS, rc=0)
+
+=== negative control 1 (k1_negctl_operand.sby): butterfly_shared with a deliberately wrong inverse operand, sub_mod(a_i, b_i) instead of sub_mod(b_i, a_i). Expected: FAIL ===
+[k1_negctl_operand] engine_0: Status returned by engine: FAIL
+[k1_negctl_operand] summary: engine_0 (smtbmc boolector) returned FAIL
+[k1_negctl_operand] DONE (FAIL, rc=2)
+
+=== negative control 2 (k1_negctl_noack.sby): real butterfly_shared, but the miter WITHOUT the functional-consistency assumptions. Expected: FAIL ===
+[k1_negctl_noack] engine_0: Status returned by engine: FAIL
+[k1_negctl_noack] summary: engine_0 (smtbmc boolector) returned FAIL
+[k1_negctl_noack] DONE (FAIL, rc=2)

@@ -32,7 +32,9 @@
 | Core cocotb, L=1/2/4/8, bit-exact + round-trip + constant cycles + `bank_overflow_o`==0 | 16/16 Verilator, 16/16 Icarus | same file |
 | Cycle counts | identical to C2 for every L (L=8: NTT 113, INTT 369; 8 butterflies/cycle) | same file |
 | Core formal (same flow/properties as C2, K2) | unchanged: L=1 PASS; L=2/4/8 UNKNOWN | `k1_formal_2026-09-30.txt` |
-| Formal equivalence `butterfly` vs `butterfly_shared` | **not completed**: 30-min timeout (see below) | `formal/phase03-multilane/k1_butterfly_equiv.sby` |
+| Formal equivalence `butterfly` vs `butterfly_shared`, full arithmetic | not completed: 30-min timeout (caveat 5) | `formal/phase03-multilane/k1_butterfly_equiv.sby` |
+| Equivalence, option 1: multiplier abstracted (uninterpreted function + Ackermann consistency), all modes, all inputs < q | **PASS**; both negative controls FAIL as required | `k1_equiv_abstraction_2026-09-30.txt`, `formal/phase03-multilane/k1_butterfly_equiv_abs.sby`, `k1_negctl_operand.sby`, `k1_negctl_noack.sby` |
+| Equivalence, option 2: exhaustive RTL simulation, all 2 x 3329^3 = 73,785,560,578 inputs, three-way vs golden | **PASS, 0 mismatches**, no assumptions | `k1_exhaustive_equivalence_2026-09-30.txt`, `tb/ntt/k1_exhaustive/` |
 
 ## Resources and timing (MEASURED, Quartus Prime Lite 25.1std, 5CSEBA6U23I7, same constraints/seed)
 | | L=1 | L=2 | L=4 | L=8 |
@@ -78,13 +80,21 @@ removed, ~5–8 ALM of mux added).
    through those functions, and an L=2 C2 re-run with `read_slang` is also UNKNOWN, so the L>1 formal
    gap is not explained by this alone. This affects how every existing SymbiYosys result in the repo
    should be read and needs a separate review.
-5. **Butterfly equivalence proof did not finish.** With `read_slang` the miter models the real
-   12×12 multiplier and 24/12 divider on both sides; boolector did not finish in 30 min
-   (multiplier/divider equivalence between structurally different circuits is a known hard case for
-   bit-level solvers). Not a PASS. Pending (team asked to schedule after Quartus): (1) abstract
-   `modmul_reduce` as an uninterpreted function (Ackermann constraints: same inputs → same outputs)
-   and prove the surrounding wiring/add/sub/mux equal; (2) exhaustive RTL simulation of all
-   2 × 3329³ inputs with a Verilator C++ harness.
+5. **Butterfly equivalence: the full-arithmetic formal proof did not finish, but the equivalence is now
+   established two other ways.** With `read_slang` the miter models the real 12x12 multiplier and 24/12
+   divider on both sides; boolector did not finish in 30 min (multiplier/divider equivalence between
+   structurally different circuits is a known hard case for bit-level solvers), so `k1_butterfly_equiv.sby`
+   is kept as a record, not a result. Completed instead: (1) `k1_butterfly_equiv_abs.sby` abstracts
+   `modmul_reduce` (the same unchanged module on both sides) as an uninterpreted function with
+   functional-consistency constraints and proves the operand selection and add/sub/mux logic around it
+   equivalent: PASS; its assumption (modmul_reduce is a pure function of its inputs) is stated in
+   `modmul_reduce_uf.sv`; two negative controls (a deliberately wrong inverse operand; the miter without
+   the consistency assumptions) both FAIL, so the PASS is not vacuous. (2) an exhaustive Verilator
+   simulation of the unchanged RTL over every mode and every a, b, zeta in [0, q) (73,785,560,578
+   evaluations, 1,229 s on 8 processes) compared against the golden butterfly step: 0 mismatches, no
+   assumptions. One tooling note from making (1) work: `read_slang` turns a stub's `(* anyseq *)` wire
+   into constant x, which made the first attempt FAIL spuriously; `setundef -anyseq` in the .sby script
+   fixes that and is required.
 
 ## Conclusion
 K1 is functionally correct in simulation, cycle-identical, keeps 8 butterflies/cycle at L=8, does not

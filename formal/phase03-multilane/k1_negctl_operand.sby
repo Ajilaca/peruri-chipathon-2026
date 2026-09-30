@@ -1,0 +1,24 @@
+# formal/phase03-multilane/k1_negctl_operand.sby
+# NEGATIVE CONTROL for k1_butterfly_equiv_abs.sby: butterfly_shared with a deliberately wrong inverse
+# multiplier operand (k1_negctl_butterfly_shared_wrong_operand.sv), same miter and same consistency
+# assumptions. Expected result: FAIL. A PASS here would mean the abstraction proof is vacuous.
+
+[options]
+mode bmc
+depth 1
+
+[engines]
+smtbmc boolector
+
+[script]
+plugin -i slang
+read_slang -D FORMAL ntt_pkg.sv modmul_reduce_uf.sv butterfly.sv k1_negctl_butterfly_shared_wrong_operand.sv k1_butterfly_equiv_abs.sv --top k1_butterfly_equiv_abs
+setundef -anyseq
+prep -top k1_butterfly_equiv_abs
+
+[files]
+../../rtl/ntt/ntt_pkg.sv
+modmul_reduce_uf.sv
+../../rtl/ntt/butterfly.sv
+k1_negctl_butterfly_shared_wrong_operand.sv
+k1_butterfly_equiv_abs.sv
