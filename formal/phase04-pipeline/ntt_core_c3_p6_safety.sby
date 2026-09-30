@@ -1,0 +1,35 @@
+# formal/phase04-pipeline/ntt_core_c3_p6_safety.sby
+# Phase 4 V9 for rtl/ntt/ntt_core_c3_p6.sv (P = 6): properties H, O, R, A, B, C of
+# ntt_core_c3_formal_top.sv. Control and bank-capacity properties only, not arithmetic.
+# Flow as in Phase 3: yosys-slang frontend + `memory_map -rom-only`
+# (docs/evidence/phase03-multilane/formal_rerun_2026-09-30.md).
+# Depth 9 = P + 3: the induction window must be longer than the pipeline, so that every pipeline
+# register in its last step was loaded from a request issued inside the window.
+
+[options]
+mode prove
+depth 9
+
+[engines]
+smtbmc boolector
+
+[script]
+plugin -i slang
+read_slang -D FORMAL ntt_pkg.sv twiddle_rom.sv bank_map_rom.sv pipe_delay.sv modmul_reduce_staged.sv butterfly_shared_pipe.sv poly_mem_multiport_pipe.sv ntt_core_c3.sv ntt_core_c3_p2.sv ntt_core_c3_p4.sv ntt_core_c3_p6.sv ntt_core_props.sv ntt_core_c3_formal_top.sv --top ntt_core_c3_formal_top -G P=6
+prep -top ntt_core_c3_formal_top
+memory_map -rom-only
+
+[files]
+../../rtl/ntt/ntt_pkg.sv
+../../rtl/ntt/twiddle_rom.sv
+../../rtl/mem/bank_map_rom.sv
+../../rtl/ntt/pipe_delay.sv
+../../rtl/ntt/modmul_reduce_staged.sv
+../../rtl/ntt/butterfly_shared_pipe.sv
+../../rtl/mem/poly_mem_multiport_pipe.sv
+../../rtl/ntt/ntt_core_c3.sv
+../../rtl/ntt/ntt_core_c3_p2.sv
+../../rtl/ntt/ntt_core_c3_p4.sv
+../../rtl/ntt/ntt_core_c3_p6.sv
+../phase01-ntt/ntt_core_props.sv
+ntt_core_c3_formal_top.sv
