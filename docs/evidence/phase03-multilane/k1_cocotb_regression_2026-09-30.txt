@@ -1,0 +1,28 @@
+K1 cocotb regression (ntt_core_c2_k2_k1 = C2-K2-K1, NUM_LANES in {1,2,4,8}) + butterfly_shared unit test
+Generated: 2026-09-30 04:57 UTC by tb/ntt/run_k1_unit_tests.py <sim> and tb/ntt/run_ntt_c2_tests.py <sim> k1
+
+=== verilator: unit butterfly_shared (tb/ntt/test_butterfly.py, unchanged) ===
+[verilator] butterfly_shared (test_butterfly): 2/2 PASS
+=== verilator: core ntt_core_c2_k2_k1 ===
+L=1 cycles: NTT=897 INTT=1153
+L=2 cycles: NTT=449 INTT=705
+L=4 cycles: NTT=225 INTT=481
+L=8 cycles: NTT=113 INTT=369
+[verilator] ntt_core_c2_k2_k1 L=1: 4/4 PASS
+[verilator] ntt_core_c2_k2_k1 L=2: 4/4 PASS
+[verilator] ntt_core_c2_k2_k1 L=4: 4/4 PASS
+[verilator] ntt_core_c2_k2_k1 L=8: 4/4 PASS
+[verilator] TOTAL: 16/16 passed
+
+=== icarus: unit butterfly_shared (tb/ntt/test_butterfly.py, unchanged) ===
+[icarus] butterfly_shared (test_butterfly): 2/2 PASS
+=== icarus: core ntt_core_c2_k2_k1 ===
+L=1 cycles: NTT=897 INTT=1153
+L=2 cycles: NTT=449 INTT=705
+L=4 cycles: NTT=225 INTT=481
+L=8 cycles: NTT=113 INTT=369
+[icarus] ntt_core_c2_k2_k1 L=1: 4/4 PASS
+[icarus] ntt_core_c2_k2_k1 L=2: 4/4 PASS
+[icarus] ntt_core_c2_k2_k1 L=4: 4/4 PASS
+[icarus] ntt_core_c2_k2_k1 L=8: 4/4 PASS
+[icarus] TOTAL: 16/16 passed

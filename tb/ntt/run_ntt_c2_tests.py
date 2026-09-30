@@ -1,7 +1,7 @@
 """tb/ntt/run_ntt_c2_tests.py — runs the Phase 3 cocotb regression (rtl/ntt/ntt_core_c2.sv)
 against one simulator, once per NUM_LANES in {1,2,4,8} (CRG-3: bit-exact on both simulators).
 
-Usage: python3 tb/ntt/run_ntt_c2_tests.py icarus|verilator [c2|k2]   (default c2 = frozen baseline)
+Usage: python3 tb/ntt/run_ntt_c2_tests.py icarus|verilator [c2|k2|k1]   (default c2 = frozen baseline)
 Exit code 0 only if every testcase, for every L, passed.
 """
 
@@ -19,11 +19,11 @@ RTL_MEM = HERE.parent.parent / "rtl" / "mem"
 
 COMMON_SOURCES = [
     RTL_NTT / "ntt_pkg.sv", RTL_NTT / "twiddle_rom.sv", RTL_NTT / "modmul_reduce.sv",
-    RTL_NTT / "base_case_multiply.sv", RTL_NTT / "butterfly.sv",
+    RTL_NTT / "base_case_multiply.sv", RTL_NTT / "butterfly.sv", RTL_NTT / "butterfly_shared.sv",
     RTL_MEM / "bank_map_rom.sv", RTL_MEM / "poly_mem_multiport.sv",
 ]
 # variant name -> top module (and file of the same name under rtl/ntt/)
-VARIANTS = {"c2": "ntt_core_c2", "k2": "ntt_core_c2_k2"}
+VARIANTS = {"c2": "ntt_core_c2", "k2": "ntt_core_c2_k2", "k1": "ntt_core_c2_k2_k1"}
 TOPLEVEL = "ntt_core_c2"
 
 

@@ -65,6 +65,13 @@ The comment was reworded and the design recompiled; every number above is from t
 (identical ALM/registers/DSP to the first, 0 × Warning 10335). cocotb and formal were re-run on the
 committed file as well.
 
+## Addendum (2026-09-30): K2 measured for L=1/2/4 as well
+To isolate K1 per L, K2 was also compiled for L=1/2/4 (`docs/evidence/quartus/C2-L{1,2,4}-K2-20260930.md`):
+6,389 / 5,788 / 7,600 ALM vs C2's 6,018 / 5,728 / 7,629. So K2 is not a uniform improvement
+(−214 at L8, −29 at L4, +60 at L2, +371 at L1). The L=1 increase is entirely fitter packing in
+`poly_mem_multiport` (identical ALUTs and registers); see
+`docs/evidence/phase03-multilane/k1_entity_breakdown_2026-09-30.txt` and `k1_experiment_2026-09-30.md`.
+
 ## Next step (team decision, 2026-09-30)
 K1 (one shared modular multiplier per butterfly instead of separate forward/inverse ones) is approved
 as a separate, supplementary experiment `C2-K2-K1`, built on K2, measured for all four L (not only

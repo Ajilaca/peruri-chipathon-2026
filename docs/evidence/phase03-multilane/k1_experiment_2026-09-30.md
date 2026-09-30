@@ -1,0 +1,95 @@
+<!-- claim-lint: skip-file (internal experiment record, not proposal text) -->
+# Phase 3 supplementary experiment K1 — one shared multiplier per butterfly (config C2-K2-K1)
+
+- Date (UTC): 2026-09-30
+- Branch: `phase3-multilane`, on top of `b11b08f` (K2 committed)
+- Status: **measured for all four L; L=8 is back under the ADR 0004 ALM budget — candidate pending
+  team approval, NOT an adopted choice.** ADR 0004 is unchanged; re-applying its criterion to this
+  family is proposed separately in `docs/decisions/0005-*.md` (Status: Proposed).
+- Scope: approved by the team (2026-09-30) as a *separate, supplementary* experiment, because it
+  changes the butterfly datapath and so deviates from the written Phase 3 scope
+  ("butterfly, arithmetic and memory as in Phase 2"). Built on K2, measured for L=1/2/4/8.
+- Frozen and untouched: `rtl/ntt/butterfly.sv`, `rtl/ntt/modmul_reduce.sv`, `rtl/ntt/ntt_core_c2.sv`,
+  `rtl/ntt/ntt_core_c2_k2.sv`, every Phase 3 C2 evidence file and `docs/results/result_phase3.md`.
+
+## What changed
+- `rtl/ntt/butterfly_shared.sv` (new): the same forward (CT) and inverse (GS) equations as
+  `butterfly.sv`, but with ONE `modmul_reduce` whose operand is `mode ? (b - a) mod q : b`, instead of
+  one `modmul_reduce` per mode. mode is fixed for a whole NTT/INTT run, so both multipliers were never
+  needed in the same cycle. The reduction method (`modmul_reduce.sv`, `%` by Q) is reused unchanged.
+- `rtl/ntt/ntt_core_c2_k2_k1.sv`: copy of `ntt_core_c2_k2.sv`, one change (`butterfly` ->
+  `butterfly_shared`). Wrappers `ntt_core_c2_k2_k1_l{1,2,4,8}.sv`; Quartus revisions
+  `C2-K2-K1-L{1,2,4,8}` (QSF = C2-L<n>'s with only the top entity, output folder, the core/wrapper
+  files and the added `butterfly_shared.sv` changed; SDC identical).
+- To isolate K1 per L, K2 was also completed for L=1/2/4 (revisions `C2-L{1,2,4}-K2`), and the C2-L1 /
+  C2-L2 baselines were re-compiled for their per-entity tables (totals reproduced exactly).
+
+## Correctness
+| Check | Result | Evidence |
+|---|---|---|
+| Lint (Verilator `-Wall`) core at L=1/2/4/8 + all four wrappers, slang | clean | `cmd: verilator --lint-only -Wall --timing -sv rtl/ntt/*.sv rtl/mem/*.sv --top-module ntt_core_c2_k2_k1 -GNUM_LANES=<L>` |
+| Unit: `butterfly_shared` vs golden (unchanged `tb/ntt/test_butterfly.py`: corners + 1000 random per mode) | 2/2 Verilator, 2/2 Icarus | `k1_cocotb_regression_2026-09-30.txt` |
+| Core cocotb, L=1/2/4/8, bit-exact + round-trip + constant cycles + `bank_overflow_o`==0 | 16/16 Verilator, 16/16 Icarus | same file |
+| Cycle counts | identical to C2 for every L (L=8: NTT 113, INTT 369; 8 butterflies/cycle) | same file |
+| Core formal (same flow/properties as C2, K2) | unchanged: L=1 PASS; L=2/4/8 UNKNOWN | `k1_formal_2026-09-30.txt` |
+| Formal equivalence `butterfly` vs `butterfly_shared` | **not completed**: 30-min timeout (see below) | `formal/phase03-multilane/k1_butterfly_equiv.sby` |
+
+## Resources and timing (MEASURED, Quartus Prime Lite 25.1std, 5CSEBA6U23I7, same constraints/seed)
+| | L=1 | L=2 | L=4 | L=8 |
+|---|---|---|---|---|
+| ALM, C2 | 6,018 | 5,728 | 7,629 | 11,446 |
+| ALM, C2-K2 | 6,389 | 5,788 | 7,600 | 11,232 |
+| **ALM, C2-K2-K1** | **5,566** | **5,374** | **6,775** | **9,754** |
+| K1 vs C2 | −452 | −354 | −854 | **−1,692** |
+| Within ADR 0004 budget (10,478)? | yes | yes | yes | **yes (724 below)** |
+| DSP, C2 → C2-K2-K1 | 3 → 2 | 5 → 3 | 9 → 5 | 17 → 9 |
+| Registers, C2-K2-K1 | 3,099 | 3,095 | 3,098 | 3,094 |
+| M10K | 0 / 553 (all configs) | | | |
+| Fmax Slow 100C, C2 / K2 / K2+K1 (MHz) | 14.76 / 15.40 / 14.33 | 13.54 / 13.66 / 12.63 | 11.60 / 11.61 / 10.89 | 7.62 / 7.85 / 7.68 |
+| Worst setup slack @ 20.000 ns, C2-K2-K1 | −49.804 ns | −59.148 ns | −71.868 ns | −110.494 ns |
+| NTT / INTT cycles (simulation, all three configs) | 897 / 1153 | 449 / 705 | 225 / 481 | 113 / 369 |
+
+Timing is NOT met for any configuration (as for C0/C1/C2; pipelining is Phase 4). Critical warnings
+are the same two types as the baselines (15725 virtual-pin clock, 332148 timing not met); 0 ×
+Warning 10335. Evidence: `docs/evidence/quartus/C2-K2-K1-L{1,2,4,8}-20260930.md`,
+`C2-L{1,2,4}-K2-20260930.md`, `C2-L8-K2-20260930.md`; per-entity tables in
+`k1_entity_breakdown_2026-09-30.txt`.
+
+**Where the K1 saving comes from (L=8):** the 16 per-lane `modmul_reduce` instances (forward +
+inverse, 3,068.7 ALM) become 8 shared ones (1,563.5 ALM); the added operand mux costs +48.3 ALM in the
+butterflies (~6 ALM/lane). Same pattern at every L (per lane: one multiplier+divider of ~190–195 ALM
+removed, ~5–8 ALM of mux added).
+
+## Caveats found during the experiment (reported, not hidden)
+1. **Fitter packing variation is large in the memory block.** K2 at L=1 is +371 ALM vs C2, but all of
+   it is in `poly_mem_multiport` (5,180.9 → 5,554.7 ALM) with *identical* combinational ALUTs (2,669)
+   and registers (3,072): same logic, packed into ALMs differently. So ALM totals can move by a few
+   hundred ALM between compiles without any logic change (interpretation of MEASURED numbers, not a
+   separate measurement). K1-L8's 724-ALM margin is larger than the largest swing seen (~370 ALM),
+   but not by a wide factor; a seed sweep would quantify it.
+2. **K2 is not a uniform improvement**: −214 (L8), −29 (L4), +60 (L2), +371 (L1, packing, see above).
+3. **Fmax drops slightly with K1 at L=1/2/4** (the operand mux sits in front of the multiplier, on the
+   critical path through the divider); at L=8 it is within noise of C2. Timing closure is Phase 4.
+4. **Formal toolchain finding.** Yosys's native `read -formal` frontend does not elaborate the
+   `ntt_pkg` package functions `add_mod`/`sub_mod` (their results become undriven wires — "used but has
+   no driver"), so its model of `butterfly.sv` is wrong (e.g. inverse a=b=1920 gives a_o=0 instead of
+   511). With the `read_slang` frontend the model is correct (511). The C2/K2/K1 core proofs use the
+   same native flow for comparability; their FSM-safety and `bank_overflow_o` properties do not go
+   through those functions, and an L=2 C2 re-run with `read_slang` is also UNKNOWN, so the L>1 formal
+   gap is not explained by this alone. This affects how every existing SymbiYosys result in the repo
+   should be read and needs a separate review.
+5. **Butterfly equivalence proof did not finish.** With `read_slang` the miter models the real
+   12×12 multiplier and 24/12 divider on both sides; boolector did not finish in 30 min
+   (multiplier/divider equivalence between structurally different circuits is a known hard case for
+   bit-level solvers). Not a PASS. Pending (team asked to schedule after Quartus): (1) abstract
+   `modmul_reduce` as an uninterpreted function (Ackermann constraints: same inputs → same outputs)
+   and prove the surrounding wiring/add/sub/mux equal; (2) exhaustive RTL simulation of all
+   2 × 3329³ inputs with a Verilator C++ harness.
+
+## Conclusion
+K1 is functionally correct in simulation, cycle-identical, keeps 8 butterflies/cycle at L=8, does not
+change the modular reduction method, and brings **C2-K2-K1-L8 to 9,754 ALM, 724 ALM under the ADR 0004
+budget**. It also shrinks every other L, so all four L of this family are within budget. Whether this
+supplementary configuration may be used for the ADR 0004 comparison, and therefore whether L=8 becomes
+the selected L, is a team decision: see the Proposed ADR 0005. Until then **L=4 (C2) remains the
+ADR 0004 candidate.**

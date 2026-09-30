@@ -1,0 +1,59 @@
+`default_nettype none
+`timescale 1ns/1ps
+// formal/phase03-multilane/ntt_core_c2_k2_k1_formal_top.sv
+// K1 variant (C2-K2-K1): same properties as ntt_core_c2_formal_top.sv, instantiating rtl/ntt/ntt_core_c2_k2_k1.sv.
+// Re-runs Phase 1's CRG-8 FSM safety property (formal/phase01-ntt/ntt_core_props.sv, reused
+// unchanged) against rtl/ntt/ntt_core_c2.sv, plus a Phase 3-specific property: the multi-port
+// memory's bank_overflow_o (rtl/mem/poly_mem_multiport.sv) must never assert -- the formal
+// counterpart to the exhaustive Python proof
+// (docs/evidence/phase03-multilane/lane_schedule_verification_2026-09-29.txt) that the lane
+// schedule never puts more than 2 ports on the same bank in one cycle, now checked against the
+// actual generated bank_map_rom.sv contents, not the Python model. NUM_LANES is overridden per
+// run by `chparam` in each formal/phase03-multilane/*.sby script (one per L).
+
+module ntt_core_c2_k2_k1_formal_top #(
+    parameter int NUM_LANES = 1
+) (
+    input  wire         clk_i,
+    input  wire         rst_ni,
+    input  wire         mode_i,
+    input  wire         start_i,
+    input  wire  [7:0]  host_addr_i,
+    input  wire  [11:0] host_wdata_i,
+    input  wire         host_we_i,
+    output wire  [11:0] host_rdata_o,
+    output wire          busy_o,
+    output wire          done_o,
+    output wire          bank_overflow_o
+);
+
+  ntt_core_c2_k2_k1 #(.NUM_LANES(NUM_LANES)) u_dut (
+      .clk_i          (clk_i),
+      .rst_ni         (rst_ni),
+      .mode_i         (mode_i),
+      .start_i        (start_i),
+      .host_addr_i    (host_addr_i),
+      .host_wdata_i   (host_wdata_i),
+      .host_we_i      (host_we_i),
+      .host_rdata_o   (host_rdata_o),
+      .busy_o         (busy_o),
+      .done_o         (done_o),
+      .bank_overflow_o(bank_overflow_o)
+  );
+
+  ntt_core_props u_props (
+      .clk_i  (clk_i),
+      .rst_ni (rst_ni),
+      .busy_o (busy_o),
+      .done_o (done_o)
+  );
+
+`ifdef FORMAL
+  initial assume (!rst_ni);
+  always_ff @(posedge clk_i) begin
+    if (rst_ni) assert (!bank_overflow_o);
+  end
+`endif
+
+endmodule
+`default_nettype wire

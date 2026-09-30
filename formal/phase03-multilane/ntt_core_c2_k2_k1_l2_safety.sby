@@ -1,0 +1,38 @@
+# formal/phase03-multilane/ntt_core_c2_k2_k1_l2_safety.sby
+# Proves ntt_core_c2_k2_k1's (experiments K2+K1) FSM safety property (busy_o drop -> done_o one cycle later, reused from
+# Phase 1) and bank_overflow_o == 0 always, at NUM_LANES=2.
+
+[options]
+mode prove
+depth 6
+
+[engines]
+smtbmc boolector
+
+[script]
+read -formal -D FORMAL ntt_pkg.sv
+read -formal -D FORMAL twiddle_rom.sv
+read -formal -D FORMAL modmul_reduce.sv
+read -formal -D FORMAL base_case_multiply.sv
+read -formal -D FORMAL butterfly.sv
+read -formal -D FORMAL butterfly_shared.sv
+read -formal -D FORMAL bank_map_rom.sv
+read -formal -D FORMAL poly_mem_multiport.sv
+read -formal -D FORMAL ntt_core_c2_k2_k1.sv
+read -formal -D FORMAL ntt_core_props.sv
+read -formal -D FORMAL ntt_core_c2_k2_k1_formal_top.sv
+chparam -set NUM_LANES 2 ntt_core_c2_k2_k1_formal_top
+prep -top ntt_core_c2_k2_k1_formal_top
+
+[files]
+../../rtl/ntt/ntt_pkg.sv
+../../rtl/ntt/twiddle_rom.sv
+../../rtl/ntt/modmul_reduce.sv
+../../rtl/ntt/base_case_multiply.sv
+../../rtl/ntt/butterfly.sv
+../../rtl/ntt/butterfly_shared.sv
+../../rtl/mem/bank_map_rom.sv
+../../rtl/mem/poly_mem_multiport.sv
+../../rtl/ntt/ntt_core_c2_k2_k1.sv
+../phase01-ntt/ntt_core_props.sv
+ntt_core_c2_k2_k1_formal_top.sv
