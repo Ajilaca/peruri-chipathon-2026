@@ -1,6 +1,9 @@
 # ADR 0006: Phase 4 target clock
 
 - Status: Accepted
+- Expectation corrected 2026-10-01 by ADR 0010: 50 MHz stays the project target on a best-effort basis but is
+  not expected from Phase 5 arithmetic alone (C3-P6 critical path lies in the memory read path). The text below is
+  kept unchanged as the record of 2026-09-30.
 - Date: 2026-09-30
 - Decided by: Faza Dzil, Team J5
 
