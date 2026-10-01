@@ -48,8 +48,12 @@ numbers), **ESTIMATE**, **NOT MEASURED**.
 | GHRD + **C3-P4** in one compile (integration baseline) | 12,754 ALM, 60 M10K, 9 DSP; all clocks met incl. NTT 40 ns (setup +9.204 ns); packing Low; peak interconnect 48.2 % | `ghrd_plus_c3p4_integration_2026-10-01.md` |
 | Integration delta (INFERENCE) | +18 ALM vs. standalone parts with the same settings; GHRD's global compile settings add +993 ALM to C3-P4 | same |
 | Worksheets | ADR 0007 rule at 25% (historical) and at 30% | `selection_worksheet_2026-09-30.md`, `selection_worksheet_30pct_2026-10-01.md` |
+| GHRD + **C3-P6** in one compile (added after Phase 4 approval) | 12,375 ALM (29.53 %), 62 M10K, 9 DSP; all clocks met incl. NTT 40 ns (setup +11.364 ns, Fmax 34.92 MHz); packing Low; peak interconnect 37.0 % | `ghrd_plus_c3p6_integration_2026-10-01.md` |
+| C3-P6 standalone with the GHRD's 5 settings | 11,053 ALM, 28 M10K, 9 DSP; NTT setup +16.017 ns, Fmax 41.70 MHz (one seed) | same |
+| GHRD alone, fresh full build | 1,304 ALM, 2,369 registers, 35 M10K | same |
+| Integration delta (INFERENCE) | +18 ALM (12,375 − 11,053 − 1,304); GHRD settings add +548 ALM to C3-P6 (+993 to C3-P4) | same |
 
-**C3-P6 + GHRD has NOT been compiled together.**
+The combined total is the core + shell, not a check against the 12,573 NTT-core budget.
 
 ## 5. Verification Status (C3, Phase 4)
 - Lint: Verilator `-Wall` and slang, 0 warnings for the three wrappers.
@@ -77,7 +81,7 @@ numbers), **ESTIMATE**, **NOT MEASURED**.
 Open team decisions: `docs/decisions/PENDING.md` (e.g. #3 DMA vs memory-mapped bridge, #1 target side, #8 board).
 
 ## 7. Known Limitations (not hidden)
-- C3-P6 + GHRD not compiled together; the integration evidence uses C3-P4.
+- C3-P6 + GHRD compiled together once, default seed, NTT not connected to the HPS; other seeds and a combined compile with Quartus defaults NOT MEASURED.
 - No HPS ↔ NTT connection exists (bridge, CSR, CDC undecided — PENDING #3).
 - Keccak, samplers, KEM controller, encode/compress, polynomial/key storage, SignalTap: NOT MEASURED. Only a DRAFT
   ESTIMATE exists (`fabric_estimate_DRAFT_2026-10-01.md`, low confidence).
@@ -146,4 +150,4 @@ Phase 4 report: `docs/report/CHIPATON_Phase4_Report.pdf` (rebuild: `python3 scri
    **5c** (optional) lazy reduction with proven bounds; **5d** (optional) Karatsuba-style base-case multiplication.
    One Quartus revision per sub-step (`C4a`–`C4d`) compared with C3-P6.
 5. Result artifact `docs/results/result_phase5.md`, evidence in `docs/evidence/phase05-arith/5a/`..`5d/`.
-Optional, not on the roadmap, team decision: compile C3-P6 + GHRD together; seed spread for any new revision.
+Optional, not on the roadmap, team decision: seed spread for any new revision; combined compile with Quartus defaults.
