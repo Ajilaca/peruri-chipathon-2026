@@ -17,6 +17,7 @@ Update this list whenever something is decided (move it to an ADR) or discovered
 | 12 | Does the **Appendix** count toward the 6-page limit? | Decides where figures go | Section 3 layout |
 | 13 | **Activate `rtl-agent-team` hooks** by running `/rtl-agent-team:rat-init-project` (creates `.rat/`)? The original blocker ("idea not chosen") is resolved by ADR 0001 | Its Stop-gates block ending a session after unverified RTL edits, which mechanically enforces verify-before-claim; but it also adds structure to the repo | Before Phase 1 |
 | 19 | **Name and position of the memory / P / schedule phase** for the 50 MHz work (separate phase or sub-phase after 5a/5b) | Roadmap structure; that work is outside Phase 5's fixed scope | After 5b |
+| 23 | **Accept or reject ADR 0013** (Phase 5b: Barrett selected by the ADR 0011 rule; DSP 9 -> 18) | Fixes the C4 configuration used by 5c and the 20 ns information compile | 5c |
 
 Closed: #9 FIPS 203 errata — accepted as ADR 0003 (2026-09-29, decided by Faza Dzil, Team J5).
 Closed: #14 Phase 3 lane-count (L) selection criterion — accepted as ADR 0004 (2026-09-29,
