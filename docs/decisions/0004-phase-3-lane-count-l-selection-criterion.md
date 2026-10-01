@@ -1,6 +1,8 @@
 # ADR 0004: Phase 3 lane-count (L) selection criterion
 
 - Status: Accepted
+- Amended 2026-10-01 by ADR 0009: the 25% / 10,478 ALM value below is superseded for the NTT core from Phase 4
+  on by a 30% / 12,573 ALM design budget. The text below is kept unchanged as the record of the 2026-09-29 decision.
 - Date: 2026-09-29
 - Decided by: Faza Dzil, Team J5
 

@@ -1,6 +1,7 @@
 # ADR 0008: Apply ADR 0007 to the Phase 4 pipeline sweep: proposed pipeline depth P
 
-- Status: Proposed
+- Status: Superseded by ADR 0009 (2026-10-01). Was Proposed and never accepted; its measurements remain valid
+  evidence. The text below is kept unchanged.
 - Date: 2026-09-30
 - Decided by: (pending: Team J5; not decided by the assistant)
 

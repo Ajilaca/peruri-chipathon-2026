@@ -33,3 +33,6 @@ Faza Dzil, Team J5): P in {0, 2, 4, 6}; registers allowed inside the memory acce
 function bit-exact; candidates must be bit-exact, constant-cycle, ALM <= 10,478 and meet timing at
 40.000 ns; select minimum t_NTT = cycles_NTT/Fmax (lowest reported slow-corner Fmax), smaller P within
 5% of the global minimum; no automatic selection if there is no candidate.
+Closed: Phase 4 final selection (ADR 0008 proposed P = 4 under 25%; never accepted) — decided as ADR 0009 (2026-10-01,
+decided by Faza Dzil, Team J5): L = 8, P = 6 (C3-P6); NTT-core design budget 30% = 12,573 ALM (replaces 25% for the
+NTT core from Phase 4 on; not a system-level limit); targets per ADR 0006 unchanged (40 ns met, 50 MHz for Phase 5).

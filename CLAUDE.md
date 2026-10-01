@@ -53,12 +53,13 @@ Accelerator · 03 AI/Edge Accelerator · 04 Secure Communication. The team chose
 (ADR 0001); **which subtheme to declare is still open** (PENDING #2).
 
 ## 2. Current phase
-- Done: tooling research and environment (`docs/TOOLING_INSTALL_LOG.md`, MEASURED smoke compile
-  on 5CSEBA6U23I7); proposal Sections 1-2.
-- Next: **Phase 0** (golden model + official KATs + FIPS 203 errata). See `docs/ROADMAP.md`.
+- Done: Phases 0–4 (`docs/results/result_phase0.md` .. `result_phase4.md`). Phase 4 final decision: ADR 0009
+  (L = 8, P = 6, configuration C3-P6; NTT-core design budget 30% = 12,573 ALM; 40 ns met, 50 MHz not yet).
+- Next: **Phase 5** (modular arithmetic optimisation) per `docs/ROADMAP.md`, starting from C3-P6. Read `HANDOFF.md`
+  first in a new session.
 - Do not start RTL for a block until its golden model exists and its phase is approved.
-- Prompts for the current phase: `docs/prompts/phase0.md`. Each phase ends with a validated result artifact
-  (`docs/results/`); a human approves it before the next phase. Never tick the Approval box yourself.
+- Each phase ends with a validated result artifact (`docs/results/`); a human approves it before the next phase.
+  Never tick the Approval box yourself.
 
 ## 3. Engineering rules (non-negotiable)
 1. **Never fabricate** synthesis, timing, resource, simulation or hardware results. If a tool

@@ -1,6 +1,8 @@
 # ADR 0007: Phase 4 pipeline depth P and selection criterion
 
 - Status: Accepted
+- Amended 2026-10-01 by ADR 0009: candidate condition 3 uses 12,573 ALM (30%) instead of 10,478 ALM; rule,
+  candidate set and other conditions unchanged. The text below is kept unchanged as the record of 2026-09-30.
 - Date: 2026-09-30
 - Decided by: Faza Dzil, Team J5
 

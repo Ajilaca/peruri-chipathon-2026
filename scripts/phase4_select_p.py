@@ -29,7 +29,8 @@ import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 EVID = ROOT / "docs" / "evidence" / "phase04-pipeline"
-ALM_BUDGET = 10478          # ADR 0004
+ALM_BUDGET = 10478          # ADR 0004 (historical default: reproduces selection_worksheet_2026-09-30.md);
+                            # ADR 0009 (2026-10-01) uses 12,573 for the NTT core: run with --alm-budget 12573
 NEAR_TIE = 0.05             # ADR 0007
 P_VALUES = (0, 2, 4, 6)
 
@@ -57,7 +58,10 @@ def parse_quartus(path: pathlib.Path) -> dict:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--date", default=None, help="UTC date suffix of the evidence files (default: newest)")
+    ap.add_argument("--alm-budget", type=int, default=ALM_BUDGET,
+                    help="ALM limit of candidate condition 3 (default 10478 = ADR 0004; ADR 0009: 12573)")
     args = ap.parse_args()
+    budget = args.alm_budget
 
     status = json.loads((EVID / "verification_status.json").read_text())
     rows = {}
@@ -72,7 +76,7 @@ def main() -> int:
         q["fmax_low"] = min(f for _, f in q["fmax"])
         q["t_ntt"] = q["cyc_ntt"] / q["fmax_low"]
         q["t_intt"] = q["cyc_intt"] / q["fmax_low"]
-        q["alm_ok"] = q["alm"] <= ALM_BUDGET
+        q["alm_ok"] = q["alm"] <= budget
         q["timing_met"] = q["setup"] >= 0 and q["hold"] >= 0
         q["candidate"] = (q["bit_exact"] == "PASS" and q["const"] == "PASS" and q["alm_ok"] and q["timing_met"])
         rows[p] = q
@@ -81,7 +85,8 @@ def main() -> int:
     t_min = min(rows[p]["t_ntt"] for p in cands) if cands else None
 
     yn = lambda b: "yes" if b else "no"
-    print("| P | bit-exact | constant cycle | ALM | ≤ 10,478? | worst setup / hold slack @ 40.000 ns | timing met? "
+    print(f"ALM budget used for condition 3: {budget:,}\n")
+    print(f"| P | bit-exact | constant cycle | ALM | ≤ {budget:,}? | worst setup / hold slack @ 40.000 ns | timing met? "
           "| cycles_NTT | cycles_INTT | Fmax per slow corner (MHz) | Fmax(P) = lowest | t_NTT (µs) | t_INTT (µs) "
           "| candidate? | d(P) |")
     print("|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|")
