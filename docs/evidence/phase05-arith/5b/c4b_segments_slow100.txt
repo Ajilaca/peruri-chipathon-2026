@@ -1,0 +1,19 @@
+Worst setup path per multiplier-path register segment, Slow 1100mV 100C, seed 1 (MEASURED slack, quartus_sta on copies of the project).
+Generated 2026-10-01 by scripts/phase5_segments.tcl with cuts 0 1 2 (X, S_1, S_2) for both candidates.
+LANE = butterfly multiplier (worst lane), SCALE = INTT x3303 multiplier; cut2_to_any = last cut to any endpoint (memory write).
+
+== C4b-B
+SEG LANE_cut0_to_cut1 slack=33.143
+SEG LANE_cut1_to_cut2 slack=32.430
+SEG LANE_cut2_to_any slack=17.125
+SEG SCALE_cut0_to_cut1 slack=34.349
+SEG SCALE_cut1_to_cut2 slack=32.952
+SEG SCALE_cut2_to_any slack=21.874
+
+== C4b-M
+SEG LANE_cut0_to_cut1 slack=33.999
+SEG LANE_cut1_to_cut2 slack=34.248
+SEG LANE_cut2_to_any slack=16.334
+SEG SCALE_cut0_to_cut1 slack=34.499
+SEG SCALE_cut1_to_cut2 slack=35.591
+SEG SCALE_cut2_to_any slack=23.495
