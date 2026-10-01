@@ -49,6 +49,10 @@ EXPECT = {
     "ghrd_plus_c3p4_integration_2026-10-01.md": ["**12,754** (30 %)", "| 11,432 |", "| 1,304 |", "**+18 ALM**",
                                                  "**+9.204 / +0.149**", "| Low | Low | Low | Low |", "(Fmax 34.35 → 32.47 MHz at the lowest slow corner",
                                                  "| 48.2 % |", "**32.47**", "+993 ALM"],
+    "ghrd_plus_c3p6_integration_2026-10-01.md": ["**12,375** (30 %)", "| 11,053 |", "| 1,304 |", "**+18 ALM**",
+                                                 "**+11.364 / +0.129**", "| Low | Low | Low |", "**+566 ALM**",
+                                                 "| 37.0 % |", "**35.58**", "+548 ALM", "29.53 %", "198 ALM below",
+                                                 "| 41.74 / 41.7 |", "| 1,363 |"],
 }
 
 
@@ -199,9 +203,9 @@ def build():
         f"{num(min(p6_f))}–{num(max(p6_f))} MHz. Siklus (simulasi): NTT 119, INTT 375, tanpa <i>stall</i>.",
         "<b>Verifikasi:</b> bit-exact terhadap model golden di dua simulator; jumlah siklus konstan; bukti formal "
         "kontrol dan kapasitas bank lulus; uji negatif hazard terbukti mendeteksi; regresi Fase 0–3 tetap lulus.",
-        "<b>Integrasi (baseline C3-P4):</b> GHRD DE10-Nano + C3-P4 dalam satu kompilasi = 12.754 ALM; "
-        "selisih integrasi +18 ALM terhadap komponen standalone dengan setting yang sama; HPS memakai 0 ALM fabric. "
-        "C3-P6 + GHRD <b>belum</b> dikompilasi bersama.",
+        "<b>Integrasi:</b> GHRD DE10-Nano + C3-P6 dalam satu kompilasi = 12.375 ALM (29,53% device), NTT 40 ns "
+        "terpenuhi; selisih integrasi +18 ALM terhadap komponen standalone dengan setting yang sama (sama dengan "
+        "baseline C3-P4: 12.754 ALM); HPS memakai 0 ALM fabric. NTT belum dihubungkan ke HPS.",
         "<b>Belum tercapai:</b> target 50 MHz (Fase 5). Sumber daya tingkat sistem (Keccak, sampler, kontrol KEM) "
         "belum diukur.",
     ])
@@ -330,24 +334,29 @@ def build():
     # 11. GHRD
     st += [P("10. Bukti Integrasi GHRD", "h1")]
     st += [P("Intel DE10-Nano GHRD (commit 9b5fc816…, revisi <font name='DVM'>de10-nano-base</font>) dikompilasi "
-             "tanpa inti NTT, lalu bersama C3-P4 dalam satu kompilasi. C3-P4 dipakai sebagai <b>baseline integrasi</b>; "
-             "<b>C3-P6 + GHRD belum dikompilasi bersama</b>. NTT memakai clock sendiri 40 ns lewat <i>virtual pin</i> "
+             "tanpa inti NTT, lalu bersama C3-P6 (konfigurasi terpilih) dalam satu kompilasi; hasil C3-P4 dipertahankan "
+             "sebagai pembanding. NTT memakai clock sendiri 40 ns lewat <i>virtual pin</i> "
              "dan tidak dihubungkan ke HPS atau bridge.")]
-    st += [table([["Metrik (MEASURED)", "C3-P4 + setting GHRD", "GHRD standalone", "Gabungan"],
-                  ["ALM needed", "11.432", "1.304 (1.309 pada build lain)", "<b>12.754</b>"],
-                  ["M10K / DSP", "26 / 9", "35 / 0", "60 / 9"],
-                  ["Timing", "NTT 40 ns terpenuhi", "semua clock terpenuhi", "semua clock terpenuhi; NTT setup +9,204 ns, "
-                                                                            "Fmax 32,47 MHz"],
-                  ["Packing / interconnect puncak", "Low / 52,7%", "Low / 11,6%", "Low / <b>48,2%</b>"]],
+    st += [table([["Metrik (MEASURED)", "C3-P6 + setting GHRD", "GHRD standalone", "Gabungan C3-P6 + GHRD"],
+                  ["ALM needed", "11.053", "1.304", "<b>12.375</b>"],
+                  ["M10K / DSP", "28 / 9", "35 / 0", "62 / 9"],
+                  ["Timing", "NTT 40 ns terpenuhi (setup +16,017 ns)", "semua clock terpenuhi",
+                   "semua clock terpenuhi; NTT setup +11,364 ns, Fmax 34,92 MHz"],
+                  ["Packing / interconnect puncak", "Low / 51,8%", "Low / 11,6%", "Low / <b>37,0%</b>"]],
                  [44 * mm, 38 * mm, 42 * mm, W - 124 * mm])]
     st += bullets([
         "HPS adalah blok <i>hard</i>: 0 ALM fabric (MEASURED). Biaya fabric shell berasal dari interconnect Platform "
         "Designer dan IP demo GHRD.",
-        "Selisih integrasi = 12.754 − 11.432 − 1.304 = <b>+18 ALM</b> (INFERENCE, setting konsisten).",
-        "Setting global GHRD (<i>aggressive performance</i>, <i>physical synthesis</i>) menaikkan C3-P4 dari 10.439 ke "
-        "11.432 ALM (+993, MEASURED): setting kompilasi sistem ikut menentukan anggaran.",
-        "Penurunan Fmax NTT 34,35 → 32,47 MHz (corner lambat terendah, −5,5%) dibanding standalone dengan setting sama berada dalam rentang variasi seed "
-        "(4,8–7,5%) dan belum terbukti sebagai efek integrasi.",
+        "Selisih integrasi = 12.375 − 11.053 − 1.304 = <b>+18 ALM</b> (INFERENCE, setting konsisten); nilai yang sama "
+        "pada baseline C3-P4 (12.754 − 11.432 − 1.304).",
+        "Setting global GHRD (<i>aggressive performance</i>, <i>physical synthesis</i>) menaikkan C3-P6 dari 10.505 ke "
+        "11.053 ALM (+548, MEASURED; pada C3-P4 +993): setting kompilasi sistem ikut menentukan anggaran.",
+        "Total gabungan 12.375 ALM = 29,53% device adalah inti + shell, <b>bukan</b> pemeriksaan terhadap anggaran inti "
+        "NTT 12.573 ALM (ADR 0009); selisih 198 ALM di bawah 12.573 hanya aritmetika.",
+        "Fmax NTT 34,92 MHz pada gabungan dan 41,74 MHz standalone dengan setting sama; selisihnya tidak diuji "
+        "ketergantungan seed-nya sehingga tidak dianggap efek integrasi. Satu kompilasi per konfigurasi, seed default.",
+        "Build ulang GHRD penuh memberi 1.304 ALM (kompilasi pertama sempat dilewati <i>smart recompilation</i> dan tidak "
+        "dipakai).",
     ])
 
     # 12. decision
@@ -360,7 +369,8 @@ def build():
     # 13. limitations
     st += [P("12. Keterbatasan dan Hal Terbuka", "h1")]
     st += bullets([
-        "C3-P6 + GHRD belum dikompilasi bersama; bukti integrasi memakai C3-P4.",
+        "C3-P6 + GHRD dikompilasi satu kali (seed default) tanpa koneksi ke HPS; seed lain dan kompilasi gabungan "
+        "dengan setting default Quartus belum diukur.",
         "ML-KEM lengkap belum diukur: Keccak, sampler, kontrol KEM, encode/compress, penyimpanan, bridge HPS dan "
         "SignalTap belum ada. Draf estimasi isi fabric (ESTIMATE, keyakinan rendah) ada di "
         "<font name='DVM'>fabric_estimate_DRAFT_2026-10-01.md</font>.",
@@ -399,7 +409,7 @@ def build():
         str(p[6]["file"]), "selection_worksheet_30pct_2026-10-01.md", "seed_sweep_2026-10-01.md",
         "cocotb_regression_2026-09-30.txt", "formal_2026-09-30.md", "regression_2026-09-30.txt",
         "ghrd_shell_measured_2026-10-01.md", "ghrd_plus_c3p4_integration_2026-10-01.md",
-        "docs/decisions/0009-…md", "docs/results/result_phase4.md"]) + ".", "small")]
+        "ghrd_plus_c3p6_integration_2026-10-01.md", "docs/decisions/0009-…md", "docs/results/result_phase4.md"]) + ".", "small")]
 
     doc.build(st, onFirstPage=cover, onLaterPages=footer)
     print(f"written {OUT.relative_to(ROOT)}")
