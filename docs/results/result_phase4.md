@@ -49,7 +49,8 @@
 | `docs/decisions/0008-apply-adr-0007-to-the-phase-4-pipeline-sweep-proposed-pipeli.md` | Proposed ADR with the measured table (superseded by ADR 0009) |
 | `docs/decisions/0009-phase-4-final-decision-l-8-p-6-c3-p6-and-a-30-alm-design-bud.md` | Final decision: L = 8, P = 6, 30% NTT-core budget |
 | `docs/evidence/phase04-pipeline/ghrd_shell_measured_2026-10-01.md`, `quartus_GHRD-de10-nano-base_20261001.md` | DE10-Nano GHRD shell, MEASURED (no NTT core) |
-| `docs/evidence/phase04-pipeline/ghrd_plus_c3p4_integration_2026-10-01.md` | GHRD + C3-P4 in one compile (integration baseline; P = 6 + GHRD not compiled) |
+| `docs/evidence/phase04-pipeline/ghrd_plus_c3p4_integration_2026-10-01.md` | GHRD + C3-P4 in one compile (integration baseline) |
+| `docs/evidence/phase04-pipeline/ghrd_plus_c3p6_integration_2026-10-01.md` | GHRD + C3-P6 in one compile (the selected configuration), plus C3-P6 standalone with the GHRD's settings and a fresh GHRD build; added 2026-10-01 after the approval to close the evidence gap |
 | `docs/evidence/phase04-pipeline/fabric_estimate_DRAFT_2026-10-01.md` | DRAFT, ESTIMATE: fabric content of Phases 5–10 |
 | `docs/report/CHIPATON_Phase4_Report.pdf`, `scripts/build_phase4_report.py` | Phase 4 report (Bahasa Indonesia, same layout as Phases 0–3) and the script that rebuilds it from the evidence files |
 
@@ -95,7 +96,9 @@ No FIPS 203 reading this phase; no parameter, algorithm, twiddle value or reduct
 - MEASURED, `docs/evidence/phase04-pipeline/ghrd_shell_measured_2026-10-01.md`: Intel DE10-Nano GHRD (`de10-nano-base`, no NTT core) uses 1,304–1,309 ALM (two builds), 35 M10K, 0 DSP; the HPS hard block uses 0 fabric ALM.
 - MEASURED, `docs/evidence/phase04-pipeline/ghrd_plus_c3p4_integration_2026-10-01.md`: GHRD + C3-P4 in one compile = 12,754 ALM; C3-P4 alone with the GHRD's compile settings = 11,432; GHRD alone = 1,304; timing met on every clock incl. the NTT clock at 40.000 ns; packing difficulty Low; peak interconnect 48.2 %.
 - INFERENCE: integration delta +18 ALM with consistent settings; the GHRD's global optimisation settings account for +993 ALM on the core.
-- NOT MEASURED: C3-P6 + GHRD in one compile; a real HPS–NTT bridge connection.
+- MEASURED, `docs/evidence/phase04-pipeline/ghrd_plus_c3p6_integration_2026-10-01.md` (added 2026-10-01, after the Approval, for the selected C3-P6): GHRD + C3-P6 in one compile = 12,375 ALM (29.53 % of the device), 62 M10K, 9 DSP; C3-P6 alone with the GHRD's compile settings = 11,053; GHRD alone (fresh full build) = 1,304; timing met on every clock incl. the NTT clock at 40.000 ns (setup +11.364 ns, Fmax 34.92 MHz at the lowest slow corner); packing difficulty Low; peak interconnect 37.0 %.
+- INFERENCE: integration delta +18 ALM with consistent settings (same as for C3-P4); the GHRD's global settings account for +548 ALM on the C3-P6 core (+993 on C3-P4). 12,375 is the combined design, not a check against the 12,573 NTT-core budget of ADR 0009.
+- NOT MEASURED: a real HPS–NTT bridge connection; other seeds of the combined compile.
 
 ## 6. Deviations, failures and open issues
 - The plan expected the register-stage counts to come out as P = RdLat + WrDly with WrDly = P/2; that is how the cuts were placed (A/M cuts before the read data, X/D cuts after), and the measured cycle counts equal 113 + P and 369 + P for every P.
@@ -106,7 +109,7 @@ No FIPS 203 reading this phase; no parameter, algorithm, twiddle value or reduct
 ## 7. Decisions needed
 - ~~Accept, change or reject ADR 0008 (P = 4 proposed)~~ — decided 2026-10-01 by ADR 0009: P = 6 with a 30% NTT-core budget; ADR 0008 superseded.
 - ~~How to read CRG-9 for P = 0 / 2~~ — the selected C3-P6 meets 40.000 ns; P = 0 / 2 failures stay documented as measured non-candidates.
-- Open for later phases: the compile settings of the system build (the GHRD settings raised C3-P4 from 10,439 to 11,432 ALM, MEASURED); a P = 6 + GHRD compile (not done); a system-level resource budget (not defined).
+- Open for later phases: the compile settings of the system build (the GHRD settings raised C3-P4 from 10,439 to 11,432 ALM, MEASURED); the P = 6 + GHRD compile is done (Section 5b, MEASURED); a system-level resource budget (not defined).
 
 ## 8. Claims made in this phase
 None written for judges/proposal text. ROADMAP C3 rows were filled from the evidence above.
