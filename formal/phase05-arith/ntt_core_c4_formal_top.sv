@@ -4,7 +4,7 @@
 // Phase 5 formal top (docs/evidence/phase05-arith/test_plan.md, V8): the Phase 4 top
 // formal/phase04-pipeline/ntt_core_c3_formal_top.sv (frozen) with the Phase 5 Quartus wrappers in place of the
 // C3 ones, selected with `-G V=<n>` (0 = rtl/ntt/ntt_core_c4a.sv,
-// 1 = rtl/ntt/ntt_core_c4b_b.sv, 2 = rtl/ntt/ntt_core_c4b_m.sv). Every C4 wrapper keeps P = 6 with three cuts
+// 1 = rtl/ntt/ntt_core_c4b_b.sv, 2 = rtl/ntt/ntt_core_c4b_m.sv, 3 = rtl/ntt/ntt_core_c4c.sv). Every C4 wrapper keeps P = 6 with three cuts
 // before the read and three after it (ADR 0011 D5), so P = 6 and RdLat = 3 are fixed here. Properties, delay
 // model and negative-control hook (F_SKEW) are the Phase 4 ones unchanged:
 //   H  busy_o drop -> done_o one cycle later           (formal/phase01-ntt/ntt_core_props.sv, reused)
@@ -73,8 +73,11 @@ module ntt_core_c4_formal_top #(
     end else if (V == 1) begin : g_c4bb
       ntt_core_c4b_b u_dut (`C3_DUT_PORTS);
       `C3_PROBES
-    end else begin : g_c4bm
+    end else if (V == 2) begin : g_c4bm
       ntt_core_c4b_m u_dut (`C3_DUT_PORTS);
+      `C3_PROBES
+    end else begin : g_c4c
+      ntt_core_c4c u_dut (`C3_DUT_PORTS);
       `C3_PROBES
     end
   endgenerate

@@ -8,7 +8,7 @@ set -u
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
 export C4_BUILD_DIR="${C4_BUILD_DIR:-$(mktemp -d -t chip2026_c4_XXXX)}"
 wrappers=("$@")
-[ $# -eq 0 ] && wrappers=(ntt_core_c4a ntt_core_c4b_b ntt_core_c4b_m)
+[ $# -eq 0 ] && wrappers=(ntt_core_c4a ntt_core_c4b_b ntt_core_c4b_m ntt_core_c4c)
 overall=0
 step() {
     local h=$1; shift
@@ -21,7 +21,7 @@ step() {
 }
 SRC="rtl/ntt/ntt_pkg.sv rtl/ntt/twiddle_rom.sv rtl/arith/twiddle_rom_mont.sv rtl/mem/bank_map_rom.sv rtl/ntt/pipe_delay.sv
      rtl/ntt/modmul_reduce_staged.sv rtl/arith/modmul_fold.sv rtl/arith/modmul_barrett.sv rtl/arith/modmul_montgomery.sv
-     rtl/arith/modmul_sel.sv rtl/arith/butterfly_c4.sv rtl/mem/poly_mem_multiport_pipe.sv
+     rtl/arith/modmul_sel.sv rtl/arith/lazy_bfly_io.sv rtl/arith/modmul_barrett_lazy.sv rtl/arith/butterfly_c4_lazy.sv rtl/arith/butterfly_c4.sv rtl/mem/poly_mem_multiport_pipe.sv
      rtl/ntt/ntt_core_c4.sv"
 lint_v() { verilator --lint-only -Wall $SRC "$@"; }
 for w in "${wrappers[@]}" ntt_core_c4; do
@@ -30,6 +30,7 @@ for w in "${wrappers[@]}" ntt_core_c4; do
     step "V1 slang $w" slang $SRC $extra --top "$w"
 done
 step "V2 exhaustive reducer (tb/arith/reducer_exhaustive)" tb/arith/reducer_exhaustive/run_reducer_exhaustive.sh 1 2 3
+step "V2-lazy exhaustive Barrett lazy (tb/arith/lazy_exhaustive)" tb/arith/lazy_exhaustive/run_lazy_exhaustive.sh
 step "V7 Montgomery ROM (tb/arith/check_mont_rom.py)" python3 tb/arith/check_mont_rom.py
 for sim in verilator icarus; do
     step "V3/V4 unit tests $sim" python3 tb/arith/run_c4_unit_tests.py "$sim"

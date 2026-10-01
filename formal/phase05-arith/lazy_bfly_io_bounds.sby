@@ -1,0 +1,21 @@
+# formal/phase05-arith/lazy_bfly_io_bounds.sby
+# Phase 5c V8-lazy (ADR 0014 §3): value bounds and congruences of rtl/arith/lazy_bfly_io.sv for every input with
+# a, b, t < q. Combinational logic: depth 2 covers every input combination (induction on a stateless design).
+
+[options]
+mode prove
+depth 2
+
+[engines]
+smtbmc boolector
+
+[script]
+plugin -i slang
+read_slang -D FORMAL ntt_pkg.sv lazy_bfly_io.sv lazy_bfly_io_formal_top.sv --top lazy_bfly_io_formal_top
+prep -top lazy_bfly_io_formal_top
+memory_map -rom-only
+
+[files]
+../../rtl/ntt/ntt_pkg.sv
+../../rtl/arith/lazy_bfly_io.sv
+lazy_bfly_io_formal_top.sv

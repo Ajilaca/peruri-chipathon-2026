@@ -12,7 +12,7 @@ smtbmc boolector
 
 [script]
 plugin -i slang
-read_slang -D FORMAL ntt_pkg.sv twiddle_rom.sv twiddle_rom_mont.sv bank_map_rom.sv pipe_delay.sv modmul_reduce_staged.sv modmul_fold.sv modmul_barrett.sv modmul_montgomery.sv modmul_sel.sv butterfly_c4.sv poly_mem_multiport_pipe.sv ntt_core_c4.sv ntt_core_c4a.sv ntt_core_c4b_b.sv ntt_core_c4b_m.sv ntt_core_props.sv ntt_core_c4_formal_top.sv --top ntt_core_c4_formal_top -G V=2
+read_slang -D FORMAL ntt_pkg.sv twiddle_rom.sv twiddle_rom_mont.sv bank_map_rom.sv pipe_delay.sv modmul_reduce_staged.sv modmul_fold.sv modmul_barrett.sv modmul_montgomery.sv modmul_sel.sv butterfly_c4.sv lazy_bfly_io.sv modmul_barrett_lazy.sv butterfly_c4_lazy.sv poly_mem_multiport_pipe.sv ntt_core_c4.sv ntt_core_c4a.sv ntt_core_c4b_b.sv ntt_core_c4b_m.sv ntt_core_c4c.sv ntt_core_props.sv ntt_core_c4_formal_top.sv --top ntt_core_c4_formal_top -G V=2
 prep -top ntt_core_c4_formal_top
 memory_map -rom-only
 
@@ -28,10 +28,14 @@ memory_map -rom-only
 ../../rtl/arith/modmul_montgomery.sv
 ../../rtl/arith/modmul_sel.sv
 ../../rtl/arith/butterfly_c4.sv
+../../rtl/arith/lazy_bfly_io.sv
+../../rtl/arith/modmul_barrett_lazy.sv
+../../rtl/arith/butterfly_c4_lazy.sv
 ../../rtl/mem/poly_mem_multiport_pipe.sv
 ../../rtl/ntt/ntt_core_c4.sv
 ../../rtl/ntt/ntt_core_c4a.sv
 ../../rtl/ntt/ntt_core_c4b_b.sv
 ../../rtl/ntt/ntt_core_c4b_m.sv
+../../rtl/ntt/ntt_core_c4c.sv
 ../phase01-ntt/ntt_core_props.sv
 ntt_core_c4_formal_top.sv
