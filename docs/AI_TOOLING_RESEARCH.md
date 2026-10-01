@@ -801,6 +801,49 @@ the marketplace explicitly.
 
 ---
 
+## 22. Evaluation: Graphify (code knowledge graph) and Obsidian (2026-10-01)
+
+Requested by the team to reduce token usage (CLAUDE.md §6.5: evaluation entry before any addition). Status:
+**evaluated; Graphify NOT adopted (proposal, team decides); Obsidian only as a viewer of `docs/`.**
+
+*Graphify* — PyPI `graphifyy` 0.9.73, upstream <https://github.com/safishamsi/graphify> (MIT). Builds a graph of code by
+tree-sitter AST (0 LLM tokens in the default mode), writes `graphify-out/{graph.json, graph.html, GRAPH_REPORT.md}`; the
+popular setup guide <https://github.com/lucasrosati/claude-code-memory-setup> additionally installs a global `SessionEnd`
+hook, a daily cron job, a git hook and edits `CLAUDE.md` — **none of that was installed**. Its "71.5x fewer tokens"
+figure comes from one React/Supabase project of 126 TypeScript files (guide's own caveat); it is not evidence for this
+repository.
+
+*Trial (MEASURED unless marked; isolated venv and a copy of `rtl/ tb/ formal/ scripts/` outside the repo; no
+`graphify install`, no hooks; `~/.claude` and the repository unchanged):*
+- `graphify update` on 145 supported files (181 files copied; 35 not classified, e.g. all 28 `.sby`): 3 s, 761 nodes,
+  1,508 edges, 62 communities, 0 tokens. `tree-sitter-verilog` is bundled; 72 `.sv` files were read, modules and
+  `instantiates` edges were extracted (79 in total).
+- **Gap 1 — instantiations inside `generate` blocks are missed.** `ntt_core_c4` shows instantiations of `pipe_delay`,
+  `modmul_sel`, `poly_mem_multiport_pipe`, but not the lane `butterfly_c4` / `butterfly_c4_lazy` / `twiddle_rom`, which sit
+  inside `if (...) begin : g_...` generate branches (`rtl/ntt/ntt_core_c4.sv` lines 214, 222, 232). So "what is under
+  `ntt_core_c4c`?" gets an incomplete answer: `graphify path ntt_core_c4c modmul_barrett_lazy` finds no directed path.
+- **Gap 2 — misleading undirected path.** With `--undirected` the 4-hop answer goes through the shared child
+  `pipe_delay`, not through the real hierarchy.
+- Not in the graph: ADRs, evidence, test plans (8 document nodes from 4 `.md` files); `docs/` is about 621 k characters
+  and the code about 592 k characters (ESTIMATE ≈ 155 k and 148 k tokens at 4 characters per token). The knowledge this
+  project re-reads most (decisions, evidence tables) is in `docs/`.
+- Cost comparison (ESTIMATE, 4 characters per token): a local hierarchy question under `ntt_core_c4c` needs about 5
+  files ≈ 24.7 k characters ≈ 6.2 k tokens by reading; `graphify explain` returns about 0.5 k characters but, per
+  Gap 1, incomplete. `GRAPH_REPORT.md` is about 12 k characters ≈ 3 k tokens if read at the start of each session.
+  `grep` already answers "who instantiates X" for a few hundred tokens.
+
+*Assessment (INFERENCE):* the possible saving is small for this repository (≈ 150 k tokens of code in total, most
+reasoning cost comes from long sessions and tool output, not from code exploration), and the one structural feature it
+would help most — the module hierarchy — is wrong where this RTL uses `generate`. Adopting it would add a
+dependency and, with the full guide, global hooks and a `CLAUDE.md` change on a public repository (C7), for an
+uncertain saving. **Recommendation: do not adopt now;** revisit if the extractor handles `generate` or if the code
+grows by an order of magnitude. Cheaper measures already in use: `HANDOFF.md`, memory notes, filtered tool output,
+`grep` before reading, evidence files instead of logs.
+
+*Obsidian* — a desktop Markdown editor; it does not reduce Claude Code tokens by itself. Allowed use: open `docs/` as
+a vault for reading and linking; no plugins; `.obsidian/` is git-ignored (done in this change); no sync of private
+notes into the public repository.
+
 ## References
 
 Competition
