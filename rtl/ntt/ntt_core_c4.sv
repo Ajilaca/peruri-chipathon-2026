@@ -12,6 +12,8 @@
 // RED_KIND = 3 (Montgomery, R = 2^12): the constant operand of every multiplier is supplied in Montgomery form --
 // twiddles from rtl/arith/twiddle_rom_mont.sv (generated) and the INTT scaling constant 3303 * 2^12 mod q -- so
 // every product, and therefore the core's function, is unchanged.
+// LAZY = 1 (5c, ADR 0014; only with RED_KIND = 2): the butterflies are rtl/arith/butterfly_c4_lazy.sv (lazy INTT inputs,
+// same function and latency); the scaling multiplier is unchanged.
 //
 //   RdLat = bits set in ARB_REG  (register stages inside / after the memory's slot arbitration)
 //   WrDly = bits set in MUL_REG  (register stages after the multiplier / inside the reducer)
@@ -28,6 +30,7 @@ module ntt_core_c4 #(
     parameter int          NUM_LANES = 8,
     parameter logic [32:0] ARB_REG   = 33'd0,   // poly_mem_multiport_pipe.ARB_REG
     parameter int          RED_KIND  = 0,       // rtl/arith/modmul_sel.sv
+    parameter bit          LAZY      = 1'b0,    // 1: rtl/arith/butterfly_c4_lazy.sv (5c, requires RED_KIND = 2)
     parameter logic [15:0] MUL_REG   = 16'd0    // reducer REG_AFTER
 ) (
     input  wire           clk_i,
@@ -215,15 +218,27 @@ module ntt_core_c4 #(
         );
       end
 
-      butterfly_c4 #(.RED_KIND(RED_KIND), .MUL_REG(MUL_REG)) u_bfly (
-          .clk_i  (clk_i),
-          .mode_i (mode_q),
-          .a_i    (mem_rdata[(2*gl)*CW +: CW]),
-          .b_i    (mem_rdata[(2*gl+1)*CW +: CW]),
-          .zeta_i (rom_zeta_lane),
-          .a_o    (bfly_a_o[gl*CW +: CW]),
-          .b_o    (bfly_b_o[gl*CW +: CW])
-      );
+      if (LAZY) begin : g_bfly_lazy
+        butterfly_c4_lazy #(.MUL_REG(MUL_REG)) u_bfly (
+            .clk_i  (clk_i),
+            .mode_i (mode_q),
+            .a_i    (mem_rdata[(2*gl)*CW +: CW]),
+            .b_i    (mem_rdata[(2*gl+1)*CW +: CW]),
+            .zeta_i (rom_zeta_lane),
+            .a_o    (bfly_a_o[gl*CW +: CW]),
+            .b_o    (bfly_b_o[gl*CW +: CW])
+        );
+      end else begin : g_bfly
+        butterfly_c4 #(.RED_KIND(RED_KIND), .MUL_REG(MUL_REG)) u_bfly (
+            .clk_i  (clk_i),
+            .mode_i (mode_q),
+            .a_i    (mem_rdata[(2*gl)*CW +: CW]),
+            .b_i    (mem_rdata[(2*gl+1)*CW +: CW]),
+            .zeta_i (rom_zeta_lane),
+            .a_o    (bfly_a_o[gl*CW +: CW]),
+            .b_o    (bfly_b_o[gl*CW +: CW])
+        );
+      end
 
       // request (issue stage)
       always_comb begin

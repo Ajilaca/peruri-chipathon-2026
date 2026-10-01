@@ -8,6 +8,7 @@ Usage: python3 tb/arith/run_c4_unit_tests.py icarus|verilator [kind ...]     (de
   kind 2 = rtl/arith/modmul_barrett.sv (5b), kind 3 = rtl/arith/modmul_montgomery.sv (5b)
 Units are driven through tb/arith/c4_tb_wrappers.sv (pass-through except for kind 3, whose constant operand is
 converted to Montgomery form there).
+The 5c lazy units (modmul_barrett_lazy, butterfly_c4_lazy) are added after the kinds.
 Exit code 0 only if every testcase passed.
 """
 
@@ -25,6 +26,7 @@ RTL_NTT = ROOT / "rtl" / "ntt"
 RTL_ARITH = ROOT / "rtl" / "arith"
 TB_NTT = ROOT / "tb" / "ntt"
 
+LAZY_SRC = [RTL_ARITH / "lazy_bfly_io.sv", RTL_ARITH / "modmul_barrett_lazy.sv", RTL_ARITH / "butterfly_c4_lazy.sv"]
 REDUCERS = [RTL_NTT / "ntt_pkg.sv", RTL_NTT / "modmul_reduce_staged.sv", RTL_ARITH / "modmul_fold.sv",
             RTL_ARITH / "modmul_barrett.sv", RTL_ARITH / "modmul_montgomery.sv", RTL_ARITH / "modmul_sel.sv"]
 TB_WRAP = HERE / "c4_tb_wrappers.sv"
@@ -32,7 +34,7 @@ TB_WRAP = HERE / "c4_tb_wrappers.sv"
 CONFIGS = {0: (0, 2081), 1: (0, 41), 2: (0, 7), 3: (0, 7)}
 
 
-def units(kinds):
+def units(kinds, lazy=True):
     out = []
     for kind in kinds:
         for reg in CONFIGS[kind]:
@@ -47,6 +49,18 @@ def units(kinds):
                         REDUCERS + [RTL_NTT / "pipe_delay.sv", RTL_ARITH / "butterfly_c4.sv", TB_WRAP],
                         "test_butterfly_pipe",
                         TB_NTT, {"RED_KIND": kind, "MUL_REG": reg}, {"P4_MUL_REG": str(reg)}))
+    if lazy:
+        # 5c (ADR 0014, test plan A4): the Barrett reducer with a 13-bit operand, and the lazy butterfly driven by the
+        # unchanged Phase 4 butterfly test plus the lazy corner test; MUL_REG 0 (combinational) and 7 (cuts X, S1, S2).
+        for reg in (0, 7):
+            out.append((f"modmul_barrett_lazy REG_AFTER={reg} (a<q, b<q regression of 5b)", "modmul_barrett_lazy",
+                        REDUCERS + LAZY_SRC, "test_reducer_c4_lazy_d6", HERE, {"REG_AFTER": reg},
+                        {"C4_REG_AFTER": str(reg)}))
+            for mod in ("test_butterfly_pipe", "test_lazy_corners"):
+                out.append((f"butterfly_c4_lazy MUL_REG={reg} [{mod}]", "butterfly_c4_lazy",
+                            REDUCERS + [RTL_NTT / "pipe_delay.sv"] + LAZY_SRC, mod,
+                            TB_NTT if mod == "test_butterfly_pipe" else HERE, {"MUL_REG": reg},
+                            {"P4_MUL_REG": str(reg)}))
     return out
 
 

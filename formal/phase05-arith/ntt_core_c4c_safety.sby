@@ -1,5 +1,5 @@
-# formal/phase05-arith/ntt_core_c4a_safety.sby
-# Phase 5 V8 for rtl/ntt/ntt_core_c4a.sv (P = 6): properties H, O, R, A, B, C of ntt_core_c4_formal_top.sv,
+# formal/phase05-arith/ntt_core_c4c_safety.sby
+# Phase 5 V8 for rtl/ntt/ntt_core_c4c.sv (P = 6): properties H, O, R, A, B, C of ntt_core_c4_formal_top.sv,
 # same flow and depth as formal/phase04-pipeline/ntt_core_c3_p6_safety.sby (depth 9 = P + 3).
 # Control and bank-capacity properties only, not arithmetic.
 
@@ -12,7 +12,7 @@ smtbmc boolector
 
 [script]
 plugin -i slang
-read_slang -D FORMAL ntt_pkg.sv twiddle_rom.sv twiddle_rom_mont.sv bank_map_rom.sv pipe_delay.sv modmul_reduce_staged.sv modmul_fold.sv modmul_barrett.sv modmul_montgomery.sv modmul_sel.sv butterfly_c4.sv lazy_bfly_io.sv modmul_barrett_lazy.sv butterfly_c4_lazy.sv poly_mem_multiport_pipe.sv ntt_core_c4.sv ntt_core_c4a.sv ntt_core_c4b_b.sv ntt_core_c4b_m.sv ntt_core_c4c.sv ntt_core_props.sv ntt_core_c4_formal_top.sv --top ntt_core_c4_formal_top -G V=0
+read_slang -D FORMAL ntt_pkg.sv twiddle_rom.sv twiddle_rom_mont.sv bank_map_rom.sv pipe_delay.sv modmul_reduce_staged.sv modmul_fold.sv modmul_barrett.sv modmul_montgomery.sv modmul_sel.sv butterfly_c4.sv lazy_bfly_io.sv modmul_barrett_lazy.sv butterfly_c4_lazy.sv poly_mem_multiport_pipe.sv ntt_core_c4.sv ntt_core_c4a.sv ntt_core_c4b_b.sv ntt_core_c4b_m.sv ntt_core_c4c.sv ntt_core_props.sv ntt_core_c4_formal_top.sv --top ntt_core_c4_formal_top -G V=3
 prep -top ntt_core_c4_formal_top
 memory_map -rom-only
 

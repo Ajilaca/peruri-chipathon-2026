@@ -10,6 +10,7 @@ Builds:
   c4k0    rtl/ntt/ntt_core_c4.sv with RED_KIND = 0 and C3-P6's register positions (must behave as C3-P6)
   c4bb    rtl/ntt/ntt_core_c4b_b.sv (Barrett, revision C4b-B)
   c4bm    rtl/ntt/ntt_core_c4b_m.sv (Montgomery, revision C4b-M; Montgomery-form ROM and scaling constant)
+  c4c     rtl/ntt/ntt_core_c4c.sv (Barrett + lazy INTT butterfly inputs, revision C4c, ADR 0014)
   negrom  ntt_core_c4b_m with a copy of rtl/arith/twiddle_rom_mont.sv in which rom_zeta[17] is changed (test-only,
           test plan V10): the bit-exact tests must FAIL (the build passes only if they do)
   negctl  rtl/ntt/ntt_core_c4.sv at depth 8 with WrDly = 8 (RdLat 0; RED_KIND = 0, the only reducer with 8 stage
@@ -41,6 +42,7 @@ COMMON_SOURCES = [
     RTL_NTT / "ntt_pkg.sv", RTL_NTT / "twiddle_rom.sv", RTL_MEM / "bank_map_rom.sv", RTL_NTT / "pipe_delay.sv",
     RTL_NTT / "modmul_reduce_staged.sv", RTL_ARITH / "modmul_fold.sv", RTL_ARITH / "modmul_barrett.sv",
     RTL_ARITH / "modmul_montgomery.sv", RTL_ARITH / "modmul_sel.sv", RTL_ARITH / "butterfly_c4.sv",
+    RTL_ARITH / "lazy_bfly_io.sv", RTL_ARITH / "modmul_barrett_lazy.sv", RTL_ARITH / "butterfly_c4_lazy.sv",
     RTL_MEM / "poly_mem_multiport_pipe.sv", RTL_NTT / "ntt_core_c4.sv",
 ]
 MONT_ROM = RTL_ARITH / "twiddle_rom_mont.sv"
@@ -64,6 +66,7 @@ BUILDS = {
              3, 3, "", False, (119, 375)),
     "c4bb": ("ntt_core_c4b_b", [MONT_ROM, RTL_NTT / "ntt_core_c4b_b.sv"], {}, 3, 3, "u_core", False, (119, 375)),
     "c4bm": ("ntt_core_c4b_m", [MONT_ROM, RTL_NTT / "ntt_core_c4b_m.sv"], {}, 3, 3, "u_core", False, (119, 375)),
+    "c4c": ("ntt_core_c4c", [MONT_ROM, RTL_NTT / "ntt_core_c4c.sv"], {}, 3, 3, "u_core", False, (119, 375)),
     "negrom": ("ntt_core_c4b_m", ["NEGROM", RTL_NTT / "ntt_core_c4b_m.sv"], {}, 3, 3, "u_core", False, "fail"),
     "negctl": ("ntt_core_c4", [MONT_ROM], {"NUM_LANES": 8, "ARB_REG": 0, "RED_KIND": 0, "MUL_REG": 0xFF},
                0, 8, "", True, None),
