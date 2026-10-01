@@ -10,11 +10,19 @@ di HPS (ARM Cortex-A9). Target utama: eksekusi waktu-konstan yang dibuktikan, ha
 terhadap vektor uji resmi, dan angka sumber daya/timing yang diukur dari Quartus.
 
 ## Status
-Fase 0–4 selesai (lihat `docs/results/` dan `HANDOFF.md`). Konfigurasi inti NTT/INTT saat ini: **C3-P6**
-(8 lajur, pipeline 6 tahap, ADR 0009). Hasilnya **terukur di simulasi dan di laporan Quartus saja**
-(kernel-only, virtual pin): memenuhi batasan 40 ns di semua seed yang diuji; target 50 MHz (Fase 5) belum tercapai.
-**Belum ada pengukuran pada papan.** Setiap angka berasal dari laporan Quartus atau simulasi dan disimpan sebagai
-bukti di `docs/evidence/`. Rencana: `docs/ROADMAP.md`.
+Fase 0–5 selesai secara teknis (lihat `docs/results/` dan `HANDOFF.md`). Konfigurasi inti NTT/INTT saat ini: **C4 = C4b-B**
+(8 lajur, pipeline 6 tahap, reduksi Barrett, ADR 0013 masih *Proposed*), dari basis **C3-P6** (ADR 0009). Hasil Fase 5
+(`docs/results/result_phase5.md`, laporan `docs/report/CHIPATON_Phase5_Report.pdf`):
+- Siklus tetap NTT 119 dan INTT 375 (MEASURED, simulasi, `docs/evidence/phase05-arith/regression_2026-10-01.md`); hasil bit-exact terhadap model golden di dua simulator.
+- C4b-B memakai 9.166–9.208 ALM (seed 1–6) dibanding 10.484–10.516 pada C3-P6, dengan 18 DSP (C3-P6: 9) (MEASURED, `docs/evidence/phase05-arith/5b/selection_worksheet_2026-10-01.md`).
+- Fmax tidak naik di luar sebaran seed; kompilasi informasi 20 ns **tidak memenuhi timing** (MEASURED, `docs/evidence/phase05-arith/closure/info_20ns_2026-10-01.md`: C3-P6 setup −2,059 ns,
+  C4b-B −2,557 ns). Jalur kritis ada di pembacaan memori, bukan di aritmetika.
+- 5c (lazy reduction) diukur dan tidak diadopsi; 5d (Karatsuba) tidak dicoba (ADR 0015, *Proposed*).
+
+Semua hasil **terukur di simulasi, analisis formal dan laporan Quartus saja** (kernel-only, virtual pin); batasan 40 ns
+terpenuhi di semua seed yang diuji, target 50 MHz belum tercapai. **Belum ada pengukuran pada papan.** Setiap angka berasal
+dari laporan Quartus atau simulasi dan disimpan sebagai bukti di `docs/evidence/`. Berikutnya: keputusan tim atas
+ADR 0013/0015 dan fase "memori dan jadwal" (PENDING #19). Rencana: `docs/ROADMAP.md`.
 
 ## Batas klaim
 - Parameter ML-KEM tidak diubah; inovasi hanya pada arsitektur perangkat keras.
@@ -33,14 +41,5 @@ bukti di `docs/evidence/`. Rencana: `docs/ROADMAP.md`.
 | `scripts/` | penyiapan lingkungan dan uji dasar |
 | `.claude/` | pengaturan dan skill Claude Code untuk tim |
 
-## Menyiapkan lingkungan (Ubuntu 24.04)
-```bash
-scripts/setup_tooling.sh check      # laporan saja, tidak mengubah apa pun
-scripts/setup_tooling.sh install    # OSS CAD Suite, .venv, plugin Claude Code, lalu verifikasi
-. scripts/env.sh                    # PATH alat + aktifkan .venv
-```
-Quartus Prime Lite dan Questa dipasang manual (butuh unduhan dan lisensi); skrip hanya mendeteksi
-dan menguji.
-
 ## Lisensi
-Belum ditentukan (keputusan tim, lihat `docs/decisions/PENDING.md`).
+MIT License, lihat `LICENSE` (ADR 0016). Berkas pihak ketiga yang membawa lisensi sendiri tetap memakai lisensinya.

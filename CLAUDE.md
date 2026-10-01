@@ -31,7 +31,7 @@ Proposal text in formal Indonesian (foreign terms in italics). State uncertainty
 |---|---|
 | Competition | CHIP 2026 Hackathon (PERURI Digital Summit), category *IC Chip Design & FPGA Implementation* |
 | Team | J5, Institut Teknologi Bandung (4 members) |
-| Repository | https://github.com/Ajilaca/peruri-chipathon-2026 (public) |
+| Repository | https://github.com/Ajilaca/peruri-chipathon-2026 (public, MIT licence, ADR 0016) |
 | Target board | Terasic DE10-Nano (no board attached at last check; see PENDING #8) |
 | Device | Intel/Altera Cyclone V SE SoC **5CSEBA6U23I7** (FPGA fabric + dual Cortex-A9 HPS) |
 | EDA (ground truth) | Intel Quartus Prime Lite **25.1std** (verified on the team machine 2026-09-24) + Questa Starter (licence variable not set) |
@@ -53,10 +53,14 @@ Accelerator · 03 AI/Edge Accelerator · 04 Secure Communication. The team chose
 (ADR 0001); **which subtheme to declare is still open** (PENDING #2).
 
 ## 2. Current phase
-- Done: Phases 0–4 (`docs/results/result_phase0.md` .. `result_phase4.md`). Phase 4 final decision: ADR 0009
-  (L = 8, P = 6, configuration C3-P6; NTT-core design budget 30% = 12,573 ALM; 40 ns met, 50 MHz not yet).
-- Next: **Phase 5** (modular arithmetic optimisation) per `docs/ROADMAP.md`, starting from C3-P6. Read `HANDOFF.md`
-  first in a new session.
+- Done: Phases 0–5 (`docs/results/result_phase0.md` .. `result_phase5.md`). Phase 4 final decision: ADR 0009
+  (L = 8, P = 6, configuration C3-P6; NTT-core design budget 30% = 12,573 ALM). Phase 5 (`result_phase5.md`, Approval box
+  empty until a team member ticks it): C4 = C4b-B (Barrett reducer, 119 / 375 cycles, 9,166–9,208 ALM, 18 DSP); 5c (C4c)
+  measured and not adopted (ADR 0014); 5d not attempted; information compiles at 20 ns do not meet timing for C3-P6 or C4b-B;
+  the critical path is the memory read (ADR 0010).
+- Open for the team: ADR 0013 (Barrett choice, PENDING #23) and ADR 0015 (5d, PENDING #24) are Proposed; PENDING #19 is the
+  name and position of a "memory and schedule" phase for the 50 MHz work, before Phase 6. Do not start Phase 6 or that
+  phase's RTL before the team decides. Read `HANDOFF.md` first in a new session (it may lag behind this section).
 - Do not start RTL for a block until its golden model exists and its phase is approved.
 - Each phase ends with a validated result artifact (`docs/results/`); a human approves it before the next phase.
   Never tick the Approval box yourself.
