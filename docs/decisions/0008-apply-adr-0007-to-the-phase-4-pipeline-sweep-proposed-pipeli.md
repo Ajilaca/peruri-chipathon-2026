@@ -35,20 +35,25 @@ selected.
 
 ## Consequences
 Points the team should weigh before accepting (stated, not resolved here):
-- **Margins are thinner than the swing of the tool.** P = 4 is 39 ALM under the budget and P = 6 is 27 ALM
-  over it. Fitter packing has varied by up to ~370 ALM between compiles of identical logic (Phase 3,
-  no seed sweep run). With the default seed the rule is unambiguous, but a different seed could move P = 4
-  over, or P = 6 under, the budget. A fitter seed sweep on P = 4 and P = 6 would quantify this; it was not
-  run because ADR 0007 and the test plan fix the default seed for all four revisions.
+- **Margins are thin; a seed sweep was run (2026-10-01) to measure how thin.** Seeds 1–6, everything else identical
+  (`docs/evidence/phase04-pipeline/seed_sweep_2026-10-01.md`, MEASURED):
+  - P = 6 is over the 10,478 ALM budget at **every** seed (10,484–10,516 ALM). It is never a candidate.
+  - P = 4 is within budget at 4 of 6 seeds (10,439–10,503 ALM); at seeds 2 and 3 it is over by 25 and 1 ALM,
+    and then no P is a candidate.
+  - All 12 compiles meet 40.000 ns. P = 4 Fmax (lowest slow corner) 30.60–33.00 MHz across seeds.
+  - The per-seed rule either selects P = 4 or selects nothing; it never selects another P.
+  So the choice between P = 4 and P = 6 is settled by the measurements, but P = 4 meets the budget only by a few
+  tens of ALM and not at every seed. Accepting P = 4 means accepting that Phase 5 starts with almost no ALM room
+  (Phase 5's arithmetic changes are expected to change ALM; that must be measured, not assumed).
 - **A tool effect changed the resource picture, not only the pipeline.** With registers in the memory path
   Quartus inferred `bank_map_rom` and some register chains (`altshift_taps`) into M10K blocks (16 / 26 / 29
   blocks; 0 for P = 0). This is why P = 2 uses fewer ALM than P = 0 despite ~700 more registers. It was not
   designed or requested (M10K mapping is out of scope for Phase 4) and is reported as observed; a different
   inference in a later phase would change the ALM figures.
-- **The 5% near-tie is on t_NTT only, and it is close.** P = 6 is excluded by the ALM condition, so the near-tie
+- **The 5% near-tie is on t_NTT only, and it is close (default seed).** P = 6 is excluded by the ALM condition, so the near-tie
   rule is not exercised. Were the ALM condition relaxed, C would be {4, 6}, t_min = t_NTT(6) = 3.481 us and
-  d(4) = 0.051 > 0.05, so the rule would then select P = 6, not P = 4. The selection therefore depends on a
-  27-ALM difference; this is the strongest reason to consider the seed sweep above.
+  d(4) = 0.051 > 0.05, so the rule would then select P = 6, not P = 4. At the default seed the selection
+  depended on a 27-ALM difference; the seed sweep shows P = 6 over budget at every seed, so that dependence is gone.
 - 40.000 ns is met by P = 4 and P = 6 per Quartus static timing analysis only; no board run exists
   and none is claimed. Fmax figures are kernel-only with virtual pins.
 - The P = 2 miss is small (-0.368 ns at one corner) and was measured as it stands; no exception was added.
@@ -56,6 +61,8 @@ Points the team should weigh before accepting (stated, not resolved here):
   Fmax 31.98 MHz does not reach 50 MHz.
 
 ## Evidence
+- `docs/evidence/phase04-pipeline/seed_sweep_2026-10-01.md`, `docs/evidence/phase04-pipeline/seed_sweep/`,
+  `scripts/phase4_seed_sweep_summary.py`
 - `docs/evidence/phase04-pipeline/selection_worksheet_2026-09-30.md`, `scripts/phase4_select_p.py`,
   `docs/evidence/phase04-pipeline/verification_status.json`
 - `docs/evidence/phase04-pipeline/quartus_C3-P0_20260930.md`, `quartus_C3-P2_20260930.md`,

@@ -2,7 +2,7 @@
 # Result — Phase 4: Butterfly pipeline sweep (P = 0 / 2 / 4 / 6, config C3)
 
 - Status: PARTIAL
-- Date (UTC): 2026-09-30
+- Date (UTC): 2026-09-30; updated 2026-10-01 (fitter-seed sweep for P = 4 and P = 6)
 - Git commit (HEAD when verified): c2cc16c plus the Phase 4 working tree, committed together with this file
 - Proposed operating point: **P = 4** by the ADR 0007 rule, in `docs/decisions/0008-apply-adr-0007-to-the-phase-4-pipeline-sweep-proposed-pipeli.md` (**Proposed, not accepted**)
 - Environment: as Phase 3 -- Ubuntu 24.04.4 LTS, OSS CAD Suite 2026-09-23, cocotb 2.1.0, Quartus Prime Lite 25.1std.0 Build 1129.
@@ -43,6 +43,7 @@
 | `formal/phase04-pipeline/`, `formal/run_formal_phase4.py` | Formal top, three `.sby`, runner with negative controls |
 | `quartus/phase04_pipeline_c3/` | Four revisions, one SDC at 40.000 ns |
 | `scripts/phase4_select_p.py`, `docs/evidence/phase04-pipeline/verification_status.json` | The ADR 0007 rule, reading only evidence files |
+| `quartus/phase04_pipeline_c3/C3-P{4,6}-s{2..6}.qsf`, `run_seed_sweep.sh`, `scripts/phase4_seed_sweep_summary.py`, `docs/evidence/phase04-pipeline/seed_sweep/` | Fitter-seed sweep (2026-10-01), input to ADR 0008 |
 | `docs/decisions/0008-apply-adr-0007-to-the-phase-4-pipeline-sweep-proposed-pipeli.md` | Proposed ADR with the measured table |
 
 Frozen files (`modmul_reduce.sv`, `butterfly*.sv`, `twiddle_rom.sv`, `bank_map_rom.sv`, `poly_mem_multiport.sv`, `ntt_core_c2*.sv`, Phase 1-3 evidence, ADR 0004) were not edited.
@@ -74,9 +75,9 @@ No FIPS 203 reading this phase; no parameter, algorithm, twiddle value or reduct
 
 ## 5. Coverage and limits
 - **Simulation and static timing only.** No board is attached; nothing here is hardware validation. Fmax is kernel-only, virtual pins, and is not a system clock.
-- **The margins are within the tool's own noise.** P = 4 is 39 ALM under the budget, P = 6 27 ALM over it; Phase 3 saw ~370 ALM packing swings between compiles of identical logic. One fitter seed per revision (the default) was used, as fixed by the test plan; no seed sweep was run.
+- **ALM margins and the seed sweep (2026-10-01).** P = 4 is 39 ALM under the budget and P = 6 27 ALM over it at the default seed. A sweep over fitter seeds 1–6 (`docs/evidence/phase04-pipeline/seed_sweep_2026-10-01.md`) found P = 6 over budget at every seed (10,484–10,516 ALM) and P = 4 within budget at 4 of 6 seeds (10,439–10,503 ALM); all 12 compiles meet 40.000 ns. The rule therefore never selects P = 6; for P = 4 the budget margin is a few tens of ALM and seed-dependent.
 - **Tool inference changed the resource picture.** With registers in the memory path Quartus inferred `bank_map_rom` and some register chains into M10K (16 / 26 / 29 blocks). This was not designed; it is why P = 2 has fewer ALM than P = 0 despite more registers.
-- **Near-tie is thin.** P = 6 has the lowest t_NTT (3.481 us); P = 4 is 5.1% above it. Only the ALM condition keeps P = 6 out.
+- **Near-tie (default seed).** P = 6 has the lowest t_NTT (3.481 us); P = 4 is 5.1% above it. The ALM condition keeps P = 6 out, at every seed measured.
 - **P = 2 misses timing by 0.368 ns** at one slow corner (slow 100C is +0.061 ns); no exception was added.
 - **Formal covers control and bank capacity only.** Arithmetic and data integrity rest on the simulations and the exhaustive reducer check. Two negative controls (NC-B, NC-C) are UNKNOWN in the proof flow, not demonstrated failures; NC-B was demonstrated by a depth-125 BMC, NC-C only by the failed induction.
 - The expected outcomes stated in the test plan before measuring (P = 0 and probably P = 2 not candidates) held.
@@ -88,7 +89,7 @@ No FIPS 203 reading this phase; no parameter, algorithm, twiddle value or reduct
 - Icarus rejected a design style that mixed continuous and procedural drivers of one array; the RTL (`pipe_delay`, the arbitration registers) was changed to a per-stage register plus an assign. Function unchanged, re-verified.
 
 ## 7. Decisions needed
-- **Accept, change or reject ADR 0008 (P = 4 proposed).** Optional input to it: a fitter seed sweep on P = 4 and P = 6.
+- **Accept, change or reject ADR 0008 (P = 4 proposed).** The seed sweep requested as input to it is done (Section 5).
 - How to read CRG-9 for P = 0 / 2 (negative slack at 40.000 ns), as in earlier phases.
 - The 20.000 ns end goal (ADR 0006) is not reached by any measured revision (best Fmax 34.19 MHz vs 50 MHz); this is input to Phase 5, not a Phase 4 failure.
 
@@ -106,6 +107,8 @@ python3 formal/run_formal_slang.py           # Phase 1-3 proofs, unchanged
 cd quartus/phase04_pipeline_c3
 for r in C3-P0 C3-P2 C3-P4 C3-P6; do quartus_sh --flow compile phase04_pipeline_c3 -c $r; done
 python3 scripts/phase4_select_p.py
+# seed sweep: run the C3-P4-s<n> / C3-P6-s<n> revisions ONE AT A TIME (parallel runs corrupt the shared .qpf)
+python3 scripts/phase4_seed_sweep_summary.py
 python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/result_phase4.md
 python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal
 ```

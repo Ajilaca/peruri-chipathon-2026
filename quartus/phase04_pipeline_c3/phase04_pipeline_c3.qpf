@@ -19,16 +19,26 @@
 #
 # Quartus Prime
 # Version 25.1std.0 Build 1129 10/21/2025 SC Lite Edition
-# Date created = 23:05:44  September 30, 2026
+# Date created = 10:10:41  October 01, 2026
 #
 # -------------------------------------------------------------------------- #
 
 QUARTUS_VERSION = "25.1"
-DATE = "23:05:44  September 30, 2026"
+DATE = "10:10:41  October 01, 2026"
 
 # Revisions
 
+PROJECT_REVISION = "C3-P4-s5"
+PROJECT_REVISION = "C3-P6-s4"
+PROJECT_REVISION = "C3-P4-s4"
 PROJECT_REVISION = "C3-P6"
 PROJECT_REVISION = "C3-P4"
 PROJECT_REVISION = "C3-P2"
 PROJECT_REVISION = "C3-P0"
+PROJECT_REVISION = "C3-P4-s2"
+PROJECT_REVISION = "C3-P4-s3"
+PROJECT_REVISION = "C3-P4-s6"
+PROJECT_REVISION = "C3-P6-s2"
+PROJECT_REVISION = "C3-P6-s3"
+PROJECT_REVISION = "C3-P6-s5"
+PROJECT_REVISION = "C3-P6-s6"
