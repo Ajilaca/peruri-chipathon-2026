@@ -269,3 +269,25 @@ and constant-cycle holds; NTT core ≤ 12,573 ALM remains the limit.
   converts ζ the same way.
 - Wrappers `rtl/ntt/ntt_core_c4b_b.sv`, `rtl/ntt/ntt_core_c4b_m.sv`; Quartus revisions `C4b-B`, `C4b-M` and their seed
   copies `C4b-B-s2..s6`, `C4b-M-s2..s6` (only `SEED` and output folder differ), all at 40.000 ns, Quartus defaults.
+
+**A4 — 5c lazy reduction, revision C4c (2026-10-01, ADR 0014, before any 5c RTL or compile).**
+- Design: `rtl/arith/lazy_bfly_io.sv` (combinational input / output logic of the INTT lazy butterfly: u = b + q − a,
+  s = a + b, output a' = s ≥ q ? s − q : s, b' = t; NTT mode as before), `rtl/arith/modmul_barrett_lazy.sv` (Barrett with
+  a 13-bit second operand, 25-bit product, same constant M = 5039 and stages S_1..S_3; r < 2q for every product up to
+  (q−1)·(2q−1) = 22,154,496, perhitungan tim over all values), `rtl/arith/butterfly_c4_lazy.sv` (I/O logic + reducer + 13-bit
+  side delay), parameter `LAZY` of `rtl/ntt/ntt_core_c4.sv` (default 0 = unchanged), wrapper `rtl/ntt/ntt_core_c4c.sv`
+  (RED_KIND 2 for the scaling multiplier, LAZY 1). Register positions as C4b-B: X, S_1, S_2; memory cuts A_4, A_11, M.
+- Tests (both simulators where applicable):
+  - V2-lazy: exhaustive `modmul_barrett_lazy` over z in [0, q) and u in [0, 2q) (22,164,482 pairs) against (z·u) mod q
+    at REG_AFTER 0 and 7; info: all 12-bit z × 13-bit u; negative control (t·(q−1)) must fail;
+  - V2 (D6 domain) also for `modmul_barrett_lazy` restricted to u < q, as a regression of 5b;
+  - V4: the Phase 4 butterfly test (`tb/ntt/test_butterfly_pipe.py`) unchanged on `butterfly_c4_lazy`, plus INTT corners
+    a = 0, b = q−1 (u = 2q−1); a = q−1, b = 0 (u = 1); a = b = q−1 (s = 2q−2) with every twiddle;
+  - V5–V7: core tests unchanged on `ntt_core_c4c` (bit-exact, scoreboard, cycles exactly 119 / 375) and C4a / C4b-B /
+    C4b-M / RED_KIND 0 again after the core change; negative controls as before;
+  - V8-lazy (formal, §8): `lazy_bfly_io` with assumes a, b, t < q, prove u < 2q, s < 2q, (u ≥ q ? u − q : u) =
+    sub_mod(b, a), a' < q, b' < q, a' = add_mod(a, b) in INTT; NTT outputs = add_mod / sub_mod of (a, t); negative
+    control: a copy whose output does not reduce s must fail. The reducer itself is covered by V2-lazy (exhaustive), not
+    by the formal proof (stated as the proof's scope);
+  - V8 (control), V9 (regression) as before.
+- Quartus: `C4c`, `C4c-s2..s6`; adoption by the rule of ADR 0014 §4, applied by script from evidence files.
