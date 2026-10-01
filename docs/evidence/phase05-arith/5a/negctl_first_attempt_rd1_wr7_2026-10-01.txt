@@ -1,0 +1,10 @@
+First negative-control attempt for the C4 core (2026-10-01), kept as a record. Build: ntt_core_c4, RED_KIND=1, ARB_REG=1<<16 (RdLat 1), MUL_REG=0x7F (WrDly 7), P = 8.
+Result: scoreboard tripped, but 0/5 NTT results were wrong on both simulators -> test_negative_control_must_fail FAILED, i.e. this build is NOT a valid negative control.
+Reason (INFERENCE, see test_plan.md amendment A2): the memory reads RdLat cycles after the request, so the physical hazard depends on WrDly (7 <= slack 7), while scoreboard check (a) flags at request time (conservative).
+
+                                                        AssertionError: NTT: only 0/5 results wrong at P=8; bit-exact check is weak
+[icarus] negctl (ntt_core_c4): 0/1 FAIL ['test_negative_control_must_fail']  {}
+make: Entering directory '
+make: Leaving directory '
+                                                        AssertionError: NTT: only 0/5 results wrong at P=8; bit-exact check is weak
+[verilator] negctl (ntt_core_c4): 0/1 FAIL ['test_negative_control_must_fail']  {}
