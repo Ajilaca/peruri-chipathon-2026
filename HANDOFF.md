@@ -23,7 +23,7 @@ numbers), **ESTIMATE**, **NOT MEASURED**.
 | 1 NTT baseline C0 | PARTIAL (timing not met at 20 ns, documented) | `result_phase1.md` | ticked |
 | 2 Memory banking C1 | PARTIAL (M10K not achieved; timing not met) | `result_phase2.md` | ticked |
 | 3 Multi-lane C2, L selection | PARTIAL (timing not met at 20 ns) — L = 8 on C2-K2-K1 (ADR 0005) | `result_phase3.md` | ticked |
-| **4 Butterfly pipeline C3** | **COMPLETE** — technically complete by team decision 2026-10-01 (ADR 0009); result status DONE | `result_phase4.md` | **not yet ticked** — a human ticks it |
+| **4 Butterfly pipeline C3** | **COMPLETE** — technically complete by team decision 2026-10-01 (ADR 0009); result status DONE | `result_phase4.md` | ticked (Faza Dzil, 2026-10-01) |
 | 5 Modular arithmetic C4 | not started | — | — |
 
 ## 3. Final Phase 4 Decision (ADR 0009, Accepted 2026-10-01, Faza Dzil, Team J5)
@@ -136,7 +136,7 @@ Phase 4 report: `docs/report/CHIPATON_Phase4_Report.pdf` (rebuild: `python3 scri
 - **Phase 5 target = 20.000 ns / 50 MHz** (ADR 0006); C3-P6 must stay within 12,573 ALM or a new decision is recorded.
 
 ## 12. Immediate Next Steps (from `docs/ROADMAP.md` Phase 5; read it and ADR 0006/0009 first)
-1. Human: tick the Approval box in `docs/results/result_phase4.md`; push `phase4-pipeline`, merge to `main`.
+1. Human: push `phase4-pipeline`, merge to `main`, tag (Approval of `result_phase4.md` is already ticked).
 2. Create branch for Phase 5 (pattern `phase5-<topic>`, e.g. `phase5-arith`).
 3. Write the Phase 5 test plan (CRG-4) before any RTL: exhaustive multiplier-reducer test over all a, b in [0, q)
    per sub-step; corner cases; the clock constraint to use (ADR 0006 end goal 20 ns) as a team decision if unclear.

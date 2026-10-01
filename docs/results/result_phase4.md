@@ -2,7 +2,7 @@
 # Result — Phase 4: Butterfly pipeline sweep (P = 0 / 2 / 4 / 6, config C3)
 
 - Status: DONE
-- Status note: technically complete by team decision 2026-10-01 (ADR 0009); the Approval box in Section 10 is still to be ticked by a human.
+- Status note: technically complete by team decision 2026-10-01 (ADR 0009); Approval ticked 2026-10-01 (Section 10).
 - Date (UTC): 2026-09-30; updated 2026-10-01 (fitter-seed sweep for P = 4 and P = 6; GHRD shell and GHRD + C3-P4 integration evidence; final decision)
 - Git commit (HEAD when verified): c2cc16c plus the Phase 4 working tree, committed together with this file
 - **Current decision (ADR 0009, Accepted 2026-10-01, Faza Dzil, Team J5): L = 8, P = 6, implementation C3-P6; NTT-core design budget 30% = 12,573 ALM.**
@@ -129,6 +129,6 @@ python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/p
 ```
 
 ## 10. Approval
-- [ ] Human approver (name, date):
+- [x] Human approver (Faza Dzil, 2026-10-01; ticked by the assistant on the approver's explicit instruction):
       Next phase starts only after a team member ticks this box. The team declared Phase 4 technically
       complete on 2026-10-01 and recorded the decision as ADR 0009 (L = 8, P = 6, 30% NTT-core budget).
