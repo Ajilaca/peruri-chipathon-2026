@@ -16,6 +16,8 @@ Update this list whenever something is decided (move it to an ADR) or discovered
 | 11 | **Repository licence** (repo is public; without one, default copyright applies) | Affects reuse and the demo repository link | Before publishing code |
 | 12 | Does the **Appendix** count toward the 6-page limit? | Decides where figures go | Section 3 layout |
 | 13 | **Activate `rtl-agent-team` hooks** by running `/rtl-agent-team:rat-init-project` (creates `.rat/`)? The original blocker ("idea not chosen") is resolved by ADR 0001 | Its Stop-gates block ending a session after unverified RTL edits, which mechanically enforces verify-before-claim; but it also adds structure to the repo | Before Phase 1 |
+| 19 | **Name and position of the memory / P / schedule phase** for the 50 MHz work (separate phase or sub-phase after 5a/5b) | Roadmap structure; that work is outside Phase 5's fixed scope | After 5b |
+| 23 | **Accept or reject ADR 0013** (Phase 5b: Barrett selected by the ADR 0011 rule; DSP 9 -> 18) | Fixes the C4 configuration used by 5c and the 20 ns information compile | 5c |
 
 Closed: #9 FIPS 203 errata — accepted as ADR 0003 (2026-09-29, decided by Faza Dzil, Team J5).
 Closed: #14 Phase 3 lane-count (L) selection criterion — accepted as ADR 0004 (2026-09-29,
@@ -36,3 +38,13 @@ function bit-exact; candidates must be bit-exact, constant-cycle, ALM <= 10,478 
 Closed: Phase 4 final selection (ADR 0008 proposed P = 4 under 25%; never accepted) — decided as ADR 0009 (2026-10-01,
 decided by Faza Dzil, Team J5): L = 8, P = 6 (C3-P6); NTT-core design budget 30% = 12,573 ALM (replaces 25% for the
 NTT core from Phase 4 on; not a system-level limit); targets per ADR 0006 unchanged (40 ns met, 50 MHz for Phase 5).
+Closed: #18 Phase 5 timing objective — accepted as ADR 0010 (2026-10-01, Faza Dzil, Team J5): 50 MHz kept as a
+best-effort project target, not a Phase 5 gate; ADR 0006 expectation corrected (C3-P6 critical path in the memory read
+path, MEASURED); memory / P / schedule work in a separate phase or sub-phase after 5a/5b (name and position: #19).
+Closed: #22 Phase 5 plan decisions D1–D8 and the 5b selection rule — accepted as ADR 0011 (2026-10-01, Faza Dzil,
+Team J5): all suggestions of test plan §13 (40 ns for C4 revisions + 20 ns information compiles of final C4 and C3-P6;
+12,573 ALM, Quartus defaults, DSP reported; 5c/5d after 5b; reading (ii) of 5a; no register moves in Phase 5; operand
+contract [0, q); seeds 1–6 for 5b; 5b rule).
+Closed: #20 acceptable cycle increase and #21 ALM limit for added registers — accepted as ADR 0012 (2026-10-01, Faza
+Dzil, Team J5): more cycles only if t_NTT and t_INTT at the measured Fmax beat C3-P6 and constant-cycle holds; NTT
+core ≤ 12,573 ALM stays the limit, exceeding it needs a new team decision.

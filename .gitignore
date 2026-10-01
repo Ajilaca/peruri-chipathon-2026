@@ -34,3 +34,6 @@ CLAUDE.local.md
 # Official test vectors are fetched by tb/golden/fetch_acvp_vectors.py (pinned commit + sha256);
 # the JSON files are not committed.
 tb/vectors/acvp/*.json
+
+# Obsidian vault settings (docs/ may be opened as a vault; never committed)
+.obsidian/

@@ -1,0 +1,41 @@
+# formal/phase05-arith/ntt_core_c4a_safety.sby
+# Phase 5 V8 for rtl/ntt/ntt_core_c4a.sv (P = 6): properties H, O, R, A, B, C of ntt_core_c4_formal_top.sv,
+# same flow and depth as formal/phase04-pipeline/ntt_core_c3_p6_safety.sby (depth 9 = P + 3).
+# Control and bank-capacity properties only, not arithmetic.
+
+[options]
+mode prove
+depth 9
+
+[engines]
+smtbmc boolector
+
+[script]
+plugin -i slang
+read_slang -D FORMAL ntt_pkg.sv twiddle_rom.sv twiddle_rom_mont.sv bank_map_rom.sv pipe_delay.sv modmul_reduce_staged.sv modmul_fold.sv modmul_barrett.sv modmul_montgomery.sv modmul_sel.sv butterfly_c4.sv lazy_bfly_io.sv modmul_barrett_lazy.sv butterfly_c4_lazy.sv poly_mem_multiport_pipe.sv ntt_core_c4.sv ntt_core_c4a.sv ntt_core_c4b_b.sv ntt_core_c4b_m.sv ntt_core_c4c.sv ntt_core_props.sv ntt_core_c4_formal_top.sv --top ntt_core_c4_formal_top -G V=0
+prep -top ntt_core_c4_formal_top
+memory_map -rom-only
+
+[files]
+../../rtl/ntt/ntt_pkg.sv
+../../rtl/ntt/twiddle_rom.sv
+../../rtl/arith/twiddle_rom_mont.sv
+../../rtl/mem/bank_map_rom.sv
+../../rtl/ntt/pipe_delay.sv
+../../rtl/ntt/modmul_reduce_staged.sv
+../../rtl/arith/modmul_fold.sv
+../../rtl/arith/modmul_barrett.sv
+../../rtl/arith/modmul_montgomery.sv
+../../rtl/arith/modmul_sel.sv
+../../rtl/arith/butterfly_c4.sv
+../../rtl/arith/lazy_bfly_io.sv
+../../rtl/arith/modmul_barrett_lazy.sv
+../../rtl/arith/butterfly_c4_lazy.sv
+../../rtl/mem/poly_mem_multiport_pipe.sv
+../../rtl/ntt/ntt_core_c4.sv
+../../rtl/ntt/ntt_core_c4a.sv
+../../rtl/ntt/ntt_core_c4b_b.sv
+../../rtl/ntt/ntt_core_c4b_m.sv
+../../rtl/ntt/ntt_core_c4c.sv
+../phase01-ntt/ntt_core_props.sv
+ntt_core_c4_formal_top.sv
