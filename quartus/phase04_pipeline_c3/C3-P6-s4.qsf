@@ -1,0 +1,35 @@
+set_global_assignment -name FAMILY "Cyclone V"
+set_global_assignment -name DEVICE 5CSEBA6U23I7
+set_global_assignment -name TOP_LEVEL_ENTITY ntt_core_c3_p6
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files_P6_s4
+set_global_assignment -name SDC_FILE C3.sdc
+
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/ntt/ntt_pkg.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/ntt/twiddle_rom.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mem/bank_map_rom.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/ntt/pipe_delay.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/ntt/modmul_reduce_staged.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/ntt/butterfly_shared_pipe.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mem/poly_mem_multiport_pipe.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/ntt/ntt_core_c3.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/ntt/ntt_core_c3_p6.sv
+
+# Kernel-only, virtual pins: same assignments as the Phase 3 revisions
+# (quartus/phase03_multilane_c2/C2-K2-K1-L8.qsf); the four Phase 4 QSFs differ only in top entity,
+# output folder and RTL file list (docs/evidence/phase04-pipeline/test_plan.md section 5).
+set_instance_assignment -name VIRTUAL_PIN ON -to clk_i
+set_instance_assignment -name VIRTUAL_PIN ON -to rst_ni
+set_instance_assignment -name VIRTUAL_PIN ON -to mode_i
+set_instance_assignment -name VIRTUAL_PIN ON -to start_i
+set_instance_assignment -name VIRTUAL_PIN ON -to host_addr_i[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to host_wdata_i[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to host_we_i
+set_instance_assignment -name VIRTUAL_PIN ON -to host_rdata_o[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to busy_o
+set_instance_assignment -name VIRTUAL_PIN ON -to done_o
+set_instance_assignment -name VIRTUAL_PIN ON -to bank_overflow_o
+
+set_global_assignment -name LAST_QUARTUS_VERSION "25.1std.0 Lite Edition"
+
+# Seed sweep (Phase 4, ADR 0008 input): only the fitter seed differs from C3-P6; default seed is 1.
+set_global_assignment -name SEED 4

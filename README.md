@@ -10,9 +10,11 @@ di HPS (ARM Cortex-A9). Target utama: eksekusi waktu-konstan yang dibuktikan, ha
 terhadap vektor uji resmi, dan angka sumber daya/timing yang diukur dari Quartus.
 
 ## Status
-Tahap awal. **Belum ada hasil sintesis, simulasi RTL, atau pengukuran papan.** Angka apa pun yang
-kelak muncul di repositori ini hanya berasal dari laporan Quartus atau uji pada papan dan
-disimpan sebagai bukti di `docs/evidence/`. Rencana: `docs/ROADMAP.md`.
+Fase 0–4 selesai (lihat `docs/results/` dan `HANDOFF.md`). Konfigurasi inti NTT/INTT saat ini: **C3-P6**
+(8 lajur, pipeline 6 tahap, ADR 0009). Hasilnya **terukur di simulasi dan di laporan Quartus saja**
+(kernel-only, virtual pin): memenuhi batasan 40 ns di semua seed yang diuji; target 50 MHz (Fase 5) belum tercapai.
+**Belum ada pengukuran pada papan.** Setiap angka berasal dari laporan Quartus atau simulasi dan disimpan sebagai
+bukti di `docs/evidence/`. Rencana: `docs/ROADMAP.md`.
 
 ## Batas klaim
 - Parameter ML-KEM tidak diubah; inovasi hanya pada arsitektur perangkat keras.

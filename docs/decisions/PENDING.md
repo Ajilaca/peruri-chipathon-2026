@@ -24,3 +24,15 @@ decided by Faza Dzil, Team J5): primary = min cycle count within a 25% ALM budge
 Closed: #15 Use the C2-K2-K1 supplementary configuration for the ADR 0004 L-selection — accepted
 as ADR 0005 (2026-09-30, decided by Faza Dzil, Team J5): C2-K2-K1 adopted, L = 8 selected
 (9,754 ALM, within the 10,478 ALM budget); Phase 4 starts from C2-K2-K1 at L = 8.
+Closed: #16 Phase 4 target clock — accepted as ADR 0006 (2026-09-30, decided by Faza Dzil, Team J5):
+two-tier; Phase 4 milestone 40.000 ns (25 MHz) as an experimental target, not a hardware or system
+requirement; end goal 20.000 ns (50 MHz) after Phase 5, not a Phase 4 gate; one constraint for every
+Phase 4 revision including the re-compiled P = 0 reference.
+Closed: #17 Phase 4 pipeline depth P and selection rule — accepted as ADR 0007 (2026-09-30, decided by
+Faza Dzil, Team J5): P in {0, 2, 4, 6}; registers allowed inside the memory access path and the divider;
+function bit-exact; candidates must be bit-exact, constant-cycle, ALM <= 10,478 and meet timing at
+40.000 ns; select minimum t_NTT = cycles_NTT/Fmax (lowest reported slow-corner Fmax), smaller P within
+5% of the global minimum; no automatic selection if there is no candidate.
+Closed: Phase 4 final selection (ADR 0008 proposed P = 4 under 25%; never accepted) — decided as ADR 0009 (2026-10-01,
+decided by Faza Dzil, Team J5): L = 8, P = 6 (C3-P6); NTT-core design budget 30% = 12,573 ALM (replaces 25% for the
+NTT core from Phase 4 on; not a system-level limit); targets per ADR 0006 unchanged (40 ns met, 50 MHz for Phase 5).
