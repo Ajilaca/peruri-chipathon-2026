@@ -58,9 +58,10 @@ Accelerator · 03 AI/Edge Accelerator · 04 Secure Communication. The team chose
   empty until a team member ticks it): C4 = C4b-B (Barrett reducer, 119 / 375 cycles, 9,166–9,208 ALM, 18 DSP); 5c (C4c)
   measured and not adopted (ADR 0014); 5d not attempted; information compiles at 20 ns do not meet timing for C3-P6 or C4b-B;
   the critical path is the memory read (ADR 0010).
-- Open for the team: ADR 0013 (Barrett choice, PENDING #23) and ADR 0015 (5d, PENDING #24) are Proposed; PENDING #19 is the
-  name and position of a "memory and schedule" phase for the 50 MHz work, before Phase 6. Do not start Phase 6 or that
-  phase's RTL before the team decides. Read `HANDOFF.md` first in a new session (it may lag behind this section).
+- Decided 2026-10-02 (Jevan, Team J5): ADR 0013 (Barrett is the C4 reducer), ADR 0015 (5d not attempted in Phase 5, moves to
+  Phase 6), ADR 0017 (a separate "memory and schedule" phase, working name "Phase 5M", between Phase 5 and Phase 6; steps S6-S9;
+  branch `phase5m-memory-schedule`). The Phase 5 Approval box is still empty. Work on Phase 5M follows ADR 0017 (one change per
+  step, test plan and ADR 0012 adoption rule before measuring, STOP for the team after each step). Read `HANDOFF.md` first in a new session.
 - Do not start RTL for a block until its golden model exists and its phase is approved.
 - Each phase ends with a validated result artifact (`docs/results/`); a human approves it before the next phase.
   Never tick the Approval box yourself.
