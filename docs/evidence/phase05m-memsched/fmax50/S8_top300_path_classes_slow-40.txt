@@ -1,0 +1,15 @@
+300 paths; slack min 15.135 max 21.920
+ 15.135 n= 18  altsyncram_k4d1/ram_block1a0~PORT_A_WRITE_ENABLE_REG  ->  poly_mem_multiport_split/g_arb[*].g_reg.count_q
+ 16.034 n=  6  altsyncram_k4d1/ram_block1a0~PORT_A_WRITE_ENABLE_REG  ->  poly_mem_multiport_split/g_arb[*].g_reg.slot_q
+ 18.505 n=  1  ntt_core_s8/layer_q  ->  altsyncram_ku91/ram_block5a0~porta_datain_reg26
+ 18.991 n=  1  ntt_core_s8/layer_q  ->  altsyncram_ku91/ram_block5a0~porta_datain_reg27
+ 19.015 n=168  poly_mem_multiport_split/bank_rdata_q  ->  u_mul.cut0
+ 19.839 n= 16  ntt_core_s8/layer_q  ->  poly_mem_multiport_split/g_arb[*].g_reg.count_q
+ 20.942 n= 24  ntt_core_s8/mode_q  ->  u_mul.cut0
+ 21.017 n=  2  poly_mem_multiport_split/g_arb[*].g_reg.bank_q  ->  poly_mem_multiport_split/g_arb[*].g_reg.slot_q
+ 21.369 n= 49  altsyncram_mr91/u_dly_bank  ->  poly_mem_multiport_split/g_bank[*].mem[*][*]
+ 21.382 n=  6  poly_mem_multiport_split/g_arb[*].g_reg.slot_q  ->  poly_mem_multiport_split/bank_rdata_q
+ 21.660 n=  2  altsyncram_ku91/ram_block5a113  ->  poly_mem_multiport_split/bank_rdata_q
+ 21.694 n=  1  poly_mem_multiport_split/bank_rdata_q  ->  altsyncram_ku91/ram_block5a13~porta_datain_reg6
+ 21.852 n=  5  altsyncram_ofc1/u_dly_wv  ->  poly_mem_multiport_split/g_bank[*].mem[*][*]
+ 21.867 n=  1  poly_mem_multiport_split/bank_rdata_q  ->  altsyncram_ku91/ram_block5a13~porta_datain_reg4
