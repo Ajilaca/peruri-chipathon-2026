@@ -58,10 +58,10 @@ Accelerator · 03 AI/Edge Accelerator · 04 Secure Communication. The team chose
   empty until a team member ticks it): C4 = C4b-B (Barrett reducer, 119 / 375 cycles, 9,166–9,208 ALM, 18 DSP); 5c (C4c)
   measured and not adopted (ADR 0014); 5d not attempted; information compiles at 20 ns do not meet timing for C3-P6 or C4b-B;
   the critical path is the memory read (ADR 0010).
-- Decided 2026-10-02 (Jevan, Team J5): ADR 0013 (Barrett is the C4 reducer), ADR 0015 (5d not attempted in Phase 5, moves to
-  Phase 6), ADR 0017 (a separate "memory and schedule" phase, working name "Phase 5M", between Phase 5 and Phase 6; steps S6-S9;
-  branch `phase5m-memory-schedule`). The Phase 5 Approval box is still empty. Work on Phase 5M follows ADR 0017 (one change per
-  step, test plan and ADR 0012 adoption rule before measuring, STOP for the team after each step). Read `HANDOFF.md` first in a new session.
+- Done: Phase 5M (`docs/results/result_phase5m.md`, Approval box empty): S6 = M6 base by team decision (ADR 0020; the rule did not adopt it), S7 split memory read **adopted by the rule** (ADR 0021 Proposed: median Fmax 38.720 MHz,
+  NTT = INTT = 120 cycles, 9,361-9,405 ALM, 16 DSP), S8 write-path register **not adopted** (ADR 0023 Proposed: 37.990 MHz, 122 cycles), S9 M10K study (ADR 0022 Proposed: a conflict-free 1R1W 16-bank map exists, no hardware number).
+  Decided 2026-10-02 (Jevan, Team J5): ADR 0013 (Barrett), ADR 0015 (5d moves to Phase 6), ADR 0017 (Phase 5M), ADR 0019 (minimal path to full ML-KEM: skips Phase 6 and 8a/8c/8d; S7-S9 done by note 3). The configuration
+  for later phases (S7, M6 or S8) awaits the team (ADR 0021/0023). Read `HANDOFF.md` first in a new session.
 - Do not start RTL for a block until its golden model exists and its phase is approved.
 - Each phase ends with a validated result artifact (`docs/results/`); a human approves it before the next phase.
   Never tick the Approval box yourself.

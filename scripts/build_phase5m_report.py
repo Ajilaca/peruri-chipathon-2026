@@ -108,7 +108,7 @@ def build():
     st += [P("Memori dan Jadwal (S6–S8) · Akselerator NTT/INTT ML-KEM-768", "csub")]
     st += [P("Terasic DE10-Nano · Intel/Altera Cyclone V SE 5CSEBA6U23I7", "csub"), Spacer(1, 14)]
     st += [P("Status: <b>S6–S8 selesai diukur</b>. S6 (M6) dipakai atas keputusan tim (ADR 0020); S7 memenuhi aturan adopsi "
-             "(ADR 0021 <b>Proposed</b>); S8 <b>tidak diadopsi oleh aturan</b>; S9 ditunda (pending); Approval belum dicentang", "cmeta")]
+             "(ADR 0021 <b>Proposed</b>); S8 <b>tidak diadopsi oleh aturan</b>; S9 selesai sebagai studi dokumen (ADR 0022 <b>Proposed</b>); Approval belum dicentang", "cmeta")]
     st += [P("Branch: phase5m-memory-schedule · 2026-10-03", "cmeta"), Spacer(1, 22)]
     st += [P("Ditulis untuk: Tim J5. Sumber kebenaran tetap berkas di repo (docs/results/result_phase5m.md, "
              "docs/evidence/phase05m-memsched/, docs/decisions/); dokumen ini rangkuman bacaan. Label: <b>MEASURED</b> "
@@ -135,14 +135,14 @@ def build():
         f"<b>Kompilasi informasi 20 ns (S8):</b> timing tidak terpenuhi (setup {num(i_s8['setup'], 3)} ns, Fmax {num(i_s8['fmax'])} MHz); "
         "target 50 MHz belum tercapai.",
         "<b>Regresi penuh Fase 0–5</b> dijalankan sekali pada pohon akhir (Amandemen A1): lulus; tidak ada berkas RTL, tes atau bukti "
-        "Fase 1–5 yang diubah. S9 ditunda; tidak ada pengukuran pada papan.",
+        "Fase 1–5 yang diubah. <b>S9 (studi M10K, tanpa RTL)</b>: peta 16 bank 1R1W bebas konflik terbukti pada jadwal nyata; tidak ada pengukuran pada papan.",
     ])
 
     st += [P("2. Tujuan dan Urutan Langkah", "h1")]
     st += [P("Fase 5 menunjukkan bahwa perubahan aritmetika tidak menaikkan Fmax di luar sebaran seed karena jalur kritis berada di "
              "pembacaan memori. Fase 5M (ADR 0017) mengubah satu hal per langkah pada memori dan jadwal, dengan rencana uji dan aturan "
              "adopsi ADR 0012 ditulis <b>sebelum</b> mengukur. ADR 0019 membatasi jalur ke ML-KEM penuh sebelum 2026-10-08; "
-             "S6, S7 dan S8 dikerjakan, S9 ditunda.")]
+             "S6, S7 dan S8 dikerjakan; S9 dikerjakan sebagai studi dokumen (permintaan tim 2026-10-03).")]
     st += [table([["Langkah", "Perubahan (satu per langkah)", "Berkas baru", "P", "Siklus NTT / INTT"],
                   ["S6 (M6)", "INTT dibagi dua di setiap layer (3303 = 2<super>-7</super> mod q); <i>scaling pass</i> 256 siklus dan satu pengali dihapus",
                    "half_mod, butterfly_m6, twiddle_rom_half, ntt_core_m6", "6", "119 / 119"],
@@ -200,6 +200,20 @@ def build():
         "Aturan tidak diubah dan tidak ada seed tambahan.",
     ])
 
+    st += [P("5b. S9: Studi M10K / Baca Sinkron (tanpa RTL, tanpa Quartus)", "h1")]
+    st += [table([["Kasus (model jadwal alamat nyata, tulis P = 7 siklus setelah baca)", "baca / bank / siklus", "tulis / bank / siklus"],
+                  ["Peta 8 bank saat ini", "2", "2 (baca + tulis = 4 per bank)"],
+                  ["<b>Kandidat 2: 16 bank, bank = (a1 XOR a2 XOR a3 XOR a4, a7, a6, a5), offset = a[3:0]</b>", "<b>1</b>", "<b>1</b>"],
+                  ["Kandidat 1 (turunan manual pertama)", "2", "2 (<b>ditolak skrip</b>)"],
+                  ["Kontrol negatif bank = a[7:4] dan bank = a[3:0]", "2 dan 16", "2 dan 16 (konflik, sesuai syarat)"]],
+                 [W - 70 * mm, 30 * mm, 40 * mm])]
+    st += [P("Peta kandidat 2 bijektif, seimbang (16 kata per bank) dan memenuhi pola 1R1W (<i>simple dual port</i>) di seluruh jadwal NTT dan INTT. "
+             "Opsi A (16 bank M10K, crossbar, tanpa arbitrasi slot): 16 M10K (2,9% dari 553, perhitungan tim); crossbar paling banyak sekitar 1.920 ALM "
+             "(batas atas ESTIMATE, hitungan LUT, belum diukur); efek Fmax <b>belum diukur</b>. Dua koefisien per kata tidak berguna (hanya satu layer per "
+             "arah yang diuntungkan). <i>Double-pumping</i> dan perubahan jadwal tidak dilanjutkan. Fakta perangkat M10K (mode baca-saat-tulis, frekuensi "
+             "maksimum, mode port) <b>belum diverifikasi</b> dari handbook Intel. Turunan manual pertama peta salah dan ditangkap oleh skrip "
+             "(amandemen A1 rencana S9). Bukti: <font name='DVM'>s9/port_analysis_2026-10-03.txt</font>, <font name='DVM'>s9/study_m10k_2026-10-03.md</font>.", "small")]
+
     st += [P("6. Kompilasi Informasi 20 ns (MEASURED, seed 1)", "h1")]
     st += [table([["Metrik", "C3-P6 @ 20 ns", "C4b-B @ 20 ns", "S8 @ 20 ns"],
                   ["ALM", fmt(i_c3["alm"]), fmt(i_c4["alm"]), fmt(i_s8["alm"])],
@@ -232,7 +246,8 @@ def build():
         "<b>Diterima:</b> ADR 0017 (fase 5M), ADR 0019 (jalur minimal; catatan S7 dan S8 direncanakan), ADR 0020 (M6 basis).",
         "<b>Proposed, menunggu tim:</b> ADR 0021 (S7: aturan terpenuhi; terima sebagai konfigurasi?) dan ADR 0023 (S8: tidak diadopsi oleh aturan; "
         "konfigurasi untuk Fase 6 dan 7 adalah S7, M6 atau S8?). Pekerjaan S8 dimulai di atas S7 atas instruksi kerja 2026-10-02.",
-        "<b>S9 ditunda</b> (dicatat di PENDING.md). PENDING #25 (pemeriksaan masukan FIPS 203) dan #26 (satu STOP per blok) masih terbuka.",
+        "<b>ADR 0022 (S9, Proposed):</b> opsi memori M10K untuk dipilih tim; saran (bukan keputusan): lanjut Fase 6/7 dengan S7, buka eksperimen 16 bank M10K setelah blok kritis tenggat. "
+        "PENDING #25 (pemeriksaan masukan FIPS 203) dan #26 (satu STOP per blok) masih terbuka.",
         "Kotak Approval <font name='DVM'>result_phase5.md</font> dan <font name='DVM'>result_phase5m.md</font> kosong; hanya anggota tim yang mencentangnya.",
     ])
 
@@ -252,7 +267,7 @@ def build():
              f"tambahan, sehingga waktu per transformasi turun dari {num(t6, 3)} ke {num(t7, 3)} µs (perhitungan tim), sekaligus NTT dan INTT "
              f"sama-sama 120 siklus. Menambah register jalur tulis (S8) tidak membantu pada pengukuran ini. Konfigurasi terukur terbaik adalah S7; "
              "keputusan menjadikannya basis Fase 6 dan 7 ada pada tim. Target 50 MHz belum tercapai (S8 pada 20 ns: setup "
-             f"{num(i_s8['setup'], 3)} ns).")]
+             f"{num(i_s8['setup'], 3)} ns). S9 (studi) menunjukkan jalur ke memori M10K tanpa konflik port, tetapi manfaatnya belum diukur.")]
 
     st += [P("11. Reproduksibilitas", "h1")]
     st += [Paragraph("<br/>".join([
@@ -261,11 +276,11 @@ def build():
         "python3 formal/run_formal_phase5m.py; ..._s7.py; ..._s8.py",
         "cd quartus/phase05m_memsched &amp;&amp; ./run_m6_sweep.sh &amp;&amp; ./run_s7_sweep.sh &amp;&amp; ./run_s8_sweep.sh",
         "scripts/phase5m_final_regression.sh",
-        "python3 scripts/phase5m_select_s6.py; ..._s7.py; ..._s8.py",
+        "python3 scripts/phase5m_select_s6.py; ..._s7.py; ..._s8.py; python3 scripts/phase5m_s9_port_analysis.py",
         "python3 scripts/build_phase5m_report.py          # laporan ini"]), S["code"])]
     st += [P("Bukti utama: " + ", ".join(f"<font name='DVM'>{x}</font>" for x in [
         "s6/selection_worksheet_2026-10-02.md", "s7/selection_worksheet_2026-10-02.md", "s8/selection_worksheet_2026-10-03.md",
-        "s8/regression_2026-10-03.md", "test_plan.md", "test_plan_s7.md", "test_plan_s8.md", "docs/decisions/0017 … 0022",
+        "s8/regression_2026-10-03.md", "s9/study_m10k_2026-10-03.md", "test_plan.md", "test_plan_s7.md", "test_plan_s8.md", "docs/decisions/0017 … 0023",
         "docs/results/result_phase5m.md"]) + ".", "small")]
 
     doc.build(st, onFirstPage=lambda c, d: None, onLaterPages=footer)

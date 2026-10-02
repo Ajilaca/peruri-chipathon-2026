@@ -90,7 +90,7 @@ def main() -> int:
         ("cycles exactly NTT 122 / INTT 122", cyc_ok),
         (f"ALM <= {ALM_BUDGET:,} at every seed", alm_ok),
         ("timing met at 40.000 ns at every seed", tim_ok),
-        (f"ADR 0012, t_NTT {tn_m:.3f} < {tn_b:.3f} us (M6 median Fmax {b_med:.3f} MHz; needs S8 median {m_med:.3f} MHz > {122 * b_med / 120:.3f} MHz)", ntt_ok),
+        (f"ADR 0012, t_NTT {tn_m:.3f} < {tn_b:.3f} us (S7 median Fmax {b_med:.3f} MHz; S8 median {m_med:.3f} MHz must exceed {122 * b_med / 120:.3f} MHz)", ntt_ok),
         (f"ADR 0012, t_INTT {ti_m:.3f} < {ti_b:.3f} us", intt_ok),
     ]
     for text, ok in checks:
