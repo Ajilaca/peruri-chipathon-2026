@@ -1,6 +1,6 @@
 # CHIPATON 2026 — Claude Code Handoff
 
-Written 2026-10-02 at the end of Phase 5 and updated 2026-10-03 at the end of Phase 5M (S6-S9), for opening a new Claude Code session. Read this file, then `CLAUDE.md`
+Written 2026-10-02 at the end of Phase 5 and updated 2026-10-03 at the end of Phase 5M (S6-S9) and of Phase 6 (with S10), for opening a new Claude Code session. Read this file, then `CLAUDE.md`
 (project rules, they override everything else), then `docs/ROADMAP.md` and `docs/decisions/PENDING.md` before doing anything.
 Labels used below: **MEASURED** (Quartus report or simulation log in this repo), **INFERENCE** (derived from measured
 numbers), **ESTIMATE**, **NOT MEASURED**.
@@ -10,7 +10,7 @@ numbers), **ESTIMATE**, **NOT MEASURED**.
 |---|---|
 | What | ML-KEM-768 (FIPS 203) accelerator, hardware/software co-design; CHIP 2026 Hackathon (PERURI Digital Summit), Team J5, ITB |
 | Repository | <https://github.com/Ajilaca/peruri-chipathon-2026> (public, MIT licence, ADR 0016) — local `~/FPGA/Projects/CHIPATON` |
-| Branch | `phase5m-memory-schedule` (Phase 5M, not pushed; `main` has Phase 5, PR #2, tag `phase5-done-2026-10-02`) |
+| Branch | `phase6-scheduling` (Phase 6 + S10, not pushed; `main` has Phase 5M, PR #3, tag `phase5m-done-2026-10-03`) |
 | Board | Terasic DE10-Nano (no board attached; no board measurement exists) |
 | FPGA | Intel/Altera Cyclone V SE **5CSEBA6U23I7**: 41,910 ALM, 553 M10K, 112 DSP (fitter denominators) |
 | Quartus | Prime Lite **25.1std.0 Build 1129** at `~/altera_lite/25.1std` (path in git-ignored `scripts/tooling.env`) |
@@ -26,7 +26,7 @@ numbers), **ESTIMATE**, **NOT MEASURED**.
 | 4 Butterfly pipeline C3 | DONE — L = 8, P = 6 (ADR 0009) | `result_phase4.md` | ticked (Faza Dzil, 2026-10-01) |
 | **5 Modular arithmetic C4** | **DONE technically; Approval box EMPTY** — ADR 0013 and ADR 0015 are Proposed | `result_phase5.md` | **not ticked** (only a team member ticks it) |
 | **Phase 5M memory / schedule (ADR 0017, S6-S9)** | **DONE technically (2026-10-03); Approval box EMPTY** — S6 M6 base by team decision (ADR 0020), S7 adopted by the rule (ADR 0021 Proposed), S8 not adopted (ADR 0023 Proposed), S9 study (ADR 0022 Proposed) | `result_phase5m.md`, PDF `docs/report/CHIPATON_Phase5M_Report.pdf` | **not ticked** |
-| 6 NTT scheduling at operation level | not started | — | — |
+| **6 NTT scheduling at operation level (+ S10)** | **DONE technically (2026-10-03); Approval box EMPTY** — sequencer bit-exact, S10 adopted by its rule (ADR 0025 Proposed), 20 ns met at 6/6 seeds | `result_phase6.md`, PDF `docs/report/CHIPATON_Phase6_Report.pdf` | **not ticked** |
 
 ## 3. Phase 5 outcome (MEASURED unless marked; `docs/results/result_phase5.md`, PDF `docs/report/CHIPATON_Phase5_Report.pdf`)
 - **C4 = C4b-B**: C3-P6 core (L = 8, P = 6) with a Barrett reducer (k = 24, M = 5039), `rtl/ntt/ntt_core_c4b_b.sv`, revision
@@ -71,6 +71,13 @@ formal Phase 5 14/14 as expected (control and bank properties, 5c value bounds, 
 - S9 (study, no RTL): the 8-bank map needs 2R + 2W per bank per cycle; a 16-bank map `bank = (a1^a2^a3^a4, a7, a6, a5)`, `offset = a[3:0]` needs 1R + 1W over the whole schedule (`docs/evidence/phase05m-memsched/s9/`). No Quartus number for it; option list in ADR 0022.
 - The one full Phase 0-5 regression ran at 300aaf3 (Amendment A1): OVERALL PASS. Statements "S7-S9 not done" in ADR 0019 and 0020 were edited in place with a trace (2026-10-03, at the team's request).
 
+## 3c. Phase 6 outcome (MEASURED unless marked; `docs/results/result_phase6.md`)
+- K-PKE arithmetic sequencer (`rtl/sched/`): KeyGen / Encrypt / Decrypt programs generated from `tb/golden/kpke_sched_model.py`, bit-exact end to end against the golden K-PKE on Verilator and Icarus; counts 6/0/9,
+  3/4/12, 3/1/3; constant cycles 5,493 / 6,810 / 3,121 (S7 core). P6 (seed 1): 9,840 ALM, 26 DSP, 58 M10K, 37.59 MHz, timing met at 40 ns.
+- S7 path analysis (option 1): the limit is the slot-arbitration ripple; S7 at 20 ns (option 2): 0/6 seeds met.
+- **S10** (`rtl/mem/poly_mem_m10k.sv`, `rtl/ntt/ntt_core_s10_p5.sv`): 16 x 1R1W banks, no arbitration, P = 5, 118 cycles; 5,045-5,091 ALM; median Fmax 44.320 MHz at 40 ns; **20 ns met at 6/6 seeds** (kernel-only, virtual
+  pins; not a board result). ADR 0025 Proposed (team decides, PENDING #28).
+
 ## 4. Phase 4 summary (still the base; details in `docs/results/result_phase4.md`)
 - ADR 0009 (Accepted): L = 8, P = 6 (C3-P6); NTT-core budget 30 % = **12,573 ALM** (a budget for the NTT core, not a system limit;
   exceeding it needs a new team decision, ADR 0012).
@@ -98,6 +105,8 @@ formal Phase 5 14/14 as expected (control and bank properties, 5c value bounds, 
 | 0021 | **Proposed** | S7 split memory read: adopted by the rule (median Fmax 38.720 MHz) |
 | 0022 | **Proposed** | S9 M10K study: options for the team |
 | 0023 | **Proposed** | S8 write-path register: not adopted by the rule (37.990 MHz, 122 cycles) |
+| 0024 | Accepted 2026-10-03 (Jevan) | Phase 6 now (supersedes ADR 0019 point 2), S10 inside Phase 6 |
+| 0025 | **Proposed** | S10 16-bank memory: adopted by the rule; 20 ns met at 6/6 seeds |
 | 0016 | Accepted | Repository licence MIT (copyright line wording chosen by the assistant; the team may change it) |
 Open team decisions: `docs/decisions/PENDING.md` (older #1, #3, #8 ...). The team user on 2026-10-02 identified as Jevan (laptop of Faza Dzil; local git identity set per repo).
 
@@ -147,8 +156,8 @@ Rebuild reports: `python3 scripts/build_phase5_report.py` (also `build_phase4_re
 - For every RTL-changing step: write the test plan and adoption rule BEFORE measuring; adoption includes ADR 0012 (t_NTT and t_INTT
   better at the median Fmax of seeds 1–6, constant cycles, core ALM ≤ 12,573).
 
-## 10. Immediate Next Steps (after Phase 5M)
-1. Human: decide ADR 0021 (accept S7 as the NTT/INTT base for Phase 6 and 7), ADR 0023 (S8 not adopted), ADR 0022 (S9: which option, when; suggestion: S7 now, 16-bank M10K experiment "S10" after the deadline-critical blocks); tick or leave the Approval boxes of `result_phase5.md` and `result_phase5m.md` (not done by the assistant); push the branch and open the PR (the assistant never pushes).
-2. Decide PENDING #25 (FIPS 203 input checks: hardware or HPS) and #26 (STOP per block or per step).
-3. Next block per ADR 0019 (Phase 6 is skipped there): Phase 7 Keccak-f[1600] baseline K0, then baseline samplers, encode/compress, K-PKE, full Encaps/Decaps with the FO transform and ACVP vectors; tiers T1-T3. Test plan and adoption rule before measuring for every RTL step; Quartus seeds 1-6 one at a time in the background.
-4. Proposal Section 3 (pages 4-6) in parallel, evidence-only, under the claim rules (`/proposal-claims`); the Phase 5M numbers above are the NTT/INTT figures it may cite.
+## 10. Immediate Next Steps (after Phase 6)
+1. Human: decide ADR 0025 (S10 as the core), ADR 0021/0022/0023 (PENDING #27, #28), PENDING #25, #26; tick or leave the Approval boxes of Phases 5, 5M, 6; push `phase6-scheduling` and open the PR (the assistant never pushes).
+2. Phase 7 (Keccak-f[1600] K0, SHA3/SHAKE) per ROADMAP and ADR 0019: golden `tb/golden/keccak.py` against hashlib first, then RTL; test plan before RTL.
+3. Then samplers, encode/compress, K-PKE with the Phase 6 sequencer, full Encaps/Decaps with FO and ACVP vectors (ADR 0019 tiers). A wider host interface of the core is the next data-movement lever (56 % of KeyGen cycles).
+4. Proposal Section 3 (pages 4-6) in parallel, evidence-only, under `/proposal-claims`.

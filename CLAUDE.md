@@ -62,6 +62,9 @@ Accelerator · 03 AI/Edge Accelerator · 04 Secure Communication. The team chose
   NTT = INTT = 120 cycles, 9,361-9,405 ALM, 16 DSP), S8 write-path register **not adopted** (ADR 0023 Proposed: 37.990 MHz, 122 cycles), S9 M10K study (ADR 0022 Proposed: a conflict-free 1R1W 16-bank map exists, no hardware number).
   Decided 2026-10-02 (Jevan, Team J5): ADR 0013 (Barrett), ADR 0015 (5d moves to Phase 6), ADR 0017 (Phase 5M), ADR 0019 (minimal path to full ML-KEM: skips Phase 6 and 8a/8c/8d; S7-S9 done by note 3). The configuration
   for later phases (S7, M6 or S8) awaits the team (ADR 0021/0023). Read `HANDOFF.md` first in a new session.
+- Done: Phase 6 (`docs/results/result_phase6.md`, Approval box empty; ADR 0024 Accepted: Phase 6 now, S10 inside it): K-PKE arithmetic sequencer bit-exact (KeyGen 5,493 / Encrypt 6,810 / Decrypt 3,121 cycles,
+  counts 6/0/9, 3/4/12, 3/1/3); **S10** (16 x 1R1W memory, no slot arbitration) adopted by its rule (ADR 0025 Proposed): median Fmax 44.320 MHz at 40 ns, 5,077 ALM, 118 cycles, timing met at 20 ns at 6/6 seeds
+  (kernel-only). Next per ADR 0019/0024: Phase 7 Keccak K0 after the team's decisions (PENDING #27, #28) and Approvals.
 - Do not start RTL for a block until its golden model exists and its phase is approved.
 - Each phase ends with a validated result artifact (`docs/results/`); a human approves it before the next phase.
   Never tick the Approval box yourself.
