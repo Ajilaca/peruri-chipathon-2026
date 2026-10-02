@@ -84,6 +84,7 @@ def footer(canvas, doc):
 def build():
     check_evidence()
     p6 = q(E6 / "quartus_P6_20261002.md")
+    p6s, p6s20 = q(E6 / "quartus_P6S10_20261002.md"), q(E6 / "quartus_P6S10-20_20261002.md")
     s7, s10 = seeds(E7, "S7"), seeds(E10, "S10")
     s7_20, s10_20 = seeds(E50, "S7-20"), seeds(E10, "S10-20")
     status = json.loads((E10 / "verification_status.json").read_text())
@@ -203,10 +204,23 @@ def build():
     st += [P("Fmax di bawah batasan 20 ns tidak sebanding dengan angka 40 ns (alat bekerja lebih keras). 50 MHz dihitung tercapai hanya untuk seed dengan setup ≥ 0 "
              "di 20 ns; ini kompilasi <i>kernel-only</i> dengan <i>virtual pin</i>, bukan sistem di papan.", "small")]
 
+    st += [P("8b. Unit Fase 6 Lengkap dengan Inti S10 (MEASURED, seed 1, informasi)", "h1")]
+    st += [table([["Metrik", "P6 (inti S7) @ 40 ns", "P6S10 @ 40 ns", "P6S10 @ 20 ns"],
+                  ["ALM", fmt(p6["alm"]), fmt(p6s["alm"]), fmt(p6s20["alm"])],
+                  ["Registers / DSP / M10K", f"{fmt(p6['reg'])} / {p6['dsp']} / {p6['ram']}", f"{fmt(p6s['reg'])} / {p6s['dsp']} / {p6s['ram']}",
+                   f"{fmt(p6s20['reg'])} / {p6s20['dsp']} / {p6s20['ram']}"],
+                  ["Setup terburuk (ns)", num(p6["setup"], 3), num(p6s["setup"], 3), num(p6s20["setup"], 3)],
+                  ["Timing terpenuhi", "ya", "ya", "<b>ya</b>" if p6s20["setup"] >= 0 else "<b>tidak</b>"],
+                  ["Fmax corner terendah (MHz)", num(p6["fmax"]), num(p6s["fmax"]), num(p6s20["fmax"])]],
+                 [46 * mm] + [(W - 46 * mm) / 3] * 3)]
+    st += [P(f"Dengan inti S10, seluruh unit aritmetika K-PKE memenuhi batasan 20 ns pada seed 1 (satu kompilasi, kernel-only). Waktu per operasi pada 50 MHz bila "
+             f"dijalankan di jam itu (perhitungan tim): KeyGen {num(CYC10['keygen'] / 50, 1)} µs, Encrypt {num(CYC10['encrypt'] / 50, 1)} µs, Decrypt "
+             f"{num(CYC10['decrypt'] / 50, 1)} µs; bukan pengukuran pada papan.", "small")]
+
     st += [P("9. Keputusan Menunggu Tim", "h1")]
     st += bullets([
         "ADR 0025 (S10, Proposed): terima atau tolak S10 sebagai memori inti untuk fase berikutnya (hasil aturan di bagian 7).",
-        "ADR 0021 (S7) dan ADR 0023 (S8) masih Proposed; PENDING #25, #26, #27.",
+        "ADR 0021 (S7), ADR 0022 (S9) dan ADR 0023 (S8) masih Proposed; PENDING #25, #26, #27, #28.",
         "Kotak Approval result_phase5.md, result_phase5m.md dan result_phase6.md kosong; hanya anggota tim yang mencentangnya.",
     ])
     st += [P("10. Keterbatasan", "h1")]
@@ -221,7 +235,7 @@ def build():
         ". scripts/env.sh",
         "scripts/phase6_verify.sh; python3 formal/run_formal_phase6.py",
         "scripts/s10_verify.sh; python3 formal/run_formal_s10.py",
-        "cd quartus/phase06_sched &amp;&amp; ./run_p6.sh &amp;&amp; ./run_s10_sweep.sh",
+        "cd quartus/phase06_sched &amp;&amp; ./run_p6.sh &amp;&amp; ./run_s10_sweep.sh &amp;&amp; ./run_p6s10.sh",
         "cd quartus/phase05m_memsched &amp;&amp; ./run_s7_20_sweep.sh",
         "python3 scripts/select_s10.py",
         "python3 scripts/build_phase6_report.py"]), S["code"])]
