@@ -1,0 +1,41 @@
+set_global_assignment -name FAMILY "Cyclone V"
+set_global_assignment -name DEVICE 5CSEBA6U23I7
+set_global_assignment -name TOP_LEVEL_ENTITY ntt_core_s8_p8
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files_S8-s2
+set_global_assignment -name SDC_FILE M.sdc
+
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/ntt/ntt_pkg.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/ntt/twiddle_rom.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/arith/twiddle_rom_half.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mem/bank_map_rom.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/ntt/pipe_delay.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/ntt/modmul_reduce_staged.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/arith/modmul_fold.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/arith/modmul_barrett.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/arith/modmul_montgomery.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/arith/modmul_sel.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/arith/half_mod.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/arith/butterfly_m6.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mem/poly_mem_multiport_split.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/ntt/ntt_core_s8.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/ntt/ntt_core_s8_p8.sv
+
+
+# Kernel-only, virtual pins: same assignments as quartus/phase05m_memsched/M6.qsf; this QSF differs from
+# it only in top entity, output folder and RTL file list (docs/evidence/phase05m-memsched/test_plan_s8.md, V9).
+set_instance_assignment -name VIRTUAL_PIN ON -to clk_i
+set_instance_assignment -name VIRTUAL_PIN ON -to rst_ni
+set_instance_assignment -name VIRTUAL_PIN ON -to mode_i
+set_instance_assignment -name VIRTUAL_PIN ON -to start_i
+set_instance_assignment -name VIRTUAL_PIN ON -to host_addr_i[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to host_wdata_i[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to host_we_i
+set_instance_assignment -name VIRTUAL_PIN ON -to host_rdata_o[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to busy_o
+set_instance_assignment -name VIRTUAL_PIN ON -to done_o
+set_instance_assignment -name VIRTUAL_PIN ON -to bank_overflow_o
+
+set_global_assignment -name LAST_QUARTUS_VERSION "25.1std.0 Lite Edition"
+
+# Fitter-seed copy for the S8 adoption rule (test plan section 4): only SEED and the output folder differ from S8.qsf.
+set_global_assignment -name SEED 2
