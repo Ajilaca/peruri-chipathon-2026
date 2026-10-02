@@ -1,0 +1,4 @@
+300 paths; slack min 14.617 max 19.217
+ 14.617 n= 16  altsyncram_j4d1/ram_block1a0~PORT_A_WRITE_ENABLE_REG  ->  poly_mem_multiport_split/g_arb[*].g_reg.count_q
+ 15.051 n=  4  altsyncram_j4d1/ram_block1a0~PORT_A_WRITE_ENABLE_REG  ->  poly_mem_multiport_split/g_arb[*].g_reg.slot_q
+ 17.770 n=280  u_mul.cut2  ->  poly_mem_multiport_split/g_bank[*].mem[*][*]
