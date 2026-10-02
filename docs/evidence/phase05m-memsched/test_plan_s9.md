@@ -24,3 +24,9 @@ Q4. For each option of ADR 0017 (more 1R1W banks, two coefficients per word, dou
 ## 3. Output and decision rule
 `docs/evidence/phase05m-memsched/s9/study_m10k_2026-10-03.md` (options, evidence conditions, estimates) and an ADR (Proposed) that lists the options for the team. **No adoption rule: the team chooses**
 (C5). S9 changes no RTL, so no regression is needed for it. If the analysis refutes the hand-derived map, that is reported as the result.
+
+## Amendment A1 (2026-10-03, written after the first run of the script)
+The first run **refuted** the hand-derived map of section 2 (`bank = (a7^a3^a2^a1, a6, a5, a4)`): 384 (cycle, bank) cells with two reads and 384 with two writes in each direction, the same count as the negative
+control `bank = a[7:4]`. Cause: my derivation placed the butterfly lane bits (p bits 4..6) on address bits 4..6 for every layer; they land on bit k only if k < log2len, otherwise on bit k + 1. The corrected
+derivation (candidate 2, `bank = (a1^a2^a3^a4, a7, a6, a5)`, `offset = a[3:0]`) was tested by the same script in the same form; both results stay in the evidence file. The script also gained the check of the
+"two coefficients per word" option (section 4 of its output). No criterion or threshold changed.

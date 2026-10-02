@@ -1,0 +1,47 @@
+Phase 5M S9 port analysis (perhitungan tim from tb/mem/bank_model.py; no RTL, no Quartus)
+Timeline: 7 layers x 16 issue cycles, 16 addresses per cycle, writes P = 7 cycles after the reads, both directions
+
+--- current 8-bank map (rtl/mem/bank_map_rom.sv, generated from bank_model.bank_of) ---
+worst over NTT and INTT: reads/bank/cycle = 2, writes/bank/cycle = 2, reads+writes = 4
+M10K true dual port = 2 port operations per cycle; the schedule needs up to 4 per bank in some cycle -> does not fit one true-dual-port M10K per bank; 1R1W (simple dual port) needs <= 1 read and <= 1 write.
+
+--- candidate 1 (first hand derivation, refuted): bank = (a7^a3^a2^a1, a6, a5, a4), offset = a[3:0] ---
+banks used = 16, words per bank = [16], bijective (bank, offset) = True, balanced = True
+NTT: worst reads/bank/cycle = 2, writes/bank/cycle = 2, reads+writes = 4; cells over 1 read = 384, over 1 write = 384
+INTT: worst reads/bank/cycle = 2, writes/bank/cycle = 2, reads+writes = 4; cells over 1 read = 384, over 1 write = 384
+RESULT candidate 1 (first hand derivation, refuted): bank = (a7^a3^a2^a1, a6, a5, a4), offset = a[3:0]: NOT conflict-free as 1R1W
+
+--- candidate 2: bank = (a1^a2^a3^a4, a7, a6, a5), offset = a[3:0] ---
+banks used = 16, words per bank = [16], bijective (bank, offset) = True, balanced = True
+NTT: worst reads/bank/cycle = 1, writes/bank/cycle = 1, reads+writes = 2; cells over 1 read = 0, over 1 write = 0
+INTT: worst reads/bank/cycle = 1, writes/bank/cycle = 1, reads+writes = 2; cells over 1 read = 0, over 1 write = 0
+RESULT candidate 2: bank = (a1^a2^a3^a4, a7, a6, a5), offset = a[3:0]: 1R1W conflict-free over the whole timeline
+
+--- negative control: bank = a[7:4] (no XOR) ---
+banks used = 16, words per bank = [16], bijective (bank, offset) = True, balanced = True
+NTT: worst reads/bank/cycle = 2, writes/bank/cycle = 2, reads+writes = 4; cells over 1 read = 384, over 1 write = 384
+INTT: worst reads/bank/cycle = 2, writes/bank/cycle = 2, reads+writes = 4; cells over 1 read = 384, over 1 write = 384
+RESULT negative control: bank = a[7:4] (no XOR): NOT conflict-free as 1R1W
+
+--- negative control: bank = a[3:0] ---
+banks used = 16, words per bank = [16], bijective (bank, offset) = True, balanced = True
+NTT: worst reads/bank/cycle = 16, writes/bank/cycle = 16, reads+writes = 16; cells over 1 read = 160, over 1 write = 160
+INTT: worst reads/bank/cycle = 16, writes/bank/cycle = 16, reads+writes = 16; cells over 1 read = 160, over 1 write = 160
+RESULT negative control: bank = a[3:0]: NOT conflict-free as 1R1W
+
+--- option: two coefficients per word (word = addresses a and a with bit m flipped) ---
+pairing bit m = 0: (direction, layer) pairs whose two butterfly operands share one word for every butterfly: none
+pairing bit m = 1: (direction, layer) pairs whose two butterfly operands share one word for every butterfly: [('NTT', 6), ('INTT', 0)]
+pairing bit m = 2: (direction, layer) pairs whose two butterfly operands share one word for every butterfly: [('NTT', 5), ('INTT', 1)]
+pairing bit m = 3: (direction, layer) pairs whose two butterfly operands share one word for every butterfly: [('NTT', 4), ('INTT', 2)]
+pairing bit m = 4: (direction, layer) pairs whose two butterfly operands share one word for every butterfly: [('NTT', 3), ('INTT', 3)]
+pairing bit m = 5: (direction, layer) pairs whose two butterfly operands share one word for every butterfly: [('NTT', 2), ('INTT', 4)]
+pairing bit m = 6: (direction, layer) pairs whose two butterfly operands share one word for every butterfly: [('NTT', 1), ('INTT', 5)]
+pairing bit m = 7: (direction, layer) pairs whose two butterfly operands share one word for every butterfly: [('NTT', 0), ('INTT', 6)]
+-> at most one layer per direction (log2len == m) gets both operands from one word; the other six layers need two words per butterfly.
+
+SUMMARY
+candidate 1 conflict-free as 1R1W: False (refuted by this script)
+candidate 2 conflict-free as 1R1W: True
+negative control a[7:4] conflict-free: False (must be False)
+negative control a[3:0] conflict-free: False (must be False)
