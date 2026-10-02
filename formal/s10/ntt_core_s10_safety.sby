@@ -1,0 +1,33 @@
+# formal/s10/ntt_core_s10_safety.sby
+# S10 V5 for rtl/ntt/ntt_core_s10_p5.sv (P = 5): properties H, O, R, A, B, C of ntt_core_s10_formal_top.sv (depth 8 = P + 3). Control and bank capacity only.
+
+[options]
+mode prove
+depth 8
+
+[engines]
+smtbmc boolector
+
+[script]
+plugin -i slang
+read_slang -D FORMAL ntt_pkg.sv twiddle_rom.sv twiddle_rom_half.sv pipe_delay.sv modmul_reduce_staged.sv modmul_fold.sv modmul_barrett.sv modmul_montgomery.sv modmul_sel.sv half_mod.sv butterfly_m6.sv poly_mem_m10k.sv ntt_core_s10.sv ntt_core_s10_p5.sv ntt_core_props.sv ntt_core_s10_formal_top.sv --top ntt_core_s10_formal_top
+prep -top ntt_core_s10_formal_top
+memory_map -rom-only
+
+[files]
+../../rtl/ntt/ntt_pkg.sv
+../../rtl/ntt/twiddle_rom.sv
+../../rtl/arith/twiddle_rom_half.sv
+../../rtl/ntt/pipe_delay.sv
+../../rtl/ntt/modmul_reduce_staged.sv
+../../rtl/arith/modmul_fold.sv
+../../rtl/arith/modmul_barrett.sv
+../../rtl/arith/modmul_montgomery.sv
+../../rtl/arith/modmul_sel.sv
+../../rtl/arith/half_mod.sv
+../../rtl/arith/butterfly_m6.sv
+../../rtl/mem/poly_mem_m10k.sv
+../../rtl/ntt/ntt_core_s10.sv
+../../rtl/ntt/ntt_core_s10_p5.sv
+../phase01-ntt/ntt_core_props.sv
+ntt_core_s10_formal_top.sv
