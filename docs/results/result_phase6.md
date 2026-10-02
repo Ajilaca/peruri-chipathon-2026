@@ -53,12 +53,13 @@
 | M10K / DSP | 31 / 16 | 24 / 16 | 58 / 26 |
 | Timing at 40.000 ns | met, every seed | met, every seed | met |
 | Fmax lowest slow corner at 40 ns (MHz) | median 38.720 (37.89-40.29) | median 44.320 (42.34-46.65) | 37.59 (seed 1) |
-| Timing at 20.000 ns, seeds met | 0 / 6 (worst setup -1.388 to -2.431 ns) | 6 / 6 (worst setup +0.792 to +1.718 ns) | not compiled with S7; see P6S10 below |
+| Timing at 20.000 ns, seeds met | 0 / 6 (worst setup -1.388 to -2.431 ns) | 6 / 6 (worst setup +0.792 to +1.718 ns) | not compiled with S7; with S10 (P6S10-20, seed 1): met, +0.619 ns, 51.60 MHz, 5,643 ALM |
 | NTT / INTT cycles | 120 / 120 | 118 / 118 | - |
 | t_NTT at median Fmax (us) | 3.099 | 2.662 | - |
 | K-PKE cycles KeyGen / Encrypt / Decrypt | 5,493 / 6,810 / 3,121 (P6 with S7) | 5,475 / 6,789 / 3,109 (P6 with S10) | |
 
 Sources: `docs/evidence/phase06-scheduling/s10/selection_worksheet_2026-10-03.md`, `docs/evidence/phase06-scheduling/quartus_P6_20261002.md`, `docs/evidence/phase05m-memsched/fmax50/path_analysis_2026-10-03.md`, the verify files above.
+Phase 6 top with the S10 core (information, seed 1; `docs/evidence/phase06-scheduling/quartus_P6S10_20261002.md`, `docs/evidence/phase06-scheduling/quartus_P6S10-20_20261002.md`): 40 ns 5,553 ALM, 840 registers, 26 DSP, 51 M10K, 43.26 MHz; 20 ns **timing met**, setup +0.619 ns, 51.60 MHz, 5,643 ALM.
 Data movement through the core's host port (one coefficient per cycle): transforms x (257 load + 260 read-back) cycles = 3,102 of 5,493 KeyGen cycles (56 %, perhitungan tim from the RTL operation lengths).
 
 ## 4. Standards and sources pinned
