@@ -23,3 +23,16 @@ Worst S7 path in detail (`S7_worst_path_slow-40_2026-10-03.txt`): clock to the M
 - The arbitration depends only on addresses, i.e. on the fixed schedule, never on data. Two ways to remove it, both new steps for the team: (a) **S10** (16 x 1R1W banks, ADR 0022): no slot arbitration at all;
   (b) a precomputed arbitration table (slot and offset per port and cycle from a ROM indexed by mode, layer and t) in place of the ripple. More arbitration cuts are a third way, with stalls (P > 7).
 - Quartus option without RTL: keeping the bank-map ROM out of M10K (logic ROM) would replace the RAM block clock-to-out (1.080 ns) and its clock-path skew (-1.569 ns) at the start of the path by a logic ROM delay (effect not measured).
+
+## Option 2: S7 at 20.000 ns, seeds 1-6 (MEASURED, `quartus_S7-20[-s2..s6]_20261002.md`, `quartus/phase05m_memsched/run_s7_20_sweep.sh`)
+| Seed | ALM | Worst setup (ns, all corners) | Worst hold (ns) | Fmax lowest slow corner (MHz) |
+|---|---|---|---|---|
+| 1 | 9,365 | -1.388 | 0.151 | 46.76 |
+| 2 | 9,358 | -1.655 | 0.127 | 46.18 |
+| 3 | 9,359 | -2.296 | 0.136 | 44.85 |
+| 4 | 9,383 | -2.431 | 0.125 | 44.58 |
+| 5 | 9,369 | -1.933 | 0.124 | 45.59 |
+| 6 | 9,355 | -1.615 | 0.150 | 46.26 |
+
+Timing at 20.000 ns met at **0 of 6 seeds**; median lowest-corner Fmax 45.885 MHz (INFERENCE: median). Under the 20 ns constraint the fitter works harder than at 40 ns, so these Fmax values are not comparable
+with the 40 ns figures. Note: a status message of 2026-10-03 quoted "-0.836 ns" for seed 1; that was the Slow 100 C setup line only; the worst over all corners is -1.388 ns (corrected here).
