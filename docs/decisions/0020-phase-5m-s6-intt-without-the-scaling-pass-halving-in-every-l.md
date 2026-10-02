@@ -7,7 +7,7 @@
 ## Context
 - ADR 0017 (Accepted) step S6; test plan and adoption rule written before RTL and before measuring
   (`docs/evidence/phase05m-memsched/test_plan.md`, commit f47efcc); base C4b-B (ADR 0013 Accepted).
-- ADR 0019 reduced Phase 5M to S6: S7-S9 are not done before the 2026-10-08 deadline.
+- ADR 0019 first reduced Phase 5M to S6 *(edited 2026-10-03 at the team's request: S7, S8 and S9 were later done, see ADR 0019 amendment note 3; the original text said "S7-S9 are not done before the 2026-10-08 deadline")*.
 
 ## Options considered
 (a) Adopt M6 as the INTT design (INTT 375 -> 119 cycles, 16 DSP, about +250 ALM, NTT Fmax unchanged within seed noise): the pre-fixed rule says

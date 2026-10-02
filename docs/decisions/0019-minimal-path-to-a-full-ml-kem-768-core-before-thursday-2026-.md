@@ -25,8 +25,8 @@
 
 ## Decision
 Option (a), chosen by Jevan, Team J5. ADR 0018 is superseded by this record (its status header is updated; its text is unchanged).
-1. **Phase 5M stops after S6.** S7, S8 and S9 are not done before the deadline (the work is kept in the roadmap as future work); ADR 0017
-   stays Accepted, its scope is reduced by this record. The S6 report is still written and its verdict is the team's.
+1. **Phase 5M covers S6, S7, S8 and S9** *(edited 2026-10-03 at the team's request, see amendment note 3; the original text said "Phase 5M stops after S6; S7, S8 and S9 are not done before the deadline")*. ADR 0017
+   stays Accepted. The Phase 5M report is written after S8 and its verdict is the team's.
 2. **Phase 6 is skipped** before the deadline (a trivial fixed operation order is used in the controller), recorded as a deviation from the
    roadmap's "approval of phase N before N+1".
 3. **Order of work (each block: golden model first, lint Verilator -Wall + slang, both simulators, bit-exact tests, constant-cycle evidence where it
@@ -46,7 +46,7 @@ Option (a), chosen by Jevan, Team J5. ADR 0018 is superseded by this record (its
 ## Consequences
 - Two items must be decided by the team before the controller work reaches them: PENDING #25 (FIPS 203 input checks in hardware or on the HPS) and
   PENDING #26 (checkpoint protocol: fewer STOPs, see below).
-- The proposal states measured results for NTT/INTT and for the tiers reached; optimisations (Phase 6, 8a, 8c, 8d, S7-S9) appear as planned work only.
+- The proposal states measured results for NTT/INTT and for the tiers reached; optimisations (Phase 6, 8a, 8c, 8d) appear as planned work only; S6-S9 are done and appear with their measured results *(edited 2026-10-03; the original text listed S7-S9 as planned work)*.
 - If resource overflow appears at integration, it becomes a team decision (ADR), not a silent change; the 12,573 ALM budget stays the NTT-core
   budget (ADR 0009, 0012).
 
@@ -54,7 +54,7 @@ Option (a), chosen by Jevan, Team J5. ADR 0018 is superseded by this record (its
 - `docs/decisions/0017-*.md`, `0018-*.md`, `docs/ROADMAP.md` Phases 6-9, chat 2026-10-02.
 
 ## Amendment note (2026-10-02, Jevan, Team J5; the decision above is unchanged)
-S7 and S8 of ADR 0017 are kept as **stretch work, not scheduled**: the team may reopen them only if time remains after tier T2 (K-PKE
+*(Superseded by amendment notes 2 and 3: S7 and S8 were planned and then done; original wording follows.)* S7 and S8 of ADR 0017 were kept as **stretch work, not scheduled**: the team may reopen them only if time remains after tier T2 (K-PKE
 KeyGen / Encrypt / Decrypt bit-exact) is reached, and only by a new explicit instruction. They would start from C4b-B on branch
 `phase5m-memory-schedule` and follow the S6 pattern (test plan and adoption rule first, ADR 0012). Because they modify the memory and core
 files, merging them after the integration work started requires the full Phase 0-5 regression (Amendment A1 of the 5M test plan) and a
@@ -63,5 +63,10 @@ Phase 4 evidence `ghrd_plus_c3p6_integration_2026-10-01.md`) is allowed for the 
 
 ## Amendment note 2 (2026-10-02, Jevan, Team J5; supersedes the "stretch" wording of amendment note 1, decision unchanged otherwise)
 The team stated that S7 and S8 will be done on the M6 base (ADR 0020) before moving on to the next phase. S7 and S8 are therefore **planned**, not
-stretch, and come before Phase 7 (Keccak K0); S9 stays dropped. Schedule impact (ESTIMATE): about 9-10 hours more before Phase 7 starts. The deadline
+stretch, and come before Phase 7 (Keccak K0); S9 stays dropped *(superseded by note 3: S9 is done)*. Schedule impact (ESTIMATE): about 9-10 hours more before Phase 7 starts. The deadline
 risk this adds is the team's; a time-box is proposed in the S7 test plan. The tiers of this record are reached later, or not at all, accordingly.
+
+## Amendment note 3 (2026-10-03, Jevan, Team J5, chat: "s9 sekalian dikerjain" and "tolong hapus/edit adr atau .md yang menyatakan s7-s9 tidak di implementasikan"; decision otherwise unchanged)
+S7, S8 and S9 of ADR 0017 are **all done** (S9 as the documentation-only study the ADR defines). Statements in this record, in ADR 0020 and in the repository documents that say S7-S9 are not done, not scheduled or dropped
+were edited in place at the team's request, each with a bracketed trace of what the text said before. Results: S7 adopted by the rule (ADR 0021, Proposed), S8 not adopted by the rule (ADR 0023, Proposed), S9 study
+(ADR 0022, Proposed). ADR 0018 (Superseded) is left as it is: its text records a rejected option and is historical. The schedule impact written in note 2 became real; the time spent is in the Phase 5M report.
