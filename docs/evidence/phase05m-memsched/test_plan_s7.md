@@ -39,7 +39,7 @@ With `RD_SPLIT = 0` the new memory must behave exactly as the frozen one (test V
 | V2 | Memory unit test, `RD_SPLIT = 1`: random request streams (reads, writes, host accesses) against a Python reference of storage; read data at `RdLat + 1`, write landing time, `bank_overflow_o` | cocotb `tb/phase5m/test_poly_mem_split.py`, both simulators | all equal to the reference; overflow flagged only on a third port per bank |
 | V3 | Differential test, `RD_SPLIT = 0`: the new memory equals the frozen `poly_mem_multiport_pipe.sv` cycle by cycle (all outputs) on the same random streams | cocotb | 0 differences |
 | V4 | Core vs golden: NTT, INTT (against `intt()`), round trip, boundary-directed data, constant cycles, `bank_overflow_o`, hazard scoreboard, the 512 INTT unit vectors of S6 (V6 of the S6 plan) | cocotb, Phase 4 test adapted in `tb/phase5m/` (read latency 4, physical read latency 3 for the scoreboard), both simulators | all PASS; scoreboard 0 violations; cycles constant |
-| V5 | Negative controls (test-only copies): NCD write delay one cycle short (`WR_DELAY + RD_SPLIT - 1`) and NCW the write control not delayed by `RD_SPLIT` | cocotb | results must be WRONG and the scoreboard / bit-exact checks FAIL |
+| V5 | Negative controls (test-only copies): NCD write control delayed by `WR_DELAY + RD_SPLIT - 1` (one cycle short, i.e. not delayed by `RD_SPLIT`) and NCS the output select (bank, sub-port) NOT delayed with the registered read data | cocotb | results must be WRONG and the scoreboard / bit-exact checks FAIL |
 | V6 | Formal H, O, R, A, B, C of `ntt_core_s7_formal_top.sv` (a copy of the M6 top with delay model for P = 7, RdLat = 4) with NC-O and NC-A | SymbiYosys | PASS; controls FAIL |
 | V7 | Phase 0-5 regression | **not run for S7**: Amendment A1 of `test_plan.md` (S7 modifies no existing file; S8 runs the regression once on the final tree) | - |
 | V8 | Quartus revisions `S7` (seed 1) and `S7-s2` .. `S7-s6`, 40.000 ns, Quartus defaults, full compile from a clean db, one at a time | `quartus_sh --flow compile` | evidence files extracted from the repository root |
@@ -72,3 +72,8 @@ Notes fixed now:
 
 ## 7. Evidence layout
 `docs/evidence/phase05m-memsched/s7/` (verification logs, formal, Quartus extracts, selection worksheet, summary); ADR for S7 (Proposed) with the result.
+
+## Amendment A1 (2026-10-02, written before any S7 measurement)
+Test V5 as first written listed two negative controls NCD and NCW; with `RD_SPLIT = 1` they are the same mutant (a write delay of `WR_DELAY + RD_SPLIT - 1` is
+exactly "not delayed by `RD_SPLIT`"). NCW is replaced by NCS (output select not delayed together with the read data), a different, independent fault. Thresholds
+and the adoption rule are unchanged. Formal V6 uses RdLat = 3 (physical read) for property C and P = 7 for property A.
