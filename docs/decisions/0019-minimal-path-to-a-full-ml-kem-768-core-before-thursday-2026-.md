@@ -52,3 +52,11 @@ Option (a), chosen by Jevan, Team J5. ADR 0018 is superseded by this record (its
 
 ## Evidence
 - `docs/decisions/0017-*.md`, `0018-*.md`, `docs/ROADMAP.md` Phases 6-9, chat 2026-10-02.
+
+## Amendment note (2026-10-02, Jevan, Team J5; the decision above is unchanged)
+S7 and S8 of ADR 0017 are kept as **stretch work, not scheduled**: the team may reopen them only if time remains after tier T2 (K-PKE
+KeyGen / Encrypt / Decrypt bit-exact) is reached, and only by a new explicit instruction. They would start from C4b-B on branch
+`phase5m-memory-schedule` and follow the S6 pattern (test plan and adoption rule first, ADR 0012). Because they modify the memory and core
+files, merging them after the integration work started requires the full Phase 0-5 regression (Amendment A1 of the 5M test plan) and a
+re-run of the integrated tests; otherwise they stay unmerged as future work. The Fmax lever without RTL changes (Quartus performance settings,
+Phase 4 evidence `ghrd_plus_c3p6_integration_2026-10-01.md`) is allowed for the final compile as an information result, labelled with its settings.
