@@ -10,7 +10,7 @@ di HPS (ARM Cortex-A9). Target utama: eksekusi waktu-konstan yang dibuktikan, ha
 terhadap vektor uji resmi, dan angka sumber daya/timing yang diukur dari Quartus.
 
 ## Status
-Fase 0–5 selesai secara teknis (lihat `docs/results/` dan `HANDOFF.md`). Konfigurasi inti NTT/INTT saat ini: **C4 = C4b-B**
+Fase 0–5 dan Fase 5M selesai secara teknis (lihat `docs/results/` dan `HANDOFF.md`). Konfigurasi inti NTT/INTT saat ini: **C4 = C4b-B**
 (8 lajur, pipeline 6 tahap, reduksi Barrett, ADR 0013 masih *Proposed*), dari basis **C3-P6** (ADR 0009). Hasil Fase 5
 (`docs/results/result_phase5.md`, laporan `docs/report/CHIPATON_Phase5_Report.pdf`):
 - Siklus tetap NTT 119 dan INTT 375 (MEASURED, simulasi, `docs/evidence/phase05-arith/regression_2026-10-01.md`); hasil bit-exact terhadap model golden di dua simulator.
@@ -19,10 +19,16 @@ Fase 0–5 selesai secara teknis (lihat `docs/results/` dan `HANDOFF.md`). Konfi
   C4b-B −2,557 ns). Jalur kritis ada di pembacaan memori, bukan di aritmetika.
 - 5c (lazy reduction) diukur dan tidak diadopsi; 5d (Karatsuba) tidak dicoba (ADR 0015, *Proposed*).
 
+Fase 5M (memori dan jadwal, S6–S9; `docs/results/result_phase5m.md`, laporan `docs/report/CHIPATON_Phase5M_Report.pdf`, Approval belum dicentang):
+- S6 (M6, INTT tanpa *scaling pass*): INTT 375 → 119 siklus, 16 DSP (MEASURED, `docs/evidence/phase05m-memsched/s6/selection_worksheet_2026-10-02.md`); dipakai sebagai basis atas keputusan tim (ADR 0020), meski aturan adopsi tidak terpenuhi.
+- **S7 (pembelahan jalur baca memori):** median Fmax **38,720 MHz** (M6 34,430), NTT = INTT = 120 siklus, 9.361–9.405 ALM (MEASURED, `docs/evidence/phase05m-memsched/s7/selection_worksheet_2026-10-02.md`); aturan terpenuhi (ADR 0021, *Proposed*).
+- S8 (register jalur tulis, 122 siklus): median Fmax 37,990 MHz (MEASURED, `docs/evidence/phase05m-memsched/s8/selection_worksheet_2026-10-03.md`), **tidak diadopsi** oleh aturan (ADR 0023, *Proposed*); kompilasi 20 ns tidak memenuhi timing (setup −2,242 ns).
+- S9 (studi M10K, tanpa RTL): peta 16 bank 1R1W bebas konflik ada pada jadwal nyata (perhitungan tim, `docs/evidence/phase05m-memsched/s9/port_analysis_2026-10-03.txt`); belum ada angka perangkat keras (ADR 0022, *Proposed*).
+
 Semua hasil **terukur di simulasi, analisis formal dan laporan Quartus saja** (kernel-only, virtual pin); batasan 40 ns
 terpenuhi di semua seed yang diuji, target 50 MHz belum tercapai. **Belum ada pengukuran pada papan.** Setiap angka berasal
 dari laporan Quartus atau simulasi dan disimpan sebagai bukti di `docs/evidence/`. Berikutnya: keputusan tim atas
-ADR 0013/0015 dan fase "memori dan jadwal" (PENDING #19). Rencana: `docs/ROADMAP.md`.
+ADR 0021/0022/0023 (konfigurasi NTT/INTT untuk fase berikutnya), lalu Keccak dan blok ML-KEM lainnya (ADR 0019). Rencana: `docs/ROADMAP.md`.
 
 ## Batas klaim
 - Parameter ML-KEM tidak diubah; inovasi hanya pada arsitektur perangkat keras.
