@@ -42,3 +42,9 @@ not part of the rule.
 The arbitration ripple (the measured worst S7 path, about 25.6 ns) is removed; new paths: address arithmetic -> XOR map -> 16-way select -> RAM address (short), RAM data -> 16-way select -> register, multiplier ->
 16-way write select -> RAM. Fmax may rise; it may also be limited by the M10K timing or by the butterfly / write segments (S7: multiplier to write about 22.3 ns). M10K: 16 blocks more if the tool maps the banks
 there; ALM: lower (no 3,072 storage flip-flops, no arbitration) or higher (crossbars), not predictable from the study (upper bound of the crossbars about 1,920 ALM, ESTIMATE).
+
+## Amendment A1 (2026-10-03, after the first S10 core run, before any Quartus run)
+The first run of V3 with the unmodified S7 test failed only on its start-latency check (`start_i taken only after 6 cycles`, bound `WRDLY + 2` = 5). That bound encodes the S7 host-write guard
+(landing minus physical read = WRDLY + 1). In S10 the storage is read in the request cycle, so the guard is the whole pipe (5) and the start takes 6 cycles; the core is correct by construction of the guard
+(a host write must land before the first transform read). V3 now runs `tb/s10/test_ntt_core_s10.py`, a copy of the S7 test whose bound is `(RDLAT - RDPHYS + WRDLY) + 1` (5 for S7, 6 for S10); nothing else in
+the test changed. Thresholds and the adoption rule are unchanged.
