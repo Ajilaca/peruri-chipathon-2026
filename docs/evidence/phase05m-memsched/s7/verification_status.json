@@ -1,0 +1,7 @@
+{
+  "_comment": "Input of scripts/phase5m_select_s7.py. correct = test plan_s7 section 3 V1-V6 all PASS on both simulators (verify_2026-10-02.md, formal_2026-10-02.md); V7 (Phase 0-5 regression) is NOT run for S7 by Amendment A1 (S7 adds files only; it runs once at S8). cycles are simulation measurements (constant per direction, identical on both simulators).",
+  "correct": "PASS",
+  "cycles_NTT": 120,
+  "cycles_INTT": 120,
+  "evidence": "verify_2026-10-02.md (V1-V5), formal_2026-10-02.md (V6)"
+}
