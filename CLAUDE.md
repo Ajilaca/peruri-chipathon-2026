@@ -58,9 +58,10 @@ Accelerator · 03 AI/Edge Accelerator · 04 Secure Communication. The team chose
   empty until a team member ticks it): C4 = C4b-B (Barrett reducer, 119 / 375 cycles, 9,166–9,208 ALM, 18 DSP); 5c (C4c)
   measured and not adopted (ADR 0014); 5d not attempted; information compiles at 20 ns do not meet timing for C3-P6 or C4b-B;
   the critical path is the memory read (ADR 0010).
-- Open for the team: ADR 0013 (Barrett choice, PENDING #23) and ADR 0015 (5d, PENDING #24) are Proposed; PENDING #19 is the
-  name and position of a "memory and schedule" phase for the 50 MHz work, before Phase 6. Do not start Phase 6 or that
-  phase's RTL before the team decides. Read `HANDOFF.md` first in a new session (it may lag behind this section).
+- Done: Phase 5M (`docs/results/result_phase5m.md`, Approval box empty): S6 = M6 base by team decision (ADR 0020; the rule did not adopt it), S7 split memory read **adopted by the rule** (ADR 0021 Proposed: median Fmax 38.720 MHz,
+  NTT = INTT = 120 cycles, 9,361-9,405 ALM, 16 DSP), S8 write-path register **not adopted** (ADR 0023 Proposed: 37.990 MHz, 122 cycles), S9 M10K study (ADR 0022 Proposed: a conflict-free 1R1W 16-bank map exists, no hardware number).
+  Decided 2026-10-02 (Jevan, Team J5): ADR 0013 (Barrett), ADR 0015 (5d moves to Phase 6), ADR 0017 (Phase 5M), ADR 0019 (minimal path to full ML-KEM: skips Phase 6 and 8a/8c/8d; S7-S9 done by note 3). The configuration
+  for later phases (S7, M6 or S8) awaits the team (ADR 0021/0023). Read `HANDOFF.md` first in a new session.
 - Do not start RTL for a block until its golden model exists and its phase is approved.
 - Each phase ends with a validated result artifact (`docs/results/`); a human approves it before the next phase.
   Never tick the Approval box yourself.

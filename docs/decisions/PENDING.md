@@ -15,9 +15,9 @@ Update this list whenever something is decided (move it to an ADR) or discovered
 | 10 | **Prior-art search** extension (IEEE Xplore, IACR ePrint, Google Patents) | Needed before any novelty wording beyond the current scoped claim | Before submission |
 | 12 | Does the **Appendix** count toward the 6-page limit? | Decides where figures go | Section 3 layout |
 | 13 | **Activate `rtl-agent-team` hooks** by running `/rtl-agent-team:rat-init-project` (creates `.rat/`)? The original blocker ("idea not chosen") is resolved by ADR 0001 | Its Stop-gates block ending a session after unverified RTL edits, which mechanically enforces verify-before-claim; but it also adds structure to the repo | Before Phase 1 |
-| 19 | **Name and position of the memory / P / schedule phase** for the 50 MHz work (separate phase or sub-phase after 5a/5b) | Roadmap structure; that work is outside Phase 5's fixed scope | After 5b; proposal: ADR 0017 (Proposed, 2026-10-02) |
-| 23 | **Accept or reject ADR 0013** (Phase 5b: Barrett selected by the ADR 0011 rule; DSP 9 -> 18) | Fixes the C4 configuration used by 5c and the 20 ns information compile | 5c |
-| 24 | **Accept or reject ADR 0015** (Phase 5d not attempted in Phase 5, proposed to move to Phase 6) | Closes the 5d row of the C4 matrix | Approval of `result_phase5.md` |
+| 25 | **FIPS 203 input checks (encapsulation-key and decapsulation-input checks) in hardware or on the HPS?** (roadmap requires an ADR before Phase 9; suggestion: on the HPS for the deadline scope) | Scope of Phase 9 (ADR 0019 path) | Controller work |
+| 26 | **Checkpoint protocol until 2026-10-08:** keep a STOP after every step (ADR 0012 style), or one STOP per block / tier (K0+samplers, K-PKE, full KEM)? (suggestion: one per block) | Fewer waits within 6-8 h per day of team attention (ADR 0019) | Phase 7 start |
+| 27 | **Phase 5M decisions:** accept S7 as the NTT/INTT configuration for Phase 6/7 (ADR 0021), the S8 result (not adopted, ADR 0023), and the S9 option (ADR 0022; suggestion: S7 now, a 16 x 1R1W M10K experiment "S10" after the deadline-critical blocks) | Base for every later block; M10K work is a separate step with its own plan | Phase 7 start |
 
 Closed: #9 FIPS 203 errata — accepted as ADR 0003 (2026-09-29, decided by Faza Dzil, Team J5).
 Closed: #14 Phase 3 lane-count (L) selection criterion — accepted as ADR 0004 (2026-09-29,
@@ -49,3 +49,6 @@ Closed: #20 acceptable cycle increase and #21 ALM limit for added registers — 
 Dzil, Team J5): more cycles only if t_NTT and t_INTT at the measured Fmax beat C3-P6 and constant-cycle holds; NTT
 core ≤ 12,573 ALM stays the limit, exceeding it needs a new team decision.
 Closed: #11 Repository licence — accepted as ADR 0016 (2026-10-02, Faza Dzil, Team J5): MIT License (`LICENSE`).
+Closed: #19 Memory / schedule phase — accepted as ADR 0017 (2026-10-02, Jevan, Team J5): separate phase between Phase 5 and Phase 6, working name "Phase 5M", steps S6-S9; branch `phase5m-memory-schedule`.
+Closed: #23 ADR 0013 (Phase 5b) — accepted 2026-10-02 (Jevan, Team J5): Barrett is the C4 reducer (DSP 9 -> 18 recorded).
+Closed: #24 ADR 0015 (Phase 5d) — accepted 2026-10-02 (Jevan, Team J5): 5d not attempted in Phase 5, moves to Phase 6.

@@ -1,8 +1,8 @@
 # ADR 0017: Memory and schedule phase between Phase 5 and Phase 6 (PENDING 19): scope S6-S9, rules, branch
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-10-02
-- Decided by: pending team decision
+- Decided by: Jevan, Team J5 (chat 2026-10-02, answered the three ADR questions)
 
 ## Context
 - ADR 0010 (Accepted): 50 MHz is a best-effort project target, not a Phase 5 gate; the C3-P6 critical path is the memory read
@@ -30,7 +30,7 @@
     without the measured steps that could reach it; no new RTL risk.
 
 ## Decision
-Proposed (not decided): option (a), with the content and rules below. Nothing in this record is accepted until the team says so.
+Option (a) accepted 2026-10-02 by Jevan, Team J5: a separate phase between Phase 5 and Phase 6, with the content and rules below. The proposed name "Phase 5M: memory and schedule" is used as the working name (the answer chose option (a), whose text proposed it; the team may rename it). Working base: C4b-B (Barrett, ADR 0013 accepted).
 
 Content (each step is one change, one test plan written before measuring, one STOP for the team):
 | Step | Change | Rule |
@@ -61,3 +61,7 @@ or as the numbering decision dictates). This record does not create it.
 - `docs/decisions/0010-*.md`, `0012-*.md`, `0013-*.md`
 - `docs/evidence/phase05-arith/baseline/c3p6_critical_path_2026-10-01.md`, `decision_package_2026-10-01.md`, `stall_cycles_2026-10-01.txt`
 - `docs/evidence/phase05-arith/closure/info_20ns_2026-10-01.md`, `docs/results/result_phase5.md`
+
+## Amendment note (2026-10-02, Jevan, Team J5; the decision above is unchanged)
+The "full CRG gate" of the common rules is run as the Phase 0-5 regression once, at S8, on the final tree of S6-S8 (not after every step);
+each step still runs its own specific tests, formal proofs and Quartus seeds. Details: `docs/evidence/phase05m-memsched/test_plan.md`, Amendment A1.

@@ -1,8 +1,8 @@
 # ADR 0013: Phase 5b choice: Barrett reducer selected by the ADR 0011 rule
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-10-01
-- Decided by: — (to be accepted or rejected by Team J5; the rule result below is mechanical)
+- Decided by: Jevan, Team J5 (chat 2026-10-02, answered the three ADR questions)
 
 ## Context
 - `docs/ROADMAP.md` Phase 5b: Montgomery versus Barrett behind the same interface, both measured, "choice by ADR".
@@ -27,7 +27,7 @@
    the rule does not weigh DSP; an override would be a team decision with its own reason.
 
 ## Decision
-*(Proposed — the team accepts or rejects it.)* Barrett (`rtl/arith/modmul_barrett.sv`, RED_KIND 2, revision C4b-B)
+*(Accepted 2026-10-02 by Jevan, Team J5: Barrett, as selected by the rule; the DSP cost below was shown before the choice.)* Barrett (`rtl/arith/modmul_barrett.sv`, RED_KIND 2, revision C4b-B)
 is the Phase 5b choice, as selected by the ADR 0011 rule.
 
 **Recorded explicitly: DSP use doubles from 9 to 18** (of 112, fitter denominator). Per entity (MEASURED, seed 1,

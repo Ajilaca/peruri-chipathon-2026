@@ -1,8 +1,8 @@
 # ADR 0015: Phase 5d Karatsuba-style base case not attempted in Phase 5; move to Phase 6
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-10-01
-- Decided by: pending team decision
+- Decided by: Jevan, Team J5 (chat 2026-10-02, answered the three ADR questions)
 
 ## Context
 - ROADMAP Phase 5 lists 5d (optional): Karatsuba-style base-case multiplication, 4 modular multiplications instead of 5.
@@ -26,7 +26,7 @@
     DSP / ALM comparison with no effect on t_NTT, t_INTT or the Phase 5 gate.
 
 ## Decision
-Proposed (not decided): option (a). The team decides; this record stays Proposed until the team says so.
+Option (a) accepted 2026-10-02 by Jevan, Team J5: 5d is not attempted in Phase 5 and moves to Phase 6.
 
 ## Consequences
 - If (a): C4 matrix row 5d = "not attempted in Phase 5 (ADR 0015)"; `result_phase5.md` states this; the Phase 6 plan
