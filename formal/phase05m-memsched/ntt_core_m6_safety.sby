@@ -1,0 +1,35 @@
+# formal/phase05m-memsched/ntt_core_m6_safety.sby
+# Phase 5M S6 V8 for rtl/ntt/ntt_core_m6_p6.sv (P = 6): properties H, O, R, A, B, C of ntt_core_m6_formal_top.sv, same flow and depth as
+# formal/phase05-arith/ntt_core_c4b_b_safety.sby (depth 9 = P + 3). Control and bank-capacity properties only, not arithmetic.
+
+[options]
+mode prove
+depth 9
+
+[engines]
+smtbmc boolector
+
+[script]
+plugin -i slang
+read_slang -D FORMAL ntt_pkg.sv twiddle_rom.sv twiddle_rom_half.sv bank_map_rom.sv pipe_delay.sv modmul_reduce_staged.sv modmul_fold.sv modmul_barrett.sv modmul_montgomery.sv modmul_sel.sv half_mod.sv butterfly_m6.sv poly_mem_multiport_pipe.sv ntt_core_m6.sv ntt_core_m6_p6.sv ntt_core_props.sv ntt_core_m6_formal_top.sv --top ntt_core_m6_formal_top
+prep -top ntt_core_m6_formal_top
+memory_map -rom-only
+
+[files]
+../../rtl/ntt/ntt_pkg.sv
+../../rtl/ntt/twiddle_rom.sv
+../../rtl/arith/twiddle_rom_half.sv
+../../rtl/mem/bank_map_rom.sv
+../../rtl/ntt/pipe_delay.sv
+../../rtl/ntt/modmul_reduce_staged.sv
+../../rtl/arith/modmul_fold.sv
+../../rtl/arith/modmul_barrett.sv
+../../rtl/arith/modmul_montgomery.sv
+../../rtl/arith/modmul_sel.sv
+../../rtl/arith/half_mod.sv
+../../rtl/arith/butterfly_m6.sv
+../../rtl/mem/poly_mem_multiport_pipe.sv
+../../rtl/ntt/ntt_core_m6.sv
+../../rtl/ntt/ntt_core_m6_p6.sv
+../phase01-ntt/ntt_core_props.sv
+ntt_core_m6_formal_top.sv
