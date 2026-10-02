@@ -79,7 +79,7 @@ def main() -> int:
     print()
     print("## Adoption rule (test plan section 4)")
     checks = [
-        ("correct (verification_status.json: V1-V9)", correct),
+        ("correct (verification_status.json: V1-V8; V9 not run for S6, Amendment A1)", correct),
         ("cycles exactly NTT 119 / INTT 119", cyc_ok),
         (f"ALM <= {ALM_BUDGET:,} at every seed", alm_ok),
         ("timing met at 40.000 ns at every seed", tim_ok),
