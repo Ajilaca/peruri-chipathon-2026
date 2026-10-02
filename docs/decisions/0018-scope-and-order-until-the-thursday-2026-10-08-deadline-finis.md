@@ -1,6 +1,6 @@
 # ADR 0018: Scope and order until the Thursday 2026-10-08 deadline: finish 5M, then Keccak baseline, defer Phase 6, write proposal Section 3
 
-- Status: Accepted
+- Status: Superseded by 0019
 - Date: 2026-10-02
 - Decided by: Jevan, Team J5 (chat 2026-10-02: deadline answer and strategy option 'Selesaikan Fase 5M lalu Keccak baseline')
 
