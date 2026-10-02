@@ -61,3 +61,7 @@ or as the numbering decision dictates). This record does not create it.
 - `docs/decisions/0010-*.md`, `0012-*.md`, `0013-*.md`
 - `docs/evidence/phase05-arith/baseline/c3p6_critical_path_2026-10-01.md`, `decision_package_2026-10-01.md`, `stall_cycles_2026-10-01.txt`
 - `docs/evidence/phase05-arith/closure/info_20ns_2026-10-01.md`, `docs/results/result_phase5.md`
+
+## Amendment note (2026-10-02, Jevan, Team J5; the decision above is unchanged)
+The "full CRG gate" of the common rules is run as the Phase 0-5 regression once, at S8, on the final tree of S6-S8 (not after every step);
+each step still runs its own specific tests, formal proofs and Quartus seeds. Details: `docs/evidence/phase05m-memsched/test_plan.md`, Amendment A1.

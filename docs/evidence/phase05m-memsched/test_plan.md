@@ -81,3 +81,13 @@ Notes fixed now, so they cannot be argued after the measurement:
 ## 7. Evidence layout
 `docs/evidence/phase05m-memsched/s6/` (verification logs, formal, Quartus extracts, selection worksheet, summary);
 `docs/results` gets a Phase 5M result file only at the end of the phase (not for S6 alone).
+
+## Amendment A1 (2026-10-02, decided by Jevan, Team J5, chat: "setuju usulan, kita lakukan verifikasi pada s8 saja")
+- **V9 (full Phase 0-5 regression, CRG-5) is not run per step. It is run once, at S8, on the final tree of the S6-S8 sequence** (and again
+  if a later step changes an existing file). Reason: S6 adds files only; `git diff --name-status 288a78c HEAD` at the time of this decision
+  shows 33 files added and 0 existing files modified, so the RTL, tests and proofs of Phases 1-5 are untouched. For S6, "correct" in
+  section 4 condition 1 therefore means V1-V8 plus that `git diff` evidence; V9 is **not run for S6** and the S6 report says so.
+- A regression run that was in progress when this was decided was stopped and its partial output discarded (it is not evidence).
+- The thresholds of section 4 (conditions 2-4) are unchanged. The S6 Quartus numbers were already known when this amendment was made; the
+  amendment concerns only when the regression is run, not what the adoption rule compares.
+- The S7 and S8 test plans must state which existing files they modify; S8's regression covers S6, S7 and S8 together.
