@@ -1,8 +1,8 @@
 # ADR 0020: Phase 5M S6: INTT without the scaling pass (halving in every layer), measured result and adoption verdict
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-10-02
-- Decided by: pending team decision
+- Decided by: Jevan, Team J5 (chat 2026-10-02: "gunakan M6 karena nantinya kita akan mengambil s7 dan s8 kemudian kita masuk ke fase selanjutnya")
 
 ## Context
 - ADR 0017 (Accepted) step S6; test plan and adoption rule written before RTL and before measuring
@@ -16,8 +16,13 @@
 (c) Team decides a different rule for this case (for example "t_NTT must not be worse than the seed spread"). Not made by the assistant.
 
 ## Decision
-Proposed (not decided): the rule result is **not adopted** (option (b)) unless the team decides otherwise. The team's choice is recorded here after it
-is given.
+**M6 is adopted as the base for S7 and S8 by decision of the team (Jevan, 2026-10-02), option (c) of the list above.** The pre-fixed rule of the test
+plan is not changed and its result stays on record as measured: M6 is **not adopted by the rule** (only the NTT part of ADR 0012 failed, t_NTT
+3.456 us vs 3.448 us, a 0.25 % median-Fmax difference inside the seed spread). The team's reason: S7 and S8 follow on this base, and INTT drops from
+375 to 119 cycles. Consequences of the team's choice, stated so they are not forgotten:
+- the NTT/INTT configuration from now on is M6 (revision `M6`, `rtl/ntt/ntt_core_m6_p6.sv`), 16 DSP, about 250 more ALM than C4b-B, INTT = NTT = 119 cycles;
+- the ADR 0012 comparison of S7 is against M6's median Fmax (34.430 MHz; t_NTT = t_INTT = 3.456 us), not against C4b-B;
+- ADR 0013 (Barrett) is unchanged.
 
 ## Equivalence argument (the mathematics is not changed, C1)
 1. q = 3329 is odd, so 2^-1 exists: 2 * 1665 = 3330 = 1 (mod q). For x in [0, q): x/2 mod q = x/2 (x even) or (x + q)/2 (x odd), both < q;

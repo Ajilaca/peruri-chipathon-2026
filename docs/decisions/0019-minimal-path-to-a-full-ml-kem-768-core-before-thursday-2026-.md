@@ -60,3 +60,8 @@ KeyGen / Encrypt / Decrypt bit-exact) is reached, and only by a new explicit ins
 files, merging them after the integration work started requires the full Phase 0-5 regression (Amendment A1 of the 5M test plan) and a
 re-run of the integrated tests; otherwise they stay unmerged as future work. The Fmax lever without RTL changes (Quartus performance settings,
 Phase 4 evidence `ghrd_plus_c3p6_integration_2026-10-01.md`) is allowed for the final compile as an information result, labelled with its settings.
+
+## Amendment note 2 (2026-10-02, Jevan, Team J5; supersedes the "stretch" wording of amendment note 1, decision unchanged otherwise)
+The team stated that S7 and S8 will be done on the M6 base (ADR 0020) before moving on to the next phase. S7 and S8 are therefore **planned**, not
+stretch, and come before Phase 7 (Keccak K0); S9 stays dropped. Schedule impact (ESTIMATE): about 9-10 hours more before Phase 7 starts. The deadline
+risk this adds is the team's; a time-box is proposed in the S7 test plan. The tiers of this record are reached later, or not at all, accordingly.
