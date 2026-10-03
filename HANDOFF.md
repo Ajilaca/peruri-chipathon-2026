@@ -85,6 +85,11 @@ formal Phase 5 14/14 as expected (control and bank properties, 5c value bounds, 
 - K0 (seed 1): 3,572 ALM, 1,653 registers, 0 M10K, 0 DSP; 40 ns: setup +22.452 ns, Fmax 56.99 MHz; 20 ns: setup +6.893 ns, Fmax 76.30 MHz (kernel-only). One permutation is 26 cycles in the sponge (24 busy); H(ek) 389 cycles; about 2,000 Keccak cycles per ML-KEM operation (perhitungan tim, nothing overlapped).
 - Pre-measurement ESTIMATE vs measurement: ALM 2 % above the written range, registers below it, cycles per permutation 26 not 24 (all recorded in the result file and test plan Amendment A1).
 
+## 3e. Phase 8a outcome (MEASURED unless marked; `docs/results/result_phase8.md`, status PARTIAL)
+- C5: `rtl/keccak/keccak_f1600_r2.sv` (two rounds per cycle, 12 busy cycles) and `keccak_sponge_r2.sv` (14 cycles per permutation); K0 RTL unedited; K0 tests parameterised (`KK_RPC`, `KK_PERM`), K0 regression passes.
+- Quartus seeds 1-6 at 40 ns: C5 6,152-6,169 ALM, 1,652 registers, median Fmax 50.655 MHz (47.38-51.67); K0 baseline seeds 2-6 compiled: median 67.675 MHz (56.99-70.39). Rule: adopted (ADR 0027 Proposed, PENDING #29). 20 ns (seed 1): met, 64.90 MHz.
+- Keccak cycles per ML-KEM operation (perhitungan tim): about 1,510 / 1,550 / 1,542 vs 2,026 / 2,078 / 2,070 with K0. 8b, 8c, 8d not started; a STOP after each sub-step.
+
 ## 4. Phase 4 summary (still the base; details in `docs/results/result_phase4.md`)
 - ADR 0009 (Accepted): L = 8, P = 6 (C3-P6); NTT-core budget 30 % = **12,573 ALM** (a budget for the NTT core, not a system limit;
   exceeding it needs a new team decision, ADR 0012).
@@ -114,6 +119,7 @@ formal Phase 5 14/14 as expected (control and bank properties, 5c value bounds, 
 | 0023 | Superseded by 0025 (2026-10-03) | S8 write-path register: not adopted by the rule (37.990 MHz, 122 cycles) |
 | 0024 | Accepted 2026-10-03 (Jevan) | Phase 6 now (supersedes ADR 0019 point 2), S10 inside Phase 6 |
 | 0025 | Accepted 2026-10-03 (Jevan) | S10 16-bank memory: adopted by the rule, accepted as the core; 20 ns met at 6/6 seeds |
+| 0027 | **Proposed** | 8a (C5, two Keccak rounds per cycle): adopted by the rule (median Fmax 50.655 MHz vs K0 67.675, 14 vs 26 cycles per permutation, 6,167 vs 3,567 ALM) |
 | 0026 | Accepted 2026-10-03 (Jose) | Phase 8 sub-steps 8a, 8b, 8c, 8d all go ahead (supersedes the skip of 8a/8c/8d in ADR 0019 point 2; ADR 0019 note 5) |
 | 0016 | Accepted | Repository licence MIT (copyright line wording chosen by the assistant; the team may change it) |
 Open team decisions: `docs/decisions/PENDING.md` (older #1, #3, #8 ...). The team user on 2026-10-02 identified as Jevan (laptop of Faza Dzil; local git identity set per repo).

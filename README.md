@@ -33,6 +33,9 @@ Fase 7 (Keccak-f[1600] dan SHA3/SHAKE, konfigurasi K0; `docs/results/result_phas
 - Permutasi 1 ronde per siklus (24 siklus sibuk untuk semua data) dan sponge SHA3-256, SHA3-512, SHAKE128, SHAKE256 sama dengan `hashlib` pada semua panjang yang diuji, di dua simulator; analisis formal K1–K5 lolos; siklus hanya bergantung pada panjang publik (MEASURED, simulasi, `docs/evidence/phase07-keccak/verify_2026-10-03.md`).
 - K0: 3.572 ALM, 1.653 register, 0 M10K, 0 DSP; batasan 40 ns terpenuhi (Fmax 56,99 MHz) dan 20 ns terpenuhi (76,30 MHz), satu seed, kernel-only (MEASURED, `docs/evidence/phase07-keccak/quartus_K0_20261003.md`). Belum termasuk sampler.
 
+Fase 8 (optimasi Keccak dan *streaming*; `docs/results/result_phase8.md`, status sebagian, Approval belum dicentang):
+- 8a selesai: permutasi Keccak dua ronde per siklus (C5) memakai 14 siklus per permutasi, bukan 26; median Fmax 50,655 MHz (K0 67,675), 6.167 ALM (K0 3.567), timing 40 ns terpenuhi di 6 dari 6 seed (MEASURED, kernel-only, `docs/evidence/phase08-keccak-stream/8a/selection_worksheet_2026-10-03.md`); aturan terpenuhi (ADR 0027, *Proposed*). 8b, 8c, 8d belum dikerjakan.
+
 Semua hasil **terukur di simulasi, analisis formal dan laporan Quartus saja** (kernel-only, virtual pin); batasan 40 ns
 terpenuhi di semua seed yang diuji; batasan 20 ns (50 MHz) terpenuhi hanya oleh inti S10 dan unit Fase 6 dengan S10 (kompilasi kernel-only). **Belum ada pengukuran pada papan.** Setiap angka berasal
 dari laporan Quartus atau simulasi dan disimpan sebagai bukti di `docs/evidence/`. Berikutnya: Fase 8 (8a, 8b, 8c, 8d, ADR 0026)

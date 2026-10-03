@@ -97,6 +97,9 @@ python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/result_ph
 python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal
 ```
 
+## 9b. Amendment note 1 (2026-10-03, after approval; nothing above is edited)
+K0 seeds 2-6 were compiled as the baseline of the Phase 8a rule (`docs/evidence/phase07-keccak/quartus_K0-s2_20261003.md` .. `quartus_K0-s6_20261003.md`). Over seeds 1-6: ALM 3,558-3,572, registers 1,653, Fmax lowest slow corner median 67.675 MHz (56.99-70.39), timing met at 40 ns at every seed. The 56.99 MHz of Section 3 is seed 1 and the lowest of the six; it should not be read as the typical value.
+
 ## 10. Approval
 - [x] Human approver (name, date): Jose (Team J5), 2026-10-03
       Next phase starts only after a team member ticks this box. Claude never ticks it.

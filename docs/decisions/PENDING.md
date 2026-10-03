@@ -17,6 +17,7 @@ Update this list whenever something is decided (move it to an ADR) or discovered
 | 13 | **Activate `rtl-agent-team` hooks** by running `/rtl-agent-team:rat-init-project` (creates `.rat/`)? The original blocker ("idea not chosen") is resolved by ADR 0001 | Its Stop-gates block ending a session after unverified RTL edits, which mechanically enforces verify-before-claim; but it also adds structure to the repo | Before Phase 1 |
 | 25 | **FIPS 203 input checks (encapsulation-key and decapsulation-input checks) in hardware or on the HPS?** (roadmap requires an ADR before Phase 9; suggestion: on the HPS for the deadline scope) | Scope of Phase 9 (ADR 0019 path) | Controller work |
 | 26 | **Checkpoint protocol until 2026-10-08:** keep a STOP after every step (ADR 0012 style), or one STOP per block / tier (K0+samplers, K-PKE, full KEM)? (suggestion: one per block) | Fewer waits within 6-8 h per day of team attention (ADR 0019) | Phase 7 start |
+| 29 | **C5 (ADR 0027):** accept the two-rounds-per-cycle Keccak core (C5, adopted by its rule: 50.655 MHz median at 40 ns, 6,167 ALM, 14 cycles per permutation) as the Keccak core for 8b-8d and Phase 9, instead of K0 (67.675 MHz, 3,567 ALM, 26 cycles)? | Base for the samplers, matrix generation and integration | 8b start |
 
 Closed: #9 FIPS 203 errata — accepted as ADR 0003 (2026-09-29, decided by Faza Dzil, Team J5).
 Closed: #14 Phase 3 lane-count (L) selection criterion — accepted as ADR 0004 (2026-09-29,
