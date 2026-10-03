@@ -65,9 +65,9 @@ Accelerator · 03 AI/Edge Accelerator · 04 Secure Communication. The team chose
 - Done: Phase 6 (`docs/results/result_phase6.md`, Approval ticked by Jevan 2026-10-03; ADR 0024 Accepted: Phase 6 now, S10 inside it): K-PKE arithmetic sequencer bit-exact (KeyGen 5,493 / Encrypt 6,810 / Decrypt 3,121 cycles,
   counts 6/0/9, 3/4/12, 3/1/3); **S10** (16 x 1R1W memory, no slot arbitration) adopted by its rule and **accepted as the NTT/INTT core** (ADR 0025 Accepted 2026-10-03, Jevan): median Fmax 44.320 MHz at 40 ns, 5,077 ALM, 118 cycles, timing met at 20 ns at 6/6 seeds
   (kernel-only).
-- Done: Phase 7 (`docs/results/result_phase7.md`, Approval box empty): Keccak-f[1600] K0 (1 round/cycle, 24 busy cycles) and SHA3-256/512, SHAKE128/256 sponge bit-exact against hashlib on both simulators, formal K1-K5; Quartus (kernel-only, seed 1):
-  3,572 ALM, 1,653 registers, 0 M10K, 0 DSP, timing met at 40 ns (Fmax 56.99 MHz) and at 20 ns (76.30 MHz); about 2,000 Keccak cycles per ML-KEM operation (perhitungan tim). Not tier T1 (samplers missing). Next per ADR 0019: samplers (Phase 8b),
-  after the Phase 7 Approval; open: PENDING #25, #26.
+- Done: Phase 7 (`docs/results/result_phase7.md`, Approval ticked by Jose 2026-10-03): Keccak-f[1600] K0 (1 round/cycle, 24 busy cycles) and SHA3-256/512, SHAKE128/256 sponge bit-exact against hashlib on both simulators, formal K1-K5; Quartus (kernel-only, seed 1):
+  3,572 ALM, 1,653 registers, 0 M10K, 0 DSP, timing met at 40 ns (Fmax 56.99 MHz) and at 20 ns (76.30 MHz); about 2,000 Keccak cycles per ML-KEM operation (perhitungan tim). Not tier T1 (samplers missing). Next: Phase 8 sub-steps 8a, 8b, 8c, 8d all go ahead (ADR 0026 Accepted 2026-10-03, Jose; supersedes the skip of 8a/8c/8d in ADR 0019), ROADMAP order,
+  each with its own test plan before RTL; open: PENDING #25, #26.
 - Do not start RTL for a block until its golden model exists and its phase is approved.
 - Each phase ends with a validated result artifact (`docs/results/`); a human approves it before the next phase.
   Never tick the Approval box yourself.

@@ -53,3 +53,4 @@ Closed: #23 ADR 0013 (Phase 5b) — accepted 2026-10-02 (Jevan, Team J5): Barret
 Closed: #24 ADR 0015 (Phase 5d) — accepted 2026-10-02 (Jevan, Team J5): 5d not attempted in Phase 5, moves to Phase 6.
 Closed: #28 S10 — ADR 0025 accepted 2026-10-03 (Jevan, Team J5, chat 2026-10-03: 'kan udah di adaptasi dan kita menggambil s10'): S10 (16 x 1R1W banks, P = 5, 118 cycles) is the NTT/INTT core for the next phases; Phase 6 top with S10.
 Closed: #27 Phase 5M configuration — moot after ADR 0025 (as #28 stated): ADR 0021 (S7), 0022 (S9 study) and 0023 (S8) marked superseded by 0025 (2026-10-03, Jevan, Team J5).
+Closed: scope of Phase 8 — ADR 0026 accepted 2026-10-03 (Jose, Team J5): 8a, 8b, 8c and 8d all go ahead (supersedes the skip of 8a/8c/8d in ADR 0019 point 2).

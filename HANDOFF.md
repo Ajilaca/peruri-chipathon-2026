@@ -27,7 +27,7 @@ numbers), **ESTIMATE**, **NOT MEASURED**.
 | 5 Modular arithmetic C4 | DONE — C4b-B (ADR 0013, 0015 Accepted) | `result_phase5.md` | ticked (Jevan, 2026-10-03) |
 | Phase 5M memory / schedule (ADR 0017, S6-S9) | DONE (2026-10-03) — S6 M6 base by team decision (ADR 0020), S7 adopted by the rule, S8 not adopted, S9 study (ADR 0021/0023/0022 superseded by 0025) | `result_phase5m.md`, PDF `docs/report/CHIPATON_Phase5M_Report.pdf` | ticked (Jevan, 2026-10-03) |
 | 6 NTT scheduling at operation level (+ S10) | DONE (2026-10-03) — sequencer bit-exact, S10 adopted by its rule and accepted as the core (ADR 0025 Accepted), 20 ns met at 6/6 seeds | `result_phase6.md`, PDF `docs/report/CHIPATON_Phase6_Report.pdf` | ticked (Jevan, 2026-10-03) |
-| **7 Keccak-f[1600] + SHA3/SHAKE (K0)** | **DONE technically (2026-10-03); Approval box EMPTY** — K0 bit-exact against hashlib, formal K1-K5, 3,572 ALM, timing met at 40 ns and 20 ns (kernel-only). Not tier T1 (samplers missing) | `result_phase7.md` | **not ticked** |
+| 7 Keccak-f[1600] + SHA3/SHAKE (K0) | DONE (2026-10-03) — K0 bit-exact against hashlib, formal K1-K5, 3,572 ALM, timing met at 40 ns and 20 ns (kernel-only). Not tier T1 (samplers missing) | `result_phase7.md`, PDF `docs/report/CHIPATON_Phase7_Report.pdf` | ticked (Jose, 2026-10-03) |
 
 ## 3. Phase 5 outcome (MEASURED unless marked; `docs/results/result_phase5.md`, PDF `docs/report/CHIPATON_Phase5_Report.pdf`)
 - **C4 = C4b-B**: C3-P6 core (L = 8, P = 6) with a Barrett reducer (k = 24, M = 5039), `rtl/ntt/ntt_core_c4b_b.sv`, revision
@@ -114,6 +114,7 @@ formal Phase 5 14/14 as expected (control and bank properties, 5c value bounds, 
 | 0023 | Superseded by 0025 (2026-10-03) | S8 write-path register: not adopted by the rule (37.990 MHz, 122 cycles) |
 | 0024 | Accepted 2026-10-03 (Jevan) | Phase 6 now (supersedes ADR 0019 point 2), S10 inside Phase 6 |
 | 0025 | Accepted 2026-10-03 (Jevan) | S10 16-bank memory: adopted by the rule, accepted as the core; 20 ns met at 6/6 seeds |
+| 0026 | Accepted 2026-10-03 (Jose) | Phase 8 sub-steps 8a, 8b, 8c, 8d all go ahead (supersedes the skip of 8a/8c/8d in ADR 0019 point 2; ADR 0019 note 5) |
 | 0016 | Accepted | Repository licence MIT (copyright line wording chosen by the assistant; the team may change it) |
 Open team decisions: `docs/decisions/PENDING.md` (older #1, #3, #8 ...). The team user on 2026-10-02 identified as Jevan (laptop of Faza Dzil; local git identity set per repo).
 
@@ -165,6 +166,6 @@ Rebuild reports: `python3 scripts/build_phase5_report.py` (also `build_phase4_re
 
 ## 10. Immediate Next Steps (after Phase 7)
 1. Done 2026-10-03 (Jevan): Approval boxes of Phases 5, 5M, 6 ticked (PR #5); ADR 0025 accepted (S10 is the core), ADR 0021/0022/0023 superseded. Still open: PENDING #25, #26.
-2. Phase 7 (Keccak K0) is DONE technically (2026-10-03, branch `phase7-keccak`, not pushed): Approval box of `result_phase7.md` waits for a team member. Next per ADR 0019: the samplers (SampleNTT and CBD from the Keccak stream, bit-exact incl. XOF bytes consumed; tier T1), golden first, test plan before RTL.
+2. Phase 7 (Keccak K0) is DONE and approved (Jose, 2026-10-03). Phase 8 sub-steps 8a, 8b, 8c, 8d all go ahead (ADR 0026 Accepted, Jose; supersedes the skip in ADR 0019 point 2), ROADMAP order, a STOP after each sub-step; 8a has an adoption rule (seeds 1-6 at 40 ns, K0 seeds 2-6 as baseline). Phase 9 follows unless the team reorders it.
 3. Then samplers, encode/compress, K-PKE with the Phase 6 sequencer, full Encaps/Decaps with FO and ACVP vectors (ADR 0019 tiers). A wider host interface of the core is the next data-movement lever (56 % of KeyGen cycles).
 4. Proposal Section 3 (pages 4-6) in parallel, evidence-only, under `/proposal-claims`.

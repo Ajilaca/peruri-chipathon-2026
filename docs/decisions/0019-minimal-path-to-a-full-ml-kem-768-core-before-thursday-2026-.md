@@ -73,3 +73,7 @@ were edited in place at the team's request, each with a bracketed trace of what 
 
 ## Amendment note 4 (2026-10-03, Jevan, Team J5, chat: "fase 6 dulu aja"; supersedes point 2 only: "Phase 6 is skipped")
 Phase 6 is done next, before Phase 7 (Keccak), and S10 (ADR 0022 option A) inside Phase 6 afterwards. Recorded in ADR 0024 (Accepted). The rest of this record is unchanged.
+
+## Amendment note 5 (2026-10-03, Jose, Team J5, chat: "8a 8b 8c 8d dikerjakan , adr tolong diganti"; supersedes the skip of 8a, 8c and 8d in point 2)
+Sub-steps 8a, 8b, 8c and 8d of Phase 8 are all to be done, in ROADMAP order, each measured and reviewed separately. Recorded in ADR 0026 (Accepted). The rest of this record is unchanged.
+
