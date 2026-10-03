@@ -1,8 +1,8 @@
 # ADR 0022: Phase 5M S9: M10K study result, options for the memory (team choice)
 
-- Status: Proposed
+- Status: Superseded by 0025
 - Date: 2026-10-03
-- Decided by: pending team decision
+- Decided by: option (A) built as S10 and accepted in ADR 0025 (Jevan, Team J5, chat 2026-10-03: 'kan udah di adaptasi dan kita menggambil s10'; header was 'Proposed / pending team decision')
 
 ## Context
 - ADR 0017 defines S9 as a documentation-only study with no adoption rule ("the team chooses"); ADR 0019 had dropped it for the deadline; the team asked for it in chat on 2026-10-03
@@ -27,3 +27,7 @@ None made here (C5). Suggestion (not a decision): (E) now; open (A) as its own s
 
 ## Evidence
 - `docs/evidence/phase05m-memsched/test_plan_s9.md`, `s9/study_m10k_2026-10-03.md`, `s9/port_analysis_2026-10-03.txt`, `scripts/phase5m_s9_port_analysis.py`.
+
+## Amendment note 1 (2026-10-03, Jevan, Team J5)
+Consequence of ADR 0025 (Accepted 2026-10-03, Jevan, Team J5, chat 2026-10-03: 'kan udah di adaptasi dan kita menggambil s10'): S10 is the NTT/INTT core for the following phases. Option (A) of this study was built and measured as S10 (ADR 0024 order, ADR 0025 result). The study's crossbar ESTIMATE was too low (measured memory entity 3,343 ALM,
+`docs/evidence/phase06-scheduling/s10/resource_breakdown_2026-10-03.md`). The study text above is unchanged.

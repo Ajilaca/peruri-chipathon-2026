@@ -1,8 +1,8 @@
 # ADR 0021: Phase 5M S7: split memory read path (RD_SPLIT, P = 7) - rule result and base for S8
 
-- Status: Proposed
+- Status: Superseded by 0025
 - Date: 2026-10-02
-- Decided by: pending team decision (the team has not yet accepted or rejected S7; S8 was started on the S7 base by the working instruction of 2026-10-02, see Decision)
+- Decided by: not accepted as the configuration; superseded by ADR 0025 (Jevan, Team J5, chat 2026-10-03: 'kan udah di adaptasi dan kita menggambil s10'; header was 'Proposed / pending team decision')
 
 ## Context
 - ADR 0017 step S7 (lever 1 of the decision package: one register stage inside the memory read, P 6 -> 7, no stall, +1 cycle); ADR 0019 amendment note 2 (S7 and S8 planned
@@ -38,3 +38,7 @@ then read as a measured experiment on S7.
 ## Evidence
 - `docs/evidence/phase05m-memsched/test_plan_s7.md`, `s7/verify_2026-10-02.md`, `s7/formal_2026-10-02.md`, `s7/verification_status.json`, `s7/selection_worksheet_2026-10-02.md`,
   `s7/quartus_S7[-s2..s6]_20261002.md`, `s6/quartus_M6[-s2..s6]_20261002.md` (baseline), `scripts/phase5m_select_s7.py`.
+
+## Amendment note 1 (2026-10-03, Jevan, Team J5)
+Consequence of ADR 0025 (Accepted 2026-10-03, Jevan, Team J5, chat 2026-10-03: 'kan udah di adaptasi dan kita menggambil s10'): S10 is the NTT/INTT core for the following phases. S7 is not used as the configuration; it stays on record as the measured base of S8 and as the baseline of the S10 comparison (`docs/evidence/phase06-scheduling/s10/selection_worksheet_2026-10-03.md`).
+The rule result and the measurements above are unchanged.

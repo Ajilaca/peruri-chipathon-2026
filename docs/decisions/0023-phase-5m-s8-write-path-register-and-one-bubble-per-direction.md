@@ -1,8 +1,8 @@
 # ADR 0023: Phase 5M S8: write-path register and one bubble per direction (P = 8) - rule result
 
-- Status: Proposed
+- Status: Superseded by 0025
 - Date: 2026-10-03
-- Decided by: pending team decision
+- Decided by: not accepted as the configuration; superseded by ADR 0025 (Jevan, Team J5, chat 2026-10-03: 'kan udah di adaptasi dan kita menggambil s10'; header was 'Proposed / pending team decision')
 
 ## Context
 - ADR 0017 step S8 (lever 4: register in the write path, P 7 -> 8, one data-independent stall per transform, 20 ns information compile); ADR 0019 amendment note 2 (S7 and S8 before Phase 7); base S7 (ADR 0021 Proposed;
@@ -29,3 +29,6 @@ S8 needed a median Fmax above 39.365 MHz). The choice of the configuration for l
 ## Evidence
 - `docs/evidence/phase05m-memsched/test_plan_s8.md`, `s8/verify_2026-10-03.md`, `s8/formal_2026-10-03.md`, `s8/regression_2026-10-03.md`, `s8/verification_status.json`, `s8/selection_worksheet_2026-10-03.md`,
   `s8/quartus_S8[-s2..s6]_20261002.md`, `s8/quartus_S8-20_20261002.md`, `s7/quartus_S7[-s2..s6]_20261002.md` (baseline), `scripts/phase5m_select_s8.py`.
+
+## Amendment note 1 (2026-10-03, Jevan, Team J5)
+Consequence of ADR 0025 (Accepted 2026-10-03, Jevan, Team J5, chat 2026-10-03: 'kan udah di adaptasi dan kita menggambil s10'): S10 is the NTT/INTT core for the following phases. Neither option (a) S8 nor option (b) S7 is used. S8 stays on record as measured and not adopted by its rule. The rule result and the measurements above are unchanged.
