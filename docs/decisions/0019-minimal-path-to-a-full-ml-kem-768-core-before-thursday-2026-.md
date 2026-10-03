@@ -70,3 +70,6 @@ risk this adds is the team's; a time-box is proposed in the S7 test plan. The ti
 S7, S8 and S9 of ADR 0017 are **all done** (S9 as the documentation-only study the ADR defines). Statements in this record, in ADR 0020 and in the repository documents that say S7-S9 are not done, not scheduled or dropped
 were edited in place at the team's request, each with a bracketed trace of what the text said before. Results: S7 adopted by the rule (ADR 0021, Proposed), S8 not adopted by the rule (ADR 0023, Proposed), S9 study
 (ADR 0022, Proposed). ADR 0018 (Superseded) is left as it is: its text records a rejected option and is historical. The schedule impact written in note 2 became real; the time spent is in the Phase 5M report.
+
+## Amendment note 4 (2026-10-03, Jevan, Team J5, chat: "fase 6 dulu aja"; supersedes point 2 only: "Phase 6 is skipped")
+Phase 6 is done next, before Phase 7 (Keccak), and S10 (ADR 0022 option A) inside Phase 6 afterwards. Recorded in ADR 0024 (Accepted). The rest of this record is unchanged.
