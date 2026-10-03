@@ -1,0 +1,64 @@
+# quartus/phase08c_smp/SMP2.qsf -- Phases 8c / 8d (docs/evidence/phase08-keccak-stream/8c/test_plan_8c.md V9, 8d/test_plan_8d.md V9): kpke_smp_top_s10, OVERLAP: STREAM with non-blocking noise sampling overlapped with the transforms, 12 slots.
+# S10 NTT/INTT core, 8b sampler on the C5 sponge; kernel-only compile (virtual pins, as Phases 1-8b), 40.000 ns (P.sdc), Quartus defaults, seed 1.
+set_global_assignment -name FAMILY "Cyclone V"
+set_global_assignment -name DEVICE 5CSEBA6U23I7
+set_global_assignment -name TOP_LEVEL_ENTITY kpke_smp_top_s10
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files_SMP2
+set_global_assignment -name SDC_FILE P.sdc
+set_parameter -name NPOLY 12
+set_parameter -name VAR 2
+set_parameter -name STREAM_A 1
+set_parameter -name OVERLAP 1
+
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/keccak/keccak_pkg.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/keccak/keccak_round.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/keccak/keccak_f1600.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/keccak/keccak_sponge.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/keccak/keccak_f1600_r2.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/keccak/keccak_sponge_r2.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/sample/sample_ntt_core.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/sample/cbd2_core.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/sample/keccak_sampler.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/ntt/ntt_pkg.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/ntt/twiddle_rom.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/arith/twiddle_rom_half.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/ntt/pipe_delay.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/ntt/modmul_reduce_staged.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/arith/modmul_fold.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/arith/modmul_barrett.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/arith/modmul_montgomery.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/arith/modmul_sel.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/arith/half_mod.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/arith/butterfly_m6.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mem/poly_mem_m10k.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/ntt/ntt_core_s10.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/ntt/ntt_core_s10_p5.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/sched/gamma_rom.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/sched/kpke_smp_prog_rom.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/sched/poly_store_smp.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/sched/pwm_unit.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/sched/kpke_sched_smp.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/sched/kpke_smp_top_s10.sv
+
+set_instance_assignment -name VIRTUAL_PIN ON -to clk_i
+set_instance_assignment -name VIRTUAL_PIN ON -to rst_ni
+set_instance_assignment -name VIRTUAL_PIN ON -to prog_i[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to start_i
+set_instance_assignment -name VIRTUAL_PIN ON -to busy_o
+set_instance_assignment -name VIRTUAL_PIN ON -to done_o
+set_instance_assignment -name VIRTUAL_PIN ON -to tb_we_i
+set_instance_assignment -name VIRTUAL_PIN ON -to tb_slot_i[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to tb_addr_i[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to tb_wdata_i[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to tb_rdata_o[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to seed_we_i
+set_instance_assignment -name VIRTUAL_PIN ON -to seed_sel_i
+set_instance_assignment -name VIRTUAL_PIN ON -to seed_idx_i[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to seed_data_i[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to cnt_ntt_o[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to cnt_intt_o[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to cnt_pwm_o[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to cnt_smp_o[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to bank_overflow_o
+
+set_global_assignment -name LAST_QUARTUS_VERSION "25.1std.0 Lite Edition"
