@@ -77,3 +77,16 @@ every length 0 .. 3·rate + 1 per mode, the ML-KEM-768 input lengths 32, 33, 34,
 ## 7. Not allowed in this phase / not covered
 - Not allowed (ROADMAP): two rounds per cycle or unrolling; streaming samplers; connection to the Phase 6 arithmetic unit; overlap of I/O with the permutation.
 - Not covered: hardware (no board); seeds beyond 1; samplers, compression, encoding and FO (later phases). Constant-time here means cycle counts depend only on public lengths; it is not a side-channel claim.
+
+## Amendment A1 (2026-10-03, after the RTL and the first verification run; no threshold, rule or required result changed)
+Differences between this plan and what was built, recorded as found:
+- File name: the generated constants package is `rtl/keccak/keccak_pkg.sv` (functions `keccak_rc`, `keccak_rho`), not `keccak_consts_pkg.sv`; `scripts/gen_keccak_consts.py --check` is V3 as planned.
+- Section 5 / 6 ESTIMATE of cycles: the plan assumed 24 cycles per permutation. The controller needs 1 run cycle and 1 done cycle around the 24 busy cycles, so a permutation is 26 cycles there; the
+  measured formula and the H(ek) value (389 instead of about 370) are in `keccak_cycles_2026-10-03.md`. The planned figure stays above as written; it is superseded, not edited. V4 still requires, and measures, exactly 24 busy cycles.
+- The state is also wiped on `stop_i`, on the last SHA3 digest word and on reset (hygiene: the state holds secret-dependent intermediate values); the plan only required clearing at start.
+- V8: NC-K4 runs as BMC to depth 40, not induction, because the squeeze phase is reached after about 30 cycles (the induction run on the mutant did not terminate in reasonable time). Properties and the required FAIL are unchanged.
+- First-run test fixes, all in the testbenches (the RTL was right): the digest-end check lowered `out_ready_i` before the clock edge (the last word was never accepted); the stop test asked for 1 output word from SHA3 (digests are 4 or 8 words);
+  the cycle log was deleted by the next build (file name now per test). The RTL had one change after the first verification: an enum ternary rewritten as if/else because Icarus rejected it. The whole verification and formal runs
+  in `verify_2026-10-03.md` and `formal_2026-10-03.md` are of the final RTL.
+- A wrong assertion of the golden test (24 distinct round constants) was corrected to the true value (22 distinct: rounds 5 and 22, and 6 and 20, share a value); all hashes equal hashlib.
+
