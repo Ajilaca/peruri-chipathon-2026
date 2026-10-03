@@ -1,0 +1,27 @@
+# formal/phase08-keccak-stream/8c/kpke_sched_smp_safety.sby
+# Phase 8c V7: control properties F1-F5 of kpke_sched_smp_formal_top.sv (rtl/sched/kpke_sched_smp.sv, STREAM_A = 1, OVERLAP = 0; the NTT core abstracted, the sampler replaced by keccak_sampler_stub.sv).
+
+[options]
+mode prove
+depth 12
+
+[engines]
+smtbmc boolector
+
+[script]
+plugin -i slang
+read_slang -D FORMAL ntt_pkg.sv pipe_delay.sv modmul_barrett.sv gamma_rom.sv kpke_smp_prog_rom.sv poly_store_smp.sv pwm_unit.sv kpke_sched_smp.sv keccak_sampler_stub.sv kpke_sched_smp_formal_top.sv --top kpke_sched_smp_formal_top
+prep -top kpke_sched_smp_formal_top
+memory_map -rom-only
+
+[files]
+../../../rtl/ntt/ntt_pkg.sv
+../../../rtl/ntt/pipe_delay.sv
+../../../rtl/arith/modmul_barrett.sv
+../../../rtl/sched/gamma_rom.sv
+../../../rtl/sched/kpke_smp_prog_rom.sv
+../../../rtl/sched/poly_store_smp.sv
+../../../rtl/sched/pwm_unit.sv
+../../../rtl/sched/kpke_sched_smp.sv
+keccak_sampler_stub.sv
+kpke_sched_smp_formal_top.sv

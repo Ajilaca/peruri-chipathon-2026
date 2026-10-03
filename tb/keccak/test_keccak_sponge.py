@@ -4,7 +4,7 @@ V5: all four modes; message lengths 0, 1, 7, 8, 9, rate -1, rate, rate +1, 2 rat
     absorb, of a permutation and of a squeeze; start while busy ignored; reset in the middle of a message; perm_cnt_o equal to the golden permutation count.
 V6: for each (mode, length, output words) three messages (random, all-0x00, all-0xFF) give identical cycle counts without back-pressure; the cycle table is written to KK_CYCLES_OUT
     (json) and every point is compared with the formula derived from the FSM (see _formula).
-Environment: KK_NEGCTL=1 builds a mutant: the test passes only if a bit-exact comparison FAILS (checked by the runner through the failing test names). KK_CYCLES_OUT, KK_SEEDS.
+Environment: KK_PERM = cycles per permutation as seen by the controller (26 for K0, 14 for Phase 8a C5; default 26). KK_NEGCTL=1 builds a mutant: the test passes only if a bit-exact comparison FAILS (checked by the runner through the failing test names). KK_CYCLES_OUT, KK_SEEDS.
 """
 import hashlib
 import json
@@ -27,7 +27,7 @@ RATE = {"sha3_256": 136, "sha3_512": 72, "shake_128": 168, "shake_256": 136}
 RW = {m: RATE[m] // 8 for m in MODES}
 FIXED_WORDS = {"sha3_256": 4, "sha3_512": 8}
 ML = [32, 33, 34, 64, 1120, 1184]
-PERM_CYCLES = 26  # run cycle + 24 busy cycles + done cycle, as seen by the controller
+PERM_CYCLES = int(os.environ.get("KK_PERM", "26"))  # run cycle + busy cycles (24 for K0, 12 for C5) + done cycle, as seen by the controller
 
 
 def _ref(mode, msg, nbytes):

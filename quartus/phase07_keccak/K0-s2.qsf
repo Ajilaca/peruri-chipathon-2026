@@ -1,0 +1,31 @@
+# quartus/phase07_keccak/K0-s2.qsf -- Phase 7 K0 (docs/evidence/phase07-keccak/test_plan.md V10): keccak_sponge (iterative Keccak-f[1600], one round per cycle, SHA3/SHAKE sponge),
+# kernel-only compile (virtual pins, as Phases 1-6), 40.000 ns (K.sdc), Quartus defaults, seed 1.
+set_global_assignment -name FAMILY "Cyclone V"
+set_global_assignment -name DEVICE 5CSEBA6U23I7
+set_global_assignment -name TOP_LEVEL_ENTITY keccak_sponge
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files_K0-s2
+set_global_assignment -name SDC_FILE K.sdc
+
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/keccak/keccak_pkg.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/keccak/keccak_round.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/keccak/keccak_f1600.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/keccak/keccak_sponge.sv
+
+set_instance_assignment -name VIRTUAL_PIN ON -to clk_i
+set_instance_assignment -name VIRTUAL_PIN ON -to rst_ni
+set_instance_assignment -name VIRTUAL_PIN ON -to start_i
+set_instance_assignment -name VIRTUAL_PIN ON -to mode_i[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to len_i[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to stop_i
+set_instance_assignment -name VIRTUAL_PIN ON -to in_valid_i
+set_instance_assignment -name VIRTUAL_PIN ON -to in_ready_o
+set_instance_assignment -name VIRTUAL_PIN ON -to in_data_i[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to out_valid_o
+set_instance_assignment -name VIRTUAL_PIN ON -to out_ready_i
+set_instance_assignment -name VIRTUAL_PIN ON -to out_data_o[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to out_last_o
+set_instance_assignment -name VIRTUAL_PIN ON -to busy_o
+set_instance_assignment -name VIRTUAL_PIN ON -to perm_cnt_o[*]
+
+set_global_assignment -name SEED 2
+set_global_assignment -name LAST_QUARTUS_VERSION "25.1std.0 Lite Edition"

@@ -1,0 +1,21 @@
+# formal/phase08-keccak-stream/keccak_sponge_r2_safety.sby
+# Phase 8a V8: properties K1-K5 of keccak_sponge_r2_formal_top.sv on rtl/keccak/keccak_sponge_r2.sv with keccak_f1600_r2.sv (induction, depth 30). Control only.
+
+[options]
+mode prove
+depth 30
+
+[engines]
+smtbmc boolector
+
+[script]
+plugin -i slang
+read_slang -D FORMAL keccak_pkg.sv keccak_round.sv keccak_f1600_r2.sv keccak_sponge_r2.sv keccak_sponge_r2_formal_top.sv --top keccak_sponge_r2_formal_top
+prep -top keccak_sponge_r2_formal_top
+
+[files]
+../../rtl/keccak/keccak_pkg.sv
+../../rtl/keccak/keccak_round.sv
+../../rtl/keccak/keccak_f1600_r2.sv
+../../rtl/keccak/keccak_sponge_r2.sv
+keccak_sponge_r2_formal_top.sv

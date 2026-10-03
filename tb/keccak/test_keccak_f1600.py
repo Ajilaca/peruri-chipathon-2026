@@ -2,7 +2,8 @@
 Corner cases of section 3: all-zero state, all-ones state, each single-bit state (1,600), 200 random states, a chain of 10 permutations. The state after EVERY round
 is compared with the golden trace (internal register state_q, sampled every cycle) and busy_o must be high for exactly 24 cycles, whatever the state.
 Also: lane read port, lane xor ignored while busy and for lane >= 25, run ignored while busy, clear in the middle of a permutation.
-Environment: KK_SEEDS (random states, default 200).
+Environment: KK_SEEDS (random states, default 200); KK_RPC rounds per cycle (1 = K0, 2 = Phase 8a C5; default 1): busy_o must be 24 / KK_RPC cycles, the state after every cycle equals the
+golden trace after round KK_RPC * j - 1, and for KK_RPC = 2 the first-round output `mid` equals the golden trace after round 2j (all 24 rounds are then compared).
 """
 import os
 import random
@@ -17,6 +18,8 @@ from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles, FallingEdge
 
 NSTATES = int(os.environ.get("KK_SEEDS", "200"))
+RPC = int(os.environ.get("KK_RPC", "1"))
+CYCLES = 24 // RPC
 
 
 async def _setup(dut):
@@ -56,6 +59,7 @@ async def _permute(dut, lanes):
     await FallingEdge(dut.clk_i)  # the cycle after the edge that sampled run_i
     dut.run_i.value = 0
     samples, busy, done = [_state(dut)], 0, 0
+    mids = [_mid(dut)]
     for _ in range(40):
         busy += int(dut.busy_o.value)
         done += int(dut.done_o.value)
@@ -63,17 +67,28 @@ async def _permute(dut, lanes):
             break
         await FallingEdge(dut.clk_i)
         samples.append(_state(dut))
-    return samples, busy, done
+        mids.append(_mid(dut))
+    return samples, busy, done, mids
 
 
-def _check(samples, busy, done, lanes, tag):
-    assert busy == 24, f"{tag}: busy_o high for {busy} cycles, expected exactly 24"
+def _mid(dut):
+    if RPC != 2:
+        return None
+    v = int(dut.mid.value)
+    return [(v >> (64 * i)) & K.M64 for i in range(25)]
+
+
+def _check(samples, busy, done, lanes, tag, mids=None):
+    assert busy == CYCLES, f"{tag}: busy_o high for {busy} cycles, expected exactly {CYCLES}"
     assert done == 1, f"{tag}: {done} done pulses"
     trace = K.keccak_trace(lanes)
-    assert len(samples) == 25, f"{tag}: {len(samples)} samples"
-    for r in range(24):
-        assert samples[r + 1] == trace[r], f"{tag}: state after round {r} differs from the golden trace"
-    assert samples[24] == K.keccak_f1600(lanes)
+    assert len(samples) == CYCLES + 1, f"{tag}: {len(samples)} samples"
+    for j in range(1, CYCLES + 1):
+        assert samples[j] == trace[RPC * j - 1], f"{tag}: state after round {RPC * j - 1} (cycle {j}) differs from the golden trace"
+    if RPC == 2:
+        for j in range(CYCLES):
+            assert mids[j] == trace[2 * j], f"{tag}: first-round output of cycle {j} differs from the golden trace after round {2 * j}"
+    assert samples[CYCLES] == K.keccak_f1600(lanes)
 
 
 @cocotb.test()
@@ -84,8 +99,8 @@ async def test_permutation_every_round_and_24_cycles(dut):
     states += [(f"bit{b}", [(1 << (b % 64)) if i == b // 64 else 0 for i in range(25)]) for b in range(1600)]
     states += [(f"rand{i}", [rng.getrandbits(64) for _ in range(25)]) for i in range(NSTATES)]
     for tag, lanes in states:
-        s, b, d = await _permute(dut, lanes)
-        _check(s, b, d, lanes, tag)
+        s, b, d, m = await _permute(dut, lanes)
+        _check(s, b, d, lanes, tag, m)
     # chain: output fed back as input, 10 times (xor into the existing state is not used: the state stays in the core)
     lanes = [rng.getrandbits(64) for _ in range(25)]
     await _load(dut, lanes)
@@ -103,8 +118,8 @@ async def test_permutation_every_round_and_24_cycles(dut):
             assert n < 40
         exp = K.keccak_f1600(exp)
         assert _state(dut) == exp, f"chain step {it}"
-        assert n == 24, f"chain step {it}: done {n} cycles after the first busy cycle"
-    dut._log.info(f"{len(states)} states (zero, ones, 1600 single-bit, {NSTATES} random) + chain of 10: every round equal to the golden trace, busy_o = 24 cycles each")
+        assert n == CYCLES, f"chain step {it}: done {n} cycles after the first busy cycle"
+    dut._log.info(f"{len(states)} states (zero, ones, 1600 single-bit, {NSTATES} random) + chain of 10: every round equal to the golden trace, busy_o = {CYCLES} cycles each ({RPC} round(s) per cycle)")
 
 
 @cocotb.test()
@@ -145,7 +160,7 @@ async def test_ports(dut):
         await FallingEdge(dut.clk_i)
     dut.xor_en_i.value = 0
     dut.run_i.value = 0
-    assert busy == 24, f"busy {busy} with xor and run during the permutation"
+    assert busy == CYCLES, f"busy {busy} with xor and run during the permutation"
     assert _state(dut) == K.keccak_f1600(lanes), "xor or run while busy changed the result"
     # clear in the middle of a permutation: busy drops, state wiped; a new permutation is again 24 cycles
     await _load(dut, lanes)
@@ -159,6 +174,6 @@ async def test_ports(dut):
     dut.clear_i.value = 0
     await FallingEdge(dut.clk_i)
     assert int(dut.busy_o.value) == 0 and _state(dut) == [0] * 25, "clear in the middle of a permutation"
-    s, b, d = await _permute(dut, lanes)
-    _check(s, b, d, lanes, "after clear")
+    s, b, d, m = await _permute(dut, lanes)
+    _check(s, b, d, lanes, "after clear", m)
     dut._log.info("read port, lane >= 25, xor/run while busy, clear mid-permutation: OK")

@@ -19,20 +19,24 @@ Fase 0–5 dan Fase 5M selesai secara teknis (lihat `docs/results/` dan `HANDOFF
   C4b-B −2,557 ns). Jalur kritis ada di pembacaan memori, bukan di aritmetika.
 - 5c (lazy reduction) diukur dan tidak diadopsi; 5d (Karatsuba) tidak dicoba (ADR 0015, *Proposed*).
 
-Fase 5M (memori dan jadwal, S6–S9; `docs/results/result_phase5m.md`, laporan `docs/report/CHIPATON_Phase5M_Report.pdf`, Approval belum dicentang):
+Fase 5M (memori dan jadwal, S6–S9; `docs/results/result_phase5m.md`, laporan `docs/report/CHIPATON_Phase5M_Report.pdf`, disetujui tim 2026-10-03):
 - S6 (M6, INTT tanpa *scaling pass*): INTT 375 → 119 siklus, 16 DSP (MEASURED, `docs/evidence/phase05m-memsched/s6/selection_worksheet_2026-10-02.md`); dipakai sebagai basis atas keputusan tim (ADR 0020), meski aturan adopsi tidak terpenuhi.
-- **S7 (pembelahan jalur baca memori):** median Fmax **38,720 MHz** (M6 34,430), NTT = INTT = 120 siklus, 9.361–9.405 ALM (MEASURED, `docs/evidence/phase05m-memsched/s7/selection_worksheet_2026-10-02.md`); aturan terpenuhi (ADR 0021, *Proposed*).
-- S8 (register jalur tulis, 122 siklus): median Fmax 37,990 MHz (MEASURED, `docs/evidence/phase05m-memsched/s8/selection_worksheet_2026-10-03.md`), **tidak diadopsi** oleh aturan (ADR 0023, *Proposed*); kompilasi 20 ns tidak memenuhi timing (setup −2,242 ns).
-- S9 (studi M10K, tanpa RTL): peta 16 bank 1R1W bebas konflik ada pada jadwal nyata (perhitungan tim, `docs/evidence/phase05m-memsched/s9/port_analysis_2026-10-03.txt`); belum ada angka perangkat keras (ADR 0022, *Proposed*).
+- **S7 (pembelahan jalur baca memori):** median Fmax **38,720 MHz** (M6 34,430), NTT = INTT = 120 siklus, 9.361–9.405 ALM (MEASURED, `docs/evidence/phase05m-memsched/s7/selection_worksheet_2026-10-02.md`); aturan terpenuhi (ADR 0021, digantikan S10 oleh ADR 0025).
+- S8 (register jalur tulis, 122 siklus): median Fmax 37,990 MHz (MEASURED, `docs/evidence/phase05m-memsched/s8/selection_worksheet_2026-10-03.md`), **tidak diadopsi** oleh aturan (ADR 0023, digantikan S10 oleh ADR 0025); kompilasi 20 ns tidak memenuhi timing (setup −2,242 ns).
+- S9 (studi M10K, tanpa RTL): peta 16 bank 1R1W bebas konflik ada pada jadwal nyata (perhitungan tim, `docs/evidence/phase05m-memsched/s9/port_analysis_2026-10-03.txt`); opsi ini kemudian dibangun sebagai S10 (ADR 0022, digantikan oleh ADR 0025).
 
-Fase 6 (penjadwalan tingkat operasi + S10; `docs/results/result_phase6.md`, laporan `docs/report/CHIPATON_Phase6_Report.pdf`, Approval belum dicentang):
+Fase 6 (penjadwalan tingkat operasi + S10; `docs/results/result_phase6.md`, laporan `docs/report/CHIPATON_Phase6_Report.pdf`, disetujui tim 2026-10-03):
 - Aritmetika K-PKE (KeyGen, Encrypt, Decrypt) berjalan sebagai program tetap di perangkat keras, bit-exact terhadap model golden, siklus konstan: KeyGen 5.493, Encrypt 6.810, Decrypt 3.121 (MEASURED, simulasi, `docs/evidence/phase06-scheduling/verify_2026-10-03.md`).
-- **S10 (memori 16 bank tanpa arbitrasi):** median Fmax 44,320 MHz di 40 ns, 5.077 ALM, 118 siklus; batasan 20 ns terpenuhi di 6 dari 6 seed (MEASURED, kompilasi kernel-only, `docs/evidence/phase06-scheduling/s10/selection_worksheet_2026-10-03.md`); ADR 0025 *Proposed*.
+- **S10 (memori 16 bank tanpa arbitrasi):** median Fmax 44,320 MHz di 40 ns, 5.077 ALM, 118 siklus; batasan 20 ns terpenuhi di 6 dari 6 seed (MEASURED, kompilasi kernel-only, `docs/evidence/phase06-scheduling/s10/selection_worksheet_2026-10-03.md`); dipilih tim sebagai inti NTT/INTT untuk fase berikutnya (ADR 0025, *Accepted*).
+
+Fase 7 (Keccak-f[1600] dan SHA3/SHAKE, konfigurasi K0; `docs/results/result_phase7.md`, Approval belum dicentang):
+- Permutasi 1 ronde per siklus (24 siklus sibuk untuk semua data) dan sponge SHA3-256, SHA3-512, SHAKE128, SHAKE256 sama dengan `hashlib` pada semua panjang yang diuji, di dua simulator; analisis formal K1–K5 lolos; siklus hanya bergantung pada panjang publik (MEASURED, simulasi, `docs/evidence/phase07-keccak/verify_2026-10-03.md`).
+- K0: 3.572 ALM, 1.653 register, 0 M10K, 0 DSP; batasan 40 ns terpenuhi (Fmax 56,99 MHz) dan 20 ns terpenuhi (76,30 MHz), satu seed, kernel-only (MEASURED, `docs/evidence/phase07-keccak/quartus_K0_20261003.md`). Belum termasuk sampler.
 
 Semua hasil **terukur di simulasi, analisis formal dan laporan Quartus saja** (kernel-only, virtual pin); batasan 40 ns
-terpenuhi di semua seed yang diuji, target 50 MHz belum tercapai. **Belum ada pengukuran pada papan.** Setiap angka berasal
-dari laporan Quartus atau simulasi dan disimpan sebagai bukti di `docs/evidence/`. Berikutnya: keputusan tim atas
-ADR 0021/0022/0023/0025 (konfigurasi NTT/INTT untuk fase berikutnya), lalu Keccak dan blok ML-KEM lainnya (ADR 0019). Rencana: `docs/ROADMAP.md`.
+terpenuhi di semua seed yang diuji; batasan 20 ns (50 MHz) terpenuhi hanya oleh inti S10 dan unit Fase 6 dengan S10 (kompilasi kernel-only). **Belum ada pengukuran pada papan.** Setiap angka berasal
+dari laporan Quartus atau simulasi dan disimpan sebagai bukti di `docs/evidence/`. Berikutnya: sampler
+dan blok ML-KEM lainnya (ADR 0019). Rencana: `docs/ROADMAP.md`.
 
 ## Batas klaim
 - Parameter ML-KEM tidak diubah; inovasi hanya pada arsitektur perangkat keras.

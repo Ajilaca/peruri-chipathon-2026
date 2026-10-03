@@ -54,17 +54,20 @@ Accelerator · 03 AI/Edge Accelerator · 04 Secure Communication. The team chose
 
 ## 2. Current phase
 - Done: Phases 0–5 (`docs/results/result_phase0.md` .. `result_phase5.md`). Phase 4 final decision: ADR 0009
-  (L = 8, P = 6, configuration C3-P6; NTT-core design budget 30% = 12,573 ALM). Phase 5 (`result_phase5.md`, Approval box
-  empty until a team member ticks it): C4 = C4b-B (Barrett reducer, 119 / 375 cycles, 9,166–9,208 ALM, 18 DSP); 5c (C4c)
+  (L = 8, P = 6, configuration C3-P6; NTT-core design budget 30% = 12,573 ALM). Phase 5 (`result_phase5.md`, Approval ticked by
+  Jevan 2026-10-03): C4 = C4b-B (Barrett reducer, 119 / 375 cycles, 9,166–9,208 ALM, 18 DSP); 5c (C4c)
   measured and not adopted (ADR 0014); 5d not attempted; information compiles at 20 ns do not meet timing for C3-P6 or C4b-B;
   the critical path is the memory read (ADR 0010).
-- Done: Phase 5M (`docs/results/result_phase5m.md`, Approval box empty): S6 = M6 base by team decision (ADR 0020; the rule did not adopt it), S7 split memory read **adopted by the rule** (ADR 0021 Proposed: median Fmax 38.720 MHz,
-  NTT = INTT = 120 cycles, 9,361-9,405 ALM, 16 DSP), S8 write-path register **not adopted** (ADR 0023 Proposed: 37.990 MHz, 122 cycles), S9 M10K study (ADR 0022 Proposed: a conflict-free 1R1W 16-bank map exists, no hardware number).
+- Done: Phase 5M (`docs/results/result_phase5m.md`, Approval ticked by Jevan 2026-10-03): S6 = M6 base by team decision (ADR 0020; the rule did not adopt it), S7 split memory read **adopted by the rule** (ADR 0021, superseded by 0025: median Fmax 38.720 MHz,
+  NTT = INTT = 120 cycles, 9,361-9,405 ALM, 16 DSP), S8 write-path register **not adopted** (ADR 0023, superseded by 0025: 37.990 MHz, 122 cycles), S9 M10K study (ADR 0022, superseded by 0025: a conflict-free 1R1W 16-bank map exists, no hardware number).
   Decided 2026-10-02 (Jevan, Team J5): ADR 0013 (Barrett), ADR 0015 (5d moves to Phase 6), ADR 0017 (Phase 5M), ADR 0019 (minimal path to full ML-KEM: skips Phase 6 and 8a/8c/8d; S7-S9 done by note 3). The configuration
-  for later phases (S7, M6 or S8) awaits the team (ADR 0021/0023). Read `HANDOFF.md` first in a new session.
-- Done: Phase 6 (`docs/results/result_phase6.md`, Approval box empty; ADR 0024 Accepted: Phase 6 now, S10 inside it): K-PKE arithmetic sequencer bit-exact (KeyGen 5,493 / Encrypt 6,810 / Decrypt 3,121 cycles,
-  counts 6/0/9, 3/4/12, 3/1/3); **S10** (16 x 1R1W memory, no slot arbitration) adopted by its rule (ADR 0025 Proposed): median Fmax 44.320 MHz at 40 ns, 5,077 ALM, 118 cycles, timing met at 20 ns at 6/6 seeds
-  (kernel-only). Next per ADR 0019/0024: Phase 7 Keccak K0 after the team's decisions (PENDING #27, #28) and Approvals.
+  for later phases is S10 (ADR 0025 Accepted 2026-10-03, Jevan). Read `HANDOFF.md` first in a new session.
+- Done: Phase 6 (`docs/results/result_phase6.md`, Approval ticked by Jevan 2026-10-03; ADR 0024 Accepted: Phase 6 now, S10 inside it): K-PKE arithmetic sequencer bit-exact (KeyGen 5,493 / Encrypt 6,810 / Decrypt 3,121 cycles,
+  counts 6/0/9, 3/4/12, 3/1/3); **S10** (16 x 1R1W memory, no slot arbitration) adopted by its rule and **accepted as the NTT/INTT core** (ADR 0025 Accepted 2026-10-03, Jevan): median Fmax 44.320 MHz at 40 ns, 5,077 ALM, 118 cycles, timing met at 20 ns at 6/6 seeds
+  (kernel-only).
+- Done: Phase 7 (`docs/results/result_phase7.md`, Approval box empty): Keccak-f[1600] K0 (1 round/cycle, 24 busy cycles) and SHA3-256/512, SHAKE128/256 sponge bit-exact against hashlib on both simulators, formal K1-K5; Quartus (kernel-only, seed 1):
+  3,572 ALM, 1,653 registers, 0 M10K, 0 DSP, timing met at 40 ns (Fmax 56.99 MHz) and at 20 ns (76.30 MHz); about 2,000 Keccak cycles per ML-KEM operation (perhitungan tim). Not tier T1 (samplers missing). Next per ADR 0019: samplers (Phase 8b),
+  after the Phase 7 Approval; open: PENDING #25, #26.
 - Do not start RTL for a block until its golden model exists and its phase is approved.
 - Each phase ends with a validated result artifact (`docs/results/`); a human approves it before the next phase.
   Never tick the Approval box yourself.
