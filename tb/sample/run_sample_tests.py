@@ -11,8 +11,10 @@ Builds:
   nccbd   NC-CBD:  cbd core f = y - x                 -> test_nibble_table_and_special_streams must FAIL
   nc17    NC-17:   cbd core accepts a 17th word       -> test_cbd_words_17th_not_taken must FAIL (top, C5)
   ncstop  NC-STOP: the wrapper never issues stop_i on completion -> test_stop_wipes_sponge must FAIL (top, C5)
+  nccarry NC-CARRY (OUTW = 2 only): the carried coefficient is lost when a pool of 3 occurs -> test_crafted_streams must FAIL
+  ncleak  NC-LEAK  (OUTW = 2 only): the carry is not cleared by abort or start             -> test_abort_reset_zeroisation must FAIL
 Environment: KS_OUTW (output width, default 1), KS_N (cases), KS_BUILD_DIR, KS_CYCLES_OUT_DIR.
-Usage: python3 tb/sample/run_sample_tests.py icarus|verilator [ntt cbd top1 top0 nclt nc2nd ncord nccbd nc17 ncstop]
+Usage: python3 tb/sample/run_sample_tests.py icarus|verilator [ntt cbd top1 top0 nclt nc2nd ncord nccbd nc17 ncstop (nccarry ncleak with KS_OUTW=2)]
 """
 import os
 import sys
@@ -42,9 +44,11 @@ def mutate(src, dst, edits):
 
 
 def build_test(sim, root, name, top, sources, module, params=None, env=None):
+    params = dict(params or {})
+    params["OUTW"] = OUTW
     bd = root / f"sim_build_{sim}_w{OUTW}_{name}"
     r = get_runner(sim)
-    r.build(sources=sources, hdl_toplevel=top, build_dir=bd, parameters=params or {}, build_args=["--timing", "-Wno-fatal"] if sim == "verilator" else [], always=True)
+    r.build(sources=sources, hdl_toplevel=top, build_dir=bd, parameters=params, build_args=["--timing", "-Wno-fatal"] if sim == "verilator" else [], always=True)
     out = Path(os.environ.get("KS_CYCLES_OUT_DIR", str(bd))) / f"cycles_w{OUTW}_{sim}_{name}.json"
     if out.exists():
         out.unlink()
@@ -75,14 +79,26 @@ def run(sim, root, names):
             bad += len(failed) if failed else (0 if good else 1)
         else:
             if name == "nclt":
-                m = mutate(NTT, mdir / NTT.name, [("a1_q    <= (nd1 < Q);", "a1_q    <= (nd1 <= Q);"), ("a2_q    <= (nd2 < Q);", "a2_q    <= (nd2 <= Q);")])
+                m = mutate(NTT, mdir / NTT.name, [("wire        acc1 = (nd1 < QC);", "wire        acc1 = (nd1 <= QC);"), ("wire        acc2 = (nd2 < QC);", "wire        acc2 = (nd2 <= QC);")])
                 top, srcs, mod, must, params = "sample_ntt_core", [m], "test_sample_ntt_core", "test_crafted_streams", None
             elif name == "nc2nd":
-                m = mutate(NTT, mdir / NTT.name, [("wire e_last = emit && (n_q == 9'd255);", "wire e_last = emit && (n_q == 9'd256);")])
+                if OUTW == 1:
+                    m = mutate(NTT, mdir / NTT.name, [("assign e_last = emit && (n_q == 9'd255);", "assign e_last = emit && (n_q == 9'd256);")])
+                else:  # the second candidate of the last triple is not dropped
+                    m = mutate(NTT, mdir / NTT.name, [("wire [1:0] kc = (k == 2'd2 && n_q == 9'd255) ? 2'd1 : k;", "wire [1:0] kc = k;")])
                 top, srcs, mod, must, params = "sample_ntt_core", [m], "test_sample_ntt_core", "test_crafted_streams", None
             elif name == "ncord":
                 m = mutate(NTT, mdir / NTT.name, [("wire [ 7:0] b0 = win_q[7:0];", "wire [ 7:0] b0 = win_q[23:16];"), ("wire [ 7:0] b2 = win_q[23:16];", "wire [ 7:0] b2 = win_q[7:0];")])
                 top, srcs, mod, must, params = "sample_ntt_core", [m], "test_sample_ntt_core", "test_crafted_streams", None
+            elif name == "nccarry":
+                assert OUTW == 2, "NC-CARRY needs KS_OUTW=2"
+                m = mutate(NTT, mdir / NTT.name, [("carry_q <= (cv_q && (kc == 2'd2)) ? d2_q : 12'd0;", "carry_q <= 12'd0;")])
+                top, srcs, mod, must, params = "sample_ntt_core", [m], "test_sample_ntt_core", "test_crafted_streams", None
+            elif name == "ncleak":
+                assert OUTW == 2, "NC-LEAK needs KS_OUTW=2"
+                m = mutate(NTT, mdir / NTT.name, [("          cv_q    <= 1'b0;\n          carry_q <= 12'd0;\n          ov_q    <= 1'b0;", "          cv_q    <= cv_q;\n          carry_q <= carry_q;\n          ov_q    <= 1'b0;"),
+                                                  ("            cv_q    <= 1'b0;\n            carry_q <= 12'd0;\n          end else begin", "            cv_q    <= cv_q;\n            carry_q <= carry_q;\n          end else begin")])
+                top, srcs, mod, must, params = "sample_ntt_core", [m], "test_sample_ntt_core", "test_abort_reset_zeroisation", None
             elif name == "nccbd":
                 m = mutate(CBD, mdir / CBD.name, [("x = {1'b0, nb[0]} + {1'b0, nb[1]};", "x = {1'b0, nb[2]} + {1'b0, nb[3]};"), ("y = {1'b0, nb[2]} + {1'b0, nb[3]};", "y = {1'b0, nb[0]} + {1'b0, nb[1]};")])
                 top, srcs, mod, must, params = "cbd2_core", [m], "test_cbd2_core", "test_nibble_table_and_special_streams", None
@@ -106,6 +122,6 @@ def run(sim, root, names):
 
 if __name__ == "__main__":
     sim = sys.argv[1] if len(sys.argv) > 1 else "icarus"
-    names = sys.argv[2:] or ["ntt", "cbd", "top1", "top0", "nclt", "nc2nd", "ncord", "nccbd", "nc17", "ncstop"]
+    names = sys.argv[2:] or ["ntt", "cbd", "top1", "top0", "nclt", "nc2nd", "ncord", "nccbd", "nc17", "ncstop"] + (["nccarry", "ncleak"] if OUTW == 2 else [])
     root = Path(os.environ.get("KS_BUILD_DIR") or tempfile.mkdtemp(prefix="chip2026_8b_"))
     sys.exit(0 if run(sim, root, names) else 1)

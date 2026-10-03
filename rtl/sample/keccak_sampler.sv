@@ -1,14 +1,15 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/sample/keccak_sampler.sv
-// Phase 8b, stage W1 (docs/evidence/phase08-keccak-stream/8b/test_plan_8b.md section 1): Keccak sponge + streaming sampler, and the top of the Quartus revisions.
+// Phase 8b (docs/evidence/phase08-keccak-stream/8b/test_plan_8b.md section 1): Keccak sponge + streaming sampler, and the top of the Quartus revisions. OUTW = 1 (stage W1) or 2 (stage W2) coefficients per output beat.
 // kind_i 0: SampleNTT on SHAKE128 (mode 2), the message is rho || j || i (34 bytes); kind_i 1: SamplePolyCBD_2 on SHAKE256 (mode 3), the message is sigma || N (33 bytes). Any len_i is allowed.
 // CORE_R2 = 1 uses keccak_sponge_r2 (C5, 14 cycles per permutation), 0 uses keccak_sponge (K0, 26). The message words pass through to the sponge; the sponge output words go straight to the selected core.
 // When the polynomial is complete (fin of the core) or on abort_i the wrapper issues stop_i: the sponge returns to idle and wipes its state. done_o pulses after the last coefficient is handed over.
 // start_i is accepted when not busy. Reset: asynchronous, active low. One clock domain, clk_i.
 
 module keccak_sampler #(
-    parameter bit CORE_R2 = 1'b1
+    parameter bit CORE_R2 = 1'b1,
+    parameter int OUTW    = 1
 ) (
     input  wire        clk_i,
     input  wire        rst_ni,
@@ -21,7 +22,7 @@ module keccak_sampler #(
     input  wire [63:0] in_data_i,
     output wire        coef_valid_o,
     input  wire        coef_ready_i,
-    output wire [11:0] coef_data_o,
+    output wire [12*OUTW-1:0] coef_data_o,
     output wire        coef_last_o,
     output wire [15:0] bytes_o,        // stream bytes consumed by the sampler
     output wire        busy_o,
@@ -39,7 +40,7 @@ module keccak_sampler #(
   // cores
   logic n_in_ready, c_in_ready, n_busy, c_busy, n_fin, c_fin, n_done, c_done;
   logic n_cv, c_cv, n_cl, c_cl;
-  logic [11:0] n_cd, c_cd;
+  logic [12*OUTW-1:0] n_cd, c_cd;
   logic [15:0] n_bytes, c_bytes;
 
   assign busy_o = n_busy || c_busy;
@@ -91,7 +92,7 @@ module keccak_sampler #(
     end
   endgenerate
 
-  sample_ntt_core u_ntt (
+  sample_ntt_core #(.OUTW(OUTW)) u_ntt (
       .clk_i       (clk_i),
       .rst_ni      (rst_ni),
       .start_i     (start_ok && !kind_i),
@@ -109,7 +110,7 @@ module keccak_sampler #(
       .done_o      (n_done)
   );
 
-  cbd2_core u_cbd (
+  cbd2_core #(.OUTW(OUTW)) u_cbd (
       .clk_i       (clk_i),
       .rst_ni      (rst_ni),
       .start_i     (start_ok && kind_i),

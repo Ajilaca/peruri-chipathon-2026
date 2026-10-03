@@ -26,15 +26,20 @@ if [ "${KS_REGRESS:-1}" != "0" ]; then
     step "V10 regression: formal/run_formal_phase7.py" python3 formal/run_formal_phase7.py
     step "V10 regression: formal/run_formal_phase8a.py" python3 formal/run_formal_phase8a.py
 fi
-step "V1 verilator --lint-only -Wall sample_ntt_core" verilator --lint-only -Wall rtl/sample/sample_ntt_core.sv --top-module sample_ntt_core
-step "V1 verilator --lint-only -Wall cbd2_core" verilator --lint-only -Wall rtl/sample/cbd2_core.sv --top-module cbd2_core
-step "V1 verilator --lint-only -Wall keccak_sampler (CORE_R2 = 1)" verilator --lint-only -Wall -GCORE_R2=1 $KECCAK $SMP --top-module keccak_sampler
-step "V1 verilator --lint-only -Wall keccak_sampler (CORE_R2 = 0)" verilator --lint-only -Wall -GCORE_R2=0 $KECCAK $SMP --top-module keccak_sampler
-step "V1 slang keccak_sampler" slang $KECCAK $SMP --top keccak_sampler
+step "V1 verilator --lint-only -Wall sample_ntt_core (OUTW = $KS_OUTW)" verilator --lint-only -Wall -GOUTW=$KS_OUTW rtl/sample/sample_ntt_core.sv --top-module sample_ntt_core
+step "V1 verilator --lint-only -Wall cbd2_core (OUTW = $KS_OUTW)" verilator --lint-only -Wall -GOUTW=$KS_OUTW rtl/sample/cbd2_core.sv --top-module cbd2_core
+step "V1 verilator --lint-only -Wall keccak_sampler (CORE_R2 = 1, OUTW = $KS_OUTW)" verilator --lint-only -Wall -GCORE_R2=1 -GOUTW=$KS_OUTW $KECCAK $SMP --top-module keccak_sampler
+step "V1 verilator --lint-only -Wall keccak_sampler (CORE_R2 = 0, OUTW = $KS_OUTW)" verilator --lint-only -Wall -GCORE_R2=0 -GOUTW=$KS_OUTW $KECCAK $SMP --top-module keccak_sampler
+step "V1 slang keccak_sampler (OUTW = $KS_OUTW)" slang -G OUTW=$KS_OUTW $KECCAK $SMP --top keccak_sampler
 step "V2 golden sampler model against the unmodified golden primitives" python3 -m pytest -q tb/golden/tests/test_sampler_model.py
 for sim in verilator icarus; do
     step "V3-V8 $sim (OUTW = $KS_OUTW)" python3 tb/sample/run_sample_tests.py "$sim"
 done
-step "V9 formal: formal/run_formal_phase8b.py" python3 formal/run_formal_phase8b.py
+if [ "$KS_OUTW" = "2" ]; then
+    for sim in verilator icarus; do
+        step "V10 rerun of the W1 test set against the current RTL (OUTW = 1) $sim" env KS_OUTW=1 python3 tb/sample/run_sample_tests.py "$sim"
+    done
+fi
+step "V9 formal: formal/run_formal_phase8b.py (W1 and W2 rows)" python3 formal/run_formal_phase8b.py all
 [ "$overall" -eq 0 ] && echo "OVERALL: PASS" || echo "OVERALL: FAIL"
 exit "$overall"

@@ -14,9 +14,10 @@ import cocotb
 import sampler_model as M
 from cocotb.triggers import FallingEdge, Timer
 from params import N, Q
-from sample_tb import LIMIT, NCASES, Monitor, Ready, check_poly, clock_reset, triple, words_of
+from sample_tb import LIMIT, NCASES, OUTW, Monitor, Ready, check_poly, clock_reset, triple, words_of
 
 INIT = dict(start_i=0, abort_i=0, in_valid_i=0, in_data_i=0, coef_ready_i=0)
+COVER = set()  # OUTW = 2: (carry held, accepted candidates of the triple) combinations seen at the triple stage
 NW = 400  # words offered (3,200 bytes: more than the longest crafted stream needs; a stream never ends before the polynomial is complete)
 
 
@@ -40,6 +41,8 @@ async def run(dut, stream, rng, ready="always", gap=0.0, check=True):
         await Timer(1, "ns")
         in_fire = go_in and int(dut.in_ready_o.value)
         mon.sample(dut, go_out)
+        if OUTW == 2 and int(dut.tv_q.value) and int(dut.busy_o.value):
+            COVER.add((int(dut.cv_q.value), int(dut.a1_q.value) + int(dut.a2_q.value)))
         if in_fire:
             wi += 1
         if mon.done:
@@ -124,7 +127,7 @@ async def test_abort_reset_zeroisation(dut):
     await clock_reset(dut, INIT)
     rng = random.Random(804)
     s = hashlib.shake_128(bytes(34)).digest(8 * NW)
-    probes = ("win_q", "cnt_q", "tv_q", "a1_q", "a2_q", "d1_q", "d2_q", "od_q", "ov_q")
+    probes = ("win_q", "cnt_q", "tv_q", "a1_q", "a2_q", "d1_q", "d2_q", "od_q", "ov_q") + (("cv_q", "carry_q") if OUTW == 2 else ())
 
     def zero():
         return all(int(getattr(dut, p).value) == 0 for p in probes)
@@ -202,3 +205,14 @@ async def test_start_while_busy_and_back_to_back(dut):
     await run(dut, s2, rng)  # next polynomial straight after
     await run(dut, s2, rng)  # same input again: same polynomial
     dut._log.info("start while busy ignored; back-to-back polynomials correct")
+
+
+@cocotb.test(skip=OUTW != 2)
+async def test_w2_pool_coverage(dut):
+    """W2: every (carry held 0/1) x (accepted candidates 0/1/2) combination of the pool reaches the triple stage, a pool of 3 included, and the results are right."""
+    await clock_reset(dut, INIT)
+    rng = random.Random(806)
+    for i in range(60):
+        await run(dut, mixed_stream(rng, [0, 5, Q - 1, Q, 4095], 500), rng, ("always", "rand", "runs")[i % 3], (0.0, 0.3)[i % 2])
+    assert COVER >= {(c, k) for c in (0, 1) for k in (0, 1, 2)}, f"pool combinations seen: {sorted(COVER)}"
+    dut._log.info(f"all six pool combinations (carry, accepted) seen: {sorted(COVER)}")

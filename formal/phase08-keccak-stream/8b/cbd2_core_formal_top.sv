@@ -10,7 +10,9 @@
 // Supporting invariants: n_q equals the handed-over count plus the output register; n_q follows the word and nibble position.
 // Control and range only; coefficient values are covered by simulation against the golden.
 
-module cbd2_core_formal_top (
+module cbd2_core_formal_top #(
+    parameter int OUTW = 1
+) (
     input  wire        clk_i,
     input  wire        rst_ni,
     input  wire        start_i,
@@ -20,7 +22,7 @@ module cbd2_core_formal_top (
     input  wire        coef_ready_i,
     output wire        in_ready_o,
     output wire        coef_valid_o,
-    output wire [11:0] coef_data_o,
+    output wire [12*OUTW-1:0] coef_data_o,
     output wire        coef_last_o,
     output wire [15:0] bytes_o,
     output wire        busy_o,
@@ -28,7 +30,7 @@ module cbd2_core_formal_top (
     output wire        done_o
 );
 
-  cbd2_core u_dut (
+  cbd2_core #(.OUTW(OUTW)) u_dut (
       .clk_i       (clk_i),
       .rst_ni      (rst_ni),
       .start_i     (start_i),
@@ -53,12 +55,13 @@ module cbd2_core_formal_top (
   wire        f_wv = u_dut.wv_q;
   wire        f_ov = u_dut.ov_q;
   wire        f_ol = u_dut.ol_q;
-  wire [11:0] f_od = u_dut.od_q;
+  wire [23:0] f_od = 24'(u_dut.od_q);
   wire        f_busy = u_dut.busy_q;
   wire        f_fin = u_dut.fin_q;
   wire        f_start_ok = u_dut.start_ok && !abort_i;  // abort_i has priority over start in the core
   wire        f_take = u_dut.take;
   localparam logic [11:0] Q = 12'd3329;
+  wire [23:0] f_dat = 24'(coef_data_o);
 
 `ifdef FORMAL
   logic f_init = 1'b1;
@@ -68,7 +71,7 @@ module cbd2_core_formal_top (
   logic [ 8:0] nh;  // coefficients handed over this run
   logic [ 5:0] wt;  // stream words taken this run (counts a 17th if the core ever took one)
   logic        p_ok, p_valid, p_ready, p_abort, p_last, p_startok;
-  logic [11:0] p_data;
+  logic [12*OUTW-1:0] p_data;
   logic [15:0] p_bytes;
   always_ff @(posedge clk_i or negedge rst_ni) begin
     if (!rst_ni) begin
@@ -87,7 +90,7 @@ module cbd2_core_formal_top (
         nh <= '0;
         wt <= '0;
       end else begin
-        if (coef_valid_o && coef_ready_i) nh <= nh + 9'd1;
+        if (coef_valid_o && coef_ready_i) nh <= nh + 9'(OUTW);
         if (in_valid_i && in_ready_o) wt <= wt + 6'd1;
       end
       p_ok <= 1'b1;
@@ -107,11 +110,14 @@ module cbd2_core_formal_top (
   always_ff @(posedge clk_i) begin
     if (rst_ni) begin
       // S1
-      if (coef_valid_o) assert (coef_data_o < Q);
+      if (coef_valid_o) begin
+        assert (f_dat[11:0] < Q);
+        assert (f_dat[23:12] < Q);  // OUTW = 1: the upper lane is zero
+      end
       // S2
-      if (f_busy) assert (f_n == nh + 9'(f_ov));
-      if (coef_valid_o && f_busy) assert (nh <= 9'd255);
-      if (coef_valid_o && f_busy) assert (coef_last_o == (nh == 9'd255));
+      if (f_busy) assert (f_n == nh + 9'(OUTW) * 9'(f_ov));
+      if (coef_valid_o && f_busy) assert (nh <= 9'(256 - OUTW));
+      if (coef_valid_o && f_busy) assert (coef_last_o == (nh == 9'(256 - OUTW)));
       assert (wt <= 6'd16);
       // S3
       if (p_ok && p_valid && !p_ready && !p_abort) begin
@@ -132,7 +138,11 @@ module cbd2_core_formal_top (
       // supporting invariants
       if (f_busy && !f_fin && f_wv) assert (f_n == {f_wcnt - 5'd1, 4'b0000} + 9'(f_nib));
       if (f_busy && !f_fin && !f_wv) assert (f_n == {f_wcnt, 4'b0000});
-      if (f_ov) assert (f_od < Q);
+      if (f_ov) begin
+        assert (f_od[11:0] < Q);
+        assert (f_od[23:12] < Q);
+      end
+      assert (f_nib[0] == 1'b0 || OUTW == 1);  // W2 steps over nibble pairs
       if (f_ov && f_ol) assert (f_n == 9'd256);
       if (f_ov && !f_ol) assert (f_n <= 9'd255);
     end

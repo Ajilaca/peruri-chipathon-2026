@@ -6,11 +6,14 @@
 //   S2  at most 256 coefficients are handed over per run; coef_last_o exactly on the 256th (the beat after 255 handed over)
 //   S3  a pending output is held: coef_valid_o, coef_data_o and coef_last_o stay stable until coef_ready_i (or abort_i)
 //   S4  bytes_o never decreases inside a run and bytes_o plus the bytes in the window never exceed the bytes the stream has delivered
+//   S6  (W2, OUTW = 2) the carry holds at most one coefficient, only inside a run, and is a valid coefficient
 //   S5  legality: valid output only while busy; done_o only when not busy and not valid; fin only while busy; window at most 11 bytes; at most 256 coefficients generated
 // Supporting invariants (needed for the induction): n_q equals the handed-over count plus the output register; a candidate marked accepted is below 3329; the output register data is below 3329.
 // Control and range only; nothing here proves coefficient values (simulation against the golden covers that).
 
-module sample_ntt_core_formal_top (
+module sample_ntt_core_formal_top #(
+    parameter int OUTW = 1
+) (
     input  wire        clk_i,
     input  wire        rst_ni,
     input  wire        start_i,
@@ -20,7 +23,7 @@ module sample_ntt_core_formal_top (
     input  wire        coef_ready_i,
     output wire        in_ready_o,
     output wire        coef_valid_o,
-    output wire [11:0] coef_data_o,
+    output wire [12*OUTW-1:0] coef_data_o,
     output wire        coef_last_o,
     output wire [15:0] bytes_o,
     output wire        busy_o,
@@ -28,7 +31,7 @@ module sample_ntt_core_formal_top (
     output wire        done_o
 );
 
-  sample_ntt_core u_dut (
+  sample_ntt_core #(.OUTW(OUTW)) u_dut (
       .clk_i       (clk_i),
       .rst_ni      (rst_ni),
       .start_i     (start_i),
@@ -50,7 +53,9 @@ module sample_ntt_core_formal_top (
   wire [ 8:0] f_n = u_dut.n_q;
   wire [ 3:0] f_cnt = u_dut.cnt_q;
   wire        f_ov = u_dut.ov_q;
-  wire [11:0] f_od = u_dut.od_q;
+  wire [23:0] f_od = 24'(u_dut.od_q);
+  wire        f_cv = u_dut.cv_q;
+  wire [11:0] f_carry = u_dut.carry_q;
   wire        f_tv = u_dut.tv_q;
   wire        f_a1 = u_dut.a1_q;
   wire        f_a2 = u_dut.a2_q;
@@ -62,6 +67,7 @@ module sample_ntt_core_formal_top (
   wire        f_start_ok = u_dut.start_ok && !abort_i;  // abort_i has priority over start in the core
   wire        f_take = u_dut.take;
   localparam logic [11:0] Q = 12'd3329;
+  wire [23:0] f_dat = 24'(coef_data_o);
 
 `ifdef FORMAL
   logic f_init = 1'b1;
@@ -73,7 +79,7 @@ module sample_ntt_core_formal_top (
   logic [15:0] wt;  // stream words taken this run
   // previous-cycle values
   logic        p_ok, p_valid, p_ready, p_abort, p_last, p_startok;
-  logic [11:0] p_data;
+  logic [12*OUTW-1:0] p_data;
   logic [15:0] p_bytes;
   always_ff @(posedge clk_i or negedge rst_ni) begin
     if (!rst_ni) begin
@@ -92,7 +98,7 @@ module sample_ntt_core_formal_top (
         nh <= '0;
         wt <= '0;
       end else begin
-        if (coef_valid_o && coef_ready_i) nh <= nh + 9'd1;
+        if (coef_valid_o && coef_ready_i) nh <= nh + 9'(OUTW);
         if (f_take) wt <= wt + 16'd1;
       end
       p_ok <= 1'b1;
@@ -113,11 +119,14 @@ module sample_ntt_core_formal_top (
   always_ff @(posedge clk_i) begin
     if (rst_ni) begin
       // S1
-      if (coef_valid_o) assert (coef_data_o < Q);
+      if (coef_valid_o) begin
+        assert (f_dat[11:0] < Q);
+        assert (f_dat[23:12] < Q);  // OUTW = 1: the upper lane is zero
+      end
       // S2
-      if (f_busy) assert (f_n == nh + 9'(f_ov));
-      if (coef_valid_o && f_busy) assert (nh <= 9'd255);
-      if (coef_valid_o && f_busy) assert (coef_last_o == (nh == 9'd255));
+      if (f_busy) assert (f_n == nh + 9'(OUTW) * 9'(f_ov) + 9'(f_cv));  // W1: f_cv is constant 0
+      if (coef_valid_o && f_busy) assert (nh <= 9'(256 - OUTW));
+      if (coef_valid_o && f_busy) assert (coef_last_o == (nh == 9'(256 - OUTW)));
       // S3
       if (p_ok && p_valid && !p_ready && !p_abort) begin
         assert (coef_valid_o);
@@ -136,7 +145,14 @@ module sample_ntt_core_formal_top (
       // supporting invariants
       if (f_tv && f_a1) assert (f_d1 < Q);
       if (f_tv && f_a2) assert (f_d2 < Q);
-      if (f_ov) assert (f_od < Q);
+      if (f_ov) begin
+        assert (f_od[11:0] < Q);
+        assert (f_od[23:12] < Q);
+      end
+      assert (OUTW == 1 || !nh[0]);  // the handed-over count advances in steps of OUTW
+      // S6 (W2): the carry holds at most one coefficient (one register) and only inside a run; it is a valid coefficient
+      if (f_cv) assert (f_busy && !f_fin && f_carry < Q);
+      if (OUTW == 1) assert (!f_cv);
       if (!f_tv) assert (!f_a1 && !f_a2);
       if (f_busy) assert (f_fin == (f_n == 9'd256));
       if (f_fin) assert (!f_tv && f_cnt == 4'd0);

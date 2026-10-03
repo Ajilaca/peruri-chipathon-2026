@@ -1,0 +1,18 @@
+# formal/phase08-keccak-stream/8b/sample_ntt_core_safety_w2.sby
+# Phase 8b V9: properties of sample_ntt_core_formal_top.sv on rtl/sample/sample_ntt_core.sv with OUTW = 2 (stage W2; induction, depth 30). Control and range only.
+
+[options]
+mode prove
+depth 30
+
+[engines]
+smtbmc boolector
+
+[script]
+plugin -i slang
+read_slang -D FORMAL -G OUTW=2 sample_ntt_core.sv sample_ntt_core_formal_top.sv --top sample_ntt_core_formal_top
+prep -top sample_ntt_core_formal_top
+
+[files]
+../../../rtl/sample/sample_ntt_core.sv
+sample_ntt_core_formal_top.sv
