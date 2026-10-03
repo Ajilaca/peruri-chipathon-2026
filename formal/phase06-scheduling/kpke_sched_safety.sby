@@ -1,0 +1,27 @@
+# formal/phase06-scheduling/kpke_sched_safety.sby
+# Phase 6 V7: control properties H, T, C, R of kpke_sched_formal_top.sv (rtl/sched/kpke_sched.sv with the NTT core abstracted). Control only, not arithmetic.
+
+[options]
+mode prove
+depth 8
+
+[engines]
+smtbmc boolector
+
+[script]
+plugin -i slang
+read_slang -D FORMAL ntt_pkg.sv pipe_delay.sv modmul_barrett.sv gamma_rom.sv kpke_prog_rom.sv poly_store.sv pwm_unit.sv kpke_sched.sv ntt_core_props.sv kpke_sched_formal_top.sv --top kpke_sched_formal_top
+prep -top kpke_sched_formal_top
+memory_map -rom-only
+
+[files]
+../../rtl/ntt/ntt_pkg.sv
+../../rtl/ntt/pipe_delay.sv
+../../rtl/arith/modmul_barrett.sv
+../../rtl/sched/gamma_rom.sv
+../../rtl/sched/kpke_prog_rom.sv
+../../rtl/sched/poly_store.sv
+../../rtl/sched/pwm_unit.sv
+../../rtl/sched/kpke_sched.sv
+../phase01-ntt/ntt_core_props.sv
+kpke_sched_formal_top.sv

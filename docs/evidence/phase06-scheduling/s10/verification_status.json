@@ -1,0 +1,7 @@
+{
+  "_comment": "Input of scripts/select_s10.py. correct = test plan_s10 section 3 V1-V6 all PASS on both simulators (verify_2026-10-03.md, formal_2026-10-03.md), negative controls fail as required. cycles are simulation measurements (constant, identical on both simulators).",
+  "correct": "PASS",
+  "cycles_NTT": 118,
+  "cycles_INTT": 118,
+  "evidence": "verify_2026-10-03.md (V1-V4, V6), formal_2026-10-03.md (V5)"
+}

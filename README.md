@@ -25,10 +25,14 @@ Fase 5M (memori dan jadwal, S6–S9; `docs/results/result_phase5m.md`, laporan `
 - S8 (register jalur tulis, 122 siklus): median Fmax 37,990 MHz (MEASURED, `docs/evidence/phase05m-memsched/s8/selection_worksheet_2026-10-03.md`), **tidak diadopsi** oleh aturan (ADR 0023, *Proposed*); kompilasi 20 ns tidak memenuhi timing (setup −2,242 ns).
 - S9 (studi M10K, tanpa RTL): peta 16 bank 1R1W bebas konflik ada pada jadwal nyata (perhitungan tim, `docs/evidence/phase05m-memsched/s9/port_analysis_2026-10-03.txt`); belum ada angka perangkat keras (ADR 0022, *Proposed*).
 
+Fase 6 (penjadwalan tingkat operasi + S10; `docs/results/result_phase6.md`, laporan `docs/report/CHIPATON_Phase6_Report.pdf`, Approval belum dicentang):
+- Aritmetika K-PKE (KeyGen, Encrypt, Decrypt) berjalan sebagai program tetap di perangkat keras, bit-exact terhadap model golden, siklus konstan: KeyGen 5.493, Encrypt 6.810, Decrypt 3.121 (MEASURED, simulasi, `docs/evidence/phase06-scheduling/verify_2026-10-03.md`).
+- **S10 (memori 16 bank tanpa arbitrasi):** median Fmax 44,320 MHz di 40 ns, 5.077 ALM, 118 siklus; batasan 20 ns terpenuhi di 6 dari 6 seed (MEASURED, kompilasi kernel-only, `docs/evidence/phase06-scheduling/s10/selection_worksheet_2026-10-03.md`); ADR 0025 *Proposed*.
+
 Semua hasil **terukur di simulasi, analisis formal dan laporan Quartus saja** (kernel-only, virtual pin); batasan 40 ns
 terpenuhi di semua seed yang diuji, target 50 MHz belum tercapai. **Belum ada pengukuran pada papan.** Setiap angka berasal
 dari laporan Quartus atau simulasi dan disimpan sebagai bukti di `docs/evidence/`. Berikutnya: keputusan tim atas
-ADR 0021/0022/0023 (konfigurasi NTT/INTT untuk fase berikutnya), lalu Keccak dan blok ML-KEM lainnya (ADR 0019). Rencana: `docs/ROADMAP.md`.
+ADR 0021/0022/0023/0025 (konfigurasi NTT/INTT untuk fase berikutnya), lalu Keccak dan blok ML-KEM lainnya (ADR 0019). Rencana: `docs/ROADMAP.md`.
 
 ## Batas klaim
 - Parameter ML-KEM tidak diubah; inovasi hanya pada arsitektur perangkat keras.
