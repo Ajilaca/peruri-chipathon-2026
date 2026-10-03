@@ -27,6 +27,7 @@ numbers), **ESTIMATE**, **NOT MEASURED**.
 | 5 Modular arithmetic C4 | DONE — C4b-B (ADR 0013, 0015 Accepted) | `result_phase5.md` | ticked (Jevan, 2026-10-03) |
 | Phase 5M memory / schedule (ADR 0017, S6-S9) | DONE (2026-10-03) — S6 M6 base by team decision (ADR 0020), S7 adopted by the rule, S8 not adopted, S9 study (ADR 0021/0023/0022 superseded by 0025) | `result_phase5m.md`, PDF `docs/report/CHIPATON_Phase5M_Report.pdf` | ticked (Jevan, 2026-10-03) |
 | 6 NTT scheduling at operation level (+ S10) | DONE (2026-10-03) — sequencer bit-exact, S10 adopted by its rule and accepted as the core (ADR 0025 Accepted), 20 ns met at 6/6 seeds | `result_phase6.md`, PDF `docs/report/CHIPATON_Phase6_Report.pdf` | ticked (Jevan, 2026-10-03) |
+| **7 Keccak-f[1600] + SHA3/SHAKE (K0)** | **DONE technically (2026-10-03); Approval box EMPTY** — K0 bit-exact against hashlib, formal K1-K5, 3,572 ALM, timing met at 40 ns and 20 ns (kernel-only). Not tier T1 (samplers missing) | `result_phase7.md` | **not ticked** |
 
 ## 3. Phase 5 outcome (MEASURED unless marked; `docs/results/result_phase5.md`, PDF `docs/report/CHIPATON_Phase5_Report.pdf`)
 - **C4 = C4b-B**: C3-P6 core (L = 8, P = 6) with a Barrett reducer (k = 24, M = 5039), `rtl/ntt/ntt_core_c4b_b.sv`, revision
@@ -77,6 +78,12 @@ formal Phase 5 14/14 as expected (control and bank properties, 5c value bounds, 
 - S7 path analysis (option 1): the limit is the slot-arbitration ripple; S7 at 20 ns (option 2): 0/6 seeds met.
 - **S10** (`rtl/mem/poly_mem_m10k.sv`, `rtl/ntt/ntt_core_s10_p5.sv`): 16 x 1R1W banks, no arbitration, P = 5, 118 cycles; 5,045-5,091 ALM; median Fmax 44.320 MHz at 40 ns; **20 ns met at 6/6 seeds** (kernel-only, virtual
   pins; not a board result). ADR 0025 Accepted 2026-10-03 (Jevan): S10 is the NTT/INTT core for the next phases.
+
+## 3d. Phase 7 outcome (MEASURED unless marked; `docs/results/result_phase7.md`)
+- `rtl/keccak/`: `keccak_round.sv` (combinational round), `keccak_f1600.sv` (1 round/cycle, `busy_o` exactly 24 cycles), `keccak_sponge.sv` (SHA3-256/512, SHAKE128/256, padding in hardware, multi-block absorb and squeeze, `stop_i`); constants generated from `tb/golden/keccak.py`.
+- Verification: golden vs hashlib; permutation every round of 1,802 states; sponge 306 cycle points, three messages each, one count per point (formula in `keccak_cycles_2026-10-03.md`); both simulators; negative controls NC-RC, NC-R, NC-PAD; formal K1-K5 PASS, NC-K1 and NC-K4 fail as required.
+- K0 (seed 1): 3,572 ALM, 1,653 registers, 0 M10K, 0 DSP; 40 ns: setup +22.452 ns, Fmax 56.99 MHz; 20 ns: setup +6.893 ns, Fmax 76.30 MHz (kernel-only). One permutation is 26 cycles in the sponge (24 busy); H(ek) 389 cycles; about 2,000 Keccak cycles per ML-KEM operation (perhitungan tim, nothing overlapped).
+- Pre-measurement ESTIMATE vs measurement: ALM 2 % above the written range, registers below it, cycles per permutation 26 not 24 (all recorded in the result file and test plan Amendment A1).
 
 ## 4. Phase 4 summary (still the base; details in `docs/results/result_phase4.md`)
 - ADR 0009 (Accepted): L = 8, P = 6 (C3-P6); NTT-core budget 30 % = **12,573 ALM** (a budget for the NTT core, not a system limit;
@@ -156,8 +163,8 @@ Rebuild reports: `python3 scripts/build_phase5_report.py` (also `build_phase4_re
 - For every RTL-changing step: write the test plan and adoption rule BEFORE measuring; adoption includes ADR 0012 (t_NTT and t_INTT
   better at the median Fmax of seeds 1–6, constant cycles, core ALM ≤ 12,573).
 
-## 10. Immediate Next Steps (after Phase 6)
+## 10. Immediate Next Steps (after Phase 7)
 1. Done 2026-10-03 (Jevan): Approval boxes of Phases 5, 5M, 6 ticked (PR #5); ADR 0025 accepted (S10 is the core), ADR 0021/0022/0023 superseded. Still open: PENDING #25, #26.
-2. Phase 7 (Keccak-f[1600] K0, SHA3/SHAKE) per ROADMAP and ADR 0019: golden `tb/golden/keccak.py` against hashlib first, then RTL; test plan before RTL.
+2. Phase 7 (Keccak K0) is DONE technically (2026-10-03, branch `phase7-keccak`, not pushed): Approval box of `result_phase7.md` waits for a team member. Next per ADR 0019: the samplers (SampleNTT and CBD from the Keccak stream, bit-exact incl. XOF bytes consumed; tier T1), golden first, test plan before RTL.
 3. Then samplers, encode/compress, K-PKE with the Phase 6 sequencer, full Encaps/Decaps with FO and ACVP vectors (ADR 0019 tiers). A wider host interface of the core is the next data-movement lever (56 % of KeyGen cycles).
 4. Proposal Section 3 (pages 4-6) in parallel, evidence-only, under `/proposal-claims`.
