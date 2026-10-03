@@ -77,12 +77,12 @@ def report(title, cand, ref, cn, rn, cand_rows, ref_rows, cand_cyc, ref_cyc, sta
         print(f"- {'PASS' if ok else 'FAIL'}: {text}")
     ok_all = all(ok for _, ok in checks)
     print(f"\n**Rule result: {cn} {'ADOPTED' if ok_all else 'NOT adopted by the rule (no tolerance was added)'}.**\n")
+    rev = {"STORE": "SMP0", "STREAM": "SMP1", "OVERLAP": "SMP2"}
     for n in (rn, cn):
-        for tag in ("-20",):
-            files = sorted((E / ("8d" if n == "SMP2" else "8c")).glob(f"quartus_{n}{tag}_*.md"))
-            if files:
-                q = parse_quartus(files[-1])
-                print(f"- information {n}{tag} (20.000 ns, seed 1): ALM {q['alm']:,}, M10K {q['ram']}, worst setup {q['setup']:.3f} ns ({'met' if q['setup'] >= 0 else 'NOT met'}), Fmax lowest slow corner {q['fmax']:.2f} MHz, `{q['file']}`")
+        files = sorted((E / ("8d" if rev[n] == "SMP2" else "8c")).glob(f"quartus_{rev[n]}-20_*.md"))
+        if files:
+            q = parse_quartus(files[-1])
+            print(f"- information {n} ({rev[n]}-20, 20.000 ns, seed 1): ALM {q['alm']:,}, M10K {q['ram']}, worst setup {q['setup']:.3f} ns ({'met' if q['setup'] >= 0 else 'NOT met'}), Fmax lowest slow corner {q['fmax']:.2f} MHz, `{q['file']}`")
     print()
     return ok_all
 
