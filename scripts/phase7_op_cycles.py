@@ -7,7 +7,7 @@ SampleNTT: the number of XOF bytes actually consumed for each of the nine matrix
 for NRHO random rho values (fixed seed); the squeeze is ceil(bytes / 8) 64-bit words.
 Call inventory (ML-KEM-768, FIPS 203): KeyGen_internal G(d||k) 33 B, 9 SampleNTT, 6 PRF 33 B -> 128 B, H(ek) 1184 B; Encaps_internal H(ek) 1184 B, G(m||h) 64 B, 9 SampleNTT, 7 PRF;
 Decaps_internal G(m'||h) 64 B, J(z||c) 1120 B -> 32 B, 9 SampleNTT, 7 PRF (h is stored in dk, not recomputed).
-Usage: python3 scripts/phase7_op_cycles.py [NRHO]   (prints a markdown table)
+Usage: python3 scripts/phase7_op_cycles.py [NRHO [CYCLES_PER_PERMUTATION]]   (prints a markdown table; 26 = K0, 14 = Phase 8a C5)
 """
 import hashlib
 import random
@@ -23,7 +23,7 @@ import types  # noqa: E402
 from params import N, Q  # noqa: E402
 
 RATE = {"sha3_256": 136, "sha3_512": 72, "shake_128": 168, "shake_256": 136}
-PERM = 26
+PERM = int(sys.argv[2]) if len(sys.argv) > 2 else 26
 
 
 def cycles(mode, ln, ow):
