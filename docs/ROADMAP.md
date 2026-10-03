@@ -28,7 +28,6 @@ compile MEASURED, see `docs/TOOLING_INSTALL_LOG.md`) · no DE10-Nano attached at
   `docs/results/TEMPLATE_result_phase.md`), validated by
   `python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/result_phase<N>.md`.
 - Evidence for phase N lives in `docs/evidence/phaseNN-<topic>/` (Phase 0 keeps `docs/evidence/golden/`).
-  Prompts per phase: `docs/prompts/phase<N>.md`; only `docs/prompts/phase0.md` exists so far.
 
 ## Locked FIPS 203 requirements (apply to every phase; never modified)
 
