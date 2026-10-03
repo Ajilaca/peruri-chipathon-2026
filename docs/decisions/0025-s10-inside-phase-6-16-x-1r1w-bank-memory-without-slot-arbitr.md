@@ -1,8 +1,8 @@
 # ADR 0025: S10 (inside Phase 6): 16 x 1R1W bank memory without slot arbitration - rule result
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-10-03
-- Decided by: pending team decision
+- Decided by: Jevan, Team J5, chat 2026-10-03: 'kan udah di adaptasi dan kita menggambil s10' (header was 'Proposed / pending team decision')
 
 ## Context
 - ADR 0024 (Accepted): S10 is done inside Phase 6 after the Phase 6 block. ADR 0022 (Proposed) option A: a 16-bank map `bank = (a1^a2^a3^a4, a7, a6, a5)`, `offset = a[3:0]` is conflict-free (one read, one write per bank per
@@ -30,3 +30,8 @@ Result of the pre-fixed rule (`scripts/select_s10.py`, no tolerance): **S10 is a
 ## Evidence
 - `docs/evidence/phase06-scheduling/test_plan_s10.md`, `s10/verify_2026-10-03.md`, `s10/formal_2026-10-03.md`, `s10/verification_status.json`, `s10/selection_worksheet_2026-10-03.md`, `s10/quartus_S10[-s2..s6]_20261002.md`,
   `s10/quartus_S10-20[-s2..s6]_20261002.md`, `docs/evidence/phase05m-memsched/fmax50/` (S7 at 20 ns, path analysis), `scripts/select_s10.py`.
+
+## Amendment note 1 (2026-10-03, Jevan, Team J5)
+The team accepts option (a): S10 (`rtl/ntt/ntt_core_s10_p5.sv` with `rtl/mem/poly_mem_m10k.sv`) is the NTT/INTT core for the following phases, and `rtl/sched/kpke_sched_top_s10.sv` is the Phase 6 top
+used from now on. Closes PENDING #28 and, as its text states, makes the S7 / S9 questions of #27 moot; ADR 0021, 0022 and 0023 are marked superseded by this record. The rule result and the
+measurements above are unchanged.
