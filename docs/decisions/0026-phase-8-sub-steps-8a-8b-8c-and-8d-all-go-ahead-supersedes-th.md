@@ -26,3 +26,6 @@ Option (b), by Jose (Team J5): **8a, 8b, 8c and 8d are all to be done.** The ski
 
 ## Evidence
 - Chat 2026-10-03 (quoted in the header); `docs/results/result_phase7.md` (Approval ticked, commit 1154a20); `docs/decisions/0019-minimal-path-to-a-full-ml-kem-768-core-before-thursday-2026-.md` point 2; `docs/ROADMAP.md` Phase 8.
+
+## Amendment note 1 (2026-10-03, chat, no name given: "8b melakukan keduanya saja jadi pertama kita test 1 siklus dan setelah itu 2 siklus setelah itu selesai baru kita mulai 8c"; "tidak perlu menanyakan permisi, lakukan hingga fase 8 beres semua hingga 8d selesai dan kemudian buat report dan result seperti biasa baru berhenti")
+Two things, recorded without editing the decision above: (1) sub-step 8b is done at two output widths, W1 (one coefficient per cycle) and then W2 (two), and a rule written before measuring chooses between them (`docs/evidence/phase08-keccak-stream/8b/test_plan_8b.md`); (2) the STOP after each sub-step of the Decision paragraph was not taken between 8b, 8c and 8d: they were done one after the other, each with its own plan written before its measurement, and the report and the result were written at the end. The questions PENDING #25 and #26 stay open.
