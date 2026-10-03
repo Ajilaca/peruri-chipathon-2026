@@ -15,7 +15,6 @@ Update this list whenever something is decided (move it to an ADR) or discovered
 | 10 | **Prior-art search** extension (IEEE Xplore, IACR ePrint, Google Patents) | Needed before any novelty wording beyond the current scoped claim | Before submission |
 | 12 | Does the **Appendix** count toward the 6-page limit? | Decides where figures go | Section 3 layout |
 | 13 | **Activate `rtl-agent-team` hooks** by running `/rtl-agent-team:rat-init-project` (creates `.rat/`)? The original blocker ("idea not chosen") is resolved by ADR 0001 | Its Stop-gates block ending a session after unverified RTL edits, which mechanically enforces verify-before-claim; but it also adds structure to the repo | Before Phase 1 |
-| 25 | **FIPS 203 input checks (encapsulation-key and decapsulation-input checks) in hardware or on the HPS?** (roadmap requires an ADR before Phase 9; suggestion: on the HPS for the deadline scope) | Scope of Phase 9 (ADR 0019 path) | Controller work |
 | 26 | **Checkpoint protocol until 2026-10-08** (chat 2026-10-03, no name given: run 8b, 8c and 8d without stopping, then the report and the result; the question itself stays open for the later phases): keep a STOP after every step (ADR 0012 style), or one STOP per block / tier (K0+samplers, K-PKE, full KEM)? (suggestion: one per block) | Fewer waits within 6-8 h per day of team attention (ADR 0019) | Phase 7 start |
 
 Closed: #9 FIPS 203 errata — accepted as ADR 0003 (2026-09-29, decided by Faza Dzil, Team J5).
@@ -55,3 +54,4 @@ Closed: #28 S10 — ADR 0025 accepted 2026-10-03 (Jevan, Team J5, chat 2026-10-0
 Closed: #27 Phase 5M configuration — moot after ADR 0025 (as #28 stated): ADR 0021 (S7), 0022 (S9 study) and 0023 (S8) marked superseded by 0025 (2026-10-03, Jevan, Team J5).
 Closed: scope of Phase 8 — ADR 0026 accepted 2026-10-03 (Jose, Team J5): 8a, 8b, 8c and 8d all go ahead (supersedes the skip of 8a/8c/8d in ADR 0019 point 2).
 Closed: #29 C5 (ADR 0027), #30 W2 sampler (ADR 0028), #31 STREAM (ADR 0029), #32 OVERLAP (ADR 0030) — all accepted 2026-10-03 (Jo, Team J5, chat 2026-10-03: 'ya terima'); each was adopted by its rule and is MEASURED (docs/results/result_phase8.md).
+Closed: #25 FIPS 203 input checks — accepted as ADR 0031 (2026-10-03, Jo, Team J5, chat 2026-10-03: 'HPS untuk sekarang karena papan tidak ada aksesnya'): the checks are done by the HPS, not in the RTL; not tested on a board.
