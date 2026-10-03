@@ -41,6 +41,7 @@
 | `quartus/phase07_keccak/` | Revisions K0 (40 ns) and K0-20 (20 ns), constraints, run script |
 | `scripts/phase7_verify.sh`, `scripts/phase7_op_cycles.py` | Verification script; Keccak cycles per ML-KEM operation (perhitungan tim) |
 | `docs/evidence/phase07-keccak/` | Test plan, verify, formal, cycle tables, Quartus extracts |
+| `scripts/build_phase7_report.py`, `docs/report/CHIPATON_Phase7_Report.pdf` | Report (Bahasa Indonesia, 4 pages); numbers parsed from the evidence files, cycle formula re-checked on all 306 points |
 
 ## 3. Numbers (MEASURED: Quartus reports and simulation; ESTIMATE and perhitungan tim marked)
 | Quantity | K0 at 40.000 ns | K0-20 at 20.000 ns | Estimate written before measuring (ESTIMATE) |
@@ -91,6 +92,7 @@ scripts/phase7_verify.sh; python3 formal/run_formal_phase7.py
 python3 scripts/gen_keccak_consts.py --check
 cd quartus/phase07_keccak && ./run_k0.sh; cd ../..
 python3 scripts/phase7_op_cycles.py 200
+python3 scripts/build_phase7_report.py
 python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/result_phase7.md
 python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal
 ```
