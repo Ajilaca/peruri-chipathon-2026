@@ -11,7 +11,9 @@ module kpke_smp_top_s10 #(
     parameter int VAR      = 0,
     parameter bit STREAM_A = 1'b0,
     parameter bit OVERLAP  = 1'b0,
-    parameter bit CORE_R2  = 1'b1
+    parameter bit CORE_R2  = 1'b1,
+    parameter bit NTT_P6   = 1'b0,  // Phase 9F S2: accepted and ignored (the stub is protocol-level; the NTT length is not modelled)
+    parameter bit NTT_AR   = 1'b0   // Phase 9F S2b: accepted and ignored
 ) (
     input  wire         clk_i,
     input  wire         rst_ni,

@@ -19,7 +19,8 @@ import ntt_pkg::*;
 module ntt_core_s10 #(
     parameter int          NUM_LANES = 8,
     parameter int          RD_LAT    = 2,       // poly_mem_m10k.RD_LAT
-    parameter logic [15:0] MUL_REG   = 16'd0    // Barrett reducer REG_AFTER
+    parameter logic [15:0] MUL_REG   = 16'd0,   // Barrett reducer REG_AFTER
+    parameter bit          AREG      = 1'b0     // S2b: 1 registers the issue-stage addresses (computed one cycle early, same value in the same cycle)
 ) (
     input  wire           clk_i,
     input  wire           rst_ni,
@@ -98,9 +99,22 @@ module ntt_core_s10 #(
   endfunction
 
   logic [3:0] log2len;     // issue stage, 1..7
-  logic [7:0] len;
+  /* verilator lint_off UNUSEDSIGNAL */
+  logic [7:0] len;         // unused at AREG = 1 (S2b)
+  /* verilator lint_on UNUSEDSIGNAL */
   assign log2len = f_log2len(mode_q, layer_q);
   assign len     = 8'd1 << log2len;
+
+  // S2b: schedule position of the next cycle (used only when AREG = 1): the mode that mode_q will hold, layer_d / t_d from the FSM below
+  logic       start_go, mode_n;
+  /* verilator lint_off UNUSEDSIGNAL */
+  logic [3:0] log2len_n;   // unused at AREG = 0
+  logic [7:0] len_n;
+  /* verilator lint_on UNUSEDSIGNAL */
+  assign start_go  = (state_q == S_IDLE) && start_i && !host_we_i && (hw_q == DW'(0));   // = start_ok of the FSM below in S_IDLE
+  assign mode_n    = start_go ? mode_i : mode_q;
+  assign log2len_n = f_log2len(mode_n, layer_d);
+  assign len_n     = 8'd1 << log2len_n;
 
   // -- read-stage copies of the schedule position (for the per-lane zeta) ------------------------
   logic [2:0]    layer_r;
@@ -155,20 +169,40 @@ module ntt_core_s10 #(
   genvar gl;
   generate
     for (gl = 0; gl < NUM_LANES; gl++) begin : g_lane
-      logic [7:0]    p_lane, block_lane, pos_lane, start_addr_lane;
       logic [AW-1:0] j_lane, jlen_lane;
       logic [7:0]    p_rd;
       logic [ZW-1:0] block_rd;
       logic [ZW-1:0] zeta_idx_lane;
       logic [CW-1:0] rom_zeta_lane;
 
-      always_comb begin
-        p_lane          = 8'(gl * (128 / NUM_LANES)) + 8'(t_q);
-        block_lane      = p_lane >> log2len;
-        pos_lane        = p_lane - (block_lane << log2len);
-        start_addr_lane = block_lane << (log2len + 4'd1);
-        j_lane          = start_addr_lane + pos_lane;
-        jlen_lane       = j_lane + len;
+      if (AREG) begin : g_ar
+        // S2b: the same arithmetic on the values of the next cycle (layer_d, t_d, mode_n), registered; j_lane / jlen_lane equal those of the combinational branch in every cycle of a run
+        logic [7:0]    p_n, block_n, pos_n, start_n;
+        logic [AW-1:0] j_n, jlen_n, j_r, jlen_r;
+        always_comb begin
+          p_n     = 8'(gl * (128 / NUM_LANES)) + 8'(t_d);
+          block_n = p_n >> log2len_n;
+          pos_n   = p_n - (block_n << log2len_n);
+          start_n = block_n << (log2len_n + 4'd1);
+          j_n     = start_n + pos_n;
+          jlen_n  = j_n + len_n;
+        end
+        always_ff @(posedge clk_i) begin
+          j_r    <= j_n;
+          jlen_r <= jlen_n;
+        end
+        assign j_lane    = j_r;
+        assign jlen_lane = jlen_r;
+      end else begin : g_ac
+        logic [7:0] p_lane, block_lane, pos_lane, start_addr_lane;
+        always_comb begin
+          p_lane          = 8'(gl * (128 / NUM_LANES)) + 8'(t_q);
+          block_lane      = p_lane >> log2len;
+          pos_lane        = p_lane - (block_lane << log2len);
+          start_addr_lane = block_lane << (log2len + 4'd1);
+          j_lane          = start_addr_lane + pos_lane;
+          jlen_lane       = j_lane + len;
+        end
       end
 
       // zeta_index_of, closed form verified in tb/mem/bank_model.py: NTT k = 2^layer + block;

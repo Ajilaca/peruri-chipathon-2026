@@ -14,6 +14,8 @@
 module mlkem_core3 #(
     parameter bit HASH_C5  = 1'b1,     // hash instance: 1 C5 sponge (ADR 0027), 0 K0 sponge
     parameter bit SMP_C5   = 1'b1,     // sampler sponge inside the K-PKE engine: 1 C5 (ADR 0027), 0 K0 (S1)
+    parameter bit NTT_P6   = 1'b0,     // S2: 1 adds the fourth multiplier cut to the NTT core of the engine (P = 6, 119 cycles per transform)
+    parameter bit NTT_AR   = 1'b0,     // S2b: 1 registers the issue-stage addresses of the NTT core of the engine (no change of cycles or results)
     parameter bit CODEC_W2 = 1'b0      // load / store tasks: 0 the Phase 9 one-byte path, 1 the Phase 9M two-byte path (mlkem_ldpoly2 / mlkem_stpoly2, test_plan_9m1.md)
 ) (
     input  wire         clk_i,
@@ -125,7 +127,7 @@ module mlkem_core3 #(
   logic        eng_ovf;
   /* verilator lint_on UNUSEDSIGNAL */
 
-  kpke_smp_top_s10 #(.NPOLY(12), .VAR(2), .STREAM_A(1'b1), .OVERLAP(1'b1), .CORE_R2(SMP_C5)) u_eng (
+  kpke_smp_top_s10 #(.NPOLY(12), .VAR(2), .STREAM_A(1'b1), .OVERLAP(1'b1), .CORE_R2(SMP_C5), .NTT_P6(NTT_P6), .NTT_AR(NTT_AR)) u_eng (
       .clk_i(clk_i), .rst_ni(rst_ni), .prog_i(eng_prog), .start_i(eng_start), .busy_o(eng_busy), .done_o(eng_done),
       .tb_we_i(eng_tb_we), .tb_slot_i(eng_tb_slot), .tb_addr_i(eng_tb_addr), .tb_wdata_i(eng_tb_wdata), .tb_rdata_o(eng_tb_rdata),
       .seed_we_i(eng_seed_we), .seed_sel_i(eng_seed_sel), .seed_idx_i(eng_seed_idx), .seed_data_i(eng_seed_data),

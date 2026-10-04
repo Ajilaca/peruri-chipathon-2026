@@ -2,14 +2,16 @@
 `timescale 1ns/1ps
 // rtl/sched/kpke_smp_top_s10.sv
 // Phases 8c / 8d: Quartus top of the K-PKE arithmetic with sampling: the sequencer rtl/sched/kpke_sched_smp.sv (store, PWM unit, 8b sampler on the C5 sponge) with the S10 NTT/INTT core (rtl/ntt/ntt_core_s10_p5.sv, host read latency 2).
-// VAR selects the program ROM variant (0 STORE, 1 STREAM, 2 OVERLAP) at compile time; NPOLY the slots of the store (24 for STORE, 12 for STREAM / OVERLAP); STREAM_A and OVERLAP enable the 8c and 8d hardware. No logic here.
+// VAR selects the program ROM variant (0 STORE, 1 STREAM, 2 OVERLAP) at compile time; NPOLY the slots of the store (24 for STORE, 12 for STREAM / OVERLAP); STREAM_A and OVERLAP enable the 8c and 8d hardware. No logic here. NTT_P6 (S2, default 0) selects P = 6 in the NTT core.
 
 module kpke_smp_top_s10 #(
     parameter int NPOLY    = 24,
     parameter int VAR      = 0,
     parameter bit STREAM_A = 1'b0,
     parameter bit OVERLAP  = 1'b0,
-    parameter bit CORE_R2  = 1'b1
+    parameter bit CORE_R2  = 1'b1,
+    parameter bit NTT_P6   = 1'b0,  // S2: 1 adds the fourth multiplier cut to the NTT core (P = 6)
+    parameter bit NTT_AR   = 1'b0   // S2b: 1 registers the issue-stage addresses of the NTT core
 ) (
     input  wire         clk_i,
     input  wire         rst_ni,
@@ -45,7 +47,7 @@ module kpke_smp_top_s10 #(
       .core_mode_o(core_mode), .core_start_o(core_start), .core_haddr_o(core_haddr), .core_hwdata_o(core_hwdata),
       .core_hwe_o(core_hwe), .core_hrdata_i(core_hrdata), .core_busy_i(core_busy), .core_done_i(core_done));
 
-  ntt_core_s10_p5 u_core (
+  ntt_core_s10_p5 #(.P6(NTT_P6), .AREG(NTT_AR)) u_core (
       .clk_i(clk_i), .rst_ni(rst_ni), .mode_i(core_mode), .start_i(core_start),
       .host_addr_i(core_haddr), .host_wdata_i(core_hwdata), .host_we_i(core_hwe), .host_rdata_o(core_hrdata),
       .busy_o(core_busy), .done_o(core_done), .bank_overflow_o(bank_overflow_o));
