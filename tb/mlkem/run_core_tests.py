@@ -8,7 +8,7 @@ Builds rtl/mlkem/mlkem_core.sv (with the K-PKE engine of 8d and the 9a / 9b bloc
   ncoff   NC-OFF:  Decaps feeds h from the z offset                     -> test_acvp_decaps must FAIL     (CORE_FAST=1)
   ncwcore NC-W-CORE (CORE_W2=1 only): the two-byte loader writes the coefficient index + 1 -> test_acvp_encaps must FAIL     (CORE_FAST=1)
   ncrom   NC-ROM:  the message polynomial is loaded with d = 4          -> test_acvp_encaps must FAIL     (CORE_FAST=1)
-Environment: CORE_BUILD_DIR, CORE_CYCLES_OUT_DIR, CORE_N, CORE_W2 (1: the Phase 9M two-byte load / store tasks, parameter CODEC_W2 = 1; test_plan_9m1.md V3), CORE_K0 (1: the K0 sponge for the hash instance, parameter HASH_C5 = 0; test_plan_9m3.md V2).
+Environment: CORE_BUILD_DIR, CORE_CYCLES_OUT_DIR, CORE_N, CORE_W2 (1: the Phase 9M two-byte load / store tasks, parameter CODEC_W2 = 1; test_plan_9m1.md V3), CORE_P6 (1: P = 6 in the NTT core, parameter NTT_P6 = 1, mlkem_core3; test_plan_9s2.md V7), CORE_K0 (1: the K0 sponge for the hash instance, parameter HASH_C5 = 0; test_plan_9m3.md V2).
 Usage: python3 tb/mlkem/run_core_tests.py icarus|verilator [core nccmp ncsel nclen ncoff ncrom]
 """
 import os
@@ -34,18 +34,29 @@ ENG = [ROOT / p for p in (
 MLK = [M / f for f in ("mlkem_pack.sv", "mlkem_unpack.sv", "mlkem_hash.sv", "mlkem_fo_cmp.sv", "mlkem_ram.sv", "mlkem_fifo4.sv", "mlkem_wordbytes.sv", "mlkem_bytedst.sv", "mlkem_ldpoly.sv", "mlkem_stpoly.sv", "mlkem_ctl_rom.sv", "mlkem_core.sv")]
 TOP = os.environ.get("CORE_TOP", "mlkem_core")      # mlkem_core2 selects the Phase 9F module (parameter SMP_C5, S1)
 MLK[-1] = M / f"{TOP}.sv"
-BG = TOP == "mlkem_core3"                           # Phase 9F S1b: background hash job, programs of mlkem_ctl_rom2.sv
+BG = TOP in ("mlkem_core3", "mlkem_core4")          # Phase 9F S1b: background hash job, programs of mlkem_ctl_rom2.sv (core4, Phase 9I item 4: mlkem_ctl_rom3.sv)
+OV = TOP == "mlkem_core4"                           # Phase 9I item 4: loads behind the engine (engine variant kpke_sched_smp4 / kpke_smp_top_s10o, loader mlkem_ldpoly2o)
+ROMN = "mlkem_ctl_rom3.sv" if OV else "mlkem_ctl_rom2.sv"
 if BG:
-    MLK = [M / "mlkem_ctl_rom2.sv" if f.name == "mlkem_ctl_rom.sv" else f for f in MLK]
-CORE, ROM = M / f"{TOP}.sv", M / ("mlkem_ctl_rom2.sv" if BG else "mlkem_ctl_rom.sv")
+    MLK = [M / ROMN if f.name == "mlkem_ctl_rom.sv" else f for f in MLK]
+if OV:
+    ENG += [ROOT / "rtl/sched/kpke_sched_smp4.sv", ROOT / "rtl/sched/kpke_smp_top_s10o.sv"]
+CORE, ROM = M / f"{TOP}.sv", M / (ROMN if BG else "mlkem_ctl_rom.sv")
 LENPAT = ".len_i(hx_len)" if BG else ".len_i({5'd0, f_hlen})"
 W2 = os.environ.get("CORE_W2", "0") == "1"
 K0 = os.environ.get("CORE_K0", "0") == "1"
 S0 = os.environ.get("CORE_SMP0", "0") == "1"       # K0 sampler sponge in the engine (mlkem_core2 only)
-assert not S0 or TOP in ("mlkem_core2", "mlkem_core3"), "CORE_SMP0=1 needs CORE_TOP=mlkem_core2 or mlkem_core3"
-PARAMS = {**({"CODEC_W2": 1} if W2 else {}), **({"HASH_C5": 0} if K0 else {}), **({"SMP_C5": 0} if S0 else {})}
+assert not S0 or TOP in ("mlkem_core2", "mlkem_core3", "mlkem_core4"), "CORE_SMP0=1 needs CORE_TOP=mlkem_core2, mlkem_core3 or mlkem_core4"
+P6 = os.environ.get("CORE_P6", "0") == "1"         # P = 6 in the NTT core of the engine (S2; mlkem_core3 only)
+assert not P6 or TOP in ("mlkem_core3", "mlkem_core4"), "CORE_P6=1 needs CORE_TOP=mlkem_core3 or mlkem_core4"
+AR = os.environ.get("CORE_AR", "0") == "1"         # registered issue address in the NTT core (S2b; mlkem_core3 / mlkem_core4)
+assert not AR or TOP in ("mlkem_core3", "mlkem_core4"), "CORE_AR=1 needs CORE_TOP=mlkem_core3 or mlkem_core4"
+PARAMS = {**({"CODEC_W2": 1} if W2 else {}), **({"HASH_C5": 0} if K0 else {}), **({"SMP_C5": 0} if S0 else {}), **({"NTT_P6": 1} if P6 else {}), **({"NTT_AR": 1} if AR else {})}
 if W2:
     MLK += [M / f for f in ("mlkem_pack2.sv", "mlkem_unpack2.sv", "mlkem_wordbytes2.sv", "mlkem_bytedst2.sv", "mlkem_ldpoly2.sv", "mlkem_stpoly2.sv")]
+    if OV:
+        MLK += [M / "mlkem_ldpoly2o.sv"]
+assert not OV or W2, "CORE_TOP=mlkem_core4 needs CORE_W2=1"
 
 
 def mutate(src, dst, edits):
@@ -77,6 +88,7 @@ def run(sim, root, names):
     ok, total, bad = True, 0, 0
     for name in names:
         mdir = root / f"mut_{sim}_{name}"
+        eng4 = None
         if name == "core":
             ran, failed = build_test(sim, root, name, ENG + MLK, False)
             good = bool(ran) and not failed
@@ -115,6 +127,26 @@ def run(sim, root, names):
                 rom.parent.mkdir(parents=True, exist_ok=True)
                 rom.write_text("\n".join(t))
                 must = "test_acvp_encaps"
+            elif name in ("ncilk", "ncthrld", "ncgrant", "ncjoin"):          # Phase 9I item 4 controls (mlkem_core4): the engine variant and the controller are mutated
+                assert OV, f"{name} needs CORE_TOP=mlkem_core4"
+                ENG4 = ROOT / "rtl/sched/kpke_sched_smp4.sv"
+                thr_edit = [("    host_grant = idle_st || (HOSTOV && !seq_wr && !smp_wr);", "    host_grant = idle_st || (HOSTOV && !seq_wr && !smp_wr && (thr_q == 3'd0));", 1),
+                            ("  logic host_grant;\n", "  logic host_grant;\n  logic [2:0] thr_q = 3'd0;\n  always_ff @(posedge clk_i) thr_q <= idle_st ? 3'd0 : thr_q + 3'd1;   // restarts with every operation, so that the cycle count stays constant\n", 1)]
+                if name == "ncthrld":         # throttled host port (one grant in eight cycles), interlock intact: the loads end late, the engine waits: the whole core target must PASS
+                    eng4 = mutate(ENG4, mdir / ENG4.name, thr_edit)
+                    must = None
+                elif name == "ncilk":         # the same throttled host port WITHOUT the interlock: the engine reads slots that are not loaded -> ACVP must FAIL
+                    eng4 = mutate(ENG4, mdir / ENG4.name, thr_edit + [("    if (HOSTOV && (state_q == S_FETCH)) begin", "    if (1'b0 && HOSTOV && (state_q == S_FETCH)) begin", 1)])
+                    must = "test_acvp_encaps"
+                elif name == "ncgrant":       # the loader ignores the write handshake (it writes and advances although the engine did not grant the port) -> coefficients are lost -> must FAIL
+                    LD2O = M / "mlkem_ldpoly2o.sv"
+                    ld2 = mutate(LD2O, mdir / LD2O.name, [(".coef_ready_i(tb_wready_i)", ".coef_ready_i(1'b1)", 1), ("assign tb_we_o    = coef_valid && tb_wready_i;", "assign tb_we_o    = coef_valid;", 1),
+                                                          ("      if (coef_valid && tb_wready_i) cidx_q <= cidx_q + 8'd1;", "      if (coef_valid) cidx_q <= cidx_q + 8'd1;", 1)])
+                    must = "test_acvp_encaps"
+                else:                         # NC-JOIN4: RUNJ does not wait for the engine -> must FAIL
+                    eng4 = ENG4
+                    core = mutate(CORE, mdir / CORE.name, [("        S_RUNJ: if (eng_dn_q || eng_done) begin", "        S_RUNJ: begin", 1)])
+                    must = "test_acvp_encaps"
             elif name in ("ncprio", "ncwr", "ncjob", "ncthr", "ncthrnj"):
                 assert BG, f"{name} needs CORE_TOP=mlkem_core3"
                 if name == "ncprio":          # NC-PRIO: a sidecar read is issued even when the main controller reads
@@ -148,9 +180,10 @@ def run(sim, root, names):
                 must = "test_acvp_encaps"
             else:
                 raise SystemExit(f"unknown target {name}")
-            srcs = [core if f == CORE else rom if f == ROM else (ld2 if name == "ncwcore" and f.name == "mlkem_ldpoly2.sv" else f) for f in ENG + MLK]
+            eng4_ = eng4
+            srcs = [core if f == CORE else rom if f == ROM else (ld2 if (name == "ncwcore" and f.name == "mlkem_ldpoly2.sv") or (name == "ncgrant" and f.name == "mlkem_ldpoly2o.sv") else (eng4_ if eng4_ is not None and f.name == "kpke_sched_smp4.sv" else f)) for f in ENG + MLK]
             ran, failed = build_test(sim, root, name, srcs, True)
-            if name == "ncthr":           # the throttled copy must PASS everything: the join waits for a slow job
+            if name in ("ncthr", "ncthrld"):   # the throttled copy must PASS everything: the join waits for a slow job (ncthrld: the engine waits for a slow loader)
                 good = bool(ran) and not failed
                 print(f"[{sim}] {name}: throttled sidecar passes the whole core target: {good}; failed={failed}" + ("" if good else "  JOIN OR ARBITRATION BROKEN"))
                 total += 1

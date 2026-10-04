@@ -10,7 +10,7 @@ import core_tb
 import mlkem_ctl_model as CM
 from core_tb import rtl_decaps, rtl_encaps, rtl_keygen, setup
 
-NAMES = ["IDLE", "FETCH", "DISP", "LDP", "STP", "HFD", "HGT", "SDL", "RUN", "WR32", "RD32", "CMP", "CMPK"]
+NAMES = ["IDLE", "FETCH", "DISP", "LDP", "STP", "HFD", "HGT", "SDL", "RUN", "WR32", "RD32", "CMP", "CMPK", "RUNJ"]   # RUNJ: mlkem_core4 (Phase 9I item 4)
 
 
 @cocotb.test()
