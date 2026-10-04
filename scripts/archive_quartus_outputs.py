@@ -46,6 +46,9 @@ GROUPS = {
     "phase09f0_core": ("phase09F_fmax", "S0 9M-1 core at 16 .. 13 ns", "docs/evidence/phase09m-optimisation/9f0/"),
     "phase09f1_core": ("phase09F_fmax", "S1 K1 (K0 sampler and hash)", "docs/evidence/phase09m-optimisation/9f1/"),
     "phase09f1b_core": ("phase09F_fmax", "S1b K1b (background hash)", "docs/evidence/phase09m-optimisation/9f1b/"),
+    "phase09s2_core": ("phase09F_fmax", "S2 K2 (P = 6 NTT core)", "docs/evidence/phase09m-optimisation/9s2/"),
+    "phase09s2b_core": ("phase09F_fmax", "S2b K3 (registered NTT issue address)", "docs/evidence/phase09m-optimisation/9s2b/"),
+    "phase09i4_core": ("phase09F_fmax", "item 4 K4 (loads behind the engine)", "docs/evidence/phase09m-optimisation/9i4/"),
 }
 
 
