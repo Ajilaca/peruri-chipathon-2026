@@ -1,0 +1,18 @@
+# formal/phase09-integration/9b/mlkem_fo_cmp_safety.sby
+# Phase 9b V8: properties of mlkem_fo_cmp_formal_top.sv (induction, depth 40). Control and result only.
+
+[options]
+mode prove
+depth 40
+
+[engines]
+smtbmc boolector
+
+[script]
+plugin -i slang
+read_slang -D FORMAL mlkem_fo_cmp.sv mlkem_fo_cmp_formal_top.sv --top mlkem_fo_cmp_formal_top
+prep -top mlkem_fo_cmp_formal_top
+
+[files]
+../../../rtl/mlkem/mlkem_fo_cmp.sv
+mlkem_fo_cmp_formal_top.sv
