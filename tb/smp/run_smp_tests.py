@@ -9,7 +9,7 @@ Builds rtl/sched/kpke_smp_top_s10.sv for the variant KP_VAR (0 STORE: NPOLY 24; 
              ncacc   NC-ACC   accumulator not used on a middle pass
              nchaz   NC-HAZ   (VAR 2) a transform reads the slot that a non-blocking sample has just started (test-only copy of the ROM)
              ncarb   NC-ARB   (VAR 3) no arbitration of the store write port (wr_free always 1)
-Usage: python3 tb/smp/run_smp_tests.py icarus|verilator [top ncij ncctr ncalign ncvalid ncacc ...]   Environment: KP_VAR, KP_N, KP_BUILD_DIR, KP_CYCLES_OUT_DIR.
+Usage: python3 tb/smp/run_smp_tests.py icarus|verilator [top ncij ncctr ncalign ncvalid ncacc ...]   Environment: KP_VAR, KP_CORE_R2, KP_N, KP_BUILD_DIR, KP_CYCLES_OUT_DIR.
 """
 import os
 import sys
@@ -30,6 +30,8 @@ NTT = [R / "ntt" / f for f in ("ntt_pkg.sv", "twiddle_rom.sv", "pipe_delay.sv", 
 SCHED = [R / "sched" / f for f in ("gamma_rom.sv", "kpke_smp_prog_rom.sv", "poly_store_smp.sv", "pwm_unit.sv", "kpke_sched_smp.sv", "kpke_smp_top_s10.sv")]
 SEQ = R / "sched" / "kpke_sched_smp.sv"
 PARAMS = {0: {"NPOLY": 24, "VAR": 0, "STREAM_A": 0, "OVERLAP": 0}, 1: {"NPOLY": 12, "VAR": 1, "STREAM_A": 1, "OVERLAP": 0}, 2: {"NPOLY": 12, "VAR": 2, "STREAM_A": 1, "OVERLAP": 1}, 3: {"NPOLY": 12, "VAR": 3, "STREAM_A": 1, "OVERLAP": 1}}[VAR]
+if "KP_CORE_R2" in os.environ:        # Phase 9F S1: the K0 sampler (0) or the C5 sampler (1) in the sequencer tests
+    PARAMS = {**PARAMS, "CORE_R2": int(os.environ["KP_CORE_R2"])}
 ROM = R / "sched" / "kpke_smp_prog_rom.sv"
 MUT = {
     "ncij": [("msg_b32_q <= 8'(a_q % 5'd3);   // j = m mod 3", "msg_b32_q <= 8'(a_q / 5'd3);"), ("msg_b33_q <= 8'(a_q / 5'd3);   // i = m div 3", "msg_b33_q <= 8'(a_q % 5'd3);")],
