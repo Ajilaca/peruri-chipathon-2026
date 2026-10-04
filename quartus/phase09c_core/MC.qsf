@@ -1,0 +1,62 @@
+# quartus/phase09c_core/MC.qsf -- Phase 9c (docs/evidence/phase09-integration/9c/test_plan_9c.md V9): mlkem_core (KeyGen, Encaps, Decaps; the K-PKE engine of 8d, the codec, the hash wrapper with the C5 sponge and the comparison), kernel-only compile (virtual pins, as Phases 1-9b), 40.000 ns (C.sdc), Quartus defaults, seed 1.
+set_global_assignment -name FAMILY "Cyclone V"
+set_global_assignment -name DEVICE 5CSEBA6U23I7
+set_global_assignment -name TOP_LEVEL_ENTITY mlkem_core
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files_MC
+set_global_assignment -name SDC_FILE C.sdc
+set_parameter -name HASH_C5 1
+
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/keccak/keccak_pkg.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/keccak/keccak_round.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/keccak/keccak_f1600.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/keccak/keccak_sponge.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/keccak/keccak_f1600_r2.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/keccak/keccak_sponge_r2.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/sample/sample_ntt_core.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/sample/cbd2_core.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/sample/keccak_sampler.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/ntt/ntt_pkg.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/ntt/twiddle_rom.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/arith/twiddle_rom_half.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/ntt/pipe_delay.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/ntt/modmul_reduce_staged.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/arith/modmul_fold.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/arith/modmul_barrett.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/arith/modmul_montgomery.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/arith/modmul_sel.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/arith/half_mod.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/arith/butterfly_m6.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mem/poly_mem_m10k.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/ntt/ntt_core_s10.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/ntt/ntt_core_s10_p5.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/sched/gamma_rom.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/sched/kpke_smp_prog_rom.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/sched/poly_store_smp.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/sched/pwm_unit.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/sched/kpke_sched_smp.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/sched/kpke_smp_top_s10.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_pack.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_unpack.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_hash.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_fo_cmp.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_ram.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_fifo4.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_wordbytes.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_bytedst.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_ldpoly.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_stpoly.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_ctl_rom.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_core.sv
+
+set_instance_assignment -name VIRTUAL_PIN ON -to clk_i
+set_instance_assignment -name VIRTUAL_PIN ON -to rst_ni
+set_instance_assignment -name VIRTUAL_PIN ON -to op_i[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to start_i
+set_instance_assignment -name VIRTUAL_PIN ON -to busy_o
+set_instance_assignment -name VIRTUAL_PIN ON -to done_o
+set_instance_assignment -name VIRTUAL_PIN ON -to h_we_i
+set_instance_assignment -name VIRTUAL_PIN ON -to h_addr_i[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to h_wdata_i[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to h_rdata_o[*]
+
+set_global_assignment -name LAST_QUARTUS_VERSION "25.1std.0 Lite Edition"
