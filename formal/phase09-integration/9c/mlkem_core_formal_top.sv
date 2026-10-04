@@ -30,8 +30,18 @@ module mlkem_core_formal_top (
     output wire  [63:0] h_rdata_b_o
 );
 
-  mlkem_core u_a (.clk_i(clk_i), .rst_ni(rst_ni), .op_i(op_i), .start_i(start_i), .busy_o(busy_a_o), .done_o(done_a_o), .h_we_i(h_we_i), .h_addr_i(h_addr_i), .h_wdata_i(h_wdata_a_i), .h_rdata_o(h_rdata_a_o));
-  mlkem_core u_b (.clk_i(clk_i), .rst_ni(rst_ni), .op_i(op_i), .start_i(start_i), .busy_o(busy_b_o), .done_o(done_b_o), .h_we_i(h_we_i), .h_addr_i(h_addr_i), .h_wdata_i(h_wdata_b_i), .h_rdata_o(h_rdata_b_o));
+  // Phase 9M (test_plan_9m1.md): the load / store tasks sit in generate blocks of the core (CODEC_W2); -D W2 proves the core with the two-byte tasks (their stubs in formal/phase09m-optimisation/9m1/stubs_9m1.sv)
+`ifdef W2
+  `define LDP g_ld2.u_ld
+  `define STP g_st2.u_st
+  localparam bit FW2 = 1'b1;
+`else
+  `define LDP g_ld1.u_ld
+  `define STP g_st1.u_st
+  localparam bit FW2 = 1'b0;
+`endif
+  mlkem_core #(.CODEC_W2(FW2)) u_a (.clk_i(clk_i), .rst_ni(rst_ni), .op_i(op_i), .start_i(start_i), .busy_o(busy_a_o), .done_o(done_a_o), .h_we_i(h_we_i), .h_addr_i(h_addr_i), .h_wdata_i(h_wdata_a_i), .h_rdata_o(h_rdata_a_o));
+  mlkem_core #(.CODEC_W2(FW2)) u_b (.clk_i(clk_i), .rst_ni(rst_ni), .op_i(op_i), .start_i(start_i), .busy_o(busy_b_o), .done_o(done_b_o), .h_we_i(h_we_i), .h_addr_i(h_addr_i), .h_wdata_i(h_wdata_b_i), .h_rdata_o(h_rdata_b_o));
 
 `ifdef FORMAL
   logic f_init = 1'b1;
@@ -46,17 +56,17 @@ module mlkem_core_formal_top (
     assume (u_a.u_hash.f_ccl == u_b.u_hash.f_ccl);
     assume (u_a.u_hash.f_cfin == u_b.u_hash.f_cfin);
     assume (u_a.u_fo.f_cfin == u_b.u_fo.f_cfin);
-    assume (u_a.u_ld.f_cfin == u_b.u_ld.f_cfin);
-    assume (u_a.u_ld.f_creq == u_b.u_ld.f_creq);
-    assume (u_a.u_ld.f_cwe == u_b.u_ld.f_cwe);
-    assume (u_a.u_ld.f_cadr == u_b.u_ld.f_cadr);
-    assume (u_a.u_ld.f_cslot == u_b.u_ld.f_cslot);
-    assume (u_a.u_ld.f_ctadr == u_b.u_ld.f_ctadr);
-    assume (u_a.u_st.f_cfin == u_b.u_st.f_cfin);
-    assume (u_a.u_st.f_cwe == u_b.u_st.f_cwe);
-    assume (u_a.u_st.f_cadr == u_b.u_st.f_cadr);
-    assume (u_a.u_st.f_cslot == u_b.u_st.f_cslot);
-    assume (u_a.u_st.f_ctadr == u_b.u_st.f_ctadr);
+    assume (u_a.`LDP.f_cfin == u_b.`LDP.f_cfin);
+    assume (u_a.`LDP.f_creq == u_b.`LDP.f_creq);
+    assume (u_a.`LDP.f_cwe == u_b.`LDP.f_cwe);
+    assume (u_a.`LDP.f_cadr == u_b.`LDP.f_cadr);
+    assume (u_a.`LDP.f_cslot == u_b.`LDP.f_cslot);
+    assume (u_a.`LDP.f_ctadr == u_b.`LDP.f_ctadr);
+    assume (u_a.`STP.f_cfin == u_b.`STP.f_cfin);
+    assume (u_a.`STP.f_cwe == u_b.`STP.f_cwe);
+    assume (u_a.`STP.f_cadr == u_b.`STP.f_cadr);
+    assume (u_a.`STP.f_cslot == u_b.`STP.f_cslot);
+    assume (u_a.`STP.f_ctadr == u_b.`STP.f_ctadr);
   end
 
   localparam logic [3:0] S_IDLE = 4'd0, S_FETCH = 4'd1, S_DISP = 4'd2, S_LDP = 4'd3, S_STP = 4'd4, S_HFD = 4'd5, S_HGT = 4'd6, S_SDL = 4'd7, S_RUN = 4'd8, S_WR32 = 4'd9, S_RD32 = 4'd10, S_CMP = 4'd11, S_CMPK = 4'd12;
@@ -84,8 +94,8 @@ module mlkem_core_formal_top (
       assert (u_a.u_eng.busy_q == u_b.u_eng.busy_q && u_a.u_eng.done_q == u_b.u_eng.done_q);
       assert (u_a.u_hash.busy_q == u_b.u_hash.busy_q && u_a.u_hash.done_q == u_b.u_hash.done_q);
       assert (u_a.u_fo.busy_q == u_b.u_fo.busy_q && u_a.u_fo.done_q == u_b.u_fo.done_q);
-      assert (u_a.u_ld.busy_q == u_b.u_ld.busy_q && u_a.u_ld.done_q == u_b.u_ld.done_q);
-      assert (u_a.u_st.busy_q == u_b.u_st.busy_q && u_a.u_st.done_q == u_b.u_st.done_q);
+      assert (u_a.`LDP.busy_q == u_b.`LDP.busy_q && u_a.`LDP.done_q == u_b.`LDP.done_q);
+      assert (u_a.`STP.busy_q == u_b.`STP.busy_q && u_a.`STP.done_q == u_b.`STP.done_q);
       assert (u_a.wr_en == u_b.wr_en && u_a.wr_rgn == u_b.wr_rgn && u_a.wr_addr == u_b.wr_addr && u_a.rd_addr == u_b.rd_addr);
       // S1
       assert (sa <= S_CMPK);

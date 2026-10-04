@@ -10,7 +10,8 @@
 // Reset: asynchronous, active low, on the control state; memories, the register file and the datapath registers are not reset. One clock domain.
 
 module mlkem_core #(
-    parameter bit HASH_C5 = 1'b1       // hash instance: 1 C5 sponge (ADR 0027), 0 K0 sponge
+    parameter bit HASH_C5  = 1'b1,     // hash instance: 1 C5 sponge (ADR 0027), 0 K0 sponge
+    parameter bit CODEC_W2 = 1'b0      // load / store tasks: 0 the Phase 9 one-byte path, 1 the Phase 9M two-byte path (mlkem_ldpoly2 / mlkem_stpoly2, test_plan_9m1.md)
 ) (
     input  wire         clk_i,
     input  wire         rst_ni,
@@ -113,20 +114,38 @@ module mlkem_core #(
   /* verilator lint_off UNUSEDSIGNAL */
   logic        ld_rd_req_u;
   /* verilator lint_on UNUSEDSIGNAL */
-  mlkem_ldpoly u_ld (
-      .clk_i(clk_i), .rst_ni(rst_ni), .start_i(ld_start), .dsel_i(f_dsel), .slot_i(f_slot), .woff_i(f_woff),
-      .rd_req_o(ld_rd_req_u), .rd_addr_o(ld_rd_addr), .rd_data_i(rd_data),
-      .tb_we_o(ld_we), .tb_slot_o(ld_slot), .tb_addr_o(ld_addr), .tb_wdata_o(ld_wdata), .busy_o(ld_busy), .done_o(ld_done));
+  generate
+  if (CODEC_W2) begin : g_ld2
+    mlkem_ldpoly2 u_ld (
+        .clk_i(clk_i), .rst_ni(rst_ni), .start_i(ld_start), .dsel_i(f_dsel), .slot_i(f_slot), .woff_i(f_woff),
+        .rd_req_o(ld_rd_req_u), .rd_addr_o(ld_rd_addr), .rd_data_i(rd_data),
+        .tb_we_o(ld_we), .tb_slot_o(ld_slot), .tb_addr_o(ld_addr), .tb_wdata_o(ld_wdata), .busy_o(ld_busy), .done_o(ld_done));
+  end else begin : g_ld1
+    mlkem_ldpoly u_ld (
+        .clk_i(clk_i), .rst_ni(rst_ni), .start_i(ld_start), .dsel_i(f_dsel), .slot_i(f_slot), .woff_i(f_woff),
+        .rd_req_o(ld_rd_req_u), .rd_addr_o(ld_rd_addr), .rd_data_i(rd_data),
+        .tb_we_o(ld_we), .tb_slot_o(ld_slot), .tb_addr_o(ld_addr), .tb_wdata_o(ld_wdata), .busy_o(ld_busy), .done_o(ld_done));
+  end
+  endgenerate
 
   logic        st_start, st_wr_en, st_busy, st_done;
   logic [4:0]  st_slot;
   logic [7:0]  st_addr;
   logic [8:0]  st_wr_addr;
   logic [63:0] st_wr_data;
-  mlkem_stpoly u_st (
-      .clk_i(clk_i), .rst_ni(rst_ni), .start_i(st_start), .dsel_i(f_dsel), .slot_i(f_slot), .woff_i(f_woff),
-      .tb_slot_o(st_slot), .tb_addr_o(st_addr), .tb_rdata_i(eng_tb_rdata),
-      .wr_en_o(st_wr_en), .wr_addr_o(st_wr_addr), .wr_data_o(st_wr_data), .busy_o(st_busy), .done_o(st_done));
+  generate
+  if (CODEC_W2) begin : g_st2
+    mlkem_stpoly2 u_st (
+        .clk_i(clk_i), .rst_ni(rst_ni), .start_i(st_start), .dsel_i(f_dsel), .slot_i(f_slot), .woff_i(f_woff),
+        .tb_slot_o(st_slot), .tb_addr_o(st_addr), .tb_rdata_i(eng_tb_rdata),
+        .wr_en_o(st_wr_en), .wr_addr_o(st_wr_addr), .wr_data_o(st_wr_data), .busy_o(st_busy), .done_o(st_done));
+  end else begin : g_st1
+    mlkem_stpoly u_st (
+        .clk_i(clk_i), .rst_ni(rst_ni), .start_i(st_start), .dsel_i(f_dsel), .slot_i(f_slot), .woff_i(f_woff),
+        .tb_slot_o(st_slot), .tb_addr_o(st_addr), .tb_rdata_i(eng_tb_rdata),
+        .wr_en_o(st_wr_en), .wr_addr_o(st_wr_addr), .wr_data_o(st_wr_data), .busy_o(st_busy), .done_o(st_done));
+  end
+  endgenerate
 
   // hash and comparison
   logic        hs_start, hs_in_valid, hs_in_ready, hs_out_valid, hs_out_ready, hs_out_last, hs_busy, hs_done;

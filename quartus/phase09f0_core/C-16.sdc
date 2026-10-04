@@ -1,0 +1,3 @@
+# quartus/phase09f0_core/C-16.sdc -- Phase 9F step S0: 16.000 ns, information only (ADR 0010, ADR 0036), same form as quartus/phase09c_core/C-20.sdc.
+create_clock -name clk_i -period 16.000 [get_ports {clk_i}]
+derive_clock_uncertainty

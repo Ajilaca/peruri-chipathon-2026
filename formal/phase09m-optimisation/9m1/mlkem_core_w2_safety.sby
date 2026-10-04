@@ -1,0 +1,23 @@
+# formal/phase09m-optimisation/9m1/mlkem_core_w2_safety.sby
+# Phase 9M item 1 (added after the plan, see test_plan_9m1.md Amendment A1): the 9c controller proof (E1, S1-S7 of mlkem_core_formal_top.sv) with the core at CODEC_W2 = 1 (-D W2); the load / store tasks are protocol stubs (stubs_9m1.sv, the 9c stubs under the new names). Induction, depth 12.
+
+[options]
+mode prove
+depth 12
+
+[engines]
+smtbmc boolector
+
+[script]
+plugin -i slang
+read_slang -D FORMAL -D W2 stubs_9c.sv stubs_9m1.sv mlkem_ram.sv mlkem_ctl_rom.sv mlkem_core.sv mlkem_core_formal_top.sv --top mlkem_core_formal_top
+prep -top mlkem_core_formal_top
+memory_map -rom-only
+
+[files]
+../../phase09-integration/9c/stubs_9c.sv
+stubs_9m1.sv
+../../../rtl/mlkem/mlkem_ram.sv
+../../../rtl/mlkem/mlkem_ctl_rom.sv
+../../../rtl/mlkem/mlkem_core.sv
+../../phase09-integration/9c/mlkem_core_formal_top.sv

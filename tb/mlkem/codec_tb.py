@@ -1,7 +1,7 @@
 """tb/mlkem/codec_tb.py -- shared helpers of the Phase 9a codec tests (docs/evidence/phase09-integration/9a/test_plan_9a.md).
 
 Cycle model of the drivers (as Phase 8b): inputs are written at the falling edge, the combinational outputs are read 1 ns later, and the values read are the ones the next rising edge samples.
-Toplevel: rtl/mlkem/mlkem_codec_top.sv (packer p_*, unpacker u_*, side by side).
+Toplevel: rtl/mlkem/mlkem_codec_top.sv (packer p_*, unpacker u_*, side by side), or with CT_W=2 rtl/mlkem/mlkem_codec2_top.sv (Phase 9M, two bytes per beat, byte 2i in bits 7:0; test_plan_9m1.md V2).
 """
 import os
 import random
@@ -16,6 +16,7 @@ from cocotb.triggers import ClockCycles, FallingEdge, Timer
 from params import N, Q
 
 NCASES = int(os.environ.get("CT_N", "40"))
+W = int(os.environ.get("CT_W", "1"))     # bytes per beat of the byte port (1: Phase 9a codec, 2: Phase 9M codec2)
 LIMIT = 4000
 DSEL = {1: 0, 4: 1, 10: 2, 12: 3}
 
@@ -91,7 +92,7 @@ async def pack_run(dut, d, poly, rng, sink="always", src="always", start_noise=F
             idx += 1
         assert bd != -1 or not bv, "valid byte with an unresolved value"
         if bv and r:
-            out.append(bd)
+            out.extend(bd.to_bytes(W, "little"))
             if bl:
                 last_at.append(len(out) - 1)
         if int(dut.p_done_o.value):
@@ -119,7 +120,7 @@ async def unpack_run(dut, d, data, rng, sink="always", src="always", start_noise
         cycles += 1
         v = int(src_p())
         dut.u_byte_valid_i.value = v
-        dut.u_byte_data_i.value = data[idx] if idx < len(data) else rng.randrange(256)
+        dut.u_byte_data_i.value = int.from_bytes(data[idx:idx + W], "little") if idx < len(data) else rng.randrange(256 ** W)
         r = sink_p()
         dut.u_coef_ready_i.value = r
         await Timer(1, "ns")
@@ -128,7 +129,7 @@ async def unpack_run(dut, d, data, rng, sink="always", src="always", start_noise
             assert cv and cd == prev[1] and cl == prev[2], "coefficient output not held while coef_ready_i was low"
         prev = (cv, cd, cl, r)
         if v and br:
-            idx += 1
+            idx += W
         assert cd != -1 or not cv, "valid coefficient with an unresolved value"
         if cv and r:
             out.append(cd)

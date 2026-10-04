@@ -1,0 +1,23 @@
+# formal/phase09m-optimisation/9f1b/mlkem_core3_safety.sby
+# Phase 9F S1b V7: properties E1, S1-S7 and B1-B6 of mlkem_core3_formal_top.sv (two copies of the controller with the background hash sidecar, stubs for the sub-blocks; induction, depth 12). Control and range only.
+
+[options]
+mode prove
+depth 12
+
+[engines]
+smtbmc boolector
+
+[script]
+plugin -i slang
+read_slang -D FORMAL stubs_9c.sv stubs_9m1.sv mlkem_ram.sv mlkem_ctl_rom2.sv mlkem_core3.sv mlkem_core3_formal_top.sv --top mlkem_core3_formal_top
+prep -top mlkem_core3_formal_top
+memory_map -rom-only
+
+[files]
+../../phase09-integration/9c/stubs_9c.sv
+../9m1/stubs_9m1.sv
+../../../rtl/mlkem/mlkem_ram.sv
+../../../rtl/mlkem/mlkem_ctl_rom2.sv
+../../../rtl/mlkem/mlkem_core3.sv
+mlkem_core3_formal_top.sv
