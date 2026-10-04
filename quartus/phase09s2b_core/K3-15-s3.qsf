@@ -1,0 +1,74 @@
+# quartus/phase09s2b_core/K3-15-s3.qsf -- Phase 9F step S2b (docs/evidence/phase09m-optimisation/9s2b/test_plan_9s2b.md V8): mlkem_core3 (K2) with NTT_AR = 1 (registered issue address), NTT_P6 = 1, SMP_C5 = 0, HASH_C5 = 0, CODEC_W2 = 1, kernel-only compile (virtual pins), 15.000 ns, Quartus defaults, seed 3.
+set_global_assignment -name FAMILY "Cyclone V"
+set_global_assignment -name DEVICE 5CSEBA6U23I7
+set_global_assignment -name TOP_LEVEL_ENTITY mlkem_core3
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files_K3-15-s3
+set_global_assignment -name SDC_FILE C-15.sdc
+set_parameter -name SMP_C5 0
+set_parameter -name HASH_C5 0
+set_parameter -name CODEC_W2 1
+set_parameter -name NTT_P6 1
+set_parameter -name NTT_AR 1
+
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/keccak/keccak_pkg.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/keccak/keccak_round.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/keccak/keccak_f1600.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/keccak/keccak_sponge.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/keccak/keccak_f1600_r2.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/keccak/keccak_sponge_r2.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/sample/sample_ntt_core.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/sample/cbd2_core.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/sample/keccak_sampler.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/ntt/ntt_pkg.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/ntt/twiddle_rom.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/arith/twiddle_rom_half.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/ntt/pipe_delay.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/ntt/modmul_reduce_staged.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/arith/modmul_fold.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/arith/modmul_barrett.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/arith/modmul_montgomery.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/arith/modmul_sel.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/arith/half_mod.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/arith/butterfly_m6.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mem/poly_mem_m10k.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/ntt/ntt_core_s10.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/ntt/ntt_core_s10_p5.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/sched/gamma_rom.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/sched/kpke_smp_prog_rom.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/sched/poly_store_smp.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/sched/pwm_unit.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/sched/kpke_sched_smp.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/sched/kpke_smp_top_s10.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_pack.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_unpack.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_hash.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_fo_cmp.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_ram.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_fifo4.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_wordbytes.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_bytedst.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_ldpoly.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_stpoly.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_pack2.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_unpack2.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_wordbytes2.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_bytedst2.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_ldpoly2.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_stpoly2.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_ctl_rom.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_ctl_rom2.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_core3.sv
+
+set_instance_assignment -name VIRTUAL_PIN ON -to clk_i
+set_instance_assignment -name VIRTUAL_PIN ON -to rst_ni
+set_instance_assignment -name VIRTUAL_PIN ON -to op_i[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to start_i
+set_instance_assignment -name VIRTUAL_PIN ON -to busy_o
+set_instance_assignment -name VIRTUAL_PIN ON -to done_o
+set_instance_assignment -name VIRTUAL_PIN ON -to h_we_i
+set_instance_assignment -name VIRTUAL_PIN ON -to h_addr_i[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to h_wdata_i[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to h_rdata_o[*]
+
+set_global_assignment -name LAST_QUARTUS_VERSION "25.1std.0 Lite Edition"
+set_global_assignment -name SEED 3
