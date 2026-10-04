@@ -6,8 +6,9 @@ Builds rtl/mlkem/mlkem_core.sv (with the K-PKE engine of 8d and the 9a / 9b bloc
   ncsel   NC-SEL:  the selection of K' and K_bar is inverted            -> test_acvp_decaps must FAIL     (CORE_FAST=1)
   nclen   NC-LEN:  every hash is one byte short                         -> test_acvp_encaps must FAIL     (CORE_FAST=1)
   ncoff   NC-OFF:  Decaps feeds h from the z offset                     -> test_acvp_decaps must FAIL     (CORE_FAST=1)
+  ncwcore NC-W-CORE (CORE_W2=1 only): the two-byte loader writes the coefficient index + 1 -> test_acvp_encaps must FAIL     (CORE_FAST=1)
   ncrom   NC-ROM:  the message polynomial is loaded with d = 4          -> test_acvp_encaps must FAIL     (CORE_FAST=1)
-Environment: CORE_BUILD_DIR, CORE_CYCLES_OUT_DIR, CORE_N.
+Environment: CORE_BUILD_DIR, CORE_CYCLES_OUT_DIR, CORE_N, CORE_W2 (1: the Phase 9M two-byte load / store tasks, parameter CODEC_W2 = 1; test_plan_9m1.md V3), CORE_K0 (1: the K0 sponge for the hash instance, parameter HASH_C5 = 0; test_plan_9m3.md V2).
 Usage: python3 tb/mlkem/run_core_tests.py icarus|verilator [core nccmp ncsel nclen ncoff ncrom]
 """
 import os
@@ -31,7 +32,20 @@ ENG = [ROOT / p for p in (
     "rtl/mem/poly_mem_m10k.sv", "rtl/ntt/ntt_core_s10.sv", "rtl/ntt/ntt_core_s10_p5.sv", "rtl/sched/gamma_rom.sv", "rtl/sched/kpke_smp_prog_rom.sv", "rtl/sched/poly_store_smp.sv", "rtl/sched/pwm_unit.sv",
     "rtl/sched/kpke_sched_smp.sv", "rtl/sched/kpke_smp_top_s10.sv")]
 MLK = [M / f for f in ("mlkem_pack.sv", "mlkem_unpack.sv", "mlkem_hash.sv", "mlkem_fo_cmp.sv", "mlkem_ram.sv", "mlkem_fifo4.sv", "mlkem_wordbytes.sv", "mlkem_bytedst.sv", "mlkem_ldpoly.sv", "mlkem_stpoly.sv", "mlkem_ctl_rom.sv", "mlkem_core.sv")]
-CORE, ROM = M / "mlkem_core.sv", M / "mlkem_ctl_rom.sv"
+TOP = os.environ.get("CORE_TOP", "mlkem_core")      # mlkem_core2 selects the Phase 9F module (parameter SMP_C5, S1)
+MLK[-1] = M / f"{TOP}.sv"
+BG = TOP == "mlkem_core3"                           # Phase 9F S1b: background hash job, programs of mlkem_ctl_rom2.sv
+if BG:
+    MLK = [M / "mlkem_ctl_rom2.sv" if f.name == "mlkem_ctl_rom.sv" else f for f in MLK]
+CORE, ROM = M / f"{TOP}.sv", M / ("mlkem_ctl_rom2.sv" if BG else "mlkem_ctl_rom.sv")
+LENPAT = ".len_i(hx_len)" if BG else ".len_i({5'd0, f_hlen})"
+W2 = os.environ.get("CORE_W2", "0") == "1"
+K0 = os.environ.get("CORE_K0", "0") == "1"
+S0 = os.environ.get("CORE_SMP0", "0") == "1"       # K0 sampler sponge in the engine (mlkem_core2 only)
+assert not S0 or TOP in ("mlkem_core2", "mlkem_core3"), "CORE_SMP0=1 needs CORE_TOP=mlkem_core2 or mlkem_core3"
+PARAMS = {**({"CODEC_W2": 1} if W2 else {}), **({"HASH_C5": 0} if K0 else {}), **({"SMP_C5": 0} if S0 else {})}
+if W2:
+    MLK += [M / f for f in ("mlkem_pack2.sv", "mlkem_unpack2.sv", "mlkem_wordbytes2.sv", "mlkem_bytedst2.sv", "mlkem_ldpoly2.sv", "mlkem_stpoly2.sv")]
 
 
 def mutate(src, dst, edits):
@@ -47,12 +61,12 @@ def mutate(src, dst, edits):
 def build_test(sim, root, name, srcs, fast):
     bd = root / f"sim_build_{sim}_{name}"
     r = get_runner(sim)
-    r.build(sources=srcs, hdl_toplevel="mlkem_core", build_dir=bd, build_args=["--timing", "-Wno-fatal"] if sim == "verilator" else [], always=True)
+    r.build(sources=srcs, hdl_toplevel=TOP, build_dir=bd, build_args=["--timing", "-Wno-fatal"] if sim == "verilator" else [], parameters=PARAMS, always=True)
     out = Path(os.environ.get("CORE_CYCLES_OUT_DIR", str(bd))) / f"cycles_{sim}_{name}.json"
     if out.exists():
         out.unlink()
     env = {"CORE_CYCLES_OUT": str(out), "CORE_FAST": "1" if fast else "0"}
-    res = r.test(hdl_toplevel="mlkem_core", test_module="test_mlkem_core", test_dir=HERE, build_dir=bd, results_xml=str(bd / "results.xml"), extra_env=env)
+    res = r.test(hdl_toplevel=TOP, test_module="test_mlkem_core", test_dir=HERE, build_dir=bd, results_xml=str(bd / "results.xml"), extra_env=env)
     cases = ET.parse(res).getroot().findall(".//testcase")
     ran = [c for c in cases if c.find("skipped") is None]
     failed = [c.get("name") for c in ran if c.find("failure") is not None or c.find("error") is not None]
@@ -79,7 +93,7 @@ def run(sim, root, names):
                                                          ("wire  [255:0] k_bad  = {rf_q[27], rf_q[26], rf_q[25], rf_q[24]};", "wire  [255:0] k_bad  = {rf_q[23], rf_q[22], rf_q[21], rf_q[20]};", 1)])
                 must = "test_acvp_decaps"
             elif name == "nclen":
-                core = mutate(CORE, mdir / CORE.name, [(".len_i({5'd0, f_hlen})", ".len_i({5'd0, f_hlen} - 16'd1)", 1)])
+                core = mutate(CORE, mdir / CORE.name, [(LENPAT, LENPAT[:-1] + " - 16'd1)", 1)])
                 must = "test_acvp_encaps"
             elif name == "ncoff":
                 t = ROM.read_text().split("\n")
@@ -101,10 +115,48 @@ def run(sim, root, names):
                 rom.parent.mkdir(parents=True, exist_ok=True)
                 rom.write_text("\n".join(t))
                 must = "test_acvp_encaps"
+            elif name in ("ncprio", "ncwr", "ncjob", "ncthr", "ncthrnj"):
+                assert BG, f"{name} needs CORE_TOP=mlkem_core3"
+                if name == "ncprio":          # NC-PRIO: a sidecar read is issued even when the main controller reads
+                    core = mutate(CORE, mdir / CORE.name, [("((!bfd_valid_q && !bhold_v_q) || bfd_consumed) && !fg_rd_req;", "((!bfd_valid_q && !bhold_v_q) || bfd_consumed);", 1)])
+                    must = "test_acvp_encaps"
+                elif name == "ncwr":          # NC-WR: the sidecar's digest write wins over a main write in the same cycle
+                    core = mutate(CORE, mdir / CORE.name, [("wire   bg_out_ready = (bs_q == B_HGT) && !fg_wr_en;", "wire   bg_out_ready = (bs_q == B_HGT);", 1), ("    if (!fw_en && bg_take) begin", "    if (bg_take) begin", 1)])
+                    must = "test_acvp_keygen"
+                elif name == "ncjob":         # NC-ROM (job): the job of KeyGen and Encaps reads from word offset 145 instead of 144
+                    t_ = ROM.read_text().split("\n")
+                    hits = [i for i, ln in enumerate(t_) if "HFD 0 144 148" in ln and ("keygen" in ln or "encaps" in ln) and f"40'h{CM.encode(('HFD', CM.KB, CM.OFF_EK, 148)):010x}" in ln]
+                    assert len(hits) == 2, hits      # the job words of KeyGen and Encaps (the main programs no longer contain this HFD)
+                    for i in hits:
+                        t_[i] = t_[i].replace(f"40'h{CM.encode(('HFD', CM.KB, CM.OFF_EK, 148)):010x}", f"40'h{CM.encode(('HFD', CM.KB, CM.OFF_EK + 1, 148)):010x}")
+                    rom = mdir / ROM.name
+                    rom.parent.mkdir(parents=True, exist_ok=True)
+                    rom.write_text("\n".join(t_))
+                    must = "test_acvp_encaps"
+                else:                         # throttled sidecar: one sidecar read every 32 cycles, so that the job outlasts the main work
+                    thr = [("  wire        bfd_issue   = (bs_q == B_HFD)", "  logic [4:0] thr_q = 5'd0;\n  always_ff @(posedge clk_i) thr_q <= (state_q == S_IDLE) ? 5'd0 : thr_q + 5'd1;\n  wire        bfd_issue   = (thr_q == 5'd0) && (bs_q == B_HFD)", 1)]
+                    if name == "ncthrnj":     # ... and no protection at all: JN, END, HST, HFD, HGT and BGS do not look at the sidecar
+                        thr += [("            OpHst: if (!bg_own) begin", "            OpHst: begin", 1), ("            OpJn: if (!bg_own) begin", "            OpJn: begin", 1), ("            OpHfd: if (!bg_own) begin", "            OpHfd: begin", 1),
+                                ("            OpHgt:  if (!bg_own) state_q <= S_HGT;", "            OpHgt:  state_q <= S_HGT;", 1), ("            OpEnd: if (!bg_own) begin", "            OpEnd: begin", 1),
+                                ("  wire   m_hs_start  = disp && (opc == OpHst) && !bg_own;", "  wire   m_hs_start  = disp && (opc == OpHst);", 1)]
+                    core = mutate(CORE, mdir / CORE.name, thr)
+                    must = "test_acvp_encaps"
+            elif name == "ncwcore":
+                assert W2, "ncwcore needs CORE_W2=1"
+                LD2 = M / "mlkem_ldpoly2.sv"
+                ld2 = mutate(LD2, mdir / LD2.name, [("assign tb_addr_o  = cidx_q;", "assign tb_addr_o  = cidx_q + 8'd1;", 1)])
+                must = "test_acvp_encaps"
             else:
                 raise SystemExit(f"unknown target {name}")
-            srcs = [core if f == CORE else rom if f == ROM else f for f in ENG + MLK]
+            srcs = [core if f == CORE else rom if f == ROM else (ld2 if name == "ncwcore" and f.name == "mlkem_ldpoly2.sv" else f) for f in ENG + MLK]
             ran, failed = build_test(sim, root, name, srcs, True)
+            if name == "ncthr":           # the throttled copy must PASS everything: the join waits for a slow job
+                good = bool(ran) and not failed
+                print(f"[{sim}] {name}: throttled sidecar passes the whole core target: {good}; failed={failed}" + ("" if good else "  JOIN OR ARBITRATION BROKEN"))
+                total += 1
+                bad += 0 if good else 1
+                ok &= good
+                continue
             good = must in failed
             print(f"[{sim}] {name}: {must} failed as required: {good}; failed={failed}" + ("" if good else "  NEGATIVE CONTROL VOID"))
             total += 1
