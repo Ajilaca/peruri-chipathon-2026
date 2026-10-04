@@ -1,0 +1,38 @@
+# quartus/phase09a_codec/CD-s6.qsf -- Phase 9a (docs/evidence/phase09-integration/9a/test_plan_9a.md V10): mlkem_codec_top (packer and unpacker), kernel-only compile (virtual pins, as Phases 1-8), 40.000 ns (C.sdc), Quartus defaults, seed 6.
+set_global_assignment -name FAMILY "Cyclone V"
+set_global_assignment -name DEVICE 5CSEBA6U23I7
+set_global_assignment -name TOP_LEVEL_ENTITY mlkem_codec_top
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files_CD-s6
+set_global_assignment -name SDC_FILE C.sdc
+
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_pack.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_unpack.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_codec_top.sv
+
+set_instance_assignment -name VIRTUAL_PIN ON -to clk_i
+set_instance_assignment -name VIRTUAL_PIN ON -to rst_ni
+set_instance_assignment -name VIRTUAL_PIN ON -to p_start_i
+set_instance_assignment -name VIRTUAL_PIN ON -to p_dsel_i[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to p_coef_valid_i
+set_instance_assignment -name VIRTUAL_PIN ON -to p_coef_data_i[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to p_byte_ready_i
+set_instance_assignment -name VIRTUAL_PIN ON -to u_start_i
+set_instance_assignment -name VIRTUAL_PIN ON -to u_dsel_i[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to u_byte_valid_i
+set_instance_assignment -name VIRTUAL_PIN ON -to u_byte_data_i[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to u_coef_ready_i
+set_instance_assignment -name VIRTUAL_PIN ON -to p_coef_ready_o
+set_instance_assignment -name VIRTUAL_PIN ON -to p_byte_valid_o
+set_instance_assignment -name VIRTUAL_PIN ON -to p_byte_data_o[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to p_byte_last_o
+set_instance_assignment -name VIRTUAL_PIN ON -to p_busy_o
+set_instance_assignment -name VIRTUAL_PIN ON -to p_done_o
+set_instance_assignment -name VIRTUAL_PIN ON -to u_byte_ready_o
+set_instance_assignment -name VIRTUAL_PIN ON -to u_coef_valid_o
+set_instance_assignment -name VIRTUAL_PIN ON -to u_coef_data_o[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to u_coef_last_o
+set_instance_assignment -name VIRTUAL_PIN ON -to u_busy_o
+set_instance_assignment -name VIRTUAL_PIN ON -to u_done_o
+
+set_global_assignment -name SEED 6
+set_global_assignment -name LAST_QUARTUS_VERSION "25.1std.0 Lite Edition"

@@ -1,8 +1,8 @@
 # ADR 0029: Phase 8c: matrix A streamed from the sampler into the PWM unit (STREAM) adopted by the rule over storing it (STORE); result
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-10-03
-- Decided by: pending team decision (the rule below is the assistant's work; accepting its result is the team's decision, PENDING #31)
+- Decided by: Jo, Team J5, chat 2026-10-03: 'ya terima' (reply to the proposal to accept C5, W2, STREAM and OVERLAP because all were adopted by their rules and are measured) (header was 'Proposed / pending team decision')
 
 ## Context
 - ADR 0026 (Accepted) sends sub-step 8c ahead: matrix A generated on the fly, not stored. Chat 2026-10-03 (no name given): do 8b, 8c, 8d without stopping.

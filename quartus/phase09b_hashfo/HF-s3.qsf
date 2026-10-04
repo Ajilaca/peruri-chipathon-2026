@@ -1,0 +1,46 @@
+# quartus/phase09b_hashfo/HF-s3.qsf -- Phase 9b (docs/evidence/phase09-integration/9b/test_plan_9b.md V9): mlkem_hash_fo_top (hash wrapper with the C5 sponge keccak_sponge_r2, and the FO comparison), kernel-only compile (virtual pins, as Phases 1-9a), 40.000 ns (C.sdc), Quartus defaults, seed 3.
+set_global_assignment -name FAMILY "Cyclone V"
+set_global_assignment -name DEVICE 5CSEBA6U23I7
+set_global_assignment -name TOP_LEVEL_ENTITY mlkem_hash_fo_top
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files_HF-s3
+set_global_assignment -name SDC_FILE C.sdc
+set_parameter -name CORE_R2 1
+
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/keccak/keccak_pkg.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/keccak/keccak_round.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/keccak/keccak_f1600.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/keccak/keccak_sponge.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/keccak/keccak_f1600_r2.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/keccak/keccak_sponge_r2.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_hash.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_fo_cmp.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/mlkem/mlkem_hash_fo_top.sv
+
+set_instance_assignment -name VIRTUAL_PIN ON -to clk_i
+set_instance_assignment -name VIRTUAL_PIN ON -to rst_ni
+set_instance_assignment -name VIRTUAL_PIN ON -to h_start_i
+set_instance_assignment -name VIRTUAL_PIN ON -to h_sel_i[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to h_len_i[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to h_in_valid_i
+set_instance_assignment -name VIRTUAL_PIN ON -to h_in_data_i[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to h_out_ready_i
+set_instance_assignment -name VIRTUAL_PIN ON -to f_start_i
+set_instance_assignment -name VIRTUAL_PIN ON -to f_in_valid_i
+set_instance_assignment -name VIRTUAL_PIN ON -to f_a_data_i[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to f_b_data_i[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to f_kgood_i[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to f_kbad_i[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to h_in_ready_o
+set_instance_assignment -name VIRTUAL_PIN ON -to h_out_valid_o
+set_instance_assignment -name VIRTUAL_PIN ON -to h_out_data_o[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to h_out_last_o
+set_instance_assignment -name VIRTUAL_PIN ON -to h_busy_o
+set_instance_assignment -name VIRTUAL_PIN ON -to h_done_o
+set_instance_assignment -name VIRTUAL_PIN ON -to f_in_ready_o
+set_instance_assignment -name VIRTUAL_PIN ON -to f_k_o[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to f_neq_o
+set_instance_assignment -name VIRTUAL_PIN ON -to f_busy_o
+set_instance_assignment -name VIRTUAL_PIN ON -to f_done_o
+
+set_global_assignment -name SEED 3
+set_global_assignment -name LAST_QUARTUS_VERSION "25.1std.0 Lite Edition"

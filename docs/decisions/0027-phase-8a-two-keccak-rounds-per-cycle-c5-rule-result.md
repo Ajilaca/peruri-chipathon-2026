@@ -1,8 +1,8 @@
 # ADR 0027: Phase 8a: two Keccak rounds per cycle (C5) - rule result
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-10-03
-- Decided by: pending team decision
+- Decided by: Jo, Team J5, chat 2026-10-03: 'ya terima' (reply to the proposal to accept C5, W2, STREAM and OVERLAP because all were adopted by their rules and are measured) (header was 'Proposed / pending team decision')
 
 ## Context
 - ADR 0026 (Accepted, Jose): sub-steps 8a, 8b, 8c, 8d all go ahead. 8a replaces the K0 permutation core (Phase 7) by one that computes two rounds per cycle (configuration C5). Test plan and adoption rule were written and committed before any 8a RTL and before any 8a measurement (`docs/evidence/phase08-keccak-stream/8a/test_plan_8a.md`, commit 9bdbad6).

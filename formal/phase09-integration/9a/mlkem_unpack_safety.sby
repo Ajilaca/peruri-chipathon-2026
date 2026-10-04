@@ -1,0 +1,18 @@
+# formal/phase09-integration/9a/mlkem_unpack_safety.sby
+# Phase 9a V9: properties of mlkem_unpack_formal_top.sv on rtl/mlkem/mlkem_unpack.sv (induction, depth 40). Control and range only.
+
+[options]
+mode prove
+depth 40
+
+[engines]
+smtbmc boolector
+
+[script]
+plugin -i slang
+read_slang -D FORMAL mlkem_unpack.sv mlkem_unpack_formal_top.sv --top mlkem_unpack_formal_top
+prep -top mlkem_unpack_formal_top
+
+[files]
+../../../rtl/mlkem/mlkem_unpack.sv
+mlkem_unpack_formal_top.sv

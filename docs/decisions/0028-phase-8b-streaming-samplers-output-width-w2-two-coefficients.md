@@ -1,8 +1,8 @@
 # ADR 0028: Phase 8b: streaming samplers, output width W2 (two coefficients per cycle) chosen by the rule over W1; result
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-10-03
-- Decided by: pending team decision (the rule below is the assistant's work; accepting its result is the team's decision, PENDING #30)
+- Decided by: Jo, Team J5, chat 2026-10-03: 'ya terima' (reply to the proposal to accept C5, W2, STREAM and OVERLAP because all were adopted by their rules and are measured) (header was 'Proposed / pending team decision')
 
 ## Context
 - ADR 0026 (Accepted) sends sub-step 8b ahead: samplers that take the Keccak stream straight into SampleNTT and CBD with no store in between. Chat 2026-10-03 (no name given) asked for two output widths, tested one after the other: W1 (one coefficient per cycle), then W2 (two per cycle), then the choice.

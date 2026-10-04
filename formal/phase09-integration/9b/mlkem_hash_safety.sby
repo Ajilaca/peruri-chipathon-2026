@@ -1,0 +1,19 @@
+# formal/phase09-integration/9b/mlkem_hash_safety.sby
+# Phase 9b V8: properties of mlkem_hash_formal_top.sv (induction, depth 40) with the sponge replaced by its protocol stub keccak_sponge_r2_stub.sv. Control and result only.
+
+[options]
+mode prove
+depth 40
+
+[engines]
+smtbmc boolector
+
+[script]
+plugin -i slang
+read_slang -D FORMAL keccak_sponge_r2_stub.sv mlkem_hash.sv mlkem_hash_formal_top.sv --top mlkem_hash_formal_top
+prep -top mlkem_hash_formal_top
+
+[files]
+keccak_sponge_r2_stub.sv
+../../../rtl/mlkem/mlkem_hash.sv
+mlkem_hash_formal_top.sv
