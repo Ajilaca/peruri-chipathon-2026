@@ -4,7 +4,7 @@ Tim J5, Institut Teknologi Bandung. CHIP 2026 Hackathon (PERURI Digital Summit),
 
 Repositori ini berisi RTL, model acuan, bukti verifikasi dan hasil Quartus untuk akselerator ML-KEM-768 (NIST FIPS 203).
 Rancangan membagi tugas: Keccak-f[1600], NTT/INTT dan aritmetika polinomial di FPGA; alur protokol dan baseline
-perangkat lunak di HPS. Matematika FIPS 203 tidak diubah (ADR 0002). Yang dirancang adalah arsitekturnya.
+perangkat lunak di HPS. Matematika FIPS 203 tidak diubah. Yang dirancang adalah arsitekturnya.
 
 ## Kategori lomba
 
@@ -14,13 +14,12 @@ masing-masing dengan baseline acuan:
 | No | Subtema | Fokus | Baseline acuan |
 |---|---|---|---|
 | 01 | Secure Identity & Security Element Chip | fungsi secure element atau identitas: autentikasi, integritas, penanganan kunci, anti-tamper | Peruri chip, TT07 SHA-256, ECC, PUF |
-| 02 | Hardware Cryptography Accelerator | blok kriptografi kecil dan hemat area yang dapat diintegrasikan ke baseline | TT07 SHA-256, desain kripto lain |
+| **02** | **Hardware Cryptography Accelerator** | blok kriptografi kecil dan hemat area yang dapat diintegrasikan ke baseline | TT07 SHA-256, desain kripto lain |
 | 03 | AI / Edge Accelerator | akselerator untuk MAC, jaringan saraf kecil, beban vektor/komputasi, atau inferensi edge | TT07 Iterative MAC, TinyTPU, referensi Mini AIE |
 | 04 | Secure Communication | komunikasi serial/paralel, CDC, keamanan protokol, secure framing, integritas antarmuka | TT07 SerDes, CDC FIFO |
 
-Subtema yang akan dideklarasikan belum diputuskan tim (PENDING #2). Proyek ini berupa blok kriptografi (ML-KEM-768 dengan Keccak
-dan NTT), sehingga isinya paling dekat dengan subtema 02. Itu pengamatan, bukan keputusan.
-Catatan: baseline TT07 SHA-256 memakai SHA-256, sedangkan ML-KEM memakai SHA-3/Keccak.
+**Subtema yang dipilih: 02, Hardware Cryptography Accelerator.** Proyek ini adalah blok kriptografi pasca-kuantum (ML-KEM-768 dengan Keccak dan NTT)
+yang dirancang hemat area dan dapat diintegrasikan ke sistem lain. Baseline TT07 SHA-256 memakai SHA-256, sedangkan ML-KEM memakai SHA-3/Keccak.
 
 ## Tim J5, Institut Teknologi Bandung
 
