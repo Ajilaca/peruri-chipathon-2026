@@ -11,18 +11,18 @@
   *Note:* `scripts/tooling.env` still has `QUARTUS_BIN=""`; Quartus was called by full path.
 
 ## 1. Done-criteria (Common RTL Gate, docs/ROADMAP.md, copied unchanged)
-| # | Criterion | Evidence (`path` under docs/evidence/ or tests, or `cmd: ...`) | Status |
+| # | Criterion | Evidence (`path` under evidence/ or tests, or `cmd: ...`) | Status |
 |---|---|---|---|
 | CRG-1 | Lint clean (`verilator --lint-only -Wall`) | `cmd: verilator --lint-only -Wall --timing -sv rtl/ntt/*.sv --top-module ntt_core` (0 warnings) | PASS |
 | CRG-2 | Elaboration clean (`slang`) | `cmd: slang --top ntt_core rtl/ntt/*.sv` (0 errors, 0 warnings) | PASS |
-| CRG-3 | Bit-exact vs golden model, on both simulators | `docs/evidence/phase01-ntt-baseline/cocotb_regression_2026-09-29.txt` (10/10 on Icarus AND Verilator) | PASS |
-| CRG-4 | Corner cases listed before tests were written | `docs/evidence/phase01-ntt-baseline/test_plan.md` | PASS |
+| CRG-3 | Bit-exact vs golden model, on both simulators | `evidence/phase01/cocotb_regression.txt` (10/10 on Icarus AND Verilator) | PASS |
+| CRG-4 | Corner cases listed before tests were written | `evidence/phase01/test_plan.md` | PASS |
 | CRG-5 | Regression: earlier-phase tests still pass | `cmd: python3 -m pytest tb/golden/tests/ -q` (23/23 passed) | PASS |
 | CRG-6 | Locked parameters | `cmd: python3 .claude/skills/mlkem-guard/scripts/check_params.py` | PASS |
-| CRG-7 | Constant-cycle evidence | `docs/evidence/phase01-ntt-baseline/cocotb_regression_2026-09-29.txt` (NTT=897, INTT=1153 cycles, constant on every corner case + 20 random inputs, both simulators) | PASS |
-| CRG-8 | Formal properties (FSM safety; address range) | `docs/evidence/phase01-ntt-baseline/formal_ntt_core_safety_2026-09-29.txt` (k-induction PASS on the busy/done safety property; address range argued structurally -- see Section 5) | PASS |
-| CRG-9 | Quartus evidence (ALM, registers, M10K, DSP, Fmax, slack); no negative worst slack or the failure documented | `docs/evidence/quartus/C0-20260929.md` and `docs/evidence/phase01-ntt-baseline/quartus_C0_timing_analysis_2026-09-29.md` -- evidence exists and the failure is documented, but worst setup slack is **-48.323 ns** at the provisional 20.000 ns clock (timing NOT met, all 4 corners) | FAIL |
-| CRG-10 | Result artifact validated; claim checker clean | `cmd: python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/result_phase1.md` and `cmd: python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal` | PASS |
+| CRG-7 | Constant-cycle evidence | `evidence/phase01/cocotb_regression.txt` (NTT=897, INTT=1153 cycles, constant on every corner case + 20 random inputs, both simulators) | PASS |
+| CRG-8 | Formal properties (FSM safety; address range) | `evidence/phase01/formal_ntt_core_safety.txt` (k-induction PASS on the busy/done safety property; address range argued structurally -- see Section 5) | PASS |
+| CRG-9 | Quartus evidence (ALM, registers, M10K, DSP, Fmax, slack); no negative worst slack or the failure documented | `evidence/quartus/C0.md` and `evidence/phase01/quartus_C0_timing_analysis.md` -- evidence exists and the failure is documented, but worst setup slack is **-48.323 ns** at the provisional 20.000 ns clock (timing NOT met, all 4 corners) | FAIL |
+| CRG-10 | Result artifact validated; claim checker clean | `cmd: python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase01.md` and `cmd: python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal` | PASS |
 
 CRG-9 is marked FAIL, not PASS, although the roadmap wording ("or the failure documented") could
 be read as allowing PASS once the failure is written down. Choosing that reading is a team
@@ -32,7 +32,7 @@ decision; this document does not make it (Section 7).
 | # | Criterion | Evidence | Status |
 |---|---|---|---|
 | 1 | Target-clock ADR recorded | none (20.000 ns in `quartus/phase01_ntt_c0/C0.sdc` is provisional) | MISSING |
-| 2 | C0 row of the ablation matrix filled with MEASURED values | `docs/evidence/phase01-ntt-baseline/quartus_C0_timing_analysis_2026-09-29.md` (row filled in `docs/ROADMAP.md`; latency and AT deliberately not stated because timing is not met at the constrained clock) | PASS |
+| 2 | C0 row of the ablation matrix filled with MEASURED values | `evidence/phase01/quartus_C0_timing_analysis.md` (row filled in `docs/ROADMAP.md`; latency and AT deliberately not stated because timing is not met at the constrained clock) | PASS |
 
 Status is PASS, FAIL or MISSING. PASS needs at least one backticked evidence item that exists.
 Simulation results are **simulation-only**; Quartus results are post-fit static timing, **not**
@@ -42,40 +42,40 @@ hardware validation (no board).
 | Path | Purpose |
 |---|---|
 | `rtl/ntt/ntt_pkg.sv` | Shared Q/N/CW/AW/ZW constants and `add_mod`/`sub_mod` functions |
-| `rtl/ntt/twiddle_rom.sv` | **Generated** ROM (`scripts/gen_twiddle_rom.py` from `tb/golden/primitives.py`) |
+| `rtl/ntt/twiddle_rom.sv` | **Generated** ROM (`scripts/build/gen_twiddle_rom.py` from `tb/golden/primitives.py`) |
 | `rtl/ntt/modmul_reduce.sv` | `(a*b) mod q`, combinational, generic `%` |
 | `rtl/ntt/base_case_multiply.sv` | FIPS 203 Algorithm 12, direct 5-multiplication form |
 | `rtl/ntt/butterfly.sv` | NTT (Cooley-Tukey) / INTT (Gentleman-Sande) butterfly, mode-selected |
 | `rtl/ntt/poly_mem.sv` | 256x12-bit polynomial memory, 2 async-read/sync-write ports, unbanked |
 | `rtl/ntt/ntt_core.sv` | Top-level FSM: L=1, one butterfly/cycle, 7 layers + INTT x3303 pass |
-| `scripts/gen_twiddle_rom.py` | Regenerates `twiddle_rom.sv` from the golden model |
+| `scripts/build/gen_twiddle_rom.py` | Regenerates `twiddle_rom.sv` from the golden model |
 | `tb/ntt/*.py` | cocotb tests + runner, bit-exact against `tb/golden/primitives.py` |
 | `formal/phase01-ntt/*` | SymbiYosys safety proof (CRG-8) |
 | `quartus/phase01_ntt_c0/phase01_ntt_c0.qpf`, `C0.qsf`, `C0.sdc` | Quartus project for revision C0 (virtual pins, provisional 20.000 ns clock) |
 | `quartus/phase01_ntt_c0/report_critical_paths.tcl` | Read-only `quartus_sta` drill-down on the existing post-fit netlist |
 | `quartus/phase01_ntt_c0/segment_path.py`, `extract_c0_timing_evidence.py` | Turn the Quartus path reports into the evidence file (no hand-typed numbers) |
-| `docs/evidence/quartus/C0-20260929.md` | Fitter/STA summary extract (`extract_quartus_report.py`) |
-| `docs/evidence/phase01-ntt-baseline/quartus_C0_timing_analysis_2026-09-29.md` (+ `.json`) | Stage status, resources, all corners, worst path, per-structure delay attribution, endpoint classification, clock-method evidence |
-| `docs/evidence/phase01-ntt-baseline/test_plan.md`, `cocotb_regression_2026-09-29.txt`, `formal_ntt_core_safety_2026-09-29.txt` | Earlier Phase 1 evidence |
+| `evidence/quartus/C0.md` | Fitter/STA summary extract (`extract_quartus_report.py`) |
+| `evidence/phase01/quartus_C0_timing_analysis.md` (+ `.json`) | Stage status, resources, all corners, worst path, per-structure delay attribution, endpoint classification, clock-method evidence |
+| `evidence/phase01/test_plan.md`, `cocotb_regression.txt`, `formal_ntt_core_safety.txt` | Earlier Phase 1 evidence |
 
 ## 3. Numbers (each labelled MEASURED, ESTIMATE, or cited [n])
 | Quantity | Value | Label | Evidence |
 |---|---|---|---|
-| cocotb tests | 10/10 passed, both simulators | MEASURED (simulation) | `docs/evidence/phase01-ntt-baseline/cocotb_regression_2026-09-29.txt` |
-| NTT / INTT cycle count (C0) | 897 / 1153, constant across all tested inputs | MEASURED (simulation) | `docs/evidence/phase01-ntt-baseline/cocotb_regression_2026-09-29.txt` |
-| Logic utilization | 7,010 / 41,910 ALMs (17 %) | MEASURED | `docs/evidence/quartus/C0-20260929.md` |
-| Registers | 3104 | MEASURED | `docs/evidence/quartus/C0-20260929.md` |
-| RAM blocks (M10K) / block memory bits | 0 / 553; 0 / 5,662,720 | MEASURED | `docs/evidence/quartus/C0-20260929.md` |
-| DSP blocks | 3 / 112 (three "Two Independent 18x18", unsigned, unregistered) | MEASURED | `docs/evidence/phase01-ntt-baseline/quartus_C0_timing_analysis_2026-09-29.md` |
-| Fmax (clk_i) | 14.64 MHz (Slow 1100mV 100C); 14.69 MHz (Slow 1100mV -40C) | MEASURED | `docs/evidence/quartus/C0-20260929.md` |
-| Worst setup slack / TNS @ 20.000 ns | -48.323 ns / -143688.194 ns (Slow 1100mV 100C) | MEASURED | `docs/evidence/quartus/C0-20260929.md` |
-| Worst hold slack | 0.211 ns (Fast 1100mV -40C) -- met | MEASURED | `docs/evidence/quartus/C0-20260929.md` |
-| Worst path | `layer_q[2]` -> `poly_mem:u_mem|mem[64][5]`, data delay 67.684 ns, 146 `lpm_divide` cells on it | MEASURED | `docs/evidence/phase01-ntt-baseline/quartus_C0_timing_analysis_2026-09-29.md` |
-| Modulo divider share of worst data path | 38.926 ns (57.5 %) | derived from MEASURED path report (`segment_path.py`) | `docs/evidence/phase01-ntt-baseline/quartus_C0_timing_analysis_2026-09-29.md` |
+| cocotb tests | 10/10 passed, both simulators | MEASURED (simulation) | `evidence/phase01/cocotb_regression.txt` |
+| NTT / INTT cycle count (C0) | 897 / 1153, constant across all tested inputs | MEASURED (simulation) | `evidence/phase01/cocotb_regression.txt` |
+| Logic utilization | 7,010 / 41,910 ALMs (17 %) | MEASURED | `evidence/quartus/C0.md` |
+| Registers | 3104 | MEASURED | `evidence/quartus/C0.md` |
+| RAM blocks (M10K) / block memory bits | 0 / 553; 0 / 5,662,720 | MEASURED | `evidence/quartus/C0.md` |
+| DSP blocks | 3 / 112 (three "Two Independent 18x18", unsigned, unregistered) | MEASURED | `evidence/phase01/quartus_C0_timing_analysis.md` |
+| Fmax (clk_i) | 14.64 MHz (Slow 1100mV 100C); 14.69 MHz (Slow 1100mV -40C) | MEASURED | `evidence/quartus/C0.md` |
+| Worst setup slack / TNS @ 20.000 ns | -48.323 ns / -143688.194 ns (Slow 1100mV 100C) | MEASURED | `evidence/quartus/C0.md` |
+| Worst hold slack | 0.211 ns (Fast 1100mV -40C) -- met | MEASURED | `evidence/quartus/C0.md` |
+| Worst path | `layer_q[2]` -> `poly_mem:u_mem|mem[64][5]`, data delay 67.684 ns, 146 `lpm_divide` cells on it | MEASURED | `evidence/phase01/quartus_C0_timing_analysis.md` |
+| Modulo divider share of worst data path | 38.926 ns (57.5 %) | derived from MEASURED path report (`segment_path.py`) | `evidence/phase01/quartus_C0_timing_analysis.md` |
 | Latency / AT | not stated -- timing not met at the constrained clock (`docs/ROADMAP.md`: latency only at a clock that met timing) | -- | -- |
 
 ## 4. Standards and sources pinned
-- FIPS 203 Algorithms 9-12, as verified in Phase 0 (`docs/evidence/golden/fips203_errata_2026-09-28.md`);
+- FIPS 203 Algorithms 9-12, as verified in Phase 0 (`evidence/phase00/fips203_errata.md`);
   no parameter or algorithm changed (`check_params.py` passes).
 - OSS CAD Suite tag `2026-09-23`; Quartus Prime Lite 25.1std.0 Build 1129 (from the report headers).
 - Timing constraint: `create_clock -period 20.000 [get_ports {clk_i}]`, `derive_clock_uncertainty`,
@@ -149,7 +149,7 @@ python3 .claude/skills/quartus-report/scripts/extract_quartus_report.py \
 (cd quartus/phase01_ntt_c0 && quartus_sta -t report_critical_paths.tcl \
     && python3 extract_c0_timing_evidence.py)
 
-python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/result_phase1.md
+python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase01.md
 python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal
 ```
 

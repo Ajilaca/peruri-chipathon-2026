@@ -12,38 +12,38 @@
 ## 1. Done-criteria (Common RTL Gate, docs/ROADMAP.md)
 | # | Criterion | Evidence | Status |
 |---|---|---|---|
-| CRG-1 | Lint clean | `docs/evidence/phase06-scheduling/verify_2026-10-03.md`, `docs/evidence/phase06-scheduling/s10/verify_2026-10-03.md` (Verilator -Wall: 0 warnings on kpke_sched_top, ntt_core_s10_p5, kpke_sched_top_s10) | PASS |
-| CRG-2 | Elaboration clean (slang) | `docs/evidence/phase06-scheduling/verify_2026-10-03.md`, `docs/evidence/phase06-scheduling/s10/verify_2026-10-03.md` (slang rc 0) | PASS |
-| CRG-3 | Bit-exact vs golden, both simulators | `docs/evidence/phase06-scheduling/verify_2026-10-03.md` (golden schedule model 26 pytest; pwm_unit 20,035 pairs; top 3 random + 2 corner cases per program, end to end against the golden K-PKE; Verilator and Icarus), `docs/evidence/phase06-scheduling/s10/verify_2026-10-03.md` (S10 memory, core, Phase 6 top with S10) | PASS |
-| CRG-4 | Corner cases before tests | `docs/evidence/phase06-scheduling/test_plan.md`, `docs/evidence/phase06-scheduling/test_plan_s10.md` (written before RTL; S10 Amendment A1 dated and explained) | PASS |
-| CRG-5 | Regression: earlier phases still pass | No existing RTL, test or proof file was modified (all new files; git diff --name-status f5e4e21 HEAD lists additions plus one document, ADR 0019); the full Phase 0-5M regression ran at 300aaf3: `docs/evidence/phase05m-memsched/s8/regression_2026-10-03.md` | PASS |
-| CRG-6 | Locked parameters | `docs/evidence/phase06-scheduling/verify_2026-10-03.md` (ROMs regenerated from the golden model byte for byte); no q, n, root or FIPS 203 arithmetic changed | PASS |
-| CRG-7 | Constant-cycle evidence | `docs/evidence/phase06-scheduling/verify_2026-10-03.md` (one cycle count per program over random and corner inputs, both simulators), `docs/evidence/phase06-scheduling/s10/verification_status.json` (118 / 118) | PASS |
-| CRG-8 | Formal properties | `docs/evidence/phase06-scheduling/formal_2026-10-03.md` (sequencer H, T, C, R; NC-T fails), `docs/evidence/phase06-scheduling/s10/formal_2026-10-03.md` (S10 H, O, R, A, B, C; NC-O, NC-A fail) | PASS |
-| CRG-9 | Quartus evidence; no negative slack or the failure documented | `docs/evidence/phase06-scheduling/quartus_P6_20261002.md` (timing met at 40 ns), `docs/evidence/phase06-scheduling/s10/quartus_S10_20261002.md` (+ seeds 2-6, suffix -s2 to -s6, all met), `docs/evidence/phase06-scheduling/s10/quartus_S10-20_20261002.md` (+ seeds 2-6, met at 20 ns). S7 at 20 ns does NOT meet timing and is documented: `docs/evidence/phase05m-memsched/fmax50/quartus_S7-20_20261002.md` (+ seeds 2-6) | PASS |
-| CRG-10 | Result artifact + claim checker | `cmd: python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/result_phase6.md` and `cmd: python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal` | PASS |
+| CRG-1 | Lint clean | `evidence/phase06/verify.md`, `evidence/phase06/s10/verify.md` (Verilator -Wall: 0 warnings on kpke_sched_top, ntt_core_s10_p5, kpke_sched_top_s10) | PASS |
+| CRG-2 | Elaboration clean (slang) | `evidence/phase06/verify.md`, `evidence/phase06/s10/verify.md` (slang rc 0) | PASS |
+| CRG-3 | Bit-exact vs golden, both simulators | `evidence/phase06/verify.md` (golden schedule model 26 pytest; pwm_unit 20,035 pairs; top 3 random + 2 corner cases per program, end to end against the golden K-PKE; Verilator and Icarus), `evidence/phase06/s10/verify.md` (S10 memory, core, Phase 6 top with S10) | PASS |
+| CRG-4 | Corner cases before tests | `evidence/phase06/test_plan.md`, `evidence/phase06/test_plan_s10.md` (written before RTL; S10 Amendment A1 dated and explained) | PASS |
+| CRG-5 | Regression: earlier phases still pass | No existing RTL, test or proof file was modified (all new files; git diff --name-status f5e4e21 HEAD lists additions plus one document, ADR 0019); the full Phase 0-5M regression ran at 300aaf3: `evidence/phase05m/s8/regression.md` | PASS |
+| CRG-6 | Locked parameters | `evidence/phase06/verify.md` (ROMs regenerated from the golden model byte for byte); no q, n, root or FIPS 203 arithmetic changed | PASS |
+| CRG-7 | Constant-cycle evidence | `evidence/phase06/verify.md` (one cycle count per program over random and corner inputs, both simulators), `evidence/phase06/s10/verification_status.json` (118 / 118) | PASS |
+| CRG-8 | Formal properties | `evidence/phase06/formal.md` (sequencer H, T, C, R; NC-T fails), `evidence/phase06/s10/formal.md` (S10 H, O, R, A, B, C; NC-O, NC-A fail) | PASS |
+| CRG-9 | Quartus evidence; no negative slack or the failure documented | `evidence/phase06/quartus_P6.md` (timing met at 40 ns), `evidence/phase06/s10/quartus_S10.md` (+ seeds 2-6, suffix -s2 to -s6, all met), `evidence/phase06/s10/quartus_S10-20.md` (+ seeds 2-6, met at 20 ns). S7 at 20 ns does NOT meet timing and is documented: `evidence/phase05m/fmax50/quartus_S7-20.md` (+ seeds 2-6) | PASS |
+| CRG-10 | Result artifact + claim checker | `cmd: python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase06.md` and `cmd: python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal` | PASS |
 
 ## 1b. Phase 6 PASS criteria (docs/ROADMAP.md Phase 6)
 | # | Criterion | Evidence | Status |
 |---|---|---|---|
-| 1 | Operation-level arithmetic bit-exact, matrices and noise injected from the golden model | `docs/evidence/phase06-scheduling/verify_2026-10-03.md` | PASS |
-| 2 | Transform counters equal the reproduced counts (KeyGen 6/0/9, Encaps 3/4/12, Decaps 6/5/15) | `tb/golden/op_counts.py`, `docs/evidence/phase06-scheduling/verify_2026-10-03.md` (hardware counters 6/0/9, 3/4/12, 3/1/3; Decaps = Decrypt + Encrypt) | PASS |
-| 3 | Constant cycle count; cycles and Quartus evidence recorded | `docs/evidence/phase06-scheduling/verify_2026-10-03.md`, `docs/evidence/phase06-scheduling/quartus_P6_20261002.md` | PASS |
+| 1 | Operation-level arithmetic bit-exact, matrices and noise injected from the golden model | `evidence/phase06/verify.md` | PASS |
+| 2 | Transform counters equal the reproduced counts (KeyGen 6/0/9, Encaps 3/4/12, Decaps 6/5/15) | `tb/golden/op_counts.py`, `evidence/phase06/verify.md` (hardware counters 6/0/9, 3/4/12, 3/1/3; Decaps = Decrypt + Encrypt) | PASS |
+| 3 | Constant cycle count; cycles and Quartus evidence recorded | `evidence/phase06/verify.md`, `evidence/phase06/quartus_P6.md` | PASS |
 | 4 | Sub-step 6b (radix-4) measured or "not attempted" | not attempted (not requested; ADR 0024 scope) | PASS |
 
 ## 2. What was produced
 | Path | Purpose |
 |---|---|
 | `tb/golden/op_counts.py`, `tb/golden/kpke_sched_model.py`, `tb/golden/tests/test_kpke_sched_model.py` | Reproduced transform counts; golden schedule model proved equal to the golden K-PKE |
-| `scripts/gen_kpke_sched_roms.py`, `rtl/sched/gamma_rom.sv`, `rtl/sched/kpke_prog_rom.sv` | Generated γ table and operation programs |
+| `scripts/build/gen_kpke_sched_roms.py`, `rtl/sched/gamma_rom.sv`, `rtl/sched/kpke_prog_rom.sv` | Generated γ table and operation programs |
 | `rtl/sched/poly_store.sv`, `pwm_unit.sv`, `kpke_sched.sv`, `kpke_sched_top.sv`, `kpke_sched_top_s10.sv` | Phase 6 block: slots, pointwise multiply-accumulate, sequencer, tops with the S7 and S10 cores |
 | `rtl/mem/poly_mem_m10k.sv`, `rtl/ntt/ntt_core_s10.sv`, `ntt_core_s10_p5.sv` | S10: 16-bank 1R1W memory, core and wrapper |
-| `tb/sched/`, `tb/s10/`, `formal/phase06-scheduling/`, `formal/s10/`, `formal/run_formal_phase6.py`, `formal/run_formal_s10.py` | Tests, formal tops and runners with negative controls |
+| `tb/sched/`, `tb/s10/`, `formal/phase06-scheduling/`, `formal/s10/`, `formal/run/run_formal_phase6.py`, `formal/run/run_formal_s10.py` | Tests, formal tops and runners with negative controls |
 | `quartus/phase06_sched/`, `quartus/phase05m_memsched/S7-20*.qsf` | Revisions P6, S10[-s2..s6], S10-20[-s2..s6], P6S10, P6S10-20, S7-20[-s2..s6] |
-| `scripts/phase6_verify.sh`, `s10_verify.sh`, `select_s10.py`, `phase5m_top_paths.tcl`, `build_phase6_report.py` | Verification, rule, path analysis, report |
-| `docs/evidence/phase06-scheduling/`, `docs/evidence/phase05m-memsched/fmax50/` | Evidence |
+| `scripts/test/phase6_verify.sh`, `s10_verify.sh`, `select_s10.py`, `phase5m_top_paths.tcl`, `build_phase6_report.py` | Verification, rule, path analysis, report |
+| `evidence/phase06/`, `evidence/phase05m/fmax50/` | Evidence |
 | `docs/decisions/0024`, `0025` | Phase 6 / S10 order (Accepted), S10 result (Proposed) |
-| `docs/report/CHIPATON_Phase6_Report.pdf` | Report (Bahasa Indonesia) |
+| `docs/reports/CHIPATON_Phase6_Report.pdf` | Report (Bahasa Indonesia) |
 
 ## 3. Numbers (MEASURED: Quartus reports; cycles from simulation; medians and t INFERENCE / perhitungan tim)
 | Quantity | S7 core | S10 core | P6 (sequencer + S7) |
@@ -58,8 +58,8 @@
 | t_NTT at median Fmax (us) | 3.099 | 2.662 | - |
 | K-PKE cycles KeyGen / Encrypt / Decrypt | 5,493 / 6,810 / 3,121 (P6 with S7) | 5,475 / 6,789 / 3,109 (P6 with S10) | |
 
-Sources: `docs/evidence/phase06-scheduling/s10/selection_worksheet_2026-10-03.md`, `docs/evidence/phase06-scheduling/quartus_P6_20261002.md`, `docs/evidence/phase05m-memsched/fmax50/path_analysis_2026-10-03.md`, the verify files above.
-Phase 6 top with the S10 core (information, seed 1; `docs/evidence/phase06-scheduling/quartus_P6S10_20261002.md`, `docs/evidence/phase06-scheduling/quartus_P6S10-20_20261002.md`): 40 ns 5,553 ALM, 840 registers, 26 DSP, 51 M10K, 43.26 MHz; 20 ns **timing met**, setup +0.619 ns, 51.60 MHz, 5,643 ALM.
+Sources: `evidence/phase06/s10/selection_worksheet.md`, `evidence/phase06/quartus_P6.md`, `evidence/phase05m/fmax50/path_analysis.md`, the verify files above.
+Phase 6 top with the S10 core (information, seed 1; `evidence/phase06/quartus_P6S10.md`, `evidence/phase06/quartus_P6S10-20.md`): 40 ns 5,553 ALM, 840 registers, 26 DSP, 51 M10K, 43.26 MHz; 20 ns **timing met**, setup +0.619 ns, 51.60 MHz, 5,643 ALM.
 Data movement through the core's host port (one coefficient per cycle): transforms x (257 load + 260 read-back) cycles = 3,102 of 5,493 KeyGen cycles (56 %, perhitungan tim from the RTL operation lengths).
 
 ## 4. Standards and sources pinned
@@ -74,7 +74,7 @@ FIPS 203 Algorithms 11 (MultiplyNTTs), 12 (BaseCaseMultiply), 13-15 (K-PKE) as t
 ## 6. Deviations, failures and open issues
 - S10 core test: the first run failed only on the start-latency bound of the reused S7 test; recorded as Amendment A1 of the S10 plan with the derivation (no threshold changed).
 - The first information compile P6S10 was started with a wrong top entity name (`kpke_sched_top_s10_s10`, a text-replacement slip), stopped, fixed and restarted; the tool rewrote the project's `.qpf` meanwhile; the revision list was restored.
-- A status message quoted "-0.836 ns" for S7 at 20 ns seed 1; that was one corner; the worst over all corners is -1.388 ns (corrected in `fmax50/path_analysis_2026-10-03.md`).
+- A status message quoted "-0.836 ns" for S7 at 20 ns seed 1; that was one corner; the worst over all corners is -1.388 ns (corrected in `fmax50/path_analysis.md`).
 - `%Warning-UNOPTFLAT` in the cocotb Verilator builds of the frozen Barrett reducer (as in Phase 5): a simulation-scheduling notice, recorded in the verify files.
 - Critical Warning 15725 (virtual pin clock) in every compile, as in earlier phases; no 332148 in any S10 compile; triaged, nothing waived.
 
@@ -88,13 +88,13 @@ None written for judges/proposal text. ROADMAP rows were filled from the evidenc
 ## 9. Reproduce
 ```bash
 . scripts/env.sh
-scripts/phase6_verify.sh; python3 formal/run_formal_phase6.py
-scripts/s10_verify.sh;    python3 formal/run_formal_s10.py
+scripts/test/phase6_verify.sh; python3 formal/run/run_formal_phase6.py
+scripts/test/s10_verify.sh;    python3 formal/run/run_formal_s10.py
 cd quartus/phase06_sched && ./run_p6.sh && ./run_s10_sweep.sh && ./run_p6s10.sh; cd ../..
 cd quartus/phase05m_memsched && ./run_s7_20_sweep.sh; cd ../..
-python3 scripts/select_s10.py
-python3 scripts/build_phase6_report.py
-python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/result_phase6.md
+python3 scripts/quartus/select_s10.py
+python3 scripts/build/build_phase6_report.py
+python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase06.md
 python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal
 ```
 

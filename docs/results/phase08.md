@@ -13,24 +13,24 @@
 ## 1. Done-criteria (Common RTL Gate, docs/ROADMAP.md), Phase 8
 | # | Criterion | Evidence | Status |
 |---|---|---|---|
-| CRG-1 | Lint clean | `docs/evidence/phase08-keccak-stream/8a/verify_2026-10-03.md`, `docs/evidence/phase08-keccak-stream/8b/verify_W1_2026-10-03.md`, `docs/evidence/phase08-keccak-stream/8b/verify_W2_2026-10-03.md`, `docs/evidence/phase08-keccak-stream/8c/verify_2026-10-03.md` (Verilator -Wall: 0 warnings for every module and variant) | PASS |
-| CRG-2 | Elaboration clean (slang) | `docs/evidence/phase08-keccak-stream/8a/verify_2026-10-03.md`, `docs/evidence/phase08-keccak-stream/8b/verify_W2_2026-10-03.md`, `docs/evidence/phase08-keccak-stream/8c/verify_2026-10-03.md` (slang: 0 errors, 0 warnings) | PASS |
+| CRG-1 | Lint clean | `evidence/phase08/8a/verify.md`, `evidence/phase08/8b/verify_W1.md`, `evidence/phase08/8b/verify_W2.md`, `evidence/phase08/8c/verify.md` (Verilator -Wall: 0 warnings for every module and variant) | PASS |
+| CRG-2 | Elaboration clean (slang) | `evidence/phase08/8a/verify.md`, `evidence/phase08/8b/verify_W2.md`, `evidence/phase08/8c/verify.md` (slang: 0 errors, 0 warnings) | PASS |
 | CRG-3 | Bit-exact vs golden, both simulators | 8a: every Keccak round and the sponge against hashlib; 8b: SampleNTT and CBD against `tb/golden/sampler_model.py` (equal to the unmodified golden primitives) including the XOF bytes consumed; 8c/8d: every slot and the end results against `tb/golden/kpke_smp_model.py` and the unmodified golden K-PKE (KeyGen, Encrypt, Decrypt) | PASS |
-| CRG-4 | Corner cases before tests | `docs/evidence/phase08-keccak-stream/8a/test_plan_8a.md`, `docs/evidence/phase08-keccak-stream/8b/test_plan_8b.md`, `docs/evidence/phase08-keccak-stream/8c/test_plan_8c.md`, `docs/evidence/phase08-keccak-stream/8d/test_plan_8d.md` (written before the RTL and any measurement; the 8c and 8d plans were committed together with their amendments after the first runs, see section 6) | PASS |
-| CRG-5 | Regression: earlier phases still pass | `docs/evidence/phase08-keccak-stream/8b/verify_W2_2026-10-03.md` (reruns 8a, Phase 7 and the whole W1 set), `docs/evidence/phase08-keccak-stream/8c/verify_2026-10-03.md` (the Phase 6 and core files are unmodified: 0 files differ from the Phase 7 base 6874609) | PASS |
+| CRG-4 | Corner cases before tests | `evidence/phase08/8a/test_plan_8a.md`, `evidence/phase08/8b/test_plan_8b.md`, `evidence/phase08/8c/test_plan_8c.md`, `evidence/phase08/8d/test_plan_8d.md` (written before the RTL and any measurement; the 8c and 8d plans were committed together with their amendments after the first runs, see section 6) | PASS |
+| CRG-5 | Regression: earlier phases still pass | `evidence/phase08/8b/verify_W2.md` (reruns 8a, Phase 7 and the whole W1 set), `evidence/phase08/8c/verify.md` (the Phase 6 and core files are unmodified: 0 files differ from the Phase 7 base 6874609) | PASS |
 | CRG-6 | Locked parameters | `.claude/skills/mlkem-guard/scripts/check_params.py` inside the K0 regression (all locked parameters match); nothing of FIPS 202 or FIPS 203 changed; the constants of the samplers are q = 3329 and the CBD eta = 2 of ML-KEM-768 | PASS |
-| CRG-7 | Constant-cycle evidence | `docs/evidence/phase08-keccak-stream/8a/keccak_cycles_2026-10-03.md` (306 points); `docs/evidence/phase08-keccak-stream/8b/sampler_cycles_W2_2026-10-03.md`, `docs/evidence/phase08-keccak-stream/8c/cycles_v1_2026-10-03.json`: 8b CBD cycles identical for every sigma and N (102 points), SampleNTT repeatable and, at W2, equal to the triples consumed + 49 (3 XOF blocks) or + 61 (4 blocks) at 500 polynomials; 8c/8d: fixed rho with 8 different secrets gives identical cycles per program in every variant | PASS |
-| CRG-8 | Formal properties | `docs/evidence/phase08-keccak-stream/8a/formal_2026-10-03.md`, `docs/evidence/phase08-keccak-stream/8b/formal_W2_2026-10-03.md` (S1-S6 at both widths), `docs/evidence/phase08-keccak-stream/8c/formal_2026-10-03.md`, `docs/evidence/phase08-keccak-stream/8d/formal_2026-10-03.md` (F1-F5); every negative control fails as required | PASS |
-| CRG-9 | Quartus evidence; no negative slack or the failure documented | `docs/evidence/phase08-keccak-stream/8a/selection_worksheet_2026-10-03.md`, `docs/evidence/phase08-keccak-stream/8b/selection_worksheet_2026-10-03.md`, `docs/evidence/phase08-keccak-stream/8c/selection_worksheet_2026-10-03.md`, `docs/evidence/phase08-keccak-stream/8d/selection_worksheet_2026-10-03.md`: seeds 1-6 at 40 ns for each configuration, timing met at every seed; the 20 ns compiles (information) are met for the 8a to 8d configurations measured at 20 ns | PASS |
-| CRG-10 | Result artifact + claim checker | `cmd: python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/result_phase8.md` and `cmd: python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal` | PASS |
+| CRG-7 | Constant-cycle evidence | `evidence/phase08/8a/keccak_cycles.md` (306 points); `evidence/phase08/8b/sampler_cycles_W2.md`, `evidence/phase08/8c/cycles_v1.json`: 8b CBD cycles identical for every sigma and N (102 points), SampleNTT repeatable and, at W2, equal to the triples consumed + 49 (3 XOF blocks) or + 61 (4 blocks) at 500 polynomials; 8c/8d: fixed rho with 8 different secrets gives identical cycles per program in every variant | PASS |
+| CRG-8 | Formal properties | `evidence/phase08/8a/formal.md`, `evidence/phase08/8b/formal_W2.md` (S1-S6 at both widths), `evidence/phase08/8c/formal.md`, `evidence/phase08/8d/formal.md` (F1-F5); every negative control fails as required | PASS |
+| CRG-9 | Quartus evidence; no negative slack or the failure documented | `evidence/phase08/8a/selection_worksheet.md`, `evidence/phase08/8b/selection_worksheet.md`, `evidence/phase08/8c/selection_worksheet.md`, `evidence/phase08/8d/selection_worksheet.md`: seeds 1-6 at 40 ns for each configuration, timing met at every seed; the 20 ns compiles (information) are met for the 8a to 8d configurations measured at 20 ns | PASS |
+| CRG-10 | Result artifact + claim checker | `cmd: python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase08.md` and `cmd: python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal` | PASS |
 
 ## 1b. Phase 8 sub-steps (docs/ROADMAP.md Phase 8)
 | # | Sub-step | Evidence | Status |
 |---|---|---|---|
-| 8a | Two rounds per cycle (C5), measured, rule applied | `docs/evidence/phase08-keccak-stream/8a/selection_worksheet_2026-10-03.md`, `docs/decisions/0027-phase-8a-two-keccak-rounds-per-cycle-c5-rule-result.md` | PASS |
-| 8b | Streaming samplers (CBD from the PRF stream, SampleNTT from the XOF stream; XOF bytes consumed exact), W1 then W2, rule applied | `docs/evidence/phase08-keccak-stream/8b/selection_worksheet_2026-10-03.md`, `docs/decisions/0028-phase-8b-streaming-samplers-output-width-w2-two-coefficients.md` | PASS |
-| 8c | Matrix A generated on the fly (STREAM against STORE), rule applied | `docs/evidence/phase08-keccak-stream/8c/selection_worksheet_2026-10-03.md`, `docs/decisions/0029-phase-8c-matrix-a-streamed-from-the-sampler-into-the-pwm-uni.md` | PASS |
-| 8d | Overlap of the sampler with the arithmetic (OVERLAP against STREAM), rule applied | `docs/evidence/phase08-keccak-stream/8d/selection_worksheet_2026-10-03.md`, `docs/decisions/0030-phase-8d-noise-sampling-overlapped-with-the-transforms-overl.md` | PASS |
+| 8a | Two rounds per cycle (C5), measured, rule applied | `evidence/phase08/8a/selection_worksheet.md`, `docs/decisions/adr/ADR-0027-phase-8a-two-keccak-rounds-per-cycle-c5-rule-result.md` | PASS |
+| 8b | Streaming samplers (CBD from the PRF stream, SampleNTT from the XOF stream; XOF bytes consumed exact), W1 then W2, rule applied | `evidence/phase08/8b/selection_worksheet.md`, `docs/decisions/adr/ADR-0028-phase-8b-streaming-samplers-output-width-w2-two-coefficients.md` | PASS |
+| 8c | Matrix A generated on the fly (STREAM against STORE), rule applied | `evidence/phase08/8c/selection_worksheet.md`, `docs/decisions/adr/ADR-0029-phase-8c-matrix-a-streamed-from-the-sampler-into-the-pwm-uni.md` | PASS |
+| 8d | Overlap of the sampler with the arithmetic (OVERLAP against STREAM), rule applied | `evidence/phase08/8d/selection_worksheet.md`, `docs/decisions/adr/ADR-0030-phase-8d-noise-sampling-overlapped-with-the-transforms-overl.md` | PASS |
 
 ## 2. What was produced
 | Path | Purpose |
@@ -40,12 +40,12 @@
 | `rtl/sched/kpke_sched_smp.sv`, `kpke_smp_top_s10.sv`, `poly_store_smp.sv`, `kpke_smp_prog_rom.sv` (generated) | 8c/8d: the Phase 6 sequencer plus the sampler (`SMPN`, `SMPA`, `PWMS`, `WAIT`, non-blocking sampling, store-port arbitration); top with the S10 core |
 | `tb/golden/sampler_model.py`, `tb/golden/kpke_smp_model.py` and their tests | golden models first (sampler with the consumed-byte count; programs with sampling and a hazard checker) |
 | `tb/keccak/`, `tb/sample/`, `tb/smp/` | cocotb tests on both simulators with negative controls |
-| `formal/phase08-keccak-stream/`, `formal/run_formal_phase8a.py` to `8d.py` | SymbiYosys proofs and controls (8c/8d with a sampler protocol stub) |
+| `formal/phase08-keccak-stream/`, `formal/run/run_formal_phase8a.py` to `8d.py` | SymbiYosys proofs and controls (8c/8d with a sampler protocol stub) |
 | `quartus/phase08_keccak/`, `phase08b_sampler/`, `phase08c_smp/` | Quartus revisions (kernel-only, virtual pins) |
-| `scripts/phase8a_verify.sh`, `phase8b_verify.sh`, `phase8cd_verify.sh`, `select_8a.py`, `select_8b.py`, `select_8cd.py`, `gen_kpke_smp_roms.py`, `phase8b_cycles.py`, `build_phase8_report.py` | verification, rules from files, ROM generation, cycle summaries, the PDF report |
-| `docs/evidence/phase08-keccak-stream/8a`, `8b`, `8c`, `8d` | test plans, verification and formal logs, cycle tables, Quartus extracts, worksheets |
+| `scripts/test/phase8a_verify.sh`, `phase8b_verify.sh`, `phase8cd_verify.sh`, `select_8a.py`, `select_8b.py`, `select_8cd.py`, `gen_kpke_smp_roms.py`, `phase8b_cycles.py`, `build_phase8_report.py` | verification, rules from files, ROM generation, cycle summaries, the PDF report |
+| `evidence/phase08/8a`, `8b`, `8c`, `8d` | test plans, verification and formal logs, cycle tables, Quartus extracts, worksheets |
 | `docs/decisions/0026` to `0030` | Phase 8 scope (Accepted), results of 8a to 8d (Proposed) |
-| `docs/report/CHIPATON_Phase8_Report.pdf` | the report (Bahasa Indonesia) |
+| `docs/reports/CHIPATON_Phase8_Report.pdf` | the report (Bahasa Indonesia) |
 
 ## 3. Numbers (MEASURED: Quartus reports and simulation; medians, t and sums per operation are INFERENCE / perhitungan tim)
 ### 3a. 8a, Keccak core (C5 against K0)
@@ -61,10 +61,10 @@
 | t per permutation at median Fmax (us) | 0.3842 | 0.2764 | ratio 0.538 of the cycles, rule: C5 must exceed 36.440 MHz: it does (50.655) |
 | Keccak cycles per ML-KEM operation, median (KeyGen / Encaps / Decaps) | 2,026 / 2,078 / 2,070 | 1,510 / 1,550 / 1,542 | about 1,500: inside |
 Information at 20.000 ns (seed 1): C5-20 6,178 ALM, setup +4.591 ns (met), 64.90 MHz; K0-20 3,573 ALM, +6.893 ns, 76.30 MHz. Fmax under a 20 ns constraint is not comparable with the 40 ns figures.
-Sources: `docs/evidence/phase08-keccak-stream/8a/selection_worksheet_2026-10-03.md`, `keccak_cycles_2026-10-03.md`, `quartus_C5*_20261003.md`, `docs/evidence/phase07-keccak/quartus_K0*_20261003.md`.
+Sources: `evidence/phase08/8a/selection_worksheet.md`, `keccak_cycles.md`, `quartus_C5*.md`, `evidence/phase07/quartus_K0*.md`.
 
 
-### 3b. 8b, streaming samplers (sampler + C5 sponge; sources: `8b/selection_worksheet_2026-10-03.md`, `8b/sampler_cycles_W1_2026-10-03.md`, `8b/sampler_cycles_W2_2026-10-03.md`)
+### 3b. 8b, streaming samplers (sampler + C5 sponge; sources: `8b/selection_worksheet.md`, `8b/sampler_cycles_W1.md`, `8b/sampler_cycles_W2.md`)
 | Quantity | W1 (one coefficient per cycle) | W2 (two per cycle) | ESTIMATE written before measuring |
 |---|---|---|---|
 | ALM, median (min-max) | 5,279.0 (5,271-5,311) | 5,290.0 (5,282-5,308) | W1 6,400-6,700 (the top is **smaller** than the 8a sponge alone, 6,167: not investigated); W2 +100-300 over W1: measured +11 |
@@ -78,7 +78,7 @@ Sources: `docs/evidence/phase08-keccak-stream/8a/selection_worksheet_2026-10-03.
 | Rule W1 against W2 (t = cycles / Fmax, SampleNTT and CBD) | t 5.959 / 5.467 us | t 4.111 / 3.027 us: **W2 chosen** | |
 With the K0 sponge (information, seed 1): W1 3,470 ALM, W2 3,551 ALM, setup +23.9 and +23.5 ns at 40 ns; at 20 ns with the C5 sponge both met (+3.892 and +4.214 ns). The W2 SampleNTT cycles equal the triples consumed + 49 (3 XOF blocks) or + 61 (4 blocks) at every one of 500 polynomials; at W1 the same quantity varies (41-48 for 3 blocks).
 
-### 3c. 8c and 8d, whole K-PKE programs with sampling (S10 core, W2 sampler, C5 sponge; sources: `8c/selection_worksheet_2026-10-03.md`, `8d/selection_worksheet_2026-10-03.md`, the cycle tables)
+### 3c. 8c and 8d, whole K-PKE programs with sampling (S10 core, W2 sampler, C5 sponge; sources: `8c/selection_worksheet.md`, `8d/selection_worksheet.md`, the cycle tables)
 | Quantity | STORE (8c reference) | STREAM (8c) | OVERLAP (8d) | ESTIMATE written before measuring |
 |---|---|---|---|---|
 | ALM, median (min-max) | 10,958.0 (10,941-10,969) | 10,995.5 (10,958-11,032) | 10,992.5 (10,954-11,012) | about 11,000-12,500: inside |
@@ -111,8 +111,8 @@ FIPS 202 as in Phase 7; FIPS 203 Algorithm 7 (SampleNTT) and Algorithm 8 (Sample
 - **An expected value changed after seeing a result** (8b Amendment A1): the sponge permutation counter may be one above the golden count when the byte window has already taken the last word of the final block while the output was held back (1 of 500 K0 cases at W1, both simulators); the output is unaffected. The first test version also miscounted absorb permutations for messages of 168 bytes or more (a test error, corrected before any recorded run).
 - **Formal controls:** NC-F3 and NC-F4 could not fail inside the BMC depth (their violations are reachable only by the induction step, which SymbiYosys reports as UNKNOWN); NC-F2 is the control used for 8c and 8d (Amendments A1). NC-HAZ of 8d is a ROM mutation, because ignoring `WAIT` does not break the schedule (the overlapped transform is longer than a noise sample).
 - **ESTIMATE misses:** the ALM added by W2 (estimated 100-300, measured +11); the sampler + C5 top is smaller than the sponge alone (not investigated); the other estimates of the plans are inside their ranges (sections 3b, 3c).
-- **Process:** the 8c and 8d plans were written before the RTL but committed together with their amendments (the plan commit f614b79 follows the golden-model work, not the RTL); one 8b W2 verification run was discarded because a command of the operator session killed its simulator processes, and the script was rerun from the start (`8b/verify_W2_2026-10-03.md`); the 8b W1 Quartus evidence was taken at commit 794db0d, before the rename of a local constant (`Q` to `QC`) in the sampler cores, and the W1 test set was rerun afterwards.
-- The K0 baseline of 8a, the notes of 8a and its Quartus numbers are in section 3a and in `docs/evidence/phase08-keccak-stream/8a/`.
+- **Process:** the 8c and 8d plans were written before the RTL but committed together with their amendments (the plan commit f614b79 follows the golden-model work, not the RTL); one 8b W2 verification run was discarded because a command of the operator session killed its simulator processes, and the script was rerun from the start (`8b/verify_W2.md`); the 8b W1 Quartus evidence was taken at commit 794db0d, before the rename of a local constant (`Q` to `QC`) in the sampler cores, and the W1 test set was rerun afterwards.
+- The K0 baseline of 8a, the notes of 8a and its Quartus numbers are in section 3a and in `evidence/phase08/8a/`.
 - Critical Warning 15725 (virtual pin clock) in every compile, as in earlier phases; Warning 10036 (`unused_ok` sinks); nothing waived.
 
 ## 7. Decisions needed
@@ -125,13 +125,13 @@ None written for judges or proposal text. The ROADMAP rows C5, C6b-W1, C6b-W2, C
 ## 9. Reproduce
 ```bash
 . scripts/env.sh
-scripts/phase8a_verify.sh; KS_OUTW=2 scripts/phase8b_verify.sh; scripts/phase8cd_verify.sh
-python3 formal/run_formal_phase8a.py; python3 formal/run_formal_phase8b.py all; python3 formal/run_formal_phase8c.py; python3 formal/run_formal_phase8d.py
+scripts/test/phase8a_verify.sh; KS_OUTW=2 scripts/test/phase8b_verify.sh; scripts/test/phase8cd_verify.sh
+python3 formal/run/run_formal_phase8a.py; python3 formal/run/run_formal_phase8b.py all; python3 formal/run/run_formal_phase8c.py; python3 formal/run/run_formal_phase8d.py
 cd quartus/phase07_keccak && ./run_k0_seeds.sh; cd ../phase08_keccak && ./run_c5.sh; cd ../phase08b_sampler && ./run_sm1.sh && ./run_sm2.sh; cd ../phase08c_smp && ./run_smp.sh; cd ../..
-python3 scripts/select_8a.py; python3 scripts/select_8b.py; python3 scripts/select_8cd.py
-python3 scripts/gen_kpke_smp_roms.py --check
-python3 scripts/build_phase8_report.py
-python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/result_phase8.md
+python3 scripts/quartus/select_8a.py; python3 scripts/quartus/select_8b.py; python3 scripts/quartus/select_8cd.py
+python3 scripts/build/gen_kpke_smp_roms.py --check
+python3 scripts/build/build_phase8_report.py
+python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase08.md
 python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal
 ```
 

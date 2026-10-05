@@ -12,24 +12,24 @@
 ## 1. Done-criteria (Common RTL Gate, docs/ROADMAP.md)
 | # | Criterion | Evidence | Status |
 |---|---|---|---|
-| CRG-1 | Lint clean | `docs/evidence/phase05m-memsched/s6/verify_2026-10-02.md`, `docs/evidence/phase05m-memsched/s7/verify_2026-10-02.md`, `docs/evidence/phase05m-memsched/s8/verify_2026-10-03.md` (Verilator -Wall and slang: 0 warnings, 0 errors on every wrapper) | PASS |
-| CRG-2 | Elaboration clean (slang) | `docs/evidence/phase05m-memsched/s6/verify_2026-10-02.md`, `docs/evidence/phase05m-memsched/s7/verify_2026-10-02.md`, `docs/evidence/phase05m-memsched/s8/verify_2026-10-03.md` (slang: 0 errors, 0 warnings) | PASS |
-| CRG-3 | Bit-exact vs golden, both simulators | `docs/evidence/phase05m-memsched/s6/verify_2026-10-02.md`, `docs/evidence/phase05m-memsched/s7/verify_2026-10-02.md`, `docs/evidence/phase05m-memsched/s8/verify_2026-10-03.md` (core tests incl. 512 INTT unit vectors; half_mod exhaustive; memory unit and differential tests) | PASS |
-| CRG-4 | Corner cases before tests | `docs/evidence/phase05m-memsched/test_plan.md`, `docs/evidence/phase05m-memsched/test_plan_s7.md`, `docs/evidence/phase05m-memsched/test_plan_s8.md`, `docs/evidence/phase05m-memsched/test_plan_s9.md` (each committed before its measurement; amendments dated) | PASS |
-| CRG-5 | Regression: Phase 0-5 still pass | `docs/evidence/phase05m-memsched/s8/regression_2026-10-03.md` (one run on the final tree, Amendment A1: Phase 0-5 regression, Phase 5 verification, S6 and S7 verification: OVERALL PASS; 95 files added, 2 documents modified, no RTL, test or proof file of Phases 1-5 modified) | PASS |
-| CRG-6 | Locked parameters | `docs/evidence/phase05m-memsched/s8/regression_2026-10-03.md` (check_params passes); the INTT halving is proved equal to FIPS 203 Algorithm 10 (ADR 0020, `tb/golden/tests/test_intt_halving.py`) | PASS |
-| CRG-7 | Constant-cycle evidence | `docs/evidence/phase05m-memsched/s6/verification_status.json` (119 / 119), `docs/evidence/phase05m-memsched/s7/verification_status.json` (120 / 120), `docs/evidence/phase05m-memsched/s8/verification_status.json` (122 / 122), identical on both simulators | PASS |
-| CRG-8 | Formal properties | `docs/evidence/phase05m-memsched/s6/formal_2026-10-02.md`, `docs/evidence/phase05m-memsched/s7/formal_2026-10-02.md`, `docs/evidence/phase05m-memsched/s8/formal_2026-10-03.md` (control and bank-capacity properties H, O, R, A, B, C; negative controls fail). Data correctness rests on simulation, not formal | PASS |
-| CRG-9 | Quartus evidence; no negative slack or the failure documented | `docs/evidence/phase05m-memsched/s6/quartus_M6_20261002.md`, `docs/evidence/phase05m-memsched/s7/quartus_S7_20261002.md`, `docs/evidence/phase05m-memsched/s8/quartus_S8_20261002.md` (each with seeds 2-6 as suffix -s2 to -s6): timing met at 40.000 ns at every seed. The 20.000 ns information compile does NOT meet timing and is documented as such: `docs/evidence/phase05m-memsched/s8/quartus_S8-20_20261002.md` | PASS |
-| CRG-10 | Result artifact + claim checker | `cmd: python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/result_phase5m.md` and `cmd: python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal` | PASS |
+| CRG-1 | Lint clean | `evidence/phase05m/s6/verify.md`, `evidence/phase05m/s7/verify.md`, `evidence/phase05m/s8/verify.md` (Verilator -Wall and slang: 0 warnings, 0 errors on every wrapper) | PASS |
+| CRG-2 | Elaboration clean (slang) | `evidence/phase05m/s6/verify.md`, `evidence/phase05m/s7/verify.md`, `evidence/phase05m/s8/verify.md` (slang: 0 errors, 0 warnings) | PASS |
+| CRG-3 | Bit-exact vs golden, both simulators | `evidence/phase05m/s6/verify.md`, `evidence/phase05m/s7/verify.md`, `evidence/phase05m/s8/verify.md` (core tests incl. 512 INTT unit vectors; half_mod exhaustive; memory unit and differential tests) | PASS |
+| CRG-4 | Corner cases before tests | `evidence/phase05m/test_plan.md`, `evidence/phase05m/test_plan_s7.md`, `evidence/phase05m/test_plan_s8.md`, `evidence/phase05m/test_plan_s9.md` (each committed before its measurement; amendments dated) | PASS |
+| CRG-5 | Regression: Phase 0-5 still pass | `evidence/phase05m/s8/regression.md` (one run on the final tree, Amendment A1: Phase 0-5 regression, Phase 5 verification, S6 and S7 verification: OVERALL PASS; 95 files added, 2 documents modified, no RTL, test or proof file of Phases 1-5 modified) | PASS |
+| CRG-6 | Locked parameters | `evidence/phase05m/s8/regression.md` (check_params passes); the INTT halving is proved equal to FIPS 203 Algorithm 10 (ADR 0020, `tb/golden/tests/test_intt_halving.py`) | PASS |
+| CRG-7 | Constant-cycle evidence | `evidence/phase05m/s6/verification_status.json` (119 / 119), `evidence/phase05m/s7/verification_status.json` (120 / 120), `evidence/phase05m/s8/verification_status.json` (122 / 122), identical on both simulators | PASS |
+| CRG-8 | Formal properties | `evidence/phase05m/s6/formal.md`, `evidence/phase05m/s7/formal.md`, `evidence/phase05m/s8/formal.md` (control and bank-capacity properties H, O, R, A, B, C; negative controls fail). Data correctness rests on simulation, not formal | PASS |
+| CRG-9 | Quartus evidence; no negative slack or the failure documented | `evidence/phase05m/s6/quartus_M6.md`, `evidence/phase05m/s7/quartus_S7.md`, `evidence/phase05m/s8/quartus_S8.md` (each with seeds 2-6 as suffix -s2 to -s6): timing met at 40.000 ns at every seed. The 20.000 ns information compile does NOT meet timing and is documented as such: `evidence/phase05m/s8/quartus_S8-20.md` | PASS |
+| CRG-10 | Result artifact + claim checker | `cmd: python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase05m.md` and `cmd: python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal` | PASS |
 
 ## 1b. Phase 5M PASS criteria (ADR 0017, ADR 0019)
 | # | Criterion | Evidence | Status |
 |---|---|---|---|
 | 1 | Each step has a test plan and rule written before measuring | the four test plans above (plans of S7 and S8 committed before their RTL ran / compiled; S8's RTL had been written and linted, disclosed in its header) | PASS |
-| 2 | Each step measured with seeds 1-6 and the rule applied without change | `docs/evidence/phase05m-memsched/s6/selection_worksheet_2026-10-02.md`, `docs/evidence/phase05m-memsched/s7/selection_worksheet_2026-10-02.md`, `docs/evidence/phase05m-memsched/s8/selection_worksheet_2026-10-03.md` | PASS |
-| 3 | Each result recorded in an ADR | `docs/decisions/0020-phase-5m-s6-intt-without-the-scaling-pass-halving-in-every-l.md` (Accepted), `docs/decisions/0021-phase-5m-s7-split-memory-read-path-rd-split-p-7-rule-result-.md`, `docs/decisions/0023-phase-5m-s8-write-path-register-and-one-bubble-per-direction.md`, `docs/decisions/0022-phase-5m-s9-m10k-study-result-options-for-the-memory-team-ch.md` (Proposed) | PASS |
-| 4 | S9 study with port demand, options and evidence conditions, no RTL | `docs/evidence/phase05m-memsched/s9/study_m10k_2026-10-03.md`, `docs/evidence/phase05m-memsched/s9/port_analysis_2026-10-03.txt` | PASS |
+| 2 | Each step measured with seeds 1-6 and the rule applied without change | `evidence/phase05m/s6/selection_worksheet.md`, `evidence/phase05m/s7/selection_worksheet.md`, `evidence/phase05m/s8/selection_worksheet.md` | PASS |
+| 3 | Each result recorded in an ADR | `docs/decisions/adr/ADR-0020-phase-5m-s6-intt-without-the-scaling-pass-halving-in-every-l.md` (Accepted), `docs/decisions/adr/ADR-0021-phase-5m-s7-split-memory-read-path-rd-split-p-7-rule-result-.md`, `docs/decisions/adr/ADR-0023-phase-5m-s8-write-path-register-and-one-bubble-per-direction.md`, `docs/decisions/adr/ADR-0022-phase-5m-s9-m10k-study-result-options-for-the-memory-team-ch.md` (Proposed) | PASS |
+| 4 | S9 study with port demand, options and evidence conditions, no RTL | `evidence/phase05m/s9/study_m10k.md`, `evidence/phase05m/s9/port_analysis.txt` | PASS |
 | 5 | ROADMAP ablation rows M6, S7, S8, S8-20 | `docs/ROADMAP.md` | PASS |
 
 ## 2. What was produced
@@ -38,12 +38,12 @@
 | `rtl/arith/half_mod.sv`, `butterfly_m6.sv`, `twiddle_rom_half.sv`, `rtl/ntt/ntt_core_m6.sv`, `ntt_core_m6_p6.sv` | S6: INTT halving in every layer, no scaling pass; NTT = INTT = 119 cycles |
 | `rtl/mem/poly_mem_multiport_split.sv`, `rtl/ntt/ntt_core_s7.sv`, `ntt_core_s7_p7.sv` | S7: one register stage inside the memory read (RD_SPLIT), P = 7, 120 cycles |
 | `rtl/ntt/ntt_core_s8.sv`, `ntt_core_s8_p8.sv` | S8: write-path register (WR_REG), P = 8, one bubble per direction, 122 cycles |
-| `tb/golden/intt_halving.py`, `tb/phase5m/`, `formal/phase05m-memsched/`, `formal/run_formal_phase5m*.py` | Golden model of the halved INTT, tests per step, formal tops and runners with negative controls |
+| `tb/golden/intt_halving.py`, `tb/phase5m/`, `formal/phase05m-memsched/`, `formal/run/run_formal_phase5m*.py` | Golden model of the halved INTT, tests per step, formal tops and runners with negative controls |
 | `quartus/phase05m_memsched/` | Project, revisions `M6[-s2..s6]`, `S7[-s2..s6]`, `S8[-s2..s6]`, `S8-20`, `M.sdc`, `M-20.sdc`, sweep scripts |
 | `scripts/phase5m_verify*.sh`, `phase5m_select_s6.py`, `phase5m_select_s7.py`, `phase5m_select_s8.py`, `phase5m_final_regression.sh`, `phase5m_s9_port_analysis.py`, `build_phase5m_report.py` | Verification, rules (read evidence files only), the one regression, the S9 analysis, the report builder |
-| `docs/evidence/phase05m-memsched/` | Test plans, per-step evidence (`s6/`, `s7/`, `s8/`, `s9/`), regression |
+| `evidence/phase05m/` | Test plans, per-step evidence (`s6/`, `s7/`, `s8/`, `s9/`), regression |
 | `docs/decisions/0017` to `0023` | Phase 5M scope, minimal path, M6 base, S7, S9, S8 records |
-| `docs/report/CHIPATON_Phase5M_Report.pdf` | Phase 5M report (Bahasa Indonesia, same layout as Phases 0-5) |
+| `docs/reports/CHIPATON_Phase5M_Report.pdf` | Phase 5M report (Bahasa Indonesia, same layout as Phases 0-5) |
 
 No frozen file of Phases 1-5 (RTL, tests, formal, evidence) was edited. Existing records edited: `docs/decisions/0017-...` (amendment note), `docs/decisions/0019-...` and `docs/decisions/0020-...` (statements that S7-S9 are not done were edited in place with a bracketed trace, 2026-10-03, at the team's request), `docs/decisions/PENDING.md`, `docs/ROADMAP.md`, `CLAUDE.md`, `HANDOFF.md`, `README.md` (status lines).
 
@@ -60,9 +60,9 @@ No frozen file of Phases 1-5 (RTL, tests, formal, evidence) was edited. Existing
 | t_NTT / t_INTT at median Fmax (us, perhitungan tim) | 3.448 / 10.865 | 3.456 / 3.456 | **3.099 / 3.099** | 3.211 / 3.211 |
 | Rule result | (Phase 5 base) | not adopted by the rule; base by team decision (ADR 0020) | adopted | not adopted |
 
-Sources: `docs/evidence/phase05m-memsched/s8/selection_worksheet_2026-10-03.md` (all four rows, recomputed from the evidence files), `s7/selection_worksheet_2026-10-02.md`, `s6/selection_worksheet_2026-10-02.md`.
-Information compile at 20.000 ns (MEASURED, S8, seed 1, `s8/quartus_S8-20_20261002.md`): 9,443 ALM, setup -2.242 ns, Fmax 44.96 MHz, timing **not met**. Earlier 20 ns compiles: C3-P6 10,557 ALM, -2.059 ns; C4b-B 9,305 ALM, -2.557 ns (`docs/evidence/phase05-arith/closure/info_20ns_2026-10-01.md`).
-S9 (model of the real schedule, perhitungan tim): the 8-bank map needs 2 reads + 2 writes per bank per cycle; the 16-bank map `bank = (a1^a2^a3^a4, a7, a6, a5)`, `offset = a[3:0]` needs 1 + 1 over the whole timeline (`s9/port_analysis_2026-10-03.txt`).
+Sources: `evidence/phase05m/s8/selection_worksheet.md` (all four rows, recomputed from the evidence files), `s7/selection_worksheet.md`, `s6/selection_worksheet.md`.
+Information compile at 20.000 ns (MEASURED, S8, seed 1, `s8/quartus_S8-20.md`): 9,443 ALM, setup -2.242 ns, Fmax 44.96 MHz, timing **not met**. Earlier 20 ns compiles: C3-P6 10,557 ALM, -2.059 ns; C4b-B 9,305 ALM, -2.557 ns (`evidence/phase05/closure/info_20ns.md`).
+S9 (model of the real schedule, perhitungan tim): the 8-bank map needs 2 reads + 2 writes per bank per cycle; the 16-bank map `bank = (a1^a2^a3^a4, a7, a6, a5)`, `offset = a[3:0]` needs 1 + 1 over the whole timeline (`s9/port_analysis.txt`).
 
 ## 3b. Per step
 - **S6 (M6):** INTT 375 -> 119 cycles, DSP 18 -> 16, median Fmax -0.25 % versus C4b-B (inside seed noise); the rule failed only on the NTT part by 0.008 us; the team adopted M6 anyway (ADR 0020).
@@ -98,17 +98,17 @@ None written for judges/proposal text. ROADMAP rows were filled from the evidenc
 ## 9. Reproduce
 ```bash
 . scripts/env.sh
-scripts/phase5m_verify.sh; scripts/phase5m_verify_s7.sh; scripts/phase5m_verify_s8.sh
-python3 formal/run_formal_phase5m.py; python3 formal/run_formal_phase5m_s7.py; python3 formal/run_formal_phase5m_s8.py
+scripts/test/phase5m_verify.sh; scripts/test/phase5m_verify_s7.sh; scripts/test/phase5m_verify_s8.sh
+python3 formal/run/run_formal_phase5m.py; python3 formal/run/run_formal_phase5m_s7.py; python3 formal/run/run_formal_phase5m_s8.py
 cd quartus/phase05m_memsched
 # one revision at a time (parallel runs corrupt the shared .qpf)
 ./run_m6_sweep.sh; ./run_s7_sweep.sh; ./run_s8_sweep.sh
 cd ../..
-scripts/phase5m_final_regression.sh
-python3 scripts/phase5m_select_s6.py; python3 scripts/phase5m_select_s7.py; python3 scripts/phase5m_select_s8.py
-python3 scripts/phase5m_s9_port_analysis.py
-python3 scripts/build_phase5m_report.py
-python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/result_phase5m.md
+scripts/test/phase5m_final_regression.sh
+python3 scripts/quartus/phase5m_select_s6.py; python3 scripts/quartus/phase5m_select_s7.py; python3 scripts/quartus/phase5m_select_s8.py
+python3 scripts/test/phase5m_s9_port_analysis.py
+python3 scripts/build/build_phase5m_report.py
+python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase05m.md
 python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal
 ```
 

@@ -1,9 +1,9 @@
 <!-- claim-lint: skip-file (template) -->
 # Result — Phase <N>: <name>
 
-Copy to `docs/results/result_phase<N>.md`. Fill it **only from evidence produced in this repository**.
+Copy to `docs/results/phase<NN>.md`. Fill it **only from evidence produced in this repository**.
 Anything not proven stays `MISSING`. Validate with
-`python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/result_phase<N>.md`.
+`python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase<NN>.md`.
 
 - Status: NOT DONE   (DONE only if every row in section 1 is PASS; PARTIAL if some are MISSING or FAIL)
 - Date (UTC): <YYYY-MM-DD HH:MM>
@@ -11,7 +11,7 @@ Anything not proven stays `MISSING`. Validate with
 - Environment: <OS; Python; tool versions, copied from command output>
 
 ## 1. Done-criteria (copied from docs/ROADMAP.md, unchanged)
-| # | Criterion | Evidence (`path` under docs/evidence/ or tests, or `cmd: ...`) | Status |
+| # | Criterion | Evidence (`path` under evidence/ or tests, or `cmd: ...`) | Status |
 |---|---|---|---|
 | 1 | <criterion> | `<path>` | MISSING |
 

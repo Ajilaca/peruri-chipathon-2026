@@ -13,25 +13,25 @@
 ## 1. Done-criteria (Common RTL Gate, docs/ROADMAP.md)
 | # | Criterion | Evidence | Status |
 |---|---|---|---|
-| CRG-1 | Lint clean | `docs/evidence/phase04-pipeline/cocotb_regression_2026-09-30.txt` (Verilator -Wall, 0 warnings, three wrappers plus default core) | PASS |
-| CRG-2 | Elaboration clean (slang) | `docs/evidence/phase04-pipeline/cocotb_regression_2026-09-30.txt` (0 errors, 0 warnings, three wrappers) | PASS |
-| CRG-3 | Bit-exact vs golden, both simulators | `docs/evidence/phase04-pipeline/cocotb_regression_2026-09-30.txt` (core 16/16 and unit 32/32 on Icarus AND Verilator), `docs/evidence/phase04-pipeline/v2_modmul_staged_exhaustive_2026-09-30.txt` (staged reducer equals the frozen reducer for all 2^24 inputs, 0 mismatches) | PASS |
-| CRG-4 | Corner cases before tests | `docs/evidence/phase04-pipeline/test_plan.md`, committed before any RTL | PASS |
-| CRG-5 | Regression: Phase 0-3 still pass | `docs/evidence/phase04-pipeline/regression_2026-09-30.txt` (pytest 23/23; C0 10/10; C1 12/12; C2, K2, K1 16/16 each, both simulators) | PASS |
-| CRG-6 | Locked parameters | `docs/evidence/phase04-pipeline/regression_2026-09-30.txt` (check_params: all locked parameters match) | PASS |
-| CRG-7 | Constant-cycle evidence | `docs/evidence/phase04-pipeline/cocotb_regression_2026-09-30.txt` (constant per P and direction, identical on both simulators) | PASS |
-| CRG-8 | Formal properties | `docs/evidence/phase04-pipeline/formal_2026-09-30.md` (P = 2/4/6 k-induction PASS, 9/9 as expected incl. negative controls); `docs/evidence/phase04-pipeline/regression_2026-09-30.txt` (Phase 1-3 proofs 19/19 unchanged). Control and bank-capacity properties only, not arithmetic | PASS |
-| CRG-9 | Quartus evidence; no negative slack or the failure documented | `docs/evidence/phase04-pipeline/quartus_C3-P6_20260930.md` (selected C3-P6: timing met at 40.000 ns, also at seeds 2–6, `docs/evidence/phase04-pipeline/seed_sweep_2026-10-01.md`); `docs/evidence/phase04-pipeline/quartus_C3-P0_20260930.md` and `docs/evidence/phase04-pipeline/quartus_C3-P2_20260930.md` record negative setup slack for the non-selected P = 0 / P = 2 (documented, not hidden) | PASS |
-| CRG-10 | Result artifact + claim checker | `cmd: python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/result_phase4.md` and `cmd: python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal` | PASS |
+| CRG-1 | Lint clean | `evidence/phase04/cocotb_regression.txt` (Verilator -Wall, 0 warnings, three wrappers plus default core) | PASS |
+| CRG-2 | Elaboration clean (slang) | `evidence/phase04/cocotb_regression.txt` (0 errors, 0 warnings, three wrappers) | PASS |
+| CRG-3 | Bit-exact vs golden, both simulators | `evidence/phase04/cocotb_regression.txt` (core 16/16 and unit 32/32 on Icarus AND Verilator), `evidence/phase04/v2_modmul_staged_exhaustive.txt` (staged reducer equals the frozen reducer for all 2^24 inputs, 0 mismatches) | PASS |
+| CRG-4 | Corner cases before tests | `evidence/phase04/test_plan.md`, committed before any RTL | PASS |
+| CRG-5 | Regression: Phase 0-3 still pass | `evidence/phase04/regression.txt` (pytest 23/23; C0 10/10; C1 12/12; C2, K2, K1 16/16 each, both simulators) | PASS |
+| CRG-6 | Locked parameters | `evidence/phase04/regression.txt` (check_params: all locked parameters match) | PASS |
+| CRG-7 | Constant-cycle evidence | `evidence/phase04/cocotb_regression.txt` (constant per P and direction, identical on both simulators) | PASS |
+| CRG-8 | Formal properties | `evidence/phase04/formal.md` (P = 2/4/6 k-induction PASS, 9/9 as expected incl. negative controls); `evidence/phase04/regression.txt` (Phase 1-3 proofs 19/19 unchanged). Control and bank-capacity properties only, not arithmetic | PASS |
+| CRG-9 | Quartus evidence; no negative slack or the failure documented | `evidence/phase04/quartus_C3-P6.md` (selected C3-P6: timing met at 40.000 ns, also at seeds 2–6, `evidence/phase04/seed_sweep.md`); `evidence/phase04/quartus_C3-P0.md` and `evidence/phase04/quartus_C3-P2.md` record negative setup slack for the non-selected P = 0 / P = 2 (documented, not hidden) | PASS |
+| CRG-10 | Result artifact + claim checker | `cmd: python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase04.md` and `cmd: python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal` | PASS |
 
 ## 1b. Phase 4 PASS criteria (docs/ROADMAP.md Phase 4)
 | # | Criterion | Evidence | Status |
 |---|---|---|---|
-| 1 | Correct for every P | `docs/evidence/phase04-pipeline/cocotb_regression_2026-09-30.txt` (P = 2, 4, 6; P = 0 is the frozen Phase 3 core, `docs/evidence/phase04-pipeline/regression_2026-09-30.txt`) | PASS |
-| 2 | Measured comparison complete | `docs/evidence/phase04-pipeline/selection_worksheet_2026-09-30.md` | PASS |
-| 3 | ADR for the chosen P | `docs/decisions/0009-phase-4-final-decision-l-8-p-6-c3-p6-and-a-30-alm-design-bud.md` (Accepted: P = 6, 30% budget); ADR 0008 superseded | PASS |
+| 1 | Correct for every P | `evidence/phase04/cocotb_regression.txt` (P = 2, 4, 6; P = 0 is the frozen Phase 3 core, `evidence/phase04/regression.txt`) | PASS |
+| 2 | Measured comparison complete | `evidence/phase04/selection_worksheet.md` | PASS |
+| 3 | ADR for the chosen P | `docs/decisions/adr/ADR-0009-phase-4-final-decision-l-8-p-6-c3-p6-and-a-30-alm-design-bud.md` (Accepted: P = 6, 30% budget); ADR 0008 superseded | PASS |
 | 4 | C3 row filled | `docs/ROADMAP.md`, rows C3-P0 / P2 / P4 / P6 | PASS |
-| 5 | Hazard tests at layer boundaries; stall cycles per P | `docs/evidence/phase04-pipeline/cocotb_regression_2026-09-30.txt` (scoreboard 0 violations, boundary-directed data, negative control at depth 8 trips it; stall cycles 0 for every P) | PASS |
+| 5 | Hazard tests at layer boundaries; stall cycles per P | `evidence/phase04/cocotb_regression.txt` (scoreboard 0 violations, boundary-directed data, negative control at depth 8 trips it; stall cycles 0 for every P) | PASS |
 
 ## 2. What was produced
 | Path | Purpose |
@@ -42,17 +42,17 @@
 | `rtl/ntt/ntt_core_c3.sv`, `rtl/ntt/ntt_core_c3_p2.sv`, `_p4.sv`, `_p6.sv` | Config C3 core (C2-K2-K1 schedule + drain) and the three Quartus wrappers; register positions are those of test plan section 2 |
 | `tb/ntt/test_modmul_staged.py`, `test_butterfly_pipe.py`, `test_poly_mem_pipe.py`, `run_p4_unit_tests.py`, `tb/ntt/p4_reducer/` | Unit tests (V2-V4) and the exhaustive reducer harness |
 | `tb/ntt/test_ntt_core_c3.py`, `tb/ntt/run_ntt_c3_tests.py` | Core tests (V5-V8) with the hazard scoreboard and the depth-8 negative control |
-| `formal/phase04-pipeline/`, `formal/run_formal_phase4.py` | Formal top, three `.sby`, runner with negative controls |
+| `formal/phase04-pipeline/`, `formal/run/run_formal_phase4.py` | Formal top, three `.sby`, runner with negative controls |
 | `quartus/phase04_pipeline_c3/` | Four revisions, one SDC at 40.000 ns |
-| `scripts/phase4_select_p.py`, `docs/evidence/phase04-pipeline/verification_status.json` | The ADR 0007 rule, reading only evidence files |
-| `quartus/phase04_pipeline_c3/C3-P{4,6}-s{2..6}.qsf`, `run_seed_sweep.sh`, `scripts/phase4_seed_sweep_summary.py`, `docs/evidence/phase04-pipeline/seed_sweep/` | Fitter-seed sweep (2026-10-01), input to ADR 0008 |
-| `docs/decisions/0008-apply-adr-0007-to-the-phase-4-pipeline-sweep-proposed-pipeli.md` | Proposed ADR with the measured table (superseded by ADR 0009) |
-| `docs/decisions/0009-phase-4-final-decision-l-8-p-6-c3-p6-and-a-30-alm-design-bud.md` | Final decision: L = 8, P = 6, 30% NTT-core budget |
-| `docs/evidence/phase04-pipeline/ghrd_shell_measured_2026-10-01.md`, `quartus_GHRD-de10-nano-base_20261001.md` | DE10-Nano GHRD shell, MEASURED (no NTT core) |
-| `docs/evidence/phase04-pipeline/ghrd_plus_c3p4_integration_2026-10-01.md` | GHRD + C3-P4 in one compile (integration baseline) |
-| `docs/evidence/phase04-pipeline/ghrd_plus_c3p6_integration_2026-10-01.md` | GHRD + C3-P6 in one compile (the selected configuration), plus C3-P6 standalone with the GHRD's settings and a fresh GHRD build; added 2026-10-01 after the approval to close the evidence gap |
-| `docs/evidence/phase04-pipeline/fabric_estimate_DRAFT_2026-10-01.md` | DRAFT, ESTIMATE: fabric content of Phases 5–10 |
-| `docs/report/CHIPATON_Phase4_Report.pdf`, `scripts/build_phase4_report.py` | Phase 4 report (Bahasa Indonesia, same layout as Phases 0–3) and the script that rebuilds it from the evidence files |
+| `scripts/quartus/phase4_select_p.py`, `evidence/phase04/verification_status.json` | The ADR 0007 rule, reading only evidence files |
+| `quartus/phase04_pipeline_c3/C3-P{4,6}-s{2..6}.qsf`, `run_seed_sweep.sh`, `scripts/quartus/phase4_seed_sweep_summary.py`, `evidence/phase04/seed_sweep/` | Fitter-seed sweep (2026-10-01), input to ADR 0008 |
+| `docs/decisions/adr/ADR-0008-apply-adr-0007-to-the-phase-4-pipeline-sweep-proposed-pipeli.md` | Proposed ADR with the measured table (superseded by ADR 0009) |
+| `docs/decisions/adr/ADR-0009-phase-4-final-decision-l-8-p-6-c3-p6-and-a-30-alm-design-bud.md` | Final decision: L = 8, P = 6, 30% NTT-core budget |
+| `evidence/phase04/ghrd_shell_measured.md`, `quartus_GHRD-de10-nano-base.md` | DE10-Nano GHRD shell, MEASURED (no NTT core) |
+| `evidence/phase04/ghrd_plus_c3p4_integration.md` | GHRD + C3-P4 in one compile (integration baseline) |
+| `evidence/phase04/ghrd_plus_c3p6_integration.md` | GHRD + C3-P6 in one compile (the selected configuration), plus C3-P6 standalone with the GHRD's settings and a fresh GHRD build; added 2026-10-01 after the approval to close the evidence gap |
+| `evidence/phase04/fabric_estimate_DRAFT.md` | DRAFT, ESTIMATE: fabric content of Phases 5–10 |
+| `docs/reports/CHIPATON_Phase4_Report.pdf`, `scripts/build/build_phase4_report.py` | Phase 4 report (Bahasa Indonesia, same layout as Phases 0–3) and the script that rebuilds it from the evidence files |
 
 Frozen files (`modmul_reduce.sv`, `butterfly*.sv`, `twiddle_rom.sv`, `bank_map_rom.sv`, `poly_mem_multiport.sv`, `ntt_core_c2*.sv`, Phase 1-3 evidence, ADR 0004) were not edited.
 
@@ -75,8 +75,8 @@ Frozen files (`modmul_reduce.sv`, `butterfly*.sv`, `twiddle_rom.sv`, `bank_map_r
 | t_NTT / t_INTT (us) = cycles / Fmax | 14.771 / 48.235 | 4.643 / 14.978 | 3.659 / 11.664 | 3.481 / 10.968 |
 | Candidate (ADR 0007)? | no | no | yes | no |
 
-Sources: `docs/evidence/phase04-pipeline/quartus_C3-P<n>_20260930.md`, `selection_worksheet_2026-09-30.md`,
-`cocotb_regression_2026-09-30.txt`. The P = 0 figures are a fresh compile at 40.000 ns, not the Phase 3 20.000 ns result. The
+Sources: `evidence/phase04/quartus_C3-P<n>.md`, `selection_worksheet.md`,
+`cocotb_regression.txt`. The P = 0 figures are a fresh compile at 40.000 ns, not the Phase 3 20.000 ns result. The
 historical result under 25% was: P = 4 the only candidate, proposed by ADR 0008 and never accepted. Under the 30% budget of ADR 0009 the candidates are {4, 6} and the rule selects P = 6 at the default seed; across seeds 1–6 it selects P = 6 at seeds 1, 4, 5 and P = 4 at seeds 2, 3, 6 (near the 5% tie line). Latency of C3-P6 at the met 40.000 ns constraint (perhitungan tim): NTT 119 × 40 ns = 4.76 µs, INTT 375 × 40 ns = 15.00 µs.
 
 ## 4. Standards and sources pinned
@@ -85,7 +85,7 @@ No FIPS 203 reading this phase; no parameter, algorithm, twiddle value or reduct
 
 ## 5. Coverage and limits
 - **Simulation and static timing only.** No board is attached; nothing here is hardware validation. Fmax is kernel-only, virtual pins, and is not a system clock.
-- **ALM margins and the seed sweep (2026-10-01).** P = 4 is 39 ALM under the budget and P = 6 27 ALM over it at the default seed. A sweep over fitter seeds 1–6 (`docs/evidence/phase04-pipeline/seed_sweep_2026-10-01.md`) found P = 6 over budget at every seed (10,484–10,516 ALM) and P = 4 within budget at 4 of 6 seeds (10,439–10,503 ALM); all 12 compiles meet 40.000 ns. The rule therefore never selects P = 6; for P = 4 the budget margin is a few tens of ALM and seed-dependent.
+- **ALM margins and the seed sweep (2026-10-01).** P = 4 is 39 ALM under the budget and P = 6 27 ALM over it at the default seed. A sweep over fitter seeds 1–6 (`evidence/phase04/seed_sweep.md`) found P = 6 over budget at every seed (10,484–10,516 ALM) and P = 4 within budget at 4 of 6 seeds (10,439–10,503 ALM); all 12 compiles meet 40.000 ns. The rule therefore never selects P = 6; for P = 4 the budget margin is a few tens of ALM and seed-dependent.
 - **Tool inference changed the resource picture.** With registers in the memory path Quartus inferred `bank_map_rom` and some register chains into M10K (16 / 26 / 29 blocks). This was not designed; it is why P = 2 has fewer ALM than P = 0 despite more registers.
 - **Near-tie (default seed).** P = 6 has the lowest t_NTT (3.481 us); P = 4 is 5.1% above it. The ALM condition keeps P = 6 out, at every seed measured.
 - **P = 2 misses timing by 0.368 ns** at one slow corner (slow 100C is +0.061 ns); no exception was added.
@@ -93,10 +93,10 @@ No FIPS 203 reading this phase; no parameter, algorithm, twiddle value or reduct
 - The expected outcomes stated in the test plan before measuring (P = 0 and probably P = 2 not candidates) held.
 
 ## 5b. System-shell and integration evidence (2026-10-01)
-- MEASURED, `docs/evidence/phase04-pipeline/ghrd_shell_measured_2026-10-01.md`: Intel DE10-Nano GHRD (`de10-nano-base`, no NTT core) uses 1,304–1,309 ALM (two builds), 35 M10K, 0 DSP; the HPS hard block uses 0 fabric ALM.
-- MEASURED, `docs/evidence/phase04-pipeline/ghrd_plus_c3p4_integration_2026-10-01.md`: GHRD + C3-P4 in one compile = 12,754 ALM; C3-P4 alone with the GHRD's compile settings = 11,432; GHRD alone = 1,304; timing met on every clock incl. the NTT clock at 40.000 ns; packing difficulty Low; peak interconnect 48.2 %.
+- MEASURED, `evidence/phase04/ghrd_shell_measured.md`: Intel DE10-Nano GHRD (`de10-nano-base`, no NTT core) uses 1,304–1,309 ALM (two builds), 35 M10K, 0 DSP; the HPS hard block uses 0 fabric ALM.
+- MEASURED, `evidence/phase04/ghrd_plus_c3p4_integration.md`: GHRD + C3-P4 in one compile = 12,754 ALM; C3-P4 alone with the GHRD's compile settings = 11,432; GHRD alone = 1,304; timing met on every clock incl. the NTT clock at 40.000 ns; packing difficulty Low; peak interconnect 48.2 %.
 - INFERENCE: integration delta +18 ALM with consistent settings; the GHRD's global optimisation settings account for +993 ALM on the core.
-- MEASURED, `docs/evidence/phase04-pipeline/ghrd_plus_c3p6_integration_2026-10-01.md` (added 2026-10-01, after the Approval, for the selected C3-P6): GHRD + C3-P6 in one compile = 12,375 ALM (29.53 % of the device), 62 M10K, 9 DSP; C3-P6 alone with the GHRD's compile settings = 11,053; GHRD alone (fresh full build) = 1,304; timing met on every clock incl. the NTT clock at 40.000 ns (setup +11.364 ns, Fmax 34.92 MHz at the lowest slow corner); packing difficulty Low; peak interconnect 37.0 %.
+- MEASURED, `evidence/phase04/ghrd_plus_c3p6_integration.md` (added 2026-10-01, after the Approval, for the selected C3-P6): GHRD + C3-P6 in one compile = 12,375 ALM (29.53 % of the device), 62 M10K, 9 DSP; C3-P6 alone with the GHRD's compile settings = 11,053; GHRD alone (fresh full build) = 1,304; timing met on every clock incl. the NTT clock at 40.000 ns (setup +11.364 ns, Fmax 34.92 MHz at the lowest slow corner); packing difficulty Low; peak interconnect 37.0 %.
 - INFERENCE: integration delta +18 ALM with consistent settings (same as for C3-P4); the GHRD's global settings account for +548 ALM on the C3-P6 core (+993 on C3-P4). 12,375 is the combined design, not a check against the 12,573 NTT-core budget of ADR 0009.
 - NOT MEASURED: a real HPS–NTT bridge connection; other seeds of the combined compile.
 
@@ -120,14 +120,14 @@ None written for judges/proposal text. ROADMAP C3 rows were filled from the evid
 python3 tb/ntt/run_p4_unit_tests.py verilator && python3 tb/ntt/run_p4_unit_tests.py icarus
 python3 tb/ntt/run_ntt_c3_tests.py verilator && python3 tb/ntt/run_ntt_c3_tests.py icarus
 tb/ntt/p4_reducer/run_modmul_staged_exhaustive.sh
-python3 formal/run_formal_phase4.py          # ~40 min (one BMC depth 125)
-python3 formal/run_formal_slang.py           # Phase 1-3 proofs, unchanged
+python3 formal/run/run_formal_phase4.py          # ~40 min (one BMC depth 125)
+python3 formal/run/run_formal_slang.py           # Phase 1-3 proofs, unchanged
 cd quartus/phase04_pipeline_c3
 for r in C3-P0 C3-P2 C3-P4 C3-P6; do quartus_sh --flow compile phase04_pipeline_c3 -c $r; done
-python3 scripts/phase4_select_p.py
+python3 scripts/quartus/phase4_select_p.py
 # seed sweep: run the C3-P4-s<n> / C3-P6-s<n> revisions ONE AT A TIME (parallel runs corrupt the shared .qpf)
-python3 scripts/phase4_seed_sweep_summary.py
-python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/result_phase4.md
+python3 scripts/quartus/phase4_seed_sweep_summary.py
+python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase04.md
 python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal
 ```
 

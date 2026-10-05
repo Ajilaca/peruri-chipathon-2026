@@ -8,13 +8,13 @@
   with a separate throwaway venv (`~/.cache/chip2026-oracle/venv`, kyber-py 1.2.0)
 
 ## 1. Done-criteria (copied from docs/ROADMAP.md, unchanged)
-| # | Criterion | Evidence (`path` under docs/evidence/ or tests, or `cmd: ...`) | Status |
+| # | Criterion | Evidence (`path` under evidence/ or tests, or `cmd: ...`) | Status |
 |---|---|---|---|
-| 1 | `check_params.py` passes (locked parameters), and k/eta/du/dv are confirmed against the FIPS 203 parameter table | `cmd: python3 .claude/skills/mlkem-guard/scripts/check_params.py` and `docs/evidence/golden/fips203_errata_2026-09-28.md` | PASS |
-| 2 | Golden model reproduces the official ML-KEM-768 vectors (NIST ACVP, pinned commit in kat_sources.md; NIST sample sets; raw output in docs/evidence/golden/) | `docs/evidence/golden/kat_mlkem768_2026-09-28.txt` | PASS |
-| 3 | Errata findings recorded (evidence file + ADR) | `docs/evidence/golden/fips203_errata_2026-09-28.md` and `docs/decisions/0003-fips-203-errata-findings-and-golden-model-handling.md` | PASS |
-| 4 | Independent cross-check log on random inputs in docs/evidence/golden/ (oracle: kyber-py in a throwaway venv) | `docs/evidence/golden/crosscheck_kyberpy_2026-09-28.txt` | PASS |
-| 5 | `docs/results/result_phase0.md` passes `check_result.py`, and a human has approved it | `cmd: python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/result_phase0.md` (this file; the human-approval half of this criterion is tracked separately by section 10's unticked checkbox, not by this row) | PASS |
+| 1 | `check_params.py` passes (locked parameters), and k/eta/du/dv are confirmed against the FIPS 203 parameter table | `cmd: python3 .claude/skills/mlkem-guard/scripts/check_params.py` and `evidence/phase00/fips203_errata.md` | PASS |
+| 2 | Golden model reproduces the official ML-KEM-768 vectors (NIST ACVP, pinned commit in kat_sources.md; NIST sample sets; raw output in evidence/phase00/) | `evidence/phase00/kat_mlkem768.txt` | PASS |
+| 3 | Errata findings recorded (evidence file + ADR) | `evidence/phase00/fips203_errata.md` and `docs/decisions/adr/ADR-0003-fips-203-errata-findings-and-golden-model-handling.md` | PASS |
+| 4 | Independent cross-check log on random inputs in evidence/phase00/ (oracle: kyber-py in a throwaway venv) | `evidence/phase00/crosscheck_kyberpy.txt` | PASS |
+| 5 | `docs/results/phase00.md` passes `check_result.py`, and a human has approved it | `cmd: python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase00.md` (this file; the human-approval half of this criterion is tracked separately by section 10's unticked checkbox, not by this row) | PASS |
 
 Status is PASS, FAIL or MISSING. PASS needs at least one backticked evidence item that exists.
 No RTL exists yet in this phase; nothing here is simulation-only vs. board-measured (that
@@ -33,10 +33,10 @@ distinction starts in Phase 1).
 | `tb/golden/fetch_acvp_vectors.py` | Downloads + sha256-verifies the two pinned ACVP vector files |
 | `tb/golden/run_kat.py` | Compares the model against the ML-KEM-768 ACVP groups |
 | `tb/golden/crosscheck_kyberpy.py` | N=2000 deterministic cross-check against kyber-py (external oracle) |
-| `docs/evidence/golden/fips203_errata_2026-09-28.md` | FIPS 203 source hashes, errata items quoted + impact analysis, Table 2/3 parameter cross-check |
-| `docs/evidence/golden/kat_mlkem768_2026-09-28.txt` | Raw ACVP KAT comparison log (80/80 passed) |
-| `docs/evidence/golden/crosscheck_kyberpy_2026-09-28.txt` | Raw kyber-py cross-check log (2000/2000 matched) |
-| `docs/decisions/0003-fips-203-errata-findings-and-golden-model-handling.md` | ADR (Status: Accepted, 2026-09-29, Faza Dzil / Team J5) on how the errata are handled |
+| `evidence/phase00/fips203_errata.md` | FIPS 203 source hashes, errata items quoted + impact analysis, Table 2/3 parameter cross-check |
+| `evidence/phase00/kat_mlkem768.txt` | Raw ACVP KAT comparison log (80/80 passed) |
+| `evidence/phase00/crosscheck_kyberpy.txt` | Raw kyber-py cross-check log (2000/2000 matched) |
+| `docs/decisions/adr/ADR-0003-fips-203-errata-findings-and-golden-model-handling.md` | ADR (Status: Accepted, 2026-09-29, Faza Dzil / Team J5) on how the errata are handled |
 | `.claude/skills/mlkem-guard/reference/kat_sources.md` | Pinned ACVP commit, sha256, vector layout, oracle note (provided, not authored by this session) |
 
 ## 3. Numbers (each labelled MEASURED, ESTIMATE, or cited [n])
@@ -44,9 +44,9 @@ distinction starts in Phase 1).
 |---|---|---|---|
 | `check_params.py` result | 12/12 locked constants OK | MEASURED | `cmd: python3 .claude/skills/mlkem-guard/scripts/check_params.py` |
 | `pytest tb/golden` result | 23/23 passed | MEASURED | `cmd: python3 -m pytest tb/golden/tests/ -q` |
-| ACVP ML-KEM-768 KAT cases | 80/80 passed (keyGen 25, encapsulation 25, decapsulation 10, decapsulationKeyCheck 10, encapsulationKeyCheck 10) | MEASURED | `docs/evidence/golden/kat_mlkem768_2026-09-28.txt` |
-| kyber-py cross-check trials | 2000/2000 matched (keygen_internal, encaps_internal, decaps_internal valid, decaps_internal modified-ciphertext) | MEASURED | `docs/evidence/golden/crosscheck_kyberpy_2026-09-28.txt` |
-| FIPS 203 errata items found | 2, both non-normative (clarification / comment typo) | MEASURED | `docs/evidence/golden/fips203_errata_2026-09-28.md` |
+| ACVP ML-KEM-768 KAT cases | 80/80 passed (keyGen 25, encapsulation 25, decapsulation 10, decapsulationKeyCheck 10, encapsulationKeyCheck 10) | MEASURED | `evidence/phase00/kat_mlkem768.txt` |
+| kyber-py cross-check trials | 2000/2000 matched (keygen_internal, encaps_internal, decaps_internal valid, decaps_internal modified-ciphertext) | MEASURED | `evidence/phase00/crosscheck_kyberpy.txt` |
+| FIPS 203 errata items found | 2, both non-normative (clarification / comment typo) | MEASURED | `evidence/phase00/fips203_errata.md` |
 
 ## 4. Standards and sources pinned
 - **FIPS 203** (Module-Lattice-Based Key-Encapsulation Mechanism Standard), published 2024-08-13,
@@ -58,7 +58,7 @@ distinction starts in Phase 1).
   sha256 `edf899c89762449f43d7713883caeefc2e4ae9ae98d5a76b339547db22cb3ac7`. Contains 2 items as of
   that access date (2025-03-31 Appendix A zeta-table clarification; 2025-10-17 Section 5.3
   comment typo), both non-normative. Full quotes and impact analysis in
-  `docs/evidence/golden/fips203_errata_2026-09-28.md`. Handling recorded in ADR 0003
+  `evidence/phase00/fips203_errata.md`. Handling recorded in ADR 0003
   (**Status: Accepted**, 2026-09-29, decided by Faza Dzil / Team J5 -- see Section 7 below).
 - **NIST ACVP-Server** test vectors: repository `https://github.com/usnistgov/ACVP-Server`,
   pinned commit `975de31eb83d87039ec88934fdc47d8c312b892d`. Files used:
@@ -69,7 +69,7 @@ distinction starts in Phase 1).
   `gen-val/json-files/ML-KEM-encapDecap-FIPS203/internalProjection.json`
   (sha256 `a556952ce869bb89c3a3196a701dad89647c193a34c86eafb61a9d710d5b810f`, top-level
   `isSample: true`). Both hashes verified before use; see
-  `docs/evidence/golden/kat_mlkem768_2026-09-28.txt`.
+  `evidence/phase00/kat_mlkem768.txt`.
 - **Independent oracle**: kyber-py 1.2.0 (`https://github.com/GiacomoPope/kyber-py`), license
   MIT OR Apache-2.0, Copyright Giacomo Pope. Installed only in a throwaway virtualenv outside
   this repository; not added to `scripts/requirements-dev.txt`, not copied into the repo.
@@ -107,10 +107,10 @@ One factual correction relative to an earlier assumption: `.claude/skills/mlkem-
 states the ACVP vectors are NIST "sample sets (isSample: true)". As actually downloaded and
 sha256-verified (2026-09-28), the **keyGen** file's own JSON says `"isSample": false` (only the
 **encapDecap** file says `true`). This is reported as found, not silently corrected in that
-reference file; see `docs/evidence/golden/kat_mlkem768_2026-09-28.txt` for the exact values.
+reference file; see `evidence/phase00/kat_mlkem768.txt` for the exact values.
 
 ## 7. Decisions needed
-- **ADR 0003** (`docs/decisions/0003-fips-203-errata-findings-and-golden-model-handling.md`) is
+- **ADR 0003** (`docs/decisions/adr/ADR-0003-fips-203-errata-findings-and-golden-model-handling.md`) is
   now **Accepted** (2026-09-29, decided by Faza Dzil / Team J5). `docs/decisions/PENDING.md`
   item #9 is closed as a result.
 - No other `docs/decisions/PENDING.md` item blocks Phase 0 closure; items #1-#8 and #10-#13 all
@@ -142,7 +142,7 @@ python3 tb/golden/run_kat.py
 ~/.cache/chip2026-oracle/venv/bin/python3 tb/golden/crosscheck_kyberpy.py
 
 # 5. Validate this result artifact
-python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/result_phase0.md
+python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase00.md
 python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal
 ```
 
