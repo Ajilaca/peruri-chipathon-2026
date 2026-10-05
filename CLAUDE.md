@@ -20,7 +20,7 @@ protocol flow and software baseline on the HPS, constant-time proven by cycle-co
 | C5 | **Do not decide for the team.** Open choices are in `docs/decisions/PENDING.md`; ask, then record with `/decision-record`. | `/decision-record` |
 | C6 | **Human approval between phases**; verify before optimising. | `/phase-gate` |
 | C7 | **The GitHub repository is public.** No secrets, no personal contact data (emails/phones), no large binaries. | `scripts/setup_github.sh`, `.claude/settings.json` |
-| C8 | Prefer measurable objectives; label simulation-only results as such. Never claim hardware validation without evidence in `docs/evidence/`. | rules in §3 |
+| C8 | Prefer measurable objectives; label simulation-only results as such. Never claim hardware validation without evidence in `evidence/`. | rules in §3 |
 
 **Language.** Talk to the team in Indonesian. Code, identifiers and comments in English.
 Proposal text in formal Indonesian (foreign terms in italics). State uncertainty plainly.
@@ -53,19 +53,19 @@ Accelerator · 03 AI/Edge Accelerator · 04 Secure Communication. The team chose
 (ADR 0001); **which subtheme to declare is still open** (PENDING #2).
 
 ## 2. Current phase
-- Done: Phases 0–5 (`docs/results/result_phase0.md` .. `result_phase5.md`). Phase 4 final decision: ADR 0009
-  (L = 8, P = 6, configuration C3-P6; NTT-core design budget 30% = 12,573 ALM). Phase 5 (`result_phase5.md`, Approval ticked by
+- Done: Phases 0–5 (`docs/results/phase00.md` .. `phase05.md`). Phase 4 final decision: ADR 0009
+  (L = 8, P = 6, configuration C3-P6; NTT-core design budget 30% = 12,573 ALM). Phase 5 (`phase05.md`, Approval ticked by
   Jevan 2026-10-03): C4 = C4b-B (Barrett reducer, 119 / 375 cycles, 9,166–9,208 ALM, 18 DSP); 5c (C4c)
   measured and not adopted (ADR 0014); 5d not attempted; information compiles at 20 ns do not meet timing for C3-P6 or C4b-B;
   the critical path is the memory read (ADR 0010).
-- Done: Phase 5M (`docs/results/result_phase5m.md`, Approval ticked by Jevan 2026-10-03): S6 = M6 base by team decision (ADR 0020; the rule did not adopt it), S7 split memory read **adopted by the rule** (ADR 0021, superseded by 0025: median Fmax 38.720 MHz,
+- Done: Phase 5M (`docs/results/phase05m.md`, Approval ticked by Jevan 2026-10-03): S6 = M6 base by team decision (ADR 0020; the rule did not adopt it), S7 split memory read **adopted by the rule** (ADR 0021, superseded by 0025: median Fmax 38.720 MHz,
   NTT = INTT = 120 cycles, 9,361-9,405 ALM, 16 DSP), S8 write-path register **not adopted** (ADR 0023, superseded by 0025: 37.990 MHz, 122 cycles), S9 M10K study (ADR 0022, superseded by 0025: a conflict-free 1R1W 16-bank map exists, no hardware number).
   Decided 2026-10-02 (Jevan, Team J5): ADR 0013 (Barrett), ADR 0015 (5d moves to Phase 6), ADR 0017 (Phase 5M), ADR 0019 (minimal path to full ML-KEM: skips Phase 6 and 8a/8c/8d; S7-S9 done by note 3). The configuration
   for later phases is S10 (ADR 0025 Accepted 2026-10-03, Jevan). Read `HANDOFF.md` first in a new session.
-- Done: Phase 6 (`docs/results/result_phase6.md`, Approval ticked by Jevan 2026-10-03; ADR 0024 Accepted: Phase 6 now, S10 inside it): K-PKE arithmetic sequencer bit-exact (KeyGen 5,493 / Encrypt 6,810 / Decrypt 3,121 cycles,
+- Done: Phase 6 (`docs/results/phase06.md`, Approval ticked by Jevan 2026-10-03; ADR 0024 Accepted: Phase 6 now, S10 inside it): K-PKE arithmetic sequencer bit-exact (KeyGen 5,493 / Encrypt 6,810 / Decrypt 3,121 cycles,
   counts 6/0/9, 3/4/12, 3/1/3); **S10** (16 x 1R1W memory, no slot arbitration) adopted by its rule and **accepted as the NTT/INTT core** (ADR 0025 Accepted 2026-10-03, Jevan): median Fmax 44.320 MHz at 40 ns, 5,077 ALM, 118 cycles, timing met at 20 ns at 6/6 seeds
   (kernel-only).
-- Done: Phase 7 (`docs/results/result_phase7.md`, Approval box empty): Keccak-f[1600] K0 (1 round/cycle, 24 busy cycles) and SHA3-256/512, SHAKE128/256 sponge bit-exact against hashlib on both simulators, formal K1-K5; Quartus (kernel-only, seed 1):
+- Done: Phase 7 (`docs/results/phase07.md`, Approval box empty): Keccak-f[1600] K0 (1 round/cycle, 24 busy cycles) and SHA3-256/512, SHAKE128/256 sponge bit-exact against hashlib on both simulators, formal K1-K5; Quartus (kernel-only, seed 1):
   3,572 ALM, 1,653 registers, 0 M10K, 0 DSP, timing met at 40 ns (Fmax 56.99 MHz) and at 20 ns (76.30 MHz); about 2,000 Keccak cycles per ML-KEM operation (perhitungan tim). Not tier T1 (samplers missing). Next per ADR 0019: samplers (Phase 8b),
   after the Phase 7 Approval; open: PENDING #25, #26.
 - Do not start RTL for a block until its golden model exists and its phase is approved.
@@ -80,7 +80,7 @@ Accelerator · 03 AI/Edge Accelerator · 04 Secure Communication. The team chose
 3. **Ground-truth order:** DE10-Nano hardware > Quartus reports (fit/sta/asm) > RTL simulation
    and formal > analytical estimates.
 4. **Never claim hardware validation** without SignalTap captures, on-board logs, HPS test
-   output or a recorded demo under `docs/evidence/`.
+   output or a recorded demo under `evidence/`.
 5. **Verify RTL before optimising it.** No timing/area work on a block without a passing
    testbench against the golden model.
 6. Objectives are measurable: ALM, registers, M10K, DSP, Fmax per clock domain, latency
@@ -126,7 +126,7 @@ supports the technical problem; it never overrides feasibility on the DE10-Nano.
 | `/proposal-claims` | drafting or editing text for judges; before committing docs/README |
 | `/mlkem-guard` | any NTT/Keccak/sampler/FO/KAT work; anyone proposes changing the maths |
 | `/decision-record` | the team decides something, or a pending choice is noticed |
-| `/phase-gate` | "is phase N done?", "what next?", before starting a new block; writes `docs/results/result_phase<N>.md` |
+| `/phase-gate` | "is phase N done?", "what next?", before starting a new block; writes `docs/results/phase<NN>.md` |
 
 ### 6.2 Quartus is the only source of FPGA implementation numbers
 - Numbers come **only** from `quartus_sh --flow compile <rev>` and the `.fit.summary`,
@@ -136,7 +136,7 @@ supports the technical problem; it never overrides feasibility on the DE10-Nano.
   elaboration checks only.
 - Compiles are long: run in the background, log to a file, read the summaries; do not paste whole
   `.rpt` files into context.
-- SignalTap: configure `.stp` deliberately, record the trigger, save captures to `docs/evidence/`
+- SignalTap: configure `.stp` deliberately, record the trigger, save captures to `evidence/`
   (`quartus_stp` is the CLI).
 - DE10-Nano pin assignments come from Terasic's documentation / GHRD. Never invent pin locations.
 
@@ -178,8 +178,10 @@ tb/           cocotb tests + Python golden models (tb/golden/params.py = locked 
 formal/       .sby files and property modules
 quartus/      .qpf/.qsf/.sdc, Platform Designer files, build scripts
 sw/hps/       HPS-side (ARM Linux) drivers, tests, benchmarks
-docs/         PROJECT_BRIEF, ROADMAP, decisions/, evidence/, proposal/, tooling docs
-scripts/      env.sh, setup_tooling.sh, setup_github.sh, smoke tests
+docs/         ROADMAP.md, decisions/ (SUMMARY.md, PENDING.md, adr/ADR-NNNN-*.md), results/ (phaseNN.md), reports/ (PDF)
+evidence/     MEASURED proof per phase: phase00 .. phase09, phase05m, phase9m/{batch1,batch2}, quartus/
+scripts/      build/ (ROM generators, report builders), test/ (verification drivers, smoke tests),
+              quartus/ (result selection, path analysis, output archive), env.sh, setup_*.sh
 .claude/      settings.json (shared), skills/ (shared); settings.local.json is personal, git-ignored
 ```
 
@@ -195,4 +197,4 @@ The proposal needs: executive summary, problem statement, architecture + RTL mod
 estimates (labelled ESTIMATE until Quartus measures them), test plan (RTL sim, corner cases,
 timing/latency, synthesis, bitstream, SignalTap, on-board real-time), measurable success
 metrics, references, repository link and technical documentation. Every number must trace to
-`docs/proposal/references.md`, `docs/proposal/CLAIMS_REGISTER.md`, or a file under `docs/evidence/`.
+`docs/proposal/references.md`, `docs/proposal/CLAIMS_REGISTER.md`, or a file under `evidence/`.
