@@ -1,4 +1,4 @@
-# quartus/phase09f1_core/K1-15-s6.qsf -- Phase 9F step S1 (docs/evidence/phase09m-optimisation/9f1/test_plan_9f1.md V8): mlkem_core2 with the K0 sampler in the engine (SMP_C5 = 0), the K0 hash (HASH_C5 = 0) and the two-byte codec (CODEC_W2 = 1), kernel-only compile (virtual pins), 15.000 ns (C-15.sdc), Quartus defaults, seed 6.
+# quartus/phase09f1_core/K1-15-s6.qsf -- Phase 9F step S1 (evidence/phase9m/batch1/9f1/test_plan_9f1.md V8): mlkem_core2 with the K0 sampler in the engine (SMP_C5 = 0), the K0 hash (HASH_C5 = 0) and the two-byte codec (CODEC_W2 = 1), kernel-only compile (virtual pins), 15.000 ns (C-15.sdc), Quartus defaults, seed 6.
 set_global_assignment -name FAMILY "Cyclone V"
 set_global_assignment -name DEVICE 5CSEBA6U23I7
 set_global_assignment -name TOP_LEVEL_ENTITY mlkem_core2

@@ -1,7 +1,7 @@
 """tb/ntt/test_butterfly.py — cocotb bit-exact test for rtl/ntt/butterfly.sv against the exact
 per-butterfly step of tb/golden/primitives.py:ntt (forward, CT) and :intt (inverse, GS).
 
-Corner cases and random coverage per docs/evidence/phase01-ntt-baseline/test_plan.md
+Corner cases and random coverage per evidence/phase01/test_plan.md
 ("Unit: butterfly").
 """
 

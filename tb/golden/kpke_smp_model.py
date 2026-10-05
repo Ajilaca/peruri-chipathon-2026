@@ -1,7 +1,7 @@
 """tb/golden/kpke_smp_model.py
 
-Phases 8c and 8d (docs/evidence/phase08-keccak-stream/8c/test_plan_8c.md): the Phase 6 K-PKE programs (tb/golden/kpke_sched_model.py, unmodified) extended with the sampling of the matrix and of the noise polynomials,
-run with the golden primitives. The same program lists are turned into the RTL program ROM by scripts/gen_kpke_smp_roms.py.
+Phases 8c and 8d (evidence/phase08/8c/test_plan_8c.md): the Phase 6 K-PKE programs (tb/golden/kpke_sched_model.py, unmodified) extended with the sampling of the matrix and of the noise polynomials,
+run with the golden primitives. The same program lists are turned into the RTL program ROM by scripts/build/gen_kpke_smp_roms.py.
 
 Operations added to the Phase 6 list (one polynomial = 256 coefficients in [0, q)):
   SMPN d ctr     slot d <- SamplePolyCBD_2(PRF(seed, ctr))                       (FIPS 203 Algorithm 8; first = 1: non-blocking in the variant OVERLAP)

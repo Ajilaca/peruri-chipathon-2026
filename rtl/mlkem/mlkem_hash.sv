@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/mlkem/mlkem_hash.sv
-// Phase 9b (docs/evidence/phase09-integration/9b/test_plan_9b.md): the hash functions of FIPS 203 Section 4.1 on a 64-bit word stream: sel_i 0 H = SHA3-256 (4 digest words), 1 G = SHA3-512 (8 words), 2 and 3 J = SHAKE256, first 32 bytes (4 words).
+// Phase 9b (evidence/phase09/9b/test_plan_9b.md): the hash functions of FIPS 203 Section 4.1 on a 64-bit word stream: sel_i 0 H = SHA3-256 (4 digest words), 1 G = SHA3-512 (8 words), 2 and 3 J = SHAKE256, first 32 bytes (4 words).
 // Message: len_i bytes (public), taken as ceil(len / 8) words, byte k of word w is message byte 8w + k (bytes past len_i in the last word are ignored by the sponge). Digest: word 0 holds digest bytes 0-7 (little endian).
 // For J the squeeze is stopped after the 4th word (stop_i of the sponge, which wipes its state); for H and G the sponge returns to idle and wipes its state itself. The control never looks at message or digest data.
 // CORE_R2 = 1: C5 sponge (keccak_sponge_r2, ADR 0027); 0: K0 sponge (keccak_sponge), same ports.

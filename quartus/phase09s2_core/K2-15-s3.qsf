@@ -1,4 +1,4 @@
-# quartus/phase09s2_core/K2-15-s3.qsf -- Phase 9F step S2 (docs/evidence/phase09m-optimisation/9s2/test_plan_9s2.md V9): mlkem_core3 (K1b) with NTT_P6 = 1 (P = 6 in the NTT core), SMP_C5 = 0, HASH_C5 = 0, CODEC_W2 = 1, kernel-only compile (virtual pins), 15.000 ns (C-15.sdc), Quartus defaults, seed 3.
+# quartus/phase09s2_core/K2-15-s3.qsf -- Phase 9F step S2 (evidence/phase9m/batch2/9s2/test_plan_9s2.md V9): mlkem_core3 (K1b) with NTT_P6 = 1 (P = 6 in the NTT core), SMP_C5 = 0, HASH_C5 = 0, CODEC_W2 = 1, kernel-only compile (virtual pins), 15.000 ns (C-15.sdc), Quartus defaults, seed 3.
 set_global_assignment -name FAMILY "Cyclone V"
 set_global_assignment -name DEVICE 5CSEBA6U23I7
 set_global_assignment -name TOP_LEVEL_ENTITY mlkem_core3

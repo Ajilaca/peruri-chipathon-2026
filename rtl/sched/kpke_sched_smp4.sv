@@ -1,11 +1,11 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/sched/kpke_sched_smp4.sv
-// Phase 9I item 4 (docs/evidence/phase09m-optimisation/9i4/test_plan_9i4.md): rtl/sched/kpke_sched_smp.sv (Phases 8c / 8d, frozen) with a host port that also works while the engine runs (parameter HOSTOV = 1; at HOSTOV = 0 it is the same behaviour):
+// Phase 9I item 4 (evidence/phase9m/batch2/9i4/test_plan_9i4.md): rtl/sched/kpke_sched_smp.sv (Phases 8c / 8d, frozen) with a host port that also works while the engine runs (parameter HOSTOV = 1; at HOSTOV = 0 it is the same behaviour):
 //   - a host write (tb_we_i) while a program runs is granted only in a cycle in which neither the sequencer nor a sampler beat writes the store (tb_wready_o = 1); the host has the lowest priority;
 //   - ov_pend_i[slot] = 1 marks a slot whose load is not complete: an operation that reads or writes such a slot (NTT, INTT: d; PWM, ADD, SUB: d, a, b; SMPN, SMPA: d; PWMS: d, b) is not started until the bit is 0 (the sequencer waits in FETCH). Reads through the host port are only possible while idle.
 // original header follows:
-// Phases 8c / 8d (docs/evidence/phase08-keccak-stream/8c/test_plan_8c.md, 8d/test_plan_8d.md): the Phase 6 operation-level sequencer (rtl/sched/kpke_sched.sv, unchanged) plus the 8b sampler.
+// Phases 8c / 8d (evidence/phase08/8c/test_plan_8c.md, 8d/test_plan_8d.md): the Phase 6 operation-level sequencer (rtl/sched/kpke_sched.sv, unchanged) plus the 8b sampler.
 // Operations as in Phase 6, and (opcode 4 bits; programs from rtl/sched/kpke_smp_prog_rom.sv, generated from tb/golden/kpke_smp_model.py):
 //   SMPN d ctr   slot d <- CBD2 sample of PRF(seed, ctr): the sampler starts with the 33-byte message sd || ctr and its beats (two coefficients = one store pair) are written into slot d
 //   SMPA d m     slot d <- SampleNTT(rho || j || i), m = 3i + j (j = m mod 3, i = m div 3); same path, 34-byte message (STORE variant)

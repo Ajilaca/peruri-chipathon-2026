@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/mem/poly_mem_multiport_pipe.sv
-// Phase 4 (ADR 0007, docs/evidence/phase04-pipeline/test_plan.md): the banked multi-port polynomial
+// Phase 4 (ADR 0007, evidence/phase04/test_plan.md): the banked multi-port polynomial
 // memory of rtl/mem/poly_mem_multiport.sv (which stays frozen), restructured for a pipelined
 // butterfly. Same storage (256 x 12 bit in NUM_LANES banks, flip-flops), same bank mapping
 // (rtl/mem/bank_map_rom.sv), same slot rule (the first two enabled ports that land on a bank get its
@@ -24,7 +24,7 @@
 // The caller's contract is unchanged in substance: at most two enabled ports per bank per request cycle
 // (checked, and flagged on bank_overflow_o, RdLat cycles after the offending request), and no read of
 // an address whose write is still in flight (the schedule guarantees it:
-// docs/evidence/phase04-pipeline/layer_boundary_slack_2026-09-30.txt; the testbench scoreboard checks it).
+// evidence/phase04/layer_boundary_slack.txt; the testbench scoreboard checks it).
 //
 // Reset (asynchronous, active low): only the enable / write-enable bits of the control pipeline, so no
 // write can fire after reset. Addresses, slots and data are unreset.

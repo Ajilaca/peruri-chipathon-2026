@@ -1,6 +1,6 @@
 """tb/golden/mlkem_ctl_model3.py
 
-Phase 9I item 4 (docs/evidence/phase09m-optimisation/9i4/test_plan_9i4.md): the controller micro-programs of tb/golden/mlkem_ctl_model2.py (background hash) with the loads that the K-PKE engine needs only later moved behind the start of the engine:
+Phase 9I item 4 (evidence/phase9m/batch2/9i4/test_plan_9i4.md): the controller micro-programs of tb/golden/mlkem_ctl_model2.py (background hash) with the loads that the K-PKE engine needs only later moved behind the start of the engine:
 ("RUNS", prog, mask) starts the engine program and continues at once, mask = the engine slots whose load follows (bit s = slot s, 12 bits); the LDP micro-operations after it load those slots while the engine runs; ("RUNJ",) waits until the engine is done.
 Functionally the engine program is run at RUNJ after the loads have been done (the values are the same as in the programs of model2: the hardware interlock only starts an engine operation after the load of every slot it uses is complete); `check_static3` proves the structure.
 Independent of any RTL. The models of Phase 9 and 9F are not changed.

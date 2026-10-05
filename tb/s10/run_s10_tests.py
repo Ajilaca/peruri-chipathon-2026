@@ -1,4 +1,4 @@
-"""tb/s10/run_s10_tests.py -- S10 verification (docs/evidence/phase06-scheduling/test_plan_s10.md V2-V4, V6) against one simulator.
+"""tb/s10/run_s10_tests.py -- S10 verification (evidence/phase06/test_plan_s10.md V2-V4, V6) against one simulator.
 
 Builds:
   mem    rtl/mem/poly_mem_m10k.sv, RD_LAT 2, WR_DELAY 3: tb/s10/test_poly_mem_m10k.py (V2)
@@ -6,9 +6,9 @@ Builds:
   ncm    s10 with the bank map without the XOR bit (test-only copy): bit-exact must FAIL (V4 NC-M)
   ncw    s10 with the write control one cycle short (test-only copy): bit-exact must FAIL (V4 NC-W)
   p6     rtl/sched/kpke_sched_top_s10.sv: the Phase 6 test tb/sched/test_kpke_sched.py (V6)
-Phase 9F step S2 (docs/evidence/phase09m-optimisation/9s2/test_plan_9s2.md): the same targets at P = 6 (parameter P6 = 1 of ntt_core_s10_p5, C3_WRDLY 4):
+Phase 9F step S2 (evidence/phase9m/batch2/9s2/test_plan_9s2.md): the same targets at P = 6 (parameter P6 = 1 of ntt_core_s10_p5, C3_WRDLY 4):
   mem6 (WR_DELAY 4), s10p6 (required cycles 119 / 119), ncm6, ncw6 (negative controls; V2-V4)
-Phase 9F step S2b (docs/evidence/phase09m-optimisation/9s2b/test_plan_9s2b.md): P = 6 with the registered issue address (parameter AREG = 1):
+Phase 9F step S2b (evidence/phase9m/batch2/9s2b/test_plan_9s2b.md): P = 6 with the registered issue address (parameter AREG = 1):
   s10p6a (required cycles 119 / 119), ncar (negative control: the registered address is loaded one cycle late; V2, V3)
 Usage: python3 tb/s10/run_s10_tests.py icarus|verilator [mem s10 ncm ncw p6 mem6 s10p6 ncm6 ncw6 s10p6a ncar]
 """

@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/mlkem/mlkem_unpack.sv
-// Phase 9a (docs/evidence/phase09-integration/9a/test_plan_9a.md): ByteDecode_d -> Decompress_d -> coefficients (FIPS 203 Algorithm 6, Section 4.2.1).
+// Phase 9a (evidence/phase09/9a/test_plan_9a.md): ByteDecode_d -> Decompress_d -> coefficients (FIPS 203 Algorithm 6, Section 4.2.1).
 // One run takes exactly 32 d bytes and gives exactly 256 coefficients, d chosen by dsel_i at start_i: 0 -> 1, 1 -> 4, 2 -> 10, 3 -> 12. For d = 12 the 12-bit value is reduced mod q (one subtraction of q when it is >= q; 4,095 < 2 q); for d < 12
 // Decompress_d(y) = (3329 y + 2^(d-1)) >> d, written as four shifted terms (no division, no multiplier needed).
 // The unpacker takes one byte per cycle into a 24-bit buffer (a byte is accepted when at most 16 bits are held) and takes d bits per coefficient into an output register. Counters and stalls depend on d and on the handshakes only, never on data.

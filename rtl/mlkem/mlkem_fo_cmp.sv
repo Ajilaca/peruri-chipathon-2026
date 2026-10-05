@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/mlkem/mlkem_fo_cmp.sv
-// Phase 9b (docs/evidence/phase09-integration/9b/test_plan_9b.md): constant-time comparison of the ciphertext c with the re-encrypted c' and the mask selection of the key (FIPS 203 Algorithm 18 lines 8-11, implicit rejection).
+// Phase 9b (evidence/phase09/9b/test_plan_9b.md): constant-time comparison of the ciphertext c with the re-encrypted c' and the mask selection of the key (FIPS 203 Algorithm 18 lines 8-11, implicit rejection).
 // WORDS beats (default 136 = 1,088 bytes / 8) carry a_data_i (c) and b_data_i (c'); the XOR of every beat is ORed into a 64-bit accumulator: every beat is visited, no early exit, no branch on data. kgood_i (K') and kbad_i (K_bar) must be valid in the cycle of the last
 // accepted beat. After that beat done_o pulses once the next cycle, neq_o = 1 if c != c', and k_o = (kgood & ~m) | (kbad & m) with m all ones when the ciphertexts differ; neq_o and k_o are registered and held until the next completed run.
 // start_i is accepted only when idle. The beat count and the cycle count depend on the handshake only.

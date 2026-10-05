@@ -1,6 +1,6 @@
 """tb/golden/intt_halving.py
 
-Phase 5M step S6 (docs/evidence/phase05m-memsched/test_plan.md): the inverse NTT of FIPS 203 Algorithm 10 computed WITHOUT
+Phase 5M step S6 (evidence/phase05m/test_plan.md): the inverse NTT of FIPS 203 Algorithm 10 computed WITHOUT
 the final multiplication by 3303 = 128^-1 mod q, by halving in every one of the 7 layers (2^-7 = 3303 mod q):
 
     a' = (a + b) / 2 mod q          b' = (zeta / 2) * (b - a) mod q,      zeta / 2 = zeta * 1665 mod q  (2 * 1665 = 1 mod q)

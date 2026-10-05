@@ -4,7 +4,7 @@
 #
 # Run from quartus/phase01_ntt_c0/:
 #   quartus_sta -t report_critical_paths.tcl
-# Outputs go to output_files/C0_*.rpt (not committed; extracts go to docs/evidence/).
+# Outputs go to output_files/C0_*.rpt (not committed; extracts go to evidence/).
 
 project_open phase01_ntt_c0 -revision C0
 

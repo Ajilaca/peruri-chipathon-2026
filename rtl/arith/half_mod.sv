@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/arith/half_mod.sv
-// Phase 5M step S6 (docs/evidence/phase05m-memsched/test_plan.md): y = x / 2 mod q for x in [0, q).
+// Phase 5M step S6 (evidence/phase05m/test_plan.md): y = x / 2 mod q for x in [0, q).
 //   y = (x + (x odd ? q : 0)) >> 1       q is odd, so x + q is even exactly when x is odd; y < q because x < q.
 // Combinational; 2 * y = x (mod q) is checked for all 3,329 inputs (tb/phase5m/test_half_mod.py). Inputs >= q are not specified.
 

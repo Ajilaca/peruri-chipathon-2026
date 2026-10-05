@@ -5,7 +5,7 @@
 // with the Montgomery reducer (RED_KIND = 3, rtl/arith/modmul_montgomery.sv; Montgomery-form twiddles from
 // rtl/arith/twiddle_rom_mont.sv and scaling constant 32 = 3303 * 2^12 mod q, selected inside ntt_core_c4.sv).
 // Memory cuts as C3-P6 (A_4, A_11, M); multiplier-path cuts X, S_1, S_2 (REG_AFTER bits 0, 1, 2;
-// docs/evidence/phase05-arith/test_plan.md section 14, A3). P = 6. Same port list as rtl/ntt/ntt_core_c3_p6.sv.
+// evidence/phase05/test_plan.md section 14, A3). P = 6. Same port list as rtl/ntt/ntt_core_c3_p6.sv.
 // No logic here.
 
 module ntt_core_c4b_m (

@@ -5,10 +5,10 @@
 // same butterfly, same twiddle ROM, same address arithmetic, byte-for-byte -- with the single
 // change under test: rtl/ntt/poly_mem.sv (one unbanked 256x12 array) replaced by
 // rtl/mem/poly_mem_banked.sv #(.NUM_BANKS(1)) (the same storage, reached through the conflict-
-// free bank-mapping ROM proved in docs/evidence/phase02-memory/). At NUM_BANKS=1 the mapping is
-// the identity (one bank, offset == address; docs/evidence/phase02-memory/bank_scheme_exploration_2026-09-29.txt),
+// free bank-mapping ROM proved in evidence/phase02/). At NUM_BANKS=1 the mapping is
+// the identity (one bank, offset == address; evidence/phase02/bank_scheme_exploration.txt),
 // so this module's behaviour and cycle count are required to be bit-for-bit and cycle-for-cycle
-// identical to C0's ntt_core (docs/evidence/phase02-memory/test_plan.md, "Regression:
+// identical to C0's ntt_core (evidence/phase02/test_plan.md, "Regression:
 // ntt_core_c1"): NTT 897 cycles, INTT 1153 cycles, both constant, both bit-exact against
 // tb/golden/primitives.py.
 //

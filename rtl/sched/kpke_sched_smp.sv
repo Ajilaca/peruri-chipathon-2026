@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/sched/kpke_sched_smp.sv
-// Phases 8c / 8d (docs/evidence/phase08-keccak-stream/8c/test_plan_8c.md, 8d/test_plan_8d.md): the Phase 6 operation-level sequencer (rtl/sched/kpke_sched.sv, unchanged) plus the 8b sampler.
+// Phases 8c / 8d (evidence/phase08/8c/test_plan_8c.md, 8d/test_plan_8d.md): the Phase 6 operation-level sequencer (rtl/sched/kpke_sched.sv, unchanged) plus the 8b sampler.
 // Operations as in Phase 6, and (opcode 4 bits; programs from rtl/sched/kpke_smp_prog_rom.sv, generated from tb/golden/kpke_smp_model.py):
 //   SMPN d ctr   slot d <- CBD2 sample of PRF(seed, ctr): the sampler starts with the 33-byte message sd || ctr and its beats (two coefficients = one store pair) are written into slot d
 //   SMPA d m     slot d <- SampleNTT(rho || j || i), m = 3i + j (j = m mod 3, i = m div 3); same path, 34-byte message (STORE variant)

@@ -54,7 +54,7 @@ from params import CT_BYTES, DK_BYTES, EK_BYTES, SS_BYTES  # noqa: E402
 N = 2000
 SEED = 20260928  # fixed: this script is reproducible, not re-randomized per run
 
-EVIDENCE_DIR = pathlib.Path(__file__).resolve().parents[2] / "docs" / "evidence" / "golden"
+EVIDENCE_DIR = pathlib.Path(__file__).resolve().parents[2] / "evidence" / "phase00"
 
 
 def _kyberpy_version() -> str:

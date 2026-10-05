@@ -1,8 +1,8 @@
 """tb/golden/mlkem_ctl_model.py
 
-Golden model of the Phase 9c controller micro-programs (docs/evidence/phase09-integration/9c/test_plan_9c.md): the schedules of ML-KEM.KeyGen_internal, Encaps_internal and Decaps_internal (FIPS 203 Algorithms 16-18) as straight-line
+Golden model of the Phase 9c controller micro-programs (evidence/phase09/9c/test_plan_9c.md): the schedules of ML-KEM.KeyGen_internal, Encaps_internal and Decaps_internal (FIPS 203 Algorithms 16-18) as straight-line
 lists of micro-operations on byte buffers, registers and the K-PKE engine slots, run with the unmodified golden primitives (`primitives`), the codec model of 9a (`codec_model`), the comparison model of 9b (`fo_model`) and the K-PKE program model of 8d (`kpke_smp_model`, OVERLAP).
-The same program lists are turned into the RTL ROM by scripts/gen_mlkem_ctl_rom.py. Independent of any RTL.
+The same program lists are turned into the RTL ROM by scripts/build/gen_mlkem_ctl_rom.py. Independent of any RTL.
 
 Memories (64-bit words, byte k of word w is byte 8w + k): KB 300 words (the layout of dk: dk_pke word 0, ek word 144, rho of ek word 288, H(ek) word 292, z word 296), CB 136 words (ciphertext), CB2 136 words (re-encrypted ciphertext),
 RF 32 words = registers 0 d, 1 z, 2 m, 3 rho, 4 sigma / r, 5 K, 6 K_bar, 7 H(ek) of 4 words each. Engine slots: 12 hardware slots (hardware slot = Phase 6 logical slot - 9).

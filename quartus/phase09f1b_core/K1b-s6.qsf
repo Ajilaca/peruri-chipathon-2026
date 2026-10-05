@@ -1,4 +1,4 @@
-# quartus/phase09f1b_core/K1b-s6.qsf -- Phase 9F step S1b (docs/evidence/phase09m-optimisation/9f1b/test_plan_9f1b.md V9): mlkem_core3 (K1 plus the background hash sidecar, mlkem_ctl_rom2) with SMP_C5 = 0, HASH_C5 = 0, CODEC_W2 = 1, kernel-only compile (virtual pins), 40.000 ns (C.sdc), Quartus defaults, seed 6.
+# quartus/phase09f1b_core/K1b-s6.qsf -- Phase 9F step S1b (evidence/phase9m/batch1/9f1b/test_plan_9f1b.md V9): mlkem_core3 (K1 plus the background hash sidecar, mlkem_ctl_rom2) with SMP_C5 = 0, HASH_C5 = 0, CODEC_W2 = 1, kernel-only compile (virtual pins), 40.000 ns (C.sdc), Quartus defaults, seed 6.
 set_global_assignment -name FAMILY "Cyclone V"
 set_global_assignment -name DEVICE 5CSEBA6U23I7
 set_global_assignment -name TOP_LEVEL_ENTITY mlkem_core3

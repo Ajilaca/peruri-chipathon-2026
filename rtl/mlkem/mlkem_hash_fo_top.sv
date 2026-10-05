@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/mlkem/mlkem_hash_fo_top.sv
-// Phase 9b: Quartus and test top: the hash wrapper (h_*) and the FO comparison (f_*) side by side, no logic between them (docs/evidence/phase09-integration/9b/test_plan_9b.md V9).
+// Phase 9b: Quartus and test top: the hash wrapper (h_*) and the FO comparison (f_*) side by side, no logic between them (evidence/phase09/9b/test_plan_9b.md V9).
 
 module mlkem_hash_fo_top #(
     parameter bit CORE_R2 = 1'b1,

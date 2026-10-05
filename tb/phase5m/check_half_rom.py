@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """tb/phase5m/check_half_rom.py — Phase 5M S6, test plan V4: rtl/arith/twiddle_rom_half.sv
-  (1) is reproduced byte for byte by scripts/gen_twiddle_rom_half.py;
+  (1) is reproduced byte for byte by scripts/build/gen_twiddle_rom_half.py;
   (2) NTT half (entries 0..127) equals ROM_ZETA of the frozen rtl/ntt/twiddle_rom.sv;
   (3) INTT half (entries 128..255) equals zeta * 1665 mod q for every entry, with 2 * 1665 = 1 (mod q), computed here from the golden
       model independently of the generator's tables.
@@ -10,7 +10,7 @@ import re
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(ROOT / "scripts"))
+sys.path.insert(0, str(ROOT / "scripts" / "build"))
 sys.path.insert(0, str(ROOT / "tb" / "golden"))
 import gen_twiddle_rom_half as gen  # noqa: E402
 from params import Q  # noqa: E402

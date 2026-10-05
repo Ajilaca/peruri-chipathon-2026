@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/mlkem/mlkem_stpoly2.sv
-// Phase 9M item 1 (docs/evidence/phase09m-optimisation/9m1/test_plan_9m1.md): rtl/mlkem/mlkem_stpoly.sv on the two-byte path (mlkem_pack2, mlkem_bytedst2); same ports and behaviour, one coefficient per cycle for every d.
+// Phase 9M item 1 (evidence/phase9m/batch1/9m1/test_plan_9m1.md): rtl/mlkem/mlkem_stpoly.sv on the two-byte path (mlkem_pack2, mlkem_bytedst2); same ports and behaviour, one coefficient per cycle for every d.
 // Stores one polynomial of an engine slot: the 256 coefficients of slot slot_i are read through the host port of the engine (tb_slot_o, tb_addr_o = coefficient index; tb_rdata_i valid one cycle after the address), buffered in a
 // four-entry FIFO (credit control: at most three coefficients in flight or held), compressed and encoded (d chosen by dsel_i: 0 -> 1, 1 -> 4, 2 -> 10, 3 -> 12), gathered into 64-bit words and written (wr_en_o, wr_addr_o = woff +
 // word index, wr_data_o) into a region. done_o is one pulse after the last beat. start_i is accepted only when idle. No control depends on the data. Reset: asynchronous, active low, on the control state.

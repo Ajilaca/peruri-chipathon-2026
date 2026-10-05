@@ -3,7 +3,7 @@ golden model tb/mem/bank_model.py, exhaustive over all 256 addresses, for every 
 {1, 2, 4, 8}. One cocotb test module per NUM_BANKS value (cocotb build-time parameters are set
 per simulation run, not per test, so tb/mem/run_mem_tests.py builds this module four times).
 
-Corner cases and exhaustive coverage per docs/evidence/phase02-memory/test_plan.md
+Corner cases and exhaustive coverage per evidence/phase02/test_plan.md
 ("Unit: bank_map_rom").
 """
 

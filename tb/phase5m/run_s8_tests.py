@@ -1,4 +1,4 @@
-"""tb/phase5m/run_s8_tests.py -- Phase 5M step S8 verification (docs/evidence/phase05m-memsched/test_plan_s8.md V2-V4, V6) against one simulator.
+"""tb/phase5m/run_s8_tests.py -- Phase 5M step S8 verification (evidence/phase05m/test_plan_s8.md V2-V4, V6) against one simulator.
 
 Builds:
   mem4   rtl/mem/poly_mem_multiport_split.sv at the S8 write delay: RD_SPLIT = 1, ARB_REG = bits 4, 11, 16, WR_DELAY = 4: test_poly_mem_split (V6)

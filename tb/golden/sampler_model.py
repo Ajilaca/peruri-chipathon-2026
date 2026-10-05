@@ -1,6 +1,6 @@
 """tb/golden/sampler_model.py
 
-Golden model of the Phase 8b streaming samplers (docs/evidence/phase08-keccak-stream/8b/test_plan_8b.md), independent of any RTL.
+Golden model of the Phase 8b streaming samplers (evidence/phase08/8b/test_plan_8b.md), independent of any RTL.
 The coefficients and the byte counts come from the same algorithms as FIPS 203 Algorithm 7 (SampleNTT) and Algorithm 8 (SamplePolyCBD_eta, eta = 2 here: ETA1 = ETA2 = 2 for ML-KEM-768), but written
 to work on an arbitrary byte stream and to report how many stream bytes were consumed; they are checked against the unmodified golden `primitives.sample_ntt` and `primitives.sample_poly_cbd`
 in tb/golden/tests/test_sampler_model.py.

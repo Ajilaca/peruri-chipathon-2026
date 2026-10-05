@@ -1,4 +1,4 @@
-# quartus/phase09f0_core/F10-s2.qsf -- Phase 9F step S0 (docs/evidence/phase09m-optimisation/9f0/test_plan_9f0.md): the 9M-1 core (CODEC_W2 = 1, C5 hash), kernel-only compile (virtual pins), 10.000 ns (C-10.sdc), seed 1, Quartus defaults.
+# quartus/phase09f0_core/F10-s2.qsf -- Phase 9F step S0 (evidence/phase9m/batch1/9f0/test_plan_9f0.md): the 9M-1 core (CODEC_W2 = 1, C5 hash), kernel-only compile (virtual pins), 10.000 ns (C-10.sdc), seed 1, Quartus defaults.
 set_global_assignment -name FAMILY "Cyclone V"
 set_global_assignment -name DEVICE 5CSEBA6U23I7
 set_global_assignment -name TOP_LEVEL_ENTITY mlkem_core

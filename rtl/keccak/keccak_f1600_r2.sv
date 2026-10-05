@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/keccak/keccak_f1600_r2.sv
-// Phase 8a (docs/evidence/phase08-keccak-stream/8a/test_plan_8a.md V4): iterative Keccak-f[1600], configuration C5: TWO rounds per cycle (two keccak_round instances in series, round constants
+// Phase 8a (evidence/phase08/8a/test_plan_8a.md V4): iterative Keccak-f[1600], configuration C5: TWO rounds per cycle (two keccak_round instances in series, round constants
 // RC[2k] and RC[2k+1] for the cycle counter k = 0..11), exactly 12 cycles per permutation (busy_o high for exactly 12 cycles after a run_i, whatever the state; no early exit, no data-dependent
 // condition). done_o is a one-cycle pulse in the cycle after the last cycle is written, when the state already holds the result. Same ports and control as keccak_f1600 (K0).
 //   run_i      start a permutation (ignored while busy)

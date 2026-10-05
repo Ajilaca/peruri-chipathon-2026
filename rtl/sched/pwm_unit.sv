@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/sched/pwm_unit.sv
-// Phase 6 (docs/evidence/phase06-scheduling/test_plan.md): BaseCaseMultiply (FIPS 203 Algorithm 12) plus accumulation, one coefficient pair per cycle:
+// Phase 6 (evidence/phase06/test_plan.md): BaseCaseMultiply (FIPS 203 Algorithm 12) plus accumulation, one coefficient pair per cycle:
 //   c0 = acc0 + a0*b0 + a1*(b1*gamma)    c1 = acc1 + a0*b1 + a1*b0          (all mod q, inputs in [0, q))
 // The term a1*b1*gamma is computed as a1*(b1*gamma mod q), which is the same value mod q. Five Barrett multipliers (rtl/arith/modmul_barrett.sv,
 // cuts after stages 0, 1, 2: latency ML = 3 each). Outputs for the inputs of cycle t appear at t + LAT, LAT = 2*ML + 1 = 7. Fixed latency, no control,

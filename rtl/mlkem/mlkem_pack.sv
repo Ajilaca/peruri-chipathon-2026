@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/mlkem/mlkem_pack.sv
-// Phase 9a (docs/evidence/phase09-integration/9a/test_plan_9a.md): coefficients -> Compress_d -> ByteEncode_d (FIPS 203 Algorithm 5, Section 4.2.1).
+// Phase 9a (evidence/phase09/9a/test_plan_9a.md): coefficients -> Compress_d -> ByteEncode_d (FIPS 203 Algorithm 5, Section 4.2.1).
 // One run takes exactly 256 coefficients (12 bit, value in [0, q-1]; a larger value is outside the input domain) and gives exactly 32 d bytes, d chosen by dsel_i at start_i: 0 -> 1, 1 -> 4, 2 -> 10, 3 -> 12 (d = 12: no compression).
 // Compress_d without division: ((x << d) + 1664) * M >> S, low d bits, (M, S) = (315, 20) for d = 1 and 4, (161271, 29) for d = 10; constants proved on all 3,329 inputs against the golden (tb/golden/tests/test_codec_model.py).
 // Pipeline of three register stages with one global enable (a stall holds all stages); the packer inserts d bits LSB first into a 24-bit buffer and puts out one byte per cycle. All counters and stalls depend on d and on the handshakes only, never on data.

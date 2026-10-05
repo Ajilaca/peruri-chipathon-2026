@@ -1,10 +1,10 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/ntt/ntt_core_s8.sv
-// Phase 5M step S8 (docs/evidence/phase05m-memsched/test_plan_s8.md, ADR 0017/0019/0020): rtl/ntt/ntt_core_s7.sv (S7: M6 plus the split memory read)
+// Phase 5M step S8 (evidence/phase05m/test_plan_s8.md, ADR 0017/0019/0020): rtl/ntt/ntt_core_s7.sv (S7: M6 plus the split memory read)
 // with one register stage in the WRITE path: the butterfly outputs (both write data of all 8 lanes, 192 bits) are registered before the memory
 // write data, and the memory's write control is delayed by the same cycle (WR_DELAY = WrDly + WR_REG). Pipe = RdLat + WrDly + WR_REG = 8.
-// At Pipe = 8 the fixed address schedule needs ONE bubble cycle at exactly one layer boundary per direction (scripts/phase5_stall_cycles.py, INFERENCE;
+// At Pipe = 8 the fixed address schedule needs ONE bubble cycle at exactly one layer boundary per direction (scripts/test/phase5_stall_cycles.py, INFERENCE;
 // confirmed by the hazard scoreboard in simulation): NTT after layer 3, INTT after layer 2. The bubble is a state (S_STALL) with all requests off;
 // where it sits depends only on mode and layer, never on data, so the cycle count stays constant: 113 + Pipe + 1 = 122 (ESTIMATE until simulated).
 // Everything else (schedule, address arithmetic, zeta index, layer order, drain, host interface, reset) is the S7 text.

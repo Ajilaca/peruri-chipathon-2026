@@ -2,7 +2,7 @@
 `timescale 1ns/1ps
 // rtl/ntt/ntt_core_c3_p4.sv
 // Thin Quartus top-level wrapper: rtl/ntt/ntt_core_c3.sv at NUM_LANES = 8 with the register positions
-// fixed for P = 4 in docs/evidence/phase04-pipeline/test_plan.md section 2 (cuts A_7, M, X, D_7).
+// fixed for P = 4 in evidence/phase04/test_plan.md section 2 (cuts A_7, M, X, D_7).
 // Same port list as rtl/ntt/ntt_core_c2_k2_k1_l8.sv (the P = 0 reference), so all Phase 4 revisions are
 // compiled with identical constraints and virtual pins. No logic here.
 

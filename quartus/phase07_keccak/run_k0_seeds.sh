@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# quartus/phase07_keccak/run_k0_seeds.sh -- baseline for the 8a rule (docs/evidence/phase08-keccak-stream/8a/test_plan_8a.md V10): K0 seeds 2-6 at 40 ns, one at a time (seed 1 = revision K0).
+# quartus/phase07_keccak/run_k0_seeds.sh -- baseline for the 8a rule (evidence/phase08/8a/test_plan_8a.md V10): K0 seeds 2-6 at 40 ns, one at a time (seed 1 = revision K0).
 # Log per revision: compile_<rev>.log; progress: k0_seeds_status.log.
 set -u
 cd "$(dirname "${BASH_SOURCE[0]}")"

@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/mlkem/mlkem_unpack2.sv
-// Phase 9M item 1 (docs/evidence/phase09m-optimisation/9m1/test_plan_9m1.md): rtl/mlkem/mlkem_unpack.sv with an input of two bytes per beat. ByteDecode_d -> Decompress_d -> coefficients (FIPS 203 Algorithm 6), same arithmetic
+// Phase 9M item 1 (evidence/phase9m/batch1/9m1/test_plan_9m1.md): rtl/mlkem/mlkem_unpack.sv with an input of two bytes per beat. ByteDecode_d -> Decompress_d -> coefficients (FIPS 203 Algorithm 6), same arithmetic
 // as the Phase 9a unpacker (Decompress_d(y) = (3329 y + 2^(d-1)) >> d as shifted terms; d = 12: one subtraction of q when the value is >= q).
 // One run takes exactly 16 d beats (byte 2i of the polynomial in beat_data_i[7:0], byte 2i + 1 in [15:8]) and gives exactly 256 coefficients, d chosen by dsel_i at start_i: 0 -> 1, 1 -> 4, 2 -> 10, 3 -> 12.
 // A beat is taken into the 32-bit buffer when at most 16 bits remain after this cycle's coefficient, so with an always-ready sink one coefficient leaves every cycle for every d. Counters and stalls depend on d and on the handshakes only.

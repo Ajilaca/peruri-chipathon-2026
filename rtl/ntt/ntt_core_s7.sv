@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/ntt/ntt_core_s7.sv
-// Phase 5M step S7 (docs/evidence/phase05m-memsched/test_plan_s7.md, ADR 0017/0019/0020): rtl/ntt/ntt_core_m6.sv (M6: Barrett, INTT without the
+// Phase 5M step S7 (evidence/phase05m/test_plan_s7.md, ADR 0017/0019/0020): rtl/ntt/ntt_core_m6.sv (M6: Barrett, INTT without the
 // scaling pass) with the memory read split by one register stage (rtl/mem/poly_mem_multiport_split.sv, RD_SPLIT) in place of
 // rtl/mem/poly_mem_multiport_pipe.sv. Schedule, address arithmetic, zeta index, layer order, drain, host interface and reset are the M6 text;
 // RdLat counts RD_SPLIT, so Pipe = RdLat + WrDly = 7 with the register positions of M6 and the cycle counts become 113 + Pipe = 120 (NTT and INTT).

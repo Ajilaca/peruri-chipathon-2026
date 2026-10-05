@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/sched/kpke_sched.sv
-// Phase 6 (docs/evidence/phase06-scheduling/test_plan.md, ADR 0024): operation-level sequencer of the K-PKE arithmetic. It runs one of the fixed
+// Phase 6 (evidence/phase06/test_plan.md, ADR 0024): operation-level sequencer of the K-PKE arithmetic. It runs one of the fixed
 // programs of rtl/sched/kpke_prog_rom.sv (generated from tb/golden/kpke_sched_model.py) on the slots of rtl/sched/poly_store.sv:
 //
 //   NTT / INTT s   LOAD   256 + 1 cycles: slot s -> NTT core through its host port (one coefficient per cycle)

@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/sample/sample_ntt_core.sv
-// Phase 8b (docs/evidence/phase08-keccak-stream/8b/test_plan_8b.md section 1): SampleNTT (FIPS 203 Algorithm 7) straight from a 64-bit word stream. OUTW = 1 (stage W1): one coefficient per cycle;
+// Phase 8b (evidence/phase08/8b/test_plan_8b.md section 1): SampleNTT (FIPS 203 Algorithm 7) straight from a 64-bit word stream. OUTW = 1 (stage W1): one coefficient per cycle;
 // OUTW = 2 (stage W2): two coefficients per cycle (a beat always holds OUTW consecutive coefficients, lane 0 = lower index).
 // Stream bytes: byte k of a word is bits [8k+7:8k] (the byte order of the sponge lanes). A byte window of at most 11 bytes sits between the stream and the triple register; nothing else stores stream data.
 // W1: a triple holds the triple register for max(1, accepted) cycles. W2: one triple per cycle; the accepted candidates and one carried coefficient form a pool of 0..3, a beat is emitted whenever the pool reaches 2, the remainder (at most 1) is carried.

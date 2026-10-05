@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/ntt/ntt_core_c3.sv
-// Phase 4 (docs/ROADMAP.md Phase 4, ADR 0006, ADR 0007, docs/evidence/phase04-pipeline/test_plan.md):
+// Phase 4 (docs/ROADMAP.md Phase 4, ADR 0006, ADR 0007, evidence/phase04/test_plan.md):
 // configuration C3 = the schedule and FSM of rtl/ntt/ntt_core_c2_k2_k1.sv (multi-lane NTT/INTT, shared
 // multiplier per butterfly; that file stays frozen and is the P = 0 reference) with pipeline registers
 // between the cycle a butterfly's addresses are issued and the cycle its results are written.
@@ -18,7 +18,7 @@
 // the closed-form zeta index, the order of the layers, one address per cycle for the INTT x3303 scaling
 // pass, the results (bit-exact, checked against tb/golden/primitives.py). No stall is inserted at layer
 // boundaries: the schedule leaves more cycles between the write of an address and its next read than
-// WrDly for the depths used (docs/evidence/phase04-pipeline/layer_boundary_slack_2026-09-30.txt); the
+// WrDly for the depths used (evidence/phase04/layer_boundary_slack.txt); the
 // testbench scoreboard checks that on the RTL.
 //
 // What differs at the interface (all of it a consequence of the pipeline):

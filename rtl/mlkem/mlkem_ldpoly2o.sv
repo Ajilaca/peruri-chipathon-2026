@@ -1,9 +1,9 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/mlkem/mlkem_ldpoly2o.sv
-// Phase 9I item 4 (docs/evidence/phase09m-optimisation/9i4/test_plan_9i4.md): rtl/mlkem/mlkem_ldpoly2.sv with one more input tb_wready_i: the coefficient is written (tb_we_o) and taken from the unpacker only in a cycle with tb_wready_i = 1, so that the engine can grant the host port to a loader while it runs. With tb_wready_i tied to 1 it is mlkem_ldpoly2.
+// Phase 9I item 4 (evidence/phase9m/batch2/9i4/test_plan_9i4.md): rtl/mlkem/mlkem_ldpoly2.sv with one more input tb_wready_i: the coefficient is written (tb_we_o) and taken from the unpacker only in a cycle with tb_wready_i = 1, so that the engine can grant the host port to a loader while it runs. With tb_wready_i tied to 1 it is mlkem_ldpoly2.
 // original header follows:
-// Phase 9M item 1 (docs/evidence/phase09m-optimisation/9m1/test_plan_9m1.md): rtl/mlkem/mlkem_ldpoly.sv on the two-byte path (mlkem_wordbytes2, mlkem_unpack2); same ports and behaviour, one coefficient per cycle for every d.
+// Phase 9M item 1 (evidence/phase9m/batch1/9m1/test_plan_9m1.md): rtl/mlkem/mlkem_ldpoly.sv on the two-byte path (mlkem_wordbytes2, mlkem_unpack2); same ports and behaviour, one coefficient per cycle for every d.
 // Loads one polynomial into an engine slot: the 4 d words starting at word woff_i of a region are read through the word read port (rd_req_o, rd_addr_o = woff + index; rd_data_i valid the cycle after rd_req_o), decoded and
 // decompressed (d chosen by dsel_i: 0 -> 1, 1 -> 4, 2 -> 10, 3 -> 12) and written, one coefficient per cycle, into slot slot_i of the engine through its host port (tb_we_o, tb_slot_o, tb_addr_o = coefficient index, tb_wdata_o).
 // done_o is one pulse after the last coefficient was written. start_i is accepted only when idle. No control depends on the data. Reset: asynchronous, active low, on the control state.

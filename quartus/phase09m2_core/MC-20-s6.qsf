@@ -1,4 +1,4 @@
-# quartus/phase09m2_core/MC-20-s6.qsf -- Phase 9M item 2 (docs/evidence/phase09m-optimisation/9m2/test_plan_9m2.md): mlkem_core (KeyGen, Encaps, Decaps; the K-PKE engine of 8d, the codec, the hash wrapper with the C5 sponge and the comparison), kernel-only compile (virtual pins, as Phases 1-9b), 20.000 ns (C-20.sdc), Quartus defaults, seed 6.
+# quartus/phase09m2_core/MC-20-s6.qsf -- Phase 9M item 2 (evidence/phase9m/batch1/9m2/test_plan_9m2.md): mlkem_core (KeyGen, Encaps, Decaps; the K-PKE engine of 8d, the codec, the hash wrapper with the C5 sponge and the comparison), kernel-only compile (virtual pins, as Phases 1-9b), 20.000 ns (C-20.sdc), Quartus defaults, seed 6.
 set_global_assignment -name FAMILY "Cyclone V"
 set_global_assignment -name DEVICE 5CSEBA6U23I7
 set_global_assignment -name TOP_LEVEL_ENTITY mlkem_core

@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/arith/modmul_fold.sv
-// Phase 5a (docs/evidence/phase05-arith/test_plan.md section 3, reading (ii) of ADR 0011 D4):
+// Phase 5a (evidence/phase05/test_plan.md section 3, reading (ii) of ADR 0011 D4):
 // (a_i * b_i) mod Q with a q-specific fold reduction, built from shifts and adds only.
 //
 // q = 3329 = 2^11 + 2^10 + 2^8 + 1, hence 2^12 = q + 767, i.e. 2^12 = 767 (mod q), with

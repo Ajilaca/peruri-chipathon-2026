@@ -22,7 +22,7 @@ set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/ntt/ntt_core_m6_p6.sv
 
 
 # Kernel-only, virtual pins: same assignments as quartus/phase05_arith_c4/C4b-B.qsf; this QSF differs from
-# it only in top entity, output folder and RTL file list (docs/evidence/phase05m-memsched/test_plan.md, V10).
+# it only in top entity, output folder and RTL file list (evidence/phase05m/test_plan.md, V10).
 set_instance_assignment -name VIRTUAL_PIN ON -to clk_i
 set_instance_assignment -name VIRTUAL_PIN ON -to rst_ni
 set_instance_assignment -name VIRTUAL_PIN ON -to mode_i

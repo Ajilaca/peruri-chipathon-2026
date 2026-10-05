@@ -5,7 +5,7 @@ Checks, without trusting the generator:
   1. every entry of rtl/arith/twiddle_rom_mont.sv satisfies  ROM_M[i] * R^-1 = ROM[i] (mod q), R = 2^12, against the
      frozen rtl/ntt/twiddle_rom.sv (zeta and gamma tables), and ROM[i] against tb/golden/primitives.py;
   2. every entry is in [0, q);
-  3. re-running scripts/gen_twiddle_rom_mont.py's renderer reproduces the committed file byte for byte;
+  3. re-running scripts/build/gen_twiddle_rom_mont.py's renderer reproduces the committed file byte for byte;
   4. negative control: a copy of the Montgomery ROM with one entry changed must fail check 1.
 Usage: python3 tb/arith/check_mont_rom.py      exit code 0 only if 1-3 hold and 4 fails as required.
 """
@@ -49,7 +49,7 @@ def main() -> int:
     text = path.read_text()
     errs = check(text)
     print(f"check 1+2 (Montgomery relation and range, 256 entries): {'PASS' if not errs else 'FAIL ' + str(errs[:3])}")
-    spec = importlib.util.spec_from_file_location("gen", ROOT / "scripts" / "gen_twiddle_rom_mont.py")
+    spec = importlib.util.spec_from_file_location("gen", ROOT / "scripts" / "build" / "gen_twiddle_rom_mont.py")
     gen = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(gen)
     regen_ok = gen.render() == text

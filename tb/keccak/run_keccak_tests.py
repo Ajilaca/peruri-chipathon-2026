@@ -1,4 +1,4 @@
-"""tb/keccak/run_keccak_tests.py -- Phase 7 verification (docs/evidence/phase07-keccak/test_plan.md V4-V7) against one simulator.
+"""tb/keccak/run_keccak_tests.py -- Phase 7 verification (evidence/phase07/test_plan.md V4-V7) against one simulator.
 
 Builds:
   perm    rtl/keccak/keccak_f1600.sv: tb/keccak/test_keccak_f1600.py (V4)
@@ -6,7 +6,7 @@ Builds:
   ncrc    perm with one bit of one round constant wrong (test-only copy of keccak_pkg.sv): the permutation test must FAIL (V7 NC-RC)
   ncr     perm with 23 rounds (test-only copy of keccak_f1600.sv): the permutation test must FAIL (V7 NC-R, also the latency check)
   ncpad   sponge with the SHA3 domain byte 0x1F instead of 0x06 (test-only copy of keccak_sponge.sv): the bit-exact test must FAIL (V7 NC-PAD)
-Environment: KK_RPC = rounds per cycle: 1 (default) builds K0 (keccak_f1600, keccak_sponge); 2 builds Phase 8a C5 (keccak_f1600_r2, keccak_sponge_r2; docs/evidence/phase08-keccak-stream/8a/test_plan_8a.md).
+Environment: KK_RPC = rounds per cycle: 1 (default) builds K0 (keccak_f1600, keccak_sponge); 2 builds Phase 8a C5 (keccak_f1600_r2, keccak_sponge_r2; evidence/phase08/8a/test_plan_8a.md).
 Usage: python3 tb/keccak/run_keccak_tests.py icarus|verilator [perm sponge ncrc ncr ncpad]
 """
 import json

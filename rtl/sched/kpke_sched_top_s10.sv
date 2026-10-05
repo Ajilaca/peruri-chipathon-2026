@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/sched/kpke_sched_top_s10.sv
-// S10 test V6 (docs/evidence/phase06-scheduling/test_plan_s10.md): rtl/sched/kpke_sched_top.sv with the S10 core (rtl/ntt/ntt_core_s10_p5.sv, host read latency 2)
+// S10 test V6 (evidence/phase06/test_plan_s10.md): rtl/sched/kpke_sched_top.sv with the S10 core (rtl/ntt/ntt_core_s10_p5.sv, host read latency 2)
 // instead of S7. Same port list; the sequencer is unchanged (CORE_RDLAT = 2). No logic here.
 
 module kpke_sched_top_s10 (

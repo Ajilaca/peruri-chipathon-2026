@@ -1,7 +1,7 @@
 # tb/golden/params.py
 # Locked ML-KEM-768 parameters (FIPS 203, Section 8, Table 2 and Table 3).
-# Source and cross-check: docs/evidence/golden/fips203_errata_2026-09-28.md,
-# docs/decisions/0003-fips-203-errata-findings-and-golden-model-handling.md.
+# Source and cross-check: evidence/phase00/fips203_errata.md,
+# docs/decisions/adr/ADR-0003-fips-203-errata-findings-and-golden-model-handling.md.
 # This file defines ML-KEM-768 ONLY (see mlkem-guard SKILL.md); do not add 512/1024.
 # Names are exactly the ones checked by
 # .claude/skills/mlkem-guard/scripts/check_params.py.

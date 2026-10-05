@@ -1,4 +1,4 @@
-# quartus/phase06_sched/S10*.qsf -- S10 (docs/evidence/phase06-scheduling/test_plan_s10.md V7): rtl/ntt/ntt_core_s10_p5.sv (16-bank 1R1W memory, P = 5), kernel-only, Quartus defaults.
+# quartus/phase06_sched/S10*.qsf -- S10 (evidence/phase06/test_plan_s10.md V7): rtl/ntt/ntt_core_s10_p5.sv (16-bank 1R1W memory, P = 5), kernel-only, Quartus defaults.
 set_global_assignment -name FAMILY "Cyclone V"
 set_global_assignment -name DEVICE 5CSEBA6U23I7
 set_global_assignment -name TOP_LEVEL_ENTITY ntt_core_s10_p5

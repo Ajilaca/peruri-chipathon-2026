@@ -3,7 +3,7 @@ rtl/ntt/base_case_multiply.sv against tb/golden/primitives.py:base_case_multiply
 (FIPS 203 Algorithm 12).
 
 Corner cases and random coverage per
-docs/evidence/phase01-ntt-baseline/test_plan.md ("Unit: base_case_multiply").
+evidence/phase01/test_plan.md ("Unit: base_case_multiply").
 """
 
 import random

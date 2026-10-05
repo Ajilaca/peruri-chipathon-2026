@@ -1,4 +1,4 @@
-"""tb/arith/run_c4_unit_tests.py — Phase 5 cocotb unit tests (docs/evidence/phase05-arith/test_plan.md V3, V4)
+"""tb/arith/run_c4_unit_tests.py — Phase 5 cocotb unit tests (evidence/phase05/test_plan.md V3, V4)
 against one simulator: the reducer behind rtl/arith/modmul_sel.sv and the C4 butterfly, for every register
 configuration used.
 

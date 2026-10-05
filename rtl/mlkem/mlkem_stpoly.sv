@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/mlkem/mlkem_stpoly.sv
-// Phase 9c (docs/evidence/phase09-integration/9c/test_plan_9c.md): stores one polynomial of an engine slot. The 256 coefficients of slot slot_i are read through the host port of the engine (tb_slot_o, tb_addr_o = coefficient index; tb_rdata_i valid the cycle
+// Phase 9c (evidence/phase09/9c/test_plan_9c.md): stores one polynomial of an engine slot. The 256 coefficients of slot slot_i are read through the host port of the engine (tb_slot_o, tb_addr_o = coefficient index; tb_rdata_i valid the cycle
 // after the address), buffered in a four-entry FIFO (credit control: at most three coefficients are in flight or held), compressed and encoded (mlkem_pack, d chosen by dsel_i: 0 -> 1, 1 -> 4, 2 -> 10, 3 -> 12), gathered into 64-bit words (mlkem_bytedst) and written
 // (wr_en_o, wr_addr_o = woff + word index, wr_data_o) into a region. done_o is one pulse after the last byte. start_i is accepted only when idle. No control depends on the data. Reset: asynchronous, active low, on the control state.
 

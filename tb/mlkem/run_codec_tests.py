@@ -1,4 +1,4 @@
-"""tb/mlkem/run_codec_tests.py -- Phase 9a verification (docs/evidence/phase09-integration/9a/test_plan_9a.md V3-V8, V11) against one simulator.
+"""tb/mlkem/run_codec_tests.py -- Phase 9a verification (evidence/phase09/9a/test_plan_9a.md V3-V8, V11) against one simulator.
 
 Builds rtl/mlkem/mlkem_codec_top.sv (packer and unpacker) and runs:
   pack    tb/mlkem/test_mlkem_pack.py   (V3, V5, V6, V7, V11)

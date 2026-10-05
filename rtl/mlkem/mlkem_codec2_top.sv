@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/mlkem/mlkem_codec2_top.sv
-// Phase 9M item 1: test top of the two-byte codec: mlkem_pack2 (p_*) and mlkem_unpack2 (u_*) side by side, no logic between them (docs/evidence/phase09m-optimisation/9m1/test_plan_9m1.md V2). A beat carries two bytes
+// Phase 9M item 1: test top of the two-byte codec: mlkem_pack2 (p_*) and mlkem_unpack2 (u_*) side by side, no logic between them (evidence/phase9m/batch1/9m1/test_plan_9m1.md V2). A beat carries two bytes
 // (byte 2i in bits 7:0); the port names keep the word "byte" so that the 9a testbench drives both tops.
 
 module mlkem_codec2_top (

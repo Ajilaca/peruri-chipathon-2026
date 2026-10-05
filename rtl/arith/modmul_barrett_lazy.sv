@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/arith/modmul_barrett_lazy.sv
-// Phase 5c (ADR 0014, docs/evidence/phase05-arith/test_plan.md amendment A4): rtl/arith/modmul_barrett.sv with a 13-bit
+// Phase 5c (ADR 0014, evidence/phase05/test_plan.md amendment A4): rtl/arith/modmul_barrett.sv with a 13-bit
 // second operand for the lazy INTT butterfly input u = b + q - a in [1, 2q). Same method, constant and stages:
 //
 //   x  = a_i * b_i                       (25 bits; a_i < q, b_i < 2q -> x <= (q-1)(2q-1) = 22,154,496)

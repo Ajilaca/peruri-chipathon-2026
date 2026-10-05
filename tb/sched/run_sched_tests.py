@@ -1,4 +1,4 @@
-"""tb/sched/run_sched_tests.py -- Phase 6 verification (docs/evidence/phase06-scheduling/test_plan.md V4-V6) against one simulator.
+"""tb/sched/run_sched_tests.py -- Phase 6 verification (evidence/phase06/test_plan.md V4-V6) against one simulator.
 
 Builds:
   pwm    rtl/sched/pwm_unit.sv: tb/sched/test_pwm_unit.py (V4)

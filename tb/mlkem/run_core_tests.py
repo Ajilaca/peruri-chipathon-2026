@@ -1,4 +1,4 @@
-"""tb/mlkem/run_core_tests.py -- Phase 9c verification (docs/evidence/phase09-integration/9c/test_plan_9c.md V3-V8) against one simulator.
+"""tb/mlkem/run_core_tests.py -- Phase 9c verification (evidence/phase09/9c/test_plan_9c.md V3-V8) against one simulator.
 
 Builds rtl/mlkem/mlkem_core.sv (with the K-PKE engine of 8d and the 9a / 9b blocks) and runs:
   core    tb/mlkem/test_mlkem_core.py (ACVP, random cross-check, chain, protocol, constant cycles, cycles)

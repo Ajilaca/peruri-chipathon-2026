@@ -1,4 +1,4 @@
-# quartus/phase08c_smp/SMP0-s4.qsf -- Phase 8c (docs/evidence/phase08-keccak-stream/8c/test_plan_8c.md V9): kpke_smp_top_s10, STORE: the matrix A is sampled into 24 slots (blocking SMPA), the Phase 6 PWM passes read it from the store.
+# quartus/phase08c_smp/SMP0-s4.qsf -- Phase 8c (evidence/phase08/8c/test_plan_8c.md V9): kpke_smp_top_s10, STORE: the matrix A is sampled into 24 slots (blocking SMPA), the Phase 6 PWM passes read it from the store.
 # S10 NTT/INTT core, 8b sampler on the C5 sponge; kernel-only compile (virtual pins, as Phases 1-8b), 40.000 ns (P.sdc), Quartus defaults, seed 4.
 set_global_assignment -name FAMILY "Cyclone V"
 set_global_assignment -name DEVICE 5CSEBA6U23I7

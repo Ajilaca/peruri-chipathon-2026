@@ -1,4 +1,4 @@
-# quartus/phase08c_smp/SMP1-s6.qsf -- Phase 8c (docs/evidence/phase08-keccak-stream/8c/test_plan_8c.md V9): kpke_smp_top_s10, STREAM: A_hat streamed from the sampler into the PWM unit (PWMS), 12 slots.
+# quartus/phase08c_smp/SMP1-s6.qsf -- Phase 8c (evidence/phase08/8c/test_plan_8c.md V9): kpke_smp_top_s10, STREAM: A_hat streamed from the sampler into the PWM unit (PWMS), 12 slots.
 # S10 NTT/INTT core, 8b sampler on the C5 sponge; kernel-only compile (virtual pins, as Phases 1-8b), 40.000 ns (P.sdc), Quartus defaults, seed 6.
 set_global_assignment -name FAMILY "Cyclone V"
 set_global_assignment -name DEVICE 5CSEBA6U23I7

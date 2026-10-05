@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/ntt/butterfly_shared_pipe.sv
-// Phase 4 (ADR 0007, docs/evidence/phase04-pipeline/test_plan.md): the equations of
+// Phase 4 (ADR 0007, evidence/phase04/test_plan.md): the equations of
 // rtl/ntt/butterfly_shared.sv (one multiplier shared by both modes), with the multiplier + reduction
 // replaced by rtl/ntt/modmul_reduce_staged.sv so that it can hold pipeline registers. The operand that
 // does not go through the multiplier is delayed by the same number of cycles, so the outputs for the

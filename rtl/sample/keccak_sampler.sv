@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/sample/keccak_sampler.sv
-// Phase 8b (docs/evidence/phase08-keccak-stream/8b/test_plan_8b.md section 1): Keccak sponge + streaming sampler, and the top of the Quartus revisions. OUTW = 1 (stage W1) or 2 (stage W2) coefficients per output beat.
+// Phase 8b (evidence/phase08/8b/test_plan_8b.md section 1): Keccak sponge + streaming sampler, and the top of the Quartus revisions. OUTW = 1 (stage W1) or 2 (stage W2) coefficients per output beat.
 // kind_i 0: SampleNTT on SHAKE128 (mode 2), the message is rho || j || i (34 bytes); kind_i 1: SamplePolyCBD_2 on SHAKE256 (mode 3), the message is sigma || N (33 bytes). Any len_i is allowed.
 // CORE_R2 = 1 uses keccak_sponge_r2 (C5, 14 cycles per permutation), 0 uses keccak_sponge (K0, 26). The message words pass through to the sponge; the sponge output words go straight to the selected core.
 // When the polynomial is complete (fin of the core) or on abort_i the wrapper issues stop_i: the sponge returns to idle and wipes its state. done_o pulses after the last coefficient is handed over.
