@@ -1,136 +1,591 @@
 %PDF-1.4
-%“Œ‹ž ReportLab Generated PDF document (opensource)
+%âãÏÓ
 1 0 obj
 <<
-/F1 2 0 R /F2 3 0 R /F3 5 0 R /F4 6 0 R /F5 8 0 R /F6 9 0 R
+/Producer (ReportLab PDF Library \055 \050opensource\051)
+/Author (Tim J5 \050ITB\051)
+/CreationDate (D\07220260929182732\05307\04700\047)
+/Creator (\050unspecified\051)
+/Keywords ()
+/ModDate (D\07220260929182732\05307\04700\047)
+/Subject (\050unspecified\051)
+/Title (CHIPATON \204 Laporan Fase 1 \050ID\051)
+/Trapped (\057False)
 >>
 endobj
 2 0 obj
 <<
-/BaseFont /Helvetica /Encoding /WinAnsiEncoding /Name /F1 /Subtype /Type1 /Type /Font
+/Type /Pages
+/Count 3
+/Kids [ 4 0 R 13 0 R 15 0 R ]
 >>
 endobj
 3 0 obj
 <<
-/BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding /Name /F2 /Subtype /Type1 /Type /Font
+/Type /Catalog
+/Pages 2 0 R
 >>
 endobj
 4 0 obj
 <<
-/Contents 14 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 13 0 R /Resources <<
-/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
->> /Rotate 0 /Trans <<
-
->> 
-  /Type /Page
+/Contents 5 0 R
+/MediaBox [ 0 0 595.2756 841.8898 ]
+/Resources <<
+/Font 6 0 R
+/ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Parent 2 0 R
 >>
 endobj
 5 0 obj
 <<
-/BaseFont /Courier /Encoding /WinAnsiEncoding /Name /F3 /Subtype /Type1 /Type /Font
+/Filter [ /ASCII85Decode /FlateDecode ]
+/Length 785
 >>
+stream
+GatU0gQ%aW&:N^lk)iU^a#<\a.G9V;D,fnV8#496:>u_M"E:4:I0UCjbB@#gWf_,>1\R>[jqn::5M"-G*+0i*jGj9$&9!*0`.`FB\$:(_fK%E%#n+X!"Q/rEa;>u)*^>Uq;&;H#K_m_1Ge]PK$VRc5$ETT/7Gp,tRELDEQXW'P_7mWj492;7LO6;_MgAH<82q,&<]PR!+L)aQ4;j,$IY%8%N;LYXbi97B7N<=o_MI_T_U5)ppcSZX7">A`)?N$9$$[&UU"^/]MF15J%<nP0^g;$SZA*@F&UacA^QeBmi_g]c1U&k@b*84]KWuV=4B^TqH@@O>7VtjK.L"E\)*s/DB3JiG;H4sRdT^rQU9%(3U!pdR'08<%O\bpAff_:(,TK#k'h#uM:037ZQ>MK,L+%&qn^gr^_1&Nj,+_,Z\S9d^M#B#SMANV\H+U]15.Ram\]I[)aegJ-O[3S7;dD]F;ZToS1HEsj4@j=4lCplmlmJemc5Y3L,_ha]:CjsXT0nI]S^)Y)[,-*fKu4D4c,[B=Mt6Ue-1npfT5aGJrU&r`$GI&mo/<fOm+jH+h2NTk\Sa7V:cAZ:F&)LSDTj7i7h6'VntRIH(tppK2J>Q6\i0HMj[[\)$X<*EF0S*Qc>fui/9G'/=Xen[/eqp1f1=iQj==BM?EU(>9q[f[35A!pEnj?M.OaDPk]F'C4"]%6Um..dl>HRRb0*>I?9oNr^Jl]U>#*cOARf#tW;>bp9p3n*9\Z%AC/A)b84=kKJE=8MM',i./VGHVdBi[Wr;lB_C[(~>
+endstream
 endobj
 6 0 obj
 <<
-/BaseFont /Symbol /Name /F4 /Subtype /Type1 /Type /Font
+/F1 7 0 R
+/F2 8 0 R
+/F3 9 0 R
+/F4 10 0 R
+/F5 11 0 R
+/F6 12 0 R
 >>
 endobj
 7 0 obj
 <<
-/Contents 15 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 13 0 R /Resources <<
-/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
->> /Rotate 0 /Trans <<
-
->> 
-  /Type /Page
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
 >>
 endobj
 8 0 obj
 <<
-/BaseFont /Times-Roman /Encoding /WinAnsiEncoding /Name /F5 /Subtype /Type1 /Type /Font
+/BaseFont /Helvetica-Bold
+/Encoding /WinAnsiEncoding
+/Name /F2
+/Subtype /Type1
+/Type /Font
 >>
 endobj
 9 0 obj
 <<
-/BaseFont /Helvetica-Oblique /Encoding /WinAnsiEncoding /Name /F6 /Subtype /Type1 /Type /Font
+/BaseFont /Courier
+/Encoding /WinAnsiEncoding
+/Name /F3
+/Subtype /Type1
+/Type /Font
 >>
 endobj
 10 0 obj
 <<
-/Contents 16 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 13 0 R /Resources <<
-/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
->> /Rotate 0 /Trans <<
-
->> 
-  /Type /Page
+/BaseFont /Symbol
+/Name /F4
+/Subtype /Type1
+/Type /Font
 >>
 endobj
 11 0 obj
 <<
-/PageMode /UseNone /Pages 13 0 R /Type /Catalog
+/BaseFont /Times-Roman
+/Encoding /WinAnsiEncoding
+/Name /F5
+/Subtype /Type1
+/Type /Font
 >>
 endobj
 12 0 obj
 <<
-/Author (Tim J5 \(ITB\)) /CreationDate (D:20260929182732+07'00') /Creator (\(unspecified\)) /Keywords () /ModDate (D:20260929182732+07'00') /Producer (ReportLab PDF Library - \(opensource\)) 
-  /Subject (\(unspecified\)) /Title (CHIPATON \204 Laporan Fase 1 \(ID\)) /Trapped /False
+/BaseFont /Helvetica-Oblique
+/Encoding /WinAnsiEncoding
+/Name /F6
+/Subtype /Type1
+/Type /Font
 >>
 endobj
 13 0 obj
 <<
-/Count 3 /Kids [ 4 0 R 7 0 R 10 0 R ] /Type /Pages
+/Contents 14 0 R
+/MediaBox [ 0 0 595.2756 841.8898 ]
+/Resources <<
+/Font 6 0 R
+/ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Parent 2 0 R
 >>
 endobj
 14 0 obj
 <<
-/Filter [ /ASCII85Decode /FlateDecode ] /Length 785
+/Filter [ /ASCII85Decode /FlateDecode ]
+/Length 3259
 >>
 stream
-GatU0gQ%aW&:N^lk)iU^a#<\a.G9V;D,fnV8#496:>u_M"E:4:I0UCjbB@#gWf_,>1\R>[jqn::5M"-G*+0i*jGj9$&9!*0`.`FB\$:(_fK%E%#n+X!"Q/rEa;>u)*^>Uq;&;H#K_m_1Ge]PK$VRc5$ETT/7Gp,tRELDEQXW'P_7mWj492;7LO6;_MgAH<82q,&<]PR!+L)aQ4;j,$IY%8%N;LYXbi97B7N<=o_MI_T_U5)ppcSZX7">A`)?N$9$$[&UU"^/]MF15J%<nP0^g;$SZA*@F&UacA^QeBmi_g]c1U&k@b*84]KWuV=4B^TqH@@O>7VtjK.L"E\)*s/DB3JiG;H4sRdT^rQU9%(3U!pdR'08<%O\bpAff_:(,TK#k'h#uM:037ZQ>MK,L+%&qn^gr^_1&Nj,+_,Z\S9d^M#B#SMANV\H+U]15.Ram\]I[)aegJ-O[3S7;dD]F;ZToS1HEsj4@j=4lCplmlmJemc5Y3L,_ha]:CjsXT0nI]S^)Y)[,-*fKu4D4c,[B=Mt6Ue-1npfT5aGJrU&r`$GI&mo/<fOm+jH+h2NTk\Sa7V:cAZ:F&)LSDTj7i7h6'VntRIH(tppK2J>Q6\i0HMj[[\)$X<*EF0S*Qc>fui/9G'/=Xen[/eqp1f1=iQj==BM?EU(>9q[f[35A!pEnj?M.OaDPk]F'C4"]%6Um..dl>HRRb0*>I?9oNr^Jl]U>#*cOARf#tW;>bp9p3n*9\Z%AC/A)b84=kKJE=8MM',i./VGHVdBi[Wr;lB_C[(~>endstream
+Gb!SnHZ.n7'*!GF77jC;O]aAU^WC2dbB&D0Qq(QYmPM"#%5c#nMeUqfZJ#h=eSY4,M%'PK3p@9.Z)c^RlE9t`f`Y:P-h;U&!1](BHV&a$0U`(u'E^hVE%u[H^2AkP:2s8g/Guj5l&dX;%:hW2U%T2V2D*9L`?`AF0FFIqp9+G[AG#BoN&Ak7CV#Ha%H3Ji$u[#mqWHn6N-%R<"gfKkh8AH9i;2h@5-nrO`,U)5fJZ#2.R>):X:UZh/-=q\;>$OS6nB'(+\;?*"(DSM1ejq!+ps:Wq\4aPiTJo((LF\SYlB[^08Y3_g4]eOHjiBi"=p3ZQ4oSNM4\iL6q+qb[FUknW))lt%@00c=I@IfKdB+8/3KAOLVI;<T$W!S)CDF2Y(b)T&#3"2O'aTNmTa$+3k",iK+qO'\7X>:i7!dqOjPFK'#s,68kbSPf8<k[:ZM+bKp8\t">#?gMA#`&(^2Pb+_EOMmq>8>>8-.s!R0?EKSJ@YW%C`afduemr#hH)IKWTlWSkLHdr9m46pe"$ijk.s_<pnOrqT`bU`KsQ@8A?8/4k@=1ke40-As9[I&0(mFA\EmToS&"iS7_7>T!%"3R6,eXH$_@Sj4kF)CA^b?7ON;ORgb8BDca<`i]j"13!CT`o$TD$!4Kq%IH#]BJA[15Y<6f,k"O]K]3T/64rI6\raFYlN)EuB$H9;:62Ej*+eDk0;P?Pn'_E;<48u&bLS2Eo!"+I.<+PJ$s';?S@d2V'mDbR_H%DlZA=([W/=^i_W[s;j9Ig]"[r^9>o4eC0MGb,%:+`!Z-Y(m_>Fa;/,o-[WhVO,O&L@j@B10.8&rtRMY3N'%7c^CC)5+d!X$VFXM*aTH93RKCO=2W8%s4X*_Z'39iN"K[<8]+*Ff'm"PHFl'N/eL!)4onJ;kem4DGYE>,R=+1p6L40o9A<\8Vr:d?!*e"pX]n*%!&9Wr0`PjOqI6n[i4mLsPJ:>:B$ZG!umKG85gO68=A8&u/gL0]KrF0ZO0LgR?E"[hp'rEB4\%$kIX%oM_@$j.celfY%@rO?C+\REobr'^T?5bJ?1X=;&<-j3>Vq#f:@=r4s$"L@bE/abR?,rR'0;#L!of-4*@T/AUm)1SIu?dW$e/Ed*qih$"1)X)]jpNA`OLgkgeh$)Iu,s&So+b'()>!DLNc3n>j/JpBX5LMp><>Dhh1]9kM%LS&PUjD1P^T<B2-TUY`mgtMr8:=r/:!uRUFJ4-&tJDR36,L3%)B<0<+ob]_/\f`.kOG:*+,P`o8,fE82ljRSf@u\Z_oF?m"LjiC6R+Z[=`<#l@cbPiY>%:jEM:S*)8K0L^nH=usP]i8?G@Q:Q<=%0_,lWD:3K<fO]4#&YQbri5U($W;Ef,p_o'knlND#Z9'8G!rL);iS+tL$[Y,hC;&rQcD#koB)pTG8mbGW>,+f=@'E:Xk2)0i6uOJ'h(f``IPP,q\UlGdCX@q]FMm:7*!WKQ@sS1O2&KdtDiU-pFFU--bY&rBSDniS9lr)"W[o0O^<PG^OhLr?MRf*[LpP>\1%F\("]N=?GD#SPZ&p_CX<h":e4*j-+HkEPN_X[a]A*n;9X!u*]Qd<_=n!U$&Ib2)$H?%XmkAiG)6Jl-puN7NR9^B@K$0^64.hHRuSC+X0`VdTbb1Q:064Pkp8j[UGnCH"p@'g:K,oOUAWF>.MYSLDEUf(g-TrJ%[YBXTjH<?MDQPo(k69/-N"XVnl2E4GE%,a.gV68;?Qn"S,/r)@'o8%]9mWb,@[6`t,[NKOTU:@5:CkqmsH\/pLX.sldL7.'!*nl%cl*0,`%InC=M_`?`9?h5#_TY&e0)fNDc"4:i*3^2b22gdk5:.+[F)Qn9*WL'EmG^CC\WNQdc;uc4Vm'R[IRC[kp`7,12":00`#kV@t(aru^>..Qf!T9@;hJE?%]VI6X,*F&eiX;hH7&OaRbNB,gU!&5s#gC;ji@:5)s,#_M9(-n-7&JGONC*7a>:+Q%m:*hYL%rST)3CN3(e#,i)Q3]t@5pupjJ<Lc4!7?U/89i(Q(^&HBQoDFD]g%3`&BG%<_2eo!'g;nn=s&.=$=:F$oN*_&@XVJ`N@*<\n*=d";SNGK;ZcQ)agl'kP!KPFej*)E8`.<>o8DZ?uZU!N6W9,!K)[%<VBE1r*)"975_=A(<=I6rW.Kf[hM7K++;,qP!hM,!,JMpN2;*((LXb1',J[I&hQ@$>hOFr1[*'EU;fOc&Q*[#m`/a%\_W.)e<Pk5gRL'dau2-F;;?5eC8(->/^q;W,30BrJ=j6u&Z:OBB')idE?8W.Oj.bR?ctP]ZKQ-^T6I%AqL_QcDaqXlaj&EX\t3"2<./`tehe)&cln12E2KA?"rAZ)?Z%LA)`Dm`NJ=C.HoOt:+DnBYK5)bpIp.@[E3L%)f<!Ali<mLB/kU`sB^(7snOI4+-5#>qR(F1u73')]8LA6cN?6k("7p>REI)*mU?R*<%9!l&3>Dg3G^`]'H-)fdS085.jf,[g<J<-HH4/o.qVJ>Yl1i:M8afU*_%+V*2WY=4+G,OSGC3BYY6'e!6e`K?A'(t`A0s@:lbdUUYS(G)aRAI%q41gf_uJouBALW@diSJNR.:GHW2Z.I1fHJlaTmbj9eC$Fm(Iu%an9$Hi=B=(.k98e$O0IS6prP7^M[qKWFYI(eI>`mQr*'6C8oV^>]^D27Y:o*\Sp*IO$'p4)2OYTe>jq#QKte70B!Sne=3JF/RA'eMOY2AD3t8&-9>m,Lt868!WDK1JGq0!&nX-66U,lbOuh/Fok_68#I#LDgG31+mZ/I=7t7[Aa4OCm"5!s_H<[a;TL1m7l-oftr0LQs_,CmD=b;>JU;?iQ4,2582-jT&#scI^EWi/4rqX[$"?e;0n!^!F^?&Cmoj-Y)$DhrcikEg7XV"IrfV$f>'Qk$O<@]/:@CMu61:3pWgR'NZ?raMF:lm!IWflItU*OiPP_;f.,]ks,FgV0[5?nI@gar?]q+5:Wg3Sm[emJ,_L8hrp@Wd@j0q<Jj71Bh%Mrr;UmYpNZMWorR]^!0!nrbWKd4I")]r->%M`l'=J1q'/jh!ZrD7=o(@f5rS([\\En(m%lNG%q1=>R(W_[Bqq$Fe%_X%q=OH,;IhDKhV.mm$@6`A2o>@Qp,Fe4D&6ge3>hlNf&RD)k'3VMPPcS@];6*8,Ym<X#UbEdUMcc=W`;D;?B+=tJ]&)6U1\JnlpKo29Va&oLn[\,@?5nh@Uapffl\`DTmP[tN:Vq'JL&BS[tc,[=1T^%-S$k/C!PpZ2++PMt&A!<NXQ[f~>
+endstream
 endobj
 15 0 obj
 <<
-/Filter [ /ASCII85Decode /FlateDecode ] /Length 3259
+/Contents 16 0 R
+/MediaBox [ 0 0 595.2756 841.8898 ]
+/Resources <<
+/Font 6 0 R
+/ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >>
-stream
-Gb!SnHZ.n7'*!GF77jC;O]aAU^WC2dbB&D0Qq(QYmPM"#%5c#nMeUqfZJ#h=eSY4,M%'PK3p@9.Z)c^RlE9t`f`Y:P-h;U&!1](BHV&a$0U`(u'E^hVE%u[H^2AkP:2s8g/Guj5l&dX;%:hW2U%T2V2D*9L`?`AF0FFIqp9+G[AG#BoN&Ak7CV#Ha%H3Ji$u[#mqWHn6N-%R<"gfKkh8AH9i;2h@5-nrO`,U)5fJZ#2.R>):X:UZh/-=q\;>$OS6nB'(+\;?*"(DSM1ejq!+ps:Wq\4aPiTJo((LF\SYlB[^08Y3_g4]eOHjiBi"=p3ZQ4oSNM4\iL6q+qb[FUknW))lt%@00c=I@IfKdB+8/3KAOLVI;<T$W!S)CDF2Y(b)T&#3"2O'aTNmTa$+3k",iK+qO'\7X>:i7!dqOjPFK'#s,68kbSPf8<k[:ZM+bKp8\t">#?gMA#`&(^2Pb+_EOMmq>8>>8-.s!R0?EKSJ@YW%C`afduemr#hH)IKWTlWSkLHdr9m46pe"$ijk.s_<pnOrqT`bU`KsQ@8A?8/4k@=1ke40-As9[I&0(mFA\EmToS&"iS7_7>T!%"3R6,eXH$_@Sj4kF)CA^b?7ON;ORgb8BDca<`i]j"13!CT`o$TD$!4Kq%IH#]BJA[15Y<6f,k"O]K]3T/64rI6\raFYlN)EuB$H9;:62Ej*+eDk0;P?Pn'_E;<48u&bLS2Eo!"+I.<+PJ$s';?S@d2V'mDbR_H%DlZA=([W/=^i_W[s;j9Ig]"[r^9>o4eC0MGb,%:+`!Z-Y(m_>Fa;/,o-[WhVO,O&L@j@B10.8&rtRMY3N'%7c^CC)5+d!X$VFXM*aTH93RKCO=2W8%s4X*_Z'39iN"K[<8]+*Ff'm"PHFl'N/eL!)4onJ;kem4DGYE>,R=+1p6L40o9A<\8Vr:d?!*e"pX]n*%!&9Wr0`PjOqI6n[i4mLsPJ:>:B$ZG!umKG85gO68=A8&u/gL0]KrF0ZO0LgR?E"[hp'rEB4\%$kIX%oM_@$j.celfY%@rO?C+\REobr'^T?5bJ?1X=;&<-j3>Vq#f:@=r4s$"L@bE/abR?,rR'0;#L!of-4*@T/AUm)1SIu?dW$e/Ed*qih$"1)X)]jpNA`OLgkgeh$)Iu,s&So+b'()>!DLNc3n>j/JpBX5LMp><>Dhh1]9kM%LS&PUjD1P^T<B2-TUY`mgtMr8:=r/:!uRUFJ4-&tJDR36,L3%)B<0<+ob]_/\f`.kOG:*+,P`o8,fE82ljRSf@u\Z_oF?m"LjiC6R+Z[=`<#l@cbPiY>%:jEM:S*)8K0L^nH=usP]i8?G@Q:Q<=%0_,lWD:3K<fO]4#&YQbri5U($W;Ef,p_o'knlND#Z9'8G!rL);iS+tL$[Y,hC;&rQcD#koB)pTG8mbGW>,+f=@'E:Xk2)0i6uOJ'h(f``IPP,q\UlGdCX@q]FMm:7*!WKQ@sS1O2&KdtDiU-pFFU--bY&rBSDniS9lr)"W[o0O^<PG^OhLr?MRf*[LpP>\1%F\("]N=?GD#SPZ&p_CX<h":e4*j-+HkEPN_X[a]A*n;9X!u*]Qd<_=n!U$&Ib2)$H?%XmkAiG)6Jl-puN7NR9^B@K$0^64.hHRuSC+X0`VdTbb1Q:064Pkp8j[UGnCH"p@'g:K,oOUAWF>.MYSLDEUf(g-TrJ%[YBXTjH<?MDQPo(k69/-N"XVnl2E4GE%,a.gV68;?Qn"S,/r)@'o8%]9mWb,@[6`t,[NKOTU:@5:CkqmsH\/pLX.sldL7.'!*nl%cl*0,`%InC=M_`?`9?h5#_TY&e0)fNDc"4:i*3^2b22gdk5:.+[F)Qn9*WL'EmG^CC\WNQdc;uc4Vm'R[IRC[kp`7,12":00`#kV@t(aru^>..Qf!T9@;hJE?%]VI6X,*F&eiX;hH7&OaRbNB,gU!&5s#gC;ji@:5)s,#_M9(-n-7&JGONC*7a>:+Q%m:*hYL%rST)3CN3(e#,i)Q3]t@5pupjJ<Lc4!7?U/89i(Q(^&HBQoDFD]g%3`&BG%<_2eo!'g;nn=s&.=$=:F$oN*_&@XVJ`N@*<\n*=d";SNGK;ZcQ)agl'kP!KPFej*)E8`.<>o8DZ?uZU!N6W9,!K)[%<VBE1r*)"975_=A(<=I6rW.Kf[hM7K++;,qP!hM,!,JMpN2;*((LXb1',J[I&hQ@$>hOFr1[*'EU;fOc&Q*[#m`/a%\_W.)e<Pk5gRL'dau2-F;;?5eC8(->/^q;W,30BrJ=j6u&Z:OBB')idE?8W.Oj.bR?ctP]ZKQ-^T6I%AqL_QcDaqXlaj&EX\t3"2<./`tehe)&cln12E2KA?"rAZ)?Z%LA)`Dm`NJ=C.HoOt:+DnBYK5)bpIp.@[E3L%)f<!Ali<mLB/kU`sB^(7snOI4+-5#>qR(F1u73')]8LA6cN?6k("7p>REI)*mU?R*<%9!l&3>Dg3G^`]'H-)fdS085.jf,[g<J<-HH4/o.qVJ>Yl1i:M8afU*_%+V*2WY=4+G,OSGC3BYY6'e!6e`K?A'(t`A0s@:lbdUUYS(G)aRAI%q41gf_uJouBALW@diSJNR.:GHW2Z.I1fHJlaTmbj9eC$Fm(Iu%an9$Hi=B=(.k98e$O0IS6prP7^M[qKWFYI(eI>`mQr*'6C8oV^>]^D27Y:o*\Sp*IO$'p4)2OYTe>jq#QKte70B!Sne=3JF/RA'eMOY2AD3t8&-9>m,Lt868!WDK1JGq0!&nX-66U,lbOuh/Fok_68#I#LDgG31+mZ/I=7t7[Aa4OCm"5!s_H<[a;TL1m7l-oftr0LQs_,CmD=b;>JU;?iQ4,2582-jT&#scI^EWi/4rqX[$"?e;0n!^!F^?&Cmoj-Y)$DhrcikEg7XV"IrfV$f>'Qk$O<@]/:@CMu61:3pWgR'NZ?raMF:lm!IWflItU*OiPP_;f.,]ks,FgV0[5?nI@gar?]q+5:Wg3Sm[emJ,_L8hrp@Wd@j0q<Jj71Bh%Mrr;UmYpNZMWorR]^!0!nrbWKd4I")]r->%M`l'=J1q'/jh!ZrD7=o(@f5rS([\\En(m%lNG%q1=>R(W_[Bqq$Fe%_X%q=OH,;IhDKhV.mm$@6`A2o>@Qp,Fe4D&6ge3>hlNf&RD)k'3VMPPcS@];6*8,Ym<X#UbEdUMcc=W`;D;?B+=tJ]&)6U1\JnlpKo29Va&oLn[\,@?5nh@Uapffl\`DTmP[tN:Vq'JL&BS[tc,[=1T^%-S$k/C!PpZ2++PMt&A!<NXQ[f~>endstream
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Parent 2 0 R
+>>
 endobj
 16 0 obj
 <<
-/Filter [ /ASCII85Decode /FlateDecode ] /Length 3426
+/Length 8321
 >>
 stream
-Gb!#^CNJ5g(B*Z.EMqR8aB])r^istu_/%Y^gSAg&cgL/$G!(jW8MDSk+i1P^pNs]BT&)I"N4X@k(._]cF)gUU1a`Z\H2Ta-&cMZg`n-`jTY!4(LH0JNQ@?>*CWCiZ*;$#MnaOSs_eZM2'6l%^YsN("Y"-??0'<85]+kc-hq[!ngqE`A-:7M"<j)$\AooWJ(fMc6S#aYVF)*4'7eSju4j`#/B%9[iSRg>\4:&fSI,AA8DfK/EHZ`Q2o=S0sXlJVG(@o\L+5^-,s#K\0-KAm2Hr^=Z)e=SjCn=!!i<P\19[6uY#3)A5,Dsu`'ue.:Pt+iCdje\FH'QX]atl`d-=*hCRn(2\S9HFnLa#tMb1CVVF^EEFLnR/5j%O55BiV#(&73Uj<drm+qWg_ONmIV=lDF_P^<qF!ghq(u*NL@.WA=PahKN/Q$Q8I$,D0(b83^eg4\M()\5XdQ>00*4,p6h2')K'JMuM[X]UHusU*O)?<@1A+7&D6"d8]?b(ZobN5eY(jnYhCF9(Ra/,ctW'ks;1H5q5gCP=;KJ_qpneAnst,]MPGb$Slr^NI>DcVE8KScgdACMUm$"O8LS(55^6,hsf_Tr-p^'pO=k4m87PEm1QmC#8+T9EAW!K_P]1*"J5*g_H#6kN@V_(Y$%%#a3/)U1=$=s#a^59KU1rPC-1RibkMjLPWmZK>;u3t$]=^1fQZ5JEFoUHH6G#4qjmlp[Oi;a*VbM/Zo%+A$QB>Z%[d+Cd!UaSXs]`FB`6Qk61[5$3!/F560$;2`biXh`tl;>qQUjR`bgV;+r'q,`:L6f!=N^ZO-9Io94836-Fe7b8c.2nKP*ZT^PAp5HQd4B%@Lk^#M>PZA$^k"\U3bq%D>^`&N1$7I9c43EJ5B1pU7.BH7<)bJ-s?S#Ne/gR,]Apq8"\fDWle)3Ncc"]ar=O"P0d82/@m)E:Lgb:NUX'6E,UED:RrAE@Nna@1Z!^;/g+.jEsM)]Z<nTHqa.h:t8_"l6"*cf&`V$3EEFJ'WJfL%-BL6J7mFqOmmQMY7((8&\Q4!/F`T\1kh7]3rs(-RX`op%pM;ZjTc:h<`kG9*Yn*s%##Z3\&+7IKH7S=.H.qE%eEj*3G&a"W,OkZH3^0jiUApH#H$!3V0V9D,M_FiD`:\ABsAjmY"=nl<!RQ9/\D`pqje7dNWF;eTZ#duAiW<]3kQNP7`U5u![n'OqLS)lEBdhSA`_m*LK567\1soS2m8Qm&t^1H%%HI!!V1cOQ>lU*J/4iFZ$kU1%tiPDa9$RP6&l,#G_,aD(3:H#h?Dd)=\Rus`OUb)ie6.#`\G&>R-fI28N`un#mKA1AAN8=EggCo*JLH0)nUtIQ8TfU\J8!R[[&eDcj?X5MFjIsZn)2EKNK&dB@ZVugQ&@P&GDTH?Bg5VC"jp"=8r-f)W0&dfM[pCs0V4R.mohpBIIbRTM>GRa2p[NEP_!&6J9DFfr?7-Xr?!&fhnM'Rd.@VGBa#U*K<Xf&e4]4%3)e83MGp?+.2[N"8c/geE)M_T(mpbI96AB;`U%Tb#`k^*]9kb"6P@EJUbBo^G;(&SN0,p#]ADU+#N.t>U2()18Cn2[n"G#>\nbc+L[%4-Qd:0Uu+A/^kp8W3kQN6BtMUGl5;L+2YGf1!D[mR%n$A/e8>b&qD5*e;dgqU+JTC`-4IKbd![c3D[rL(IqZ\_*>_];1a^=GlTC(]dT*_X+A:q.R)YsR)#YX[<<gGp'A06DL1sG33bqm+7S6ahY-K49WpGad-A/Z9!9;)tl*%GqK,aC@$`o@a/Ko*o:9)/r!%=dO<fpXM#_kVSa/Jf1/I_*sGcI'e[\4cRoER[7TArhOel=3+f9F2]#rkCq[8IQ!XUL.ZQ17gKc&\]ShHFWYFP)AqB!#h.XJK59+-e<IX-,A12]*kF2Hn;j_0dorR4KU!.UsU(Q88>AYK;*?P@OejQEYM/$T5'1H!G"EB$!M&UX@/1A=KJ:Dn3$_9/Q'i(0muTTK<ZIIRH!DF9\fB,S'pimLjb=Z2nL`V+`ASgD]Me8m&%3H6r86?1[du#F&;EU,GO#(2)#U=.*s-*@\>:8L]G8B90J)?e@@NbVn*sR6g@cSo3u4YS1Z=\9fK77gaVg0((qE:Fs?<Onn3"(GqA20*Q_jb7[4ie[hI=FrspQJ7qsFW@ZTHcr[6KI\:,n$)UE$TEcggdg`-n[RfJJ%!c7"If8uf=dmYLGfs]SN28/,7)PA>,J$pDY*):;kOIq.rn,o\kAs>D]3+5nDP@5]<e[\e3a/R3&Btf7VbYuN&2gZd,1/"TkYrJPLWi>K(,?ol)6>q<Zt^0%(q+F%R`cnL3D)kFR-gK"_ekZ6:6FeH5V/<hc9Gm&R>Aad1^qEXdO+E2D%pE#PP)cAKR)Ht>fQut?,9]51,3PtWi:h!I?ZgVrL.o6&0fOlf(53M0\0o#b;4**)E58G^Ma[P\lhKsIMbs^:75h&b;a8"e4e^,q*nBVoV#X4IhTsikG30(*NuI`Q5_,R9tak3o:DX0D[\Z3*$t-Rqt\0gK>I4<J.k*keN1WR:(&q[<J>X+23Z:a1R@#!6(Thi0q_SR(!'I8IPPh"R^@krl(QEk\iG!W+m\2*_bZb5i'?H'8H%&>V,RR2S)=DE[6^GC=/`3EfShkjp8%(50QlQ@B6h0teOM0b0"hH1UOO0)hq_OCr(L2El_LuhA5L9W,ukVU0G#Vn3e`1^W&Hc6U$_;Z([)Po/imfRH`tb/jI(LX3=[t?].99$DfVJ7%D&jLKAANRSLbP]DSk26[l+$kZ@QI3VOihC+0R:=T:4nb'L+UgM3c4.&h+*X<2u1Kl9SI05!\p6AJu(BO[J+WHstPqn:k8+#oI6E,/>>'k,=V=<U1[)-r2>&/iHIm]gS$aQAdGT7j<0ggQ&`dk"aNDZ:nl1R>NW"54#pM1U\8\[OgEYV4-*L[F%poC@Su(j#LZC)1C#UO6)^p'qeM#B/6]>4aj]j[hg.SDD'cem5(CYoLW4/+P'+eXX]P2a7Ti*PgTna].Gck5Q!JJlZAb4eKl&CoC%a,]=td8?AfG!`0otlgR<WHm>d*n0M!m*!U3lcWgRNM;FWn6)Pk&K)uc4p@:EE)ccRsZ;Pgt:hQOcqR'TfB:6*iJ0JcoAGA<k<F]tKoW1($h$.KUCgT*!!6`km4J41(B+U4U<9$51YjF2OFCn%i1r[NI<4Sl)]N65:sehCC"I:hS]gCS2n1='dbe,%Yr&@:eE^"78'9=E[g$AW*V'46.b1L`gghWo*<_WceEF)%(#Y'8+L,;\"HSE31e?cmYq2[iLUZi8C>2Nn0i@V#U3Wg7>LC*"oU7&G#&WHkB&_0qgHmd%Jm`T6r>0/3BRSJR`40CI\Es6Z<Mms[On#<'a%'P5*_TZJU)e-R*j<VH8no5$Y+>H1rVBJ_Y<r*>KQk-WKMHd&RDY;D]qjo,Vq3r:QoYd@m~>endstream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+BT /F1 7 Tf 8.4 TL ET
+.466667 .466667 .466667 rg
+BT 1 0 0 1 409.3756 25.51181 Tm (CHIPATON \227 Laporan Fase 1 \(ID\) \227 hal. 3) Tj T* ET
+ 
+
+q
+1 0 0 1 54.18898 774.5701 cm
+%PreformattedPara
+0 0 0 rg
+BT 1 0 0 1 0 11.6 Tm /F3 7.2 Tf 9.4 TL (Info \(278004\): Inferred divider/modulo megafunction \("lpm_divide"\)) Tj T* (  dari operator % di rtl/ntt/modmul_reduce.sv) Tj T* ET
+Q
+q
+1 0 0 1 54.18898 747.7701 cm
+q
+BT 1 0 0 1 0 17.4 Tm 13.4 TL /F1 9.4 Tf 0 0 0 rg (Operator ) Tj /F3 9.4 Tf (%) Tj /F1 9.4 Tf ( disintesis Quartus menjadi ) Tj /F2 9.4 Tf (pembagi kombinasional 24-bit/12-bit) Tj /F1 9.4 Tf ( \227 146 sel logika pada jalur ini sendiri,) Tj T* (tanpa register perantara.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 646.3921 cm
+q
+1 0 0 1 0 0 cm
+0 0 0 RG
+1 w
+0 J
+0 j
+[] 0 d
+0 0 0 rg
+BT /F5 10 Tf 12 TL ET
+BT /F5 10 Tf 12 TL ET
+q
+1 0 0 1 0 0 cm
+q
+.886275 .882353 .862745 RG
+.5 w
+0 J
+0 j
+[] 0 d
+n 5.669291 15.59055 m 5.669291 75.11811 l S
+Q
+q
+BT /F1 6.5 Tf 7.8 TL ET
+BT /F1 6.5 Tf 7.8 TL ET
+.321569 .317647 .305882 rg
+BT 1 0 0 1 3.862291 5.669291 Tm (0) Tj T* ET
+Q
+q
+.886275 .882353 .862745 RG
+.5 w
+0 J
+0 j
+[] 0 d
+n 70.05624 15.59055 m 70.05624 75.11811 l S
+Q
+q
+BT /F1 6.5 Tf 7.8 TL ET
+BT /F1 6.5 Tf 7.8 TL ET
+.321569 .317647 .305882 rg
+BT 1 0 0 1 66.44224 5.669291 Tm (10) Tj T* ET
+Q
+q
+.886275 .882353 .862745 RG
+.5 w
+0 J
+0 j
+[] 0 d
+n 134.4432 15.59055 m 134.4432 75.11811 l S
+Q
+q
+BT /F1 6.5 Tf 7.8 TL ET
+BT /F1 6.5 Tf 7.8 TL ET
+.321569 .317647 .305882 rg
+BT 1 0 0 1 130.8292 5.669291 Tm (20) Tj T* ET
+Q
+q
+.886275 .882353 .862745 RG
+.5 w
+0 J
+0 j
+[] 0 d
+n 198.8301 15.59055 m 198.8301 75.11811 l S
+Q
+q
+BT /F1 6.5 Tf 7.8 TL ET
+BT /F1 6.5 Tf 7.8 TL ET
+.321569 .317647 .305882 rg
+BT 1 0 0 1 195.2161 5.669291 Tm (30) Tj T* ET
+Q
+q
+.886275 .882353 .862745 RG
+.5 w
+0 J
+0 j
+[] 0 d
+n 263.2171 15.59055 m 263.2171 75.11811 l S
+Q
+q
+BT /F1 6.5 Tf 7.8 TL ET
+BT /F1 6.5 Tf 7.8 TL ET
+.321569 .317647 .305882 rg
+BT 1 0 0 1 259.6031 5.669291 Tm (40) Tj T* ET
+Q
+q
+.886275 .882353 .862745 RG
+.5 w
+0 J
+0 j
+[] 0 d
+n 327.604 15.59055 m 327.604 75.11811 l S
+Q
+q
+BT /F1 6.5 Tf 7.8 TL ET
+BT /F1 6.5 Tf 7.8 TL ET
+.321569 .317647 .305882 rg
+BT 1 0 0 1 323.99 5.669291 Tm (50) Tj T* ET
+Q
+q
+.886275 .882353 .862745 RG
+.5 w
+0 J
+0 j
+[] 0 d
+n 391.991 15.59055 m 391.991 75.11811 l S
+Q
+q
+BT /F1 6.5 Tf 7.8 TL ET
+BT /F1 6.5 Tf 7.8 TL ET
+.321569 .317647 .305882 rg
+BT 1 0 0 1 388.377 5.669291 Tm (60) Tj T* ET
+Q
+q
+.886275 .882353 .862745 RG
+.5 w
+0 J
+0 j
+[] 0 d
+n 456.378 15.59055 m 456.378 75.11811 l S
+Q
+q
+BT /F1 6.5 Tf 7.8 TL ET
+BT /F1 6.5 Tf 7.8 TL ET
+.321569 .317647 .305882 rg
+BT 1 0 0 1 452.764 5.669291 Tm (70) Tj T* ET
+Q
+q
+BT /F1 6.6 Tf 7.92 TL ET
+BT /F1 6.6 Tf 7.92 TL ET
+.321569 .317647 .305882 rg
+BT 1 0 0 1 160.7798 0 Tm (delay jalur data \(ns\), corner Slow 1100mV 100C) Tj T* ET
+Q
+q
+.164706 .470588 .839216 rg
+1 w
+0 J
+0 j
+[] 0 d
+n 5.669291 53.29134 62.87789 17.5748 re f*
+Q
+q
+.921569 .407843 .203922 rg
+1 w
+0 J
+0 j
+[] 0 d
+n 69.74719 53.29134 34.23858 17.5748 re f*
+Q
+q
+.105882 .686275 .478431 rg
+1 w
+0 J
+0 j
+[] 0 d
+n 105.1858 53.29134 23.13827 17.5748 re f*
+Q
+q
+.929412 .631373 0 rg
+1 w
+0 J
+0 j
+[] 0 d
+n 129.524 53.29134 249.4326 17.5748 re f*
+Q
+q
+BT /F1 6.8 Tf 8.16 TL ET
+BT /F1 6.8 Tf 8.16 TL ET
+.043137 .043137 .043137 rg
+BT 1 0 0 1 243.6884 59.77874 Tm (38.9 ns) Tj T* ET
+Q
+q
+.909804 .482353 .643137 rg
+1 w
+0 J
+0 j
+[] 0 d
+n 380.1567 53.29134 18.50241 17.5748 re f*
+Q
+q
+0 .513725 0 rg
+1 w
+0 J
+0 j
+[] 0 d
+n 399.8591 53.29134 40.40685 17.5748 re f*
+Q
+q
+BT /F1 6.8 Tf 8.16 TL ET
+BT /F1 6.8 Tf 8.16 TL ET
+.043137 .043137 .043137 rg
+BT 1 0 0 1 444.3006 59.77874 Tm (total 67.7 ns) Tj T* ET
+Q
+q
+.639216 0 0 RG
+1.1 w
+0 J
+0 j
+[3 2] 0 d
+n 134.4432 15.59055 m 134.4432 92.12598 l S
+Q
+q
+BT /F1 6.4 Tf 7.68 TL ET
+BT /F1 6.4 Tf 7.68 TL ET
+.639216 0 0 rg
+BT 1 0 0 1 136.7109 89.29134 Tm (periode 20.000 ns \(provisional\)) Tj T* ET
+Q
+Q
+Q
+Q
+q
+1 0 0 1 89.29134 630.3921 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 1 3.748031 cm
+q
+1 0 0 1 0 0 cm
+0 0 0 RG
+1 w
+0 J
+0 j
+[] 0 d
+0 0 0 rg
+BT /F5 10 Tf 12 TL ET
+BT /F5 10 Tf 12 TL ET
+q
+1 0 0 1 0 0 cm
+q
+.164706 .470588 .839216 rg
+1 w
+0 J
+0 j
+[] 0 d
+n 0 0 8.503937 8.503937 re f*
+Q
+Q
+Q
+Q
+q
+1 0 0 1 12.33858 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.4 Tf 10 TL (Logika FSM / alamat) Tj T* ET
+Q
+Q
+q
+1 0 0 1 139.8976 3.748031 cm
+q
+1 0 0 1 0 0 cm
+0 0 0 RG
+1 w
+0 J
+0 j
+[] 0 d
+0 0 0 rg
+BT /F5 10 Tf 12 TL ET
+BT /F5 10 Tf 12 TL ET
+q
+1 0 0 1 0 0 cm
+q
+.921569 .407843 .203922 rg
+1 w
+0 J
+0 j
+[] 0 d
+n 0 0 8.503937 8.503937 re f*
+Q
+Q
+Q
+Q
+q
+1 0 0 1 151.2362 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.4 Tf 10 TL (Mux baca memori) Tj T* ET
+Q
+Q
+q
+1 0 0 1 278.7953 3.748031 cm
+q
+1 0 0 1 0 0 cm
+0 0 0 RG
+1 w
+0 J
+0 j
+[] 0 d
+0 0 0 rg
+BT /F5 10 Tf 12 TL ET
+BT /F5 10 Tf 12 TL ET
+q
+1 0 0 1 0 0 cm
+q
+.105882 .686275 .478431 rg
+1 w
+0 J
+0 j
+[] 0 d
+n 0 0 8.503937 8.503937 re f*
+Q
+Q
+Q
+Q
+q
+1 0 0 1 290.1339 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.4 Tf 10 TL (Perkalian DSP) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 54.18898 626.3921 cm
+Q
+q
+1 0 0 1 54.18898 583.1921 cm
+q
+.333333 .333333 .333333 rg
+BT 1 0 0 1 0 35.3 Tm /F1 7.9 Tf 10.8 TL -0.026772 Tw (Pembagi modulo menyumbang 38,9 ns \(57,5%\) dari 67,7 ns delay jalur data \227 komponen tunggal terbesar. Namun bahkan tanpa pembagi) Tj T* 0 Tw (itu pun, sisa jalur \(logika FSM/alamat + mux memori + DSP + tambah/kurang mod\) sudah 28,8 ns \227 juga melebihi periode 20 ns.) Tj T* (Kesimpulan: kegagalan timing bukan disebabkan satu titik tunggal, tapi datapath 1-siklus yang terlalu panjang secara keseluruhan;) Tj T* (pembagi modulo adalah kontributor terbesar tapi bukan satu-satunya.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 555.1921 cm
+q
+.14902 .14902 .301961 rg
+BT 1 0 0 1 0 5.5 Tm /F2 12.5 Tf 18 TL (5.1 Cakupan kegagalan) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 508.9921 cm
+q
+BT 1 0 0 1 0 30.8 Tm 13.4 TL /F1 9.4 Tf 0 0 0 rg (Dari 3104 endpoint yang diperiksa, ) Tj /F2 9.4 Tf (3072 register penyimpanan poly_mem) Tj /F1 9.4 Tf ( dan ) Tj /F2 9.4 Tf (2 register layer_q) Tj /F1 9.4 Tf ( sama-sama) Tj T* (melanggar batas setup \227 bukan satu jalur terisolasi, melainkan seluruh datapath 1-siklus \(butterfly lengkap dalam 1) Tj T* (siklus clock\) yang secara struktural terlalu panjang untuk periode 20 ns.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 480.9921 cm
+q
+.14902 .14902 .301961 rg
+BT 1 0 0 1 0 5.5 Tm /F2 12.5 Tf 18 TL (5.2 Metodologi virtual-pin) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 421.3921 cm
+q
+BT 1 0 0 1 0 44.2 Tm 13.4 TL /F1 9.4 Tf 0 0 0 rg (Compile ini kernel-only \(virtual pin, tanpa board fisik\). Quartus menerbitkan ) Tj /F2 9.4 Tf (Critical Warning 15725) Tj /F1 9.4 Tf ( terkait ini. Ini) Tj T* -0.075454 Tw /F2 9.4 Tf (tidak mengubah kesimpulan) Tj /F1 9.4 Tf (: virtual pin hanya menghilangkan constraint I/O fisik \(pad delay, dsb.\), sedangkan jalur) Tj T* 0 Tw -0.032197 Tw (terburuk yang ditemukan seluruhnya ) Tj /F6 9.4 Tf (internal register-ke-register) Tj /F1 9.4 Tf ( \(FF ke FF di dalam fabric\), sama sekali tidak melalui) Tj T* 0 Tw (pin I/O manapun. Jadi delay 67,684 ns pada jalur ini akan tetap sama persis pada compile dengan pin fisik.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 385.3921 cm
+q
+.101961 .101961 .180392 rg
+BT 1 0 0 1 0 6 Tm /F2 16 Tf 22 TL (6. Yang TIDAK Dilakukan \(sesuai batasan eksplisit\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 337.1921 cm
+q
+1 .945098 .901961 rg
+n -6 -6 498.8976 52.2 re f*
+Q
+q
+BT 1 0 0 1 0 30.8 Tm 13.4 TL /F1 9.4 Tf .478431 .180392 0 rg (Target clock ) Tj /F2 9.4 Tf (tidak diturunkan) Tj /F1 9.4 Tf ( dan SDC ) Tj /F2 9.4 Tf (tidak dilonggarkan) Tj /F1 9.4 Tf ( untuk memaksa hasil hijau. RTL ) Tj /F2 9.4 Tf (tidak diubah) Tj /F1 9.4 Tf ( sebelum) Tj T* (jalur kritis teridentifikasi dan didokumentasikan penuh. Angka 20,000 ns tetap provisional, menunggu ADR) Tj T* (target-clock resmi dari tim.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 301.1921 cm
+q
+.101961 .101961 .180392 rg
+BT 1 0 0 1 0 6 Tm /F2 16 Tf 22 TL (7. Status) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 252.9921 cm
+q
+1 .945098 .901961 rg
+n -6 -6 498.8976 52.2 re f*
+Q
+q
+BT 1 0 0 1 0 30.8 Tm 13.4 TL /F1 9.4 Tf .478431 .180392 0 rg (Fase 1 ) Tj /F2 9.4 Tf (PARTIAL) Tj /F1 9.4 Tf (. Semua gerbang simulasi/formal lulus, tapi CRG-9 \(bukti Quartus\) = ) Tj /F2 9.4 Tf (FAIL) Tj /F1 9.4 Tf ( karena timing tidak) Tj T* (terpenuhi. ADR target clock belum ada. Kotak Approval pada docs/results/result_phase1.md belum dicentang,) Tj T* (menunggu tinjauan tim.) Tj T* ET
+Q
+Q
+endstream
 endobj
 xref
 0 17
 0000000000 65535 f 
-0000000061 00000 n 
-0000000142 00000 n 
-0000000249 00000 n 
-0000000361 00000 n 
-0000000566 00000 n 
-0000000671 00000 n 
-0000000748 00000 n 
-0000000953 00000 n 
-0000001062 00000 n 
-0000001177 00000 n 
-0000001383 00000 n 
-0000001453 00000 n 
-0000001757 00000 n 
-0000001830 00000 n 
-0000002706 00000 n 
-0000006057 00000 n 
+0000000015 00000 n 
+0000000367 00000 n 
+0000000440 00000 n 
+0000000489 00000 n 
+0000000688 00000 n 
+0000001564 00000 n 
+0000001648 00000 n 
+0000001755 00000 n 
+0000001867 00000 n 
+0000001972 00000 n 
+0000002050 00000 n 
+0000002160 00000 n 
+0000002276 00000 n 
+0000002477 00000 n 
+0000005829 00000 n 
+0000006030 00000 n 
 trailer
 <<
-/ID 
-[<ea5666d99009e8e98cbb7debe1f08cd6><ea5666d99009e8e98cbb7debe1f08cd6>]
-% ReportLab generated PDF document -- digest (opensource)
-
-/Info 12 0 R
-/Root 11 0 R
 /Size 17
+/Root 3 0 R
+/Info 1 0 R
 >>
 startxref
-9575
+14404
 %%EOF
