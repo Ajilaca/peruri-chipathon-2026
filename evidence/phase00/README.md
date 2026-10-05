@@ -2,15 +2,15 @@
 
 Status: DONE. Halaman hasil: [../../docs/results/phase00.md](../../docs/results/phase00.md).
 
-**Tujuan.** Membuat model acuan ML-KEM-768 yang mandiri dan memastikannya cocok dengan vektor resmi.
+Tujuan. Membuat model acuan ML-KEM-768 yang mandiri dan memastikannya cocok dengan vektor resmi.
 
-**Yang diuji.** Parameter terkunci, vektor ACVP (NIST sample set), uji silang acak dengan kyber-py, temuan errata FIPS 203.
+Yang diuji. Parameter terkunci, vektor ACVP (NIST sample set), uji silang acak dengan kyber-py, temuan errata FIPS 203.
 
-**Alat.** Python, pytest, `check_params.py`, kyber-py (venv terpisah).
+Alat. Python, pytest, `check_params.py`, kyber-py (venv terpisah).
 
-**Hasil utama.** Model acuan mereproduksi vektor ACVP ML-KEM-768. Dua temuan errata, keduanya non-normatif (ADR 0003). Tidak ada RTL.
+Hasil utama. Model acuan mereproduksi vektor ACVP ML-KEM-768. Dua temuan errata, keduanya non-normatif (ADR 0003). Tidak ada RTL.
 
-**File penting.**
+File penting.
 - [kat_mlkem768.txt](kat_mlkem768.txt)
 - [crosscheck_kyberpy.txt](crosscheck_kyberpy.txt)
 - [fips203_errata.md](fips203_errata.md)

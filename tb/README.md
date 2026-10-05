@@ -19,10 +19,10 @@ dan dijalankan di Verilator dan Icarus. Kasus sudut ditulis di test plan fase (`
 
 ## Hubungan antar lapisan
 
-1. **Unit test** menguji satu modul terhadap fungsi di `golden/primitives.py` (reducer, butterfly, sponge, pack).
-2. **Core test** menjalankan inti penuh (NTT, K-PKE, ML-KEM) terhadap model acuan dan ACVP, dan mencatat siklus per operasi.
-3. **Formal** ([../formal/](../formal/README.md)) membuktikan properti kendali yang tidak bisa dicakup test: tidak ada alamat di luar rentang, FSM selesai, interlock.
-4. **Regresi** ([../scripts/test/](../scripts/README.md)) menjalankan ulang semua fase sebelumnya; skrip `phaseN_verify.sh` memanggil ketiganya untuk satu fase.
+1. Unit test menguji satu modul terhadap fungsi di `golden/primitives.py` (reducer, butterfly, sponge, pack).
+2. Core test menjalankan inti penuh (NTT, K-PKE, ML-KEM) terhadap model acuan dan ACVP, dan mencatat siklus per operasi.
+3. Formal ([../formal/](../formal/README.md)) membuktikan properti kendali yang tidak bisa dicakup test: tidak ada alamat di luar rentang, FSM selesai, interlock.
+4. Regresi ([../scripts/test/](../scripts/README.md)) menjalankan ulang semua fase sebelumnya; skrip `phaseN_verify.sh` memanggil ketiganya untuk satu fase.
 
 Test dijalankan lewat driver `run_*.py` (membuat `sim_build_*` sementara) atau lewat `pytest`.
 Folder `sim_build_*`, `__pycache__` dan `results.xml` adalah keluaran, bukan sumber.

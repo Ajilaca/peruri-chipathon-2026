@@ -4,7 +4,7 @@ Aritmetika modular untuk q = 3329 dan butterfly yang memakainya. Dibuat di Phase
 
 | File | Fungsi |
 |---|---|
-| `modmul_barrett.sv` | (a·b) mod q dengan Barrett, k = 24, M = 5039. **Reducer yang dipakai** (ADR 0013) |
+| `modmul_barrett.sv` | (a·b) mod q dengan Barrett, k = 24, M = 5039. Reducer yang dipakai (ADR 0013) |
 | `modmul_fold.sv` | reducer fold (2^12 ≡ 767 mod q), kandidat 5a |
 | `modmul_montgomery.sv` | Montgomery R = 2^12, kandidat 5b, tidak dipilih |
 | `modmul_barrett_lazy.sv`, `butterfly_c4_lazy.sv`, `lazy_bfly_io.sv` | varian lazy 5c, diukur dan tidak diadopsi (ADR 0014) |

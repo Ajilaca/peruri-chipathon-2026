@@ -34,7 +34,7 @@ yang dirancang hemat area dan dapat diintegrasikan ke sistem lain. Baseline TT07
 
 | Item | Nilai |
 |---|---|
-| Board | Terasic DE10-Nano. **Belum ada papan**; semua hasil berasal dari simulasi, analisis formal dan Quartus |
+| Board | Terasic DE10-Nano. Belum ada papan; semua hasil berasal dari simulasi, analisis formal dan Quartus |
 | Device | Intel Cyclone V SE 5CSEBA6U23I7 (41.910 ALM menurut fitter, 553 blok RAM, 112 DSP) |
 | EDA | Quartus Prime Lite 25.1std (angka implementasi hanya dari sini) |
 | Verifikasi terbuka | Verilator, Icarus, Yosys + slang, SymbiYosys, cocotb |
