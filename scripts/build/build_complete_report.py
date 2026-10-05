@@ -175,18 +175,18 @@ Ubuntu 24.04, OSS CAD Suite 2026-09-23 (Verilator 5.053, Icarus 14.0 devel, Yosy
 - **Hasil (MEASURED):** `check_params.py` 12/12; `pytest` 23/23; ACVP ML-KEM-768 **80/80** (keyGen 25, encapsulation 25, decapsulation 10, decapsulationKeyCheck 10, encapsulationKeyCheck 10); lintas-cek oracle independen (kyber-py 1.2.0) **2000/2000** cocok; dua item errata, keduanya non-normatif.
 - **Catatan jujur:** berkas keyGen ACVP menyatakan `isSample: false` (berbeda dari asumsi di `kat_sources.md`), dilaporkan apa adanya. Model Python bukan implementasi konstan-waktu dan tidak diklaim begitu.
 
-### Fase 1 — Baseline RTL minimal: L = 1 NTT/INTT, konfigurasi C0 (PARTIAL, disetujui)
+### Fase 1 — Baseline RTL minimal: L = 1 NTT/INTT, konfigurasi C0 (DONE, ditetapkan tim 2026-10-05)
 - **Dibuat:** `ntt_core` (satu butterfly per siklus, 7 layer + lintasan skala INTT), memori polinomial tak berbank, ROM twiddle hasil generator, bukti formal keselamatan FSM.
 - **Hasil:** bit-exact di dua simulator (10/10); NTT/INTT **897 / 1.153 siklus**, konstan; Quartus: 7.010 ALM, 3 DSP, 0 M10K, **Fmax 14,64 MHz, slack setup −48,323 ns pada 20 ns (timing tidak terpenuhi)**.
 - **Penyebab (dari laporan jalur, bukan tebakan):** pembagi `%` kombinasional 24/12 bit menghabiskan 38,9 ns (57,5 %) dari jalur data 67,7 ns. Tidak diperbaiki di fase ini dengan sengaja.
-- CRG-9 ditandai FAIL (timing) dan ADR target clock belum ada saat fase ini ditutup (target 20 ns di SDC bersifat sementara).
+- CRG-9 awalnya FAIL (timing) dan ADR target clock belum ada saat fase ini ditutup (target 20 ns di SDC bersifat sementara). Tim menetapkan fase ini DONE pada 2026-10-05; ADR 0006 mencatat target clock kemudian, dan kegagalan timing didokumentasikan.
 
-### Fase 2 — Arsitektur memori: banking dan pembangkit alamat, C1 (PARTIAL, disetujui)
+### Fase 2 — Arsitektur memori: banking dan pembangkit alamat, C1 (DONE, ditetapkan tim 2026-10-05)
 - **Dibuat:** skema bank XOR-grup yang **terbukti bebas konflik untuk L = 1, 2, 4, 8** (eksaustif + formal pada ROM nyata), memori berbank, ROM peta bank hasil generator.
 - **Hasil:** siklus identik C0 (0 stall); 6.749 ALM; Fmax 14,99 MHz; timing masih gagal (−46,720 ns).
 - **Temuan jujur:** **M10K tidak terpakai (0/553)** walau judul fase menyebut M10K, karena pembacaan asinkron tidak bisa dipetakan Quartus ke RAM; dicatat dan dibiarkan sebagai keputusan fase berikutnya. Satu kompilasi Quartus rusak karena direktori kerja terhapus tak sengaja; yang dipakai hanya hasil ulang yang bersih.
 
-### Fase 3 — Eksplorasi multi-lane L = 1/2/4/8, C2 (PARTIAL, disetujui 2026-09-30)
+### Fase 3 — Eksplorasi multi-lane L = 1/2/4/8, C2 (DONE, ditetapkan tim 2026-10-05)
 | | L = 1 | L = 2 | L = 4 | L = 8 |
 |---|---|---|---|---|
 | ALM (C2) | 6.018 | 5.728 | 7.629 | 11.446 |

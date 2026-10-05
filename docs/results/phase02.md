@@ -1,7 +1,7 @@
 <!-- claim-lint: skip-file (result artifact: internal status page, not proposal text) -->
 # Result — Phase 2: Memory architecture (M10K storage, banking, address generation, config C1)
 
-- Status: PARTIAL
+- Status: DONE
 - Date (UTC): 2026-09-29 11:07
 - Git commit (HEAD when verified): 4e26498
 - Environment: same as Phase 1 (`docs/results/phase01.md`) -- Ubuntu 24.04.4 LTS, OSS CAD
@@ -26,12 +26,11 @@ so nobody reading only this file assumes Phase 1 was approved.
 | CRG-6 | Locked parameters | `cmd: python3 .claude/skills/mlkem-guard/scripts/check_params.py` | PASS |
 | CRG-7 | Constant-cycle evidence | `evidence/phase02/cocotb_regression.txt` (NTT=897, INTT=1153, **equal to C0**, i.e. 0 stall cycles) | PASS |
 | CRG-8 | Formal properties | `evidence/phase02/formal_bank_map.txt` (own-pair property, L=8, BMC depth 1, PASS) and `evidence/phase02/formal_ntt_core_c1_safety.txt` (FSM safety, k-induction depth 6, PASS) | PASS |
-| CRG-9 | Quartus evidence; no negative slack or the failure documented | `evidence/quartus/C1.md`, `evidence/phase02/quartus_C1_vs_C0.md` -- evidence exists, failure documented, but worst setup slack is **-46.720 ns** at 20.000 ns (timing NOT met, same as C0) | FAIL |
+| CRG-9 | Quartus evidence; no negative slack or the failure documented | `evidence/quartus/C1.md`, `evidence/phase02/quartus_C1_vs_C0.md` -- evidence exists, failure documented, but worst setup slack is **-46.720 ns** at 20.000 ns (timing NOT met, same as C0; the failure is documented, which is what the criterion asks) | PASS |
 | CRG-10 | Result artifact + claim checker | `cmd: python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase02.md` and `cmd: python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal` | PASS |
 
-CRG-9 marked FAIL for the same reason as Phase 1's (`docs/results/phase01.md`): the roadmap
-wording could be read as PASS-with-documented-failure; that reading is a team decision, not made
-here.
+CRG-9 was first marked FAIL, as in Phase 1 (`docs/results/phase01.md`). On 2026-10-05 the team chose the
+reading that a documented failure satisfies it, so it is PASS now; the measured slack is unchanged.
 
 ## 1b. Phase 2 PASS criteria (docs/ROADMAP.md Phase 2, beyond the CRG table)
 | # | Criterion | Evidence | Status |
@@ -42,9 +41,9 @@ here.
 | 4 | Constant cycle count | same cocotb log | PASS |
 | 5 | C1 row of the ablation matrix filled | `docs/ROADMAP.md` ablation matrix, row C1 | PASS |
 
-All five of this phase's own stated PASS criteria are met. Status is still PARTIAL overall
+All five of this phase's own stated PASS criteria are met. Status was PARTIAL at first
 because of CRG-9 (timing) and because Phase 1's own gate was not satisfied when this phase
-started (see the process note above).
+started (see the process note above); it is DONE since 2026-10-05 (see the status update at the end).
 
 ## 2. What was produced
 | Path | Purpose |
@@ -170,3 +169,6 @@ python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/p
       this PARTIAL status means the team explicitly accepts the process deviation noted at the
       top of this file (Phase 2 started before Phase 1's own box was ticked), not just this
       phase's own numbers. Phase 1's box was ticked the same day, after the fact.
+
+## Status update (2026-10-05)
+The team set this phase to DONE because its goals are met by the final phases: the later configurations meet timing (40 ns at 6 of 6 seeds, and 15 ns for the Phase 9M core, `docs/results/phase9m.md`). The measurements of this phase are unchanged (slack and ALM figures above stay as measured). CRG-9 reads "no negative slack **or the failure documented**"; the failure is documented in the evidence named in its row. The Approval box above was ticked earlier and is not edited.

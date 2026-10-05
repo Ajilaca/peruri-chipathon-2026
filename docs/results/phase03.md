@@ -1,7 +1,7 @@
 <!-- claim-lint: skip-file (result artifact: internal status page, not proposal text) -->
 # Result — Phase 3: Multi-lane exploration (L = 1/2/4/8, config C2)
 
-- Status: PARTIAL
+- Status: DONE
 - Date (UTC): 2026-09-29 15:56; updated 2026-09-30 (formal re-run; supplementary K2/K1 experiments;
   ADR 0005)
 - Git commit (HEAD when verified): 7b1d467 for the C2 sweep; dbefa86 for the 2026-09-30 update
@@ -25,13 +25,12 @@ PATH going forward. This is a local machine-config fix, not a design change.
 | CRG-6 | Locked parameters | `cmd: python3 .claude/skills/mlkem-guard/scripts/check_params.py` | PASS |
 | CRG-7 | Constant-cycle evidence | `evidence/phase03/cocotb_regression.txt` -- constant per L, and L=1 equals C0/C1 exactly (897/1153); L>1 is **lower**, not equal, which is the expected/measured effect of parallel lanes, not a stall | PASS |
 | CRG-8 | Formal properties | `evidence/phase03/formal_rerun.md` (`cmd: python3 formal/run/run_formal_slang.py`, 19/19 results as expected): k-induction **PASS for L=1, 2, 4 and 8** on C2 (and on the supplementary C2-K2 / C2-K2-K1) for bank_overflow_o == 0, the busy/done handshake and the t_q / layer_q range invariants; four negative controls fail as they must. The earlier L=2/4/8 UNKNOWN (`evidence/phase03/formal_verification.txt`) was a formal-harness artefact (ROMs modelled as free memory state in the induction step), corrected in the harness only -- RTL unchanged (Section 6). Scope: these properties only, not NTT/INTT bit-exactness | PASS |
-| CRG-9 | Quartus evidence; no negative slack or the failure documented | `evidence/quartus/C2-L1.md`, `C2-L2.md`, `C2-L4.md`, `C2-L8.md` -- all four compiled and measured; all four have negative worst setup slack (timing NOT met); **L=8 additionally exceeds ADR 0004's 10,478 ALM budget** (11,446 ALM measured) | FAIL |
+| CRG-9 | Quartus evidence; no negative slack or the failure documented | `evidence/quartus/C2-L1.md`, `evidence/quartus/C2-L2.md`, `evidence/quartus/C2-L4.md`, `evidence/quartus/C2-L8.md` -- all four compiled and measured; all four have negative worst setup slack (timing NOT met); **L=8 additionally exceeds ADR 0004's 10,478 ALM budget** (11,446 ALM measured); the failure is documented, which is what the criterion asks | PASS |
 | CRG-10 | Result artifact + claim checker | `cmd: python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase03.md` and `cmd: python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal` | PASS |
 
-CRG-9 marked FAIL for the same reason as Phase 1/2's: timing not met at the provisional 20.000 ns
-clock is expected (no target-clock ADR exists yet) and is documented, not hidden, but the roadmap
-wording is read strictly here; whether "documented failure" should count as PASS is a team call,
-not made here. CRG-8 was FAIL in the first version of this file (2026-09-29: L=1 proven, L=2/4/8
+CRG-9 was first marked FAIL, as in Phase 1 and 2: timing not met at the provisional 20.000 ns
+clock was expected (no target-clock ADR existed yet) and is documented, not hidden. On 2026-10-05 the
+team chose the reading that a documented failure counts as PASS; the measured slack is unchanged. CRG-8 was FAIL in the first version of this file (2026-09-29: L=1 proven, L=2/4/8
 UNKNOWN). It is PASS as of 2026-09-30, after the cause of the UNKNOWN was found in the formal
 harness and every L was re-proven with negative controls (Section 6); the PASS covers the stated
 control/bank-capacity properties, not arithmetic correctness.
@@ -295,3 +294,6 @@ python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/p
       Section 3b), and (2) the CRG-8 formal gap for L=2/4/8 was a harness artefact and is closed
       (Section 6). Approving this PARTIAL status therefore means accepting CRG-9 (timing not
       met) and the Section 3b limits as the documented starting point for Phase 4.
+
+## Status update (2026-10-05)
+The team set this phase to DONE because its goals are met by the final phases: the later configurations meet timing (40 ns at 6 of 6 seeds, and 15 ns for the Phase 9M core, `docs/results/phase9m.md`). The measurements of this phase are unchanged (slack and ALM figures above stay as measured). CRG-9 reads "no negative slack **or the failure documented**"; the failure is documented in the evidence named in its row. The Approval box above was ticked earlier and is not edited.

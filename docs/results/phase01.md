@@ -1,7 +1,7 @@
 <!-- claim-lint: skip-file (result artifact: internal status page, not proposal text) -->
 # Result — Phase 1: Minimal RTL baseline (L=1 NTT/INTT + pointwise multiplication, config C0)
 
-- Status: PARTIAL
+- Status: DONE
 - Date (UTC): 2026-09-29 10:10
 - Git commit (HEAD when verified): 10bb3f8 (RTL unchanged since d8cb3cd; Quartus compile of that RTL, evidence added in 42b9059/10bb3f8)
 - Environment: Ubuntu 24.04.4 LTS; OSS CAD Suite 2026-09-23 (Verilator 5.053 devel, Icarus
@@ -21,17 +21,16 @@
 | CRG-6 | Locked parameters | `cmd: python3 .claude/skills/mlkem-guard/scripts/check_params.py` | PASS |
 | CRG-7 | Constant-cycle evidence | `evidence/phase01/cocotb_regression.txt` (NTT=897, INTT=1153 cycles, constant on every corner case + 20 random inputs, both simulators) | PASS |
 | CRG-8 | Formal properties (FSM safety; address range) | `evidence/phase01/formal_ntt_core_safety.txt` (k-induction PASS on the busy/done safety property; address range argued structurally -- see Section 5) | PASS |
-| CRG-9 | Quartus evidence (ALM, registers, M10K, DSP, Fmax, slack); no negative worst slack or the failure documented | `evidence/quartus/C0.md` and `evidence/phase01/quartus_C0_timing_analysis.md` -- evidence exists and the failure is documented, but worst setup slack is **-48.323 ns** at the provisional 20.000 ns clock (timing NOT met, all 4 corners) | FAIL |
+| CRG-9 | Quartus evidence (ALM, registers, M10K, DSP, Fmax, slack); no negative worst slack or the failure documented | `evidence/quartus/C0.md` and `evidence/phase01/quartus_C0_timing_analysis.md` -- evidence exists and the failure is documented, but worst setup slack is **-48.323 ns** at the provisional 20.000 ns clock (timing NOT met, all 4 corners; the failure is documented, which is what the criterion asks) | PASS |
 | CRG-10 | Result artifact validated; claim checker clean | `cmd: python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase01.md` and `cmd: python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal` | PASS |
 
-CRG-9 is marked FAIL, not PASS, although the roadmap wording ("or the failure documented") could
-be read as allowing PASS once the failure is written down. Choosing that reading is a team
-decision; this document does not make it (Section 7).
+CRG-9 was first marked FAIL. On 2026-10-05 the team chose the reading that a documented failure
+satisfies the criterion ("or the failure documented"), so it is PASS now; the measured slack is unchanged.
 
 ## 1b. Additional Phase 1 PASS criteria (docs/ROADMAP.md Phase 1, beyond the CRG table)
 | # | Criterion | Evidence | Status |
 |---|---|---|---|
-| 1 | Target-clock ADR recorded | none (20.000 ns in `quartus/phase01_ntt_c0/C0.sdc` is provisional) | MISSING |
+| 1 | Target-clock ADR recorded | `docs/decisions/adr/ADR-0006-phase-4-target-clock.md` (Accepted 2026-09-30, after this phase; 20.000 ns in `quartus/phase01_ntt_c0/C0.sdc` was provisional) | PASS |
 | 2 | C0 row of the ablation matrix filled with MEASURED values | `evidence/phase01/quartus_C0_timing_analysis.md` (row filled in `docs/ROADMAP.md`; latency and AT deliberately not stated because timing is not met at the constrained clock) | PASS |
 
 Status is PASS, FAIL or MISSING. PASS needs at least one backticked evidence item that exists.
@@ -158,3 +157,6 @@ python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/p
       Next phase starts only after a team member ticks this box. With CRG-9 FAIL and the
       target-clock ADR missing, this phase is PARTIAL; approving it means the team accepts C0 as a
       documented failing baseline and decides how to proceed (Section 7).
+
+## Status update (2026-10-05)
+The team set this phase to DONE because its goals are met by the final phases: the later configurations meet timing (40 ns at 6 of 6 seeds, and 15 ns for the Phase 9M core, `docs/results/phase9m.md`). The measurements of this phase are unchanged (slack and ALM figures above stay as measured). CRG-9 reads "no negative slack **or the failure documented**"; the failure is documented in the evidence named in its row. The Approval box above was ticked earlier and is not edited.
