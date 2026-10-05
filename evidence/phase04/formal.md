@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (internal verification record, not proposal text) -->
-# Phase 4 formal results (test plan V9, CRG-8) — C3, P = 2 / 4 / 6
+# Phase 4 formal results (test plan V9, CRG-8) - C3, P = 2 / 4 / 6
 
 - Generated: 2026-09-30 16:06 UTC. Command: `. scripts/env.sh && python3 formal/run/run_formal_phase4.py`
 - Tools: SBY v0.69; Yosys 0.69+136 (git sha1 0fa1478ce-dirty, Release, Clang /us; yosys-slang frontend, `memory_map -rom-only`, smtbmc boolector; k-induction depth P + 3.

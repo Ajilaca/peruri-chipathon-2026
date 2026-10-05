@@ -1,4 +1,4 @@
-# MEASURED — Quartus results for revision `C3-P6-s4`
+# MEASURED - Quartus results for revision `C3-P6-s4`
 
 - Generated: 2026-10-01 03:16 UTC by `extract_quartus_report.py` (values copied from the reports, not computed)
 - Source directory: `quartus/phase04_pipeline_c3/output_files_P6_s4`

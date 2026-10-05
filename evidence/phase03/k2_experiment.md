@@ -1,9 +1,9 @@
 <!-- claim-lint: skip-file (internal experiment record, not proposal text) -->
-# Phase 3 supplementary experiment K2 — narrow sub-cycle counter (`t_q`) on C2
+# Phase 3 supplementary experiment K2 - narrow sub-cycle counter (`t_q`) on C2
 
 - Date (UTC): 2026-09-30
 - Branch: `phase3-multilane`, on top of `f155f32` (Phase 3 C2 sweep, unchanged)
-- Status: **completed, accepted by the team as a finished experiment — valid but insufficient**
+- Status: **completed, accepted by the team as a finished experiment - valid but insufficient**
 - Baseline kept frozen: `rtl/ntt/ntt_core_c2.sv` and every Phase 3 evidence file
   (`evidence/quartus/C2-L{1,2,4,8}.md`, `docs/results/phase03.md`) are untouched.
 

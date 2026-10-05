@@ -1,4 +1,4 @@
-# MEASURED — Quartus results for revision `F15-s2`
+# MEASURED - Quartus results for revision `F15-s2`
 
 - Generated: 2026-10-04 08:39 UTC by `extract_quartus_report.py` (values copied from the reports, not computed)
 - Source directory: `quartus/phase09f0_core/output_files_F15-s2`

@@ -1,4 +1,4 @@
-# Phase 5c formal (test plan A4 V8 / V8-lazy) — 2026-10-01
+# Phase 5c formal (test plan A4 V8 / V8-lazy) - 2026-10-01
 
 Command: `. scripts/env.sh && python3 formal/run/run_formal_phase5.py` (yosys-slang frontend, `memory_map -rom-only`, SymbiYosys, smtbmc boolector). Control / bank-capacity properties for every C4 wrapper incl. C4c, and the value-bound proof of `rtl/arith/lazy_bfly_io.sv` (P1 u < 2q and s < 2q; P2 u congruent to b - a, NTT u = b; P3 outputs < q and equal to the reference equations) with a negative control (INTT output side value not reduced -> must FAIL). Scope: control, bank capacity and the I/O bounds; the reducer for u in [0, 2q) is covered by the exhaustive test, not by this proof.
 

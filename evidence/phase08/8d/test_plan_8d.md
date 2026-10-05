@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (internal test plan, not proposal text) -->
-# Phase 8d: overlap of the sampler with the arithmetic — test plan and adoption rule
+# Phase 8d: overlap of the sampler with the arithmetic - test plan and adoption rule
 
 Written 2026-10-03, **before any 8d RTL change and before any 8d measurement** (CRG-4). Scope: `docs/ROADMAP.md` Phase 8d; ADR 0026 (Accepted); chat 2026-10-03 (no name given): do 8b, 8c and 8d without stopping, then the report and the result.
 Base: the 8c sequencer `rtl/sched/kpke_sched_smp.sv` (STREAM build, `evidence/phase08/8c/`), the Phase 6 files and the 8b sampler, all as they are. Labels: MEASURED, INFERENCE, ESTIMATE, NOT MEASURED, perhitungan tim. The mathematics is locked (C1): only the order and the time at which noise polynomials are sampled change.

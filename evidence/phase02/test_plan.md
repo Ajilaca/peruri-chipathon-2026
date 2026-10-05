@@ -1,4 +1,4 @@
-# Phase 2 test plan — memory banking (C1), written before any test is coded (CRG-4)
+# Phase 2 test plan - memory banking (C1), written before any test is coded (CRG-4)
 
 Scope: `rtl/mem/bank_map_rom.sv`, `rtl/mem/poly_mem_banked.sv`, `rtl/mem/ntt_core_c1.sv`.
 Reference: `tb/mem/bank_model.py` (bank/offset scheme), `tb/golden/primitives.py` (`ntt`, `intt`).

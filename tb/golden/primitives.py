@@ -237,8 +237,8 @@ def _bitrev7(r: int) -> int:
 
 
 # zeta^BitRev7(i) mod q for i = 0..127 (i=0 gives zeta^0 = 1; Appendix A
-# includes this entry too — see errata item #1 in
-# evidence/phase00/fips203_errata.md — computed here directly
+# includes this entry too - see errata item #1 in
+# evidence/phase00/fips203_errata.md - computed here directly
 # from the BitRev7 formula, not copied from the Appendix A table).
 _ZETA_BITREV = [pow(ZETA, _bitrev7(i), Q) for i in range(128)]
 

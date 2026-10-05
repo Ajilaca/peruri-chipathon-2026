@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (internal experiment record, not proposal text) -->
-# Phase 3 supplementary experiment K1 — one shared multiplier per butterfly (config C2-K2-K1)
+# Phase 3 supplementary experiment K1 - one shared multiplier per butterfly (config C2-K2-K1)
 
 - Date (UTC): 2026-09-30
 - Branch: `phase3-multilane`, on top of `b11b08f` (K2 committed)

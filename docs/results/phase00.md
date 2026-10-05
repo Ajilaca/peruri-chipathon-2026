@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (result artifact: internal status page, not proposal text) -->
-# Result — Phase 0: Foundations
+# Result - Phase 0: Foundations
 
 - Status: DONE
 - Date (UTC): 2026-09-29 01:16

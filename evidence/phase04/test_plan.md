@@ -1,4 +1,4 @@
-# Phase 4 test plan — butterfly pipeline sweep P = 0 / 2 / 4 / 6 (C3), written before any RTL is coded (CRG-4)
+# Phase 4 test plan - butterfly pipeline sweep P = 0 / 2 / 4 / 6 (C3), written before any RTL is coded (CRG-4)
 
 - Date (UTC): 2026-09-30. Branch `phase4-pipeline`. No Phase 4 RTL, testbench or Quartus project exists
   at the time of writing.
@@ -46,7 +46,7 @@ results are written (ADR 0007). Named cut points, from the measured path of the 
 | P | Cuts | Longest segment expected (ESTIMATE from the single measured path; not a prediction of Fmax) |
 |---|---|---|
 | 0 | none (frozen C2-K2-K1) | 129.6 ns data delay, MEASURED |
-| 2 | A_13, D_3 | about 45 ns — **not expected to meet 40.000 ns** (three equal parts of this path would be about 44 ns); measured anyway, as ADR 0007 requires |
+| 2 | A_13, D_3 | about 45 ns - **not expected to meet 40.000 ns** (three equal parts of this path would be about 44 ns); measured anyway, as ADR 0007 requires |
 | 4 | A_7, M, X, D_7 | about 30 ns |
 | 6 | A_4, A_11, M, X, D_5, D_11 | about 24 ns (the read mux + multiplier segment) |
 
@@ -134,7 +134,7 @@ simulators, and "constant cycle: PASS" (condition 2) only if V6 passes.
   5CSEBA6U23I7, Quartus Prime Lite 25.1std, kernel-only with virtual pins, same assignments as the
   Phase 3 revisions; the QSFs differ only in top entity, output folder and RTL file list.
 - One SDC for all four: `create_clock -name clk_i -period 40.000 [get_ports {clk_i}]`,
-  `derive_clock_uncertainty`, `set_false_path -from [get_ports {rst_ni}]` — the Phase 3 SDC with only the
+  `derive_clock_uncertainty`, `set_false_path -from [get_ports {rst_ni}]` - the Phase 3 SDC with only the
   period changed. Fitter seed: the default, as in Phases 1–3, the same for all four.
 - `C3-P0` is compiled in the same session as the others; its result is **not** copied from the Phase 3
   evidence (that was at 20.000 ns).
@@ -152,7 +152,7 @@ simulators, and "constant cycle: PASS" (condition 2) only if V6 passes.
 - Information only, no extra compile: whether each revision's Fmax would also satisfy the 20.000 ns end
   goal.
 
-## 6. Selection (ADR 0007) — applied only after all four P are measured
+## 6. Selection (ADR 0007) - applied only after all four P are measured
 Worksheet to be filled from the evidence files (no cell is filled from memory or estimate):
 
 | P | bit-exact | constant cycle | ALM | ≤ 10,478? | worst setup / hold slack @ 40.000 ns | timing met? | cycles_NTT | cycles_INTT | Fmax per slow corner (MHz) | Fmax(P) = lowest | t_NTT (µs) | t_INTT (µs) | candidate? |
@@ -183,7 +183,7 @@ and on the ALM budget, whose margin at the starting point is 724 ALM.
 
 ## 7. Order of work and stop points
 1. This plan approved by the team.
-2. Staged reducer + V2 (exhaustive) — nothing else is built on it until V2 passes.
+2. Staged reducer + V2 (exhaustive) - nothing else is built on it until V2 passes.
 3. Memory variant + V4; pipelined butterfly + V3.
 4. Core for P = 2, 4, 6 + V1, V5–V8, V10, V11.
 5. Formal V9.

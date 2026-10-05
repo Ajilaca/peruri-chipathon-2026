@@ -1,4 +1,4 @@
-# MEASURED — Quartus results for revision `K2`
+# MEASURED - Quartus results for revision `K2`
 
 - Generated: 2026-10-04 13:51 UTC by `extract_quartus_report.py` (values copied from the reports, not computed)
 - Source directory: `quartus/phase09s2_core/output_files_K2`

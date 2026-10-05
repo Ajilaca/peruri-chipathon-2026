@@ -1,4 +1,4 @@
-# MEASURED — Quartus results for revision `F13-s1`
+# MEASURED - Quartus results for revision `F13-s1`
 
 - Generated: 2026-10-04 09:34 UTC by `extract_quartus_report.py` (values copied from the reports, not computed)
 - Source directory: `quartus/phase09f0_core/output_files_F13-s1`

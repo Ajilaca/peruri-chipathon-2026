@@ -1,4 +1,4 @@
-# MEASURED — Quartus results for revision `HF-20`
+# MEASURED - Quartus results for revision `HF-20`
 
 - Generated: 2026-10-03 16:21 UTC by `extract_quartus_report.py` (values copied from the reports, not computed)
 - Source directory: `quartus/phase09b_hashfo/output_files_HF-20`

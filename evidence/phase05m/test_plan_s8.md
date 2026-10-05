@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (internal test plan, not proposal text) -->
-# Phase 5M, step S8: write-path register and one bubble per direction (P = 7 -> 8) — test plan and adoption rule
+# Phase 5M, step S8: write-path register and one bubble per direction (P = 7 -> 8) - test plan and adoption rule
 
 Written 2026-10-02, **after the S8 RTL was written and linted (Verilator `-Wall`, slang: 0 warnings) but before any S8 simulation and before any S8 Quartus
 compile** (CRG-4: nothing below depends on an S8 measurement). Scope and rules: ADR 0017 (S8 = lever 4 of the decision package: P -> 8, one data-independent stall

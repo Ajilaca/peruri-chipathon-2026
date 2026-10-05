@@ -1,4 +1,4 @@
-"""tb/ntt/test_butterfly_pipe.py — cocotb test for rtl/ntt/butterfly_shared_pipe.sv (Phase 4 test plan V3):
+"""tb/ntt/test_butterfly_pipe.py - cocotb test for rtl/ntt/butterfly_shared_pipe.sv (Phase 4 test plan V3):
 the pipelined butterfly against the exact per-butterfly step of tb/golden/primitives.py (forward CT,
 inverse GS), inputs streamed back-to-back, each result compared exactly LATENCY cycles after its inputs.
 

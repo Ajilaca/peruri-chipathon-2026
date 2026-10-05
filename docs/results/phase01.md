@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (result artifact: internal status page, not proposal text) -->
-# Result — Phase 1: Minimal RTL baseline (L=1 NTT/INTT + pointwise multiplication, config C0)
+# Result - Phase 1: Minimal RTL baseline (L=1 NTT/INTT + pointwise multiplication, config C0)
 
 - Status: DONE
 - Date (UTC): 2026-09-29 10:10

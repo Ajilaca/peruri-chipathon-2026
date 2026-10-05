@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (internal test plan, not proposal text) -->
-# Phase 8c: matrix A generated on the fly (no storage of Â) — test plan and adoption rule
+# Phase 8c: matrix A generated on the fly (no storage of Â) - test plan and adoption rule
 
 Written 2026-10-03, **before any 8c RTL and before any 8c measurement** (CRG-4). Scope: `docs/ROADMAP.md` Phase 8c; ADR 0026 (Accepted: 8a-8d go ahead, each with its own plan and rule). Chat 2026-10-03 (no name given): do 8b, 8c and 8d without stopping between them, then the report and the result.
 Base (all unedited, frozen): the Phase 6 sequencer and store (`rtl/sched/kpke_sched.sv`, `poly_store.sv`, `pwm_unit.sv`, `gamma_rom.sv`), the S10 NTT/INTT core (`rtl/ntt/ntt_core_s10_p5.sv`, ADR 0025 Proposed), the 8b sampler (`rtl/sample/`, stage W2 if it is the one chosen by `evidence/phase08/8b/` section 5 rule, otherwise W1) on the C5 sponge (ADR 0027 Proposed; PENDING #29 open).

@@ -1,4 +1,4 @@
-"""tb/mem/run_mem_tests.py — runs every Phase 2 cocotb test module against one simulator
+"""tb/mem/run_mem_tests.py - runs every Phase 2 cocotb test module against one simulator
 (CRG-3: bit-exact against the golden model, on both simulators).
 
 Usage: python3 tb/mem/run_mem_tests.py icarus|verilator

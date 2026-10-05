@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (internal test plan, not proposal text) -->
-# Phase 5 test plan — modular arithmetic for q = 3329 (C4), written before any RTL is coded (CRG-4)
+# Phase 5 test plan - modular arithmetic for q = 3329 (C4), written before any RTL is coded (CRG-4)
 
 - Date (UTC): 2026-10-01. Branch `phase5-arith` (from `main` at 5a1eec0). No Phase 5 RTL, testbench or Quartus
   project exists at the time of writing.
@@ -26,7 +26,7 @@
 | GHRD + C3-P6 (GHRD settings) | 12,375 ALM combined; core alone with GHRD settings 11,053 | `evidence/phase04/ghrd_plus_c3p6_integration.md` |
 
 **Frozen, not edited in Phase 5:** every file of Phases 1–4 under `rtl/`, `tb/`, `formal/`, `quartus/` and all Phase
-1–4 evidence — in particular `modmul_reduce.sv`, `modmul_reduce_staged.sv`, `butterfly*.sv`, `twiddle_rom.sv`,
+1–4 evidence - in particular `modmul_reduce.sv`, `modmul_reduce_staged.sv`, `butterfly*.sv`, `twiddle_rom.sv`,
 `base_case_multiply.sv`, `poly_mem_multiport_pipe.sv`, `ntt_core_c3*.sv`.
 
 ## 2. Baseline finding that shapes this plan (`baseline/c3p6_critical_path.md`)
@@ -59,19 +59,19 @@ Candidate parameters (perhitungan tim, confirmed only by the exhaustive test V2)
   function (a·b mod q) unchanged, the operand that is always a constant is stored in Montgomery form: twiddles
   ζ·R mod q in a **new** generated ROM (`scripts/build/gen_twiddle_rom_mont.py` from `tb/golden/primitives.py`;
   `twiddle_rom.sv` stays frozen) and the INTT scaling constant 3303·R mod q. Every multiplier in C3 has one operand
-  from a table or a constant (`zeta_i` in the butterflies, 3303 in the scaling pass — checked in
+  from a table or a constant (`zeta_i` in the butterflies, 3303 in the scaling pass - checked in
   `rtl/ntt/butterfly_shared_pipe.sv` and `rtl/ntt/ntt_core_c3.sv`), so no conversion of polynomial data is needed.
 - Whether the extra multiplication (x·m in Barrett, (x mod R)·q' in Montgomery) uses a DSP or ALM shift-and-add is a
   design parameter; both variants may be built if D2 allows extra DSPs.
 
-5c *(optional, [D3])* — lazy reduction. The only lazy spot compatible with fixed memory (12-bit words, values < q
+5c *(optional, [D3])* - lazy reduction. The only lazy spot compatible with fixed memory (12-bit words, values < q
 written back) is **inside the butterfly**. Concrete candidate targeting the measured critical segment: feed
 `b + q − a` (13 bits, in [1, 2q)) to the multiplier instead of `sub_mod(b, a)`, removing the conditional subtraction
 (part of the ~4.3 ns) from the M → X segment. The multiplier input range becomes [0, 2q) and the product exceeds
 2^24 (max 2q·(q−1) ≈ 22.2 M), so the reducer must be proven for that wider domain (Barrett with larger k, or
 Montgomery with R = 2^13). Allowed only with the formal bound proof of Section 8.
 
-5d *(optional, [D3])* — Karatsuba-style base case: c1 = (a0 + a1)(b0 + b1) − a0·b0 − a1·b1, c0 = a0·b0 + γ·(a1·b1),
+5d *(optional, [D3])* - Karatsuba-style base case: c1 = (a0 + a1)(b0 + b1) − a0·b0 − a1·b1, c0 = a0·b0 + γ·(a1·b1),
 4 modular multiplications instead of 5. **Finding:** `base_case_multiply.sv` is **not part of C3-P6**: no core instantiates it
 (it is only listed as a source file in some Phase 1–4 QSFs; the C3 core does NTT/INTT only). C4d therefore cannot be a change of the C3-P6 kernel;
 it is a standalone unit compared against a standalone compile of the frozen `base_case_multiply.sv` *[D3]*.
@@ -147,7 +147,7 @@ void.
 
 A sub-step is **correct** only if V1–V7, V9, V10 pass (and Section 8 for 5c) on both simulators.
 
-## 8. Formal plan for 5c (lazy reduction) — required before any lazy design is used
+## 8. Formal plan for 5c (lazy reduction) - required before any lazy design is used
 - SymbiYosys with the yosys-slang frontend (no `bind`, packed-vector ports), on a combinational wrapper of the lane
   datapath: assume a, b < q and ζ < q; prove (mode `prove`) that (1) the multiplier input is < 2q, (2) the product
   fits the reducer's input width, (3) the reducer output and every value written to memory is < q, (4) no
@@ -162,11 +162,11 @@ A sub-step is **correct** only if V1–V7, V9, V10 pass (and Section 8 for 5c) o
 - New project `quartus/phase05_arith_c4/`; revisions `C4a`, `C4b-B` (Barrett), `C4b-M` (Montgomery), `C4c`, and for
   5d `C4d` + `BCM-ref` (frozen `base_case_multiply.sv`, standalone) *[D3]*. Same device, virtual pins and QSF
   assignments as `C3-P6.qsf`; only top entity, output folder and RTL list differ.
-- Constraint *[D1]*: suggestion — `create_clock -period 40.000` for every C4 revision (comparable with C3-P6), plus
+- Constraint *[D1]*: suggestion - `create_clock -period 40.000` for every C4 revision (comparable with C3-P6), plus
   one extra compile of the final C4 configuration **and** of C3-P6 at 20.000 ns, reported as information.
-- Settings *[D2]*: suggestion — Quartus defaults as in Phase 4; optionally one GHRD-settings compile of the final C4
+- Settings *[D2]*: suggestion - Quartus defaults as in Phase 4; optionally one GHRD-settings compile of the final C4
   (compare with C3-P6-ghrdset 11,053 ALM).
-- Seeds *[D7]*: suggestion — default seed for every revision; seeds 1–6 for the two 5b candidates (12 compiles) so
+- Seeds *[D7]*: suggestion - default seed for every revision; seeds 1–6 for the two 5b candidates (12 compiles) so
   the 5b choice does not rest on one seed; C3-P6's seeds 1–6 already exist.
 - One compile at a time, in the background; reports extracted with the `/quartus-report` skill; per-entity ALM of
   every reducer and the top-path class report (`scripts/quartus/phase5_top_paths.tcl` on a copy of the project,
@@ -177,18 +177,18 @@ A sub-step is **correct** only if V1–V7, V9, V10 pass (and Section 8 for 5c) o
 |---|---|---|
 | 5a | correct (Section 7); revision `C4a` compiled; NTT/INTT cycles 119/375; timing at the D1 constraint met **or** the failure documented | Δ ALM, Δ registers, Δ DSP, Δ Fmax and Δ slack vs C3-P6 (same constraint, settings, seed); reducer per-entity ALM; path classes |
 | 5b | both candidates correct and compiled; selection rule (ADR, written before compiling) applied; ADR recorded | same deltas for both candidates (and per seed if D7) |
-| 5c | formal bound proof PASS with negative control; correct; `C4c` compiled — or "not attempted" | change of the M → X segment slack |
-| 5d | correct (exhaustive or bounded per D3); `C4d` and `BCM-ref` compiled — or "not attempted" | DSP and ALM vs `BCM-ref` |
+| 5c | formal bound proof PASS with negative control; correct; `C4c` compiled - or "not attempted" | change of the M → X segment slack |
+| 5d | correct (exhaustive or bounded per D3); `C4d` and `BCM-ref` compiled - or "not attempted" | DSP and ALM vs `BCM-ref` |
 Any revision above 12,573 ALM or not meeting the D1 constraint is reported as such; it is not hidden and not
 "fixed" by a waiver, false path or weakened check.
 
-## 11. 5b selection rule — proposal, to be accepted as an ADR before any 5b compile *[D8]*
+## 11. 5b selection rule - proposal, to be accepted as an ADR before any 5b compile *[D8]*
 *Step 1.* Build, verify and compile both candidates (and seeds per D7) before applying the rule.
-*Step 2 — candidate conditions (all must hold):* correct (Section 7); cycles exactly 119 / 375; ALM ≤ 12,573
+*Step 2 - candidate conditions (all must hold):* correct (Section 7); cycles exactly 119 / 375; ALM ≤ 12,573
 (fitter "ALMs needed"); timing met at the D1 constraint (non-negative setup and hold at every reported corner).
-*Step 3 — metric.* Fmax(c) = lowest slow-corner Fmax (median over seeds if D7 gives several). Cycles are equal by
+*Step 3 - metric.* Fmax(c) = lowest slow-corner Fmax (median over seeds if D7 gives several). Cycles are equal by
 condition, so time per NTT is proportional to 1/Fmax.
-*Step 4 — selection.* Highest Fmax wins, unless the other candidate is within 5% of it (near tie); in a near tie
+*Step 4 - selection.* Highest Fmax wins, unless the other candidate is within 5% of it (near tie); in a near tie
 the candidate with fewer ALMs wins; if their ALM also differ by less than the measured seed spread of C3-P6
 (32 ALM), the team decides (suggested tie-break: Barrett, because it needs no Montgomery-form tables).
 *Step 5.* If no candidate qualifies, nothing is selected automatically; results are reported and the team decides.
@@ -215,12 +215,12 @@ Indonesia, generated by a script modelled on `scripts/build/build_phase4_report.
 | D7 | Seeds | ADR 0011: default seed for all; seeds 1–6 for the two 5b candidates |
 | D8 | 5b selection rule | ADR 0011 (the rule of Section 11, made precise there: per-seed qualification, median Fmax and median ALM) |
 
-Later timing work (outside Phase 5): ADR 0012 — more cycles only if t_NTT and t_INTT at the measured Fmax beat C3-P6
+Later timing work (outside Phase 5): ADR 0012 - more cycles only if t_NTT and t_INTT at the measured Fmax beat C3-P6
 and constant-cycle holds; NTT core ≤ 12,573 ALM remains the limit.
 
 ## 14. Amendments (register positions and design details fixed before each compile)
 
-**A1 — 5a, revision C4a (2026-10-01, before any C4a compile).**
+**A1 - 5a, revision C4a (2026-10-01, before any C4a compile).**
 - Reducer `rtl/arith/modmul_fold.sv`: stages F_1..F_5 (folds v → 767·(v >> 12) + (v mod 2^12), widths 22, 20, 17,
   15, 14 bits) and S (one select among v, v − q, v − 2q, both subtractions in parallel). Upper bounds for every
   24-bit input (perhitungan tim, then confirmed by V2 over all 2^24 12-bit pairs): 3,144,960 → 592,384 → 114,543
@@ -236,7 +236,7 @@ and constant-cycle holds; NTT core ≤ 12,573 ALM remains the limit.
 - Quartus: project `quartus/phase05_arith_c4/`, revision `C4a`; QSF = `C3-P6.qsf` with only top entity, output
   folder and RTL list changed; SDC = `C3.sdc` (40.000 ns) copied unchanged; default seed and settings.
 
-**A2 — core negative control (2026-10-01, after the first core run, before any Quartus result).**
+**A2 - core negative control (2026-10-01, after the first core run, before any Quartus result).**
 - V5/V7 reuse the Phase 4 core test `tb/ntt/test_ntt_core_c3.py` unchanged (runner `tb/arith/run_c4_core_tests.py`).
 - The first C4 negative control (fold reducer, RdLat 1 + WrDly 7, P = 8) was **not** a valid negative control: the
   scoreboard tripped, but 0 of 5 NTT results were wrong on both simulators
@@ -252,7 +252,7 @@ and constant-cycle holds; NTT core ≤ 12,573 ALM remains the limit.
   confirm this in simulation and needs a scoreboard that models the read at request + RdLat (a new test file; the
   Phase 4 test stays frozen).
 
-**A3 — 5b candidates, revisions C4b-B and C4b-M (2026-10-01, before any 5b compile).**
+**A3 - 5b candidates, revisions C4b-B and C4b-M (2026-10-01, before any 5b compile).**
 - Barrett `rtl/arith/modmul_barrett.sv` (RED_KIND 2): stages S_1 quotient estimate t = (x·5039) >> 24 (the product
   x·M is left to the tool), S_2 remainder r = x − t·q (t·q shift-and-add), S_3 select r or r − q. r < 2q for every
   24-bit x (largest r = 5,713, perhitungan tim over all 2^24 values; confirmed by V2).
@@ -270,7 +270,7 @@ and constant-cycle holds; NTT core ≤ 12,573 ALM remains the limit.
 - Wrappers `rtl/ntt/ntt_core_c4b_b.sv`, `rtl/ntt/ntt_core_c4b_m.sv`; Quartus revisions `C4b-B`, `C4b-M` and their seed
   copies `C4b-B-s2..s6`, `C4b-M-s2..s6` (only `SEED` and output folder differ), all at 40.000 ns, Quartus defaults.
 
-**A4 — 5c lazy reduction, revision C4c (2026-10-01, ADR 0014, before any 5c RTL or compile).**
+**A4 - 5c lazy reduction, revision C4c (2026-10-01, ADR 0014, before any 5c RTL or compile).**
 - Design: `rtl/arith/lazy_bfly_io.sv` (combinational input / output logic of the INTT lazy butterfly: u = b + q − a,
   s = a + b, output a' = s ≥ q ? s − q : s, b' = t; NTT mode as before), `rtl/arith/modmul_barrett_lazy.sv` (Barrett with
   a 13-bit second operand, 25-bit product, same constant M = 5039 and stages S_1..S_3; r < 2q for every product up to

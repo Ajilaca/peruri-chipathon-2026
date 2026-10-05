@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (internal investigation record, not proposal text) -->
-# GHRD DE10-Nano + C3-P6 in one Quartus compilation — integration experiment
+# GHRD DE10-Nano + C3-P6 in one Quartus compilation - integration experiment
 
 Labels: **MEASURED** = read from a Quartus report of the compiles listed in Section 2; **INFERENCE** = derived from
 measured numbers (differences, sums, interpretation); **NOT MEASURED** = not obtained in this experiment.
@@ -58,35 +58,35 @@ The three compiles ran one at a time (parallel runs corrupt the shared `.qpf`).
 | Metric | C3-P6 (Phase 4, defaults) | C3-P6-ghrdset | GHRD base (fresh) | **Combined** |
 |---|---:|---:|---:|---:|
 | ALMs needed | 10,505 | 11,053 | 1,304 | **12,375** (30 %) |
-| [A] placed | — | 11,998 | 1,588 | 13,468 |
-| [B] recoverable by dense packing | — | 1,197 | 294 | 1,338 |
-| [C] unavailable | — | 252 | 10 | 245 |
-| Combinational ALUTs for logic | — | 17,656 | 2,187 | 19,819 |
+| [A] placed | - | 11,998 | 1,588 | 13,468 |
+| [B] recoverable by dense packing | - | 1,197 | 294 | 1,338 |
+| [C] unavailable | - | 252 | 10 | 245 |
+| Combinational ALUTs for logic | - | 17,656 | 2,187 | 19,819 |
 | Total registers | 4,168 | 4,790 | 2,369 | 6,876 |
 | M10K | 29 / 553 | 28 / 553 | 35 / 553 | 62 / 553 |
 | DSP | 9 / 112 | 9 / 112 | 0 / 112 | 9 / 112 |
 | Fabric PLLs / DLLs | 0 / 0 | 0 / 0 | 0 / 1 | 0 / 1 |
-| LABs used | — | 1,363 | 208 | 1,580 |
-| Difficulty packing design | — | Low | Low | Low |
-| Interconnect average (total) | — | 11.9 % | 1.6 % | 10.9 % |
-| Interconnect peak (total) | — | 51.8 % | 11.6 % | 37.0 % |
-| Router estimate average / peak | — | 10 % / 44 % | 1 % / 10 % | 9 % / 33 % |
+| LABs used | - | 1,363 | 208 | 1,580 |
+| Difficulty packing design | - | Low | Low | Low |
+| Interconnect average (total) | - | 11.9 % | 1.6 % | 10.9 % |
+| Interconnect peak (total) | - | 51.8 % | 11.6 % | 37.0 % |
+| Router estimate average / peak | - | 10 % / 44 % | 1 % / 10 % | 9 % / 33 % |
 
-"—" = not extracted for the Phase 4 evidence file (see `quartus_C3-P6.md` for what it contains).
+"-" = not extracted for the Phase 4 evidence file (see `quartus_C3-P6.md` for what it contains).
 Per entity in the combined compile (MEASURED): `ntt_core_c3_p6` 11,050.0 ALM, 17,604 ALUTs, 4,490 registers, 27 M10K,
 9 DSP; `soc_system` 1,219.3 ALM, 35 M10K; `sld_hub` 61.5; `debounce` 23.7. Standalone GHRD: `soc_system` 1,217.8 ALM.
 
 ## 7. Measured timing (MEASURED; worst over the corners printed)
 | Clock | C3-P6 (Phase 4) | C3-P6-ghrdset | GHRD base (fresh) | Combined |
 |---|---|---|---|---|
-| NTT clock (`clk_i` / `ntt_clk_i`, 40.000 ns): setup / hold | +10.753 / +0.140 | +16.017 / +0.152 | — | **+11.364 / +0.129** |
-| NTT Fmax, Slow 100C / Slow −40C (MHz) | 34.19 / 34.5 | 41.74 / 41.7 | — | 34.92 / **35.58** |
-| `fpga_clk1_50` (20 ns): setup / hold | — | — | +6.102 / +0.135 | +6.358 / +0.143 |
-| `fpga_clk1_50` Fmax, Slow 100C / −40C (MHz) | — | — | 85.06 / 87.33 | 77.35 / 78.29 |
-| HPS SDRAM `afi_clk_write_clk`: setup / hold | — | — | +1.573 / +0.076 | +1.573 / +0.076 |
-| `h2f_user1_clk`: setup / hold | — | — | +18.629 / +0.247 | +18.919 / +0.229 |
-| `altera_reserved_tck` (JTAG): setup / hold | — | — | +6.255 / +0.107 | +6.255 / +0.120 |
-| System worst setup / hold | — | — | +1.573 / +0.076 | **+1.573 / +0.076** (both on `afi_clk_write_clk`) |
+| NTT clock (`clk_i` / `ntt_clk_i`, 40.000 ns): setup / hold | +10.753 / +0.140 | +16.017 / +0.152 | - | **+11.364 / +0.129** |
+| NTT Fmax, Slow 100C / Slow −40C (MHz) | 34.19 / 34.5 | 41.74 / 41.7 | - | 34.92 / **35.58** |
+| `fpga_clk1_50` (20 ns): setup / hold | - | - | +6.102 / +0.135 | +6.358 / +0.143 |
+| `fpga_clk1_50` Fmax, Slow 100C / −40C (MHz) | - | - | 85.06 / 87.33 | 77.35 / 78.29 |
+| HPS SDRAM `afi_clk_write_clk`: setup / hold | - | - | +1.573 / +0.076 | +1.573 / +0.076 |
+| `h2f_user1_clk`: setup / hold | - | - | +18.629 / +0.247 | +18.919 / +0.229 |
+| `altera_reserved_tck` (JTAG): setup / hold | - | - | +6.255 / +0.107 | +6.255 / +0.120 |
+| System worst setup / hold | - | - | +1.573 / +0.076 | **+1.573 / +0.076** (both on `afi_clk_write_clk`) |
 
 - Combined: no negative setup, hold, recovery or removal slack on any clock (MEASURED). The NTT domain meets 40.000 ns
   and the shell domains keep meeting their GHRD constraints.

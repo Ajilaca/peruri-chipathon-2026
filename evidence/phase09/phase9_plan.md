@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (internal plan, not proposal text) -->
-# Phase 9: full ML-KEM-768 in RTL (simulation) — plan of the blocks
+# Phase 9: full ML-KEM-768 in RTL (simulation) - plan of the blocks
 
 Written 2026-10-03, before any Phase 9 RTL and before any Phase 9 measurement. Scope: `docs/ROADMAP.md` Phase 9; ADR 0019 (path and tiers), ADR 0027-0030 (Accepted: C5 sponge, W2 sampler, STREAM, OVERLAP), ADR 0031 (Accepted: FIPS 203 input checks on the HPS, not in the RTL), ADR 0032 (Accepted: one STOP per block). Labels: MEASURED, INFERENCE, ESTIMATE, NOT MEASURED, perhitungan tim. The mathematics is locked (C1).
 

@@ -24,7 +24,7 @@
 | Butterfly: sub/mux before the multiplier, add/sub after | 6.6 | 5% | 70.7 → 74.1, and 124.6 → 125.7 |
 | Butterfly: multiplier (DSP) | 4.4 | 3% | 75.4 → 78.5 |
 | Butterfly: divider (`%` in `modmul_reduce`) | 45.2 | 34% | 79.3 → 123.7 |
-| Clock network to the launch register | 3.2 | 2% | — |
+| Clock network to the launch register | 3.2 | 2% | - |
 
 ## Finer breakdown of the two long blocks (same path, same query)
 Arrival times in ns along the path (clock network 0 → 3.2 included):

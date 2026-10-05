@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (internal test plan, not proposal text) -->
-# Phase 8b: streaming samplers (SampleNTT from the XOF stream, CBD from the PRF stream), output width W1 then W2 — test plan, acceptance gate and selection rule
+# Phase 8b: streaming samplers (SampleNTT from the XOF stream, CBD from the PRF stream), output width W1 then W2 - test plan, acceptance gate and selection rule
 
 Written 2026-10-03, **before any 8b RTL and before any 8b measurement** (CRG-4). Scope: `docs/ROADMAP.md` Phase 8b; ADR 0026 (Accepted: 8a-8d go ahead; each sub-step has its own plan and a rule or a "no rule" statement written before measuring);
 ADR 0019 point 3 (samplers). Base: the Keccak sponge of 8a (`keccak_sponge_r2.sv`, C5) and of Phase 7 (`keccak_sponge.sv`, K0), both unedited. Labels: MEASURED, INFERENCE, ESTIMATE, NOT MEASURED, perhitungan tim.

@@ -62,8 +62,8 @@ period, not a pure logic delay.
 - What arithmetic can still affect on the critical segment: the `sub_mod(b, a)` before the multiplier (about 4.3 ns)
   and the multiplier itself (about 3.7 ns). Removing all of it would leave the M → X segment at about 25 ns
   (ESTIMATE: 29.2 − 4.3; ignores re-placement), i.e. about 40 MHz, still short of 50 MHz.
-- What the reducer change can affect: ALM, the D_11 → memory segment, and — only if the team allows the register
-  positions inside P = 6 to move — the balance between segments. Per entity in `C3-P6.fit.rpt` (MEASURED): lane
+- What the reducer change can affect: ALM, the D_11 → memory segment, and - only if the team allows the register
+  positions inside P = 6 to move - the balance between segments. Per entity in `C3-P6.fit.rpt` (MEASURED): lane
   reducers `modmul_reduce_staged:u_mul` 153.2–157.2 ALM each (305 ALUTs, 1 DSP each), scaling reducer `u_scale_mul`
   148.9 ALM; butterfly logic outside the reducer 103.8–112.8 ALM per lane; `poly_mem_multiport_pipe` 7,660.7 ALM;
   `ntt_core_c3` 10,484.5 ALM. Sum of the nine reducers: 1,395.8 ALM (INFERENCE), the upper bound of what replacing

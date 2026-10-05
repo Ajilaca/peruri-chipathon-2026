@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (result artifact: internal status page, not proposal text) -->
-# Result — Phase 5: Modular arithmetic optimisation (config C4: 5a fold, 5b Barrett vs Montgomery, 5c lazy INTT, 5d not attempted)
+# Result - Phase 5: Modular arithmetic optimisation (config C4: 5a fold, 5b Barrett vs Montgomery, 5c lazy INTT, 5d not attempted)
 
 - Status: DONE
 - Status note: technically complete by the Phase 5 plan (every attempted sub-step correct and measured; 5d marked "not attempted"). Two records are still Proposed and wait for the team: ADR 0013 (5b choice: Barrett, DSP 9 -> 18; PENDING #23) and ADR 0015 (5d not attempted, moved to Phase 6). The Approval box (Section 10) is empty.

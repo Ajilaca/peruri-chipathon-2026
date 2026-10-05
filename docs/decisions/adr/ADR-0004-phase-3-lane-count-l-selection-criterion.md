@@ -29,7 +29,7 @@ Two prior conditions affect this decision and must be named, not hidden:
 The Phase 3 spec's own example is "lowest AT within a stated resource budget." Concretely,
 for team J5 to decide:
 
-1. Lowest AT (Area x Time) product, no fixed budget — for each L, AT = ALM_used x
+1. Lowest AT (Area x Time) product, no fixed budget - for each L, AT = ALM_used x
    (1 / Fmax_measured). Pick the L with the smallest AT. Simple, single-number ranking;
    but on a Cyclone V 5CSEBA6U23I7 (41,910 ALM datasheet ceiling) a large L could still win
    on AT while eating an impractical fraction of the device, leaving no headroom for
@@ -41,7 +41,7 @@ for team J5 to decide:
 3. Highest throughput (lowest total cycles for NTT+INTT+pointwise) within the same ALM
    budget, ignoring Fmax differences across L (since none of C0-C1 meet timing yet, a
    throughput-in-cycles metric is arguably more honest than an Fmax-weighted one right now).
-4. Keep L configurable, defer the choice — ship all four configs, expose L as a
+4. Keep L configurable, defer the choice - ship all four configs, expose L as a
    synthesis-time parameter, and let Phase 4+ (pipelining) or the final proposal pick per
    context. Satisfies "keeping L configurable" allowed by the Phase 3 PASS criteria, but
    defers a decision the spec asked to be fixed before measuring.
@@ -52,7 +52,7 @@ this ADR is about the *rule*, not the *result*.
 ## Decision
 Two-stage criterion, in priority order:
 
-1. Primary — minimize cycle count, subject to an ALM budget of 25% of the target
+1. Primary - minimize cycle count, subject to an ALM budget of 25% of the target
    device (5CSEBA6U23I7, 41,910 ALM datasheet ceiling) -> budget = 10,478 ALM. Any
    L whose Quartus C2-L<n> compile exceeds 10,478 ALM is disqualified regardless of its
    cycle count. Among the remaining (in-budget) L values, the one with the lowest total
@@ -60,19 +60,19 @@ Two-stage criterion, in priority order:
    from Phase 2 still applies within each L) wins. This is option 3 from the list above,
    chosen because C0/C1 timing is still unmet, so cycles are the more honest metric
    right now than an Fmax-weighted AT product.
-2. Secondary — informational only, does not auto-override the primary pick. Once a
+2. Secondary - informational only, does not auto-override the primary pick. Once a
    timing-valid constrained clock exists (i.e. once the target-clock ADR lands and a
    config actually meets timing), re-evaluate the primary-selected L's AT product
    (ALM x 1/Fmax) against the same 10,478 ALM budget, for the record. If this secondary
    evaluation suggests a different L would have been better on AT, that is not applied
-   automatically — changing the selected L after this ADR requires an explicit new ADR
+   automatically - changing the selected L after this ADR requires an explicit new ADR
    (or an update to this one) stating why.
 
 If no L fits within the 10,478 ALM budget, or if Phase 2's M10K goal (async-read
 limitation, `docs/results/phase02.md`) is still unresolved when the sweep runs
 (all L configs then compete on LUT-based memory replication rather than block-RAM
 banking), that is reported as a finding in `docs/results/phase03.md`, not silently
-absorbed — this ADR does not pre-decide what happens if the budget is infeasible.
+absorbed - this ADR does not pre-decide what happens if the budget is infeasible.
 
 ## Consequences
 - The Phase 3 sweep must run all four L in {1,2,4,8} through Quartus and cocotb
@@ -80,7 +80,7 @@ absorbed — this ADR does not pre-decide what happens if the budget is infeasib
   and compared), then apply the ALM-budget filter and cycle-count ranking to pick one.
 - `docs/results/phase03.md` must show: the ALM budget value (10,478), which L
   values passed/failed the budget, the cycle counts for the in-budget candidates, the
-  selected L, and — once timing is valid at some later phase — the secondary AT
+  selected L, and - once timing is valid at some later phase - the secondary AT
   re-evaluation, explicitly marked as informational.
 - Any future change of the selected L must cite this ADR and either supersede it or add
   a follow-up ADR; it must not be a silent change in `docs/ROADMAP.md` alone.

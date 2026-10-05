@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (internal test plan, not proposal text) -->
-# Phase 9F step S2: register after the Barrett reducer in the NTT/INTT core (P = 5 -> 6) — test plan and adoption rule
+# Phase 9F step S2: register after the Barrett reducer in the NTT/INTT core (P = 5 -> 6) - test plan and adoption rule
 
 Written 2026-10-04 before any S2 RTL and before any S2 measurement. Scope: ADR 0036 (Accepted: S2 attacks the limit that S1 exposes) and the batch plan of chat 2026-10-04 (S2 belongs to Batch 2, taken over by Jevan in the same session; commits on the branch `phase9m-optimisation`). Baseline: **K1b** (`../../batch1/9f1b/`, `mlkem_core3`: K0 sampler, K0 hash, two-byte codec, background hash). Labels: MEASURED, ESTIMATE, INFERENCE. Kernel-only static timing with virtual pins; not a board result.
 

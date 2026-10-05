@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (internal test plan, not proposal text) -->
-# Phase 9M item 3 (9M-3): the K0 sponge for the hash instance — test plan and adoption rule
+# Phase 9M item 3 (9M-3): the K0 sponge for the hash instance - test plan and adoption rule
 
 Written 2026-10-04 before any 9M-3 measurement. Scope: ADR 0034 (Accepted, Faza Dzil), item 3 ("lanjut", chat 2026-10-04). Labels: MEASURED, ESTIMATE, INFERENCE, perhitungan tim. The mathematics is locked (C1): K0 and C5 compute the same Keccak-f[1600] and the same sponge; only rounds per cycle differ.
 

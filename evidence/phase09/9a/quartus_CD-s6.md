@@ -1,4 +1,4 @@
-# MEASURED — Quartus results for revision `CD-s6`
+# MEASURED - Quartus results for revision `CD-s6`
 
 - Generated: 2026-10-03 14:38 UTC by `extract_quartus_report.py` (values copied from the reports, not computed)
 - Source directory: `quartus/phase09a_codec/output_files_CD-s6`

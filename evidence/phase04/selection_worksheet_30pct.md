@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (generated worksheet) -->
-# ADR 0007 rule with the ADR 0009 budget (30% = 12,573 ALM) — generated 2026-10-01
+# ADR 0007 rule with the ADR 0009 budget (30% = 12,573 ALM) - generated 2026-10-01
 
 Command: `python3 scripts/quartus/phase4_select_p.py --alm-budget 12573` and `python3 scripts/quartus/phase4_seed_sweep_summary.py --alm-budget 12573`. Inputs are the unchanged MEASURED evidence files listed below; the historical 25% worksheet is `selection_worksheet.md`.
 
@@ -9,8 +9,8 @@ ALM budget used for condition 3: 12,573
 
 | P | bit-exact | constant cycle | ALM | ≤ 12,573? | worst setup / hold slack @ 40.000 ns | timing met? | cycles_NTT | cycles_INTT | Fmax per slow corner (MHz) | Fmax(P) = lowest | t_NTT (µs) | t_INTT (µs) | candidate? | d(P) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 0 | PASS | PASS | 9,723 / 41,910 | yes | -90.653 / 0.207 | no | 113 | 369 | Slow 1100mV 100C: 7.65; Slow 1100mV -40C: 7.68 | 7.65 | 14.771 | 48.235 | no | — |
-| 2 | PASS | PASS | 9,696 / 41,910 | yes | -0.368 / 0.174 | no | 115 | 371 | Slow 1100mV 100C: 25.04; Slow 1100mV -40C: 24.77 | 24.77 | 4.643 | 14.978 | no | — |
+| 0 | PASS | PASS | 9,723 / 41,910 | yes | -90.653 / 0.207 | no | 113 | 369 | Slow 1100mV 100C: 7.65; Slow 1100mV -40C: 7.68 | 7.65 | 14.771 | 48.235 | no | - |
+| 2 | PASS | PASS | 9,696 / 41,910 | yes | -0.368 / 0.174 | no | 115 | 371 | Slow 1100mV 100C: 25.04; Slow 1100mV -40C: 24.77 | 24.77 | 4.643 | 14.978 | no | - |
 | 4 | PASS | PASS | 10,439 / 41,910 | yes | 8.734 / 0.157 | yes | 117 | 373 | Slow 1100mV 100C: 32.60; Slow 1100mV -40C: 31.98 | 31.98 | 3.659 | 11.664 | yes | 0.0511 |
 | 6 | PASS | PASS | 10,505 / 41,910 | yes | 10.753 / 0.140 | yes | 119 | 375 | Slow 1100mV 100C: 34.19; Slow 1100mV -40C: 34.50 | 34.19 | 3.481 | 10.968 | yes | 0.0000 |
 

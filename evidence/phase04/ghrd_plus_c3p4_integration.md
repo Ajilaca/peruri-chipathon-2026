@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (internal investigation record, not proposal text) -->
-# GHRD DE10-Nano + C3-P4 in one Quartus compilation — integration experiment
+# GHRD DE10-Nano + C3-P4 in one Quartus compilation - integration experiment
 
 Labels: **MEASURED** = read from a Quartus report of the compiles listed in Section 2; **INFERENCE** = derived from
 measured numbers (differences, sums, interpretation); **NOT MEASURED** = not obtained in this experiment.
@@ -83,13 +83,13 @@ Per entity in the combined compile (MEASURED): `ntt_core_c3_p4` 11,432.5 ALM, 17
 ## 7. Measured timing (MEASURED; worst over the corners printed)
 | Clock | C3-P4 (Phase 4) | C3-P4-ghrdset | GHRD base (today) | Combined |
 |---|---|---|---|---|
-| NTT clock (`clk_i` / `ntt_clk_i`, 40.000 ns): setup / hold | +8.734 / +0.157 | +10.885 / +0.123 | — | **+9.204 / +0.149** |
-| NTT Fmax, Slow 100C / Slow −40C (MHz) | 32.60 / 31.98 | 34.35 / 34.66 | — | 32.70 / **32.47** |
-| `fpga_clk1_50` (20 ns): setup / hold | — | — | +6.102 / +0.135 | +6.890 / +0.126 |
-| `fpga_clk1_50` Fmax, Slow 100C / −40C (MHz) | — | — | 85.06 / 87.33 | 84.93 / 88.53 |
-| HPS SDRAM `afi_clk_write_clk`: setup / hold | — | — | +1.573 / +0.076 | +1.573 / +0.076 |
-| `h2f_user1_clk`: setup / hold | — | — | +18.629 / +0.247 | +18.963 / +0.234 |
-| System worst setup / hold | — | — | +1.573 / +0.076 | **+1.573 / +0.076** (both on `afi_clk_write_clk`) |
+| NTT clock (`clk_i` / `ntt_clk_i`, 40.000 ns): setup / hold | +8.734 / +0.157 | +10.885 / +0.123 | - | **+9.204 / +0.149** |
+| NTT Fmax, Slow 100C / Slow −40C (MHz) | 32.60 / 31.98 | 34.35 / 34.66 | - | 32.70 / **32.47** |
+| `fpga_clk1_50` (20 ns): setup / hold | - | - | +6.102 / +0.135 | +6.890 / +0.126 |
+| `fpga_clk1_50` Fmax, Slow 100C / −40C (MHz) | - | - | 85.06 / 87.33 | 84.93 / 88.53 |
+| HPS SDRAM `afi_clk_write_clk`: setup / hold | - | - | +1.573 / +0.076 | +1.573 / +0.076 |
+| `h2f_user1_clk`: setup / hold | - | - | +18.629 / +0.247 | +18.963 / +0.234 |
+| System worst setup / hold | - | - | +1.573 / +0.076 | **+1.573 / +0.076** (both on `afi_clk_write_clk`) |
 
 - Combined: no negative setup, hold, recovery or removal slack on any clock (MEASURED). The NTT domain meets 40.000 ns
   and the shell domains keep meeting their GHRD constraints.

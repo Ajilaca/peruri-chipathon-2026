@@ -1,4 +1,4 @@
-# CHIPATON 2026 — Claude Code Handoff
+# CHIPATON 2026 - Claude Code Handoff
 
 Written 2026-10-02 at the end of Phase 5 and updated 2026-10-03 at the end of Phase 5M (S6-S9) and of Phase 6 (with S10), for opening a new Claude Code session. Read this file, then `CLAUDE.md`
 (project rules, they override everything else), then `docs/ROADMAP.md` and `docs/decisions/PENDING.md` before doing anything.
@@ -9,7 +9,7 @@ numbers), ESTIMATE, NOT MEASURED.
 | Item | Value |
 |---|---|
 | What | ML-KEM-768 (FIPS 203) accelerator, hardware/software co-design; CHIP 2026 Hackathon (PERURI Digital Summit), Team J5, ITB |
-| Repository | <https://github.com/Ajilaca/peruri-chipathon-2026> (public, MIT licence, ADR 0016) — local `~/FPGA/Projects/CHIPATON` |
+| Repository | <https://github.com/Ajilaca/peruri-chipathon-2026> (public, MIT licence, ADR 0016) - local `~/FPGA/Projects/CHIPATON` |
 | Branch | `phase6-scheduling` (Phase 6 + S10, not pushed; `main` has Phase 5M, PR #3, tag `phase5m-done-2026-10-03`) |
 | Board | Terasic DE10-Nano (no board attached; no board measurement exists) |
 | FPGA | Intel/Altera Cyclone V SE 5CSEBA6U23I7: 41,910 ALM, 553 M10K, 112 DSP (fitter denominators) |
@@ -22,12 +22,12 @@ numbers), ESTIMATE, NOT MEASURED.
 | 0 Golden model + KATs + errata | DONE | `docs/results/phase00.md` | ticked (Faza Dzil, 2026-09-29) |
 | 1 NTT baseline C0 | DONE (set 2026-10-05; timing not met at 20 ns, documented) | `phase01.md` | ticked |
 | 2 Memory banking C1 | DONE (set 2026-10-05; M10K not achieved, timing not met, documented) | `phase02.md` | ticked |
-| 3 Multi-lane C2, L selection | DONE (set 2026-10-05) — L = 8 on C2-K2-K1 (ADR 0005) | `phase03.md` | ticked |
-| 4 Butterfly pipeline C3 | DONE — L = 8, P = 6 (ADR 0009) | `phase04.md` | ticked (Faza Dzil, 2026-10-01) |
-| 5 Modular arithmetic C4 | DONE — C4b-B (ADR 0013, 0015 Accepted) | `phase05.md` | ticked (Jevan, 2026-10-03) |
-| Phase 5M memory / schedule (ADR 0017, S6-S9) | DONE (2026-10-03) — S6 M6 base by team decision (ADR 0020), S7 adopted by the rule, S8 not adopted, S9 study (ADR 0021/0023/0022 superseded by 0025) | `phase05m.md`, PDF `docs/reports/CHIPATON_Phase5M_Report.pdf` | ticked (Jevan, 2026-10-03) |
-| 6 NTT scheduling at operation level (+ S10) | DONE (2026-10-03) — sequencer bit-exact, S10 adopted by its rule and accepted as the core (ADR 0025 Accepted), 20 ns met at 6/6 seeds | `phase06.md`, PDF `docs/reports/CHIPATON_Phase6_Report.pdf` | ticked (Jevan, 2026-10-03) |
-| 7 Keccak-f[1600] + SHA3/SHAKE (K0) | DONE technically (2026-10-03); Approval box EMPTY — K0 bit-exact against hashlib, formal K1-K5, 3,572 ALM, timing met at 40 ns and 20 ns (kernel-only). Not tier T1 (samplers missing) | `phase07.md` | not ticked |
+| 3 Multi-lane C2, L selection | DONE (set 2026-10-05) - L = 8 on C2-K2-K1 (ADR 0005) | `phase03.md` | ticked |
+| 4 Butterfly pipeline C3 | DONE - L = 8, P = 6 (ADR 0009) | `phase04.md` | ticked (Faza Dzil, 2026-10-01) |
+| 5 Modular arithmetic C4 | DONE - C4b-B (ADR 0013, 0015 Accepted) | `phase05.md` | ticked (Jevan, 2026-10-03) |
+| Phase 5M memory / schedule (ADR 0017, S6-S9) | DONE (2026-10-03) - S6 M6 base by team decision (ADR 0020), S7 adopted by the rule, S8 not adopted, S9 study (ADR 0021/0023/0022 superseded by 0025) | `phase05m.md`, PDF `docs/reports/CHIPATON_Phase5M_Report.pdf` | ticked (Jevan, 2026-10-03) |
+| 6 NTT scheduling at operation level (+ S10) | DONE (2026-10-03) - sequencer bit-exact, S10 adopted by its rule and accepted as the core (ADR 0025 Accepted), 20 ns met at 6/6 seeds | `phase06.md`, PDF `docs/reports/CHIPATON_Phase6_Report.pdf` | ticked (Jevan, 2026-10-03) |
+| 7 Keccak-f[1600] + SHA3/SHAKE (K0) | DONE technically (2026-10-03); Approval box EMPTY - K0 bit-exact against hashlib, formal K1-K5, 3,572 ALM, timing met at 40 ns and 20 ns (kernel-only). Not tier T1 (samplers missing) | `phase07.md` | not ticked |
 
 ## 3. Phase 5 outcome (MEASURED unless marked; `docs/results/phase05.md`, PDF `docs/reports/CHIPATON_Phase5_Report.pdf`)
 - C4 = C4b-B: C3-P6 core (L = 8, P = 6) with a Barrett reducer (k = 24, M = 5039), `rtl/ntt/ntt_core_c4b_b.sv`, revision
@@ -44,7 +44,7 @@ numbers), ESTIMATE, NOT MEASURED.
 | C4b-B Barrett (5b), the C4 configuration | 9,208 (9,166–9,208) | 18 | 34.515 (33.46–34.84) | `5b/selection_worksheet.md` |
 | C4b-M Montgomery (5b) | 9,249 (9,249–9,297) | 9 | 33.780 (32.81–34.25) | same |
 | C4c lazy INTT inputs (5c), NOT adopted | 9,043 (9,032–9,094) | 18 | 33.100 (32.27–35.26) | `5c/summary_5c.md`, `5c/selection_worksheet.md` |
-| 5d Karatsuba base case | not attempted (ADR 0015 accepted) | — | — | `docs/decisions/0015-*.md` |
+| 5d Karatsuba base case | not attempted (ADR 0015 accepted) | - | - | `docs/decisions/0015-*.md` |
 
 Timing is met at 40.000 ns in every compile above. t_NTT / t_INTT at the median Fmax (perhitungan tim): C4b-B 3.448 / 10.865 µs,
 C3-P6 3.594 / 11.326 µs, C4c 3.595 / 11.329 µs. The seed ranges overlap, so small Fmax differences are not distinguishable from seed noise.
@@ -157,7 +157,7 @@ Rebuild reports: `python3 scripts/build/build_phase5_report.py` (also `build_pha
 - Never push automatically. Commit only when asked. No Claude attribution (no Co-Authored-By / "Generated with Claude") in commits or PRs.
 - Never invent measurements; label everything MEASURED / INFERENCE / ESTIMATE / NOT MEASURED. Resource/timing numbers only from Quartus in this repo.
 - Never change historical evidence or rewrite accepted ADRs; record changes in a new ADR (amendment notes are allowed, as for ADR 0006 and 0014).
-- Never tick an Approval box; never decide for the team (C5) — ask, then record with `/decision-record`.
+- Never tick an Approval box; never decide for the team (C5) - ask, then record with `/decision-record`.
 - The mathematics is locked (C1). Verify before optimising; never weaken a check to make it pass.
 - Run Quartus revisions one at a time in the background; add a status time estimate in replies (the user asks for it).
 - For every RTL-changing step: write the test plan and adoption rule BEFORE measuring; adoption includes ADR 0012 (t_NTT and t_INTT

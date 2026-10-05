@@ -208,7 +208,7 @@ def main():
 
     L = []
     w = L.append
-    w("# MEASURED — Quartus C0 timing analysis (Phase 1 baseline, NOT an optimisation result)")
+    w("# MEASURED - Quartus C0 timing analysis (Phase 1 baseline, NOT an optimisation result)")
     w("")
     w(f"- Generated: {date} UTC by `quartus/phase01_ntt_c0/extract_c0_timing_evidence.py` "
       "(values copied from Quartus report text; derived numbers say how they were derived).")

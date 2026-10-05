@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (internal test plan, not proposal text) -->
-# Phase 9F step S2b: registered issue address in the NTT/INTT core (address computed one cycle early) — test plan and adoption rule
+# Phase 9F step S2b: registered issue address in the NTT/INTT core (address computed one cycle early) - test plan and adoption rule
 
 Written 2026-10-04 before any S2b RTL and before any S2b measurement. Scope: S2b is the follow-up named in `../9s2/result_9s2.md` section 6 (Batch 2, Jevan, same session; commits on the branch `phase9m-optimisation`, not made yet). Baseline: **K2** (`../9s2/`, `mlkem_core3` with `NTT_P6 = 1`). Labels: MEASURED, ESTIMATE, INFERENCE. Kernel-only static timing with virtual pins; not a board result.
 

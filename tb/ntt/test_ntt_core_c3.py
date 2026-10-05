@@ -1,4 +1,4 @@
-"""tb/ntt/test_ntt_core_c3.py — cocotb regression for rtl/ntt/ntt_core_c3.sv (Phase 4, config C3,
+"""tb/ntt/test_ntt_core_c3.py - cocotb regression for rtl/ntt/ntt_core_c3.sv (Phase 4, config C3,
 NUM_LANES = 8) against tb/golden/primitives.py. Test plan: evidence/phase04/test_plan.md,
 V5 (bit-exact), V6 (constant cycle count), V7 (layer-boundary hazards), V8 (bank_overflow_o).
 

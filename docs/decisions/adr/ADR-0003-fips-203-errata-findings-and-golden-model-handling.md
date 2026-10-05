@@ -16,12 +16,12 @@ can confirm the golden model may proceed as planned.
 ## Options considered
 
 1. Implement FIPS 203 literally as published (13 Aug 2024), treat the two errata items
-   as non-normative — cost: none if the errata truly change nothing testable; risk is
+   as non-normative - cost: none if the errata truly change nothing testable; risk is
    that a future NIST errata *update* (not yet issued) could add normative changes we'd
    need to re-check.
 2. Wait for NIST to issue a formal errata update/revision before writing the golden
-   model — cost: indefinitely blocks Phase 0 with no announced timeline from NIST.
-3. Pre-emptively adopt the two potential corrections as if final — cost: unnecessary,
+   model - cost: indefinitely blocks Phase 0 with no announced timeline from NIST.
+3. Pre-emptively adopt the two potential corrections as if final - cost: unnecessary,
    since NIST explicitly states these are not official changes and introduce no new
    technical requirements; would add process overhead for zero behavioural difference.
 
@@ -37,9 +37,9 @@ current errata. Findings:
 - The "Potential Updates (Errata)" spreadsheet (accessed 2026-09-28 UTC) lists 2
   items, both explicitly labelled by NIST as clarifications/typo corrections that "DO
   NOT introduce new technical requirements" and "ARE NOT official changes":
-  1. Appendix A — clarifies why the zeta table includes the i=0 entry (value 1), used by
+  1. Appendix A - clarifies why the zeta table includes the i=0 entry (value 1), used by
      Algorithms 9/10 (NTT/NTT⁻¹) only for i=1..127. No algorithm step changes.
-  2. Section 5.3, Algorithm 15, line 7 — comment text says "polynomial v" but should say
+  2. Section 5.3, Algorithm 15, line 7 - comment text says "polynomial v" but should say
      "polynomial w"; the algorithm body already uses `w` correctly. Comment-only fix.
 - Neither item changes an algorithm step, a parameter, or a test vector. Neither affects
   our golden model as planned: the NTT will compute zeta values from the BitRev_7 formula
@@ -48,7 +48,7 @@ current errata. Findings:
   body (`w`), not the erroneous comment.
 - Table 2 (Section 8) parameter values for ML-KEM-768 were read directly from the PDF and
   cross-checked against the planned `tb/golden/params.py` values: k=3, η1=2, η2=2, du=10,
-  dv=4 — exact match, no discrepancy. n=256 and q=3329 confirmed as fixed constants.
+  dv=4 - exact match, no discrepancy. n=256 and q=3329 confirmed as fixed constants.
   Table 3 sizes (ek 1184 B, dk 2400 B, ct 1088 B, ss 32 B) also match.
 
 Accepted 2026-09-29 by Faza Dzil (Team J5). Phase 0 golden-model work (`tb/golden/params.py`
@@ -68,6 +68,6 @@ waiting on NIST) stands confirmed under this decision.
 
 ## Evidence
 
-- `evidence/phase00/fips203_errata.md` — MEASURED: source URLs, access
+- `evidence/phase00/fips203_errata.md` - MEASURED: source URLs, access
   date, SHA-256 of the fetched FIPS 203 PDF and errata spreadsheet, full quoted errata
   items with per-item impact analysis, and the Table 2/Table 3 parameter cross-check.

@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (result artifact: internal status page, not proposal text) -->
-# Result — Phase 6: NTT scheduling at operation level (K-PKE arithmetic sequencer) and S10 (16-bank 1R1W memory)
+# Result - Phase 6: NTT scheduling at operation level (K-PKE arithmetic sequencer) and S10 (16-bank 1R1W memory)
 
 - Status: DONE
 - Status note: Phase 6 PASS criteria met (bit-exact, counts, constant cycles, Quartus evidence). S10 adopted by its pre-fixed rule (ADR 0025 Proposed: the team accepts or rejects). The 50 MHz options 1 and 2 of 2026-10-03 are recorded. The Approval box (Section 10) is empty; the Phase 5 and 5M boxes are also still empty.

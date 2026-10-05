@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (result artifact: internal status page, not proposal text) -->
-# Result — Phase 5M: Memory and schedule (S6 INTT without scaling pass, S7 split memory read, S8 write-path register, S9 M10K study)
+# Result - Phase 5M: Memory and schedule (S6 INTT without scaling pass, S7 split memory read, S8 write-path register, S9 M10K study)
 
 - Status: DONE
 - Status note: technically complete by ADR 0017 / 0019 (S6, S7, S8 correct and measured; S9 is the documentation-only study). Records waiting for the team: ADR 0021 (S7, Proposed), ADR 0022 (S9, Proposed), ADR 0023 (S8, Proposed). The Approval box (Section 10) is empty; the Phase 5 Approval box is also still empty.

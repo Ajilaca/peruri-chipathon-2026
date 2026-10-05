@@ -1,4 +1,4 @@
-# CLAUDE.md — CHIP 2026 Hackathon · Team J5 (ITB) · ML-KEM-768 accelerator on DE10-Nano
+# CLAUDE.md - CHIP 2026 Hackathon · Team J5 (ITB) · ML-KEM-768 accelerator on DE10-Nano
 
 Project-level instructions for Claude Code. They override plugin defaults.
 Context and evidence live in `docs/`: read `docs/PROJECT_BRIEF.md` (why), `docs/ROADMAP.md`

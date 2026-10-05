@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (result artifact: internal status page, not proposal text) -->
-# Result — Phase 9: full ML-KEM-768 in RTL, simulation (blocks 9a, 9b, 9c; configuration C7-core)
+# Result - Phase 9: full ML-KEM-768 in RTL, simulation (blocks 9a, 9b, 9c; configuration C7-core)
 
 - Status: DONE (all three blocks built, verified and measured; the acceptance of ADR 0033 and the Approval box are the team's)
 - Status note: ADR 0031 (Accepted, Jo 2026-10-03): the FIPS 203 input checks run on the HPS, not in the RTL, so the key-check ACVP groups are not run against the RTL. ADR 0032 (Accepted): one STOP per block. Chat 2026-10-03 (Jo): no commits while working, at least 20 commits at the end in the real order of work. Every block has its test plan written before its RTL, and the pass rule was not changed after measuring (Amendments A1 of 9a, 9b and 9c, A2 of 9c record what was found or added afterwards). The work is in the working tree; the commits are made after this result.

@@ -1,4 +1,4 @@
-"""tb/ntt/test_poly_mem_pipe.py — cocotb test for rtl/mem/poly_mem_multiport_pipe.sv (Phase 4 test plan
+"""tb/ntt/test_poly_mem_pipe.py - cocotb test for rtl/mem/poly_mem_multiport_pipe.sv (Phase 4 test plan
 V4), NUM_LANES = 8, against a cycle-accurate Python model of the transaction timing:
 
     request at cycle c -> read data at c + RD_LAT -> write (if requested) lands at the end of c + PIPE,

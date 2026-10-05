@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (internal test plan, not proposal text) -->
-# S10 (inside Phase 6, ADR 0024): 16 x 1R1W bank memory without slot arbitration — test plan and adoption rule
+# S10 (inside Phase 6, ADR 0024): 16 x 1R1W bank memory without slot arbitration - test plan and adoption rule
 
 Written 2026-10-03, **before any S10 RTL and before any S10 measurement** (CRG-4). Basis: ADR 0022 option A (S9 study: the map `bank = (a1^a2^a3^a4, a7, a6, a5)`, `offset = a[3:0]` gives at most one read
 and one write per bank per cycle over the whole schedule, `evidence/phase05m/s9/port_analysis.txt`) and the S7 path analysis (the measured limit of S7 is the slot-arbitration ripple

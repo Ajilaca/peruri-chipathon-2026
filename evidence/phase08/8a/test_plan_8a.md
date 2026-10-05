@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (internal test plan, not proposal text) -->
-# Phase 8a: two Keccak rounds per cycle (configuration C5) — test plan and adoption rule
+# Phase 8a: two Keccak rounds per cycle (configuration C5) - test plan and adoption rule
 
 Written 2026-10-03, **before any 8a RTL and before any 8a measurement** (CRG-4). Scope: `docs/ROADMAP.md` Phase 8a; ADR 0026 (Accepted: 8a, 8b, 8c, 8d all go ahead; supersedes the skip in ADR 0019 point 2);
 ADR 0012 (rules for timing work). Base: K0 (`rtl/keccak/keccak_f1600.sv`, `keccak_sponge.sv`, Phase 7, approved). Labels: MEASURED, INFERENCE, ESTIMATE, NOT MEASURED, perhitungan tim.

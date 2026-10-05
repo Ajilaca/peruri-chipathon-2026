@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (result artifact: internal status page, not proposal text) -->
-# Result — Phase 7: Keccak-f[1600] + SHA3/SHAKE baseline (configuration K0)
+# Result - Phase 7: Keccak-f[1600] + SHA3/SHAKE baseline (configuration K0)
 
 - Status: DONE
 - Status note: Phase 7 PASS criteria met (all four modes bit-exact, fixed permutation latency shown, K0 row filled). The Approval box (Section 10) is empty. This is not tier T1 of ADR 0019: T1 also needs the samplers (Phase 8b), which are not built.
@@ -80,7 +80,7 @@ FIPS 202 (Keccak-p[1600, 24], Algorithms 2, 5, 6 for the rho offsets and round c
 ## 7. Decisions needed
 - Approval box of Phase 7 (Section 10).
 - PENDING #26 (checkpoint protocol until 2026-10-08) is still open; this phase stopped at its end by the suggested default (one STOP per block).
-- Next step per ADR 0019: the samplers (SampleNTT and CBD streaming from the Keccak output, tier T1) — order and scope are the team's choice; PENDING #25 (FIPS 203 input checks in hardware or on the HPS) before the controller work.
+- Next step per ADR 0019: the samplers (SampleNTT and CBD streaming from the Keccak output, tier T1) - order and scope are the team's choice; PENDING #25 (FIPS 203 input checks in hardware or on the HPS) before the controller work.
 
 ## 8. Claims made in this phase
 None written for judges/proposal text. ROADMAP rows were filled from the evidence above.

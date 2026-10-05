@@ -1,4 +1,4 @@
-"""tb/ntt/test_base_case_multiply.py — cocotb bit-exact test for
+"""tb/ntt/test_base_case_multiply.py - cocotb bit-exact test for
 rtl/ntt/base_case_multiply.sv against tb/golden/primitives.py:base_case_multiply
 (FIPS 203 Algorithm 12).
 

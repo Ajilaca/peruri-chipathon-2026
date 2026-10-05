@@ -1,4 +1,4 @@
-# MEASURED — Quartus results for revision `K0-s5`
+# MEASURED - Quartus results for revision `K0-s5`
 
 - Generated: 2026-10-03 05:17 UTC by `extract_quartus_report.py` (values copied from the reports, not computed)
 - Source directory: `quartus/phase07_keccak/output_files_K0-s5`

@@ -1,4 +1,4 @@
-# MEASURED — Quartus results for revision `P6`
+# MEASURED - Quartus results for revision `P6`
 
 - Generated: 2026-10-02 19:27 UTC by `extract_quartus_report.py` (values copied from the reports, not computed)
 - Source directory: `quartus/phase06_sched/output_files_P6`

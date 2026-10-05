@@ -1,4 +1,4 @@
-# MEASURED — Quartus results for revision `MK-s6`
+# MEASURED - Quartus results for revision `MK-s6`
 
 - Generated: 2026-10-04 06:47 UTC by `extract_quartus_report.py` (values copied from the reports, not computed)
 - Source directory: `quartus/phase09m3_core/output_files_MK-s6`

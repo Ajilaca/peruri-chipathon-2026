@@ -1,4 +1,4 @@
-"""tb/mem/test_bank_map.py — cocotb bit-exact test for rtl/mem/bank_map_rom.sv against the
+"""tb/mem/test_bank_map.py - cocotb bit-exact test for rtl/mem/bank_map_rom.sv against the
 golden model tb/mem/bank_model.py, exhaustive over all 256 addresses, for every NUM_BANKS in
 {1, 2, 4, 8}. One cocotb test module per NUM_BANKS value (cocotb build-time parameters are set
 per simulation run, not per test, so tb/mem/run_mem_tests.py builds this module four times).

@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (internal test plan, not proposal text) -->
-# Phase 9F step S0: the 9M-1 core under tighter constraints — test plan and rule
+# Phase 9F step S0: the 9M-1 core under tighter constraints - test plan and rule
 
 Written 2026-10-04 before any S0 compile. Scope: ADR 0036 (Accepted, Faza Dzil: order S0 -> S1 -> S2, latency rule, Fmax reported at a tighter constraint beside 40 ns). No RTL change. Labels: MEASURED, ESTIMATE, INFERENCE, perhitungan tim.
 

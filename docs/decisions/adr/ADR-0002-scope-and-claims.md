@@ -1,4 +1,4 @@
-# ADR 0002: Scope and claim policy — the mathematics is locked
+# ADR 0002: Scope and claim policy - the mathematics is locked
 
 - Status: Accepted
 - Date: 2026-09-28

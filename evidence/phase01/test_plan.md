@@ -1,4 +1,4 @@
-# Phase 1 test plan — NTT/INTT baseline (C0), written before any test is coded (CRG-4)
+# Phase 1 test plan - NTT/INTT baseline (C0), written before any test is coded (CRG-4)
 
 Scope: `rtl/ntt/modmul_reduce.sv`, `rtl/ntt/base_case_multiply.sv`, `rtl/ntt/butterfly.sv`,
 `rtl/ntt/twiddle_rom.sv`, `rtl/ntt/poly_mem.sv`, `rtl/ntt/ntt_core.sv`. Reference: `tb/golden/primitives.py`
@@ -6,7 +6,7 @@ Scope: `rtl/ntt/modmul_reduce.sv`, `rtl/ntt/base_case_multiply.sv`, `rtl/ntt/but
 
 ## Unit: modmul_reduce (a*b mod q)
 
-- Exhaustive is 3329² ≈ 11.08M pairs — too slow for per-commit cocotb, so Phase 1 uses randomized
+- Exhaustive is 3329² ≈ 11.08M pairs - too slow for per-commit cocotb, so Phase 1 uses randomized
   coverage; the exhaustive sweep required by Phase 5 (`docs/ROADMAP.md` §5) is deferred there.
 - Corner cases: a=0, b=0; a=q-1, b=q-1 (max product); a=1, b=anything (identity); a=q-1, b=1.
 - 2000 random pairs a,b ∈ [0,q).

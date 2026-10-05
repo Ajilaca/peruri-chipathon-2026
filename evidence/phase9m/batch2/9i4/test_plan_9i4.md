@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (internal test plan, not proposal text) -->
-# Phase 9I item 4: loads behind the K-PKE engine (K4) — test plan and adoption rule
+# Phase 9I item 4: loads behind the K-PKE engine (K4) - test plan and adoption rule
 
 **Order of work, stated plainly:** the instruction of Jevan (chat 2026-10-04 about 23:15) was to run item 4 unattended until the morning. The RTL (`kpke_sched_smp4`, `kpke_smp_top_s10o`, `mlkem_ldpoly2o`, `mlkem_core4`, `mlkem_ctl_rom3`) and the first simulation of the whole core (ACVP, Verilator, one run) were written and run **before** this document was written; the document was written while the control runs and the Quartus project were prepared. The estimates in section 3 are the ones given in chat before the first run of `mlkem_core4` (Encaps about -660 and Decaps about -2,600 cycles, KeyGen unchanged; derived from the profile and the slot use of the engine programs). The rule of section 5 was written **before any Quartus compile and before the control runs** of item 4; it is not tuned to a result. Scope: ADR 0034 item 4 ("new variant of frozen Phase 6-8 files"), Batch 2. Baseline: **K3** (`../9s2b/`: `mlkem_core3` with `NTT_P6 = 1`, `NTT_AR = 1`). Labels: MEASURED, ESTIMATE, INFERENCE. Kernel-only static timing with virtual pins; not a board result.
 

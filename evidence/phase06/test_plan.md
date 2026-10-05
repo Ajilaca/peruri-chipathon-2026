@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (internal test plan, not proposal text) -->
-# Phase 6: NTT scheduling at operation level — test plan
+# Phase 6: NTT scheduling at operation level - test plan
 
 Written 2026-10-03, **before any Phase 6 RTL and before any Phase 6 measurement** (CRG-4). Scope: `docs/ROADMAP.md` Phase 6, ADR 0024 (Accepted: Phase 6 now, S10 afterwards). Labels: MEASURED,
 INFERENCE, ESTIMATE, NOT MEASURED. Working assumptions stated in ADR 0024 (the team may overrule them): NTT/INTT core = S7 (`rtl/ntt/ntt_core_s7_p7.sv`, ADR 0021 still Proposed); full ROADMAP scope.

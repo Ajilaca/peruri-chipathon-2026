@@ -1,4 +1,4 @@
-# ADR 0001: Project idea — ML-KEM-768 accelerator (HW/SW co-design) on DE10-Nano
+# ADR 0001: Project idea - ML-KEM-768 accelerator (HW/SW co-design) on DE10-Nano
 
 - Status: Accepted
 - Date: 2026-09-28

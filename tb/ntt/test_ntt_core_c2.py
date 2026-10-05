@@ -1,4 +1,4 @@
-"""tb/ntt/test_ntt_core_c2.py — cocotb bit-exact regression for rtl/ntt/ntt_core_c2.sv
+"""tb/ntt/test_ntt_core_c2.py - cocotb bit-exact regression for rtl/ntt/ntt_core_c2.sv
 (configuration C2: multi-lane NTT/INTT, NUM_LANES in {1,2,4,8}) against
 tb/golden/primitives.py.
 

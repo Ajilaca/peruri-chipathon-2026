@@ -1,4 +1,4 @@
-# MEASURED — Quartus C1 vs C0 comparison (Phase 2, config C1: banked memory at NUM_BANKS=1)
+# MEASURED - Quartus C1 vs C0 comparison (Phase 2, config C1: banked memory at NUM_BANKS=1)
 
 - Generated: 2026-09-29 UTC, from `evidence/quartus/C0.md`,
   `evidence/quartus/C1.md`, and a read-only `quartus_sta` drill-down

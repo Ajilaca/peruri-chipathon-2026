@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (internal test plan, not proposal text) -->
-# Phase 9M item 1 (9M-1): codec byte path of two bytes per cycle — test plan and adoption rule
+# Phase 9M item 1 (9M-1): codec byte path of two bytes per cycle - test plan and adoption rule
 
 Written 2026-10-04 before any 9M-1 RTL and before any 9M-1 measurement. Scope: ADR 0034 (Accepted, Faza Dzil), item 1. Baseline: the Phase 9 core C7-core as merged (main 49bebf7). Labels: MEASURED, ESTIMATE, INFERENCE, perhitungan tim. The mathematics is locked (C1): the bytes and coefficients are exactly those of Phase 9; only how many move per cycle changes.
 

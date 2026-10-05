@@ -1,4 +1,4 @@
-"""tb/ntt/run_k1_unit_tests.py — experiment K1: runs the unchanged Phase 1 butterfly unit test
+"""tb/ntt/run_k1_unit_tests.py - experiment K1: runs the unchanged Phase 1 butterfly unit test
 (tb/ntt/test_butterfly.py: corner cases + 1000 random (a, b, zeta) per mode, bit-exact against the
 golden per-butterfly step of tb/golden/primitives.py) against rtl/ntt/butterfly_shared.sv.
 

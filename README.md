@@ -48,7 +48,7 @@ NTT-nya *incomplete* (7 layer, perkalian titik berupa base-case multiply derajat
 [tb/golden/params.py](tb/golden/params.py).
 Pemeriksaan masukan FIPS 203 dikerjakan HPS, bukan RTL (ADR 0031).
 
-## Status: Phase 9 — Submission
+## Status: Phase 9 - Submission
 
 Inti ML-KEM-768 penuh (KeyGen, Encaps, Decaps) sudah ada di RTL dan lolos semua vektor ACVP yang berlaku di dua
 simulator. Phase 9M mengoptimasi inti itu; hasil terakhirnya (K4, `mlkem_core4`) diterima tim pada 2026-10-05

@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (internal investigation record, not proposal text) -->
-# DE10-Nano system shell (Intel GHRD, no NTT core) — measured fabric overhead
+# DE10-Nano system shell (Intel GHRD, no NTT core) - measured fabric overhead
 
 - Date (UTC): 2026-10-01. Investigation for the review of the 25% ALM budget (ADR 0004); no ADR, RTL or Phase 4
   result was changed. Not a design decision and not a final system.
@@ -86,7 +86,7 @@ The 11 slaves: 1 `arduino_gpio`, 2 `button_pio`, 3 `chip_id` (`chip_id_read_mm_0
 - `qsys-script` printed "ERROR: Device family can not be determined" three times while adding `altera_hps`; the
   system was still generated (58 modules) and compiled. Not investigated further.
 
-## 5. Comparison with the Phase 4 core (INFERENCE — sums of separate compiles)
+## 5. Comparison with the Phase 4 core (INFERENCE - sums of separate compiles)
 Separate compiles do not add exactly: in one combined compile the fitter packs differently. Device = 41,910 ALM.
 C3 figures: `evidence/phase04/seed_sweep.md` (seeds 1–6).
 

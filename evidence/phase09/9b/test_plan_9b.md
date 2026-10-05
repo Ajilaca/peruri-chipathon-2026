@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (internal test plan, not proposal text) -->
-# Phase 9b: hash wrapper (G, H, J) and the FO comparison / selection — test plan and pass rule
+# Phase 9b: hash wrapper (G, H, J) and the FO comparison / selection - test plan and pass rule
 
 Written 2026-10-03, **before any 9b RTL and before any 9b measurement**. Scope: `evidence/phase09/phase9_plan.md` block 9b (and its Amendment A1); FIPS 203 Section 4.1 (H = SHA3-256, J = SHAKE256 with 32 bytes of output, G = SHA3-512) and Algorithm 18 lines 6-12 (ML-KEM.Decaps_internal: K', r' = G(m' || h); K_bar = J(z || c); c' re-encryption; implicit rejection). Golden: `tb/golden/primitives.py` (`H`, `G`, `J`, unmodified, they use `hashlib`) and `tb/golden/mlkem.py` (`ml_kem_decaps_internal`, unmodified). Labels: MEASURED, INFERENCE, ESTIMATE, NOT MEASURED, perhitungan tim. The mathematics is locked (C1).
 

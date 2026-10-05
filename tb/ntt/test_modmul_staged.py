@@ -1,4 +1,4 @@
-"""tb/ntt/test_modmul_staged.py — cocotb unit test for rtl/ntt/modmul_reduce_staged.sv (Phase 4 test
+"""tb/ntt/test_modmul_staged.py - cocotb unit test for rtl/ntt/modmul_reduce_staged.sv (Phase 4 test
 plan V2, corner cases and latency). The exhaustive equality check against modmul_reduce.sv is
 tb/ntt/p4_reducer/; this test checks the corner cases named in the plan and that results come out
 exactly LATENCY cycles after their inputs when inputs are applied back-to-back (no bubbles).

@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (internal test plan, not proposal text) -->
-# Phase 7: Keccak-f[1600] + SHA3/SHAKE baseline (K0) — test plan
+# Phase 7: Keccak-f[1600] + SHA3/SHAKE baseline (K0) - test plan
 
 Written 2026-10-03, **before the Phase 7 golden model, before any Phase 7 RTL and before any Phase 7 measurement** (CRG-4). Scope: `docs/ROADMAP.md` Phase 7; ADR 0019 (minimal path, single compile
 for a new block without an adoption rule); ADR 0025 (S10 is the NTT/INTT core; not touched in this phase). Labels: MEASURED, INFERENCE, ESTIMATE, NOT MEASURED, perhitungan tim.

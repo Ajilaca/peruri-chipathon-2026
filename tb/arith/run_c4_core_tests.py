@@ -1,4 +1,4 @@
-"""tb/arith/run_c4_core_tests.py — Phase 5 core regression (evidence/phase05/test_plan.md V5, V6) against
+"""tb/arith/run_c4_core_tests.py - Phase 5 core regression (evidence/phase05/test_plan.md V5, V6) against
 one simulator, reusing the Phase 4 core test tb/ntt/test_ntt_core_c3.py unchanged (it drives the ports and samples
 the core's internal memory request signals, which rtl/ntt/ntt_core_c4.sv keeps under the same names):
 bit-exact NTT / INTT / round trip / boundary-directed data against tb/golden/primitives.py, the hazard scoreboard,

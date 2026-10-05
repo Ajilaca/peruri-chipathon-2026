@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""tb/phase5m/check_half_rom.py — Phase 5M S6, test plan V4: rtl/arith/twiddle_rom_half.sv
+"""tb/phase5m/check_half_rom.py - Phase 5M S6, test plan V4: rtl/arith/twiddle_rom_half.sv
   (1) is reproduced byte for byte by scripts/build/gen_twiddle_rom_half.py;
   (2) NTT half (entries 0..127) equals ROM_ZETA of the frozen rtl/ntt/twiddle_rom.sv;
   (3) INTT half (entries 128..255) equals zeta * 1665 mod q for every entry, with 2 * 1665 = 1 (mod q), computed here from the golden

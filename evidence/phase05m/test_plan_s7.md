@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (internal test plan, not proposal text) -->
-# Phase 5M, step S7: split the memory read path (P = 6 -> 7) — test plan and adoption rule
+# Phase 5M, step S7: split the memory read path (P = 6 -> 7) - test plan and adoption rule
 
 Written 2026-10-02, **before any S7 RTL and before any S7 measurement** (CRG-4). Scope and rules: ADR 0017, ADR 0019 (amendment note 2: S7 and S8 are
 planned before Phase 7), ADR 0020 (M6 is the base). Base configuration: **M6** (`rtl/ntt/ntt_core_m6_p6.sv`: Barrett, INTT without the scaling pass,

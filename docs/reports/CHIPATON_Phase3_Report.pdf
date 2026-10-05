@@ -9,7 +9,7 @@
 /Keywords ()
 /ModDate (D\07220260930205104\05307\04700\047)
 /Subject (\050unspecified\051)
-/Title (CHIPATON \204 Laporan Fase 3 \050ID\051)
+/Title (CHIPATON \055 Laporan Fase 3 \050ID\051)
 /Trapped (\057False)
 >>
 endobj
@@ -43,11 +43,65 @@ endobj
 endobj
 5 0 obj
 <<
-/Filter [ /ASCII85Decode /FlateDecode ]
-/Length 959
+/Length 1733
 >>
 stream
-GatU0gN)"%'R]'ocD0V,@0ua!-4c36PI,G#1nHmVVB]or.)+\6^;!1XL60u'B*oK.cUqho[1WWVhmE7j1OukDo8aS6"905e-QN$nh"m65K_@rp'C*0#$b!spJm(-Mo(^tNjUUt^KJ4?P%_TPXnH<(E,7Ek)]k(U;rfg?uEDin8&K',DpCG&5B#C/F'@H0(*!4,"n5T[b/-q2]IiV4\i4jgB!G:N4;9\&+@I=_odW%Rs*:!EXfi?qY[h&*KY_At#]T0_f&_#hDrJ`4`9'#J=e.NNEQ=m.9QBp^*=T"Mfg``i<>h8MX:$OK&B!m4DD;(pk.WPh7\AB-G_!p?.\JLoiZ;R+7iG7,F$qFPfKSh\GbGnO@g)X1ap\9@ja!BI&p8Id&B1Kc:>T@mo3bf>j\3hXt"h.EHC;j`2]mdLn0c3]GB\Ib=*GN33LEX[TlC3:<g@UG]R>aMa)V(bh$8b'gf(?Q4Ra"%VLI*F6d@'0(+uWAF$sT..=U14;]2P'#.a+i:($VDIGfEF8E3EW58;/g;6lmEjAW.8Brd1(ck.WQd>lRo&bejb6"i\BI(<<)L0tlO`$0;X1]U37k/6u9XL=*WF?/7at6j%-FoLNh'd4E*BL$a3K!>[,kDC__fF^'-'HF&<NMTo;EEKT%o,Dr66A$OuN,A%J]G8D)DemO.u]Zpi=qq;G<7Q#%_C2!499pYaG6f=rg[^(KQDIkH-l:*\+`0IG;;57<nA6Ij<'GY%>Y@NWi%JLqL,=r[02UZ14WZmjdEo%PT2\s^m#)eF]jLu?DL3VS$&BRc!WlXLO0YPCp8ZR'9b)lm?$3)0bXU'X%$%/'S-<Sk2'?;<;?t22[4/P8U0ZL%$MoE?jO\-g5Q'Ep6K]f)P&;>F;]4k3+$)lTLm-n.(;N+%PX@93%lNPc:fJmaj[&`"tXJchLY.1A$+sR!?4Un3!0I9*\4rc9P#rNL42u~>
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 54.18898 674.315 cm
+Q
+q
+1 0 0 1 54.18898 658.315 cm
+q
+.266667 .266667 .266667 rg
+BT 1 0 0 1 0 4 Tm /F1 12 Tf 16 TL 141.4188 0 Td (CHIP 2026 Hackathon - Tim J5 \(ITB\)) Tj T* -141.4188 0 Td ET
+Q
+Q
+q
+1 0 0 1 54.18898 649.811 cm
+Q
+q
+1 0 0 1 54.18898 620.811 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 6 Tm /F2 23 Tf 29 TL 159.0848 0 Td (Laporan Fase 3) Tj T* -159.0848 0 Td ET
+Q
+Q
+q
+1 0 0 1 54.18898 598.811 cm
+q
+.266667 .266667 .266667 rg
+BT 1 0 0 1 0 4 Tm /F1 12 Tf 16 TL 47.87282 0 Td (Eksplorasi Multi-lane L = 1 / 2 / 4 / 8, Eksperimen Optimasi, dan L Terpilih) Tj T* -47.87282 0 Td ET
+Q
+Q
+q
+1 0 0 1 54.18898 570.4646 cm
+Q
+q
+1 0 0 1 54.18898 542.4646 cm
+q
+BT 1 0 0 1 0 18 Tm 16.27882 0 Td 14 TL /F1 10 Tf .333333 .333333 .333333 rg (Status: ) Tj /F2 10 Tf (PARTIAL) Tj /F1 10 Tf ( - titik operasi terpilih C2-K2-K1 pada L = 8; timing belum terpenuhi; Approval belum) Tj T* 205.49 0 Td (dicentang) Tj T* -221.7688 0 Td ET
+Q
+Q
+q
+1 0 0 1 54.18898 528.4646 cm
+q
+.333333 .333333 .333333 rg
+BT 1 0 0 1 0 4 Tm /F1 10 Tf 14 TL 49.46382 0 Td (Branch: phase3-multilane \267 HEAD saat laporan dibuat: 0ca6890 \267 diperbarui 2026-09-30) Tj T* -49.46382 0 Td ET
+Q
+Q
+q
+1 0 0 1 54.18898 494.4488 cm
+Q
+q
+1 0 0 1 54.18898 462.0488 cm
+q
+.333333 .333333 .333333 rg
+BT 1 0 0 1 0 24.5 Tm /F1 7.9 Tf 10.8 TL (Ditulis untuk: Tim J5. Sumber kebenaran tetap berkas di repo \(docs/results/result_phase3.md, docs/evidence/phase03-multilane/,) Tj T* (docs/evidence/quartus/, docs/decisions/\); dokumen ini rangkuman bacaan. Versi ini menggantikan laporan Fase 3 tanggal 2026-09-29:) Tj T* (kesimpulan formal di versi lama sudah diralat \(Bagian 9\) dan L terpilih berubah dari L=4 menjadi L=8 \(Bagian 10\).) Tj T* ET
+Q
+Q
+ 
+
 endstream
 endobj
 6 0 obj
@@ -120,11 +174,512 @@ endobj
 endobj
 13 0 obj
 <<
-/Filter [ /ASCII85Decode /FlateDecode ]
-/Length 3462
+/Length 10771
 >>
 stream
-Gau0FlZ:f?%fbD#JmUS!mb*Ig;6P.dk0gWmk3DBBNV>V^/jnBPc0Dic[%"b>s8;r_@6*oEXDK_p6P71r"@)qi9Sj(j<<'^l#^JQX=77Q2N6E=KjT[*=.=""%<^1fuZ.D/s\-"rJH2<r2nHE+fk,*'!Y3cd4)`FN6-*rDdDVj9"\t8ll=#+F4,u]pQR>AsHO\9/Gq<7Osr'`KN&YVMC$SqTOAj7I(n';ot2E.Stq&XN]$4nP<4i"Ej:$Og)Cd1)3o%B4<RDcpq>eOX#3k-i_E*FQ%OBMCeKZ1%Nhc.S\TM.H:TAb"O&t!7WFpU5iQ>(RL7BK1&-qPN\I*a,c/<#PQSOYGAQU.#ONHk-AC+)S@-<>/M4?V+L/WULcb@i%T=RW"-L!2Ga,uToKlljIp!KT$*((r#`.`e>8JE.l$,cSjQ-po7*\I-2/#J'S:6P7K_,3WX8LaY[J#\Fdm-ik=G4^!S#W&2W9Ul:3e+B.heTjo)61%>5k8E'l^/i/WjAui"EJ&Ct&N_(Y9&d/oJ:i/`UMNS[R:]X-q#JeA&+#4#p9#-`L&aHQ*i!STROTt;/Pi"nqY2=Wk90!5;Kk8c#EM)g6P\HcXF"+Br7(H3o7cUl733I&l!t=?f(,?SnZPRl(81m8t$T/.a79Z@(!G54:,(gkGWPAd*W%a(^.7CNS.*DAL"4LoB!sSX)HAs2-\KG9_!NZ=Pm'RI5W*Bnl!H]MlY6?!:lfgpt(kWuH98?#Q"U<AZb17I?nohVb"km:^Y6)o[2$dq0CS=;>N*9=kPQLF<(&7nd_Z_^9TMW/g6ENY+Wdu1]UDclhWYsr"=N<NgD9W`iMKW[%-D/%4@n!9LHC7.7\hT3#<<7ZZV9tgEmLISZ`c:^f4L%KC,#Hl<=l1PjU!g65IH13.7VJj1]1GEsmM1ts;Lp=;g8BHMAch&a#aU&))!jjpFu,!&]kIq-fu\s%-jV9Jd:.Va!%W_(f<T'!@6Uu8mbY[lG(*rPXUD9:Zq3u&L#1lfTM>*,%lFgaH:ZOmrHn`M)gEr@_iir*b[6lK7CI!@_<D3iX:'*+cL,4>`[dJEgU;u^.*5I%MfA[T-'@*#(Sc2aSq6_f#6[o%mt@!8Z4-R\[<BCXaLD@)JgA/B%.Y<B0@=[4F4LGUa]NAmMC(ZoD@G4An-n,Tra1sN=9c=]E]E&E!V-%s)&?u87aIj1i'&0G4%o[/"EMp$hL3LuN7'9!APNqQ430Ld[jL7qO-)7&B-,?dj3C/ZGump`qL9_YO/#!YA+ZqdeI=t8G[RT9S:ZO":.p64-UclnOZ=8KN,p;^EM^D7CtIrJ24oR0`AVp+BbL>jKbS&0-34Sm'#l@aXSn%=QA\9Nkk+0u[CB?W!=eD+.#V!d8Xf1m1\Bb<XgL:kPY$9O5^KJ,i3Noa@;=<S_MN'lF7321*;qpf_:a^af+O,Yque-^p?tgCp]==Qp=_sm<l>C8R";,(=pjNa"J41N<QbL*U)?WS2K_1cXqT;Dg#;bFO_f4J[c["e7a>uY-`lirQEQ/\XC[eNPFr989D%Oh4s+2r=h,\+WP'\s8uCbj@fT/J$(N,.;*!]_3d\i*VBQiQNVQ+`D6,\&%@SMY!J/0O#,!ka*Vu*(Z?Q)F%Br\fUjs:;dQ/1IPpsch,"S!Lj>$c`dnV%%GOG(a#.THZrYn8q#IP6LpqqGj11t(m'BU7Q*sG%8o!(f@T,smUI(T\g]T:Dq^icQ)PUc4)PX('[4F0qXKHs7B.ds4h&09^l@=GOW\BjYi(*oF<?f^gg6/I7k%Iot57j$Vphu391m@,>gN!oX/E@<1C4BpG/Eo1E'q66m,^`$[0b<c5LgG3S_=_'i>Yej(sLS')Kr\ek;"_/Q6k1!@bmr6m#aS+*C(9F3YcZaS>42`0mY'Z"#E-F!lTB=E^n.V/X\(GuCE=QiklaLtV@d<$-eZ$YkG8q[`CKb4"o,T>i7VaBSTa_1rWQJ1H_j(=!qE`;t(,mf%EX..hJ#3GO(q%2i.3/]0%KlJakfC(8!q:gBQKoBjD>OD9]Rp3W@;8hjpIDQU0CA:H1?RW.]pQKCQkTo5PWqCl?FDo/(s"U?Fp:dDl\g=%b^9QaNWF!>DOQR1%qHS?=M2MN8m9a&g]8hc50'_Mdm2@:cB$V3a"Q60(C?e9W36q+D<#(2$Y#HJg*?ml2uUX,VR;(ClTa`9=p+Oco&0_W>44f/Y;,/:8Bh[CeN3cM]WuD?["<cI6DNN^L<qFGLEUVGj%X'7RbunK3j%KE+D5A4!-e=IFpE!\:MY+RGNp5HX(<6:3ehj@pg["c_W3dJ(V"CN2lAMq!0?]Ul]@1rs#dFJ+Xkpok/U=;N=S=KA&g]hdV=42ME?"6;%Uh$r8VM-&ajk:=Q406b9.@j(N;#<aPR:[8XuE8b?YT?iU5?PCWI*TD'h1A`o^cdo:n!V*]F)=EQ4#g<+t#;D?((KRq'r4L'-l%;Hp(lB38cW,'C:B=&BjPp&7L.\oeAsid/<HJ<ZW=i%N(-g]n8>4<k&8$Gi)=&DT?prS4u:M`m((&=0XUf),XLI=5_;<Fqj%oVh/%%f,\=1[mZe42mFt>7.;MK]Gm(S)#N7kHVQbg*&MuX=D;5VtG[S>1[%@Z[1D#HF,a;ULljE;`[j'ge?u_8nV%_Rn6m7ktLA^]2n+:;Oqtc'MDG>j1*W_d+p1()j[p/UhBup'L&W-9N*d#/qrDmb!(o]*Gd/g+0+KYdlUO4`Cd;9fBP!*Zo0EVc-!9_:[_5kK(SdD?BS<obcg(d[?C&X?N"2Q[]aT$AGRD;6t8FSr]@seVs-"pLfRNl2-D9Fi]`Rl9]gW85`-@akDD<F$,'W%$sVi_g:q0q6;]#]/(1EUN"?n3r,o8H2]8j<3n"P0\mp7"hl?,I4R:_'AfAdiMJ9V#):D;P/6)+RgSV!)0hPFq6PT\t>Ej!%YgnEWos"9>86'<aB@L'5*;BVqrI.+O:EBC.[HFDM9^;It#\mHLEl5ms],eAQj4[I%P#-%>HgUEemZ\><\#/\`bDeh$ZGF[82H>)u:h7fISXrk6<R&!&nY\,mnG<7B[X8F6(\%i$^(Rt9kA(WnRt"SEh)<>s\Pe-I^s7-:No398[L[IC::E>b]YlE[aC9`*>DTq,>_MeERX1O8#?;K8H``ucT;9H>B(L8^aJ9)BanP0W!ro%m%!A`T:SW-DGLb:!X)COshAQ!0^0=&3:WW91PaSjVf[dt?]:o^/_)o8jl.,=.C7fp9@1oD4qH5njM<c*5pP*&q.r$hq4KdiWg;Amui:g@4:#"L7$,\Ce\dp[UdsAn)+ro;58>Pu_&fjX7C*='hLLW<(3Ms"lgDdJo<RjR77rorsK+9#,L?UJa&?9jC&16&aN?;/bMHIf,&s[Fh?"Q["01:O)U[>mk9+*"o%1-Q#.(eJ7&g#oSGH)pgo4WU`eU(q)5,JipB1@sJCrNfi_K<(]s4q)idCKsq:.1O:92K1;jOsP5gc4Q>~>
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+BT /F1 7 Tf 8.4 TL ET
+.466667 .466667 .466667 rg
+BT 1 0 0 1 409.3756 25.51181 Tm (CHIPATON - Laporan Fase 3 \(ID\) - hal. 2) Tj T* ET
+q
+1 0 0 1 54.18898 771.3701 cm
+q
+.101961 .101961 .180392 rg
+BT 1 0 0 1 0 6 Tm /F2 16 Tf 22 TL (1. Tujuan dan Lingkup) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 723.1701 cm
+q
+BT 1 0 0 1 0 30.8 Tm 13.4 TL /F1 9.4 Tf 0 0 0 rg (Fase 3 mengukur ) Tj /F3 9.4 Tf (trade-off) Tj /F1 9.4 Tf ( sumber daya terhadap performa dari beberapa butterfly paralel per siklus \() Tj /F3 9.4 Tf (lane) Tj /F1 9.4 Tf (\) di atas) Tj T* (memori ter-bank Fase 2, untuk L = 1, 2, 4, 8 \(konfigurasi ) Tj /F2 9.4 Tf (C2) Tj /F1 9.4 Tf (\), lalu memilih satu titik operasi. Kriteria pemilihan L) Tj T* (ditetapkan lewat ADR ) Tj /F3 9.4 Tf (sebelum) Tj /F1 9.4 Tf ( ) Tj /F3 9.4 Tf (sweep) Tj /F1 9.4 Tf ( Quartus diukur.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 677.9701 cm
+q
+BT 1 0 0 1 0 30.8 Tm 13.4 TL /F1 9.4 Tf 0 0 0 rg (Setelah ) Tj /F3 9.4 Tf (sweep) Tj /F1 9.4 Tf ( C2 selesai, tim meminta dua eksperimen optimasi tambahan \(K2 dan K1\) untuk melihat apakah L = 8) Tj T* (bisa masuk anggaran ALM tanpa mengurangi 8 butterfly per siklus. Eksperimen itu dijalankan sebagai konfigurasi) Tj T* (terpisah; RTL dan bukti C2 tidak diubah.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 641.9701 cm
+q
+.101961 .101961 .180392 rg
+BT 1 0 0 1 0 6 Tm /F2 16 Tf 22 TL (2. Kriteria Pemilihan L \(ADR 0004\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 607.1701 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 0 14.8 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 66.18898 607.1701 cm
+q
+BT 1 0 0 1 0 17.4 Tm 13.4 TL /F2 9.4 Tf 0 0 0 rg (Primer:) Tj /F1 9.4 Tf ( jumlah siklus paling sedikit, di antara L yang pemakaian ALM-nya tidak melebihi 25% perangkat target) Tj T* (\(5CSEBA6U23I7, 41.910 ALM\), yaitu ) Tj /F2 9.4 Tf (10.478 ALM) Tj /F1 9.4 Tf ( \(perhitungan tim\).) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 575.3701 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 0 14.8 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 66.18898 575.3701 cm
+q
+BT 1 0 0 1 0 17.4 Tm 13.4 TL /F2 9.4 Tf 0 0 0 rg (Sekunder) Tj /F1 9.4 Tf ( \(informasional\): evaluasi AT setelah ada ) Tj /F3 9.4 Tf (clock) Tj /F1 9.4 Tf ( yang memenuhi timing. Belum bisa dijalankan karena) Tj T* (belum ada konfigurasi yang memenuhi timing.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 539.3701 cm
+q
+.101961 .101961 .180392 rg
+BT 1 0 0 1 0 6 Tm /F2 16 Tf 22 TL (3. Arsitektur Multi-lane) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 491.1701 cm
+q
+BT 1 0 0 1 0 30.8 Tm 13.4 TL /F1 9.4 Tf 0 0 0 rg (Lane ke-) Tj /F3 9.4 Tf (l) Tj /F1 9.4 Tf ( memproses indeks butterfly ) Tj /F4 8 Tf (p = l\267\(128/L\) + t) Tj /F1 9.4 Tf (. Inti C0/C1 memakai satu penghitung indeks zeta) Tj T* (sekuensial, yang tidak bisa dipakai bila beberapa lane berada di blok berbeda pada siklus yang sama. C2 memakai) Tj T* (rumus tertutup per lane:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 467.3701 cm
+%PreformattedPara
+0 0 0 rg
+BT 1 0 0 1 0 11.6 Tm /F4 7.2 Tf 9.4 TL (NTT \(maju\):    k = 2^lapis + blok) Tj T* (INTT \(balik\):  k = 127 - \(jumlah blok di lapis-lapis sebelumnya\) - blok) Tj T* ET
+Q
+q
+1 0 0 1 54.18898 413.7701 cm
+q
+BT 1 0 0 1 0 44.2 Tm 13.4 TL /F1 9.4 Tf 0 0 0 rg (Rumus ini dicocokkan secara menyeluruh dengan aturan sekuensial C0: 0 selisih dari 127 pasangan \(lapis, blok\)) Tj T* (pada kedua arah, dan cakupan indeks per lane lengkap tanpa duplikat untuk semua L) Tj T* (\(lane_schedule_verification_2026-09-29.txt\). Memori ) Tj /F4 8 Tf (poly_mem_multiport) Tj /F1 9.4 Tf ( menyediakan 2\267L port logis di atas) Tj T* (pemetaan bank Fase 2.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 377.7701 cm
+q
+.101961 .101961 .180392 rg
+BT 1 0 0 1 0 6 Tm /F2 16 Tf 22 TL (4. Hasil C2 \(MEASURED\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 70.86614 230.3701 cm
+q
+.14902 .14902 .301961 rg
+n 0 139.4 453.5433 -16.2 re f*
+1 1 1 rg
+n 0 123.2 453.5433 -26 re f*
+.964706 .964706 .984314 rg
+n 0 97.2 453.5433 -16.2 re f*
+1 1 1 rg
+n 0 81 453.5433 -16.2 re f*
+.964706 .964706 .984314 rg
+n 0 64.8 453.5433 -16.2 re f*
+1 1 1 rg
+n 0 48.6 453.5433 -16.2 re f*
+.964706 .964706 .984314 rg
+n 0 32.4 453.5433 -16.2 re f*
+1 1 1 rg
+n 0 16.2 453.5433 -16.2 re f*
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 4 126.2 cm
+q
+1 1 1 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.6 Tf 10.2 TL (Besaran) Tj T* ET
+Q
+Q
+q
+1 0 0 1 134.3937 126.2 cm
+q
+1 1 1 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.6 Tf 10.2 TL (L=1) Tj T* ET
+Q
+Q
+q
+1 0 0 1 215.1811 126.2 cm
+q
+1 1 1 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.6 Tf 10.2 TL (L=2) Tj T* ET
+Q
+Q
+q
+1 0 0 1 295.9685 126.2 cm
+q
+1 1 1 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.6 Tf 10.2 TL (L=4) Tj T* ET
+Q
+Q
+q
+1 0 0 1 376.7559 126.2 cm
+q
+1 1 1 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.6 Tf 10.2 TL (L=8) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 110 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (ALM) Tj T* ET
+Q
+Q
+q
+1 0 0 1 134.3937 110 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (6.018 \(14%\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 215.1811 110 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (5.728 \(14%\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 295.9685 110 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (7.629 \(18%\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 376.7559 100.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 12.6 Tm /F1 7.4 Tf 10 TL (11.446 \(27%\), di atas) Tj T* (anggaran) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 84 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (Register) Tj T* ET
+Q
+Q
+q
+1 0 0 1 134.3937 84 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (3.100) Tj T* ET
+Q
+Q
+q
+1 0 0 1 215.1811 84 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (3.098) Tj T* ET
+Q
+Q
+q
+1 0 0 1 295.9685 84 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (3.102) Tj T* ET
+Q
+Q
+q
+1 0 0 1 376.7559 84 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (3.100) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 67.8 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (Blok M10K) Tj T* ET
+Q
+Q
+q
+1 0 0 1 134.3937 67.8 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (0/553) Tj T* ET
+Q
+Q
+q
+1 0 0 1 215.1811 67.8 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (0/553) Tj T* ET
+Q
+Q
+q
+1 0 0 1 295.9685 67.8 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (0/553) Tj T* ET
+Q
+Q
+q
+1 0 0 1 376.7559 67.8 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (0/553) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 51.6 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (Blok DSP) Tj T* ET
+Q
+Q
+q
+1 0 0 1 134.3937 51.6 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (3) Tj T* ET
+Q
+Q
+q
+1 0 0 1 215.1811 51.6 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (5) Tj T* ET
+Q
+Q
+q
+1 0 0 1 295.9685 51.6 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (9) Tj T* ET
+Q
+Q
+q
+1 0 0 1 376.7559 51.6 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (17) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 35.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (Fmax, Slow 100\260C) Tj T* ET
+Q
+Q
+q
+1 0 0 1 134.3937 35.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (14,76 MHz) Tj T* ET
+Q
+Q
+q
+1 0 0 1 215.1811 35.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (13,54 MHz) Tj T* ET
+Q
+Q
+q
+1 0 0 1 295.9685 35.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (11,60 MHz) Tj T* ET
+Q
+Q
+q
+1 0 0 1 376.7559 35.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (7,62 MHz) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 19.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (Slack setup terburuk @ 20 ns) Tj T* ET
+Q
+Q
+q
+1 0 0 1 134.3937 19.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (-47,733 ns) Tj T* ET
+Q
+Q
+q
+1 0 0 1 215.1811 19.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (-54,644 ns) Tj T* ET
+Q
+Q
+q
+1 0 0 1 295.9685 19.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (-66,690 ns) Tj T* ET
+Q
+Q
+q
+1 0 0 1 376.7559 19.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (-111,219 ns) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (Siklus NTT / INTT \(simulasi\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 134.3937 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (897 / 1153) Tj T* ET
+Q
+Q
+q
+1 0 0 1 215.1811 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (449 / 705) Tj T* ET
+Q
+Q
+q
+1 0 0 1 295.9685 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (225 / 481) Tj T* ET
+Q
+Q
+q
+1 0 0 1 376.7559 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (113 / 369) Tj T* ET
+Q
+Q
+q
+1 J
+1 j
+.784314 .784314 .815686 RG
+.4 w
+n 0 139.4 m 453.5433 139.4 l S
+n 0 0 m 453.5433 0 l S
+n 0 0 m 0 139.4 l S
+n 453.5433 0 m 453.5433 139.4 l S
+n 0 123.2 m 453.5433 123.2 l S
+n 0 97.2 m 453.5433 97.2 l S
+n 0 81 m 453.5433 81 l S
+n 0 64.8 m 453.5433 64.8 l S
+n 0 48.6 m 453.5433 48.6 l S
+n 0 32.4 m 453.5433 32.4 l S
+n 0 16.2 m 453.5433 16.2 l S
+n 130.3937 0 m 130.3937 139.4 l S
+n 211.1811 0 m 211.1811 139.4 l S
+n 291.9685 0 m 291.9685 139.4 l S
+n 372.7559 0 m 372.7559 139.4 l S
+Q
+Q
+Q
+q
+1 0 0 1 54.18898 208.7701 cm
+q
+BT 1 0 0 1 0 13.7 Tm 10.8 TL /F1 7.9 Tf .333333 .333333 .333333 rg (Sumber: docs/evidence/quartus/C2-L{1,2,4,8}-20260929.md dan cocotb_regression_2026-09-29.txt \(16/16 di Icarus dan Verilator; L=1) Tj T* (identik dengan C0/C1\). Timing tidak terpenuhi di semua L dan memburuk seiring L naik; ) Tj /F3 7.9 Tf (pipelining) Tj /F1 7.9 Tf ( adalah lingkup Fase 4.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 176.9701 cm
+q
+BT 1 0 0 1 0 17.4 Tm 13.4 TL /F1 9.4 Tf 0 0 0 rg (Dengan ADR 0004 pada keluarga C2, L = 8 tersingkir oleh anggaran ALM \(lebih 968 ALM\), sehingga hasilnya ) Tj /F2 9.4 Tf (L = 4) Tj /F1 9.4 Tf (.) Tj T* (Hasil ini dipertahankan sebagai pembanding dasar.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 140.9701 cm
+q
+.101961 .101961 .180392 rg
+BT 1 0 0 1 0 6 Tm /F2 16 Tf 22 TL (5. Audit ALM L = 8) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 119.5701 cm
+q
+BT 1 0 0 1 0 4 Tm 13.4 TL /F1 9.4 Tf 0 0 0 rg (Rincian per-entitas dari laporan ) Tj /F3 9.4 Tf (fitter) Tj /F1 9.4 Tf ( \(l8_opt_entity_breakdown_2026-09-30.txt\) untuk C2-L8:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 70.86614 71.37008 cm
+q
+.14902 .14902 .301961 rg
+n 0 43.2 453.5433 -16.4 re f*
+1 1 1 rg
+n 0 26.8 453.5433 -26.8 re f*
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 4 29.8 cm
+q
+1 1 1 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.8 Tf 10.4 TL (Kelompok) Tj T* ET
+Q
+Q
+q
+1 0 0 1 179.748 29.8 cm
+q
+1 1 1 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.8 Tf 10.4 TL (ALM) Tj T* ET
+Q
+Q
+q
+1 0 0 1 264.7874 29.8 cm
+q
+1 1 1 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.8 Tf 10.4 TL (Catatan) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 13.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (Memori \(poly_mem_multiport + bank_map_rom\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 179.748 13.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (6.660,1 \(58,2%\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 264.7874 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 13 Tm /F1 7.8 Tf 10.4 TL (3.072 flip-flop penyimpanan, mux, crossbar 16 port) Tj T* (ke 8 bank) Tj T* ET
+Q
+Q
+q
+1 J
+1 j
+.784314 .784314 .815686 RG
+.4 w
+n 0 43.2 m 453.5433 43.2 l S
+n 0 0 m 0 43.2 l S
+n 453.5433 0 m 453.5433 43.2 l S
+n 0 0 m 453.5433 0 l S
+n 0 26.8 m 453.5433 26.8 l S
+n 175.748 0 m 175.748 43.2 l S
+n 260.7874 0 m 260.7874 43.2 l S
+Q
+Q
+Q
+ 
+
 endstream
 endobj
 14 0 obj
@@ -144,11 +699,682 @@ endobj
 endobj
 15 0 obj
 <<
-/Filter [ /ASCII85Decode /FlateDecode ]
-/Length 4062
+/Length 13810
 >>
 stream
-Gau/\CNJ6"mX'Bd^2uh^.@Rkr-e#Ute"f_*oTE=i:R^gT,[-r<;YZ'3hV<TF@/8<)PUoQS-h;;E!#EB0Ys9.>pgNaNAH_MG%'JJB?lWbh^^SbDfe'k-]r7OWo[mlLWeQ4WCtSb_fCT-F?lPQ8lF(C-2cZ%rLVYNnad_2FIsaEVpRa/&gkK%<9i;S@4-=f]_gM%SfD/E,[1T)>qA%3q@J1pSrUQ\;Chp%\=j4Zg/Ch-cL3p^MPo6aEU&NItk$!_"MX`:=6LkRa=%u'6@EN8NHLUDK6D[Jcbgnh5\>;7:,1X(0`!5V<A*?HLopVSTr:l13cri"6RbV)g5Ud"68qL+aDtf9]f$!G=O?5SVJ?'IUq>)*:)i5[[=t-u'N>Eqh2@2E,rIgdY2R?]>2OqrF]Y=?k$_1FUC-2+pqVR)K5B/=\"&'*[QGC-149D#nP+MMqjQ1h5?r?!qQTg)[:GQYf51BVV<ErLKSLOJlq:03!)&=^T!&g_K+Id,Gk.1g#Akt,&IBeK&`#``Qpq)&V+^jWTCD$CS-*&4(.8gn;`r]:d1`,pLQsV:"I@:9OM9M%4e+*lIoQlHmU4l_H:rIVk5dL&\OXDUU0H`+<,,lAN//45f'aTs^:QnV+^V*mB'\NbF9\$YL363(@dE[mlF7IdR,W9plpH^8()6X-,#9c#V"ldQQ0?E3lECD?Gfgob=5P_?[khW..1r+;565FsMoE=h5$]l\\kP_$Zfh&>RMN9d+6>h?'el`Er'[K7q8J"2U5JU=$"QX$EVki/2&_)<gho?Oh=#trqgL6u@=Rc,FFHc4DqOXWCr,Ndo?0uX+H;4@>I"X<;KB>V5p)'1Zg!50RJ@>>[gI6S$T%R`?#\^djFO5##X)'dJBLY(1O=md?>`S,A[`9!2^0.5sU2C6P;!m2CVEaH^Kk[L0EEi`&3)T&i9K90p\je/HC'U;5dLNt=N_b@"o-/hB?\ncWb0"koApk0*cO30V&;DiK9g'UdH7b+)jEP4EOEkr6+VT,%gGI$b9SJmj[uKdD6sffI6Q<UN>nNam.gU9\q?hntRN0k%1_'dJc2:7#WPY'YecH:?;`Q<PqI9[ND9tbU94Bhd6p;;ibCP\_SlAoEaP+S:ns<f9E/Pq5OjKJoI2$Gbq.i!MCpZ8)=W)h!hi=SGr.+O$a(H1XS]dsE@]AiTaH3_lncNd>1k%CM1_HU#2Gmmi@,#1PND^'0F(X/gLfuX698@2pm(oq5;:K7jmB'9d)DQtV>[lnFgn]mVV4:AE:q0Z5QtCdYU@M<BnW_.lq>HYtf2mFb/OUL"UJS'"P[NFC$5KKY+Pm#Kg/8"gkYS(?]D^D[:rd7_6VllH.XXLJ^-Q)#OuD#+U&kM;[L1L0ci[4U1%r@M"9pBYoQ_YET\1!0@A(.k.0A'FK(<mK"\!OSgB/l8hoai6!85$S;@J);`GlXj1e5<?Tc.go-[W.8JDOoXOa8N8qg(LD7UV%3bWpnqi?^oU&,s.2;-LAB1`MstiR8bD3S^/4+44>dq%9m=(1`6$i2pL(ZB1)qj7?G@EE?!LhBRlrdQ9p0AKk3)Yn.ih:Fhm8GYJ8CLrN6O*LiqAUKC+EOY5X3+kg(tFUcs`7HeBLd_.uodB82IMoW[fN?0!KP_.MUMd2p;7^_^:eL$.&d;><7-'?D*d6R%DE;XC@LJapkI,0WIP"C'bNPW#H'$g(\?lFJ4\n1MNo2Hdto^-u1^<ZU6H&=achmT/>5Vnt_C"jLcW)X"Y]ZtKDKRS1CqX1Q5Dgrc58XXIp\uXS\Yhf<6n*W.kd0_We&cqGk5lT#Kb`N0i?3Ij!@@:i@,7um;Gn-$hjgdCf0'"tiXD*AM!ktLGXIo2e]H^6\oZRP:1]e_L!ls(Z6c:3G0W#bC2'ca-)nm1-Pk+J/*'oWN@B$iec_=Ie,>b&+ST=os!X4TAm0l:A5_4OLHG;-f$9:n9%^!ZE5VsnQMc#kAC%Wuj,NTO,Fh?Os2BojP5,H?_C&)'Dho5?ekr6D`T5cT0>e4Lt!eR^`W[cBgNpZc1[*V>$rn`.dfZ<t4!agl`T)mh?r+tkX1<8$p5-_Xa_>Q\_M9S<$A:VdnELX\#kh!G-$G>>?-=e/KQug_kZBbA[38ZiWTM`Ig\q(Epf!#`sR?s)5T@V3uA@\%iFbU>E5o-d[V5lf^^_G;23&l4#M/SCQ.W?1N:ZR/kgsY&L<p('NRA"!qp>Pb\:M],1/6oGT@&]E.$l2QWgd*KNmYnqj/!_uI6l(_6%A)uSYm_cHo()3Z;5?YM%)Xt)o@.^o7l):5c3SG\TJ9`+)9s@n-I<ca`b(*<%AIQhh%=<;.\5N.EpYm[X?C,Cmu7::c/AFdKs!-6(SYqT)f[QD%et[r&6t%/0O2P)C]1]T[/q/=i7p^7L=:WO=qbjpHD;\lh)a[)c7^N1GECY7R=&tJcrX6^]1\3O%!R8fpR'cNq4O.AQ^-B@q4O=FGEeY$3Na_M[St=Zc%N`VlqGN@;cIj^l&k"P;VimH-KVa9ETDH]a-mjBCZQ.i--(>YjTNWJ<%>+'44]%T'eV$0:TgW$h%dNG9D+tnc(J@i>J8OK"+>;=?+"7+6P_=n/$3kalVq0h3V]JWa'B9/]_!MOP%Ah(IJ$ZJ]_&AAPZ?"EoGP.<AI;KI`VCUd&$B=pi?DX'Q)nTI:8PS(Z\J;l;JKF/k):c2dVH-8b9YC(<;:Ii$'j;GI"f?H?H>6I[D,\l!4p.-2dD&t9gstCLP=FW6ru7h;/@_/cEF0!+fc.'cG;2Wf+kW^Gm.(8X__=#=0tY%&l@$kSJI_mr8K?t#`O?")Q&88<OYn#Qs0,l\;lFNe,nC,m]f"DbLj0pMfPVT7G09HM5IFZ(:C/#WL&CZR2]HIqf$TaiR;_NMO!.,f9eNVKdlVd"?tXsf$%*9k"\54&g2)j^7i><Q<'&+Nc^c@6T2\opcl;TdE"K#P>k]*W+SIDTsgo,#a:o2SCcKc=@=<io_%TY1T>Gp\+VV:R7_ADEQJ)D_3(?+<NWsN=u&dOSf`3>a9^>56X34HD-HV7RJu,C[Hg@,mLR`0Gt]L\<`C'&F[RmX3ho2,fEt.QFWSm:&a(@/#"c2p6`U"E4$<ZodR%!I.Y=Yf^QRMbLd\iJgN-"cU(D<s*87j1-%^#12F-Lfl1s:=mdMJgp>gMR6e,?_leD!cb'uf]EA1@ACQFCagVc+LB>@R,5@3V>+9R]m"*&6XrF;:;D@7mL[,]E#HaQ(d^BS;?=kqGKMgBeWUlMl^4ZgDOe_I"&&&*F?FBLQ`3E9VM9lK+!)a11DXEa@B>!4n!9hf8qd/8nb&e5\<So^11$i@+tC4l/"fWX\O#EN$k6BEO)5!aUn"s\'P_b\'I:")?Y73MOF/KAMSCNqRc?@L/@=OQ.7A^`!Z`V3#f(.7>CUL2a4pt8lL*Ze1;"8pI;`@^urm$_9#fAr87IQmG=M'^.RM^0"Q<;'1^ALk*VJ3jPS\%Rh11cb<P=(6CEFJ#)@ZcdR.XD9XU4Zn'kdo\VoehYhHb2?"hKgL/+'`M/GH8.1`D<L\_*@RT_%nR[rY\i/IUSX5/()3;CR=CZJVja7T=nhIZh;'U75?IOG6L:fXoj4dU%V^saV!@9%Vu\L@ZCI@H#5De8Y5V_P2'/>'/LmR"Q2N$b\1",3chJ-\adhMAWIElV0%h)s4&f5.<7?#P<RJ[EM4"*l_d)AlZKp;:F%`Ff+K`Phd*MX7OC:5EoE1'KV$QS+<ncSV\5m=,B\V`JWJZ-S)?pX_e,A&N)i\g??7$U+WUQZu,Ubm,,o[[U$JsA[=I-43h=S/?nGpnW`qRpEP:a7d-@X=sgC's=.!Dn8]pj^kH[0f1TLlMu^#ih,P80R6ONfCcl1d?(Ea5NS7Oc#+h5pl=dClN\/N^)Al9P!>W-dfCW+N(7DP[Q_TfuqM0>$abpDuBFW'8HVZ5gCtO].;XSWE[plu]SaiU9,GYN`h=BjC>GU4Xe(5mSsq*?'V0(>=Y#&j<s+jk9aI?RErA?Q_OQI@6_GpQRO220Xq'F8h0u.g*EX^>PEj0?ruA5I.6(7uP-!7"KOOX&m#*B6!2']s/Z2_i+Nsn]le6~>
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+BT /F1 7 Tf 8.4 TL ET
+.466667 .466667 .466667 rg
+BT 1 0 0 1 409.3756 25.51181 Tm (CHIPATON - Laporan Fase 3 \(ID\) - hal. 3) Tj T* ET
+q
+1 0 0 1 70.86614 706.9701 cm
+q
+.14902 .14902 .301961 rg
+n 0 86.4 453.5433 -16.4 re f*
+1 1 1 rg
+n 0 70 453.5433 -26.8 re f*
+.964706 .964706 .984314 rg
+n 0 43.2 453.5433 -26.8 re f*
+1 1 1 rg
+n 0 16.4 453.5433 -16.4 re f*
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 4 73 cm
+q
+1 1 1 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.8 Tf 10.4 TL (Kelompok) Tj T* ET
+Q
+Q
+q
+1 0 0 1 179.748 73 cm
+q
+1 1 1 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.8 Tf 10.4 TL (ALM) Tj T* ET
+Q
+Q
+q
+1 0 0 1 264.7874 73 cm
+q
+1 1 1 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.8 Tf 10.4 TL (Catatan) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 56.6 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (Aritmetika butterfly) Tj T* ET
+Q
+Q
+q
+1 0 0 1 179.748 56.6 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (3.569,9 \(31,2%\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 264.7874 46.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 13 Tm /F1 7.8 Tf 10.4 TL -0.099787 Tw (tiap lane punya dua pengali modular \(maju dan balik\),) Tj T* 0 Tw (masing-masing dengan pembagi untuk operator %) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 29.8 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (Alamat, kontrol, zeta) Tj T* ET
+Q
+Q
+q
+1 0 0 1 179.748 29.8 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (1.026,8 \(9,0%\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 264.7874 19.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 13 Tm /F1 7.8 Tf 10.4 TL (FSM, pembangkit alamat dan indeks zeta per lane,) Tj T* (twiddle_rom) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (Pengali penskalaan INTT) Tj T* ET
+Q
+Q
+q
+1 0 0 1 179.748 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (187,3 \(1,6%\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 264.7874 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (hanya aktif pada tahap penskalaan) Tj T* ET
+Q
+Q
+q
+1 J
+1 j
+.784314 .784314 .815686 RG
+.4 w
+n 0 86.4 m 453.5433 86.4 l S
+n 0 70 m 0 86.4 l S
+n 0 0 m 0 70 l S
+n 453.5433 70 m 453.5433 86.4 l S
+n 453.5433 0 m 453.5433 70 l S
+n 0 0 m 453.5433 0 l S
+n 0 70 m 453.5433 70 l S
+n 175.748 70 m 175.748 86.4 l S
+n 260.7874 70 m 260.7874 86.4 l S
+n 0 43.2 m 453.5433 43.2 l S
+n 0 16.4 m 453.5433 16.4 l S
+n 175.748 0 m 175.748 70 l S
+n 260.7874 0 m 260.7874 70 l S
+Q
+Q
+Q
+q
+1 0 0 1 54.18898 666.7701 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 30.8 Tm /F1 9.4 Tf 13.4 TL (Quartus tidak membagi dua pengali per lane itu, padahal mode maju/balik tetap selama satu proses. Tanpa) Tj T* (menyentuh butterfly atau memori, logika yang tersisa hanya sekitar 1.214 ALM, sehingga penghematan 968 ALM) Tj T* (tidak mungkin dicapai dari sana saja.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 630.7701 cm
+q
+.101961 .101961 .180392 rg
+BT 1 0 0 1 0 6 Tm /F2 16 Tf 22 TL (6. Eksperimen K2 dan K1) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 595.9701 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 0 14.8 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 66.18898 595.9701 cm
+q
+BT 1 0 0 1 0 17.4 Tm 13.4 TL /F2 9.4 Tf 0 0 0 rg (K2) Tj /F1 9.4 Tf ( - penghitung sub-siklus ) Tj /F4 8 Tf (t_q) Tj /F1 9.4 Tf ( dilebarkan sesuai kebutuhan tiap L \(4 bit pada L=8, bukan 8 bit\). Masih dalam) Tj T* (lingkup Fase 3.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 537.3701 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 0 41.6 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 66.18898 537.3701 cm
+q
+BT 1 0 0 1 0 44.2 Tm 13.4 TL /F2 9.4 Tf 0 0 0 rg (K1) Tj /F1 9.4 Tf ( - satu pengali modular per butterfly yang dipakai bergantian untuk mode maju dan balik) Tj T* (\() Tj /F4 8 Tf (butterfly_shared.sv) Tj /F1 9.4 Tf (\), di atas K2: konfigurasi ) Tj /F2 9.4 Tf (C2-K2-K1) Tj /F1 9.4 Tf (. Persamaannya sama dengan butterfly asli dan) Tj T* /F4 8 Tf (modmul_reduce.sv) Tj /F1 9.4 Tf ( tidak diubah. K1 mengubah datapath butterfly, jadi berada di luar lingkup tertulis Fase 3; tim) Tj T* (menyetujuinya sebagai eksperimen tambahan.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 70.86614 386.5701 cm
+q
+.14902 .14902 .301961 rg
+n 0 145.8 453.5433 -16.2 re f*
+1 1 1 rg
+n 0 129.6 453.5433 -16.2 re f*
+.964706 .964706 .984314 rg
+n 0 113.4 453.5433 -16.2 re f*
+1 1 1 rg
+n 0 97.2 453.5433 -16.2 re f*
+.964706 .964706 .984314 rg
+n 0 81 453.5433 -16.2 re f*
+1 1 1 rg
+n 0 64.8 453.5433 -16.2 re f*
+.964706 .964706 .984314 rg
+n 0 48.6 453.5433 -16.2 re f*
+1 1 1 rg
+n 0 32.4 453.5433 -16.2 re f*
+.964706 .964706 .984314 rg
+n 0 16.2 453.5433 -16.2 re f*
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 4 132.6 cm
+q
+1 1 1 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.6 Tf 10.2 TL (ALM \(MEASURED\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 134.3937 132.6 cm
+q
+1 1 1 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.6 Tf 10.2 TL (L=1) Tj T* ET
+Q
+Q
+q
+1 0 0 1 215.1811 132.6 cm
+q
+1 1 1 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.6 Tf 10.2 TL (L=2) Tj T* ET
+Q
+Q
+q
+1 0 0 1 295.9685 132.6 cm
+q
+1 1 1 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.6 Tf 10.2 TL (L=4) Tj T* ET
+Q
+Q
+q
+1 0 0 1 376.7559 132.6 cm
+q
+1 1 1 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.6 Tf 10.2 TL (L=8) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 116.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (C2) Tj T* ET
+Q
+Q
+q
+1 0 0 1 134.3937 116.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (6.018) Tj T* ET
+Q
+Q
+q
+1 0 0 1 215.1811 116.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (5.728) Tj T* ET
+Q
+Q
+q
+1 0 0 1 295.9685 116.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (7.629) Tj T* ET
+Q
+Q
+q
+1 0 0 1 376.7559 116.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (11.446) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 100.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (C2-K2) Tj T* ET
+Q
+Q
+q
+1 0 0 1 134.3937 100.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (6.389) Tj T* ET
+Q
+Q
+q
+1 0 0 1 215.1811 100.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (5.788) Tj T* ET
+Q
+Q
+q
+1 0 0 1 295.9685 100.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (7.600) Tj T* ET
+Q
+Q
+q
+1 0 0 1 376.7559 100.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (11.232) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 84 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.6 Tf 10.2 TL (C2-K2-K1) Tj T* ET
+Q
+Q
+q
+1 0 0 1 134.3937 84 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.6 Tf 10.2 TL (5.566) Tj T* ET
+Q
+Q
+q
+1 0 0 1 215.1811 84 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.6 Tf 10.2 TL (5.374) Tj T* ET
+Q
+Q
+q
+1 0 0 1 295.9685 84 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.6 Tf 10.2 TL (6.775) Tj T* ET
+Q
+Q
+q
+1 0 0 1 376.7559 84 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.6 Tf 10.2 TL (9.754) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 67.8 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (C2-K2-K1 dalam anggaran 10.478?) Tj T* ET
+Q
+Q
+q
+1 0 0 1 134.3937 67.8 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (ya) Tj T* ET
+Q
+Q
+q
+1 0 0 1 215.1811 67.8 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (ya) Tj T* ET
+Q
+Q
+q
+1 0 0 1 295.9685 67.8 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (ya) Tj T* ET
+Q
+Q
+q
+1 0 0 1 376.7559 67.8 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.6 Tf 10.2 TL (ya \(724 di bawah\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 51.6 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (DSP, C2 ) Tj /F5 7.6 Tf 10.2 TL (\256) Tj /F1 7.6 Tf 10.2 TL ( C2-K2-K1) Tj T* ET
+Q
+Q
+q
+1 0 0 1 134.3937 51.6 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (3 ) Tj /F5 7.6 Tf 10.2 TL (\256) Tj /F1 7.6 Tf 10.2 TL ( 2) Tj T* ET
+Q
+Q
+q
+1 0 0 1 215.1811 51.6 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (5 ) Tj /F5 7.6 Tf 10.2 TL (\256) Tj /F1 7.6 Tf 10.2 TL ( 3) Tj T* ET
+Q
+Q
+q
+1 0 0 1 295.9685 51.6 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (9 ) Tj /F5 7.6 Tf 10.2 TL (\256) Tj /F1 7.6 Tf 10.2 TL ( 5) Tj T* ET
+Q
+Q
+q
+1 0 0 1 376.7559 51.6 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (17 ) Tj /F5 7.6 Tf 10.2 TL (\256) Tj /F1 7.6 Tf 10.2 TL ( 9) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 35.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (Fmax C2-K2-K1, Slow 100\260C) Tj T* ET
+Q
+Q
+q
+1 0 0 1 134.3937 35.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (14,33 MHz) Tj T* ET
+Q
+Q
+q
+1 0 0 1 215.1811 35.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (12,63 MHz) Tj T* ET
+Q
+Q
+q
+1 0 0 1 295.9685 35.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (10,89 MHz) Tj T* ET
+Q
+Q
+q
+1 0 0 1 376.7559 35.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (7,68 MHz) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 19.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (Slack setup terburuk C2-K2-K1) Tj T* ET
+Q
+Q
+q
+1 0 0 1 134.3937 19.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (-49,804 ns) Tj T* ET
+Q
+Q
+q
+1 0 0 1 215.1811 19.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (-59,148 ns) Tj T* ET
+Q
+Q
+q
+1 0 0 1 295.9685 19.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (-71,868 ns) Tj T* ET
+Q
+Q
+q
+1 0 0 1 376.7559 19.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (-110,494 ns) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (Siklus NTT / INTT) Tj T* ET
+Q
+Q
+q
+1 0 0 1 134.3937 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (897 / 1153) Tj T* ET
+Q
+Q
+q
+1 0 0 1 215.1811 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (449 / 705) Tj T* ET
+Q
+Q
+q
+1 0 0 1 295.9685 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (225 / 481) Tj T* ET
+Q
+Q
+q
+1 0 0 1 376.7559 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.6 Tf 10.2 TL (113 / 369) Tj T* ET
+Q
+Q
+q
+1 J
+1 j
+.784314 .784314 .815686 RG
+.4 w
+n 0 145.8 m 453.5433 145.8 l S
+n 0 0 m 453.5433 0 l S
+n 0 0 m 0 145.8 l S
+n 453.5433 0 m 453.5433 145.8 l S
+n 0 129.6 m 453.5433 129.6 l S
+n 0 113.4 m 453.5433 113.4 l S
+n 0 97.2 m 453.5433 97.2 l S
+n 0 81 m 453.5433 81 l S
+n 0 64.8 m 453.5433 64.8 l S
+n 0 48.6 m 453.5433 48.6 l S
+n 0 32.4 m 453.5433 32.4 l S
+n 0 16.2 m 453.5433 16.2 l S
+n 130.3937 0 m 130.3937 145.8 l S
+n 211.1811 0 m 211.1811 145.8 l S
+n 291.9685 0 m 291.9685 145.8 l S
+n 372.7559 0 m 372.7559 145.8 l S
+Q
+Q
+Q
+q
+1 0 0 1 54.18898 364.9701 cm
+q
+BT 1 0 0 1 0 13.7 Tm 10.8 TL /F1 7.9 Tf .333333 .333333 .333333 rg (Sumber: docs/evidence/quartus/C2-L{1,2,4,8}-K2-20260930.md dan C2-K2-K1-L{1,2,4,8}-20260930.md, perangkat, ) Tj /F3 7.9 Tf (constraint) Tj /F1 7.9 Tf ( dan ) Tj /F3 7.9 Tf (seed) Tj /F1 7.9 Tf  T* (sama dengan C2. Pada L=8, 16 pengali per lane \(3.068,7 ALM\) menjadi 8 \(1.563,5 ALM\); mux operand menambah 48,3 ALM.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 292.9701 cm
+q
+1 .945098 .901961 rg
+n -6 -6 498.8976 79 re f*
+Q
+q
+BT 1 0 0 1 0 57.6 Tm 13.4 TL /F2 9.4 Tf .478431 .180392 0 rg (Catatan:) Tj /F1 9.4 Tf ( K2 bukan perbaikan yang seragam \() Tj /F5 9.4 Tf 13.4 TL (-) Tj /F1 9.4 Tf 13.4 TL (214 ALM pada L=8, ) Tj /F5 9.4 Tf 13.4 TL (-) Tj /F1 9.4 Tf 13.4 TL (29 pada L=4, +60 pada L=2, +371 pada L=1\).) Tj T* (Kenaikan pada L=1 seluruhnya berada di blok memori dengan jumlah ALUT dan register yang identik, yaitu logika) Tj T* (yang sama dikemas berbeda oleh ) Tj /F3 9.4 Tf (fitter) Tj /F1 9.4 Tf (. Jadi angka ALM dapat bergeser beberapa ratus ALM antar-kompilasi tanpa) Tj T* (perubahan logika, sedangkan margin C2-K2-K1 L=8 terhadap anggaran adalah 724 ALM. ) Tj /F3 9.4 Tf (Seed sweep) Tj /F1 9.4 Tf ( belum) Tj T* (dijalankan.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 256.9701 cm
+q
+.101961 .101961 .180392 rg
+BT 1 0 0 1 0 6 Tm /F2 16 Tf 22 TL (7. Verifikasi K1) Tj T* ET
+Q
+Q
+q
+1 0 0 1 70.86614 108.9701 cm
+q
+.14902 .14902 .301961 rg
+n 0 140 453.5433 -16.4 re f*
+1 1 1 rg
+n 0 123.6 453.5433 -16.4 re f*
+.964706 .964706 .984314 rg
+n 0 107.2 453.5433 -26.8 re f*
+1 1 1 rg
+n 0 80.4 453.5433 -26.8 re f*
+.964706 .964706 .984314 rg
+n 0 53.6 453.5433 -26.8 re f*
+1 1 1 rg
+n 0 26.8 453.5433 -26.8 re f*
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 4 126.6 cm
+q
+1 1 1 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.8 Tf 10.4 TL (Pengujian) Tj T* ET
+Q
+Q
+q
+1 0 0 1 298.8031 126.6 cm
+q
+1 1 1 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.8 Tf 10.4 TL (Hasil) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 110.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (Uji unit butterfly_shared terhadap model emas \(kasus tepi + 1.000 acak per mode\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 298.8031 110.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (2/2 di Verilator dan Icarus) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 83.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 13 Tm /F1 7.8 Tf 10.4 TL (Regresi inti C2-K2-K1, L = 1/2/4/8 \(bit-exact, bolak-balik, siklus konstan,) Tj T* (bank_overflow_o\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 298.8031 83.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 13 Tm /F1 7.8 Tf 10.4 TL (16/16 di Verilator dan Icarus; siklus identik) Tj T* (dengan C2) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 67 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (Ekuivalensi butterfly vs butterfly_shared, formal dengan pengali diabstraksi) Tj T* ET
+Q
+Q
+q
+1 0 0 1 298.8031 56.6 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 13 Tm /F1 7.8 Tf 10.4 TL (PASS; dua kontrol negatif gagal) Tj T* (sebagaimana mestinya) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 40.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (Ekuivalensi yang sama, simulasi menyeluruh pada RTL asli) Tj T* ET
+Q
+Q
+q
+1 0 0 1 298.8031 29.8 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 13 Tm /F1 7.8 Tf 10.4 TL (73.785.560.578 kombinasi \(2 \327 3329\263\), 0) Tj T* (selisih) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 13.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (Bukti formal ekuivalensi dengan aritmetika penuh) Tj T* ET
+Q
+Q
+q
+1 0 0 1 298.8031 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 13 Tm /F1 7.8 Tf 10.4 TL (tidak selesai dalam 30 menit; dicatat) Tj T* (sebagai catatan, bukan hasil) Tj T* ET
+Q
+Q
+q
+1 J
+1 j
+.784314 .784314 .815686 RG
+.4 w
+n 0 140 m 453.5433 140 l S
+n 0 0 m 453.5433 0 l S
+n 0 0 m 0 140 l S
+n 453.5433 0 m 453.5433 140 l S
+n 0 123.6 m 453.5433 123.6 l S
+n 0 107.2 m 453.5433 107.2 l S
+n 0 80.4 m 453.5433 80.4 l S
+n 0 53.6 m 453.5433 53.6 l S
+n 0 26.8 m 453.5433 26.8 l S
+n 294.8031 0 m 294.8031 140 l S
+Q
+Q
+Q
+q
+1 0 0 1 54.18898 76.57008 cm
+q
+.333333 .333333 .333333 rg
+BT 1 0 0 1 0 24.5 Tm /F1 7.9 Tf 10.8 TL (Bukti formal memakai satu asumsi yang dinyatakan eksplisit: modmul_reduce adalah fungsi murni dari masukannya. Simulasi menyeluruh) Tj T* (tidak memakai asumsi. Sumber: k1_cocotb_regression_2026-09-30.txt, k1_equiv_abstraction_2026-09-30.txt,) Tj T* (k1_exhaustive_equivalence_2026-09-30.txt.) Tj T* ET
+Q
+Q
+ 
+
 endstream
 endobj
 16 0 obj
@@ -168,11 +1394,252 @@ endobj
 endobj
 17 0 obj
 <<
-/Filter [ /ASCII85Decode /FlateDecode ]
-/Length 3219
+/Length 7849
 >>
 stream
-Gau`UflGh:(4GpYh!u,D,!g#J$+]1a[\H6QCs*H(VGbA_<E!R//Skh2/'?Ji\W):^W6f]m@p&kaDKOe/giJr#RJ=&Zhtrf)m?E@g(0NOi(M((29@GEfH2=Oi53BnLp8R"spc#)+CUW:?XEna8oF5Fqo#Mji,KlNX1l\L/mamB_Zg"BK1pcR(?&;RMM1j/C0$0ein)F<4U`+OjO[8CA9cn*G'CYe<X(LIUCKQdW5G@W"_A9!P*AD;3VWE.?XfiDena.@%9_);IiOM[Ka*QDsX4<[VoH0L#KaL8OkWI+!&Y7@R\;<+spl(gt5oe2f[=W5^ArYJ]0j.7_5IRK9*uB6\$1Xs</#+jM+)"u8Kq^gqMF]!9$kp]mM+]IYP4C;*X$163L?C0`G`CQH901;>jKA?(QfHnuZ$NQ#[bLIMampklRH!N7CIYkY9;-<gM3UUM7=2@eft0rK_R=0*"4J>OV@a'>'B>`O`hkK\4Nf$h1tjX>@Ca*d;fcq.s1g8ohAUb%NZ;Qi3XuTM&$ff1(-c5%ri%9)I,i"!_tVrkl-]>gE?.SH^Z[_5^%%ia)3_5ron&b#2bn+._(p.nfQAgJFbeC'K[^@<CN"n.&(dL62RN30ZO2THV2WiIQ%fMqC\nbIiG<qg-8,T[o_2`D^%A2M*D9U`9>@h1oZeL_2OD7V74SrU\tX\:27//,E.[_:flW%r:B"SImuYPpLY1kfm.Rk`iBS\TH!dL,GsQT-`tI:<fk$Td=W1-]Q_I<7;^?.S&gZia.=;qieQnK\oSf;.[NV+^"VNpJEtQ83mP1$33.YEJc>jE:[M2@H@6;PnbBjFr;2CAW0Lg`TJ_2qjY53##f8'E+^))_k0,Vt07Z4t1.&SfW!Zon]Df=WAamq=Q-NK17!C\PI2<PgWIB.J8d%NcA@\j1*A"VZJqtS;N=#eZ8-e?A.G]`Nbl6AGLck`f^"a:R7l2btt\[hCc>gM/ldCkK.`Jl$hh[F8\gDJH7c(G9NNBqu"%GJO#)3B&ZDsCUm+0'j_Bc2AD"a"$d]N#""r<i<]]=3liL546kd^<<PFDdp^A@@<BVn7&#I\?fgfLf`^Jm;^."lcD*(s0=7W9Rbe$4J->.?mhpjb<Lfb#K:Dq<XnQO('^K.^lWk6]s3SmLl1A12<C;g@o4QaP39B%drU"Ul"G?]s#m3P6jmiqbD/*a1aODbR1U:1D8"hl^2NG'3duWrmCEIP]d\;.>(5>W$2Ti?45k"-A!,l>SRA:VmnB`T_UR<%PR=L%h'rK1/inJTbaG_AXmA4dW$l\Scl1$Pb#/o3Ii?@Oj&N*6Y0/[+Y!+'$^<ckR/ml[!L?l#&i;4B0ouM[Jdl`F_btmpO\G7l?5<\Ld5,:l>Hq/[EdX83[,F4>7N:=cIE^/!kQXp$N6QW@M/Qh6W/RG"&^l2?Na$5%^[I1V4?*0IVD[l<^WZ-1,F_1]ZEg2aT6E(,4E#7jZPp!d]2lm#HQ/XtU1jFC@e)'Y?HiJMqYs`76j<K8o%2U/QkbiY3*=KBF7u:;WKiG*ia1"#C&XWD7.=LJ_EqY0-:j[chRLGi#9iYTJ5"(L6+7#<4@c9dg)N'Orcn8/dsoc(o\'?aPt:e$;\r#,:dtJ=(g!`DM^sF_;Jm+L<ZU&_iYbB_;E=%q&H!.*r"6d+N]b4*)*8)#@9S]Wq)!MG\Wo,^77OQ'FWTb@)5omA>'c0R+ospM<PECc+qs_Jp,d,>O=X&#,Ae<J$]o/0ZgRs=oe&j"W?@"-pO)?#-j#t)NVQ9!]N7CO6.a=4G<$'tXVs<p1^99pid4kkLk1R7R3VXfpKTm1I^.qH1d\n?Ou4!u(t6a-&!ah.*?&bbSVYN@4QKp/a_U*C\`PaN511&gN=<B`C`Y,%o*-tFM(>7q4g+(76rqAt<<]e,$7[,t%G'j4XTH+kR%*?j0bFf%FJ.@&J0!qu]ge\3\q3$M2MQ)a[_t;Yp'fFX9T8.gMu\uT,9ogIGb;i0JQWU2n4n5m0R2`9U]EeuO=&A(6]AZa(\G,/(E"VaJ>jcR'fZ1c&D4kFI[Lm9eTl@<6%MYAL:"L9&fUW+\Ir%V"Ra6Q<YRi=(T7-s%!Ujqjh,XU1R=:qf&[O1%Js?u:ul2HCdF>N*&0kg9W2*<?.@Uaftdk(,qU!B9K45,S?_sP<D5e&b0![q.i!WXc$F$kDoac[d0kB==qKHC.$fU+3FdECEI;/T>lPnJQmV*p1FC#jeJP=?kS/E8#FBI2U*(T^$5GphF7GTipOB0@:K'CND:GKVfuraCPiI1cQ=\(+#/hfniB@1QkFna\mttNcUoT@dmD$]lHIDIaD/)8'o8W:=4dkW,?%%7a]#T2-Y$H[IDQ(Pg/tF,1A>)R8'(\8,TR=_]qZu.<"'`*LUZr+jJ8t_u\o_d<`I#'a%$Mn[clPt@cD8&K_T%XBh#&@Ic/]\[p9"d=/ugg]CF`5jBEX;k6c*l_/ug\-3oK?`:iL-Nb:-@r_"P\"&dEcG72j6JbtM/K"DNl1c1HH8(cdn,J^,pOD\4<kSWU.E:._IL_JM(d#P!CRDjle#$NUX=J3aVO[sN_?PTiI<ClE72LS;55]@l?7m%eN`Z*]Bi\f[;l0<#<DOoUslitp>(3\1+\A?]7#a$tBuPkp(iN)g,jIBN2AAC0uUpg--jTA<0ocE933[!+ID%"-m\`iq7H;'#@09i2C(+h#`aVoh25Nmdg/X':On[mUt89hOtk1HrUTa9+=.<MJ2Ld@@c()6FeiR;6>]0#i>G&`L9<n<bRAFIAl'e(G(l;.;$.K(M5KU)oRsd9Q-@W/T.ZiaCXt\sI(V5k\4&n@kTVE;nL-9@KSQ64TNu<G23BR5H%(mBbZgo/_'JAbggKR&8TZ<&[W%Hnm,m.c@:tYm!.iO7b2s]9L8RB%ZsLL\"XGaj?0N"[FU@)(j@t(u)T%gUhj0mG'0[N\fP32W+'/b6OuHd+[5,EP8B4JEAW=@*3*k)TYkeQ&bt^5t,;UkgL>Ackuu)QHYPVI4Hrb@s<]r6$2cPch7+"LgeqqmoaZK+tk^u,EjF#l-#@"c#(((0L%6t2g.2\0&8n&d\M/QL@i;;06Oei%VaL@Jgp<b^_]^&o3lO56W!42F>qf:r<%1$2p9$=lAjkqb<WnI>[NV!qF"O8f_/Aj8#SMsa%YXVa/Zb^b?(bA[`'=R3RW\N-'oS5"7L`JbeZf3Ui5OUUtM98FZFq+_-H4\BLYq(S+F3sbL!<i!>1C^V#~>
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+BT /F1 7 Tf 8.4 TL ET
+.466667 .466667 .466667 rg
+BT 1 0 0 1 409.3756 25.51181 Tm (CHIPATON - Laporan Fase 3 \(ID\) - hal. 4) Tj T* ET
+q
+1 0 0 1 54.18898 771.3701 cm
+q
+.101961 .101961 .180392 rg
+BT 1 0 0 1 0 6 Tm /F2 16 Tf 22 TL (8. Verifikasi Formal: Hasil) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 736.5701 cm
+q
+BT 1 0 0 1 0 17.4 Tm 13.4 TL /F1 9.4 Tf 0 0 0 rg (Seluruh bukti dijalankan dengan satu skrip, ) Tj /F4 8 Tf (formal/run_formal_slang.py) Tj /F1 9.4 Tf (: 19 dari 19 hasil sesuai harapan) Tj T* (\(formal_rerun_2026-09-30.md\).) Tj T* ET
+Q
+Q
+q
+1 0 0 1 70.86614 655.5701 cm
+q
+.14902 .14902 .301961 rg
+n 0 76 453.5433 -16.4 re f*
+1 1 1 rg
+n 0 59.6 453.5433 -16.4 re f*
+.964706 .964706 .984314 rg
+n 0 43.2 453.5433 -26.8 re f*
+1 1 1 rg
+n 0 16.4 453.5433 -16.4 re f*
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 4 62.6 cm
+q
+1 1 1 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.8 Tf 10.4 TL (Kelompok) Tj T* ET
+Q
+Q
+q
+1 0 0 1 298.8031 62.6 cm
+q
+1 1 1 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.8 Tf 10.4 TL (Hasil) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 46.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (C2, C2-K2, C2-K2-K1 pada L = 1/2/4/8 \(12 bukti\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 298.8031 46.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (12/12 PASS, k-induction) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 29.8 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (Kontrol negatif: salinan bank_map_rom yang sengaja dirusak \(4\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 298.8031 19.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 13 Tm /F1 7.8 Tf 10.4 TL (gagal di basecase atau di langkah induksi,) Tj T* (sesuai rancangan) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (Bukti Fase 1 dan Fase 2 dijalankan ulang dengan alur yang sama \(3\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 298.8031 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (3/3 tetap PASS) Tj T* ET
+Q
+Q
+q
+1 J
+1 j
+.784314 .784314 .815686 RG
+.4 w
+n 0 76 m 453.5433 76 l S
+n 0 0 m 453.5433 0 l S
+n 0 0 m 0 76 l S
+n 453.5433 0 m 453.5433 76 l S
+n 0 59.6 m 453.5433 59.6 l S
+n 0 43.2 m 453.5433 43.2 l S
+n 0 16.4 m 453.5433 16.4 l S
+n 294.8031 0 m 294.8031 76 l S
+Q
+Q
+Q
+q
+1 0 0 1 54.18898 601.9701 cm
+q
+BT 1 0 0 1 0 44.2 Tm 13.4 TL /F2 9.4 Tf 0 0 0 rg (Yang terbukti:) Tj /F1 9.4 Tf ( ) Tj /F4 8 Tf (bank_overflow_o) Tj /F1 9.4 Tf ( tidak pernah aktif \(tidak lebih dari dua akses ke satu bank per siklus\), jabat tangan) Tj T* /F4 8 Tf (busy_o) Tj /F1 9.4 Tf ( ) Tj /F5 9.4 Tf 13.4 TL (\256) Tj /F1 9.4 Tf 13.4 TL ( ) Tj /F4 8 Tf (done_o) Tj /F1 9.4 Tf (, dan rentang ) Tj /F4 8 Tf (t_q) Tj /F1 9.4 Tf ( serta ) Tj /F4 8 Tf (layer_q) Tj /F1 9.4 Tf (. ) Tj /F2 9.4 Tf (Yang tidak dibuktikan secara formal:) Tj /F1 9.4 Tf ( kebenaran bit-exact) Tj T* (NTT/INTT, integritas data memori, dan bahwa proses pasti selesai; untuk itu buktinya adalah regresi simulasi dan) Tj T* (ekuivalensi butterfly di Bagian 7.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 565.9701 cm
+q
+.101961 .101961 .180392 rg
+BT 1 0 0 1 0 6 Tm /F2 16 Tf 22 TL (9. Ralat atas Laporan Sebelumnya) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 517.7701 cm
+q
+1 .945098 .901961 rg
+n -6 -6 498.8976 52.2 re f*
+Q
+q
+BT 1 0 0 1 0 30.8 Tm 13.4 TL /F1 9.4 Tf .478431 .180392 0 rg (Laporan 2026-09-29 menyebut L = 2/4/8 "belum tuntas" dan menduga penyebabnya cara pembaca Yosys membaca) Tj T* (tabel ) Tj /F3 9.4 Tf (case) Tj /F1 9.4 Tf ( 256-entri. Status saat itu UNKNOWN \(basecase lulus, induksi gagal\), bukan FAIL. Lokasinya benar,) Tj T* (mekanismenya keliru.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 456.1701 cm
+q
+BT 1 0 0 1 0 44.2 Tm -0.013469 Tw 13.4 TL /F1 9.4 Tf 0 0 0 rg (Akar masalah yang ditemukan dari analisis ) Tj /F3 9.4 Tf (trace) Tj /F1 9.4 Tf (: Yosys mengubah tabel ) Tj /F4 8 Tf (bank_map_rom) Tj /F1 9.4 Tf ( dan ) Tj /F4 8 Tf (twiddle_rom) Tj /F1 9.4 Tf ( menjadi sel) Tj T* 0 Tw (memori. Pada langkah induksi, isi memori dianggap ) Tj /F3 9.4 Tf (state) Tj /F1 9.4 Tf ( bebas, sehingga ) Tj /F3 9.4 Tf (solver) Tj /F1 9.4 Tf ( memakai ROM yang isinya bukan) Tj T* (tabel sebenarnya dan "menemukan" pelanggaran. Itu ) Tj /F3 9.4 Tf (state) Tj /F1 9.4 Tf ( yang tidak dapat dicapai: artefak perangkat uji formal,) Tj T* (bukan masalah RTL.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 410.9701 cm
+q
+BT 1 0 0 1 0 30.8 Tm 13.4 TL /F1 9.4 Tf 0 0 0 rg (Perbaikan hanya pada perangkat uji: ROM dipetakan kembali menjadi logika konstan \() Tj /F4 8 Tf (memory_map -rom-only) Tj /F1 9.4 Tf (\),) Tj T* /F3 9.4 Tf (frontend) Tj /F1 9.4 Tf ( diganti ke ) Tj /F4 8 Tf (read_slang) Tj /F1 9.4 Tf ( karena pembaca bawaan membiarkan hasil ) Tj /F4 8 Tf (add_mod) Tj /F1 9.4 Tf (/) Tj /F4 8 Tf (sub_mod) Tj /F1 9.4 Tf ( tanpa penggerak, dan) Tj T* (asumsi reset ditulis ulang secara ekuivalen. ) Tj /F2 9.4 Tf (RTL tidak diubah.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 374.9701 cm
+q
+.101961 .101961 .180392 rg
+BT 1 0 0 1 0 6 Tm /F2 16 Tf 22 TL (10. L Terpilih \(ADR 0005\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 326.7701 cm
+q
+.913725 .964706 .92549 rg
+n -6 -6 498.8976 52.2 re f*
+Q
+q
+BT 1 0 0 1 0 30.8 Tm 13.4 TL /F1 9.4 Tf .043137 .290196 .121569 rg (Keputusan tim \(Faza Dzil, Tim J5, 2026-09-30\): konfigurasi teroptimasi ) Tj /F2 9.4 Tf (C2-K2-K1) Tj /F1 9.4 Tf ( diadopsi dan ) Tj /F2 9.4 Tf (L = 8) Tj /F1 9.4 Tf ( dipilih - 9.754) Tj T* (ALM \(di bawah anggaran 10.478\), NTT 113 / INTT 369 siklus, 8 butterfly per siklus. Fase 4 berangkat dari C2-K2-K1) Tj T* (pada L = 8.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 278.5701 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 30.8 Tm /F1 9.4 Tf 13.4 TL (Ini deviasi yang disadari dan dicatat dari lingkup tertulis Fase 3, karena K1 mengubah datapath butterfly. Metode) Tj T* (reduksi modular dan parameter FIPS 203 tidak berubah. ADR 0004 tidak disunting; ADR 0005 menerapkannya pada) Tj T* (keluarga C2-K2-K1. Hasil C2 \(L = 4\) tetap disimpan sebagai pembanding.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 242.5701 cm
+q
+.101961 .101961 .180392 rg
+BT 1 0 0 1 0 6 Tm /F2 16 Tf 22 TL (11. Status dan Batasan) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 194.3701 cm
+q
+1 .945098 .901961 rg
+n -6 -6 498.8976 52.2 re f*
+Q
+q
+BT 1 0 0 1 0 30.8 Tm 13.4 TL /F1 9.4 Tf .478431 .180392 0 rg (Fase 3 ) Tj /F2 9.4 Tf (PARTIAL) Tj /F1 9.4 Tf (. CRG-9 \(timing\) gagal untuk semua konfigurasi pada ) Tj /F3 9.4 Tf (clock) Tj /F1 9.4 Tf ( sementara 20 ns. CRG-8 \(formal\) kini) Tj T* (lulus untuk properti kontrol dan kapasitas bank. Kotak Approval pada docs/results/result_phase3.md ) Tj /F2 9.4 Tf (belum) Tj T* (dicentang) Tj /F1 9.4 Tf (.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 172.9701 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 0 1.4 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 66.18898 172.9701 cm
+q
+BT 1 0 0 1 0 4 Tm 13.4 TL /F1 9.4 Tf 0 0 0 rg (Timing belum terpenuhi dan belum ada ADR ) Tj /F3 9.4 Tf (clock) Tj /F1 9.4 Tf ( target; seluruh Fmax bersifat relatif.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 141.1701 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 0 14.8 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 66.18898 141.1701 cm
+q
+BT 1 0 0 1 0 17.4 Tm 13.4 TL /F1 9.4 Tf 0 0 0 rg (Margin 724 ALM lebih besar dari, tetapi tidak jauh di atas, variasi pengemasan ) Tj /F3 9.4 Tf (fitter) Tj /F1 9.4 Tf ( terbesar yang teramati) Tj T* (\(sekitar 370 ALM\).) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 122.7701 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 0 1.4 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 66.18898 122.7701 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 4 Tm /F1 9.4 Tf 13.4 TL (0 blok M10K terpakai \(warisan Fase 2, baca asinkron\).) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 104.3701 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 0 1.4 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 66.18898 104.3701 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 4 Tm /F1 9.4 Tf 13.4 TL (K1 sedikit menurunkan Fmax pada L = 1/2/4.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 85.97008 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 0 1.4 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 66.18898 85.97008 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 4 Tm /F1 9.4 Tf 13.4 TL (Belum ada validasi di papan DE10-Nano; semua angka berasal dari Quartus dan simulasi.) Tj T* ET
+Q
+Q
+ 
+
 endstream
 endobj
 xref
@@ -183,18 +1650,18 @@ xref
 0000000447 00000 n 
 0000000496 00000 n 
 0000000695 00000 n 
-0000001745 00000 n 
-0000001818 00000 n 
-0000001925 00000 n 
-0000002037 00000 n 
-0000002152 00000 n 
-0000002258 00000 n 
-0000002336 00000 n 
-0000002537 00000 n 
-0000006092 00000 n 
-0000006293 00000 n 
-0000010448 00000 n 
-0000010649 00000 n 
+0000002480 00000 n 
+0000002553 00000 n 
+0000002660 00000 n 
+0000002772 00000 n 
+0000002887 00000 n 
+0000002993 00000 n 
+0000003071 00000 n 
+0000003272 00000 n 
+0000014097 00000 n 
+0000014298 00000 n 
+0000028162 00000 n 
+0000028363 00000 n 
 trailer
 <<
 /Size 18
@@ -202,5 +1669,5 @@ trailer
 /Info 1 0 R
 >>
 startxref
-13961
+36265
 %%EOF

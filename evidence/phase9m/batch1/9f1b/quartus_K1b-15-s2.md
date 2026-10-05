@@ -1,4 +1,4 @@
-# MEASURED — Quartus results for revision `K1b-15-s2`
+# MEASURED - Quartus results for revision `K1b-15-s2`
 
 - Generated: 2026-10-04 12:08 UTC by `extract_quartus_report.py` (values copied from the reports, not computed)
 - Source directory: `quartus/phase09f1b_core/output_files_K1b-15-s2`

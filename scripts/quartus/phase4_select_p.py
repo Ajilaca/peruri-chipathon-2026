@@ -93,7 +93,7 @@ def main() -> int:
     for p in P_VALUES:
         q = rows[p]
         fm = "; ".join(f"{c}: {v:.2f}" for c, v in q["fmax"])
-        d = f"{(q['t_ntt'] - t_min) / t_min:.4f}" if q["candidate"] else "—"
+        d = f"{(q['t_ntt'] - t_min) / t_min:.4f}" if q["candidate"] else "-"
         print(f"| {p} | {q['bit_exact']} | {q['const']} | {q['alm']:,} / {q['alm_den']} | {yn(q['alm_ok'])} "
               f"| {q['setup']:.3f} / {q['hold']:.3f} | {yn(q['timing_met'])} | {q['cyc_ntt']} | {q['cyc_intt']} "
               f"| {fm} | {q['fmax_low']:.2f} | {q['t_ntt']:.3f} | {q['t_intt']:.3f} | {yn(q['candidate'])} | {d} |")

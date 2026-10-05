@@ -5,7 +5,7 @@ Labels: **MEASURED** (Quartus report or simulation log in this repo), **INFERENC
 **ESTIMATE** (projection; method stated). Two questions for the team: (a) how much cycle increase is acceptable if
 stalls are needed; (b) whether the 12,573-ALM limit stays fixed for added registers.
 
-## (a) Cycle increase — what matters is time per transform, t = cycles / Fmax
+## (a) Cycle increase - what matters is time per transform, t = cycles / Fmax
 Starting point (MEASURED, C3-P6 default seed): NTT 119 cycles, INTT 375 cycles, lowest slow-corner Fmax 34.19 MHz →
 t_NTT = 3.481 µs, t_INTT = 10.968 µs (INFERENCE).
 
@@ -23,7 +23,7 @@ boundary found by search over the real L = 8 address schedule, then re-checked f
 
 | P | Stalls NTT (per boundary) | Stalls INTT (per boundary + scaling) | NTT / INTT cycles | Increase vs C3-P6 | t_NTT at 40 / 45 / 50 MHz (µs, ESTIMATE) |
 |---|---|---|---|---|---|
-| 6 (today) | none | none | 119 / 375 (MEASURED) | — | 2.975 / 2.644 / 2.380 |
+| 6 (today) | none | none | 119 / 375 (MEASURED) | - | 2.975 / 2.644 / 2.380 |
 | 7 | none | none | 120 / 376 | +1 (0.8 %), +1 (0.3 %) | 3.000 / 2.667 / 2.400 |
 | 8 | 1 at boundary 4 | 1 at boundary 3 | 122 / 378 | +3 (2.5 %), +3 (0.8 %) | 3.050 / 2.711 / 2.440 |
 | 9 | 2 | 2 | 124 / 380 | +5 (4.2 %), +5 (1.3 %) | 3.100 / 2.756 / 2.480 |
@@ -36,8 +36,8 @@ boundary found by search over the real L = 8 address schedule, then re-checked f
 - Consistency check: Phase 4's negative control (depth 8 without stalls) produced wrong results
   (`evidence/phase04/cocotb_regression.txt`); this table says P = 8 needs exactly one stall
   per transform.
-- **Constant cycles:** the stall count depends only on P, the direction and the fixed address schedule — never on
-  polynomial data — so every input gives the same count (the CRG-7 rule is unchanged; only the value 119 / 375 would
+- **Constant cycles:** the stall count depends only on P, the direction and the fixed address schedule - never on
+  polynomial data - so every input gives the same count (the CRG-7 rule is unchanged; only the value 119 / 375 would
   change, via an ADR).
 - Times at 40 / 45 / 50 MHz are hypothetical clocks, not measured Fmax. A deeper P is worth it only if Fmax rises
   by more than the cycle increase: e.g. P = 8 needs Fmax > 34.19 × 122 / 119 = 35.05 MHz just to break even with today
@@ -45,12 +45,12 @@ boundary found by search over the real L = 8 address schedule, then re-checked f
 
 **Plain reading:** if stalls add 3 cycles (2.5 %), NTT takes 2.440 µs at 50 MHz versus 3.481 µs today; even +12
 cycles (10 %) gives 2.620 µs at 50 MHz. The cycle increases in this table are small compared with what a higher clock
-would give — **but only if the clock really rises**, which only a compile can show.
+would give - **but only if the clock really rises**, which only a compile can show.
 
 ## (b) ALM limit for added registers
 MEASURED starting point: C3-P6 10,484–10,516 ALM over seeds 1–6 → margin to 12,573: 2,057–2,089 ALM (INFERENCE).
 Seed-to-seed spread 32 ALM (P = 6) and 64 ALM (P = 4). Under the GHRD's global settings the same core needs 11,053 ALM
-(+548; +993 for C3-P4), margin 1,520 ALM (INFERENCE) — compile settings are budget-relevant.
+(+548; +993 for C3-P4), margin 1,520 ALM (INFERENCE) - compile settings are budget-relevant.
 
 What one pipeline stage cost in Phase 4 (MEASURED totals and per-entity values from `quartus/phase04_pipeline_c3/
 output_files_P{2,4,6}/C3-P*.fit.rpt`; differences INFERENCE):
@@ -77,7 +77,7 @@ Bits per proposed lever (ESTIMATE from signal widths in `rtl/mem/poly_mem_multip
 | 6. Synchronous-read M10K memory | storage moves to M10K; 2R + 2W per bank per cycle does not fit one true-dual-port M10K | schedule change likely | not estimable without a design |
 
 Plain reading: levers 1 and 4 together could cost up to about 1,300 ALM (ESTIMATE, worst case of the measured
-range) against a margin of about 2,060 — they fit on paper, but with little room left and with seed and settings
+range) against a margin of about 2,060 - they fit on paper, but with little room left and with seed and settings
 effects of 32–993 ALM. A cheaper reducer from 5a/5b would give room back; how much is known only after 5a/5b are
 compiled.
 

@@ -1,4 +1,4 @@
-"""tb/ntt/run_p4_unit_tests.py — Phase 4 cocotb unit tests (evidence/phase04/test_plan.md,
+"""tb/ntt/run_p4_unit_tests.py - Phase 4 cocotb unit tests (evidence/phase04/test_plan.md,
 V2-V4) against one simulator.
 
 Usage: python3 tb/ntt/run_p4_unit_tests.py icarus|verilator

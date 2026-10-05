@@ -1,4 +1,4 @@
-"""tb/phase5m/run_m6_tests.py — Phase 5M step S6 verification (evidence/phase05m/test_plan.md V2, V5, V6, V7) against
+"""tb/phase5m/run_m6_tests.py - Phase 5M step S6 verification (evidence/phase05m/test_plan.md V2, V5, V6, V7) against
 one simulator.
 
 Builds:

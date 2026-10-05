@@ -1,4 +1,4 @@
-# MEASURED — Quartus results for revision `C4b-B-s5`
+# MEASURED - Quartus results for revision `C4b-B-s5`
 
 - Generated: 2026-10-01 12:31 UTC by `extract_quartus_report.py` (values copied from the reports, not computed)
 - Source directory: `quartus/phase05_arith_c4/output_files_C4b-B-s5`

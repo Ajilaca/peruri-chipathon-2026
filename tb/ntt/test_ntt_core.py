@@ -1,4 +1,4 @@
-"""tb/ntt/test_ntt_core.py — cocotb bit-exact test for rtl/ntt/ntt_core.sv against
+"""tb/ntt/test_ntt_core.py - cocotb bit-exact test for rtl/ntt/ntt_core.sv against
 tb/golden/primitives.py (`ntt`, `intt`), plus the constant-cycle check (CRG-7).
 
 Corner cases and counts per evidence/phase01/test_plan.md

@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (result artifact: internal status page, not proposal text) -->
-# Result — Phase 9M: optimisation of the ML-KEM-768 core (cycles, area, Fmax), simulation and static timing
+# Result - Phase 9M: optimisation of the ML-KEM-768 core (cycles, area, Fmax), simulation and static timing
 
 - Status: PARTIAL (every step was built, verified, measured and reported; the formal evidence is incomplete for three bounded checks that timed out, see section 6; the acceptance of the ADRs and the Approval box are the team's)
 - Status note: scope ADR 0034 (Accepted, Faza Dzil 2026-10-04: items 1-4; item 5, the second sampler, kept as an idea and not built), Fmax plan ADR 0036 and reporting limit ADR 0039 (both Accepted). Batch 1 (9M-1, 9M-2, 9M-3, S0, S1, S1b) was done under Faza Dzil and committed (16 commits on the branch); Batch 2 (S2, S2b, item 4) was done under Jevan in the same session and is not committed at the time of writing. Every step has a test plan with its adoption rule; only the item 4 plan was written after its RTL (stated in that plan). The ADRs 0035, 0037, 0038, 0040, 0041, 0042, 0043 are Proposed; nothing was adopted for the team.

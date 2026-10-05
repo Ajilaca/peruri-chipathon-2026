@@ -1,4 +1,4 @@
-# FIPS 203 — sumber, integritas berkas, dan errata (diakses 2026-09-28 UTC)
+# FIPS 203 - sumber, integritas berkas, dan errata (diakses 2026-09-28 UTC)
 
 ## Sumber
 
@@ -6,7 +6,7 @@
 |---|---|---|---|
 | FIPS 203 final PDF | https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.203.pdf (DOI 10.6028/NIST.FIPS.203) | 2026-09-28 | `fe1f12f32a7e44ec9fdebbf400cda843a40b506dee676725234dc6f7923b6cac` |
 | Errata "Potential updates" (xlsx) | https://csrc.nist.gov/files/pubs/fips/203/final/docs/fips-203-potential-updates.xlsx | 2026-09-28 | `edf899c89762449f43d7713883caeefc2e4ae9ae98d5a76b339547db22cb3ac7` |
-| Halaman publikasi | https://csrc.nist.gov/pubs/fips/203/final | 2026-09-28 | — |
+| Halaman publikasi | https://csrc.nist.gov/pubs/fips/203/final | 2026-09-28 | - |
 
 Tanggal terbit dokumen (dari halaman & PDF): **13 Agustus 2024**. Catatan perencanaan di
 halaman publikasi ("issue that will be corrected in a future update/revision"): tertanggal
@@ -26,7 +26,7 @@ Spreadsheet berjudul "Potential Updates (Errata)" untuk NIST FIPS 203 (dirilis 1
 
 Per 2026-09-28, spreadsheet berisi **2 butir**:
 
-### Butir 1 — Appendix A, diidentifikasi 2025-03-31
+### Butir 1 - Appendix A, diidentifikasi 2025-03-31
 
 - **Lokasi:** Appendix A.
 - **Teks masalah (dikutip):** "Algorithms 9 and 10 use the zeta values for i = 1, …, 127,
@@ -41,7 +41,7 @@ Per 2026-09-28, spreadsheet berisi **2 butir**:
   langsung dari rumus 𝜁^BitRev_7(i) (bukan menyalin tabel Appendix A baris demi baris),
   entri i=0 otomatis bernilai 𝜁^0 = 1 dan konsisten dengan koreksi ini tanpa perubahan kode.
 
-### Butir 2 — Section 5.3, Algorithm 15, diidentifikasi 2025-10-17
+### Butir 2 - Section 5.3, Algorithm 15, diidentifikasi 2025-10-17
 
 - **Lokasi:** Section 5.3, Algorithm 15 (K-PKE.Decrypt), baris 7.
 - **Teks masalah (dikutip):** "In Algorithm 15, line 7, the comment reads 'decode
@@ -70,10 +70,10 @@ Dikutip langsung dari Table 2 "Approved parameter sets for ML-KEM" di PDF (halam
 | ML-KEM-1024 | 256 | 3329 | 4 | 2 | 2 | 11 | 5 | 256 |
 
 **Hasil perbandingan dengan rencana `tb/golden` (k=3, η1=2, η2=2, du=10, dv=4):
-COCOK — tidak ada perbedaan.** Tidak perlu berhenti/lapor sesuai instruksi butir 5.
+COCOK - tidak ada perbedaan.** Tidak perlu berhenti/lapor sesuai instruksi butir 5.
 
 Ukuran kunci/ciphertext (Table 3, halaman 48) untuk ML-KEM-768: encapsulation key 1184 B,
-decapsulation key 2400 B, ciphertext 1088 B, shared secret key 32 B — cocok dengan nilai
+decapsulation key 2400 B, ciphertext 1088 B, shared secret key 32 B - cocok dengan nilai
 `EK_BYTES DK_BYTES CT_BYTES SS_BYTES` yang direncanakan di `CLAUDE.md`/`SKILL.md`.
 
 n=256 dan q=3329 dikonfirmasi sebagai konstanta tetap (bukan per-parameter-set), sesuai

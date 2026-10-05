@@ -1,4 +1,4 @@
-# MEASURED — Quartus results for revision `C5-20`
+# MEASURED - Quartus results for revision `C5-20`
 
 - Generated: 2026-10-03 05:49 UTC by `extract_quartus_report.py` (values copied from the reports, not computed)
 - Source directory: `quartus/phase08_keccak/output_files_C5-20`

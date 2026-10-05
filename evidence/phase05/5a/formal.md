@@ -1,4 +1,4 @@
-# Phase 5a formal (test plan V8) — 2026-10-01
+# Phase 5a formal (test plan V8) - 2026-10-01
 
 Command: `. scripts/env.sh && python3 formal/run/run_formal_phase5.py` (yosys-slang frontend, `memory_map -rom-only`, SymbiYosys, smtbmc boolector).
 Scope: control and bank-capacity properties H, O, R, A, B, C of `formal/phase05-arith/ntt_core_c4_formal_top.sv` on the Quartus wrapper `rtl/ntt/ntt_core_c4a.sv` (P = 6), with two negative controls on corrupted copies. **Not** arithmetic (covered by the exhaustive reducer test and the bit-exact simulations).

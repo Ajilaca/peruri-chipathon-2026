@@ -1,7 +1,7 @@
-# MEASURED — Quartus results for revision `de10-nano-base`
+# MEASURED - Quartus results for revision `de10-nano-base`
 
 - Generated: 2026-10-01 04:23 UTC by `extract_quartus_report.py` (values copied from the reports, not computed)
-- Source directory: `<session scratch directory>/ghrd/de10-nano-base/output_files` (local path redacted before commit; public repository, CLAUDE.md C7 — no measured value changed)
+- Source directory: `<session scratch directory>/ghrd/de10-nano-base/output_files` (local path redacted before commit; public repository, CLAUDE.md C7 - no measured value changed)
 - Note: Intel DE10-Nano GHRD (github.com/intel/de10-nano-hardware, commit 9b5fc81654c61922b625607d007933a69b5fdb52), revision de10-nano-base, no NTT core; DEVICE set to 5CSEBA6U23I7 (the GHRD default is 5CSEBA6U23I7DK, which gave identical fitter figures); Quartus Prime Lite 25.1std.0 Build 1129; system shell overhead investigation for the ALM-budget review
 
 ## Fitter (`de10-nano-base.fit.summary`)

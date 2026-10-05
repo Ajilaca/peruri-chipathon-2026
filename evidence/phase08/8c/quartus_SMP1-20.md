@@ -1,4 +1,4 @@
-# MEASURED — Quartus results for revision `SMP1-20`
+# MEASURED - Quartus results for revision `SMP1-20`
 
 - Generated: 2026-10-03 13:26 UTC by `extract_quartus_report.py` (values copied from the reports, not computed)
 - Source directory: `quartus/par_a/output_files_SMP1-20`

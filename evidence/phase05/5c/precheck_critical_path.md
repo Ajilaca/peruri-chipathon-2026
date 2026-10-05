@@ -14,7 +14,7 @@ path into the butterfly's side delay line). Corner: Slow 1100mV 100C only.
 | 27.062 → 31.279 | **4.22** | butterfly input `sub_mod(b, a)` (`Add1`, `LessThan0`, `mul_in` select) |
 | 31.279 → 34.869 | 3.59 | routing into the DSP + Barrett product to cut X |
 
-**Answer: yes — `sub_mod` is on the critical segment** (4.22 of 28.84 ns data path).
+**Answer: yes - `sub_mod` is on the critical segment** (4.22 of 28.84 ns data path).
 
 ## 2. Second path class (MEASURED, slack +12.102 ns): memory → `side_in` → side delay line
 The `a + b` side operand of the INTT butterfly passes the same read mux, then `add_mod(a, b)`, into the butterfly's
@@ -30,8 +30,8 @@ side delay line, which Quartus implemented as a shift register in M10K (`pipe_de
   27.9 ns of the period at seed 1, i.e. an Fmax cap near 35.8 MHz (INFERENCE, one seed). The adoption threshold for 5c
   is a median Fmax above 34.84 MHz (top of Barrett's 5b seed range), so a `sub_mod`-only change could at best clear it
   by a small margin.
-- Making **both** INTT butterfly inputs lazy — multiplier input `b + q − a` in [1, 2q) and side operand `a + b` in
+- Making **both** INTT butterfly inputs lazy - multiplier input `b + q − a` in [1, 2q) and side operand `a + b` in
   [0, 2q), the latter reduced once at the output (one conditional subtraction in the write segment, which has slack
-  +17.125 ns, `5b/c4b_segments_slow100.txt`) — removes the compare/select from both paths. ESTIMATE: worst path about
+  +17.125 ns, `5b/c4b_segments_slow100.txt`) - removes the compare/select from both paths. ESTIMATE: worst path about
   21 + 1 + 3.6 ≈ 26 ns (≈ 38 MHz); not a prediction of Fmax; only a compile can tell.
 - Either way the memory read part (≈ 21 ns) stays; 50 MHz is not reachable in 5c (ADR 0010).

@@ -30,14 +30,14 @@ any period below about 57 ns needs a register inside the memory access path, and
 also one inside the divider chain.
 
 Clock sources: what is actually documented.
-- *Board, 50 MHz — sourced.* Intel's DE10-Nano reference design (GHRD), repository
+- *Board, 50 MHz - sourced.* Intel's DE10-Nano reference design (GHRD), repository
   <https://github.com/intel/de10-nano-hardware>, commit `9b5fc81654c61922b625607d007933a69b5fdb52`
   (2022-08-04): `hdl_src/top.v` declares the FPGA inputs `fpga_clk1_50`, `fpga_clk2_50`,
   `fpga_clk3_50`, and `hdl_src/soc_system_timing.sdc` constrains the design with
   `# 50MHz board input clock` / `create_clock -period 20 [get_ports fpga_clk1_50]`. So a 50 MHz clock
   input to the FPGA fabric exists on the board. (Pin locations are not recorded here; when needed they
-  come from Terasic's documentation or that GHRD, never from memory — CLAUDE.md §6.2.)
-- *Board, 25 MHz to the FPGA fabric — not sourced.* No document checked for this ADR shows a 25 MHz
+  come from Terasic's documentation or that GHRD, never from memory - CLAUDE.md §6.2.)
+- *Board, 25 MHz to the FPGA fabric - not sourced.* No document checked for this ADR shows a 25 MHz
   clock input to the fabric. Terasic's *DE10-Nano User Manual* could not be retrieved while writing
   this record (download mirrors refused automated access or had an expired certificate), so nothing
   is claimed from it; it should be read and cited before any board-level clock plan is written.
@@ -102,8 +102,8 @@ Option 4, two-tier.
    (see "Clock sources" above).
 2. End goal: 20.000 ns (50 MHz), after Phase 5. Recorded as the direction of travel; it corresponds
    to the board's documented 50 MHz FPGA clock input. It is not a Phase 4 gate.
-3. One constraint for the whole of Phase 4. Every Phase 4 Quartus revision — including the P = 0
-   reference (C2-K2-K1 at L = 8, re-compiled) — uses the same SDC, `create_clock -period 40.000` on
+3. One constraint for the whole of Phase 4. Every Phase 4 Quartus revision - including the P = 0
+   reference (C2-K2-K1 at L = 8, re-compiled) - uses the same SDC, `create_clock -period 40.000` on
    `clk_i`, with the same device, seed and virtual-pin method as before.
 4. ADR 0004 is not changed.
 
@@ -121,7 +121,7 @@ Option 4, two-tier.
   that meet it; otherwise at the revision's measured Fmax, labelled as such.
 - Before the accelerator is connected on a board, a clock plan is still needed (which board input, PLL
   settings if 25 MHz or any derived clock is used, relationship to the HPS bridge clock, reset per
-  domain) with a cited source — this ADR does not provide it.
+  domain) with a cited source - this ADR does not provide it.
 - Reaching 50 MHz is expected to need the Phase 5 arithmetic work as well as pipelining (ESTIMATE in
   Context); if Phase 4 meets 40 ns but not 20 ns, that is the planned outcome, not a failure.
 

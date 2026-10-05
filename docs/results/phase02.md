@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (result artifact: internal status page, not proposal text) -->
-# Result — Phase 2: Memory architecture (M10K storage, banking, address generation, config C1)
+# Result - Phase 2: Memory architecture (M10K storage, banking, address generation, config C1)
 
 - Status: DONE
 - Date (UTC): 2026-09-29 11:07

@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (result artifact: internal status page, not proposal text) -->
-# Result — Phase 8: Keccak optimisation and streaming (sub-steps 8a, 8b, 8c, 8d)
+# Result - Phase 8: Keccak optimisation and streaming (sub-steps 8a, 8b, 8c, 8d)
 
 - Status: DONE (all four sub-steps built, verified and measured; the acceptance of ADR 0027-0030 and the Approval box are the team's)
 - Status note: ADR 0026 (Accepted) sent 8a, 8b, 8c and 8d ahead. Chat 2026-10-03 (no name given) asked for 8b at two output widths and for 8b, 8c, 8d to be done one after the other, then this result and the report. Every sub-step has its own test plan written before its measurement and an adoption rule; every rule was applied to files and none was changed after measuring (the Amendments A1 of the plans record findings and one changed expected value, section 6).

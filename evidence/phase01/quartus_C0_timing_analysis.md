@@ -1,4 +1,4 @@
-# MEASURED — Quartus C0 timing analysis (Phase 1 baseline, NOT an optimisation result)
+# MEASURED - Quartus C0 timing analysis (Phase 1 baseline, NOT an optimisation result)
 
 - Generated: 2026-09-29 UTC by `quartus/phase01_ntt_c0/extract_c0_timing_evidence.py` (values copied from Quartus report text; derived numbers say how they were derived).
 - Compile: Quartus Prime Lite 25.1std, revision `C0`, top `ntt_core`, device 5CSEBA6U23I7, provisional clock `create_clock -period 20.000` on virtual pin `clk_i` (`quartus/phase01_ntt_c0/C0.sdc`).

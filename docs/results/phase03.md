@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (result artifact: internal status page, not proposal text) -->
-# Result — Phase 3: Multi-lane exploration (L = 1/2/4/8, config C2)
+# Result - Phase 3: Multi-lane exploration (L = 1/2/4/8, config C2)
 
 - Status: DONE
 - Date (UTC): 2026-09-29 15:56; updated 2026-09-30 (formal re-run; supplementary K2/K1 experiments;

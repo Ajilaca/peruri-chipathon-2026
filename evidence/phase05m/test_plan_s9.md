@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (internal test plan, not proposal text) -->
-# Phase 5M, step S9: M10K / synchronous-read study (documentation only, no RTL) — plan
+# Phase 5M, step S9: M10K / synchronous-read study (documentation only, no RTL) - plan
 
 Written 2026-10-03, **before the analysis script was written or run**. Scope: ADR 0017 (S9 = "M10K / synchronous-read study: documentation only, no RTL; port needs vs M10K, options (more 1R1W banks, two
 coefficients per word, double-pumping, schedule change), conflict-free evidence conditions, ESTIMATE-labelled ALM / M10K; the team chooses; no adoption rule"). ADR 0019 had dropped S9 for the

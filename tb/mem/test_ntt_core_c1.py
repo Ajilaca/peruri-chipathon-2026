@@ -1,4 +1,4 @@
-"""tb/mem/test_ntt_core_c1.py — cocotb bit-exact + cycle-exact regression for rtl/mem/ntt_core_c1.sv
+"""tb/mem/test_ntt_core_c1.py - cocotb bit-exact + cycle-exact regression for rtl/mem/ntt_core_c1.sv
 (configuration C1: C0's FSM/butterfly + poly_mem_banked at NUM_BANKS=1) against
 tb/golden/primitives.py and against Phase 1's own MEASURED cycle counts.
 

@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (internal test plan, not proposal text) -->
-# Phase 9F step S1b: hash running beside other work (background hash) — test plan and adoption rule
+# Phase 9F step S1b: hash running beside other work (background hash) - test plan and adoption rule
 
 Written 2026-10-04 before any S1b RTL and before any S1b measurement. Scope: ADR 0036 (Accepted, Faza Dzil, step S1b of the Fmax plan) and the batch plan of chat 2026-10-04 ("s1b (batch 1) baru masuk batch 2": S1b belongs to Batch 1, S2 + S3 + item 4 are Batch 2). Baseline: K1 (S1, `test_plan_9f1.md`: K0 sampler, K0 hash, two-byte codec) in `rtl/mlkem/mlkem_core2.sv`. Labels: MEASURED, ESTIMATE, INFERENCE, perhitungan tim. The mathematics is locked (C1): the same hashes of the same bytes are computed; only when they run changes.
 

@@ -1,4 +1,4 @@
-# MEASURED — Quartus results for revision `S7-20-s5`
+# MEASURED - Quartus results for revision `S7-20-s5`
 
 - Generated: 2026-10-02 20:02 UTC by `extract_quartus_report.py` (values copied from the reports, not computed)
 - Source directory: `quartus/phase05m_memsched/output_files_S7-20-s5`

@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (internal checkpoint record, not proposal text) -->
-# Phase 5a checkpoint — q-specific fold reducer (revision C4a) vs C3-P6
+# Phase 5a checkpoint - q-specific fold reducer (revision C4a) vs C3-P6
 
 Labels: **MEASURED** (Quartus report / simulation log in this repo), **INFERENCE** (arithmetic on measured values),
 **NOT MEASURED**. Plan: `evidence/phase05/test_plan.md` (amendments A1, A2); decisions ADR 0011.
@@ -23,7 +23,7 @@ Frozen files of Phases 1–4 were not edited.
 |---|---|---|
 | V1 lint | Verilator `-Wall` 0 warnings and slang 0 warnings for `ntt_core_c4a` and `ntt_core_c4` (leaf modules alone: only UNUSEDPARAM for `ntt_pkg` constants, as in Phase 4) | `verify.txt` |
 | V2 exhaustive | 0 mismatches over all a, b in [0, q) (11,082,241 pairs) at REG_AFTER 0 and 41; V2-info: also 0 mismatches over the other 12-bit pairs (exact for all 2^24); negative control (768·h) fails as required | `verify.txt` |
-| V3/V4 unit | reducer corners, 10,000 random back-to-back, isolated inputs; butterfly corners + random — both simulators | `verify.txt` |
+| V3/V4 unit | reducer corners, 10,000 random back-to-back, isolated inputs; butterfly corners + random - both simulators | `verify.txt` |
 | V5/V6/V7 core | C4a and C4 with RED_KIND 0: bit-exact NTT/INTT/round trip/boundary data vs `tb/golden`, scoreboard 0 violations, `bank_overflow_o` 0, cycles constant and **= 119 / 375**, both simulators; negative control (WrDly 8) trips the scoreboard (640 violations) and gives 5/5 wrong results per direction | `verify.txt`; first, invalid negative-control attempt kept in `negctl_first_attempt_rd1_wr7.txt` (amendment A2) |
 | V8 formal | C4a: H, O, R, A, B, C PASS; NC-O and NC-A FAIL as required (3/3 as expected) | `formal.md` |
 | V9 regression | check_params OK; pytest 23 passed; Phase 1–4 cocotb on both simulators; Phase 4 exhaustive reducer PASS; formal Phase 1–3 19/19, Phase 4 9/9; OVERALL PASS | `regression.txt` |
@@ -36,11 +36,11 @@ Frozen files of Phases 1–4 were not edited.
 | M10K / DSP | 29 / 9 | 29 / 9 | 0 / 0 |
 | Worst setup / hold slack @ 40 ns | +10.753 / +0.140 | +10.352 / +0.107 | −0.401 / −0.033 |
 | Fmax Slow 100C / Slow −40C (MHz) | 34.19 / 34.5 | 33.73 / 33.86 | −0.46 (−1.3 %) at the lowest corner |
-| Timing met at 40.000 ns | yes | yes | — |
+| Timing met at 40.000 ns | yes | yes | - |
 | NTT / INTT cycles (simulation) | 119 / 375 | 119 / 375 | 0 |
 | t_NTT / t_INTT at the lowest slow-corner Fmax | 3.481 / 10.968 µs | 3.528 / 11.118 µs | +1.3 % |
 | Margin to 12,573 ALM | 2,068 | 2,726 | +658 |
-| Critical warnings | 15725 only | 15725 only (`clk_i` virtual pin, as in every kernel-only compile) | — |
+| Critical warnings | 15725 only | 15725 only (`clk_i` virtual pin, as in every kernel-only compile) | - |
 
 Sources: `evidence/phase04/quartus_C3-P6.md`, `quartus_C4a.md` (this folder).
 
@@ -59,14 +59,14 @@ Timing structure (MEASURED, `c4a_top300_path_classes_slow100.txt`, `c4a_vs_c3p6_
   +24.457, D_5 → D_11 +23.592, D_11 → memory +16.382 ns.
 
 ## 4. Reading (INFERENCE)
-- **Area:** the fold reducer saves about 549 ALM on the nine reducers (−39 %), and the core total drops by 658 ALM —
+- **Area:** the fold reducer saves about 549 ALM on the nine reducers (−39 %), and the core total drops by 658 ALM -
   far beyond the 32–64 ALM seed spread of Phase 4, so the reduction is not a seed effect. DSP use is unchanged (the
   product still uses one DSP per multiplier).
 - **Timing:** Fmax is 1.3 % lower, within C3-P6's own seed range (32.60–34.20 MHz); one seed cannot distinguish it
   from fitter variation. As expected from the baseline analysis, the critical path is the memory read path and is not
   touched by the reducer. The last segment (F_5 → memory) improved by only 0.2 ns although it now holds one
   reduction stage instead of two: that segment is dominated by the butterfly `add_mod`/`sub_mod` and the write path.
-- The reducer now has a lot of slack in its middle segment (F_3 → F_5 +32.5 ns); its registers could serve elsewhere —
+- The reducer now has a lot of slack in its middle segment (F_3 → F_5 +32.5 ns); its registers could serve elsewhere -
   a register move between paths is excluded in Phase 5 (ADR 0011 D5) and belongs to the later memory / P phase.
 - t_NTT is 1.3 % higher than C3-P6 at the measured Fmax (one seed). Phase 5's goal is correct, measured arithmetic
   (ADR 0010); 5a does not improve time per transform.

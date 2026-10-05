@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (internal test plan, not proposal text) -->
-# Phase 9M item 2 (9M-2): the core at 20.000 ns, seeds 1-6 — test plan and rule
+# Phase 9M item 2 (9M-2): the core at 20.000 ns, seeds 1-6 - test plan and rule
 
 Written 2026-10-04 before any 9M-2 compile. Scope: ADR 0034 (Accepted, Faza Dzil), item 2 ("lanjut 2", chat 2026-10-04). No RTL change. Labels: MEASURED, ESTIMATE, INFERENCE, perhitungan tim.
 

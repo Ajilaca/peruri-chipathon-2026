@@ -1,4 +1,4 @@
-# MEASURED — Quartus results for revision `MW-20`
+# MEASURED - Quartus results for revision `MW-20`
 
 - Generated: 2026-10-04 02:05 UTC by `extract_quartus_report.py` (values copied from the reports, not computed)
 - Source directory: `quartus/phase09m1_core/output_files_MW-20`

@@ -1,8 +1,8 @@
-"""tb/ntt/test_modmul.py — cocotb bit-exact test for rtl/ntt/modmul_reduce.sv.
+"""tb/ntt/test_modmul.py - cocotb bit-exact test for rtl/ntt/modmul_reduce.sv.
 
 Corner cases and random coverage per evidence/phase01/test_plan.md
 ("Unit: modmul_reduce"). Reference: plain Python (a*b) % Q, not tb/golden directly (modmul_reduce
-has no golden-model counterpart function of its own — it implements the inner "zeta * f[...]"
+has no golden-model counterpart function of its own - it implements the inner "zeta * f[...]"
 step used throughout Algorithms 9-12), but Q is imported from tb/golden/params.py so the modulus
 itself is never retyped.
 """

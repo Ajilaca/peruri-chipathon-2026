@@ -1,4 +1,4 @@
-# MEASURED — Phase 0-4 + Phase 5 (5a, 5b, 5c) regression, CRG-5 (simulation / formal; not hardware)
+# MEASURED - Phase 0-4 + Phase 5 (5a, 5b, 5c) regression, CRG-5 (simulation / formal; not hardware)
 
 - Date: 2026-10-01, git SHA `b418d1e81cb47f2e30d21160364eb03967f07f6d` (branch phase5-arith). rtl/, tb/, formal/, scripts/, quartus/ had no uncommitted changes (checked with git status); uncommitted at the time: docs only (.gitignore, docs/AI_TOOLING_RESEARCH.md, new 5c path-analysis evidence, ADR 0015).
 - Commands: `scripts/test/phase5_regression.sh`, `scripts/test/phase5_verify.sh`, `formal/run/run_formal_phase5.py` (raw output below, unedited).

@@ -9,7 +9,7 @@
 /Keywords ()
 /ModDate (D\07220260929182732\05307\04700\047)
 /Subject (\050unspecified\051)
-/Title (CHIPATON \204 Laporan Fase 1 \050ID\051)
+/Title (CHIPATON \055 Laporan Fase 1 \050ID\051)
 /Trapped (\057False)
 >>
 endobj
@@ -43,11 +43,65 @@ endobj
 endobj
 5 0 obj
 <<
-/Filter [ /ASCII85Decode /FlateDecode ]
-/Length 785
+/Length 1464
 >>
 stream
-GatU0gQ%aW&:N^lk)iU^a#<\a.G9V;D,fnV8#496:>u_M"E:4:I0UCjbB@#gWf_,>1\R>[jqn::5M"-G*+0i*jGj9$&9!*0`.`FB\$:(_fK%E%#n+X!"Q/rEa;>u)*^>Uq;&;H#K_m_1Ge]PK$VRc5$ETT/7Gp,tRELDEQXW'P_7mWj492;7LO6;_MgAH<82q,&<]PR!+L)aQ4;j,$IY%8%N;LYXbi97B7N<=o_MI_T_U5)ppcSZX7">A`)?N$9$$[&UU"^/]MF15J%<nP0^g;$SZA*@F&UacA^QeBmi_g]c1U&k@b*84]KWuV=4B^TqH@@O>7VtjK.L"E\)*s/DB3JiG;H4sRdT^rQU9%(3U!pdR'08<%O\bpAff_:(,TK#k'h#uM:037ZQ>MK,L+%&qn^gr^_1&Nj,+_,Z\S9d^M#B#SMANV\H+U]15.Ram\]I[)aegJ-O[3S7;dD]F;ZToS1HEsj4@j=4lCplmlmJemc5Y3L,_ha]:CjsXT0nI]S^)Y)[,-*fKu4D4c,[B=Mt6Ue-1npfT5aGJrU&r`$GI&mo/<fOm+jH+h2NTk\Sa7V:cAZ:F&)LSDTj7i7h6'VntRIH(tppK2J>Q6\i0HMj[[\)$X<*EF0S*Qc>fui/9G'/=Xen[/eqp1f1=iQj==BM?EU(>9q[f[35A!pEnj?M.OaDPk]F'C4"]%6Um..dl>HRRb0*>I?9oNr^Jl]U>#*cOARf#tW;>bp9p3n*9\Z%AC/A)b84=kKJE=8MM',i./VGHVdBi[Wr;lB_C[(~>
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 54.18898 665.811 cm
+Q
+q
+1 0 0 1 54.18898 649.811 cm
+q
+.266667 .266667 .266667 rg
+BT 1 0 0 1 0 4 Tm /F1 12 Tf 16 TL 141.4188 0 Td (CHIP 2026 Hackathon - Tim J5 \(ITB\)) Tj T* -141.4188 0 Td ET
+Q
+Q
+q
+1 0 0 1 54.18898 641.3071 cm
+Q
+q
+1 0 0 1 54.18898 612.3071 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 6 Tm /F2 23 Tf 29 TL 159.0848 0 Td (Laporan Fase 1) Tj T* -159.0848 0 Td ET
+Q
+Q
+q
+1 0 0 1 54.18898 590.3071 cm
+q
+.266667 .266667 .266667 rg
+BT 1 0 0 1 0 4 Tm /F1 12 Tf 16 TL 57.40082 0 Td (Baseline RTL NTT/INTT \(Konfigurasi C0\) dan Analisis Timing Quartus) Tj T* -57.40082 0 Td ET
+Q
+Q
+q
+1 0 0 1 54.18898 561.9606 cm
+Q
+q
+1 0 0 1 54.18898 547.9606 cm
+q
+BT 1 0 0 1 0 4 Tm 79.51382 0 Td 14 TL /F1 10 Tf .333333 .333333 .333333 rg (Status: ) Tj /F2 10 Tf (PARTIAL) Tj /F1 10 Tf ( - simulasi/formal lulus, timing Quartus belum terpenuhi) Tj T* -79.51382 0 Td ET
+Q
+Q
+q
+1 0 0 1 54.18898 533.9606 cm
+q
+.333333 .333333 .333333 rg
+BT 1 0 0 1 0 4 Tm /F1 10 Tf 14 TL 130.6238 0 Td (Branch: phase2-memory-banking \267 HEAD: 6aa515f) Tj T* -130.6238 0 Td ET
+Q
+Q
+q
+1 0 0 1 54.18898 499.9449 cm
+Q
+q
+1 0 0 1 54.18898 478.3449 cm
+q
+.333333 .333333 .333333 rg
+BT 1 0 0 1 0 13.7 Tm /F1 7.9 Tf 10.8 TL (Ditulis untuk: Tim J5 - terjemahan Bahasa Indonesia dari laporan Fase 1. Sumber kebenaran tetap file-file di repo) Tj T* (\(docs/results/result_phase1.md, docs/evidence/phase01-ntt-baseline/\); dokumen ini adalah rangkuman bacaan.) Tj T* ET
+Q
+Q
+ 
+
 endstream
 endobj
 6 0 obj
@@ -130,11 +184,501 @@ endobj
 endobj
 14 0 obj
 <<
-/Filter [ /ASCII85Decode /FlateDecode ]
-/Length 3259
+/Length 10179
 >>
 stream
-Gb!SnHZ.n7'*!GF77jC;O]aAU^WC2dbB&D0Qq(QYmPM"#%5c#nMeUqfZJ#h=eSY4,M%'PK3p@9.Z)c^RlE9t`f`Y:P-h;U&!1](BHV&a$0U`(u'E^hVE%u[H^2AkP:2s8g/Guj5l&dX;%:hW2U%T2V2D*9L`?`AF0FFIqp9+G[AG#BoN&Ak7CV#Ha%H3Ji$u[#mqWHn6N-%R<"gfKkh8AH9i;2h@5-nrO`,U)5fJZ#2.R>):X:UZh/-=q\;>$OS6nB'(+\;?*"(DSM1ejq!+ps:Wq\4aPiTJo((LF\SYlB[^08Y3_g4]eOHjiBi"=p3ZQ4oSNM4\iL6q+qb[FUknW))lt%@00c=I@IfKdB+8/3KAOLVI;<T$W!S)CDF2Y(b)T&#3"2O'aTNmTa$+3k",iK+qO'\7X>:i7!dqOjPFK'#s,68kbSPf8<k[:ZM+bKp8\t">#?gMA#`&(^2Pb+_EOMmq>8>>8-.s!R0?EKSJ@YW%C`afduemr#hH)IKWTlWSkLHdr9m46pe"$ijk.s_<pnOrqT`bU`KsQ@8A?8/4k@=1ke40-As9[I&0(mFA\EmToS&"iS7_7>T!%"3R6,eXH$_@Sj4kF)CA^b?7ON;ORgb8BDca<`i]j"13!CT`o$TD$!4Kq%IH#]BJA[15Y<6f,k"O]K]3T/64rI6\raFYlN)EuB$H9;:62Ej*+eDk0;P?Pn'_E;<48u&bLS2Eo!"+I.<+PJ$s';?S@d2V'mDbR_H%DlZA=([W/=^i_W[s;j9Ig]"[r^9>o4eC0MGb,%:+`!Z-Y(m_>Fa;/,o-[WhVO,O&L@j@B10.8&rtRMY3N'%7c^CC)5+d!X$VFXM*aTH93RKCO=2W8%s4X*_Z'39iN"K[<8]+*Ff'm"PHFl'N/eL!)4onJ;kem4DGYE>,R=+1p6L40o9A<\8Vr:d?!*e"pX]n*%!&9Wr0`PjOqI6n[i4mLsPJ:>:B$ZG!umKG85gO68=A8&u/gL0]KrF0ZO0LgR?E"[hp'rEB4\%$kIX%oM_@$j.celfY%@rO?C+\REobr'^T?5bJ?1X=;&<-j3>Vq#f:@=r4s$"L@bE/abR?,rR'0;#L!of-4*@T/AUm)1SIu?dW$e/Ed*qih$"1)X)]jpNA`OLgkgeh$)Iu,s&So+b'()>!DLNc3n>j/JpBX5LMp><>Dhh1]9kM%LS&PUjD1P^T<B2-TUY`mgtMr8:=r/:!uRUFJ4-&tJDR36,L3%)B<0<+ob]_/\f`.kOG:*+,P`o8,fE82ljRSf@u\Z_oF?m"LjiC6R+Z[=`<#l@cbPiY>%:jEM:S*)8K0L^nH=usP]i8?G@Q:Q<=%0_,lWD:3K<fO]4#&YQbri5U($W;Ef,p_o'knlND#Z9'8G!rL);iS+tL$[Y,hC;&rQcD#koB)pTG8mbGW>,+f=@'E:Xk2)0i6uOJ'h(f``IPP,q\UlGdCX@q]FMm:7*!WKQ@sS1O2&KdtDiU-pFFU--bY&rBSDniS9lr)"W[o0O^<PG^OhLr?MRf*[LpP>\1%F\("]N=?GD#SPZ&p_CX<h":e4*j-+HkEPN_X[a]A*n;9X!u*]Qd<_=n!U$&Ib2)$H?%XmkAiG)6Jl-puN7NR9^B@K$0^64.hHRuSC+X0`VdTbb1Q:064Pkp8j[UGnCH"p@'g:K,oOUAWF>.MYSLDEUf(g-TrJ%[YBXTjH<?MDQPo(k69/-N"XVnl2E4GE%,a.gV68;?Qn"S,/r)@'o8%]9mWb,@[6`t,[NKOTU:@5:CkqmsH\/pLX.sldL7.'!*nl%cl*0,`%InC=M_`?`9?h5#_TY&e0)fNDc"4:i*3^2b22gdk5:.+[F)Qn9*WL'EmG^CC\WNQdc;uc4Vm'R[IRC[kp`7,12":00`#kV@t(aru^>..Qf!T9@;hJE?%]VI6X,*F&eiX;hH7&OaRbNB,gU!&5s#gC;ji@:5)s,#_M9(-n-7&JGONC*7a>:+Q%m:*hYL%rST)3CN3(e#,i)Q3]t@5pupjJ<Lc4!7?U/89i(Q(^&HBQoDFD]g%3`&BG%<_2eo!'g;nn=s&.=$=:F$oN*_&@XVJ`N@*<\n*=d";SNGK;ZcQ)agl'kP!KPFej*)E8`.<>o8DZ?uZU!N6W9,!K)[%<VBE1r*)"975_=A(<=I6rW.Kf[hM7K++;,qP!hM,!,JMpN2;*((LXb1',J[I&hQ@$>hOFr1[*'EU;fOc&Q*[#m`/a%\_W.)e<Pk5gRL'dau2-F;;?5eC8(->/^q;W,30BrJ=j6u&Z:OBB')idE?8W.Oj.bR?ctP]ZKQ-^T6I%AqL_QcDaqXlaj&EX\t3"2<./`tehe)&cln12E2KA?"rAZ)?Z%LA)`Dm`NJ=C.HoOt:+DnBYK5)bpIp.@[E3L%)f<!Ali<mLB/kU`sB^(7snOI4+-5#>qR(F1u73')]8LA6cN?6k("7p>REI)*mU?R*<%9!l&3>Dg3G^`]'H-)fdS085.jf,[g<J<-HH4/o.qVJ>Yl1i:M8afU*_%+V*2WY=4+G,OSGC3BYY6'e!6e`K?A'(t`A0s@:lbdUUYS(G)aRAI%q41gf_uJouBALW@diSJNR.:GHW2Z.I1fHJlaTmbj9eC$Fm(Iu%an9$Hi=B=(.k98e$O0IS6prP7^M[qKWFYI(eI>`mQr*'6C8oV^>]^D27Y:o*\Sp*IO$'p4)2OYTe>jq#QKte70B!Sne=3JF/RA'eMOY2AD3t8&-9>m,Lt868!WDK1JGq0!&nX-66U,lbOuh/Fok_68#I#LDgG31+mZ/I=7t7[Aa4OCm"5!s_H<[a;TL1m7l-oftr0LQs_,CmD=b;>JU;?iQ4,2582-jT&#scI^EWi/4rqX[$"?e;0n!^!F^?&Cmoj-Y)$DhrcikEg7XV"IrfV$f>'Qk$O<@]/:@CMu61:3pWgR'NZ?raMF:lm!IWflItU*OiPP_;f.,]ks,FgV0[5?nI@gar?]q+5:Wg3Sm[emJ,_L8hrp@Wd@j0q<Jj71Bh%Mrr;UmYpNZMWorR]^!0!nrbWKd4I")]r->%M`l'=J1q'/jh!ZrD7=o(@f5rS([\\En(m%lNG%q1=>R(W_[Bqq$Fe%_X%q=OH,;IhDKhV.mm$@6`A2o>@Qp,Fe4D&6ge3>hlNf&RD)k'3VMPPcS@];6*8,Ym<X#UbEdUMcc=W`;D;?B+=tJ]&)6U1\JnlpKo29Va&oLn[\,@?5nh@Uapffl\`DTmP[tN:Vq'JL&BS[tc,[=1T^%-S$k/C!PpZ2++PMt&A!<NXQ[f~>
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+BT /F1 7 Tf 8.4 TL ET
+.466667 .466667 .466667 rg
+BT 1 0 0 1 409.3756 25.51181 Tm (CHIPATON - Laporan Fase 1 \(ID\) - hal. 2) Tj T* ET
+q
+1 0 0 1 54.18898 771.3701 cm
+q
+.101961 .101961 .180392 rg
+BT 1 0 0 1 0 6 Tm /F2 16 Tf 22 TL (1. Tujuan dan Lingkup) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 709.7701 cm
+q
+BT 1 0 0 1 0 44.2 Tm 13.4 TL /F1 9.4 Tf 0 0 0 rg (Fase 1 adalah implementasi perangkat keras pertama untuk kernel NTT/INTT ML-KEM-768: ) Tj /F2 9.4 Tf (1 lane, 1 butterfly per) Tj T* (siklus) Tj /F1 9.4 Tf (, memori polinomial sederhana \(belum di-bank\), dan reduksi modulo cara langsung \(operator ) Tj /F3 9.4 Tf (%) Tj /F1 9.4 Tf (\) - bukan) Tj T* (Barrett atau Montgomery. Ini disebut konfigurasi ) Tj /F2 9.4 Tf (C0) Tj /F1 9.4 Tf (: baseline pengukuran murni, bukan hasil optimisasi. Tujuannya) Tj T* (memberi angka nyata \(bukan tebakan\) sebagai titik awal sebelum optimisasi di fase-fase selanjutnya.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 673.7701 cm
+q
+.101961 .101961 .180392 rg
+BT 1 0 0 1 0 6 Tm /F2 16 Tf 22 TL (2. File yang Dihasilkan) Tj T* ET
+Q
+Q
+q
+1 0 0 1 70.86614 540.5701 cm
+q
+.14902 .14902 .301961 rg
+n 0 125.2 453.5433 -16.4 re f*
+1 1 1 rg
+n 0 108.8 453.5433 -16.4 re f*
+.964706 .964706 .984314 rg
+n 0 92.4 453.5433 -26.8 re f*
+1 1 1 rg
+n 0 65.6 453.5433 -16.4 re f*
+.964706 .964706 .984314 rg
+n 0 49.2 453.5433 -16.4 re f*
+1 1 1 rg
+n 0 32.8 453.5433 -16.4 re f*
+.964706 .964706 .984314 rg
+n 0 16.4 453.5433 -16.4 re f*
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 4 111.8 cm
+q
+1 1 1 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.8 Tf 10.4 TL (Berkas) Tj T* ET
+Q
+Q
+q
+1 0 0 1 151.4016 111.8 cm
+q
+1 1 1 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.8 Tf 10.4 TL (Isi) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 95.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (rtl/ntt/ntt_pkg.sv) Tj T* ET
+Q
+Q
+q
+1 0 0 1 151.4016 95.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (Konstanta parameter + fungsi add_mod/sub_mod \(reduksi lurus\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 79 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (rtl/ntt/twiddle_rom.sv) Tj T* ET
+Q
+Q
+q
+1 0 0 1 151.4016 68.6 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 13 Tm /F1 7.8 Tf 10.4 TL (ROM konstanta zeta, DIBANGKITKAN dari model emas Fase 0) Tj T* (\(scripts/gen_twiddle_rom.py\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 52.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (rtl/ntt/modmul_reduce.sv) Tj T* ET
+Q
+Q
+q
+1 0 0 1 151.4016 52.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (\(a\267b\) mod q - perkalian DSP + reduksi operator %) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 35.8 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (rtl/ntt/butterfly.sv) Tj T* ET
+Q
+Q
+q
+1 0 0 1 151.4016 35.8 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (Butterfly NTT maju \(Cooley-Tukey\) / INTT mundur \(Gentleman-Sande\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 19.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (rtl/ntt/poly_mem.sv) Tj T* ET
+Q
+Q
+q
+1 0 0 1 151.4016 19.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (Memori polinomial 256\32712-bit, 2 port baca/tulis, belum di-bank) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (rtl/ntt/ntt_core.sv) Tj T* ET
+Q
+Q
+q
+1 0 0 1 151.4016 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (FSM tingkat atas: 7 lapis NTT/INTT + pass skala \3273303 untuk INTT) Tj T* ET
+Q
+Q
+q
+1 J
+1 j
+.784314 .784314 .815686 RG
+.4 w
+n 0 125.2 m 453.5433 125.2 l S
+n 0 0 m 453.5433 0 l S
+n 0 0 m 0 125.2 l S
+n 453.5433 0 m 453.5433 125.2 l S
+n 0 108.8 m 453.5433 108.8 l S
+n 0 92.4 m 453.5433 92.4 l S
+n 0 65.6 m 453.5433 65.6 l S
+n 0 49.2 m 453.5433 49.2 l S
+n 0 32.8 m 453.5433 32.8 l S
+n 0 16.4 m 453.5433 16.4 l S
+n 147.4016 0 m 147.4016 125.2 l S
+Q
+Q
+Q
+q
+1 0 0 1 54.18898 504.5701 cm
+q
+.101961 .101961 .180392 rg
+BT 1 0 0 1 0 6 Tm /F2 16 Tf 22 TL (3. Verifikasi Sebelum Quartus) Tj T* ET
+Q
+Q
+q
+1 0 0 1 70.86614 387.7701 cm
+q
+.14902 .14902 .301961 rg
+n 0 108.8 453.5433 -16.4 re f*
+1 1 1 rg
+n 0 92.4 453.5433 -16.4 re f*
+.964706 .964706 .984314 rg
+n 0 76 453.5433 -16.4 re f*
+1 1 1 rg
+n 0 59.6 453.5433 -16.4 re f*
+.964706 .964706 .984314 rg
+n 0 43.2 453.5433 -26.8 re f*
+1 1 1 rg
+n 0 16.4 453.5433 -16.4 re f*
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 4 95.4 cm
+q
+1 1 1 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.8 Tf 10.4 TL (Gerbang) Tj T* ET
+Q
+Q
+q
+1 0 0 1 244.9449 95.4 cm
+q
+1 1 1 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.8 Tf 10.4 TL (Hasil) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 79 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (Lint \(verilator --lint-only -Wall\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 244.9449 79 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (0 peringatan) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 62.6 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (Elaborasi \(slang\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 244.9449 62.6 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (0 error, 0 peringatan) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 46.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (cocotb bit-exact vs model emas Fase 0) Tj T* ET
+Q
+Q
+q
+1 0 0 1 244.9449 46.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (10/10 lulus, di Icarus DAN Verilator) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 29.8 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (Jumlah siklus \(invariansi konstan-waktu\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 244.9449 19.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 13 Tm /F1 7.8 Tf 10.4 TL (NTT=897 siklus, INTT=1153 siklus - identik di semua) Tj T* (kasus uji, tanpa cabang bergantung data) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (Formal \(SymbiYosys, k-induction, depth 6\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 244.9449 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (Properti keamanan FSM terbukti) Tj T* ET
+Q
+Q
+q
+1 J
+1 j
+.784314 .784314 .815686 RG
+.4 w
+n 0 108.8 m 453.5433 108.8 l S
+n 0 0 m 453.5433 0 l S
+n 0 0 m 0 108.8 l S
+n 453.5433 0 m 453.5433 108.8 l S
+n 0 92.4 m 453.5433 92.4 l S
+n 0 76 m 453.5433 76 l S
+n 0 59.6 m 453.5433 59.6 l S
+n 0 43.2 m 453.5433 43.2 l S
+n 0 16.4 m 453.5433 16.4 l S
+n 240.9449 0 m 240.9449 108.8 l S
+Q
+Q
+Q
+q
+1 0 0 1 54.18898 366.1701 cm
+q
+.333333 .333333 .333333 rg
+BT 1 0 0 1 0 13.7 Tm /F1 7.9 Tf 10.8 TL (Catatan tooling: header modern `module X import pkg::*; #\(...\)` ditolak oleh pembaca SystemVerilog Yosys \(read -formal\) walau diterima) Tj T* (Verilator/slang - diatasi dengan pola `import ntt_pkg::*;` di lingkup unit, dibungkus komentar `verilator lint_off/on IMPORTSTAR`.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 330.1701 cm
+q
+.101961 .101961 .180392 rg
+BT 1 0 0 1 0 6 Tm /F2 16 Tf 22 TL (4. Hasil Quartus C0 \(MEASURED\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 295.3701 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 17.4 Tm /F1 9.4 Tf 13.4 TL (Compile kernel-only \(virtual pin, belum ada board fisik terpasang\), device 5CSEBA6U23I7, constraint SDC) Tj T* (provisional 20,000 ns pada clk_i \(belum disetujui tim sebagai target resmi\).) Tj T* ET
+Q
+Q
+q
+1 0 0 1 70.86614 142.7701 cm
+q
+.14902 .14902 .301961 rg
+n 0 147.6 453.5433 -16.4 re f*
+1 1 1 rg
+n 0 131.2 453.5433 -16.4 re f*
+.964706 .964706 .984314 rg
+n 0 114.8 453.5433 -16.4 re f*
+1 1 1 rg
+n 0 98.4 453.5433 -16.4 re f*
+.964706 .964706 .984314 rg
+n 0 82 453.5433 -16.4 re f*
+1 1 1 rg
+n 0 65.6 453.5433 -16.4 re f*
+.964706 .964706 .984314 rg
+n 0 49.2 453.5433 -16.4 re f*
+1 1 1 rg
+n 0 32.8 453.5433 -16.4 re f*
+.964706 .964706 .984314 rg
+n 0 16.4 453.5433 -16.4 re f*
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 4 134.2 cm
+q
+1 1 1 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.8 Tf 10.4 TL (Besaran) Tj T* ET
+Q
+Q
+q
+1 0 0 1 202.4252 134.2 cm
+q
+1 1 1 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.8 Tf 10.4 TL (Nilai) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 117.8 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (ALM) Tj T* ET
+Q
+Q
+q
+1 0 0 1 202.4252 117.8 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (7.010 / 41.910 \(17%\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 101.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (Register) Tj T* ET
+Q
+Q
+q
+1 0 0 1 202.4252 101.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (3.104) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 85 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (Blok RAM \(M10K\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 202.4252 85 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (0 / 553) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 68.6 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (Blok DSP) Tj T* ET
+Q
+Q
+q
+1 0 0 1 202.4252 68.6 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (3 / 112) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 52.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (Fmax, corner Slow 100\260C) Tj T* ET
+Q
+Q
+q
+1 0 0 1 202.4252 52.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (14,64 MHz) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 35.8 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (Fmax, corner Slow -40\260C) Tj T* ET
+Q
+Q
+q
+1 0 0 1 202.4252 35.8 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (14,69 MHz) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 19.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (Slack setup terburuk @ 20,000 ns) Tj T* ET
+Q
+Q
+q
+1 0 0 1 202.4252 19.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (-48,323 ns - timing TIDAK terpenuhi) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (Slack hold terburuk) Tj T* ET
+Q
+Q
+q
+1 0 0 1 202.4252 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (0,211 ns - terpenuhi) Tj T* ET
+Q
+Q
+q
+1 J
+1 j
+.784314 .784314 .815686 RG
+.4 w
+n 0 147.6 m 453.5433 147.6 l S
+n 0 0 m 453.5433 0 l S
+n 0 0 m 0 147.6 l S
+n 453.5433 0 m 453.5433 147.6 l S
+n 0 131.2 m 453.5433 131.2 l S
+n 0 114.8 m 453.5433 114.8 l S
+n 0 98.4 m 453.5433 98.4 l S
+n 0 82 m 453.5433 82 l S
+n 0 65.6 m 453.5433 65.6 l S
+n 0 49.2 m 453.5433 49.2 l S
+n 0 32.8 m 453.5433 32.8 l S
+n 0 16.4 m 453.5433 16.4 l S
+n 198.4252 0 m 198.4252 147.6 l S
+Q
+Q
+Q
+q
+1 0 0 1 54.18898 106.7701 cm
+q
+.101961 .101961 .180392 rg
+BT 1 0 0 1 0 6 Tm /F2 16 Tf 22 TL (5. Analisis Akar Masalah Timing) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 58.57008 cm
+q
+BT 1 0 0 1 0 30.8 Tm 13.4 TL /F1 9.4 Tf 0 0 0 rg (Jalur terburuk: register ) Tj /F3 8 Tf (layer_q[2]) Tj /F1 9.4 Tf ( ) Tj /F4 9.4 Tf 13.4 TL (\256) Tj /F1 9.4 Tf 13.4 TL ( register penyimpanan ) Tj /F3 8 Tf (poly_mem:u_mem|mem[64][5]) Tj /F1 9.4 Tf (, delay jalur data 67,684 ns) Tj T* (\(arrival 73,704 ns, required 25,381 ns, slack -48,323 ns\). Log Quartus \(Analysis & Synthesis\) mengonfirmasi) Tj T* (penyebabnya secara eksplisit:) Tj T* ET
+Q
+Q
+ 
+
 endstream
 endobj
 15 0 obj
@@ -154,13 +698,13 @@ endobj
 endobj
 16 0 obj
 <<
-/Length 8321
+/Length 8303
 >>
 stream
 1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
 BT /F1 7 Tf 8.4 TL ET
 .466667 .466667 .466667 rg
-BT 1 0 0 1 409.3756 25.51181 Tm (CHIPATON \227 Laporan Fase 1 \(ID\) \227 hal. 3) Tj T* ET
+BT 1 0 0 1 409.3756 25.51181 Tm (CHIPATON - Laporan Fase 1 \(ID\) - hal. 3) Tj T* ET
  
 
 q
@@ -172,7 +716,7 @@ Q
 q
 1 0 0 1 54.18898 747.7701 cm
 q
-BT 1 0 0 1 0 17.4 Tm 13.4 TL /F1 9.4 Tf 0 0 0 rg (Operator ) Tj /F3 9.4 Tf (%) Tj /F1 9.4 Tf ( disintesis Quartus menjadi ) Tj /F2 9.4 Tf (pembagi kombinasional 24-bit/12-bit) Tj /F1 9.4 Tf ( \227 146 sel logika pada jalur ini sendiri,) Tj T* (tanpa register perantara.) Tj T* ET
+BT 1 0 0 1 0 17.4 Tm 13.4 TL /F1 9.4 Tf 0 0 0 rg (Operator ) Tj /F3 9.4 Tf (%) Tj /F1 9.4 Tf ( disintesis Quartus menjadi ) Tj /F2 9.4 Tf (pembagi kombinasional 24-bit/12-bit) Tj /F1 9.4 Tf ( - 146 sel logika pada jalur ini sendiri,) Tj T* (tanpa register perantara.) Tj T* ET
 Q
 Q
 q
@@ -496,7 +1040,7 @@ q
 1 0 0 1 54.18898 583.1921 cm
 q
 .333333 .333333 .333333 rg
-BT 1 0 0 1 0 35.3 Tm /F1 7.9 Tf 10.8 TL -0.026772 Tw (Pembagi modulo menyumbang 38,9 ns \(57,5%\) dari 67,7 ns delay jalur data \227 komponen tunggal terbesar. Namun bahkan tanpa pembagi) Tj T* 0 Tw (itu pun, sisa jalur \(logika FSM/alamat + mux memori + DSP + tambah/kurang mod\) sudah 28,8 ns \227 juga melebihi periode 20 ns.) Tj T* (Kesimpulan: kegagalan timing bukan disebabkan satu titik tunggal, tapi datapath 1-siklus yang terlalu panjang secara keseluruhan;) Tj T* (pembagi modulo adalah kontributor terbesar tapi bukan satu-satunya.) Tj T* ET
+BT 1 0 0 1 0 35.3 Tm /F1 7.9 Tf 10.8 TL -0.026772 Tw (Pembagi modulo menyumbang 38,9 ns \(57,5%\) dari 67,7 ns delay jalur data - komponen tunggal terbesar. Namun bahkan tanpa pembagi) Tj T* 0 Tw (itu pun, sisa jalur \(logika FSM/alamat + mux memori + DSP + tambah/kurang mod\) sudah 28,8 ns - juga melebihi periode 20 ns.) Tj T* (Kesimpulan: kegagalan timing bukan disebabkan satu titik tunggal, tapi datapath 1-siklus yang terlalu panjang secara keseluruhan;) Tj T* (pembagi modulo adalah kontributor terbesar tapi bukan satu-satunya.) Tj T* ET
 Q
 Q
 q
@@ -509,7 +1053,7 @@ Q
 q
 1 0 0 1 54.18898 508.9921 cm
 q
-BT 1 0 0 1 0 30.8 Tm 13.4 TL /F1 9.4 Tf 0 0 0 rg (Dari 3104 endpoint yang diperiksa, ) Tj /F2 9.4 Tf (3072 register penyimpanan poly_mem) Tj /F1 9.4 Tf ( dan ) Tj /F2 9.4 Tf (2 register layer_q) Tj /F1 9.4 Tf ( sama-sama) Tj T* (melanggar batas setup \227 bukan satu jalur terisolasi, melainkan seluruh datapath 1-siklus \(butterfly lengkap dalam 1) Tj T* (siklus clock\) yang secara struktural terlalu panjang untuk periode 20 ns.) Tj T* ET
+BT 1 0 0 1 0 30.8 Tm 13.4 TL /F1 9.4 Tf 0 0 0 rg (Dari 3104 endpoint yang diperiksa, ) Tj /F2 9.4 Tf (3072 register penyimpanan poly_mem) Tj /F1 9.4 Tf ( dan ) Tj /F2 9.4 Tf (2 register layer_q) Tj /F1 9.4 Tf ( sama-sama) Tj T* (melanggar batas setup - bukan satu jalur terisolasi, melainkan seluruh datapath 1-siklus \(butterfly lengkap dalam 1) Tj T* (siklus clock\) yang secara struktural terlalu panjang untuk periode 20 ns.) Tj T* ET
 Q
 Q
 q
@@ -569,17 +1113,17 @@ xref
 0000000440 00000 n 
 0000000489 00000 n 
 0000000688 00000 n 
-0000001564 00000 n 
-0000001648 00000 n 
-0000001755 00000 n 
-0000001867 00000 n 
-0000001972 00000 n 
-0000002050 00000 n 
-0000002160 00000 n 
-0000002276 00000 n 
-0000002477 00000 n 
-0000005829 00000 n 
-0000006030 00000 n 
+0000002204 00000 n 
+0000002288 00000 n 
+0000002395 00000 n 
+0000002507 00000 n 
+0000002612 00000 n 
+0000002690 00000 n 
+0000002800 00000 n 
+0000002916 00000 n 
+0000003117 00000 n 
+0000013350 00000 n 
+0000013551 00000 n 
 trailer
 <<
 /Size 17
@@ -587,5 +1131,5 @@ trailer
 /Info 1 0 R
 >>
 startxref
-14404
+21907
 %%EOF

@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (template) -->
-# Result — Phase <N>: <name>
+# Result - Phase <N>: <name>
 
 Copy to `docs/results/phase<NN>.md`. Fill it only from evidence produced in this repository.
 Anything not proven stays `MISSING`. Validate with

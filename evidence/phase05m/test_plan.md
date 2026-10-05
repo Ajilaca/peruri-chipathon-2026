@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (internal test plan, not proposal text) -->
-# Phase 5M, step S6: INTT without the scaling pass — test plan and adoption rule
+# Phase 5M, step S6: INTT without the scaling pass - test plan and adoption rule
 
 Written 2026-10-02, **before any S6 RTL and before any S6 measurement** (CRG-4). Scope and rules: ADR 0017 (Accepted). Base
 configuration: C4b-B (Barrett, ADR 0013 Accepted), `rtl/ntt/ntt_core_c4b_b.sv`, P = 6, cuts as C4b-B. Labels: MEASURED,

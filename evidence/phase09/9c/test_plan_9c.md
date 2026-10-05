@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (internal test plan, not proposal text) -->
-# Phase 9c: the ML-KEM-768 core (`mlkem_core`): KeyGen_internal, Encaps_internal, Decaps_internal — test plan and pass rule
+# Phase 9c: the ML-KEM-768 core (`mlkem_core`): KeyGen_internal, Encaps_internal, Decaps_internal - test plan and pass rule
 
 Written 2026-10-03, **before any 9c RTL and before any 9c measurement**. Scope: `evidence/phase09/phase9_plan.md` block 9c; `docs/ROADMAP.md` Phase 9 (configuration C7-core); FIPS 203 Algorithms 16-18 (ADR 0031: the input checks of Sections 7.2 and 7.3 are not in the RTL; ADR 0032: one STOP per block). Golden: the unmodified `tb/golden/mlkem.py` (`ml_kem_keygen_internal`, `ml_kem_encaps_internal`, `ml_kem_decaps_internal`) and the pinned NIST ACVP vectors in `tb/vectors/acvp/` (ML-KEM-768 groups only). Labels: MEASURED, INFERENCE, ESTIMATE, NOT MEASURED, perhitungan tim. The mathematics is locked (C1).
 

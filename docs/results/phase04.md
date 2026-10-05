@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (result artifact: internal status page, not proposal text) -->
-# Result — Phase 4: Butterfly pipeline sweep (P = 0 / 2 / 4 / 6, config C3)
+# Result - Phase 4: Butterfly pipeline sweep (P = 0 / 2 / 4 / 6, config C3)
 
 - Status: DONE
 - Status note: technically complete by team decision 2026-10-01 (ADR 0009); Approval ticked 2026-10-01 (Section 10).
@@ -107,8 +107,8 @@ No FIPS 203 reading this phase; no parameter, algorithm, twiddle value or reduct
 - Icarus rejected a design style that mixed continuous and procedural drivers of one array; the RTL (`pipe_delay`, the arbitration registers) was changed to a per-stage register plus an assign. Function unchanged, re-verified.
 
 ## 7. Decisions needed
-- ~~Accept, change or reject ADR 0008 (P = 4 proposed)~~ — decided 2026-10-01 by ADR 0009: P = 6 with a 30% NTT-core budget; ADR 0008 superseded.
-- ~~How to read CRG-9 for P = 0 / 2~~ — the selected C3-P6 meets 40.000 ns; P = 0 / 2 failures stay documented as measured non-candidates.
+- ~~Accept, change or reject ADR 0008 (P = 4 proposed)~~ - decided 2026-10-01 by ADR 0009: P = 6 with a 30% NTT-core budget; ADR 0008 superseded.
+- ~~How to read CRG-9 for P = 0 / 2~~ - the selected C3-P6 meets 40.000 ns; P = 0 / 2 failures stay documented as measured non-candidates.
 - Open for later phases: the compile settings of the system build (the GHRD settings raised C3-P4 from 10,439 to 11,432 ALM, MEASURED); the P = 6 + GHRD compile is done (Section 5b, MEASURED); a system-level resource budget (not defined).
 
 ## 8. Claims made in this phase

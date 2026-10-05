@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (internal test plan, not proposal text) -->
-# Phase 9a: coefficient <-> byte codec (Compress / ByteEncode, ByteDecode / Decompress) — test plan and pass rule
+# Phase 9a: coefficient <-> byte codec (Compress / ByteEncode, ByteDecode / Decompress) - test plan and pass rule
 
 Written 2026-10-03, **before any 9a RTL and before any 9a measurement**. Scope: `evidence/phase09/phase9_plan.md` block 9a; `docs/ROADMAP.md` Phase 9; FIPS 203 Algorithms 5 and 6, Section 4.2.1 (Compress, Decompress). Golden: `tb/golden/primitives.py` (`compress`, `decompress`, `byte_encode`, `byte_decode`, unmodified, checked against the official vectors in Phase 0). Labels: MEASURED, INFERENCE, ESTIMATE, NOT MEASURED, perhitungan tim. The mathematics is locked (C1): the RTL implements the same functions; only the arithmetic is written without division.
 

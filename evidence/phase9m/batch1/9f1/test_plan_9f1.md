@@ -1,5 +1,5 @@
 <!-- claim-lint: skip-file (internal test plan, not proposal text) -->
-# Phase 9F step S1: K0 sponge in both places (hash instance and the sampler of the engine) — test plan and adoption rule
+# Phase 9F step S1: K0 sponge in both places (hash instance and the sampler of the engine) - test plan and adoption rule
 
 Written 2026-10-04 before any S1 RTL change and before any S1 compile. Scope: ADR 0036 (Accepted, Faza Dzil), step S1. Baseline: the 9M-1 core (`CODEC_W2 = 1`, C5 everywhere), report `../9m1/result_9m1.md`; the critical-path report `../../critical_paths_MW.md` (all 300 worst paths at 20 ns inside the two C5 permutations). Labels: MEASURED, ESTIMATE, INFERENCE, perhitungan tim. The mathematics is locked (C1): K0 and C5 compute the same Keccak-f[1600]; only the rounds per cycle differ.
 

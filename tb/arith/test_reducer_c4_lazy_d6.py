@@ -1,4 +1,4 @@
-"""tb/arith/test_reducer_c4_lazy_d6.py — Phase 5c test plan A4: rtl/arith/modmul_barrett_lazy.sv driven with
+"""tb/arith/test_reducer_c4_lazy_d6.py - Phase 5c test plan A4: rtl/arith/modmul_barrett_lazy.sv driven with
 operands a, b in [0, q) (the ADR 0011 D6 contract, i.e. a regression of 5b) and with the lazy extremes b in
 [q, 2q): corners, 10,000 random pairs back-to-back, latency exactly LATENCY cycles. The exhaustive check over the
 whole lazy domain is tb/arith/lazy_exhaustive/. C4_REG_AFTER gives REG_AFTER (latency = bits set)."""

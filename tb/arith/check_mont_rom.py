@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""tb/arith/check_mont_rom.py — Phase 5b test plan V7 (generated tables).
+"""tb/arith/check_mont_rom.py - Phase 5b test plan V7 (generated tables).
 
 Checks, without trusting the generator:
   1. every entry of rtl/arith/twiddle_rom_mont.sv satisfies  ROM_M[i] * R^-1 = ROM[i] (mod q), R = 2^12, against the

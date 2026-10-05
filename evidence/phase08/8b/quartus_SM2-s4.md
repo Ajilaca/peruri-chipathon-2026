@@ -1,4 +1,4 @@
-# MEASURED — Quartus results for revision `SM2-s4`
+# MEASURED - Quartus results for revision `SM2-s4`
 
 - Generated: 2026-10-03 10:59 UTC by `extract_quartus_report.py` (values copied from the reports, not computed)
 - Source directory: `quartus/phase08b_sampler/output_files_SM2-s4`

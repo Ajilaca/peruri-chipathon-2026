@@ -66,14 +66,14 @@ Consequences of pipelining that hold for every option below:
    access path or the divider).
    For: smallest RTL change; clearly within "no arithmetic changes"; 4 Quartus revisions.
    Against: by the path breakdown the clock period cannot go below the longest single block, about
-   57 ns (about 17 MHz, ESTIMATE) — about 2× the current Fmax at best, far from 50 MHz and short of
+   57 ns (about 17 MHz, ESTIMATE) - about 2× the current Fmax at best, far from 50 MHz and short of
    25 MHz.
 2. P ∈ {0, 2, 4, 6}, registers also inside the memory access path (c2) and the divider (c5).
    For: the only kind of set that can approach 20–40 ns by the estimate; all values ≤ 7, so no
    boundary stalls; 4 revisions.
    Against: larger RTL change (memory variant with staged slot arbitration; the `%` written as explicit
    staged logic or an instantiated divider with pipeline stages). Needs a team ruling that registers
-   inside the reduction — same method, same results, exhaustively checked against `modmul_reduce` — are
+   inside the reduction - same method, same results, exhaustively checked against `modmul_reduce` - are
    not an "arithmetic change" in the ROADMAP's sense. More registers, so more ALM-budget risk.
 3. P ∈ {0, 1, 2, 4, 7}: a wider sweep up to the largest stall-free depth.
    For: shows the whole curve, including where returns diminish.
@@ -82,7 +82,7 @@ Consequences of pipelining that hold for every option below:
 4. Retiming-assisted: add P plain register stages at one boundary and let Quartus move them.
    For: minimal RTL; cut positions chosen by the tool.
    Against: results are tool-dependent and harder to explain; whether Quartus Prime Lite 25.1std retimes
-   across the inferred divider and the DSP block on this device has not been tried — it would need a
+   across the inferred divider and the DSP block on this device has not been tried - it would need a
    trial compile before anything is planned around it.
 
 Exact register positions for each P are part of the Phase 4 test plan (CRG-4), whichever set is chosen.
@@ -102,7 +102,7 @@ absolute target, B.2 otherwise. The team chose B.2, with "timing met at 40.000 n
 being a candidate (see Decision).
 
 ## Decision
-P set: option A.2 — P ∈ {0, 2, 4, 6}.
+P set: option A.2 - P ∈ {0, 2, 4, 6}.
 - Register stages are allowed inside the memory access path and inside the divider, as well as at
   block boundaries.
 - The mathematical function must not change: every P produces bit-for-bit the same NTT/INTT results
@@ -111,19 +111,19 @@ P set: option A.2 — P ∈ {0, 2, 4, 6}.
 - P = 0 is the C2-K2-K1 L = 8 configuration, re-compiled with the Phase 4 constraint of ADR 0006
   so that all four revisions share one constraint and seed.
 
-Selection rule: option B.2 — minimum time per NTT — applied to qualified candidates only.
+Selection rule: option B.2 - minimum time per NTT - applied to qualified candidates only.
 
-*Step 1 — measure everything.* All four P values are built, verified and compiled before the rule is
+*Step 1 - measure everything.* All four P values are built, verified and compiled before the rule is
 applied; nothing is selected from a partial sweep.
 
-*Step 2 — candidate set.* A value of P is a candidate only if all four hold:
+*Step 2 - candidate set.* A value of P is a candidate only if all four hold:
   1. bit-exact: PASS (both simulators, against the golden model);
   2. constant cycle count: PASS;
   3. ALM ≤ 10,478 (Quartus fitter);
   4. timing met at 40.000 ns (the ADR 0006 Phase 4 milestone): non-negative worst setup slack and
      non-negative worst hold slack at every corner the Timing Analyzer reports.
 
-*Step 3 — the quantity compared.*
+*Step 3 - the quantity compared.*
 - cycles_NTT(P): the NTT cycle count measured in simulation (start to done; the same count on both
   simulators and for every input, by condition 2).
 - Fmax(P): the lowest Fmax among the slow-corner results that the Timing Analyzer's Fmax Summary
@@ -143,7 +143,7 @@ applied; nothing is selected from a partial sweep.
 
       t_INTT(P) = cycles_INTT(P) / Fmax(P)
 
-*Step 4 — selection with the near-tie rule.* Let C be the candidate set and
+*Step 4 - selection with the near-tie rule.* Let C be the candidate set and
 
       t_min = min over P in C of t_NTT(P)
       d(P)  = ( t_NTT(P) − t_min ) / t_min          for P in C
@@ -165,8 +165,8 @@ results are reported and the team is asked for a decision.
 - P = 0 is measured and reported as the reference but is not expected to be a candidate: the starting
   point's Fmax is 7.68 MHz at the provisional constraint (MEASURED,
   `evidence/quartus/C2-K2-K1-L8.md`), far below the 25 MHz that 40.000 ns requires.
-- If no P satisfies the four conditions — for example no P ∈ {2, 4, 6} meets 40.000 ns, or every P > 0
-  exceeds 10,478 ALM — nothing is selected; the measurements are reported and the team decides. Both
+- If no P satisfies the four conditions - for example no P ∈ {2, 4, 6} meets 40.000 ns, or every P > 0
+  exceeds 10,478 ALM - nothing is selected; the measurements are reported and the team decides. Both
   are real possibilities: the path estimate suggests about 4 stages are needed for 40 ns, and the
   724-ALM margin of the starting point is not far above the observed fitter-packing swing (about
   370 ALM).

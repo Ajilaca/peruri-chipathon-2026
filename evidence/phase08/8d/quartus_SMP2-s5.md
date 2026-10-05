@@ -1,4 +1,4 @@
-# MEASURED — Quartus results for revision `SMP2-s5`
+# MEASURED - Quartus results for revision `SMP2-s5`
 
 - Generated: 2026-10-03 13:26 UTC by `extract_quartus_report.py` (values copied from the reports, not computed)
 - Source directory: `quartus/par_c/output_files_SMP2-s5`
