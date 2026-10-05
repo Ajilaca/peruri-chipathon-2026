@@ -1,5 +1,5 @@
 // tb/arith/reducer_exhaustive/reducer_exhaustive.cpp
-// Phase 5 test plan V2 (docs/evidence/phase05-arith/test_plan.md section 7, ADR 0011 D6): exhaustive check of a
+// Phase 5 test plan V2 (evidence/phase05/test_plan.md section 7, ADR 0011 D6): exhaustive check of a
 // Phase 5 reducer (selected in reducer_pair.sv) against the frozen rtl/ntt/modmul_reduce.sv and the integer
 // formula (a*b) % 3329. Same driving scheme as tb/ntt/p4_reducer/modmul_staged_exhaustive.cpp: every 12-bit pair
 // (a, b) in [0, 4096)^2 is applied back-to-back, one pair per clock, and the reducer's output is compared LATENCY

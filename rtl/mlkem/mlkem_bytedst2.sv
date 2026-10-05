@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/mlkem/mlkem_bytedst2.sv
-// Phase 9M item 1 (docs/evidence/phase09m-optimisation/9m1/test_plan_9m1.md): rtl/mlkem/mlkem_bytedst.sv taking two bytes per beat. After start_i every accepted 16-bit beat (beat_valid_i, always accepted while busy) is
+// Phase 9M item 1 (evidence/phase9m/batch1/9m1/test_plan_9m1.md): rtl/mlkem/mlkem_bytedst.sv taking two bytes per beat. After start_i every accepted 16-bit beat (beat_valid_i, always accepted while busy) is
 // collected, beat 0 first (byte 2i in bits 7:0), into a 64-bit word that is written (wr_en_o, wr_idx_o, wr_data_o) in the cycle of its fourth beat; the word index counts 0, 1, 2, ... from start_i. The number of bytes must be a
 // multiple of 8 (it is for every polynomial of the core). No control depends on the data. Reset: asynchronous, active low, on the control state.
 

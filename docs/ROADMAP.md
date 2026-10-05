@@ -1,435 +1,385 @@
-# Roadmap — ML-KEM-768 accelerator on DE10-Nano
+# Roadmap: akselerator ML-KEM-768 di DE10-Nano
 
-**Status line (update only from verified evidence):**
-Phase 0 **completed and verified** (team-approved `docs/results/result_phase0.md`; evidence in
-`docs/evidence/golden/`) · Phase 1 (C0 baseline) **PARTIAL, approved as a documented failing baseline (Faza Dzil, 2026-09-29)**: RTL, lint, both-simulator cocotb bit-exact, constant-cycle and formal safety pass; Quartus C0 compile MEASURED (7,010 ALM, 3104 registers, 0 RAM blocks, 3 DSP; Fmax 14.64 MHz; worst setup slack -48.323 ns at the provisional 20.000 ns clock -> **timing not met**; `docs/evidence/phase01-ntt-baseline/quartus_C0_timing_analysis_2026-09-29.md`). Target-clock ADR still missing · Phase 2 (C1 memory banking) **PARTIAL, approved as a documented failing baseline (Faza Dzil, 2026-09-29); started on top of an unapproved Phase 1 on explicit team instruction** (not per the strict gate below): conflict-free bank mapping proven (Python exhaustive + formal, all L∈{1,2,4,8}), RTL bit-exact and cycle-identical to C0 (0 stall), Quartus C1 MEASURED (6,749 ALM, 0 RAM blocks -- M10K goal NOT achieved, async-read limitation; Fmax 14.99 MHz; worst setup slack -46.720 ns -- still timing not met, same root cause as C0); `docs/evidence/phase02-memory/` · Phase 3 (C2 multi-lane) **PARTIAL, approved as a documented baseline with timing not met (Faza Dzil, 2026-09-30)**: RTL bit-exact + constant-cycle for L∈{1,2,4,8} (cocotb, both simulators, 16/16), ADR 0004 fixes the L-selection criterion (min cycle count within a 10,478 ALM / 25% budget) before the sweep was measured; Quartus C2-L1/L2/L4/L8 all MEASURED (6,018 / 5,728 / 7,629 / 11,446 ALM; L=8 **exceeds the ADR 0004 budget**; Fmax 14.76/13.54/11.60/7.62 MHz; all timing NOT met, worse than C0/C1 as L grows); cycles NTT/INTT 897/1153, 449/705, 225/481, 113/369 -- on C2 the ADR 0004 rule gives L = 4; supplementary experiments K2 (counter width) and K1 (one shared multiplier per butterfly, outside the written Phase 3 scope, team-approved) give the optimised **C2-K2-K1**, MEASURED 5,566 / 5,374 / 6,775 / 9,754 ALM with identical cycle counts, bit-exact on both simulators, butterfly equivalence proven (abstraction proof + exhaustive simulation); **selected operating point: C2-K2-K1 at L = 8 (ADR 0005, Accepted, Faza Dzil, 2026-09-30)**, `docs/evidence/phase03-multilane/k1_experiment_2026-09-30.md`; formal (SymbiYosys k-induction) PASSES for L=1/2/4/8 for bank_overflow_o==0, the busy/done handshake and the counter ranges (not bit-exactness); the earlier L=2/4/8 UNKNOWN was a formal-harness artefact (ROMs modelled as free memory state in the induction step), fixed in the harness only with negative controls, `docs/evidence/phase03-multilane/formal_rerun_2026-09-30.md` · tooling verified (Quartus 25.1std smoke
-compile MEASURED, see `docs/TOOLING_INSTALL_LOG.md`) · no DE10-Nano attached at last check
-(`jtagconfig` empty, 2026-09-24) · competition schedule unknown.
+## Status saat ini
 
-> If `docs/results/result_phase0.md` is missing, fails `check_result.py`, or has an unticked Approval box,
-> the Phase 0 status above is wrong: stop, report it, and do not start Phase 1.
+Diperbarui hanya dari bukti yang sudah diverifikasi. Rincian ada di `docs/results/phaseNN.md`.
 
-## How this roadmap works
+| Fase | Isi | Status | Hasil utama (MEASURED, kernel-only) |
+|---|---|---|---|
+| 0 | Model acuan FIPS 203 | DONE | model cocok dengan vektor ACVP; `evidence/phase00/` |
+| 1 | NTT satu lajur (C0) | DONE | 7.010 ALM, Fmax 14,64 MHz, slack setup −48,323 ns pada 20 ns (timing tidak terpenuhi, didokumentasikan); `evidence/phase01/` |
+| 2 | Banking memori (C1) | DONE | peta bank bebas konflik untuk L = 1, 2, 4, 8; 6.749 ALM, slack −46,720 ns; M10K tidak tercapai (pembacaan asinkron); `evidence/phase02/` |
+| 3 | Multi-lane (C2) | DONE | L = 8 pada C2-K2-K1 (ADR 0005): 9.754 ALM, NTT 113 / INTT 369 siklus; `evidence/phase03/` |
+| 4 – 8 | Pipeline, aritmetika, memori, K-PKE, Keccak | DONE | lihat file hasil dan matriks ablasi di bawah |
+| 9 | Inti ML-KEM-768 penuh (simulasi) | DONE | ACVP 100 % di dua simulator; `docs/results/phase09.md` |
+| 9M | Optimasi inti | PARTIAL | K4: 8.416 / 9.611 / 12.989 siklus; tiga bukti formal habis waktu; `docs/results/phase9m.md` |
+| 10 – 12 | HPS, benchmark, fitur keamanan | belum dimulai | Fase 10 terblokir: belum ada papan (PENDING #8) |
 
-- **Strict gates.** Phases run in order. A phase starts only after the previous phase's result artifact
-  passes `check_result.py` **and** a team member has ticked its Approval box. Skill: `/phase-gate`.
-- **Correct baseline first.** No optimisation phase starts until the configuration it modifies is
-  bit-exact against the golden model and measured.
-- **One major change at a time.** Phases with sub-steps (5, 6, 8) measure and record each sub-step on its
-  own; a human reviews each sub-step checkpoint before the next one starts. Never combine two
-  optimisations in one measurement.
-- **Nothing invented.** Every resource, timing or performance number is `MEASURED` (Quartus report or
-  simulation/board log in this repository, with its path) or labelled `ESTIMATE` with method and
-  assumptions. Literature values are context only.
-- **Failed gate = stop.** Do not proceed after a failed gate. Write the result artifact with Status
-  `NOT DONE` or `PARTIAL`, record the failure and its log path, and ask the team. Do not weaken a test,
-  tolerance, assertion or timing constraint to pass.
-- **Every phase ends with a result artifact** `docs/results/result_phase<N>.md` (template
-  `docs/results/TEMPLATE_result_phase.md`), validated by
-  `python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/result_phase<N>.md`.
-- Evidence for phase N lives in `docs/evidence/phaseNN-<topic>/` (Phase 0 keeps `docs/evidence/golden/`).
+Fase 1 sampai 3 awalnya disetujui sebagai baseline dengan timing tidak terpenuhi. Pada 2026-10-05 tim menetapkannya DONE
+karena tujuannya dipenuhi oleh fase-fase akhir. Angka ukur tidak berubah.
 
-## Locked FIPS 203 requirements (apply to every phase; never modified)
+Detail Fase 3: L = 1, 2, 4, 8 menghasilkan 6.018 / 5.728 / 7.629 / 11.446 ALM dan NTT/INTT 897/1153, 449/705, 225/481, 113/369 siklus
+(L = 8 melewati anggaran ADR 0004). Aturan ADR 0004 memberi L = 4 pada C2 biasa. Eksperimen tambahan K2 (lebar counter) dan K1 (satu pengali
+bersama per butterfly) menghasilkan C2-K2-K1 dengan 5.566 / 5.374 / 6.775 / 9.754 ALM dan siklus yang sama. Titik operasi terpilih:
+C2-K2-K1 pada L = 8 (ADR 0005, Accepted, Faza Dzil, 2026-09-30). Formal (k-induction) lolos untuk L = 1, 2, 4, 8 pada properti
+`bank_overflow_o == 0`, handshake busy/done dan rentang counter (bukan bit-exactness). Hasil UNKNOWN awal untuk L = 2, 4, 8 adalah artefak harness
+formal, diperbaiki di harness saja dengan kontrol negatif (`evidence/phase03/formal_rerun.md`).
 
-The mathematics is locked; only the hardware architecture changes (ADR 0002, `/mlkem-guard`).
+Lingkungan: Quartus 25.1std terverifikasi dengan kompilasi smoke. Belum ada DE10-Nano yang terpasang (`jtagconfig` kosong, 2026-09-24).
+Jadwal lomba belum diketahui.
 
-| Requirement | Value / rule | Source |
+> Bila `docs/results/phase00.md` hilang, gagal `check_result.py`, atau kotak Approval-nya kosong, status Fase 0 di atas salah:
+> berhenti, laporkan, dan jangan mulai Fase 1.
+
+## Cara roadmap ini bekerja
+
+- Gerbang ketat. Fase berjalan berurutan. Fase baru dimulai setelah file hasil fase sebelumnya lolos `check_result.py`
+  dan anggota tim mencentang kotak Approval-nya. Skill: `/phase-gate`.
+- Baseline yang benar dulu. Tidak ada fase optimasi yang dimulai sebelum konfigurasi yang diubahnya bit-exact terhadap
+  model acuan dan sudah diukur.
+- Satu perubahan besar sekali waktu. Fase dengan langkah bagian (5, 6, 8) mengukur dan mencatat tiap langkah sendiri;
+  manusia meninjau tiap titik henti sebelum langkah berikutnya. Jangan menggabung dua optimasi dalam satu pengukuran.
+- Tidak ada angka karangan. Setiap angka sumber daya, timing, atau kinerja berstatus `MEASURED` (laporan Quartus atau log
+  simulasi/papan di repository ini, dengan path-nya) atau berlabel `ESTIMATE` beserta metode dan asumsinya. Angka dari literatur hanya konteks.
+- Gerbang gagal = berhenti. Jangan lanjut setelah gerbang gagal. Tulis file hasil dengan Status `NOT DONE` atau `PARTIAL`,
+  catat kegagalan dan path lognya, lalu tanyakan ke tim. Jangan melemahkan test, toleransi, assertion, atau batasan timing agar lolos.
+- Setiap fase berakhir dengan file hasil `docs/results/phase<NN>.md` (templat `docs/results/TEMPLATE.md`), divalidasi oleh
+  `python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase<NN>.md`.
+- Bukti fase N ada di `evidence/phaseNN/` (Fase 5M di `evidence/phase05m/`, Fase 9M di `evidence/phase9m/`).
+
+## Persyaratan FIPS 203 yang dikunci (berlaku untuk semua fase, tidak pernah diubah)
+
+Matematika dikunci; hanya arsitektur perangkat keras yang berubah (ADR 0002, `/mlkem-guard`).
+
+| Persyaratan | Nilai / aturan | Sumber |
 |---|---|---|
 | Ring | R_q = Z_q[X]/(X^256 + 1), q = 3329, n = 256 | FIPS 203; `/mlkem-guard` |
-| ML-KEM-768 parameters | k = 3, η1 = 2, η2 = 2, du = 10, dv = 4 | FIPS 203 Table 2 (confirmed in Phase 0) |
-| Sizes | ek 1184 B, dk 2400 B, ct 1088 B, shared key 32 B | FIPS 203; NIST ACVP vectors |
-| NTT | ζ = 17; **incomplete** NTT: 7 layers (block lengths 128 → 2), 128 butterflies per layer | FIPS 203 Alg. 9/10 |
-| Pointwise product | 128 base-case products of degree-1 polynomials modulo (X² − ζ^(2·BitRev7(i)+1)), not scalar products | FIPS 203 Alg. 11/12 |
-| Hash / XOF | SHA3-256, SHA3-512, SHAKE128, SHAKE256 over Keccak-f[1600] | FIPS 203; FIPS 202 |
-| Compress / Decompress, encode | exactly as defined in FIPS 203; no division on secret data | FIPS 203 |
-| Input checks and implicit rejection | encapsulation-key and decapsulation-key checks; Decaps re-encrypts, compares in constant time and selects K or the implicit-rejection key | FIPS 203 |
-| Correctness reference | Python golden model in `tb/golden/` (Phase 0), locked constants checked by `check_params.py` | Phase 0 |
+| Parameter ML-KEM-768 | k = 3, η1 = 2, η2 = 2, du = 10, dv = 4 | FIPS 203 Tabel 2 (dikonfirmasi di Fase 0) |
+| Ukuran | ek 1184 B, dk 2400 B, ct 1088 B, shared key 32 B | FIPS 203; vektor NIST ACVP |
+| NTT | ζ = 17; NTT incomplete: 7 layer (panjang blok 128 → 2), 128 butterfly per layer | FIPS 203 Alg. 9/10 |
+| Perkalian titik | 128 perkalian base-case polinomial derajat 1 modulo (X² − ζ^(2·BitRev7(i)+1)), bukan perkalian skalar | FIPS 203 Alg. 11/12 |
+| Hash / XOF | SHA3-256, SHA3-512, SHAKE128, SHAKE256 di atas Keccak-f[1600] | FIPS 203; FIPS 202 |
+| Compress / Decompress, encode | persis seperti di FIPS 203; tanpa pembagian pada data rahasia | FIPS 203 |
+| Pemeriksaan masukan dan implicit rejection | pemeriksaan kunci enkapsulasi dan dekapsulasi; Decaps mengenkripsi ulang, membandingkan dalam waktu konstan, dan memilih K atau kunci implicit-rejection | FIPS 203 |
+| Acuan kebenaran | model acuan Python di `tb/golden/` (Fase 0), konstanta terkunci diperiksa oleh `check_params.py` | Fase 0 |
 
-## Common definitions
+## Definisi umum
 
-### Metrics tracked (per configuration)
+### Metrik yang dicatat (per konfigurasi)
 
-| Metric | Definition | Source |
+| Metrik | Definisi | Sumber |
 |---|---|---|
-| ALM | Logic utilisation in ALMs | Fitter summary |
-| Registers | Total registers | Fitter summary |
-| M10K | Total RAM blocks | Fitter summary |
-| DSP | Total DSP blocks | Fitter summary |
-| Utilisation | Used / available, **with the denominators printed by the fitter** | Fitter summary |
-| Fmax | Per clock, from the Timing Analyzer "Fmax Summary" (slow model) | STA report |
-| Slack | Worst setup **and** hold slack, all corners, at the constrained clock | STA summary |
-| Cycles/op | Clock cycles per operation from a cycle counter (simulation first, later on board) | Test logs |
-| Stall cycles | Cycles lost to bank conflicts or pipeline hazards | Test logs |
-| Latency | cycles ÷ f_clk, where f_clk is the **constrained clock that met timing** (not Fmax); state the clock with every latency | Derived from MEASURED values |
-| Area-time (AT) | ALM × latency (report DSP and M10K alongside; they are not folded into AT) | Derived from MEASURED values |
+| ALM | Pemakaian logika dalam ALM | Fitter summary |
+| Register | Total register | Fitter summary |
+| M10K | Total blok RAM | Fitter summary |
+| DSP | Total blok DSP | Fitter summary |
+| Utilisasi | Terpakai / tersedia, dengan penyebut yang dicetak fitter | Fitter summary |
+| Fmax | Per clock, dari "Fmax Summary" Timing Analyzer (model slow) | Laporan STA |
+| Slack | Slack setup dan hold terburuk, semua corner, pada clock yang dibatasi | STA summary |
+| Siklus/op | Siklus clock per operasi dari counter siklus (simulasi dulu, papan kemudian) | Log test |
+| Siklus stall | Siklus hilang karena konflik bank atau hazard pipeline | Log test |
+| Latensi | siklus ÷ f_clk, dengan f_clk adalah clock terbatas yang memenuhi timing (bukan Fmax); sebutkan clock bersama tiap latensi | Turunan dari nilai MEASURED |
+| Area-time (AT) | ALM × latensi (DSP dan M10K dilaporkan di sampingnya; tidak dilebur ke AT) | Turunan dari nilai MEASURED |
 
-Reference capacity of the target device 5CSEBA6U23I7, as printed by the fitter in the team's smoke compile
-(MEASURED, `docs/TOOLING_INSTALL_LOG.md`): 41,910 ALMs, 553 RAM blocks (5,662,720 block-memory bits) and
-112 DSP blocks. Always quote the denominators of the current fitter report.
+Kapasitas acuan device 5CSEBA6U23I7 seperti dicetak fitter pada kompilasi smoke tim (MEASURED): 41.910 ALM, 553 blok RAM
+(5.662.720 bit memori blok) dan 112 blok DSP. Selalu kutip penyebut dari laporan fitter yang sedang dipakai.
 
-Cycles/op has two scopes. **Kernel scope:** cycles per NTT, per INTT, per pointwise product (one
-polynomial), per Keccak-f permutation. **Operation scope:** cycles per KeyGen, Encaps, Decaps. Compare
-configurations only within the same scope.
+Siklus/op punya dua cakupan. Cakupan kernel: siklus per NTT, per INTT, per perkalian titik (satu polinomial), per permutasi Keccak-f.
+Cakupan operasi: siklus per KeyGen, Encaps, Decaps. Bandingkan konfigurasi hanya dalam cakupan yang sama.
 
-### Measurement protocol (every Quartus measurement)
+### Protokol pengukuran (setiap pengukuran Quartus)
 
-- Same Quartus version (25.1std unless an ADR changes it), same device, same timing-constraint method,
-  fitter seed recorded. One Quartus revision per configuration; revision name = configuration ID from the
-  ablation matrix.
-- Kernel-only compiles use virtual pins so that I/O does not distort area or timing.
-- Target clock: a team decision recorded as an ADR at the Phase 1 gate. Until then, constrain with a
-  documented provisional period and report Fmax. Never state a latency without its clock.
-- Extract evidence with the `/quartus-report` skill, writing into the phase folder:
-  `extract_quartus_report.py <output_files> <revision> --log <compile.log> --out docs/evidence/phaseNN-<topic>/quartus_<revision>_<UTCdate>.md --note "<git sha, parameters, clock>"`.
-  Raw `.rpt` files and `output_files/` are not committed.
-- Critical warnings are triaged in writing in the result artifact.
+- Versi Quartus sama (25.1std kecuali ADR mengubahnya), device sama, metode batasan timing sama, seed fitter dicatat. Satu revisi Quartus
+  per konfigurasi; nama revisi = ID konfigurasi dari matriks ablasi.
+- Kompilasi kernel-only memakai virtual pin agar I/O tidak mengganggu area atau timing.
+- Clock target: keputusan tim yang dicatat sebagai ADR (ADR 0006). Sebelum itu, batasi dengan periode sementara yang terdokumentasi dan laporkan Fmax.
+  Jangan menyebut latensi tanpa clock-nya.
+- Ekstrak bukti dengan skill `/quartus-report`, tulis ke folder fase:
+  `extract_quartus_report.py <output_files> <revisi> --log <compile.log> --out evidence/phaseNN/quartus_<revisi>.md --note "<git sha, parameter, clock>"`.
+  File `.rpt` mentah dan `output_files/` tidak di-commit.
+- Critical warning dibahas tertulis di file hasil.
 
-### Common RTL gate (CRG) — required at every RTL phase
+### Common RTL gate (CRG): wajib di setiap fase RTL
 
-| ID | Check | Tool |
+| ID | Pemeriksaan | Alat |
 |---|---|---|
-| CRG-1 | Lint clean | `verilator --lint-only -Wall` |
-| CRG-2 | Elaboration clean | `slang` |
-| CRG-3 | Bit-exact against the golden model, on **both** simulators | cocotb on Verilator **and** Icarus |
-| CRG-4 | Corner cases listed in the test plan before tests are written (zeros, all coefficients q−1, impulses, maximum values, boundary lengths) | Test plan in the phase evidence folder |
-| CRG-5 | Regression: all tests of every earlier phase still pass | pytest / cocotb |
-| CRG-6 | Locked parameters | `check_params.py` |
-| CRG-7 | Constant-cycle evidence where applicable: identical cycle count for different secret inputs with identical public inputs | Cycle-count log |
-| CRG-8 | Formal properties for new control/address logic (FSM reaches done, no out-of-range address, and phase-specific properties) | SymbiYosys |
-| CRG-9 | Quartus evidence where the phase requires it; no negative worst slack at the constrained clock, or the failure documented | `/quartus-report` |
-| CRG-10 | Result artifact validated; text for judges passes the claim checker | `check_result.py`; `claim_lint.py` |
+| CRG-1 | Lint bersih | `verilator --lint-only -Wall` |
+| CRG-2 | Elaborasi bersih | `slang` |
+| CRG-3 | Bit-exact terhadap model acuan, di kedua simulator | cocotb di Verilator dan Icarus |
+| CRG-4 | Kasus sudut ditulis di test plan sebelum test dibuat (nol, semua koefisien q−1, impuls, nilai maksimum, panjang batas) | Test plan di folder evidence fase |
+| CRG-5 | Regresi: semua test fase sebelumnya tetap lolos | pytest / cocotb |
+| CRG-6 | Parameter terkunci | `check_params.py` |
+| CRG-7 | Bukti siklus konstan bila berlaku: jumlah siklus sama untuk masukan rahasia berbeda dengan masukan publik sama | Log hitungan siklus |
+| CRG-8 | Properti formal untuk logika kendali/alamat baru (FSM mencapai done, tidak ada alamat di luar rentang, dan properti khusus fase) | SymbiYosys |
+| CRG-9 | Bukti Quartus bila fase memerlukannya; tidak ada slack terburuk negatif pada clock terbatas, atau kegagalannya didokumentasikan | `/quartus-report` |
+| CRG-10 | File hasil tervalidasi; teks untuk juri lolos pemeriksa klaim | `check_result.py`; `claim_lint.py` |
 
-## Renumbering note (2026-09-29)
+## Catatan penomoran ulang (2026-09-29)
 
-This revision replaces the earlier 0-6 phase list. Old → new: old 1 (NTT) → new 1-6; old 2 (Keccak) →
-new 7-8; old 3 (integration) → new 9-10; old 4 (protocol demonstration) → new 10 (functional) and 11
-(measured); old 5 (measurement) → new 11; old 6 (advanced) → new 12. Other files that still cite old
-numbers must be updated separately (not part of this revision).
+Revisi ini menggantikan daftar fase 0-6 sebelumnya. Lama → baru: lama 1 (NTT) → baru 1-6; lama 2 (Keccak) → baru 7-8;
+lama 3 (integrasi) → baru 9-10; lama 4 (demonstrasi protokol) → baru 10 (fungsional) dan 11 (terukur); lama 5 (pengukuran) → baru 11;
+lama 6 (lanjutan) → baru 12. File lain yang masih memakai nomor lama harus diperbarui terpisah.
 
 ---
 
-## Phase 0 — Golden model / FIPS 203 — **COMPLETED (verified, team-approved)**
+## Fase 0: Model acuan / FIPS 203 (SELESAI, terverifikasi, disetujui tim)
 
-1. **Goal.** An independent, trusted Python reference for ML-KEM-768 that every later gate compares against.
-2. **Implementation scope (delivered).** `tb/golden/`: locked constants (`params.py`), primitives (NTT,
-   INTT, pointwise, sampling, encode, compress), K-PKE and ML-KEM top level; FIPS 203 errata reviewed.
-3. **Tests / verification (done).** Property tests; NIST ACVP ML-KEM-768 vectors (pinned commit and
-   sha256 in `.claude/skills/mlkem-guard/reference/kat_sources.md`; NIST **sample** sets, 25 cases per
-   group); random cross-check against kyber-py in a throwaway virtualenv.
-4. **Quartus.** Not applicable.
-5. **PASS criteria (met).** `check_params.py` passes and k/η/du/dv confirmed against FIPS 203; golden model
-   reproduces the pinned vectors; errata recorded (evidence + ADR); cross-check log present;
-   `result_phase0.md` validated and approved.
-6. **Not allowed from now on.** Changing the golden model without an ADR and a full Phase 0 re-run;
-   using old CRYSTALS-Kyber vectors; treating the sample vectors as exhaustive coverage.
-7. **Evidence artifact.** `docs/evidence/golden/`, `docs/results/result_phase0.md`.
-8. **Approval gate.** Approved (see the Approval box in `result_phase0.md`).
+1. Tujuan. Acuan Python yang mandiri dan tepercaya untuk ML-KEM-768, pembanding semua gerbang berikutnya.
+2. Lingkup implementasi (selesai). `tb/golden/`: konstanta terkunci (`params.py`), primitif (NTT, INTT, perkalian titik, sampling, encode,
+   compress), K-PKE dan ML-KEM tingkat atas; errata FIPS 203 ditinjau.
+3. Test / verifikasi (selesai). Property test; vektor NIST ACVP ML-KEM-768 (commit dan sha256 terpatok di
+   `.claude/skills/mlkem-guard/reference/kat_sources.md`; set sampel NIST, 25 kasus per grup); uji silang acak terhadap kyber-py di virtualenv sementara.
+4. Quartus. Tidak berlaku.
+5. Kriteria PASS (terpenuhi). `check_params.py` lolos dan k/η/du/dv dikonfirmasi terhadap FIPS 203; model acuan mereproduksi vektor terpatok;
+   errata dicatat (bukti + ADR); log uji silang ada; `phase00.md` tervalidasi dan disetujui.
+6. Tidak boleh mulai sekarang. Mengubah model acuan tanpa ADR dan ulang penuh Fase 0; memakai vektor CRYSTALS-Kyber lama;
+   menganggap vektor sampel sebagai cakupan menyeluruh.
+7. Artefak evidence. `evidence/phase00/`, `docs/results/phase00.md`.
+8. Gerbang persetujuan. Disetujui (lihat kotak Approval di `phase00.md`).
 
-## Phase 1 — Minimal RTL baseline: L = 1 NTT/INTT + pointwise multiplication
+## Fase 1: Baseline RTL minimal, NTT/INTT L = 1 + perkalian titik
 
-1. **Goal.** The first correct, measured hardware reference for the arithmetic kernel (configuration
-   **C0**). Every later optimisation is compared against it.
-2. **Implementation scope.** `rtl/ntt/`: one butterfly unit (forward Cooley-Tukey and inverse
-   Gentleman-Sande modes), one modular multiplier with a straightforward, documented reduction method,
-   base-case multiplier in the direct 5-multiplication form, twiddle ROM **generated by a script from the
-   golden model** (never hand-typed), INTT final scaling as specified in FIPS 203, a simple polynomial
-   memory (no banking), start/done control, fixed schedule.
-3. **Tests / verification.** CRG-1 to CRG-10. Bit-exact against `tb/golden` `ntt`, `intt` and the NTT-domain
-   product for random polynomials and the corner cases; `intt(ntt(f)) = f`; reduction output always < q
-   (assertion); formal: FSM completion, addresses in range.
-4. **Quartus.** Kernel-only compile of C0: ALM, registers, M10K, DSP, Fmax, worst setup/hold slack, triaged
-   warnings. Cycles per NTT, INTT and pointwise product from simulation.
-5. **PASS criteria.** All CRG checks pass; cycle count identical across all tested inputs; one Quartus
-   evidence file for C0; target-clock ADR recorded; C0 row of the ablation matrix filled with MEASURED values.
-6. **Not allowed yet.** More than one lane; memory banking; pipelining beyond what correctness needs;
-   q-specific reduction tricks, Montgomery-vs-Barrett comparison, lazy reduction, Karatsuba; Keccak; HPS
-   integration; any performance or speed-up claim.
-7. **Evidence artifact.** `docs/evidence/phase01-ntt-baseline/` (test plan, simulation and cycle logs for
-   both simulators, lint/slang logs, formal logs, `quartus_C0_<date>.md`); `docs/results/result_phase1.md`.
-8. **Approval gate.** A team member reviews and ticks Approval in `result_phase1.md` before Phase 2.
+1. Tujuan. Acuan perangkat keras pertama yang benar dan terukur untuk kernel aritmetika (konfigurasi C0). Semua optimasi berikutnya dibandingkan dengannya.
+2. Lingkup implementasi. `rtl/ntt/`: satu unit butterfly (mode Cooley-Tukey maju dan Gentleman-Sande mundur), satu pengali modular dengan metode reduksi
+   sederhana yang terdokumentasi, pengali base-case bentuk langsung 5 perkalian, ROM twiddle dibangkitkan skrip dari model acuan (tidak diketik tangan),
+   penskalaan akhir INTT seperti di FIPS 203, memori polinomial sederhana (tanpa banking), kendali start/done, jadwal tetap.
+3. Test / verifikasi. CRG-1 sampai CRG-10. Bit-exact terhadap `ntt`, `intt` dan perkalian domain-NTT di `tb/golden` untuk polinomial acak dan kasus sudut;
+   `intt(ntt(f)) = f`; keluaran reduksi selalu < q (assertion); formal: FSM selesai, alamat dalam rentang.
+4. Quartus. Kompilasi kernel-only C0: ALM, register, M10K, DSP, Fmax, slack setup/hold terburuk, warning dibahas. Siklus per NTT, INTT dan perkalian titik dari simulasi.
+5. Kriteria PASS. Semua CRG lolos; jumlah siklus sama untuk semua masukan yang diuji; satu file evidence Quartus untuk C0; ADR clock target tercatat;
+   baris C0 di matriks ablasi terisi nilai MEASURED.
+6. Belum boleh. Lebih dari satu lajur; banking memori; pipeline di luar kebutuhan kebenaran; trik reduksi khusus q, perbandingan Montgomery lawan Barrett,
+   reduksi malas, Karatsuba; Keccak; integrasi HPS; klaim kinerja atau percepatan apa pun.
+7. Artefak evidence. `evidence/phase01/` (test plan, log simulasi dan siklus untuk kedua simulator, log lint/slang, log formal, `quartus_C0.md`); `docs/results/phase01.md`.
+8. Gerbang persetujuan. Anggota tim meninjau dan mencentang Approval di `phase01.md` sebelum Fase 2.
 
-## Phase 2 — Memory architecture: M10K storage, banking, address generation
+## Fase 2: Arsitektur memori, penyimpanan M10K, banking, pembangkit alamat
 
-1. **Goal.** A polynomial memory and address generator that can feed L lanes without bank conflicts,
-   measured at L = 1 so that only the memory change is visible (configuration **C1**).
-2. **Implementation scope.** `rtl/mem/`: M10K polynomial storage with a documented packing (e.g. two
-   coefficients per word) and several polynomials per bank; bank-mapping function parameterised for
-   L ∈ {1, 2, 4, 8}; address generation for all 7 NTT layers, all 7 INTT layers and the pointwise product,
-   with no separate bit-reversal pass; twiddle-ROM organisation per lane; ping-pong buffering only if a
-   documented schedule requires it. Datapath stays at L = 1.
-3. **Tests / verification.** CRG-1 to CRG-10. Phase 1 bit-exact regression; **conflict-freedom proof**: for
-   every L ∈ {1, 2, 4, 8}, every layer and every cycle, no two accesses target the same bank port
-   (formal property on the generator plus exhaustive enumeration in a Python model); no out-of-range
-   address; stall cycles counted in simulation.
-4. **Quartus.** C1 compile: same metrics as C0, with the change in M10K and ALM stated against C0.
-5. **PASS criteria.** Conflict-freedom proven for all four L values; measured stall cycles = 0 at L = 1;
-   bit-exact; constant cycle count; C1 row filled.
-6. **Not allowed yet.** Activating more than one lane; pipeline changes; arithmetic changes; Keccak.
-7. **Evidence artifact.** `docs/evidence/phase02-memory/` (bank-map specification, proof and enumeration
-   logs, simulation logs, `quartus_C1_<date>.md`); `docs/results/result_phase2.md`.
-8. **Approval gate.** Human approval in `result_phase2.md` before Phase 3.
+1. Tujuan. Memori polinomial dan pembangkit alamat yang dapat menyuplai L lajur tanpa konflik bank, diukur pada L = 1 agar hanya perubahan memori yang terlihat (konfigurasi C1).
+2. Lingkup implementasi. `rtl/mem/`: penyimpanan polinomial M10K dengan pengemasan terdokumentasi (mis. dua koefisien per word) dan beberapa polinomial per bank;
+   fungsi pemetaan bank berparameter untuk L ∈ {1, 2, 4, 8}; pembangkit alamat untuk 7 layer NTT, 7 layer INTT dan perkalian titik, tanpa lintasan bit-reversal terpisah;
+   organisasi ROM twiddle per lajur; ping-pong buffering hanya bila jadwal terdokumentasi memerlukannya. Datapath tetap L = 1.
+3. Test / verifikasi. CRG-1 sampai CRG-10. Regresi bit-exact Fase 1; bukti bebas konflik: untuk setiap L ∈ {1, 2, 4, 8}, setiap layer dan setiap siklus,
+   tidak ada dua akses ke port bank yang sama (properti formal pada pembangkit ditambah enumerasi menyeluruh di model Python); tidak ada alamat di luar rentang;
+   siklus stall dihitung di simulasi.
+4. Quartus. Kompilasi C1: metrik sama seperti C0, dengan perubahan M10K dan ALM dinyatakan terhadap C0.
+5. Kriteria PASS. Bebas konflik terbukti untuk keempat L; siklus stall terukur = 0 pada L = 1; bit-exact; jumlah siklus konstan; baris C1 terisi.
+6. Belum boleh. Mengaktifkan lebih dari satu lajur; perubahan pipeline; perubahan aritmetika; Keccak.
+7. Artefak evidence. `evidence/phase02/` (spesifikasi peta bank, log bukti dan enumerasi, log simulasi, `quartus_C1.md`); `docs/results/phase02.md`.
+8. Gerbang persetujuan. Persetujuan manusia di `phase02.md` sebelum Fase 3.
 
-## Phase 3 — Multi-lane exploration: L = 1 / 2 / 4 / 8
+## Fase 3: Eksplorasi multi-lane, L = 1 / 2 / 4 / 8
 
-1. **Goal.** Measure the resource-versus-performance trade-off of parallel butterflies on the Phase 2
-   memory, and let the team choose an operating point (configuration **C2**).
-2. **Implementation scope.** Lane count as a parameter; butterfly, arithmetic and memory as in Phase 2.
-   The selection criterion (for example, lowest AT within a stated resource budget) is written into an ADR
-   **before** the sweep is measured.
-3. **Tests / verification.** CRG-1 to CRG-10 for each L: bit-exact, constant cycle count, stall cycles = 0,
-   cycles per NTT, INTT and pointwise product.
-4. **Quartus.** One revision per L (`C2-L1`, `C2-L2`, `C2-L4`, `C2-L8`), identical constraints and seed.
-5. **PASS criteria.** All four configurations correct; four Quartus evidence files; comparison table
-   complete; ADR choosing L (or keeping L configurable) signed by the team.
-6. **Not allowed yet.** L > 8; pipeline or arithmetic changes; choosing L without measurements; comparing
-   against software or literature as if on the same platform.
-7. **Evidence artifact.** `docs/evidence/phase03-multilane/` (per-L logs, `quartus_C2-L<n>_<date>.md`,
-   comparison table); `docs/results/result_phase3.md`.
-8. **Approval gate.** Human approval in `result_phase3.md` (including the chosen L) before Phase 4.
+1. Tujuan. Mengukur trade-off sumber daya lawan kinerja butterfly paralel di atas memori Fase 2, dan membiarkan tim memilih titik operasi (konfigurasi C2).
+2. Lingkup implementasi. Jumlah lajur sebagai parameter; butterfly, aritmetika dan memori seperti Fase 2. Kriteria seleksi (mis. AT terendah dalam anggaran sumber daya tertentu)
+   ditulis di ADR sebelum sapuan diukur.
+3. Test / verifikasi. CRG-1 sampai CRG-10 untuk tiap L: bit-exact, jumlah siklus konstan, siklus stall = 0, siklus per NTT, INTT dan perkalian titik.
+4. Quartus. Satu revisi per L (`C2-L1`, `C2-L2`, `C2-L4`, `C2-L8`), batasan dan seed identik.
+5. Kriteria PASS. Keempat konfigurasi benar; empat file evidence Quartus; tabel perbandingan lengkap; ADR pemilihan L (atau L tetap berparameter) ditandatangani tim.
+6. Belum boleh. L > 8; perubahan pipeline atau aritmetika; memilih L tanpa pengukuran; membandingkan dengan perangkat lunak atau literatur seolah satu platform.
+7. Artefak evidence. `evidence/phase03/` (log per L, `quartus_C2-L<n>.md`, tabel perbandingan); `docs/results/phase03.md`.
+8. Gerbang persetujuan. Persetujuan manusia di `phase03.md` (termasuk L terpilih) sebelum Fase 4.
 
-## Phase 4 — Butterfly pipeline optimisation
+## Fase 4: Optimasi pipeline butterfly
 
-1. **Goal.** Raise Fmax, and throughput if possible, at the chosen L by pipelining the butterfly
-   (configuration **C3**).
-2. **Implementation scope.** Pipeline depth P as a parameter over a small documented set; hazard handling
-   between NTT layers (stall or schedule), with the stall cost counted. No arithmetic changes; no layer merging.
-3. **Tests / verification.** CRG-1 to CRG-10; dedicated hazard tests at layer boundaries; cycles and stall
-   cycles per P; constant cycle count.
-4. **Quartus.** One revision per P: Fmax, slack and registers compared against the Phase 3 configuration.
-5. **PASS criteria.** Correct for every P; measured comparison complete; ADR for the chosen P; C3 row filled.
-6. **Not allowed yet.** Arithmetic optimisation; radix-4 layer merging; Keccak.
-7. **Evidence artifact.** `docs/evidence/phase04-pipeline/`; `docs/results/result_phase4.md`.
-8. **Approval gate.** Human approval in `result_phase4.md` before Phase 5.
+1. Tujuan. Menaikkan Fmax, dan throughput bila mungkin, pada L terpilih dengan mem-pipeline butterfly (konfigurasi C3).
+2. Lingkup implementasi. Kedalaman pipeline P sebagai parameter pada himpunan kecil terdokumentasi; penanganan hazard antar layer NTT (stall atau jadwal), dengan biaya stall dihitung.
+   Tanpa perubahan aritmetika; tanpa penggabungan layer.
+3. Test / verifikasi. CRG-1 sampai CRG-10; test hazard khusus di batas layer; siklus dan siklus stall per P; jumlah siklus konstan.
+4. Quartus. Satu revisi per P: Fmax, slack dan register dibandingkan dengan konfigurasi Fase 3.
+5. Kriteria PASS. Benar untuk setiap P; perbandingan terukur lengkap; ADR untuk P terpilih; baris C3 terisi.
+6. Belum boleh. Optimasi aritmetika; penggabungan layer radix-4; Keccak.
+7. Artefak evidence. `evidence/phase04/`; `docs/results/phase04.md`.
+8. Gerbang persetujuan. Persetujuan manusia di `phase04.md` sebelum Fase 5.
 
-## Phase 5 — Modular arithmetic optimisation
+## Fase 5: Optimasi aritmetika modular
 
-1. **Goal.** Cheaper and faster modular arithmetic for q = 3329 without changing any FIPS 203 result
-   (configuration **C4**). Sub-steps, each measured and reviewed separately, in this order:
-   - **5a** q-specific reduction: exploit the structure of q (multiplication by the constant q as
-     shift-and-add in ALMs) inside the current reduction method.
-   - **5b** Montgomery versus Barrett behind the same interface, both measured; choice by ADR. Tables in
-     Montgomery form (if chosen) are generated by script from the golden model.
-   - **5c** (optional) lazy reduction, only with proven value bounds.
-   - **5d** (optional) Karatsuba-style base-case multiplication (4 multiplications instead of 5).
-2. **Implementation scope.** `rtl/arith/` units only; the schedule, memory, L and P stay fixed.
-3. **Tests / verification.** CRG-1 to CRG-10 after each sub-step. The modular multiplier-reducer is tested
-   **exhaustively over all input pairs a, b in [0, q)** (feasible at this size); lazy reduction requires a
-   formal overflow/bound proof; full kernel bit-exact regression.
-4. **Quartus.** One revision per sub-step (`C4a` to `C4d`): DSP, ALM, Fmax and slack against the previous
-   sub-step.
-5. **PASS criteria.** Every attempted sub-step correct and measured; the 5b choice recorded in an ADR;
-   optional sub-steps either completed with evidence or explicitly marked "not attempted".
-6. **Not allowed yet.** Any change to q or to FIPS 203 arithmetic; approximate reduction without proof;
-   scheduling changes; Keccak.
-7. **Evidence artifact.** `docs/evidence/phase05-arith/5a/` to `5d/` (exhaustive-test logs, formal proofs,
-   Quartus files); `docs/results/result_phase5.md` with one section per sub-step.
-8. **Approval gate.** Human review of each sub-step checkpoint; approval of `result_phase5.md` before Phase 6.
+1. Tujuan. Aritmetika modular untuk q = 3329 yang lebih murah dan cepat tanpa mengubah hasil FIPS 203 apa pun (konfigurasi C4). Langkah bagian, masing-masing diukur dan
+   ditinjau sendiri, berurutan:
+   - 5a reduksi khusus q: memanfaatkan struktur q (perkalian dengan konstanta q sebagai penjumlahan geser di ALM) di dalam metode reduksi yang ada.
+   - 5b Montgomery lawan Barrett di balik antarmuka yang sama, keduanya diukur; pilihan lewat ADR. Tabel dalam bentuk Montgomery (bila dipilih) dibangkitkan skrip dari model acuan.
+   - 5c (opsional) reduksi malas, hanya dengan batas nilai yang terbukti.
+   - 5d (opsional) perkalian base-case ala Karatsuba (4 perkalian, bukan 5).
+2. Lingkup implementasi. Hanya unit `rtl/arith/`; jadwal, memori, L dan P tetap.
+3. Test / verifikasi. CRG-1 sampai CRG-10 setelah tiap langkah. Pengali-reducer modular diuji menyeluruh untuk semua pasangan masukan a, b dalam [0, q) (layak pada ukuran ini);
+   reduksi malas memerlukan bukti formal overflow/batas; regresi bit-exact kernel penuh.
+4. Quartus. Satu revisi per langkah (`C4a` sampai `C4d`): DSP, ALM, Fmax dan slack terhadap langkah sebelumnya.
+5. Kriteria PASS. Setiap langkah yang dicoba benar dan terukur; pilihan 5b tercatat di ADR; langkah opsional selesai dengan evidence atau ditandai eksplisit "tidak dicoba".
+6. Belum boleh. Mengubah q atau aritmetika FIPS 203; reduksi aproksimasi tanpa bukti; perubahan jadwal; Keccak.
+7. Artefak evidence. `evidence/phase05/5a/` sampai `5d/` (log uji menyeluruh, bukti formal, file Quartus); `docs/results/phase05.md` dengan satu bagian per langkah.
+8. Gerbang persetujuan. Tinjauan manusia atas tiap titik henti; persetujuan `phase05.md` sebelum Fase 6.
 
-## Phase 6 — NTT scheduling at operation level
+## Fase 6: Penjadwalan NTT di tingkat operasi
 
-1. **Goal.** Minimise transforms and data movement across whole ML-KEM operations while the inputs that
-   will later come from Keccak are still supplied by the testbench.
-2. **Implementation scope.** A scheduler for the K-PKE arithmetic of KeyGen, Encrypt and Decrypt: keep
-   operands in the NTT domain where FIPS 203 allows it; accumulate matrix-vector products in the NTT
-   domain and apply one INTT per output polynomial; no explicit reordering passes. Optional sub-step
-   **6b**: radix-4 layer merging, measured separately.
-   Expected transform counts (reference-model count from an instrumented kyber-py run, 2026-09-28; must be
-   reproduced by instrumenting `tb/golden` before use): KeyGen 6 NTT / 0 INTT / 9 pointwise polynomials;
-   Encaps 3 / 4 / 12; Decaps 6 / 5 / 15.
-3. **Tests / verification.** CRG-1 to CRG-10. Operation-level arithmetic bit-exact against the golden
-   model with matrices and noise polynomials injected from the golden model; transform counters equal
-   the reproduced expected counts; constant cycle count.
-4. **Quartus.** Kernel plus scheduler: metrics compared against C4; separate revision for 6b.
-5. **PASS criteria.** Bit-exact; counts match; cycles and Quartus evidence recorded.
-6. **Not allowed yet.** Keccak or samplers in hardware; streaming; changing the order of operations in a
-   way that alters any FIPS 203 output.
-7. **Evidence artifact.** `docs/evidence/phase06-scheduling/`; `docs/results/result_phase6.md`.
-8. **Approval gate.** Human approval in `result_phase6.md` before Phase 7.
+1. Tujuan. Meminimalkan transformasi dan perpindahan data di seluruh operasi ML-KEM sementara masukan yang nanti datang dari Keccak masih disuplai testbench.
+2. Lingkup implementasi. Penjadwal untuk aritmetika K-PKE pada KeyGen, Encrypt dan Decrypt: operand tetap di domain NTT bila FIPS 203 mengizinkan; produk matriks-vektor
+   diakumulasi di domain NTT dengan satu INTT per polinomial keluaran; tanpa lintasan pengurutan ulang eksplisit. Langkah opsional 6b: penggabungan layer radix-4, diukur terpisah.
+   Hitungan transformasi yang diharapkan (hitungan model acuan dari kyber-py yang diinstrumentasi, 2026-09-28; harus direproduksi dengan menginstrumentasi `tb/golden` sebelum dipakai):
+   KeyGen 6 NTT / 0 INTT / 9 polinomial pointwise; Encaps 3 / 4 / 12; Decaps 6 / 5 / 15.
+3. Test / verifikasi. CRG-1 sampai CRG-10. Aritmetika tingkat operasi bit-exact terhadap model acuan dengan matriks dan polinomial noise disuntikkan dari model acuan;
+   counter transformasi sama dengan hitungan yang direproduksi; jumlah siklus konstan.
+4. Quartus. Kernel plus penjadwal: metrik dibandingkan dengan C4; revisi terpisah untuk 6b.
+5. Kriteria PASS. Bit-exact; hitungan cocok; siklus dan evidence Quartus tercatat.
+6. Belum boleh. Keccak atau sampler di perangkat keras; streaming; mengubah urutan operasi sehingga mengubah keluaran FIPS 203 apa pun.
+7. Artefak evidence. `evidence/phase06/`; `docs/results/phase06.md`.
+8. Gerbang persetujuan. Persetujuan manusia di `phase06.md` sebelum Fase 7.
 
-## Phase 7 — Keccak-f[1600] + SHA3/SHAKE baseline
+## Fase 7: Baseline Keccak-f[1600] + SHA3/SHAKE
 
-1. **Goal.** A correct, measured Keccak baseline (configuration **K0**) before any Keccak optimisation.
-2. **Implementation scope.** `rtl/keccak/`: iterative Keccak-f[1600], one round per cycle, fixed 24-cycle
-   permutation; sponge modes SHA3-256, SHA3-512, SHAKE128, SHAKE256 with multi-block absorb and squeeze.
-   If `tb/golden` has no permutation-level Keccak-f reference, add `tb/golden/keccak.py` first and verify
-   it against `hashlib`.
-3. **Tests / verification.** CRG-1 to CRG-10. Outputs against `hashlib` for random lengths and boundary
-   lengths (0, rate − 1, rate, rate + 1, multiples) for each rate (SHA3-256 136 B, SHA3-512 72 B,
-   SHAKE128 168 B, SHAKE256 136 B); multi-block squeeze; permutation-level tests; cycles per permutation
-   independent of data (total cycles may depend only on public message lengths).
-4. **Quartus.** Standalone K0 revision: ALM, registers, Fmax, slack.
-5. **PASS criteria.** All modes bit-exact; fixed permutation latency shown; K0 row filled.
-6. **Not allowed yet.** Two rounds per cycle or unrolling; streaming samplers; connection to the arithmetic kernel.
-7. **Evidence artifact.** `docs/evidence/phase07-keccak/`; `docs/results/result_phase7.md`.
-8. **Approval gate.** Human approval in `result_phase7.md` before Phase 8.
+1. Tujuan. Baseline Keccak yang benar dan terukur (konfigurasi K0) sebelum optimasi Keccak apa pun.
+2. Lingkup implementasi. `rtl/keccak/`: Keccak-f[1600] iteratif, satu ronde per siklus, permutasi tetap 24 siklus; mode sponge SHA3-256, SHA3-512, SHAKE128, SHAKE256 dengan
+   absorb dan squeeze multi-blok. Bila `tb/golden` belum punya acuan Keccak-f tingkat permutasi, tambahkan `tb/golden/keccak.py` lebih dulu dan verifikasi terhadap `hashlib`.
+3. Test / verifikasi. CRG-1 sampai CRG-10. Keluaran terhadap `hashlib` untuk panjang acak dan panjang batas (0, rate − 1, rate, rate + 1, kelipatan) untuk tiap rate
+   (SHA3-256 136 B, SHA3-512 72 B, SHAKE128 168 B, SHAKE256 136 B); squeeze multi-blok; test tingkat permutasi; siklus per permutasi tidak bergantung data
+   (total siklus hanya boleh bergantung pada panjang pesan yang publik).
+4. Quartus. Revisi K0 mandiri: ALM, register, Fmax, slack.
+5. Kriteria PASS. Semua mode bit-exact; latensi permutasi tetap ditunjukkan; baris K0 terisi.
+6. Belum boleh. Dua ronde per siklus atau unrolling; sampler streaming; sambungan ke kernel aritmetika.
+7. Artefak evidence. `evidence/phase07/`; `docs/results/phase07.md`.
+8. Gerbang persetujuan. Persetujuan manusia di `phase07.md` sebelum Fase 8.
 
-## Phase 8 — Keccak optimisation and streaming
+## Fase 8: Optimasi Keccak dan streaming
 
-1. **Goal.** Remove Keccak from the critical path. Sub-steps, each measured and reviewed separately:
-   - **8a** two rounds per cycle versus one (configuration **C5**).
-   - **8b** streaming samplers: CBD directly from the PRF stream; SampleNTT directly from the XOF stream.
-   - **8c** matrix A generated on the fly (no storage of Â).
-   - **8d** overlap of Keccak with arithmetic (sampling runs while the kernel computes).
-   Sub-steps 8b to 8d together form configuration **C6** (recorded as C6b, C6c, C6d).
-2. **Implementation scope.** `rtl/keccak/`, `rtl/sample/`, scheduler interface; arithmetic kernel unchanged.
-3. **Tests / verification.** CRG-1 to CRG-10 after each sub-step. SampleNTT bit-exact against the golden
-   model **including the exact number of XOF bytes consumed**; CBD bit-exact; generated matrix bit-exact.
-   Constant-cycle rule for rejection sampling: with fixed ρ and varied secret inputs, cycle counts are
-   identical; with varied ρ, cycle-count variation is fully explained by the golden model's rejection count
-   for that ρ (public data only).
-4. **Quartus.** One revision per sub-step: ALM, registers, M10K, Fmax, slack, and kernel/operation cycles.
-5. **PASS criteria.** Each attempted sub-step correct, measured and reviewed; C5 and C6 rows filled.
-6. **Not allowed yet.** Full KEM control; compress/encode/FO in hardware; HPS integration.
-7. **Evidence artifact.** `docs/evidence/phase08-keccak-stream/8a/` to `8d/`; `docs/results/result_phase8.md`.
-8. **Approval gate.** Human review of each sub-step checkpoint; approval of `result_phase8.md` before Phase 9.
+1. Tujuan. Menyingkirkan Keccak dari jalur kritis. Langkah bagian, masing-masing diukur dan ditinjau sendiri:
+   - 8a dua ronde per siklus lawan satu (konfigurasi C5).
+   - 8b sampler streaming: CBD langsung dari aliran PRF; SampleNTT langsung dari aliran XOF.
+   - 8c matriks A dibangkitkan on the fly (Â tidak disimpan).
+   - 8d tumpang-tindih Keccak dengan aritmetika (sampling berjalan saat kernel menghitung).
+   Langkah 8b sampai 8d bersama membentuk konfigurasi C6 (dicatat sebagai C6b, C6c, C6d).
+2. Lingkup implementasi. `rtl/keccak/`, `rtl/sample/`, antarmuka penjadwal; kernel aritmetika tidak berubah.
+3. Test / verifikasi. CRG-1 sampai CRG-10 setelah tiap langkah. SampleNTT bit-exact terhadap model acuan termasuk jumlah byte XOF yang dikonsumsi tepat; CBD bit-exact;
+   matriks yang dibangkitkan bit-exact. Aturan siklus konstan untuk rejection sampling: dengan ρ tetap dan masukan rahasia bervariasi, jumlah siklus identik;
+   dengan ρ bervariasi, variasi jumlah siklus sepenuhnya dijelaskan oleh jumlah penolakan model acuan untuk ρ itu (data publik saja).
+4. Quartus. Satu revisi per langkah: ALM, register, M10K, Fmax, slack, dan siklus kernel/operasi.
+5. Kriteria PASS. Tiap langkah yang dicoba benar, terukur dan ditinjau; baris C5 dan C6 terisi.
+6. Belum boleh. Kendali KEM penuh; compress/encode/FO di perangkat keras; integrasi HPS.
+7. Artefak evidence. `evidence/phase08/8a/` sampai `8d/`; `docs/results/phase08.md`.
+8. Gerbang persetujuan. Tinjauan manusia atas tiap titik henti; persetujuan `phase08.md` sebelum Fase 9.
 
-## Phase 9 — Full ML-KEM-768 RTL integration (simulation)
+## Fase 9: Integrasi RTL ML-KEM-768 penuh (simulasi)
 
-1. **Goal.** Complete KeyGen, Encaps and Decaps in RTL, bit-exact against the official vectors
-   (configuration **C7-core**).
-2. **Implementation scope.** `rtl/mlkem/`: top-level controller for KeyGen_internal, Encaps_internal and
-   Decaps_internal (randomness enters as an input port); encode/decode; compress/decompress without
-   division; FO re-encryption, constant-time comparison and implicit-rejection selection; key storage;
-   the FIPS 203 input checks. Whether the input checks run in hardware or on the HPS is a team decision
-   (ADR) taken before this phase starts.
-3. **Tests / verification.** CRG-1 to CRG-10. All ML-KEM-768 groups of the pinned NIST ACVP vectors:
-   keyGen (25), encapsulation (25), decapsulation (10, including modified ciphertexts), and the key-check
-   groups (10 + 10) if the checks are in hardware. Random cross-check against the golden model on a
-   documented number of cases with a fixed seed. **Constant-cycle evidence for Decaps**: identical cycles
-   for valid and rejected ciphertexts and for different secret keys (fixed public inputs). Full regression.
-4. **Quartus.** Full core compile (virtual pins): all metrics.
-5. **PASS criteria.** 100% of the applicable vectors pass on both simulators; constant-cycle evidence
-   present; Quartus evidence; C7-core row filled.
-6. **Not allowed yet.** Any claim about the board; HPS integration; comparisons with software; protocol claims.
-7. **Evidence artifact.** `docs/evidence/phase09-integration/` (vector-run logs per group, cross-check log,
-   cycle-invariance log, `quartus_C7-core_<date>.md`); `docs/results/result_phase9.md`.
-8. **Approval gate.** Human approval in `result_phase9.md` before Phase 10.
+1. Tujuan. KeyGen, Encaps dan Decaps lengkap di RTL, bit-exact terhadap vektor resmi (konfigurasi C7-core).
+2. Lingkup implementasi. `rtl/mlkem/`: pengendali tingkat atas untuk KeyGen_internal, Encaps_internal dan Decaps_internal (keacakan masuk lewat port masukan); encode/decode;
+   compress/decompress tanpa pembagian; enkripsi ulang FO, pembandingan waktu konstan dan pemilihan implicit-rejection; penyimpanan kunci; pemeriksaan masukan FIPS 203.
+   Apakah pemeriksaan masukan berjalan di perangkat keras atau di HPS adalah keputusan tim (ADR) sebelum fase ini dimulai (ADR 0031: HPS).
+3. Test / verifikasi. CRG-1 sampai CRG-10. Semua grup ML-KEM-768 dari vektor NIST ACVP terpatok: keyGen (25), enkapsulasi (25), dekapsulasi (10, termasuk ciphertext yang dimodifikasi),
+   dan grup key-check (10 + 10) bila pemeriksaan ada di perangkat keras. Uji silang acak terhadap model acuan pada jumlah kasus terdokumentasi dengan seed tetap.
+   Bukti siklus konstan untuk Decaps: siklus identik untuk ciphertext valid dan ditolak dan untuk kunci rahasia berbeda (masukan publik tetap). Regresi penuh.
+4. Quartus. Kompilasi inti penuh (virtual pin): semua metrik.
+5. Kriteria PASS. 100 % vektor yang berlaku lolos di kedua simulator; bukti siklus konstan ada; evidence Quartus; baris C7-core terisi.
+6. Belum boleh. Klaim tentang papan; integrasi HPS; perbandingan dengan perangkat lunak; klaim protokol.
+7. Artefak evidence. `evidence/phase09/` (log uji vektor per grup, log uji silang, log invariansi siklus, `quartus_C7-core.md`); `docs/results/phase09.md`.
+8. Gerbang persetujuan. Persetujuan manusia di `phase09.md` sebelum Fase 10.
 
-## Phase 10 — HPS-FPGA integration on DE10-Nano
+## Fase 10: Integrasi HPS-FPGA di DE10-Nano
 
-1. **Goal.** The accelerator working on the real board under HPS control (configuration **C7-soc**).
-   **Blocked until** a DE10-Nano is available (PENDING #8); the protocol flow needs PENDING #1 (target side) and PENDING #7 (emulated message flow).
-2. **Implementation scope.** Platform Designer system with the HPS; bridge chosen by measurement
-   (transfer mechanism by ADR, PENDING #3); command-level interface (HPS issues KeyGen/Encaps/Decaps, not
-   individual NTTs); secret keys and intermediate polynomials stay in the fabric; encode/decode in the
-   fabric; a fabric cycle counter readable by the HPS; key zeroisation on reset; driver and test programs
-   in `sw/hps/`; functional emulation of the PACE-style key-exchange flow described in the proposal.
-   SignalTap taps only on non-secret control signals in the demo bitstream.
-3. **Tests / verification.** The same pinned NIST vectors run **on the board** from the HPS; random
-   cross-check against the golden model; soak test over many iterations; clock-domain crossings reviewed;
-   SignalTap captures of control handshakes; transfer overhead measured separately from core time.
-4. **Quartus.** Full system compile with all clocks constrained: all metrics, slack for every clock domain.
-5. **PASS criteria.** 100% of the vectors pass on the board; timing met for every clock; bridge/transfer
-   ADR recorded; board logs and captures stored. Without a board this phase stays `NOT DONE`.
-6. **Not allowed yet.** Final performance claims; comparisons with the software baseline (Phase 11);
-   security claims beyond constant-cycle behaviour.
-7. **Evidence artifact.** `docs/evidence/phase10-hps-integration/` (board logs, SignalTap captures,
-   `quartus_C7-soc_<date>.md`, transfer measurements); `docs/results/result_phase10.md`.
-8. **Approval gate.** Human approval in `result_phase10.md` before Phase 11.
+1. Tujuan. Akselerator bekerja di papan nyata di bawah kendali HPS (konfigurasi C7-soc). Terblokir sampai DE10-Nano tersedia (PENDING #8); alur protokol
+   memerlukan PENDING #1 (sisi target) dan PENDING #7 (alur pesan yang diemulasi).
+2. Lingkup implementasi. Sistem Platform Designer dengan HPS; jembatan dipilih lewat pengukuran (mekanisme transfer lewat ADR, PENDING #3); antarmuka tingkat perintah
+   (HPS memberi perintah KeyGen/Encaps/Decaps, bukan NTT satuan); kunci rahasia dan polinomial antara tetap di fabric; encode/decode di fabric; counter siklus fabric yang bisa dibaca HPS;
+   penghapusan kunci saat reset; driver dan program uji di `sw/hps/`; emulasi fungsional alur pertukaran kunci gaya PACE yang dijelaskan di proposal.
+   Tap SignalTap hanya pada sinyal kendali non-rahasia di bitstream demo.
+3. Test / verifikasi. Vektor NIST terpatok yang sama dijalankan di papan dari HPS; uji silang acak terhadap model acuan; soak test pada banyak iterasi; persilangan domain clock ditinjau;
+   tangkapan SignalTap atas handshake kendali; overhead transfer diukur terpisah dari waktu inti.
+4. Quartus. Kompilasi sistem penuh dengan semua clock dibatasi: semua metrik, slack tiap domain clock.
+5. Kriteria PASS. 100 % vektor lolos di papan; timing terpenuhi untuk tiap clock; ADR jembatan/transfer tercatat; log papan dan tangkapan tersimpan. Tanpa papan, fase ini tetap `NOT DONE`.
+6. Belum boleh. Klaim kinerja akhir; perbandingan dengan baseline perangkat lunak (Fase 11); klaim keamanan di luar perilaku siklus konstan.
+7. Artefak evidence. `evidence/phase10-hps-integration/` (log papan, tangkapan SignalTap, `quartus_C7-soc.md`, pengukuran transfer); `docs/results/phase10.md`.
+8. Gerbang persetujuan. Persetujuan manusia di `phase10.md` sebelum Fase 11.
 
-## Phase 11 — Final benchmarking and comparison against the software baseline
+## Fase 11: Benchmark akhir dan perbandingan dengan baseline perangkat lunak
 
-1. **Goal.** Honest end-to-end numbers for the proposal and the demo.
-2. **Implementation scope.** Software baseline on the HPS of the same board (implementation, compiler and
-   flags recorded; second baseline only if the team decides, PENDING #6); a written benchmark method
-   (warm-up, number of runs, median and spread, timer sources) fixed **before** measuring.
-3. **Tests / verification.** Per KeyGen/Encaps/Decaps: core cycles (fabric counter), end-to-end time
-   (HPS), transfer overhead, throughput; protocol-level latency of the emulated key exchange; cycle
-   invariance repeated on the board; vector runs repeated on the final bitstream.
-4. **Quartus.** Final bitstream evidence (the configuration actually measured), all metrics.
-5. **PASS criteria.** Every ablation-matrix cell is MEASURED or explicitly marked "not measured" with a
-   reason; `docs/proposal/CLAIMS_REGISTER.md` updated; proposal numbers changed from ESTIMATE only where
-   evidence exists; claim checker clean.
-6. **Not allowed.** Selecting favourable runs; comparing against literature numbers from other platforms
-   as if equivalent; power or energy claims without a power measurement; security claims beyond constant-cycle.
-7. **Evidence artifact.** `docs/evidence/phase11-benchmark/` (method, raw timing logs, summary tables,
-   final Quartus file); `docs/results/result_phase11.md`.
-8. **Approval gate.** Human approval in `result_phase11.md` before anything is published as a result or
-   before Phase 12.
+1. Tujuan. Angka ujung-ke-ujung yang jujur untuk proposal dan demo.
+2. Lingkup implementasi. Baseline perangkat lunak di HPS pada papan yang sama (implementasi, compiler dan flag dicatat; baseline kedua hanya bila tim memutuskan, PENDING #6);
+   metode benchmark tertulis (pemanasan, jumlah run, median dan sebaran, sumber timer) ditetapkan sebelum mengukur.
+3. Test / verifikasi. Per KeyGen/Encaps/Decaps: siklus inti (counter fabric), waktu ujung-ke-ujung (HPS), overhead transfer, throughput; latensi tingkat protokol pada
+   pertukaran kunci yang diemulasi; invariansi siklus diulang di papan; uji vektor diulang pada bitstream akhir.
+4. Quartus. Evidence bitstream akhir (konfigurasi yang benar-benar diukur), semua metrik.
+5. Kriteria PASS. Setiap sel matriks ablasi MEASURED atau ditandai eksplisit "tidak diukur" beserta alasan; `docs/proposal/CLAIMS_REGISTER.md` diperbarui;
+   angka proposal berubah dari ESTIMATE hanya bila ada evidence; pemeriksa klaim bersih.
+6. Tidak boleh. Memilih run yang menguntungkan; membandingkan dengan angka literatur dari platform lain seolah setara; klaim daya atau energi tanpa pengukuran daya;
+   klaim keamanan di luar siklus konstan.
+7. Artefak evidence. `evidence/phase11-benchmark/` (metode, log waktu mentah, tabel ringkasan, file Quartus akhir); `docs/results/phase11.md`.
+8. Gerbang persetujuan. Persetujuan manusia di `phase11.md` sebelum apa pun diterbitkan sebagai hasil atau sebelum Fase 12.
 
-## Phase 12 — Advanced security features (optional)
+## Fase 12: Fitur keamanan lanjutan (opsional)
 
-1. **Goal.** Optional hardening: masking/shuffling, fault detection (e.g. duplicated FO comparison, memory
-   parity), TVLA with the team's oscilloscope, ML-KEM-512/1024 parameterisation, hybrid ECDH + ML-KEM on
-   the HPS.
-2. **Implementation scope.** One feature at a time, each with its own ADR stating the threat, the method
-   and the claim it would support.
-3. **Tests / verification.** Full CRG and full vector regression after each feature; TVLA with a documented
-   acquisition set-up and trace count; overhead re-measured.
-4. **Quartus.** One revision per feature: overhead against the Phase 11 configuration.
-5. **PASS criteria.** Feature-specific criteria written in its ADR before implementation.
-6. **Not allowed.** Any side-channel or fault-resistance claim without its evidence; weakening the core
-   design's constant-cycle property.
-7. **Evidence artifact.** `docs/evidence/phase12-security/<feature>/`; `docs/results/result_phase12.md`.
-8. **Approval gate.** Human approval per feature.
+1. Tujuan. Penguatan opsional: masking/shuffling, deteksi kesalahan (mis. perbandingan FO ganda, paritas memori), TVLA dengan osiloskop tim,
+   parameterisasi ML-KEM-512/1024, hibrida ECDH + ML-KEM di HPS.
+2. Lingkup implementasi. Satu fitur sekali waktu, masing-masing dengan ADR sendiri yang menyatakan ancaman, metode dan klaim yang akan didukungnya.
+3. Test / verifikasi. CRG penuh dan regresi vektor penuh setelah tiap fitur; TVLA dengan setup akuisisi dan jumlah trace terdokumentasi; overhead diukur ulang.
+4. Quartus. Satu revisi per fitur: overhead terhadap konfigurasi Fase 11.
+5. Kriteria PASS. Kriteria khusus fitur ditulis di ADR-nya sebelum implementasi.
+6. Tidak boleh. Klaim ketahanan side-channel atau kesalahan tanpa evidence; melemahkan sifat siklus konstan desain inti.
+7. Artefak evidence. `evidence/phase12-security/<fitur>/`; `docs/results/phase12.md`.
+8. Gerbang persetujuan. Persetujuan manusia per fitur.
 
 ---
 
-## Optimisation ablation matrix
+## Matriks ablasi optimasi
 
-Every row differs from the row it is compared with by **one** change. All cells are empty until a Quartus
-report or test log in this repository fills them; then the cell holds the value and the Evidence column
-holds the path. A row that regresses is kept and discussed in its phase's result; an ADR decides whether
-the change stays.
+Setiap baris berbeda satu perubahan dari baris pembandingnya. Semua sel kosong sampai laporan Quartus atau log test di repository ini
+mengisinya; lalu sel berisi nilainya dan kolom Evidence berisi path. Baris yang memburuk tetap disimpan dan dibahas di file hasil fasenya;
+ADR yang memutuskan perubahan itu dipertahankan atau tidak.
 
-| ID | Configuration | Change vs. compared row | Phase | Compared with | Scope | ALM | Registers | M10K | DSP | Fmax (MHz) | Worst slack (ns) | Cycles/op | Latency (µs @ f_clk) | AT (ALM × µs) | Evidence |
+| ID | Konfigurasi | Perubahan terhadap baris pembanding | Fase | Dibandingkan dengan | Cakupan | ALM | Register | M10K | DSP | Fmax (MHz) | Slack terburuk (ns) | Siklus/op | Latensi (µs @ f_clk) | AT (ALM × µs) | Evidence |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| C0 | Baseline | — (L = 1, simple memory) | 1 | — | Kernel | 7,010 / 41,910 | 3104 | 0 / 553 | 3 / 112 | 14.64 (Slow 100C) | -48.323 @ 20.000 ns (NOT met) | NTT 897, INTT 1153 (simulation) | not stated: timing not met at the constrained clock | not stated | `docs/evidence/quartus/C0-20260929.md`, `docs/evidence/phase01-ntt-baseline/quartus_C0_timing_analysis_2026-09-29.md`, `docs/evidence/phase01-ntt-baseline/cocotb_regression_2026-09-29.txt` |
-| C1 | + Memory banking | M10K banking + address generation | 2 | C0 | Kernel | 6,749 / 41,910 (-261 vs C0) | 3,105 | 0 / 553 (M10K NOT achieved, async-read limitation -- see evidence) | 3 / 112 | 14.99 (Slow 100C) | -46.720 @ 20.000 ns (NOT met) | NTT 897, INTT 1153 (simulation, identical to C0, 0 stall) | not stated: timing not met at the constrained clock | not stated | `docs/evidence/quartus/C1-20260929.md`, `docs/evidence/phase02-memory/quartus_C1_vs_C0_2026-09-29.md`, `docs/evidence/phase02-memory/cocotb_regression_2026-09-29.txt` |
-| C2-L1 | + Multi-lane (L=1) | Lane datapath rebuilt on multi-port memory (parity check vs C0/C1) | 3 | C1 | Kernel | 6,018 / 41,910 | 3100 | 0 / 553 | 3 / 112 | 14.76 (Slow 100C) | -47.733 @ 20.000 ns (NOT met) | NTT 897, INTT 1153 (simulation, identical to C0/C1) | not stated: timing not met at the constrained clock | not stated | `docs/evidence/quartus/C2-L1-20260929.md`, `docs/evidence/phase03-multilane/cocotb_regression_2026-09-29.txt` |
-| C2-L2 | + Multi-lane (L=2) | 2 butterflies/cycle | 3 | C1 | Kernel | 5,728 / 41,910 | 3098 | 0 / 553 | 5 / 112 | 13.54 (Slow 100C) | -54.644 @ 20.000 ns (NOT met) | NTT 449, INTT 705 (simulation) | not stated: timing not met at the constrained clock | not stated | `docs/evidence/quartus/C2-L2-20260929.md`, `docs/evidence/phase03-multilane/cocotb_regression_2026-09-29.txt` |
-| C2-L4 | + Multi-lane (L=4) | 4 butterflies/cycle | 3 | C1 | Kernel | 7,629 / 41,910 | 3102 | 0 / 553 | 9 / 112 | 11.60 (Slow 100C) | -66.690 @ 20.000 ns (NOT met) | NTT 225, INTT 481 (simulation) | not stated: timing not met at the constrained clock | not stated | `docs/evidence/quartus/C2-L4-20260929.md`, `docs/evidence/phase03-multilane/cocotb_regression_2026-09-29.txt` |
-| C2-L8 | + Multi-lane (L=8) | 8 butterflies/cycle | 3 | C1 | Kernel | 11,446 / 41,910 (**over ADR 0004's 10,478 ALM budget**) | 3100 | 0 / 553 | 17 / 112 | 7.62 (Slow 100C) | -111.219 @ 20.000 ns (NOT met) | NTT 113, INTT 369 (simulation) | not stated: timing not met at the constrained clock | not stated | `docs/evidence/quartus/C2-L8-20260929.md`, `docs/evidence/phase03-multilane/cocotb_regression_2026-09-29.txt` |
-| C2-K2-K1-L1 | + K2, K1 (L=1) | TWO changes vs C2-L1, an exception to the one-change rule: t_q sized per L (K2) + one shared multiplier per butterfly (K1); the single-change step C2 -> C2-K2 is measured in `docs/evidence/quartus/C2-L1-K2-20260930.md`. Supplementary, outside the written Phase 3 scope | 3 | C2-L1 | Kernel | 5,566 / 41,910 | 3099 | 0 / 553 | 2 / 112 | 14.33 (Slow 100C) | -49.804 @ 20.000 ns (NOT met) | NTT 897, INTT 1153 (simulation, identical to C2-L1) | not stated: timing not met at the constrained clock | not stated | `docs/evidence/quartus/C2-K2-K1-L1-20260930.md`, `docs/evidence/phase03-multilane/k1_cocotb_regression_2026-09-30.txt` |
-| C2-K2-K1-L2 | + K2, K1 (L=2) | TWO changes vs C2-L2, an exception to the one-change rule: t_q sized per L (K2) + one shared multiplier per butterfly (K1); the single-change step C2 -> C2-K2 is measured in `docs/evidence/quartus/C2-L2-K2-20260930.md`. Supplementary, outside the written Phase 3 scope | 3 | C2-L2 | Kernel | 5,374 / 41,910 | 3095 | 0 / 553 | 3 / 112 | 12.63 (Slow 100C) | -59.148 @ 20.000 ns (NOT met) | NTT 449, INTT 705 (simulation, identical to C2-L2) | not stated: timing not met at the constrained clock | not stated | `docs/evidence/quartus/C2-K2-K1-L2-20260930.md`, `docs/evidence/phase03-multilane/k1_cocotb_regression_2026-09-30.txt` |
-| C2-K2-K1-L4 | + K2, K1 (L=4) | TWO changes vs C2-L4, an exception to the one-change rule: t_q sized per L (K2) + one shared multiplier per butterfly (K1); the single-change step C2 -> C2-K2 is measured in `docs/evidence/quartus/C2-L4-K2-20260930.md`. Supplementary, outside the written Phase 3 scope | 3 | C2-L4 | Kernel | 6,775 / 41,910 | 3098 | 0 / 553 | 5 / 112 | 10.89 (Slow 100C) | -71.868 @ 20.000 ns (NOT met) | NTT 225, INTT 481 (simulation, identical to C2-L4) | not stated: timing not met at the constrained clock | not stated | `docs/evidence/quartus/C2-K2-K1-L4-20260930.md`, `docs/evidence/phase03-multilane/k1_cocotb_regression_2026-09-30.txt` |
-| C2-K2-K1-L8 | + K2, K1 (L=8) | TWO changes vs C2-L8, an exception to the one-change rule: t_q sized per L (K2) + one shared multiplier per butterfly (K1); the single-change step C2 -> C2-K2 is measured in `docs/evidence/quartus/C2-L8-K2-20260930.md`. Supplementary, outside the written Phase 3 scope | 3 | C2-L8 | Kernel | 9,754 / 41,910 **(selected, ADR 0005; within the 10,478 ALM budget)** | 3094 | 0 / 553 | 9 / 112 | 7.68 (Slow 100C) | -110.494 @ 20.000 ns (NOT met) | NTT 113, INTT 369 (simulation, identical to C2-L8) | not stated: timing not met at the constrained clock | not stated | `docs/evidence/quartus/C2-K2-K1-L8-20260930.md`, `docs/evidence/phase03-multilane/k1_cocotb_regression_2026-09-30.txt` |
-| C3-P0 | + Pipeline (P=0, reference) | Frozen C2-K2-K1-L8 re-compiled at 40.000 ns | 4 | C2-K2-K1-L8 (ADR 0005) | Kernel | 9,723 / 41,910 | 3097 | 0 / 553 | 9 / 112 | 7.65 (Slow 100C) | -90.653 @ 40.000 ns (NOT met) | NTT 113, INTT 369 (simulation) | not stated: kernel-only Fmax, no board | not stated | `docs/evidence/phase04-pipeline/quartus_C3-P0_20260930.md`, `docs/evidence/phase04-pipeline/cocotb_regression_2026-09-30.txt` |
-| C3-P2 | + Pipeline (P=2) | Cuts A_13, D_3 | 4 | C2-K2-K1-L8 (ADR 0005) | Kernel | 9,696 / 41,910 | 3,817 | 16 / 553 (tool-inferred) | 9 / 112 | 24.77 (lowest slow corner) | -0.368 @ 40.000 ns (NOT met) | NTT 115, INTT 371 (simulation) | not stated: kernel-only Fmax, no board | not stated | `docs/evidence/phase04-pipeline/quartus_C3-P2_20260930.md`, `docs/evidence/phase04-pipeline/cocotb_regression_2026-09-30.txt` |
-| C3-P4 | + Pipeline (P=4) | Cuts A_7, M, X, D_7 -- proposed by ADR 0008 under the historical 25% budget (never accepted, superseded by ADR 0009); integration baseline for GHRD + C3-P4 (`docs/evidence/phase04-pipeline/ghrd_plus_c3p4_integration_2026-10-01.md`) | 4 | C2-K2-K1-L8 (ADR 0005) | Kernel | 10,439 / 41,910 (seeds 1–6: 10,439–10,503; within the 30% / 12,573 budget of ADR 0009) | 4,145 | 26 / 553 (tool-inferred) | 9 / 112 | 31.98 (lowest slow corner) | +8.734 @ 40.000 ns (met) | NTT 117, INTT 373 (simulation) | not stated: kernel-only Fmax, no board | not stated | `docs/evidence/phase04-pipeline/quartus_C3-P4_20260930.md`, `docs/evidence/phase04-pipeline/cocotb_regression_2026-09-30.txt` |
-| C3-P6 | + Pipeline (P=6) | Cuts A_4, A_11, M, X, D_5, D_11 -- **SELECTED (ADR 0009, 2026-10-01): L = 8, P = 6**; integration with GHRD: `docs/evidence/phase04-pipeline/ghrd_plus_c3p6_integration_2026-10-01.md` (12,375 ALM combined, NTT 40 ns met, MEASURED) | 4 | C2-K2-K1-L8 (ADR 0005) | Kernel | 10,505 / 41,910 (seeds 1–6: 10,484–10,516; over the historical 25% budget, **within the 30% / 12,573 budget of ADR 0009**) | 4,168 | 29 / 553 (tool-inferred) | 9 / 112 | 34.19 (lowest slow corner) | +10.753 @ 40.000 ns (met) | NTT 119, INTT 375 (simulation) | not stated: kernel-only Fmax, no board | not stated | `docs/evidence/phase04-pipeline/quartus_C3-P6_20260930.md`, `docs/evidence/phase04-pipeline/cocotb_regression_2026-09-30.txt` |
-| C4a | + Arithmetic 5a (fold reducer) | q-specific reduction: 2^12 = 767 (mod q), shift-and-add folds + select; cuts A_4, A_11, M, X, F_3, F_5 (P = 6) | 5 | C3-P6 | Kernel | 9,847 / 41,910 | 4,109 | 29 / 553 (tool-inferred) | 9 / 112 | 33.73 (lowest slow corner) | +10.352 @ 40.000 ns (met) | NTT 119, INTT 375 (simulation) | not stated: kernel-only Fmax, no board | not stated | `docs/evidence/phase05-arith/5a/quartus_C4a_20261001.md`, `docs/evidence/phase05-arith/5a/summary_5a_2026-10-01.md`, `docs/evidence/phase05-arith/5a/verify_2026-10-01.txt` |
-| C4b-B | + Arithmetic 5b (Barrett) | Barrett reducer (k = 24, M = 5039), cuts X, S_1, S_2; **selected by the ADR 0011 rule, ADR 0013 Proposed (PENDING #23): this is the C4 configuration** | 5 | C4a | Kernel | 9,208 / 41,910 (seeds 1-6: 9,166-9,208; median 9,171) | 4,115 | 29 / 553 (tool-inferred) | 18 / 112 (C3-P6: 9) | 34.54 (seed 1; median over seeds 1-6 34.515, range 33.46-34.84) | +11.044 @ 40.000 ns (met at every seed) | NTT 119, INTT 375 (simulation) | t_NTT 3.448 us, t_INTT 10.865 us at median Fmax (perhitungan tim); kernel-only, no board | not stated | `docs/evidence/phase05-arith/5b/quartus_C4b-B_20261001.md` (+ `-s2..s6`), `docs/evidence/phase05-arith/5b/selection_worksheet_2026-10-01.md`, `docs/evidence/phase05-arith/5b/verify_2026-10-01.txt` |
-| C4b-M | + Arithmetic 5b (Montgomery, comparison) | Montgomery reducer (R = 2^12), Montgomery-form twiddle ROM; not selected | 5 | C4a | Kernel | 9,249 / 41,910 (seeds 1-6: 9,249-9,297; median 9,286.5) | 4,297 | 29 / 553 (tool-inferred) | 9 / 112 | 32.81 (seed 1; median 33.780, range 32.81-34.25) | +9.526 @ 40.000 ns (met at every seed) | NTT 119, INTT 375 (simulation) | not stated: kernel-only Fmax, no board | not stated | `docs/evidence/phase05-arith/5b/quartus_C4b-M_20261001.md` (+ `-s2..s6`), `docs/evidence/phase05-arith/5b/selection_worksheet_2026-10-01.md` |
-| C4c | + Arithmetic 5c (lazy INTT inputs) | INTT multiplier input b + q - a in [1, 2q), side operand a + b in [0, 2q), reduced once at the output (ADR 0014; D6 amended for this experiment only); **NOT adopted** (median Fmax 33.100 MHz, rule needs > 34.84; ADR 0012 not met) | 5 | C4b-B | Kernel | 9,043 / 41,910 (seeds 1-6: 9,032-9,094; median 9,059.5) | 4,076 | 29 / 553 (tool-inferred) | 18 / 112 | 32.98 (seed 1; median 33.100, range 32.27-35.26) | +9.682 @ 40.000 ns (met at every seed) | NTT 119, INTT 375 (simulation) | not stated: not adopted | not stated | `docs/evidence/phase05-arith/5c/quartus_C4c_20261001.md` (+ `-s2..s6`), `docs/evidence/phase05-arith/5c/selection_worksheet_2026-10-01.md`, `docs/evidence/phase05-arith/5c/summary_5c_2026-10-01.md` |
-| C4d | + Arithmetic 5d (Karatsuba-style base case) | **Not attempted in Phase 5** (proposed to move to Phase 6: `base_case_multiply.sv` is not part of the C3-P6 / C4 core; ADR 0015 Proposed) | 5 | C4b-B | Kernel | not attempted | not attempted | not attempted | not attempted | not attempted | not attempted | not attempted | not attempted | not attempted | `docs/decisions/0015-phase-5d-karatsuba-style-base-case-not-attempted-in-phase-5-.md` |
-| C4b-B-20 | Information compile at 20.000 ns (final C4) | Same RTL as C4b-B; constraint 20.000 ns, default seed; not a gate (ADR 0010, ADR 0011 D1) | 5 | C3-P6-20 | Kernel | 9,305 / 41,910 | 4,272 | 29 / 553 (tool-inferred) | 18 / 112 | 44.33 (lowest slow corner) | -2.557 @ 20.000 ns (NOT met) | NTT 119, INTT 375 (simulation) | not stated: timing not met at the constrained clock | not stated | `docs/evidence/phase05-arith/closure/quartus_C4b-B-20_20261001.md`, `docs/evidence/phase05-arith/closure/info_20ns_2026-10-01.md` |
-| C3-P6-20 | Information compile at 20.000 ns (C3-P6 reference) | Phase 4 RTL unchanged; constraint 20.000 ns, default seed; not a gate | 5 | C3-P6 | Kernel | 10,557 / 41,910 | 4,316 | 29 / 553 (tool-inferred) | 9 / 112 | 45.33 (lowest slow corner) | -2.059 @ 20.000 ns (NOT met) | NTT 119, INTT 375 (simulation) | not stated: timing not met at the constrained clock | not stated | `docs/evidence/phase05-arith/closure/quartus_C3-P6-20_20261001.md`, `docs/evidence/phase05-arith/closure/info_20ns_2026-10-01.md` |
-| M6 | + Memory/schedule S6 (INTT without scaling pass) | Halving in every INTT layer (3303 = 2^-7 mod q), zeta/2 ROM, no scaling pass or multiplier; **not adopted by the rule (ADR 0012), base for S7/S8 by team decision (ADR 0020 Accepted)** | 5M | C4b-B | Kernel | 9,394 / 41,910 (seeds 1-6: 9,394-9,441; median 9,421.5) | 4,030-4,080 | 29 / 553 (tool-inferred) | 16 / 112 | 34.430 (median seeds 1-6, range 32.35-35.04) | met at 40.000 ns at every seed | NTT 119, INTT 119 (simulation) | t = 3.456 us at median Fmax (perhitungan tim) | not stated | `docs/evidence/phase05m-memsched/s6/selection_worksheet_2026-10-02.md` |
-| S7 | + Memory/schedule S7 (split memory read, RD_SPLIT, P = 7) | One register stage inside the memory read (192 data bits + 64 select bits); **adopted by the rule (ADR 0021, superseded by 0025)** | 5M | M6 | Kernel | 9,394 / 41,910 (seeds 1-6: 9,361-9,405; median 9,391.0) | 4,296-4,324 | 31 / 553 (tool-inferred) | 16 / 112 | 38.720 (median seeds 1-6, range 37.89-40.29) | met at 40.000 ns at every seed | NTT 120, INTT 120 (simulation) | t = 3.099 us at median Fmax (perhitungan tim) | not stated | `docs/evidence/phase05m-memsched/s7/selection_worksheet_2026-10-02.md` |
-| S8 | + Memory/schedule S8 (write-path register, P = 8, one bubble per direction) | One register on the butterfly outputs, bubble after NTT layer 3 and INTT layer 2; **not adopted by the rule (ADR 0023, superseded by 0025)** | 5M | S7 | Kernel | 9,464 / 41,910 (seeds 1-6: 9,402-9,471; median 9,443.5) | 4,130-4,144 | 33 / 553 (tool-inferred) | 16 / 112 | 37.990 (median seeds 1-6, range 36.76-40.22) | met at 40.000 ns at every seed | NTT 122, INTT 122 (simulation) | t = 3.211 us at median Fmax (perhitungan tim) | not stated | `docs/evidence/phase05m-memsched/s8/selection_worksheet_2026-10-03.md` |
-| S8-20 | Information compile at 20.000 ns (S8) | Same RTL as S8, seed 1; not a gate | 5M | C4b-B-20 | Kernel | 9,443 / 41,910 | 4,142 | 33 / 553 (tool-inferred) | 16 / 112 | 44.96 (lowest slow corner) | -2.242 @ 20.000 ns (NOT met) | NTT 122, INTT 122 (simulation) | not stated: timing not met at the constrained clock | not stated | `docs/evidence/phase05m-memsched/s8/quartus_S8-20_20261002.md` |
-| S9 | Memory study (M10K, synchronous read) | Documentation only, no RTL, no Quartus: 16-bank 1R1W map conflict-free over the whole schedule; option A built as S10 (ADR 0022, superseded by 0025) | 5M | S7 | Study | not measured | not measured | not measured | not measured | not measured | not measured | not applicable | not applicable | not stated | `docs/evidence/phase05m-memsched/s9/study_m10k_2026-10-03.md` |
-| S7-20 | Information compiles at 20.000 ns (S7), seeds 1-6 | Same RTL as S7 (50 MHz question, option 2) | 5M | S8-20 | Kernel | 9,355-9,383 / 41,910 | not stated | not stated | 16 / 112 | median 45.885 (44.58-46.76) | -1.388 to -2.431 @ 20.000 ns (NOT met at any seed) | NTT 120, INTT 120 (simulation) | not stated: timing not met | not stated | `docs/evidence/phase05m-memsched/fmax50/path_analysis_2026-10-03.md` |
-| S10 | + Memory: 16 x 1R1W banks without slot arbitration (P = 5) | Bank map (a1^a2^a3^a4, a7, a6, a5), offset a[3:0], RAM blocks, 16-way selects; **adopted by the rule; the NTT/INTT core for the next phases (ADR 0025 Accepted 2026-10-03)** | 6 | S7 | Kernel | 5,091 / 41,910 (seeds 1-6: 5,045-5,091; median 5,077.0) | 543-555 | 24 / 553 | 16 / 112 | 44.320 (median seeds 1-6, range 42.34-46.65) | met at 40.000 ns at every seed | NTT 118, INTT 118 (simulation) | t = 2.662 us at median Fmax (perhitungan tim) | not stated | `docs/evidence/phase06-scheduling/s10/selection_worksheet_2026-10-03.md` |
-| S10-20 | Information compiles at 20.000 ns (S10), seeds 1-6 | Same RTL as S10 | 6 | S7-20 | Kernel | see evidence | 543-555 (40 ns) | 24 / 553 | 16 / 112 | median 52.945 (52.06-54.70) | +0.792 to +1.718 @ 20.000 ns (**met at 6 of 6 seeds**, kernel-only) | NTT 118, INTT 118 (simulation) | not stated: kernel-only, no board | not stated | `docs/evidence/phase06-scheduling/s10/selection_worksheet_2026-10-03.md` |
-| S1 / P6 | NTT scheduling at operation level (Phase 6) | K-PKE arithmetic sequencer (KeyGen, Encrypt, Decrypt programs), pointwise multiply-accumulate unit, 24 polynomial slots, S7 core; counts 6/0/9, 3/4/12, 3/1/3; 6b not attempted | 6 | S7 | Kernel + scheduler | 9,840 / 41,910 (seed 1) | 4,589 | 58 / 553 | 26 / 112 | 37.59 (seed 1) | +13.395 @ 40.000 ns (met) | KeyGen 5,493, Encrypt 6,810, Decrypt 3,121 (simulation; with S10: 5,475 / 6,789 / 3,109) | not stated: kernel-only | not stated | `docs/evidence/phase06-scheduling/quartus_P6_20261002.md`, `docs/results/result_phase6.md` |
-| P6S10 | Phase 6 top with the S10 core (information) | Same sequencer, S10 core; 40 ns and 20 ns, seed 1 | 6 | S1 / P6 | Kernel + scheduler | 5,553 / 41,910 (40 ns); 5,643 (20 ns) | 840 | 51 / 553 | 26 / 112 | 43.26 @ 40 ns; 51.60 @ 20 ns | +16.886 @ 40.000 ns; **+0.619 @ 20.000 ns (met)** | KeyGen 5,475, Encrypt 6,789, Decrypt 3,109 (simulation) | not stated: kernel-only | not stated | `docs/evidence/phase06-scheduling/quartus_P6S10-20_20261002.md` |
-| K0 | Keccak baseline *(reference row)* | Iterative Keccak-f[1600], 1 round/cycle (24 busy cycles); sponge SHA3-256, SHA3-512, SHAKE128, SHAKE256 (`keccak_sponge`) | 7 | — | Keccak | 3,572 / 41,910 (seed 1) | 1,653 | 0 / 553 | 0 / 112 | 56.99 (seed 1, the lowest of six; median seeds 1-6 67.675, range 56.99-70.39) | +22.452 @ 40.000 ns seed 1 (met at every seed 1-6) | permutation 24 busy cycles, 26 in the sponge; H(ek) 1184 B 389 cycles (simulation) | 0.456 us per permutation at 56.99 MHz (perhitungan tim) | not stated | `docs/evidence/phase07-keccak/quartus_K0_20261003.md`, `docs/results/result_phase7.md` |
-| K0-20 | Information compile at 20.000 ns (K0) | Same RTL as K0, seed 1; not a gate | 7 | K0 | Keccak | 3,573 / 41,910 | 1,653 | 0 / 553 | 0 / 112 | 76.30 (lowest slow corner) | +6.893 @ 20.000 ns (met, kernel-only) | as K0 | not stated: kernel-only, no board | not stated | `docs/evidence/phase07-keccak/quartus_K0-20_20261003.md` |
-| C5 | + Keccak optimisation (8a) | 2 rounds/cycle (`keccak_f1600_r2`, `keccak_sponge_r2`): 12 busy cycles, 14 per permutation in the sponge; **adopted by the rule (ADR 0027 Proposed)** | 8a | K0 | Keccak | 6,167 / 41,910 median (seeds 1-6: 6,152-6,169) | 1,652 | 0 / 553 | 0 / 112 | 50.655 (median seeds 1-6, range 47.38-51.67) | met at 40.000 ns at every seed | permutation 14 cycles in the sponge (K0: 26); H(ek) 1184 B 281 cycles (K0: 389) (simulation) | 0.2764 us per permutation at median Fmax (K0: 0.3842) (perhitungan tim) | not stated | `docs/evidence/phase08-keccak-stream/8a/selection_worksheet_2026-10-03.md`, `docs/results/result_phase8.md` |
-| C5-20 | Information compile at 20.000 ns (C5) | Same RTL as C5, seed 1; not a gate | 8a | K0-20 | Keccak | 6,178 / 41,910 | 1,652 | 0 / 553 | 0 / 112 | 64.90 (lowest slow corner) | +4.591 @ 20.000 ns (met, kernel-only) | as C5 | not stated: kernel-only, no board | not stated | `docs/evidence/phase08-keccak-stream/8a/quartus_C5-20_20261003.md` |
-| C6b-W1 | + Streaming sampler, one coefficient per cycle (8b stage W1) | SampleNTT and CBD2 straight from the Keccak word stream, no store between sponge and sampler (`rtl/sample/`, `OUTW` = 1); passes the 8b gate; not chosen by the 8b rule | 8b | C5 | Sampler + Keccak | MEASURED: 5,279.0 / 41,910 median (seeds 1-6: 5,271-5,311) | 1,913 | 0 / 553 | 0 / 112 | 51.220 (median seeds 1-6, range 50.10-55.79) | met at 40.000 ns at every seed | SampleNTT 305.23 cycles (mean of 500), CBD 280 (simulation) | SampleNTT 5.959 us, CBD 5.467 us at median Fmax (perhitungan tim) | not stated | `docs/evidence/phase08-keccak-stream/8b/selection_worksheet_2026-10-03.md`, `docs/decisions/0028-*.md` |
-| C6b-W2 | + Streaming sampler, two coefficients per cycle (8b stage W2) | Same files with `OUTW` = 2: one triple per cycle, pool of 0-3 candidates with one carried coefficient; passes the gate; **chosen by the rule over W1 (ADR 0028 Proposed)** | 8b | C6b-W1 | Sampler + Keccak | MEASURED: 5,290.0 / 41,910 median (seeds 1-6: 5,282-5,308) | 1,947 | 0 / 553 | 0 / 112 | 50.220 (median seeds 1-6, range 48.46-53.42) | met at 40.000 ns at every seed | SampleNTT 206.48 cycles (= triples + 49 for 3 XOF blocks, + 61 for 4), CBD 152 (simulation) | SampleNTT 4.111 us, CBD 3.027 us at median Fmax (perhitungan tim) | not stated | `docs/evidence/phase08-keccak-stream/8b/selection_worksheet_2026-10-03.md`, `docs/decisions/0028-*.md` |
-| C6c-STORE | Reference for 8c: matrix A sampled into 9 slots | `SMPA` into slots 0-8, then the Phase 6 PWM passes; 24 slots; S10 core, W2 sampler, C5 sponge (`kpke_smp_top_s10`, `VAR` = 0) | 8c | C6b-W2 + P6S10 | Operation | MEASURED: 10,958.0 / 41,910 median (seeds 1-6: 10,941-10,969) | 3,342-3,378 | 55 / 553 | 26 / 112 | 42.270 (median seeds 1-6, range 41.21-44.28) | met at 40.000 ns at every seed; 20 ns (seed 1) met, +0.992 ns | KeyGen 8,268.1, Encrypt 9,727.6, Decrypt 3,109 (simulation, mean) | KeyGen 195.6 us, Encrypt 230.1 us at median Fmax (perhitungan tim) | not stated | `docs/evidence/phase08-keccak-stream/8c/selection_worksheet_2026-10-03.md` |
-| C6c | + Streaming 8c: matrix A not stored | `PWMS`: the sampler's beats feed the PWM unit; b operand, accumulator word and gamma addressed one beat ahead; 12 slots; **adopted by the rule (ADR 0029 Proposed)** | 8c | C6c-STORE | Operation | MEASURED: 10,995.5 / 41,910 median (seeds 1-6: 10,958-11,032) | 3,377-3,395 | 44 / 553 | 26 / 112 | 43.355 (median seeds 1-6, range 40.37-45.66) | met at 40.000 ns at every seed; 20 ns (seed 1) met, +1.783 ns | KeyGen 7,089.1, Encrypt 8,548.6, Decrypt 3,109 (simulation, mean) | KeyGen 163.5 us, Encrypt 197.2 us at median Fmax (perhitungan tim) | not stated | `docs/evidence/phase08-keccak-stream/8c/selection_worksheet_2026-10-03.md`, `docs/decisions/0029-*.md` |
-| C6d | + Streaming 8d: sampling overlapped with the transforms | Non-blocking `SMPN`, `WAIT`, store-port arbitration (sequencer first); 5 of 6 (KeyGen) and 6 of 7 (Encrypt) noise polynomials hidden; **adopted by the rule (ADR 0030 Proposed)** | 8d | C6c | Operation | MEASURED: 10,992.5 / 41,910 median (seeds 1-6: 10,954-11,012) | 3,368-3,414 | 44 / 553 | 26 / 112 | 43.755 (median seeds 1-6, range 42.14-46.38) | met at 40.000 ns at every seed; 20 ns (seed 1) met, +1.535 ns | KeyGen 6,344.1, Encrypt 7,654.6, Decrypt 3,109 (simulation, mean) | KeyGen 145.0 us, Encrypt 174.9 us at median Fmax (perhitungan tim) | not stated | `docs/evidence/phase08-keccak-stream/8d/selection_worksheet_2026-10-03.md`, `docs/decisions/0030-*.md` |
-| C7a | + Codec (9a): Compress / ByteEncode and ByteDecode / Decompress | `mlkem_pack`, `mlkem_unpack` (d = 1, 4, 10, 12), division-free Compress with constants proved on all 3,329 inputs; 256 coefficients and 32 d bytes per run | 9a | — | Block | MEASURED: 299.0 / 41,910 median (seeds 1-6: 298-299) | 192-193 | 0 / 553 | 2 / 112 | 105.630 (median seeds 1-6, range 100.46-110.38) | met at 40.000 ns at every seed; 20 ns (seed 1) met, +10.952 ns | pack 261 / 261 / 325 / 389 and unpack 259 / 259 / 323 / 387 cycles per polynomial for d = 1 / 4 / 10 / 12 (simulation, constant) | not stated | not stated | `docs/evidence/phase09-integration/9a/selection_worksheet_2026-10-03.md`, `docs/evidence/phase09-integration/9a/result_9a.md` |
-| C7b | + Hash wrapper and FO comparison (9b) | `mlkem_hash` (H, G, J on 64-bit words; C5 sponge) and `mlkem_fo_cmp` (136-beat constant-time compare, mask select of K' or K_bar) | 9b | C7a | Block | MEASURED: 6,734.5 / 41,910 median (seeds 1-6: 6,712-6,745); with the K0 sponge 4,221 (seed 1, information) | 1,976 | 0 / 553 | 0 / 112 | 50.625 (median seeds 1-6, range 47.84-52.07) | met at 40.000 ns at every seed; 20 ns (seed 1) met, +3.843 ns | G 30 / 33, H(ek) 282, J(z, c) 274 cycles (C5; K0 42 / 45 / 390 / 382), compare 137 (simulation, constant) | not stated | not stated | `docs/evidence/phase09-integration/9b/selection_worksheet_2026-10-03.md`, `docs/evidence/phase09-integration/9b/result_9b.md` |
-| C7-core | + ML-KEM-768 core in simulation (9c): KeyGen, Encaps, Decaps | `mlkem_core`: micro-program controller, buffers and register file, the K-PKE engine of 8d, the codec and the hash / FO blocks; FIPS 203 input checks on the HPS (ADR 0031); **all pinned ACVP vectors of ML-KEM-768 pass (keyGen 25, encapsulation 25, decapsulation 10)** on both simulators | 9c | C6d + C7a + C7b | Operation | MEASURED: 17,620.5 / 41,910 median (seeds 1-6: 17,608-17,636) | 8,210-8,365 | 54 / 553 | 28 / 112 | 49.280 (median seeds 1-6, range 47.64-51.74) | met at 40.000 ns at every seed; 20 ns (seed 1) met, +4.419 ns | KeyGen 9,035-9,076 (25 ACVP seeds), Encaps 10,691 (constant for one ek), Decaps 16,623 (constant for one ek: valid or rejected ciphertext, any secret key) (simulation) | KeyGen about 184 us, Encaps about 217 us, Decaps about 337 us at the median Fmax of the static timing, not a board measurement (perhitungan tim) | not stated | `docs/evidence/phase09-integration/9c/selection_worksheet_2026-10-03.md`, `docs/evidence/phase09-integration/9c/result_9c.md`, `docs/results/result_phase9.md` |
-| C6 | + Streaming | 8b / 8c / 8d: sub-rows C6b-W1, C6b-W2, C6c-STORE, C6c, C6d above (all measured 2026-10-03) | 8 | C5 + S1 | Operation | — | — | — | — | — | — | — | — | — | — |
-| C7 | Full integration | Complete KEM (C7-core in simulation; C7-soc on board) | 9, 10 | C6 | Operation / system | — | — | — | — | — | — | — | — | — | — |
+| C0 | Baseline | - (L = 1, memori sederhana) | 1 | - | Kernel | 7,010 / 41,910 | 3104 | 0 / 553 | 3 / 112 | 14.64 (Slow 100C) | -48.323 @ 20.000 ns (TIDAK terpenuhi) | NTT 897, INTT 1153 (simulasi) | tidak dinyatakan: timing tidak terpenuhi pada clock terbatas | tidak dinyatakan | `evidence/quartus/C0.md`, `evidence/phase01/quartus_C0_timing_analysis.md`, `evidence/phase01/cocotb_regression.txt` |
+| C1 | + Banking memori | banking M10K + pembangkit alamat | 2 | C0 | Kernel | 6,749 / 41,910 (-261 terhadap C0) | 3,105 | 0 / 553 (M10K NOT achieved, async-read limitation -- lihat evidence) | 3 / 112 | 14.99 (Slow 100C) | -46.720 @ 20.000 ns (TIDAK terpenuhi) | NTT 897, INTT 1153 (simulasi, identik dengan C0, 0 stall) | tidak dinyatakan: timing tidak terpenuhi pada clock terbatas | tidak dinyatakan | `evidence/quartus/C1.md`, `evidence/phase02/quartus_C1_vs_C0.md`, `evidence/phase02/cocotb_regression.txt` |
+| C2-L1 | + Multi-lane (L=1) | Datapath lajur dibangun ulang di atas memori multi-port (pemeriksaan paritas terhadap C0/C1) | 3 | C1 | Kernel | 6,018 / 41,910 | 3100 | 0 / 553 | 3 / 112 | 14.76 (Slow 100C) | -47.733 @ 20.000 ns (TIDAK terpenuhi) | NTT 897, INTT 1153 (simulasi, identik dengan C0/C1) | tidak dinyatakan: timing tidak terpenuhi pada clock terbatas | tidak dinyatakan | `evidence/quartus/C2-L1.md`, `evidence/phase03/cocotb_regression.txt` |
+| C2-L2 | + Multi-lane (L=2) | 2 butterfly/siklus | 3 | C1 | Kernel | 5,728 / 41,910 | 3098 | 0 / 553 | 5 / 112 | 13.54 (Slow 100C) | -54.644 @ 20.000 ns (TIDAK terpenuhi) | NTT 449, INTT 705 (simulasi) | tidak dinyatakan: timing tidak terpenuhi pada clock terbatas | tidak dinyatakan | `evidence/quartus/C2-L2.md`, `evidence/phase03/cocotb_regression.txt` |
+| C2-L4 | + Multi-lane (L=4) | 4 butterfly/siklus | 3 | C1 | Kernel | 7,629 / 41,910 | 3102 | 0 / 553 | 9 / 112 | 11.60 (Slow 100C) | -66.690 @ 20.000 ns (TIDAK terpenuhi) | NTT 225, INTT 481 (simulasi) | tidak dinyatakan: timing tidak terpenuhi pada clock terbatas | tidak dinyatakan | `evidence/quartus/C2-L4.md`, `evidence/phase03/cocotb_regression.txt` |
+| C2-L8 | + Multi-lane (L=8) | 8 butterfly/siklus | 3 | C1 | Kernel | 11,446 / 41,910 (melewati anggaran 10,478 ALM ADR 0004) | 3100 | 0 / 553 | 17 / 112 | 7.62 (Slow 100C) | -111.219 @ 20.000 ns (TIDAK terpenuhi) | NTT 113, INTT 369 (simulasi) | tidak dinyatakan: timing tidak terpenuhi pada clock terbatas | tidak dinyatakan | `evidence/quartus/C2-L8.md`, `evidence/phase03/cocotb_regression.txt` |
+| C2-K2-K1-L1 | + K2, K1 (L=1) | DUA perubahan terhadap C2-L1, pengecualian aturan satu-perubahan: ukuran t_q per L (K2) + satu pengali bersama per butterfly (K1); langkah satu-perubahan C2 -> C2-K2 diukur di `evidence/quartus/C2-L1-K2.md`. Tambahan, di luar lingkup Fase 3 yang tertulis | 3 | C2-L1 | Kernel | 5,566 / 41,910 | 3099 | 0 / 553 | 2 / 112 | 14.33 (Slow 100C) | -49.804 @ 20.000 ns (TIDAK terpenuhi) | NTT 897, INTT 1153 (simulasi, identik dengan C2-L1) | tidak dinyatakan: timing tidak terpenuhi pada clock terbatas | tidak dinyatakan | `evidence/quartus/C2-K2-K1-L1.md`, `evidence/phase03/k1_cocotb_regression.txt` |
+| C2-K2-K1-L2 | + K2, K1 (L=2) | DUA perubahan terhadap C2-L2, pengecualian aturan satu-perubahan: ukuran t_q per L (K2) + satu pengali bersama per butterfly (K1); langkah satu-perubahan C2 -> C2-K2 diukur di `evidence/quartus/C2-L2-K2.md`. Tambahan, di luar lingkup Fase 3 yang tertulis | 3 | C2-L2 | Kernel | 5,374 / 41,910 | 3095 | 0 / 553 | 3 / 112 | 12.63 (Slow 100C) | -59.148 @ 20.000 ns (TIDAK terpenuhi) | NTT 449, INTT 705 (simulasi, identik dengan C2-L2) | tidak dinyatakan: timing tidak terpenuhi pada clock terbatas | tidak dinyatakan | `evidence/quartus/C2-K2-K1-L2.md`, `evidence/phase03/k1_cocotb_regression.txt` |
+| C2-K2-K1-L4 | + K2, K1 (L=4) | DUA perubahan terhadap C2-L4, pengecualian aturan satu-perubahan: ukuran t_q per L (K2) + satu pengali bersama per butterfly (K1); langkah satu-perubahan C2 -> C2-K2 diukur di `evidence/quartus/C2-L4-K2.md`. Tambahan, di luar lingkup Fase 3 yang tertulis | 3 | C2-L4 | Kernel | 6,775 / 41,910 | 3098 | 0 / 553 | 5 / 112 | 10.89 (Slow 100C) | -71.868 @ 20.000 ns (TIDAK terpenuhi) | NTT 225, INTT 481 (simulasi, identik dengan C2-L4) | tidak dinyatakan: timing tidak terpenuhi pada clock terbatas | tidak dinyatakan | `evidence/quartus/C2-K2-K1-L4.md`, `evidence/phase03/k1_cocotb_regression.txt` |
+| C2-K2-K1-L8 | + K2, K1 (L=8) | DUA perubahan terhadap C2-L8, pengecualian aturan satu-perubahan: ukuran t_q per L (K2) + satu pengali bersama per butterfly (K1); langkah satu-perubahan C2 -> C2-K2 diukur di `evidence/quartus/C2-L8-K2.md`. Tambahan, di luar lingkup Fase 3 yang tertulis | 3 | C2-L8 | Kernel | 9,754 / 41,910 (terpilih, ADR 0005; dalam anggaran 10,478 ALM) | 3094 | 0 / 553 | 9 / 112 | 7.68 (Slow 100C) | -110.494 @ 20.000 ns (TIDAK terpenuhi) | NTT 113, INTT 369 (simulasi, identik dengan C2-L8) | tidak dinyatakan: timing tidak terpenuhi pada clock terbatas | tidak dinyatakan | `evidence/quartus/C2-K2-K1-L8.md`, `evidence/phase03/k1_cocotb_regression.txt` |
+| C3-P0 | + Pipeline (P=0, acuan) | C2-K2-K1-L8 yang dibekukan dikompilasi ulang pada 40.000 ns | 4 | C2-K2-K1-L8 (ADR 0005) | Kernel | 9,723 / 41,910 | 3097 | 0 / 553 | 9 / 112 | 7.65 (Slow 100C) | -90.653 @ 40.000 ns (TIDAK terpenuhi) | NTT 113, INTT 369 (simulasi) | tidak dinyatakan: Fmax kernel-only, tanpa papan | tidak dinyatakan | `evidence/phase04/quartus_C3-P0.md`, `evidence/phase04/cocotb_regression.txt` |
+| C3-P2 | + Pipeline (P=2) | Potongan A_13, D_3 | 4 | C2-K2-K1-L8 (ADR 0005) | Kernel | 9,696 / 41,910 | 3,817 | 16 / 553 (disimpulkan alat) | 9 / 112 | 24.77 (slow corner terendah) | -0.368 @ 40.000 ns (TIDAK terpenuhi) | NTT 115, INTT 371 (simulasi) | tidak dinyatakan: Fmax kernel-only, tanpa papan | tidak dinyatakan | `evidence/phase04/quartus_C3-P2.md`, `evidence/phase04/cocotb_regression.txt` |
+| C3-P4 | + Pipeline (P=4) | Potongan A_7, M, X, D_7 -- diusulkan ADR 0008 di bawah anggaran 25 % historis (tidak pernah diterima, digantikan ADR 0009); baseline integrasi untuk GHRD + C3-P4 (`evidence/phase04/ghrd_plus_c3p4_integration.md`) | 4 | C2-K2-K1-L8 (ADR 0005) | Kernel | 10,439 / 41,910 (seed 1–6: 10,439–10,503; dalam anggaran 30 % / 12,573 ADR 0009) | 4,145 | 26 / 553 (disimpulkan alat) | 9 / 112 | 31.98 (slow corner terendah) | +8.734 @ 40.000 ns (terpenuhi) | NTT 117, INTT 373 (simulasi) | tidak dinyatakan: Fmax kernel-only, tanpa papan | tidak dinyatakan | `evidence/phase04/quartus_C3-P4.md`, `evidence/phase04/cocotb_regression.txt` |
+| C3-P6 | + Pipeline (P=6) | Potongan A_4, A_11, M, X, D_5, D_11 -- TERPILIH (ADR 0009, 2026-10-01): L = 8, P = 6; integrasi dengan GHRD: `evidence/phase04/ghrd_plus_c3p6_integration.md` (12,375 ALM gabungan, NTT 40 ns terpenuhi, MEASURED) | 4 | C2-K2-K1-L8 (ADR 0005) | Kernel | 10,505 / 41,910 (seed 1–6: 10,484–10,516; melewati anggaran 25 % historis, dalam anggaran 30 % / 12,573 ADR 0009) | 4,168 | 29 / 553 (disimpulkan alat) | 9 / 112 | 34.19 (slow corner terendah) | +10.753 @ 40.000 ns (terpenuhi) | NTT 119, INTT 375 (simulasi) | tidak dinyatakan: Fmax kernel-only, tanpa papan | tidak dinyatakan | `evidence/phase04/quartus_C3-P6.md`, `evidence/phase04/cocotb_regression.txt` |
+| C4a | + Aritmetika 5a (reducer fold) | reduksi khusus q: 2^12 = 767 (mod q), fold penjumlahan geser + pemilihan; cuts A_4, A_11, M, X, F_3, F_5 (P = 6) | 5 | C3-P6 | Kernel | 9,847 / 41,910 | 4,109 | 29 / 553 (disimpulkan alat) | 9 / 112 | 33.73 (slow corner terendah) | +10.352 @ 40.000 ns (terpenuhi) | NTT 119, INTT 375 (simulasi) | tidak dinyatakan: Fmax kernel-only, tanpa papan | tidak dinyatakan | `evidence/phase05/5a/quartus_C4a.md`, `evidence/phase05/5a/summary_5a.md`, `evidence/phase05/5a/verify.txt` |
+| C4b-B | + Aritmetika 5b (Barrett) | reducer Barrett (k = 24, M = 5039), potongan X, S_1, S_2; dipilih aturan ADR 0011, ADR 0013 (sebelumnya Proposed, PENDING #23): ini konfigurasi C4 | 5 | C4a | Kernel | 9,208 / 41,910 (seed 1-6: 9,166-9,208; median 9,171) | 4,115 | 29 / 553 (disimpulkan alat) | 18 / 112 (C3-P6: 9) | 34.54 (seed 1; median over seed 1-6 34.515, range 33.46-34.84) | +11.044 @ 40.000 ns (terpenuhi di setiap seed) | NTT 119, INTT 375 (simulasi) | t_NTT 3.448 us, t_INTT 10.865 us pada Fmax median (perhitungan tim); kernel-only, tanpa papan | tidak dinyatakan | `evidence/phase05/5b/quartus_C4b-B.md` (+ `-s2..s6`), `evidence/phase05/5b/selection_worksheet.md`, `evidence/phase05/5b/verify.txt` |
+| C4b-M | + Aritmetika 5b (Montgomery, pembanding) | reducer Montgomery (R = 2^12), ROM twiddle bentuk Montgomery; tidak dipilih | 5 | C4a | Kernel | 9,249 / 41,910 (seed 1-6: 9,249-9,297; median 9,286.5) | 4,297 | 29 / 553 (disimpulkan alat) | 9 / 112 | 32.81 (seed 1; median 33.780, range 32.81-34.25) | +9.526 @ 40.000 ns (terpenuhi di setiap seed) | NTT 119, INTT 375 (simulasi) | tidak dinyatakan: Fmax kernel-only, tanpa papan | tidak dinyatakan | `evidence/phase05/5b/quartus_C4b-M.md` (+ `-s2..s6`), `evidence/phase05/5b/selection_worksheet.md` |
+| C4c | + Aritmetika 5c (masukan INTT malas) | masukan pengali INTT b + q - a di [1, 2q), operand sisi a + b di [0, 2q), direduksi sekali di keluaran (ADR 0014; D6 diubah hanya untuk eksperimen ini); TIDAK diadopsi (median Fmax 33.100 MHz, aturan butuh > 34.84; ADR 0012 tidak terpenuhi) | 5 | C4b-B | Kernel | 9,043 / 41,910 (seed 1-6: 9,032-9,094; median 9,059.5) | 4,076 | 29 / 553 (disimpulkan alat) | 18 / 112 | 32.98 (seed 1; median 33.100, range 32.27-35.26) | +9.682 @ 40.000 ns (terpenuhi di setiap seed) | NTT 119, INTT 375 (simulasi) | tidak dinyatakan: tidak diadopsi | tidak dinyatakan | `evidence/phase05/5c/quartus_C4c.md` (+ `-s2..s6`), `evidence/phase05/5c/selection_worksheet.md`, `evidence/phase05/5c/summary_5c.md` |
+| C4d | + Aritmetika 5d (base case ala Karatsuba) | Tidak dicoba di Fase 5 (diusulkan pindah ke Fase 6: `base_case_multiply.sv` bukan bagian inti C3-P6 / C4; ADR 0015) | 5 | C4b-B | Kernel | tidak dicoba | tidak dicoba | tidak dicoba | tidak dicoba | tidak dicoba | tidak dicoba | tidak dicoba | tidak dicoba | tidak dicoba | `docs/decisions/adr/ADR-0015-phase-5d-karatsuba-style-base-case-not-attempted-in-phase-5-.md` |
+| C4b-B-20 | Kompilasi informasi pada 20.000 ns (C4 akhir) | RTL sama dengan C4b-B; batasan 20.000 ns, seed bawaan; bukan gerbang (ADR 0010, ADR 0011 D1) | 5 | C3-P6-20 | Kernel | 9,305 / 41,910 | 4,272 | 29 / 553 (disimpulkan alat) | 18 / 112 | 44.33 (slow corner terendah) | -2.557 @ 20.000 ns (TIDAK terpenuhi) | NTT 119, INTT 375 (simulasi) | tidak dinyatakan: timing tidak terpenuhi pada clock terbatas | tidak dinyatakan | `evidence/phase05/closure/quartus_C4b-B-20.md`, `evidence/phase05/closure/info_20ns.md` |
+| C3-P6-20 | Kompilasi informasi pada 20.000 ns (acuan C3-P6) | RTL Fase 4 tidak berubah; batasan 20.000 ns, seed bawaan; bukan gerbang | 5 | C3-P6 | Kernel | 10,557 / 41,910 | 4,316 | 29 / 553 (disimpulkan alat) | 9 / 112 | 45.33 (slow corner terendah) | -2.059 @ 20.000 ns (TIDAK terpenuhi) | NTT 119, INTT 375 (simulasi) | tidak dinyatakan: timing tidak terpenuhi pada clock terbatas | tidak dinyatakan | `evidence/phase05/closure/quartus_C3-P6-20.md`, `evidence/phase05/closure/info_20ns.md` |
+| M6 | + Memori/jadwal S6 (INTT tanpa lintasan skala) | Pembagian dua di setiap layer INTT (3303 = 2^-7 mod q), ROM zeta/2, tanpa lintasan skala atau pengali; tidak diadopsi aturan (ADR 0012), basis S7/S8 atas keputusan tim (ADR 0020 Accepted) | 5M | C4b-B | Kernel | 9,394 / 41,910 (seed 1-6: 9,394-9,441; median 9,421.5) | 4,030-4,080 | 29 / 553 (disimpulkan alat) | 16 / 112 | 34.430 (median seed 1-6, rentang 32.35-35.04) | terpenuhi pada 40.000 ns di setiap seed | NTT 119, INTT 119 (simulasi) | t = 3.456 us pada Fmax median (perhitungan tim) | tidak dinyatakan | `evidence/phase05m/s6/selection_worksheet.md` |
+| S7 | + Memori/jadwal S7 (pembacaan memori terbelah, RD_SPLIT, P = 7) | Satu tahap register di dalam pembacaan memori (192 bit data + 64 bit pemilih); diadopsi aturan (ADR 0021, digantikan 0025) | 5M | M6 | Kernel | 9,394 / 41,910 (seed 1-6: 9,361-9,405; median 9,391.0) | 4,296-4,324 | 31 / 553 (disimpulkan alat) | 16 / 112 | 38.720 (median seed 1-6, rentang 37.89-40.29) | terpenuhi pada 40.000 ns di setiap seed | NTT 120, INTT 120 (simulasi) | t = 3.099 us pada Fmax median (perhitungan tim) | tidak dinyatakan | `evidence/phase05m/s7/selection_worksheet.md` |
+| S8 | + Memori/jadwal S8 (register jalur tulis, P = 8, satu bubble per arah) | Satu register pada keluaran butterfly, bubble setelah layer NTT 3 dan layer INTT 2; tidak diadopsi aturan (ADR 0023, digantikan 0025) | 5M | S7 | Kernel | 9,464 / 41,910 (seed 1-6: 9,402-9,471; median 9,443.5) | 4,130-4,144 | 33 / 553 (disimpulkan alat) | 16 / 112 | 37.990 (median seed 1-6, rentang 36.76-40.22) | terpenuhi pada 40.000 ns di setiap seed | NTT 122, INTT 122 (simulasi) | t = 3.211 us pada Fmax median (perhitungan tim) | tidak dinyatakan | `evidence/phase05m/s8/selection_worksheet.md` |
+| S8-20 | Kompilasi informasi pada 20.000 ns (S8) | RTL sama dengan S8, seed 1; bukan gerbang | 5M | C4b-B-20 | Kernel | 9,443 / 41,910 | 4,142 | 33 / 553 (disimpulkan alat) | 16 / 112 | 44.96 (slow corner terendah) | -2.242 @ 20.000 ns (TIDAK terpenuhi) | NTT 122, INTT 122 (simulasi) | tidak dinyatakan: timing tidak terpenuhi pada clock terbatas | tidak dinyatakan | `evidence/phase05m/s8/quartus_S8-20.md` |
+| S9 | Studi memori (M10K, pembacaan sinkron) | Hanya dokumentasi, tanpa RTL, tanpa Quartus: peta 16 bank 1R1W bebas konflik di seluruh jadwal; opsi A dibangun sebagai S10 (ADR 0022, digantikan 0025) | 5M | S7 | Studi | tidak diukur | tidak diukur | tidak diukur | tidak diukur | tidak diukur | tidak diukur | tidak berlaku | tidak berlaku | tidak dinyatakan | `evidence/phase05m/s9/study_m10k.md` |
+| S7-20 | Kompilasi informasi pada 20.000 ns (S7), seed 1-6 | RTL sama dengan S7 (pertanyaan 50 MHz, opsi 2) | 5M | S8-20 | Kernel | 9,355-9,383 / 41,910 | tidak dinyatakan | tidak dinyatakan | 16 / 112 | median 45.885 (44.58-46.76) | -1.388 sampai -2.431 @ 20.000 ns (TIDAK terpenuhi di seed mana pun) | NTT 120, INTT 120 (simulasi) | tidak dinyatakan: timing tidak terpenuhi | tidak dinyatakan | `evidence/phase05m/fmax50/path_analysis.md` |
+| S10 | + Memori: 16 bank 1R1W tanpa arbitrasi slot (P = 5) | Peta bank (a1^a2^a3^a4, a7, a6, a5), offset a[3:0], blok RAM, pemilih 16 arah; diadopsi aturan; inti NTT/INTT untuk fase berikutnya (ADR 0025 Accepted 2026-10-03) | 6 | S7 | Kernel | 5,091 / 41,910 (seed 1-6: 5,045-5,091; median 5,077.0) | 543-555 | 24 / 553 | 16 / 112 | 44.320 (median seed 1-6, rentang 42.34-46.65) | terpenuhi pada 40.000 ns di setiap seed | NTT 118, INTT 118 (simulasi) | t = 2.662 us pada Fmax median (perhitungan tim) | tidak dinyatakan | `evidence/phase06/s10/selection_worksheet.md` |
+| S10-20 | Kompilasi informasi pada 20.000 ns (S10), seed 1-6 | RTL sama dengan S10 | 6 | S7-20 | Kernel | lihat evidence | 543-555 (40 ns) | 24 / 553 | 16 / 112 | median 52.945 (52.06-54.70) | +0.792 sampai +1.718 @ 20.000 ns (terpenuhi di 6 dari 6 seed, kernel-only) | NTT 118, INTT 118 (simulasi) | tidak dinyatakan: kernel-only, tanpa papan | tidak dinyatakan | `evidence/phase06/s10/selection_worksheet.md` |
+| S1 / P6 | Penjadwalan NTT di tingkat operasi (Fase 6) | sequencer aritmetika K-PKE (program KeyGen, Encrypt, Decrypt), unit perkalian-akumulasi pointwise, 24 slot polinomial, inti S7; hitungan 6/0/9, 3/4/12, 3/1/3; 6b tidak dicoba | 6 | S7 | Kernel + penjadwal | 9,840 / 41,910 (seed 1) | 4,589 | 58 / 553 | 26 / 112 | 37.59 (seed 1) | +13.395 @ 40.000 ns (terpenuhi) | KeyGen 5,493, Encrypt 6,810, Decrypt 3,121 (simulasi; dengan S10: 5,475 / 6,789 / 3,109) | tidak dinyatakan: kernel-only | tidak dinyatakan | `evidence/phase06/quartus_P6.md`, `docs/results/phase06.md` |
+| P6S10 | Top Fase 6 dengan inti S10 (informasi) | Sequencer sama, inti S10; 40 ns dan 20 ns, seed 1 | 6 | S1 / P6 | Kernel + penjadwal | 5,553 / 41,910 (40 ns); 5,643 (20 ns) | 840 | 51 / 553 | 26 / 112 | 43.26 @ 40 ns; 51.60 @ 20 ns | +16.886 @ 40.000 ns; +0.619 @ 20.000 ns (terpenuhi) | KeyGen 5,475, Encrypt 6,789, Decrypt 3,109 (simulasi) | tidak dinyatakan: kernel-only | tidak dinyatakan | `evidence/phase06/quartus_P6S10-20.md` |
+| K0 | Baseline Keccak *(baris acuan)* | Keccak-f[1600] iteratif, 1 ronde/siklus (24 siklus sibuk); sponge SHA3-256, SHA3-512, SHAKE128, SHAKE256 (`keccak_sponge`) | 7 | - | Keccak | 3,572 / 41,910 (seed 1) | 1,653 | 0 / 553 | 0 / 112 | 56.99 (seed 1, terendah dari enam; median seed 1-6 67.675, rentang 56.99-70.39) | +22.452 @ 40.000 ns seed 1 (terpenuhi di setiap seed 1-6) | permutasi 24 siklus sibuk, 26 di sponge; H(ek) 1184 B 389 siklus (simulasi) | 0.456 us per permutasi pada 56,99 MHz (perhitungan tim) | tidak dinyatakan | `evidence/phase07/quartus_K0.md`, `docs/results/phase07.md` |
+| K0-20 | Kompilasi informasi pada 20.000 ns (K0) | RTL sama dengan K0, seed 1; bukan gerbang | 7 | K0 | Keccak | 3,573 / 41,910 | 1,653 | 0 / 553 | 0 / 112 | 76.30 (slow corner terendah) | +6.893 @ 20.000 ns (terpenuhi, kernel-only) | seperti K0 | tidak dinyatakan: kernel-only, tanpa papan | tidak dinyatakan | `evidence/phase07/quartus_K0-20.md` |
+| C5 | + Optimasi Keccak (8a) | 2 ronde/siklus (`keccak_f1600_r2`, `keccak_sponge_r2`): 12 siklus sibuk, 14 per permutasi di sponge; diadopsi aturan (ADR 0027) | 8a | K0 | Keccak | 6,167 / 41,910 median (seed 1-6: 6,152-6,169) | 1,652 | 0 / 553 | 0 / 112 | 50.655 (median seed 1-6, rentang 47.38-51.67) | terpenuhi pada 40.000 ns di setiap seed | permutasi 14 siklus di sponge (K0: 26); H(ek) 1184 B 281 siklus (K0: 389) (simulasi) | 0.2764 us per permutasi pada Fmax median (K0: 0.3842) (perhitungan tim) | tidak dinyatakan | `evidence/phase08/8a/selection_worksheet.md`, `docs/results/phase08.md` |
+| C5-20 | Kompilasi informasi pada 20.000 ns (C5) | RTL sama dengan C5, seed 1; bukan gerbang | 8a | K0-20 | Keccak | 6,178 / 41,910 | 1,652 | 0 / 553 | 0 / 112 | 64.90 (slow corner terendah) | +4.591 @ 20.000 ns (terpenuhi, kernel-only) | seperti C5 | tidak dinyatakan: kernel-only, tanpa papan | tidak dinyatakan | `evidence/phase08/8a/quartus_C5-20.md` |
+| C6b-W1 | + Sampler streaming, satu koefisien per siklus (8b tahap W1) | SampleNTT dan CBD2 langsung dari aliran word Keccak, tanpa penyimpanan antara sponge dan sampler (`rtl/sample/`, `OUTW` = 1); lolos gerbang 8b; tidak dipilih aturan 8b | 8b | C5 | Sampler + Keccak | MEASURED: 5,279.0 / 41,910 median (seed 1-6: 5,271-5,311) | 1,913 | 0 / 553 | 0 / 112 | 51.220 (median seed 1-6, rentang 50.10-55.79) | terpenuhi pada 40.000 ns di setiap seed | SampleNTT 305.23 siklus (rerata 500), CBD 280 (simulasi) | SampleNTT 5.959 us, CBD 5.467 us pada Fmax median (perhitungan tim) | tidak dinyatakan | `evidence/phase08/8b/selection_worksheet.md`, `docs/decisions/adr/ADR-0028-*.md` |
+| C6b-W2 | + Sampler streaming, dua koefisien per siklus (8b tahap W2) | File sama dengan `OUTW` = 2: satu triple per siklus, kolam 0-3 kandidat dengan satu koefisien terbawa; lolos gerbang; dipilih aturan atas W1 (ADR 0028) | 8b | C6b-W1 | Sampler + Keccak | MEASURED: 5,290.0 / 41,910 median (seed 1-6: 5,282-5,308) | 1,947 | 0 / 553 | 0 / 112 | 50.220 (median seed 1-6, rentang 48.46-53.42) | terpenuhi pada 40.000 ns di setiap seed | SampleNTT 206.48 siklus (= triple + 49 untuk 3 blok XOF, + 61 untuk 4), CBD 152 (simulasi) | SampleNTT 4.111 us, CBD 3.027 us pada Fmax median (perhitungan tim) | tidak dinyatakan | `evidence/phase08/8b/selection_worksheet.md`, `docs/decisions/adr/ADR-0028-*.md` |
+| C6c-STORE | Acuan untuk 8c: matriks A disampel ke 9 slot | `SMPA` ke slot 0-8, lalu lintasan PWM Fase 6; 24 slot; S10 core, W2 sampler, C5 sponge (`kpke_smp_top_s10`, `VAR` = 0) | 8c | C6b-W2 + P6S10 | Operasi | MEASURED: 10,958.0 / 41,910 median (seed 1-6: 10,941-10,969) | 3,342-3,378 | 55 / 553 | 26 / 112 | 42.270 (median seed 1-6, rentang 41.21-44.28) | terpenuhi pada 40.000 ns di setiap seed; 20 ns (seed 1) terpenuhi, +0.992 ns | KeyGen 8,268.1, Encrypt 9,727.6, Decrypt 3,109 (simulasi, rerata) | KeyGen 195.6 us, Encrypt 230.1 us pada Fmax median (perhitungan tim) | tidak dinyatakan | `evidence/phase08/8c/selection_worksheet.md` |
+| C6c | + Streaming 8c: matriks A tidak disimpan | `PWMS`: beat sampler mengisi unit PWM; operand b, word akumulator dan gamma dialamati satu beat lebih awal; 12 slot; diadopsi aturan (ADR 0029) | 8c | C6c-STORE | Operasi | MEASURED: 10,995.5 / 41,910 median (seed 1-6: 10,958-11,032) | 3,377-3,395 | 44 / 553 | 26 / 112 | 43.355 (median seed 1-6, rentang 40.37-45.66) | terpenuhi pada 40.000 ns di setiap seed; 20 ns (seed 1) terpenuhi, +1.783 ns | KeyGen 7,089.1, Encrypt 8,548.6, Decrypt 3,109 (simulasi, rerata) | KeyGen 163.5 us, Encrypt 197.2 us pada Fmax median (perhitungan tim) | tidak dinyatakan | `evidence/phase08/8c/selection_worksheet.md`, `docs/decisions/adr/ADR-0029-*.md` |
+| C6d | + Streaming 8d: sampling ditumpangkan dengan transformasi | `SMPN` tanpa blokir, `WAIT`, arbitrasi port penyimpanan (sequencer lebih dulu); 5 dari 6 (KeyGen) dan 6 dari 7 (Encrypt) polinomial noise tersembunyi; diadopsi aturan (ADR 0030) | 8d | C6c | Operasi | MEASURED: 10,992.5 / 41,910 median (seed 1-6: 10,954-11,012) | 3,368-3,414 | 44 / 553 | 26 / 112 | 43.755 (median seed 1-6, rentang 42.14-46.38) | terpenuhi pada 40.000 ns di setiap seed; 20 ns (seed 1) terpenuhi, +1.535 ns | KeyGen 6,344.1, Encrypt 7,654.6, Decrypt 3,109 (simulasi, rerata) | KeyGen 145.0 us, Encrypt 174.9 us pada Fmax median (perhitungan tim) | tidak dinyatakan | `evidence/phase08/8d/selection_worksheet.md`, `docs/decisions/adr/ADR-0030-*.md` |
+| C7a | + Codec (9a): Compress / ByteEncode dan ByteDecode / Decompress | `mlkem_pack`, `mlkem_unpack` (d = 1, 4, 10, 12), Compress tanpa pembagian dengan konstanta dibuktikan pada semua 3.329 masukan; 256 koefisien dan 32·d byte per run | 9a | - | Blok | MEASURED: 299.0 / 41,910 median (seed 1-6: 298-299) | 192-193 | 0 / 553 | 2 / 112 | 105.630 (median seed 1-6, rentang 100.46-110.38) | terpenuhi pada 40.000 ns di setiap seed; 20 ns (seed 1) terpenuhi, +10.952 ns | pack 261 / 261 / 325 / 389 dan unpack 259 / 259 / 323 / 387 siklus per polinomial untuk d = 1 / 4 / 10 / 12 (simulasi, konstan) | tidak dinyatakan | tidak dinyatakan | `evidence/phase09/9a/selection_worksheet.md`, `evidence/phase09/9a/result_9a.md` |
+| C7b | + Pembungkus hash dan pembanding FO (9b) | `mlkem_hash` (H, G, J pada word 64 bit; sponge C5) dan `mlkem_fo_cmp` (pembanding waktu konstan 136 beat, pemilihan mask K' atau K_bar) | 9b | C7a | Blok | MEASURED: 6,734.5 / 41,910 median (seed 1-6: 6,712-6,745); dengan sponge K0 4,221 (seed 1, informasi) | 1,976 | 0 / 553 | 0 / 112 | 50.625 (median seed 1-6, rentang 47.84-52.07) | terpenuhi pada 40.000 ns di setiap seed; 20 ns (seed 1) terpenuhi, +3.843 ns | G 30 / 33, H(ek) 282, J(z, c) 274 siklus (C5; K0 42 / 45 / 390 / 382), pembanding 137 (simulasi, konstan) | tidak dinyatakan | tidak dinyatakan | `evidence/phase09/9b/selection_worksheet.md`, `evidence/phase09/9b/result_9b.md` |
+| C7-core | + Inti ML-KEM-768 di simulasi (9c): KeyGen, Encaps, Decaps | `mlkem_core`: pengendali micro-program, buffer dan register file, mesin K-PKE 8d, codec dan blok hash / FO; pemeriksaan masukan FIPS 203 di HPS (ADR 0031); semua vektor ACVP terpatok ML-KEM-768 lolos (keyGen 25, enkapsulasi 25, dekapsulasi 10) di kedua simulator | 9c | C6d + C7a + C7b | Operasi | MEASURED: 17,620.5 / 41,910 median (seed 1-6: 17,608-17,636) | 8,210-8,365 | 54 / 553 | 28 / 112 | 49.280 (median seed 1-6, rentang 47.64-51.74) | terpenuhi pada 40.000 ns di setiap seed; 20 ns (seed 1) terpenuhi, +4.419 ns | KeyGen 9,035-9,076 (25 seed ACVP), Encaps 10,691 (konstan untuk satu ek), Decaps 16,623 (konstan untuk satu ek: ciphertext valid atau ditolak, kunci rahasia apa pun) (simulasi) | KeyGen sekitar 184 us, Encaps sekitar 217 us, Decaps sekitar 337 us pada Fmax median timing statis, bukan pengukuran papan (perhitungan tim) | tidak dinyatakan | `evidence/phase09/9c/selection_worksheet.md`, `evidence/phase09/9c/result_9c.md`, `docs/results/phase09.md` |
+| C6 | + Streaming | 8b / 8c / 8d: sub-baris C6b-W1, C6b-W2, C6c-STORE, C6c, C6d di atas (semua diukur 2026-10-03) | 8 | C5 + S1 | Operasi | - | - | - | - | - | - | - | - | - | - |
+| C7 | Integrasi penuh | KEM lengkap (C7-core di simulasi; C7-soc di papan) | 9, 10 | C6 | Operasi / sistem | - | - | - | - | - | - | - | - | - | - |
 
-Rows S1 and K0 are reference points added so that C5 and C6 each still differ by one change. Cycles/op:
-kernel rows report cycles per NTT, INTT and pointwise product; Keccak rows report cycles per permutation
-and per hash call; operation rows report cycles per KeyGen, Encaps and Decaps. Latency uses the
-constrained clock that met timing. The final measured copy of this matrix goes into
-`docs/evidence/phase11-benchmark/ablation_matrix.md`.
+Baris S1 dan K0 adalah titik acuan yang ditambahkan agar C5 dan C6 tetap berbeda satu perubahan. Siklus/op:
+baris kernel melaporkan siklus per NTT, INTT dan perkalian titik; baris Keccak melaporkan siklus per permutasi
+dan per panggilan hash; baris operasi melaporkan siklus per KeyGen, Encaps dan Decaps. Latensi memakai
+clock terbatas yang memenuhi timing. Salinan akhir matriks ini yang terukur masuk ke
+`evidence/phase11-benchmark/ablation_matrix.md`.
 
-## Proposal pages (cover and references not counted; limit 6 pages)
-- Pages 1-3: Sections 1-2 (written).
-- Pages 4-6: Section 3 "Proposed Chip Design" (block diagram, RTL module list, resource table, tools,
-  test plan, success metrics). **Not written yet.** Resource cells stay `ESTIMATE` or `[...]` until the
-  corresponding phase produces Quartus evidence (kernel values from Phase 1 onward, full-core values from
-  Phase 9, system values from Phase 10); every number cites its evidence file.
-- Template error to avoid: it lists 415,000 flip-flops, while Intel's table says 166,036.
+## Halaman proposal (sampul dan referensi tidak dihitung; batas 6 halaman)
+- Halaman 1-3: Bagian 1-2 (sudah ditulis).
+- Halaman 4-6: Bagian 3 "Proposed Chip Design" (diagram blok, daftar modul RTL, tabel sumber daya, alat,
+  test plan, metrik keberhasilan). Belum ditulis. Sel sumber daya tetap `ESTIMATE` atau `[...]` sampai
+  fase terkait menghasilkan evidence Quartus (nilai kernel mulai Fase 1, nilai inti penuh mulai Fase 9,
+  nilai sistem mulai Fase 10); setiap angka menyebut file evidence-nya.
+- Kesalahan templat yang harus dihindari: templat menyebut 415.000 flip-flop, sedangkan tabel Intel menyebut 166.036.

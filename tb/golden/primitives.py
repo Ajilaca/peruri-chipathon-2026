@@ -8,7 +8,7 @@ function wrappers (Section 4.1).
 
 Each function is transcribed algorithm-by-algorithm from the FIPS 203 final
 PDF (SHA-256 fe1f12f32a7e44ec9fdebbf400cda843a40b506dee676725234dc6f7923b6cac,
-accessed 2026-09-28 UTC; see docs/evidence/golden/fips203_errata_2026-09-28.md).
+accessed 2026-09-28 UTC; see evidence/phase00/fips203_errata.md).
 It is independent of any RTL and is the reference against which RTL blocks
 are compared block-by-block (mlkem-guard SKILL.md, "Verification process").
 
@@ -237,8 +237,8 @@ def _bitrev7(r: int) -> int:
 
 
 # zeta^BitRev7(i) mod q for i = 0..127 (i=0 gives zeta^0 = 1; Appendix A
-# includes this entry too — see errata item #1 in
-# docs/evidence/golden/fips203_errata_2026-09-28.md — computed here directly
+# includes this entry too - see errata item #1 in
+# evidence/phase00/fips203_errata.md - computed here directly
 # from the BitRev7 formula, not copied from the Appendix A table).
 _ZETA_BITREV = [pow(ZETA, _bitrev7(i), Q) for i in range(128)]
 

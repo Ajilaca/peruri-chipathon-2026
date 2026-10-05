@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/ntt/ntt_core_s10.sv
-// S10 (docs/evidence/phase06-scheduling/test_plan_s10.md, ADR 0024): rtl/ntt/ntt_core_s7.sv with the memory replaced by rtl/mem/poly_mem_m10k.sv (16 banks x 1R1W, no slot
+// S10 (evidence/phase06/test_plan_s10.md, ADR 0024): rtl/ntt/ntt_core_s7.sv with the memory replaced by rtl/mem/poly_mem_m10k.sv (16 banks x 1R1W, no slot
 // arbitration). Schedule, address arithmetic, zeta index, layer order, drain, host interface and reset are the S7 text; RdLat = RD_LAT (read data after RD_LAT cycles, physical
 // read in the request cycle), so Pipe = RD_LAT + WrDly and the cycle counts are 113 + Pipe (118 at RD_LAT = 2, three multiplier cuts).
 //

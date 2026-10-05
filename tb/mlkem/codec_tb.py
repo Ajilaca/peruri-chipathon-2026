@@ -1,4 +1,4 @@
-"""tb/mlkem/codec_tb.py -- shared helpers of the Phase 9a codec tests (docs/evidence/phase09-integration/9a/test_plan_9a.md).
+"""tb/mlkem/codec_tb.py -- shared helpers of the Phase 9a codec tests (evidence/phase09/9a/test_plan_9a.md).
 
 Cycle model of the drivers (as Phase 8b): inputs are written at the falling edge, the combinational outputs are read 1 ns later, and the values read are the ones the next rising edge samples.
 Toplevel: rtl/mlkem/mlkem_codec_top.sv (packer p_*, unpacker u_*, side by side), or with CT_W=2 rtl/mlkem/mlkem_codec2_top.sv (Phase 9M, two bytes per beat, byte 2i in bits 7:0; test_plan_9m1.md V2).

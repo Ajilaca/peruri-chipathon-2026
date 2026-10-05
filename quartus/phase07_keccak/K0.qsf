@@ -1,4 +1,4 @@
-# quartus/phase07_keccak/K0.qsf -- Phase 7 K0 (docs/evidence/phase07-keccak/test_plan.md V10): keccak_sponge (iterative Keccak-f[1600], one round per cycle, SHA3/SHAKE sponge),
+# quartus/phase07_keccak/K0.qsf -- Phase 7 K0 (evidence/phase07/test_plan.md V10): keccak_sponge (iterative Keccak-f[1600], one round per cycle, SHA3/SHAKE sponge),
 # kernel-only compile (virtual pins, as Phases 1-6), 40.000 ns (K.sdc), Quartus defaults, seed 1.
 set_global_assignment -name FAMILY "Cyclone V"
 set_global_assignment -name DEVICE 5CSEBA6U23I7

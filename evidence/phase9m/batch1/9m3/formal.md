@@ -1,0 +1,12 @@
+# Phase 9M-3 formal run (V5), `formal/run/run_formal_phase9m3.py hash`, 2026-10-04
+
+MEASURED with SymbiYosys (yosys-slang, boolector). The Phase 9b hash wrapper properties H1-H5 for `mlkem_hash` with `CORE_R2 = 0` (K0 sponge instance), the sponge replaced by the protocol stub `keccak_sponge_stub.sv` (the 9b stub of the C5 sponge under the K0 name, same ports and protocol). INFERENCE: that the real K0 sponge follows the stub protocol is supported by the Phase 7 proofs and by the ACVP and hash simulations of V2 (digests are compared with hashlib in 9b, K0 variant `hash0`). Control and result properties only. Work directory `formal/work/phase9m3/` (git-ignored).
+
+| Group | Proof | Expected | Result | Engine detail | Time (s) | As expected |
+|---|---|---|---|---|---|---|
+| C Reachability | mlkem_hash (K0 stub): a digest word after 3 accepted words and done_o for H, G and J are reachable (the proof is not vacuous) | PASS | PASS | bmc=pass | 1.6 | yes |
+| A Phase 9M-3 | mlkem_hash with the K0 stub (H1 digest word count, H2 done, H3 held word, H4 idle, H5 sponge idle after the last word) | PASS | PASS | basecase=pass, induction=pass | 5.6 | yes |
+| B Negative control | NC-H1: G stops after 4 digest words (H1 last word) | FAIL | FAIL | basecase=FAIL; failed assert mlkem_hash_k0_formal_top.sv:104 | 0.9 | yes |
+| B Negative control | NC-H5: J never stops the squeeze (H5 sponge idle) | FAIL | FAIL | basecase=FAIL; failed assert mlkem_hash_k0_formal_top.sv:91 | 0.7 | yes |
+
+ALL AS EXPECTED

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# CHIP 2026 — GitHub setup for the PUBLIC repository (safe first commit and push)
+# CHIP 2026 - GitHub setup for the PUBLIC repository (safe first commit and push)
 # =============================================================================
 # Usage (from anywhere; it locates the repository root itself):
 #   scripts/setup_github.sh check     # read-only report (default)

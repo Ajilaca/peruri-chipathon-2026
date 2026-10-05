@@ -1,14 +1,14 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/ntt/ntt_core_c2.sv
-// Phase 3 (docs/ROADMAP.md Phase 3, docs/evidence/phase03-multilane/test_plan.md): multi-lane
+// Phase 3 (docs/ROADMAP.md Phase 3, evidence/phase03/test_plan.md): multi-lane
 // NTT/INTT, config C2, NUM_LANES in {1,2,4,8} (`L` in the roadmap). NUM_LANES butterflies run
 // concurrently per cycle, against rtl/mem/poly_mem_multiport.sv #(.NUM_LANES(NUM_LANES)).
 //
 // Per-cycle lane assignment: lane `l` processes butterfly index
 // `p_lane = l*(128/NUM_LANES) + t_q` (the contiguous-block grouping
 // `tb/mem/bank_model.py:lane_p`, proven conflict-free and full-coverage for every
-// NUM_LANES/layer/direction, docs/evidence/phase03-multilane/lane_schedule_verification_2026-09-29.txt).
+// NUM_LANES/layer/direction, evidence/phase03/lane_schedule_verification.txt).
 // `t_q` (0..128/NUM_LANES-1) replaces C0/C1's single `p_q` (0..127).
 //
 // Unlike C0/C1, there is NO shared sequential zeta-index register: each lane computes its own
@@ -25,7 +25,7 @@
 // pass (single address per cycle, NOT lane-parallelized this phase -- out of the "butterfly,
 // arithmetic and memory as in Phase 2" scope), the host load/read interface -- is unchanged from
 // rtl/ntt/ntt_core.sv (C0). At NUM_LANES=1 this module is expected to be cycle-identical to
-// C0/C1 (897 NTT / 1153 INTT cycles, docs/evidence/phase01-ntt-baseline/) since
+// C0/C1 (897 NTT / 1153 INTT cycles, evidence/phase01/) since
 // 128/1-1 == 127 reproduces the same t/p sequence; cocotb checks this as a regression anchor,
 // not merely assumes it.
 //

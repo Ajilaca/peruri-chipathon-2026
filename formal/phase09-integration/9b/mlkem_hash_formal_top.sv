@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // formal/phase09-integration/9b/mlkem_hash_formal_top.sv
-// Phase 9b test V8 (docs/evidence/phase09-integration/9b/test_plan_9b.md): control properties of rtl/mlkem/mlkem_hash.sv (C5 sponge inside) with free inputs (any start, sel, len, valid, data, ready).
+// Phase 9b test V8 (evidence/phase09/9b/test_plan_9b.md): control properties of rtl/mlkem/mlkem_hash.sv (C5 sponge inside) with free inputs (any start, sel, len, valid, data, ready).
 //   H1  at most 4 / 8 / 4 digest words accepted per run (H / G / J); out_last_o exactly on the last of them
 //   H2  done_o only after exactly that many words were accepted; one pulse; only when not busy
 //   H3  an unaccepted digest word is held: out_valid_o, out_data_o and out_last_o stay stable until out_ready_i

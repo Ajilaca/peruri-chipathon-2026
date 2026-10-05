@@ -1,0 +1,131 @@
+Phase 4 (C3, pipeline sweep) -- simulation evidence for test plan V1, V3, V4, V5, V6, V7, V8
+Generated: 2026-09-30 15:38 UTC; branch phase4-pipeline, on top of c2cc16c (RTL and tests of this run are in the commit that adds this file)
+Simulation only. Nothing here is a hardware result.
+Tools: Verilator 5.053 devel rev v5.052-183-g39e2d8e85 (mod); Icarus Verilog version 14.0 (devel) (s20260301-478-g3c8a8a9a1-dirty); cocotb 2.1.0; slang version 11.0.448+e222e7dc0
+
+== V1 lint / elaboration ==
+verilator --lint-only -Wall <C3 sources> rtl/ntt/ntt_core_c3_p2.sv --top-module ntt_core_c3_p2 : 0 warnings/errors
+slang <C3 sources> rtl/ntt/ntt_core_c3_p2.sv --top ntt_core_c3_p2 : Build succeeded: 0 errors, 0 warnings
+verilator --lint-only -Wall <C3 sources> rtl/ntt/ntt_core_c3_p4.sv --top-module ntt_core_c3_p4 : 0 warnings/errors
+slang <C3 sources> rtl/ntt/ntt_core_c3_p4.sv --top ntt_core_c3_p4 : Build succeeded: 0 errors, 0 warnings
+verilator --lint-only -Wall <C3 sources> rtl/ntt/ntt_core_c3_p6.sv --top-module ntt_core_c3_p6 : 0 warnings/errors
+slang <C3 sources> rtl/ntt/ntt_core_c3_p6.sv --top ntt_core_c3_p6 : Build succeeded: 0 errors, 0 warnings
+verilator --lint-only -Wall <C3 sources> --top-module ntt_core_c3 (defaults, no registers) : 0 warnings/errors
+C3 sources = rtl/ntt/ntt_pkg.sv rtl/ntt/twiddle_rom.sv rtl/mem/bank_map_rom.sv rtl/ntt/pipe_delay.sv rtl/ntt/modmul_reduce_staged.sv rtl/ntt/butterfly_shared_pipe.sv rtl/mem/poly_mem_multiport_pipe.sv rtl/ntt/ntt_core_c3.sv
+Comment lines starting with the word "synthesis" in the new RTL (Quartus pragma trap): 0
+Note: standalone lint of the leaf modules (pipe_delay, modmul_reduce_staged, butterfly_shared_pipe, poly_mem_multiport_pipe) reports only UNUSEDPARAM for ntt_pkg constants that the leaf does not use.
+
+== V2 (corners, latency), V3, V4 unit tests: python3 tb/ntt/run_p4_unit_tests.py verilator ==
+[verilator] modmul_reduce_staged REG_AFTER=0 (P=-): 2/2 PASS
+[verilator] modmul_reduce_staged REG_AFTER=8 (P=2): 2/2 PASS
+[verilator] modmul_reduce_staged REG_AFTER=129 (P=4): 2/2 PASS
+[verilator] modmul_reduce_staged REG_AFTER=2081 (P=6): 2/2 PASS
+[verilator] butterfly_shared_pipe MUL_REG=0 (P=-): 2/2 PASS
+[verilator] butterfly_shared_pipe MUL_REG=8 (P=2): 2/2 PASS
+[verilator] butterfly_shared_pipe MUL_REG=129 (P=4): 2/2 PASS
+[verilator] butterfly_shared_pipe MUL_REG=2081 (P=6): 2/2 PASS
+[verilator] poly_mem_multiport_pipe ARB_REG=0x0 WR_DELAY=0 (P=-): 4/4 PASS
+[verilator] poly_mem_multiport_pipe ARB_REG=0x2000 WR_DELAY=1 (P=2): 4/4 PASS
+[verilator] poly_mem_multiport_pipe ARB_REG=0x10080 WR_DELAY=2 (P=4): 4/4 PASS
+[verilator] poly_mem_multiport_pipe ARB_REG=0x10810 WR_DELAY=3 (P=6): 4/4 PASS
+[verilator] TOTAL: 32/32 passed
+
+== V5, V6, V7, V8 core tests: python3 tb/ntt/run_ntt_c3_tests.py verilator ==
+[verilator] p2 (ntt_core_c3_p2): 5/5 PASS  {'P': 2, 'RDLAT': 1, 'WRDLY': 1, 'cycles_NTT': 115, 'cycles_INTT': 371, 'stall_NTT': 0, 'stall_INTT': 0}
+[verilator] p4 (ntt_core_c3_p4): 5/5 PASS  {'P': 4, 'RDLAT': 2, 'WRDLY': 2, 'cycles_NTT': 117, 'cycles_INTT': 373, 'stall_NTT': 0, 'stall_INTT': 0}
+[verilator] p6 (ntt_core_c3_p6): 5/5 PASS  {'P': 6, 'RDLAT': 3, 'WRDLY': 3, 'cycles_NTT': 119, 'cycles_INTT': 375, 'stall_NTT': 0, 'stall_INTT': 0}
+[verilator] negctl (ntt_core_c3): 1/1 PASS  {'negctl_P': 8, 'violations_NTT': 640, 'wrong_NTT': 5, 'violations_INTT': 640, 'wrong_INTT': 5}
+[verilator] TOTAL: 16/16 passed
+per-test status lines from the simulator log:
+** test_ntt_core_c3.test_ntt_bit_exact                PASS
+** test_ntt_core_c3.test_intt_bit_exact               PASS
+** test_ntt_core_c3.test_ntt_intt_roundtrip           PASS
+** test_ntt_core_c3.test_boundary_directed            PASS
+** test_ntt_core_c3.test_cycle_count_constant         PASS
+** test_ntt_core_c3.test_negative_control_must_fail   SKIP           0.00           0.00          -.--  **
+** test_ntt_core_c3.test_ntt_bit_exact                PASS
+** test_ntt_core_c3.test_intt_bit_exact               PASS
+** test_ntt_core_c3.test_ntt_intt_roundtrip           PASS
+** test_ntt_core_c3.test_boundary_directed            PASS
+** test_ntt_core_c3.test_cycle_count_constant         PASS
+** test_ntt_core_c3.test_negative_control_must_fail   SKIP           0.00           0.00          -.--  **
+** test_ntt_core_c3.test_ntt_bit_exact                PASS
+** test_ntt_core_c3.test_intt_bit_exact               PASS
+** test_ntt_core_c3.test_ntt_intt_roundtrip           PASS
+** test_ntt_core_c3.test_boundary_directed            PASS
+** test_ntt_core_c3.test_cycle_count_constant         PASS
+** test_ntt_core_c3.test_negative_control_must_fail   SKIP           0.00           0.00          -.--  **
+** test_ntt_core_c3.test_ntt_bit_exact                SKIP           0.00           0.00          -.--  **
+** test_ntt_core_c3.test_intt_bit_exact               SKIP           0.00           0.00          -.--  **
+** test_ntt_core_c3.test_ntt_intt_roundtrip           SKIP           0.00           0.00          -.--  **
+** test_ntt_core_c3.test_boundary_directed            SKIP           0.00           0.00          -.--  **
+** test_ntt_core_c3.test_cycle_count_constant         SKIP           0.00           0.00          -.--  **
+** test_ntt_core_c3.test_negative_control_must_fail   PASS
+P=2 cycles: NTT=115 INTT=371 stall vs plan: {'NTT': 0, 'INTT': 0}
+P=4 cycles: NTT=117 INTT=373 stall vs plan: {'NTT': 0, 'INTT': 0}
+P=6 cycles: NTT=119 INTT=375 stall vs plan: {'NTT': 0, 'INTT': 0}
+negative control P=8: (violations, wrong results of 5) = {'NTT': (640, 5), 'INTT': (640, 5)}; first violation: ('read-issued-before-write-landed', 329, 8, 329)
+
+== V2 (corners, latency), V3, V4 unit tests: python3 tb/ntt/run_p4_unit_tests.py icarus ==
+[icarus] modmul_reduce_staged REG_AFTER=0 (P=-): 2/2 PASS
+[icarus] modmul_reduce_staged REG_AFTER=8 (P=2): 2/2 PASS
+[icarus] modmul_reduce_staged REG_AFTER=129 (P=4): 2/2 PASS
+[icarus] modmul_reduce_staged REG_AFTER=2081 (P=6): 2/2 PASS
+[icarus] butterfly_shared_pipe MUL_REG=0 (P=-): 2/2 PASS
+[icarus] butterfly_shared_pipe MUL_REG=8 (P=2): 2/2 PASS
+[icarus] butterfly_shared_pipe MUL_REG=129 (P=4): 2/2 PASS
+[icarus] butterfly_shared_pipe MUL_REG=2081 (P=6): 2/2 PASS
+[icarus] poly_mem_multiport_pipe ARB_REG=0x0 WR_DELAY=0 (P=-): 4/4 PASS
+[icarus] poly_mem_multiport_pipe ARB_REG=0x2000 WR_DELAY=1 (P=2): 4/4 PASS
+[icarus] poly_mem_multiport_pipe ARB_REG=0x10080 WR_DELAY=2 (P=4): 4/4 PASS
+[icarus] poly_mem_multiport_pipe ARB_REG=0x10810 WR_DELAY=3 (P=6): 4/4 PASS
+[icarus] TOTAL: 32/32 passed
+
+== V5, V6, V7, V8 core tests: python3 tb/ntt/run_ntt_c3_tests.py icarus ==
+[icarus] p2 (ntt_core_c3_p2): 5/5 PASS  {'P': 2, 'RDLAT': 1, 'WRDLY': 1, 'cycles_NTT': 115, 'cycles_INTT': 371, 'stall_NTT': 0, 'stall_INTT': 0}
+[icarus] p4 (ntt_core_c3_p4): 5/5 PASS  {'P': 4, 'RDLAT': 2, 'WRDLY': 2, 'cycles_NTT': 117, 'cycles_INTT': 373, 'stall_NTT': 0, 'stall_INTT': 0}
+[icarus] p6 (ntt_core_c3_p6): 5/5 PASS  {'P': 6, 'RDLAT': 3, 'WRDLY': 3, 'cycles_NTT': 119, 'cycles_INTT': 375, 'stall_NTT': 0, 'stall_INTT': 0}
+[icarus] negctl (ntt_core_c3): 1/1 PASS  {'negctl_P': 8, 'violations_NTT': 640, 'wrong_NTT': 5, 'violations_INTT': 640, 'wrong_INTT': 5}
+[icarus] TOTAL: 16/16 passed
+per-test status lines from the simulator log:
+** test_ntt_core_c3.test_ntt_bit_exact                PASS
+** test_ntt_core_c3.test_intt_bit_exact               PASS
+** test_ntt_core_c3.test_ntt_intt_roundtrip           PASS
+** test_ntt_core_c3.test_boundary_directed            PASS
+** test_ntt_core_c3.test_cycle_count_constant         PASS
+** test_ntt_core_c3.test_negative_control_must_fail   SKIP           0.00           0.00          -.--  **
+** test_ntt_core_c3.test_ntt_bit_exact                PASS
+** test_ntt_core_c3.test_intt_bit_exact               PASS
+** test_ntt_core_c3.test_ntt_intt_roundtrip           PASS
+** test_ntt_core_c3.test_boundary_directed            PASS
+** test_ntt_core_c3.test_cycle_count_constant         PASS
+** test_ntt_core_c3.test_negative_control_must_fail   SKIP           0.00           0.00          -.--  **
+** test_ntt_core_c3.test_ntt_bit_exact                PASS
+** test_ntt_core_c3.test_intt_bit_exact               PASS
+** test_ntt_core_c3.test_ntt_intt_roundtrip           PASS
+** test_ntt_core_c3.test_boundary_directed            PASS
+** test_ntt_core_c3.test_cycle_count_constant         PASS
+** test_ntt_core_c3.test_negative_control_must_fail   SKIP           0.00           0.00          -.--  **
+** test_ntt_core_c3.test_ntt_bit_exact                SKIP           0.00           0.00          -.--  **
+** test_ntt_core_c3.test_intt_bit_exact               SKIP           0.00           0.00          -.--  **
+** test_ntt_core_c3.test_ntt_intt_roundtrip           SKIP           0.00           0.00          -.--  **
+** test_ntt_core_c3.test_boundary_directed            SKIP           0.00           0.00          -.--  **
+** test_ntt_core_c3.test_cycle_count_constant         SKIP           0.00           0.00          -.--  **
+** test_ntt_core_c3.test_negative_control_must_fail   PASS
+P=2 cycles: NTT=115 INTT=371 stall vs plan: {'NTT': 0, 'INTT': 0}
+P=4 cycles: NTT=117 INTT=373 stall vs plan: {'NTT': 0, 'INTT': 0}
+P=6 cycles: NTT=119 INTT=375 stall vs plan: {'NTT': 0, 'INTT': 0}
+negative control P=8: (violations, wrong results of 5) = {'NTT': (640, 5), 'INTT': (640, 5)}; first violation: ('read-issued-before-write-landed', 329, 8, 329)
+
+== Reading the results ==
+- Each of p2/p4/p6 runs 5 tests on the Quartus wrapper rtl/ntt/ntt_core_c3_p<P>.sv: NTT bit-exact (5 corner + 100 random
+  polynomials), INTT bit-exact (same), intt(ntt(f)) round trip (50 random), boundary-directed data (V7), constant cycle
+  count (5 corner + 20 random per direction). bank_overflow_o is sampled every cycle of load, run and read-back (V8). The
+  hazard scoreboard (V7) runs in all five and must report 0 violations and must have seen requests.
+- Cycle counts (busy_o first high -> done_o), identical on both simulators: P=2: 115 / 371, P=4: 117 / 373, P=6: 119 / 375
+  (NTT / INTT) = 113 + P / 369 + P; stall cycles 0. P=0 reference (frozen C2-K2-K1, L=8): 113 / 369, see
+  regression.txt.
+- Negative control (V7): rtl/ntt/ntt_core_c3.sv elaborated with MUL_REG = 0xFF, ARB_REG = 0 (8 register stages between read
+  and write, P = 8, beyond the schedule's slack of 7). Test-only, not compiled in Quartus, not a candidate. The test passes
+  only if the scoreboard trips AND all 5 results per direction differ from the golden model; both happened on both
+  simulators, so the scoreboard and the bit-exact check do detect a stale read.

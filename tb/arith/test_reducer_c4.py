@@ -1,4 +1,4 @@
-"""tb/arith/test_reducer_c4.py — cocotb unit test (Phase 5 test plan V3, corner list of section 6) for a
+"""tb/arith/test_reducer_c4.py - cocotb unit test (Phase 5 test plan V3, corner list of section 6) for a
 reducer behind rtl/arith/modmul_sel.sv, driven through tb/arith/c4_tb_wrappers.sv:modmul_c4_tb (which supplies b in
 Montgomery form for RED_KIND 3, so every kind is checked against (a * b) mod q). The exhaustive check over all a, b is tb/arith/reducer_exhaustive/;
 this test covers the named corners, 10,000 random pairs back-to-back, isolated inputs with idle cycles between

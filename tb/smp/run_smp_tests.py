@@ -1,4 +1,4 @@
-"""tb/smp/run_smp_tests.py -- Phases 8c / 8d verification (docs/evidence/phase08-keccak-stream/8c/test_plan_8c.md V3-V6, 8d/test_plan_8d.md) against one simulator.
+"""tb/smp/run_smp_tests.py -- Phases 8c / 8d verification (evidence/phase08/8c/test_plan_8c.md V3-V6, 8d/test_plan_8d.md) against one simulator.
 Builds rtl/sched/kpke_smp_top_s10.sv for the variant KP_VAR (0 STORE: NPOLY 24; 1 STREAM: NPOLY 12, STREAM_A; 2 OVERLAP: NPOLY 12, STREAM_A, OVERLAP) with tb/smp/test_kpke_smp.py.
   top      the design as it is
   nc<x>    negative controls (test-only copies of rtl/sched/kpke_sched_smp.sv): the bit-exact test must FAIL

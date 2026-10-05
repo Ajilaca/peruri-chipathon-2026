@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/arith/lazy_bfly_io.sv
-// Phase 5c (ADR 0014, docs/evidence/phase05-arith/test_plan.md amendment A4): combinational input and output logic of
+// Phase 5c (ADR 0014, evidence/phase05/test_plan.md amendment A4): combinational input and output logic of
 // the C4 butterfly with lazy INTT inputs. Kept in its own module so that the value bounds can be proven formally
 // without the multiplier (formal/phase05-arith/lazy_bfly_io_bounds.sby).
 //

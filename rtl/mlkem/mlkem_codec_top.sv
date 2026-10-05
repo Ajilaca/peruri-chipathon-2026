@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/mlkem/mlkem_codec_top.sv
-// Phase 9a: Quartus and test top of the codec: the packer (p_*) and the unpacker (u_*) side by side, no logic between them (docs/evidence/phase09-integration/9a/test_plan_9a.md V10).
+// Phase 9a: Quartus and test top of the codec: the packer (p_*) and the unpacker (u_*) side by side, no logic between them (evidence/phase09/9a/test_plan_9a.md V10).
 
 module mlkem_codec_top (
     input  wire         clk_i,

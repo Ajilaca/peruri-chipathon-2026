@@ -1,4 +1,4 @@
-# quartus/phase08c_smp/SMP2-s2.qsf -- Phases 8c / 8d (docs/evidence/phase08-keccak-stream/8c/test_plan_8c.md V9, 8d/test_plan_8d.md V9): kpke_smp_top_s10, OVERLAP: STREAM with non-blocking noise sampling overlapped with the transforms, 12 slots.
+# quartus/phase08c_smp/SMP2-s2.qsf -- Phases 8c / 8d (evidence/phase08/8c/test_plan_8c.md V9, 8d/test_plan_8d.md V9): kpke_smp_top_s10, OVERLAP: STREAM with non-blocking noise sampling overlapped with the transforms, 12 slots.
 # S10 NTT/INTT core, 8b sampler on the C5 sponge; kernel-only compile (virtual pins, as Phases 1-8b), 40.000 ns (P.sdc), Quartus defaults, seed 2.
 set_global_assignment -name FAMILY "Cyclone V"
 set_global_assignment -name DEVICE 5CSEBA6U23I7

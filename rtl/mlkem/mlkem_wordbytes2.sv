@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/mlkem/mlkem_wordbytes2.sv
-// Phase 9M item 1 (docs/evidence/phase09m-optimisation/9m1/test_plan_9m1.md): rtl/mlkem/mlkem_wordbytes.sv giving two bytes per beat. After start_i it reads nwords_i words (rd_req_o / rd_idx_o; rd_data_i valid the cycle
+// Phase 9M item 1 (evidence/phase9m/batch1/9m1/test_plan_9m1.md): rtl/mlkem/mlkem_wordbytes.sv giving two bytes per beat. After start_i it reads nwords_i words (rd_req_o / rd_idx_o; rd_data_i valid the cycle
 // after rd_req_o) and gives their bytes as 16-bit beats, bytes 0 and 1 of a word first (byte 2i in bits 7:0), four beats per word (beat_valid_o / beat_ready_i). A word is requested only when the buffer for the next word is
 // empty, so the read data is never lost. Sustained rate: one beat per cycle. No control depends on the data. Reset: asynchronous, active low, on the control state; the data registers are not reset.
 

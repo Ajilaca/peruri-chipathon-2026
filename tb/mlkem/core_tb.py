@@ -1,4 +1,4 @@
-"""tb/mlkem/core_tb.py -- shared helpers of the Phase 9c core tests (docs/evidence/phase09-integration/9c/test_plan_9c.md).
+"""tb/mlkem/core_tb.py -- shared helpers of the Phase 9c core tests (evidence/phase09/9c/test_plan_9c.md).
 
 Same cycle model as the 9a / 9b drivers: inputs are written at the falling edge; a host read address set at a falling edge gives its data at the next falling edge (the memories read synchronously).
 Toplevel: rtl/mlkem/mlkem_core.sv. Regions: 0 KB, 1 CB, 2 CB2, 3 RF; register file words: d 0-3, z 4-7, m 8-11, rho 12-15, sigma 16-19, K 20-23, K_bar 24-27, H 28-31.

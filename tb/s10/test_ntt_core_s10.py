@@ -1,8 +1,8 @@
-"""tb/s10/test_ntt_core_s10.py -- S10 test V3 (docs/evidence/phase06-scheduling/test_plan_s10.md, Amendment A1): a copy of tb/phase5m/test_ntt_core_s7.py with one line
+"""tb/s10/test_ntt_core_s10.py -- S10 test V3 (evidence/phase06/test_plan_s10.md, Amendment A1): a copy of tb/phase5m/test_ntt_core_s7.py with one line
 changed: the bound on the cycles until start_i is taken after the last host write is (RDLAT - RDPHYS + WRDLY) + 1, i.e. the core's host-write guard (cycles from the physical
 storage read to the write landing) plus one. For the S7 environment (RDLAT 4, RDPHYS 3, WRDLY 3) this is 5 = WRDLY + 2, the value of the S7 test; for S10 (RDLAT 2, RDPHYS 0,
 WRDLY 3) it is 6. Nothing else differs. The S7 docstring follows.
-tb/phase5m/test_ntt_core_s7.py -- Phase 5M step S7 core test (docs/evidence/phase05m-memsched/test_plan_s7.md V4, V5): a copy of the Phase 4 core
+tb/phase5m/test_ntt_core_s7.py -- Phase 5M step S7 core test (evidence/phase05m/test_plan_s7.md V4, V5): a copy of the Phase 4 core
 test tb/ntt/test_ntt_core_c3.py (which stays frozen) for the core with the memory read split by one register stage (RD_SPLIT = 1).
 Differences from the Phase 4 test, nothing else:
   - C3_RDLAT is the number of cycles from a request to its read DATA (= arbitration cuts + RD_SPLIT, here 4), used for host read-back and the
@@ -104,7 +104,7 @@ def _corner_polys() -> list[list[int]]:
 
 def _tight_addresses(mode: int) -> set[int]:
     """Addresses with the smallest write-to-next-read distance at each layer boundary (and before the
-    INTT scaling pass): same model as scripts/pipeline_hazard_slack.py."""
+    INTT scaling pass): same model as scripts/test/pipeline_hazard_slack.py."""
     t_per = 128 // L
     out = set()
     for layer in range(6):

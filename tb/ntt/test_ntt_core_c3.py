@@ -1,5 +1,5 @@
-"""tb/ntt/test_ntt_core_c3.py — cocotb regression for rtl/ntt/ntt_core_c3.sv (Phase 4, config C3,
-NUM_LANES = 8) against tb/golden/primitives.py. Test plan: docs/evidence/phase04-pipeline/test_plan.md,
+"""tb/ntt/test_ntt_core_c3.py - cocotb regression for rtl/ntt/ntt_core_c3.sv (Phase 4, config C3,
+NUM_LANES = 8) against tb/golden/primitives.py. Test plan: evidence/phase04/test_plan.md,
 V5 (bit-exact), V6 (constant cycle count), V7 (layer-boundary hazards), V8 (bank_overflow_o).
 
 Environment (set per build by tb/ntt/run_ntt_c3_tests.py):
@@ -105,7 +105,7 @@ def _corner_polys() -> list[list[int]]:
 
 def _tight_addresses(mode: int) -> set[int]:
     """Addresses with the smallest write-to-next-read distance at each layer boundary (and before the
-    INTT scaling pass): same model as scripts/pipeline_hazard_slack.py."""
+    INTT scaling pass): same model as scripts/test/pipeline_hazard_slack.py."""
     t_per = 128 // L
     out = set()
     for layer in range(6):

@@ -1,4 +1,4 @@
-"""tb/phase5m/test_ntt_core_s8.py -- Phase 5M step S8 core test (docs/evidence/phase05m-memsched/test_plan_s8.md V2-V4): a copy of the S7 core test
+"""tb/phase5m/test_ntt_core_s8.py -- Phase 5M step S8 core test (evidence/phase05m/test_plan_s8.md V2-V4): a copy of the S7 core test
 tb/phase5m/test_ntt_core_s7.py for the core with the write-path register (WR_REG = 1, Pipe = 8) and one bubble cycle per direction.
 Differences from the S7 test, nothing else: C3_WRDLY = 4 (so PIPE = RDLAT + WRDLY = 8), the expected cycle count includes the one bubble cycle (122), and
 state value 2 (S_STALL) is a non-request cycle for the scoreboard (the cycle counter keeps running). The S7 text follows.
@@ -102,7 +102,7 @@ def _corner_polys() -> list[list[int]]:
 
 def _tight_addresses(mode: int) -> set[int]:
     """Addresses with the smallest write-to-next-read distance at each layer boundary (and before the
-    INTT scaling pass): same model as scripts/pipeline_hazard_slack.py."""
+    INTT scaling pass): same model as scripts/test/pipeline_hazard_slack.py."""
     t_per = 128 // L
     out = set()
     for layer in range(6):

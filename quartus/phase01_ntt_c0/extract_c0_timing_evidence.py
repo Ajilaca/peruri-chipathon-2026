@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """quartus/phase01_ntt_c0/extract_c0_timing_evidence.py
 
-Builds docs/evidence/phase01-ntt-baseline/quartus_C0_timing_analysis_<UTCdate>.md (and a .json
+Builds evidence/phase01/quartus_C0_timing_analysis_<UTCdate>.md (and a .json
 with the same values) from the Quartus reports of revision C0. Every value is copied or
 mechanically derived from report text; nothing is typed by hand.
 
@@ -203,12 +203,12 @@ def main():
         "worst_required_path": req,
         "worst_summary_row": worst_summary,
     }
-    ev_dir = REPO / "docs" / "evidence" / "phase01-ntt-baseline"
-    (ev_dir / f"quartus_C0_timing_analysis_{date}.json").write_text(json.dumps(data, indent=1))
+    ev_dir = REPO / "evidence" / "phase01"
+    (ev_dir / "quartus_C0_timing_analysis.json").write_text(json.dumps(data, indent=1))
 
     L = []
     w = L.append
-    w("# MEASURED — Quartus C0 timing analysis (Phase 1 baseline, NOT an optimisation result)")
+    w("# MEASURED - Quartus C0 timing analysis (Phase 1 baseline, NOT an optimisation result)")
     w("")
     w(f"- Generated: {date} UTC by `quartus/phase01_ntt_c0/extract_c0_timing_evidence.py` "
       "(values copied from Quartus report text; derived numbers say how they were derived).")
@@ -216,7 +216,7 @@ def main():
       "provisional clock `create_clock -period 20.000` on virtual pin `clk_i` (`quartus/phase01_ntt_c0/C0.sdc`).")
     w("- Drill-down: `quartus_sta -t quartus/phase01_ntt_c0/report_critical_paths.tcl` on the existing "
       "post-fit netlist (read-only: no recompile, RTL/QSF/SDC unchanged), corner Slow 1100mV 100C.")
-    w("- Also see the fitter/STA summary extract `docs/evidence/quartus/C0-20260929.md`.")
+    w("- Also see the fitter/STA summary extract `evidence/quartus/C0.md`.")
     w("")
     w("## 1. Did every stage complete?")
     w("")
@@ -342,8 +342,8 @@ def main():
     w("- 23 input ports and 14 output ports are unconstrained (`C0.sta.rpt`, Unconstrained Paths "
       "Summary); I/O paths are therefore not analysed. The failing paths are register-to-register.")
     w("")
-    (ev_dir / f"quartus_C0_timing_analysis_{date}.md").write_text("\n".join(L) + "\n")
-    print(f"wrote {ev_dir}/quartus_C0_timing_analysis_{date}.md and .json")
+    (ev_dir / "quartus_C0_timing_analysis.md").write_text("\n".join(L) + "\n")
+    print(f"wrote {ev_dir}/quartus_C0_timing_analysis.md and .json")
 
 
 if __name__ == "__main__":

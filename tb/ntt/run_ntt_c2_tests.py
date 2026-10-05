@@ -1,4 +1,4 @@
-"""tb/ntt/run_ntt_c2_tests.py — runs the Phase 3 cocotb regression (rtl/ntt/ntt_core_c2.sv)
+"""tb/ntt/run_ntt_c2_tests.py - runs the Phase 3 cocotb regression (rtl/ntt/ntt_core_c2.sv)
 against one simulator, once per NUM_LANES in {1,2,4,8} (CRG-3: bit-exact on both simulators).
 
 Usage: python3 tb/ntt/run_ntt_c2_tests.py icarus|verilator [c2|k2|k1]   (default c2 = frozen baseline)

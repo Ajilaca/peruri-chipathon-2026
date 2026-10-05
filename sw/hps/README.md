@@ -1,3 +1,4 @@
 # sw/hps/
-Code for the HPS (ARM Cortex-A9, Linux): protocol flow, drivers for the accelerator, software baseline,
-timing/benchmark programs. The baseline must run on the same board as the accelerator.
+
+Kode untuk HPS (ARM Cortex-A9, Linux): alur protokol, driver akselerator, baseline perangkat lunak, program pengukuran waktu dan benchmark.
+Baseline harus berjalan di papan yang sama dengan akselerator. Folder ini masih kosong karena belum ada papan (PENDING #8).

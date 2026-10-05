@@ -1,4 +1,4 @@
-"""tb/mlkem/run_codec2_tests.py -- Phase 9M item 1 (docs/evidence/phase09m-optimisation/9m1/test_plan_9m1.md V2, V5) against one simulator.
+"""tb/mlkem/run_codec2_tests.py -- Phase 9M item 1 (evidence/phase9m/batch1/9m1/test_plan_9m1.md V2, V5) against one simulator.
 
 Builds rtl/mlkem/mlkem_codec2_top.sv (mlkem_pack2 and mlkem_unpack2, two bytes per beat) and runs the unchanged Phase 9a test modules with CT_W=2:
   pack     tb/mlkem/test_mlkem_pack.py

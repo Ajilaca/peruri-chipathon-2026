@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // formal/phase09m-optimisation/9m3/mlkem_hash_k0_formal_top.sv
-// Phase 9M-3 test V5 (docs/evidence/phase09m-optimisation/9m3/test_plan_9m3.md): the Phase 9b properties H1-H5 of rtl/mlkem/mlkem_hash.sv with CORE_R2 = 0 (K0 sponge instance, replaced by its protocol stub) with free inputs (any start, sel, len, valid, data, ready).
+// Phase 9M-3 test V5 (evidence/phase9m/batch1/9m3/test_plan_9m3.md): the Phase 9b properties H1-H5 of rtl/mlkem/mlkem_hash.sv with CORE_R2 = 0 (K0 sponge instance, replaced by its protocol stub) with free inputs (any start, sel, len, valid, data, ready).
 //   H1  at most 4 / 8 / 4 digest words accepted per run (H / G / J); out_last_o exactly on the last of them
 //   H2  done_o only after exactly that many words were accepted; one pulse; only when not busy
 //   H3  an unaccepted digest word is held: out_valid_o, out_data_o and out_last_o stay stable until out_ready_i

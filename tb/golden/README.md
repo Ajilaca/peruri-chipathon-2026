@@ -1,5 +1,5 @@
 # tb/golden/
-Python golden model of ML-KEM-768 (FIPS 203), independent of the RTL.
-`params.py` must define exactly: `Q N ZETA K ETA1 ETA2 DU DV EK_BYTES DK_BYTES CT_BYTES SS_BYTES`
-(checked by `python3 .claude/skills/mlkem-guard/scripts/check_params.py`). Official KAT vectors only;
-never invent vectors.
+
+Model acuan Python untuk ML-KEM-768 (FIPS 203), mandiri dari RTL.
+`params.py` harus mendefinisikan persis: `Q N ZETA K ETA1 ETA2 DU DV EK_BYTES DK_BYTES CT_BYTES SS_BYTES`
+(konstanta dikunci, lihat ADR 0002). Hanya vektor KAT resmi; jangan mengarang vektor.

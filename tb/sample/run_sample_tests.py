@@ -1,4 +1,4 @@
-"""tb/sample/run_sample_tests.py -- Phase 8b verification (docs/evidence/phase08-keccak-stream/8b/test_plan_8b.md V3-V8) against one simulator.
+"""tb/sample/run_sample_tests.py -- Phase 8b verification (evidence/phase08/8b/test_plan_8b.md V3-V8) against one simulator.
 
 Builds:
   ntt     rtl/sample/sample_ntt_core.sv: tb/sample/test_sample_ntt_core.py (V3, V7)

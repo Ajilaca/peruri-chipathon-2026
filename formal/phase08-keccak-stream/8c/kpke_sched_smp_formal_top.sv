@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // formal/phase08-keccak-stream/8c/kpke_sched_smp_formal_top.sv
-// Phase 8c test V7 (docs/evidence/phase08-keccak-stream/8c/test_plan_8c.md): control properties of rtl/sched/kpke_sched_smp.sv with the NTT core abstracted (free busy / done / read data, never busy and done together) and the sampler replaced by the
+// Phase 8c test V7 (evidence/phase08/8c/test_plan_8c.md): control properties of rtl/sched/kpke_sched_smp.sv with the NTT core abstracted (free busy / done / read data, never busy and done together) and the sampler replaced by the
 // protocol stub keccak_sampler_stub.sv. NPOLY = 1 (slot storage is not part of the properties). Properties:
 //   F1  state and counter ranges (asserted inside rtl/sched/kpke_sched_smp.sv), the beat counter and the drain counter in range
 //   F2  the seed registers never change while the sequencer is busy (a seed write while busy is ignored)

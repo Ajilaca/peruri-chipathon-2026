@@ -1,4 +1,4 @@
-"""tb/ntt/run_ntt_c3_tests.py — Phase 4 core regression (docs/evidence/phase04-pipeline/test_plan.md,
+"""tb/ntt/run_ntt_c3_tests.py - Phase 4 core regression (evidence/phase04/test_plan.md,
 V5-V8) against one simulator: the three Quartus wrappers rtl/ntt/ntt_core_c3_p{2,4,6}.sv (the modules
 that are actually compiled), then the negative control (rtl/ntt/ntt_core_c3.sv with a depth of 8, which
 is beyond the schedule's slack; test-only, never compiled in Quartus).

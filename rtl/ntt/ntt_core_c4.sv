@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/ntt/ntt_core_c4.sv
-// Phase 5 (docs/ROADMAP.md Phase 5, ADR 0011, docs/evidence/phase05-arith/test_plan.md): configuration C4 =
+// Phase 5 (docs/ROADMAP.md Phase 5, ADR 0011, evidence/phase05/test_plan.md): configuration C4 =
 // rtl/ntt/ntt_core_c3.sv (frozen; C3-P6 is the starting point, ADR 0009) with the modular multiplier-reducer
 // of every butterfly and of the INTT x3303 scaling pass chosen by RED_KIND (rtl/arith/modmul_sel.sv) and the
 // butterfly taken from rtl/arith/butterfly_c4.sv. Everything else -- schedule, memory, FSM, address arithmetic,

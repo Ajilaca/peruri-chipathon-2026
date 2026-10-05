@@ -1,4 +1,4 @@
-"""tb/mlkem/run_hashfo_tests.py -- Phase 9b verification (docs/evidence/phase09-integration/9b/test_plan_9b.md V3-V7, V10) against one simulator.
+"""tb/mlkem/run_hashfo_tests.py -- Phase 9b verification (evidence/phase09/9b/test_plan_9b.md V3-V7, V10) against one simulator.
 
 Builds rtl/mlkem/mlkem_hash_fo_top.sv and runs:
   hash1   tb/mlkem/test_mlkem_hash.py with the C5 sponge (CORE_R2 = 1)      (V3, V4, V6, V10)

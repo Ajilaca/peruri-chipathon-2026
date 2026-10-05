@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/arith/modmul_sel.sv
-// Phase 5 (docs/evidence/phase05-arith/test_plan.md section 4): one interface for every modular
+// Phase 5 (evidence/phase05/test_plan.md section 4): one interface for every modular
 // multiplier-reducer, so that the C4 butterfly and core select the reducer by parameter only.
 //
 //   RED_KIND = 0: rtl/ntt/modmul_reduce_staged.sv (frozen Phase 4 reducer, the C3-P6 reference)

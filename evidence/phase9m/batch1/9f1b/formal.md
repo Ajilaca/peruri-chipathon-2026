@@ -1,0 +1,19 @@
+# Phase 9F S1b formal run (V7), `formal/run/run_formal_phase9f1b.py`, 2026-10-04
+
+MEASURED with SymbiYosys (yosys-slang, boolector). Two-copy non-interference (E1) and the controller properties S1-S7 of Phase 9c for `mlkem_core3` (two-byte tasks, background hash sidecar), plus B1-B7 of the sidecar (`formal/phase09m-optimisation/9f1b/mlkem_core3_formal_top.sv`; protocol stubs for the sub-blocks). Control and range only; values are covered by simulation. Work directories `formal/work/phase9f1b_*` (git-ignored). The runs were made in three parts (`proofs`, `cover`, and a later retry of NC-B7): the first full run showed (1) the cover goals 'KeyGen done / Encaps done' unreachable at depth 260 (the 148-word job alone needs more than that; the goals were moved behind -D DEEP and the cover reduced to the digest write and the sidecar read), (2) an induction failure of the safety proof that needed one supporting invariant (the sidecar runs only while the main controller is not idle; added, then the proof passed).
+
+## proofs (safety and negative controls, bounded model check of the controls at depth 160)
+| Group | Proof | Expected | Result | Engine detail | Time (s) | As expected |
+|---|---|---|---|---|---|---|
+| A Phase 9F S1b | mlkem_core3 controller (E1 non-interference with the sidecar, S1-S7, B1 one hash owner, B2 done only with the sidecar idle, B3 JN waits, B4 / B5 / B7 buses, B6 counters) | PASS | PASS | basecase=pass, induction=pass | 6.3 | yes |
+| B Negative control | NC-B3: JN advances while the job runs (B3) | FAIL | FAIL | bmc=FAIL; failed assert mlkem_core3_formal_top.sv:194 | 116.6 | yes |
+| B Negative control | NC-B7: the sidecar's digest write ignores a main write in the same cycle (B7) | FAIL | TIMEOUT |  | 1800.0 | **NO** |
+| B Negative control | NC-E1: the job start depends on a data bit (E1 non-interference) | FAIL | FAIL | bmc=FAIL; failed assert mlkem_core3_formal_top.sv:92 | 5.0 | yes |
+
+## cover (depth 200)
+| Group | Proof | Expected | Result | Engine detail | Time (s) | As expected |
+|---|---|---|---|---|---|---|
+| C Reachability | mlkem_core3: a sidecar digest word written and a sidecar read issued are reachable (the proof is not vacuous) | PASS | PASS | bmc=pass | 491.3 | yes |
+
+## NC-B7 longer retry (timeout 3 h)
+The first run of the control NC-B7 (digest write of the sidecar ignores a main write in the same cycle) timed out after 1,800 s at depth 160 (no violation found up to step 94). A retry with a 3 h limit was started (twice: the first retry was killed by a restart of the session). At the time of this file it has no result; if it finds the violation it will be added here, otherwise the control B7 is shown only by simulation (NC-WR in `sim.md`: the ACVP KeyGen fails), not by the formal run.

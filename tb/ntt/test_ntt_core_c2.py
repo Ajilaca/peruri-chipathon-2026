@@ -1,14 +1,14 @@
-"""tb/ntt/test_ntt_core_c2.py — cocotb bit-exact regression for rtl/ntt/ntt_core_c2.sv
+"""tb/ntt/test_ntt_core_c2.py - cocotb bit-exact regression for rtl/ntt/ntt_core_c2.sv
 (configuration C2: multi-lane NTT/INTT, NUM_LANES in {1,2,4,8}) against
 tb/golden/primitives.py.
 
-Per docs/evidence/phase03-multilane/test_plan.md ("Unit: ntt_core_c2 lane datapath"): bit-exact
+Per evidence/phase03/test_plan.md ("Unit: ntt_core_c2 lane datapath"): bit-exact
 correctness must hold for every L; cycle count is measured and required constant *within* a
 given L (not assumed equal to C0/C1) except at L=1, where the schedule collapses to the exact
 same t/p sequence as C0/C1 and must reproduce their measured 897 (NTT) / 1153 (INTT) cycles
 exactly. `bank_overflow_o` (rtl/mem/poly_mem_multiport.sv) must never assert for any L -- that is
 the runtime check that the proof in
-docs/evidence/phase03-multilane/lane_schedule_verification_2026-09-29.txt actually holds for the
+evidence/phase03/lane_schedule_verification.txt actually holds for the
 RTL, not just for the Python model.
 
 NUM_LANES comes from the NTT_C2_L environment variable (cocotb build-time parameters are set per

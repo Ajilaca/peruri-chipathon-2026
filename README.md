@@ -1,59 +1,130 @@
-# peruri-chipathon-2026
+# ML-KEM-768 accelerator on DE10-Nano
 
-Tim J5 (Institut Teknologi Bandung), CHIP 2026 Hackathon (PERURI Digital Summit),
-kategori *IC Chip Design & FPGA Implementation*.
+Tim J5, Institut Teknologi Bandung. CHIP 2026 Hackathon (PERURI Digital Summit), kategori *IC Chip Design & FPGA Implementation*.
 
-**Ide:** akselerator perangkat keras **ML-KEM-768** (NIST FIPS 203, kriptografi pasca-kuantum)
-dengan pendekatan *hardware/software co-design* pada Terasic DE10-Nano (Intel Cyclone V SoC
-5CSEBA6U23I7): Keccak-f[1600] dan NTT/INTT di FPGA, alur protokol dan baseline perangkat lunak
-di HPS (ARM Cortex-A9). Target utama: eksekusi waktu-konstan yang dibuktikan, hasil bit-exact
-terhadap vektor uji resmi, dan angka sumber daya/timing yang diukur dari Quartus.
+Repositori ini berisi RTL, model acuan, bukti verifikasi dan hasil Quartus untuk akselerator ML-KEM-768 (NIST FIPS 203).
+Rancangan membagi tugas: Keccak-f[1600], NTT/INTT dan aritmetika polinomial di FPGA; alur protokol dan baseline
+perangkat lunak di HPS. Matematika FIPS 203 tidak diubah. Yang dirancang adalah arsitekturnya.
 
-## Status
-Fase 0–5 dan Fase 5M selesai secara teknis (lihat `docs/results/` dan `HANDOFF.md`). Konfigurasi inti NTT/INTT saat ini: **C4 = C4b-B**
-(8 lajur, pipeline 6 tahap, reduksi Barrett, ADR 0013 masih *Proposed*), dari basis **C3-P6** (ADR 0009). Hasil Fase 5
-(`docs/results/result_phase5.md`, laporan `docs/report/CHIPATON_Phase5_Report.pdf`):
-- Siklus tetap NTT 119 dan INTT 375 (MEASURED, simulasi, `docs/evidence/phase05-arith/regression_2026-10-01.md`); hasil bit-exact terhadap model golden di dua simulator.
-- C4b-B memakai 9.166–9.208 ALM (seed 1–6) dibanding 10.484–10.516 pada C3-P6, dengan 18 DSP (C3-P6: 9) (MEASURED, `docs/evidence/phase05-arith/5b/selection_worksheet_2026-10-01.md`).
-- Fmax tidak naik di luar sebaran seed; kompilasi informasi 20 ns **tidak memenuhi timing** (MEASURED, `docs/evidence/phase05-arith/closure/info_20ns_2026-10-01.md`: C3-P6 setup −2,059 ns,
-  C4b-B −2,557 ns). Jalur kritis ada di pembacaan memori, bukan di aritmetika.
-- 5c (lazy reduction) diukur dan tidak diadopsi; 5d (Karatsuba) tidak dicoba (ADR 0015, *Proposed*).
+## Kategori lomba
 
-Fase 5M (memori dan jadwal, S6–S9; `docs/results/result_phase5m.md`, laporan `docs/report/CHIPATON_Phase5M_Report.pdf`, disetujui tim 2026-10-03):
-- S6 (M6, INTT tanpa *scaling pass*): INTT 375 → 119 siklus, 16 DSP (MEASURED, `docs/evidence/phase05m-memsched/s6/selection_worksheet_2026-10-02.md`); dipakai sebagai basis atas keputusan tim (ADR 0020), meski aturan adopsi tidak terpenuhi.
-- **S7 (pembelahan jalur baca memori):** median Fmax **38,720 MHz** (M6 34,430), NTT = INTT = 120 siklus, 9.361–9.405 ALM (MEASURED, `docs/evidence/phase05m-memsched/s7/selection_worksheet_2026-10-02.md`); aturan terpenuhi (ADR 0021, digantikan S10 oleh ADR 0025).
-- S8 (register jalur tulis, 122 siklus): median Fmax 37,990 MHz (MEASURED, `docs/evidence/phase05m-memsched/s8/selection_worksheet_2026-10-03.md`), **tidak diadopsi** oleh aturan (ADR 0023, digantikan S10 oleh ADR 0025); kompilasi 20 ns tidak memenuhi timing (setup −2,242 ns).
-- S9 (studi M10K, tanpa RTL): peta 16 bank 1R1W bebas konflik ada pada jadwal nyata (perhitungan tim, `docs/evidence/phase05m-memsched/s9/port_analysis_2026-10-03.txt`); opsi ini kemudian dibangun sebagai S10 (ADR 0022, digantikan oleh ADR 0025).
+Proyek ini ikut kategori *IC Chip Design & FPGA Implementation* di CHIP 2026 Hackathon. Kategori ini punya empat subtema,
+masing-masing dengan baseline acuan:
 
-Fase 6 (penjadwalan tingkat operasi + S10; `docs/results/result_phase6.md`, laporan `docs/report/CHIPATON_Phase6_Report.pdf`, disetujui tim 2026-10-03):
-- Aritmetika K-PKE (KeyGen, Encrypt, Decrypt) berjalan sebagai program tetap di perangkat keras, bit-exact terhadap model golden, siklus konstan: KeyGen 5.493, Encrypt 6.810, Decrypt 3.121 (MEASURED, simulasi, `docs/evidence/phase06-scheduling/verify_2026-10-03.md`).
-- **S10 (memori 16 bank tanpa arbitrasi):** median Fmax 44,320 MHz di 40 ns, 5.077 ALM, 118 siklus; batasan 20 ns terpenuhi di 6 dari 6 seed (MEASURED, kompilasi kernel-only, `docs/evidence/phase06-scheduling/s10/selection_worksheet_2026-10-03.md`); dipilih tim sebagai inti NTT/INTT untuk fase berikutnya (ADR 0025, *Accepted*).
+| No | Subtema | Fokus | Baseline acuan |
+|---|---|---|---|
+| 01 | Secure Identity & Security Element Chip | fungsi secure element atau identitas: autentikasi, integritas, penanganan kunci, anti-tamper | Peruri chip, TT07 SHA-256, ECC, PUF |
+| 02 | Hardware Cryptography Accelerator | blok kriptografi kecil dan hemat area yang dapat diintegrasikan ke baseline | TT07 SHA-256, desain kripto lain |
+| 03 | AI / Edge Accelerator | akselerator untuk MAC, jaringan saraf kecil, beban vektor/komputasi, atau inferensi edge | TT07 Iterative MAC, TinyTPU, referensi Mini AIE |
+| 04 | Secure Communication | komunikasi serial/paralel, CDC, keamanan protokol, secure framing, integritas antarmuka | TT07 SerDes, CDC FIFO |
 
-Fase 7 (Keccak-f[1600] dan SHA3/SHAKE, konfigurasi K0; `docs/results/result_phase7.md`, Approval belum dicentang):
-- Permutasi 1 ronde per siklus (24 siklus sibuk untuk semua data) dan sponge SHA3-256, SHA3-512, SHAKE128, SHAKE256 sama dengan `hashlib` pada semua panjang yang diuji, di dua simulator; analisis formal K1–K5 lolos; siklus hanya bergantung pada panjang publik (MEASURED, simulasi, `docs/evidence/phase07-keccak/verify_2026-10-03.md`).
-- K0: 3.572 ALM, 1.653 register, 0 M10K, 0 DSP; batasan 40 ns terpenuhi (Fmax 56,99 MHz) dan 20 ns terpenuhi (76,30 MHz), satu seed, kernel-only (MEASURED, `docs/evidence/phase07-keccak/quartus_K0_20261003.md`). Belum termasuk sampler.
+Subtema yang dipilih: 02, Hardware Cryptography Accelerator. Proyek ini adalah blok kriptografi pasca-kuantum (ML-KEM-768 dengan Keccak dan NTT)
+yang dirancang hemat area dan dapat diintegrasikan ke sistem lain. Baseline TT07 SHA-256 memakai SHA-256, sedangkan ML-KEM memakai SHA-3/Keccak.
 
-Semua hasil **terukur di simulasi, analisis formal dan laporan Quartus saja** (kernel-only, virtual pin); batasan 40 ns
-terpenuhi di semua seed yang diuji; batasan 20 ns (50 MHz) terpenuhi hanya oleh inti S10 dan unit Fase 6 dengan S10 (kompilasi kernel-only). **Belum ada pengukuran pada papan.** Setiap angka berasal
-dari laporan Quartus atau simulasi dan disimpan sebagai bukti di `docs/evidence/`. Berikutnya: sampler
-dan blok ML-KEM lainnya (ADR 0019). Rencana: `docs/ROADMAP.md`.
+## Tim J5, Institut Teknologi Bandung
 
-## Batas klaim
-- Parameter ML-KEM tidak diubah; inovasi hanya pada arsitektur perangkat keras.
-- Ketahanan terhadap serangan side-channel (daya/EM) **tidak diklaim** pada tahap inti; itu tahap lanjut.
-- Tidak ada klaim "kebal kuantum" atau percepatan sebelum ada pengukuran.
+| Peran | Nama |
+|---|---|
+| Ketua | Muhamad Faza Dzil Ikram |
+| Anggota | Christian Jonathan Hutajulu |
+| Anggota | Jevan Abielle |
+| Anggota | Jose Luis Fernando Saragi |
+
+## Target
+
+| Item | Nilai |
+|---|---|
+| Board | Terasic DE10-Nano. Belum ada papan; semua hasil berasal dari simulasi, analisis formal dan Quartus |
+| Device | Intel Cyclone V SE 5CSEBA6U23I7 (41.910 ALM menurut fitter, 553 blok RAM, 112 DSP) |
+| EDA | Quartus Prime Lite 25.1std (angka implementasi hanya dari sini) |
+| Verifikasi terbuka | Verilator, Icarus, Yosys + slang, SymbiYosys, cocotb |
+| Bahasa | SystemVerilog |
+
+## Parameter ML-KEM yang dipakai
+
+`q = 3329`, `n = 256`, `k = 3`, `η1 = η2 = 2`, `du = 10`, `dv = 4`, akar satuan `ζ = 17`.
+Ukuran: ek 1184 B, dk 2400 B, ciphertext 1088 B, shared key 32 B.
+NTT-nya *incomplete* (7 layer, perkalian titik berupa base-case multiply derajat 1). Konstanta dikunci di
+[tb/golden/params.py](tb/golden/params.py).
+Pemeriksaan masukan FIPS 203 dikerjakan HPS, bukan RTL (ADR 0031).
+
+## Status: Phase 9 - Submission
+
+Sistem ini menghitung KeyGen, Encaps, dan Decaps ML-KEM-768 sesuai FIPS 203 di RTL. Hasilnya cocok bit demi bit dengan model acuan dan lolos semua vektor ACVP yang berlaku (keyGen 25, encapsulation 25, decapsulation 10) di Verilator dan Icarus. Jumlah siklus Encaps dan Decaps sama untuk ciphertext valid, ciphertext ditolak, dan kunci rahasia berbeda pada masukan yang diuji. Pemeriksaan masukan FIPS 203 dikerjakan HPS, bukan RTL.
+
+Konfigurasi akhir adalah K4 (`mlkem_core4`) dari Phase 9M. Dibanding inti Phase 9, ALM turun 19 % dan siklus turun 7,5 % / 10,5 % / 22,1 % untuk KeyGen / Encaps / Decaps. Parameter dan hasil ukur K4 dibandingkan dengan kapasitas DE10-Nano (kompilasi Quartus kernel-only dengan virtual pin, median enam seed, bukan pengukuran papan; sumber [docs/results/phase9m.md](docs/results/phase9m.md)):
+
+| Besaran | K4 | Kapasitas DE10-Nano | Pemakaian |
+|---|---|---|---|
+| ALM (batasan 40 ns) | 14.222,0 | 41.910 | 34 % |
+| Blok RAM | 53-54 | 553 | 9,6-9,8 % |
+| DSP | 28 | 112 | 25 % |
+| Fmax median | 76,665 MHz | | 15 ns terpenuhi di 6 dari 6 seed |
+| Siklus KeyGen / Encaps / Decaps | 8.416 / 9.611 / 12.989 | | |
+| Latensi pada Fmax median (perhitungan tim) | 109,8 / 125,4 / 169,4 µs | | |
+
+Persentase pemakaian dihitung dari kolom K4 dan kapasitas. Latensi adalah siklus dibagi Fmax.
+
+![roadmap](docs/roadmap.png)
+
+| Phase | Isi | Status (file hasil) |
+|---|---|---|
+| 0 | Model acuan Python, vektor ACVP, errata | DONE |
+| 1 – 3 | NTT L = 1, banking memori, multi-lane (L = 8) | DONE |
+| 4 – 5 | Pipeline P = 6, reducer Barrett | DONE |
+| 5M, 6 | Memori S10 (16 bank 1R1W), sequencer K-PKE | DONE |
+| 7 – 8 | Keccak-f[1600], sponge, sampler streaming | DONE |
+| 9 | Inti ML-KEM-768 penuh, simulasi | DONE |
+| 9M | Optimasi inti | PARTIAL: tiga bukti formal berbatas habis waktu |
+| 10 | Integrasi HPS di DE10-Nano | Direncanakan (menunggu papan untuk memulai) |
+| 11 | Benchmark terhadap perangkat lunak | Direncanakan (menunggu papan untuk memulai) |
+| 12 | Fitur keamanan lanjutan (opsional) | Direncanakan (menunggu papan untuk memulai) |
+
+Phase 10 sampai 12 tercatat di ROADMAP dan belum dikerjakan.
+
+## Verifikasi
+
+Verifikasi dilakukan dalam beberapa lapis:
+
+1. Model acuan Python (`tb/golden/`) terhadap vektor ACVP resmi dan pustaka independen.
+2. RTL terhadap model acuan, bit-exact, di Verilator dan Icarus (cocotb).
+3. Uji aritmetika menyeluruh: reducer dan butterfly diuji pada semua pasangan masukan dalam [0, q).
+4. Bukti siklus konstan: jumlah siklus sama untuk masukan rahasia berbeda.
+5. Analisis formal (SymbiYosys) untuk properti kendali dan alamat, dengan kontrol negatif.
+6. Quartus kernel-only: ALM, register, RAM, DSP, Fmax, slack, enam seed.
+
+Struktur test: [tb/](tb/README.md). Properti formal dan batasnya: [formal/](formal/README.md).
 
 ## Peta repositori
+
 | Folder | Isi |
 |---|---|
-| `rtl/` | SystemVerilog yang dapat disintesis |
-| `tb/` | testbench cocotb dan model acuan Python (`tb/golden/`) |
-| `formal/` | properti SymbiYosys |
-| `quartus/` | proyek Quartus, Platform Designer, `.sdc` |
-| `sw/hps/` | kode sisi HPS (ARM Linux) |
-| `docs/` | brief proyek, roadmap, keputusan (ADR), bukti, referensi proposal |
-| `scripts/` | penyiapan lingkungan dan uji dasar |
-| `.claude/` | pengaturan dan skill Claude Code untuk tim |
+| [rtl/](rtl/README.md) | SystemVerilog: `arith`, `ntt`, `mem`, `keccak`, `sample`, `sched`, `mlkem` |
+| [tb/](tb/README.md) | testbench cocotb dan model acuan Python |
+| [formal/](formal/README.md) | properti SymbiYosys per fase, dan `run/` untuk menjalankannya |
+| [quartus/](quartus/README.md) | proyek dan revisi Quartus |
+| [scripts/](scripts/README.md) | generator ROM, pemilih hasil, uji, arsip Quartus |
+| [docs/](docs/README.md) | roadmap, keputusan, hasil per fase, laporan PDF |
+| [evidence/](evidence/README.md) | bukti terukur per fase |
+| [sw/hps/](sw/hps/README.md) | sisi HPS (belum ada kode) |
 
-## Lisensi
-MIT License, lihat `LICENSE` (ADR 0016). Berkas pihak ketiga yang membawa lisensi sendiri tetap memakai lisensinya.
+## Keterbatasan saat ini
+
+- Tidak ada hasil papan. Tidak ada klaim validasi perangkat keras.
+- Angka Quartus berasal dari kompilasi kernel-only dengan virtual pin, bukan sistem lengkap dengan HPS.
+- Tidak ada perbandingan dengan perangkat lunak di HPS (Phase 11).
+- Siklus konstan dibuktikan pada masukan yang diuji. Ini bukan klaim ketahanan side-channel (daya/EM).
+- Formal berbatas: P1 dan NC-E1-4 di `core4` serta NC-B7 di `core3` habis waktu dan dicatat sebagai TIMEOUT, bukan lolos.
+
+## Dokumentasi
+
+- [Keputusan desain aktif](docs/decisions/decision_summary.md), ringkasan semua ADR: [SUMMARY.md](docs/decisions/SUMMARY.md)
+- [Evidence per fase](docs/evidence/README.md)
+- [Laporan PDF](docs/reports/README.md), laporan lengkap: [CHIPATON_COMPLETE_REPORT.pdf](docs/reports/CHIPATON_COMPLETE_REPORT.pdf)
+- [Quartus Outputs](https://drive.google.com/drive/folders/10K6DFZt6R8QQfE4S6NYVbSmj5wOPOBIW?usp=sharing)
+
+### Quartus Outputs
+
+Output Quartus yang besar (`output_files/`, `db/`, laporan penuh) tidak disimpan seluruhnya di repository.
+Hasilnya tersedia melalui Google Drive: [Quartus Outputs](https://drive.google.com/drive/folders/10K6DFZt6R8QQfE4S6NYVbSmj5wOPOBIW?usp=sharing).
+Di repository hanya ada ekstrak per revisi di `evidence/`.

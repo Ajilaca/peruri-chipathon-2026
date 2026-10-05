@@ -1,6 +1,6 @@
 """tb/golden/kpke_sched_model.py
 
-Phase 6 (docs/evidence/phase06-scheduling/test_plan.md): the K-PKE arithmetic of KeyGen, Encrypt and Decrypt as fixed programs of polynomial operations on numbered slots, run with the golden
+Phase 6 (evidence/phase06/test_plan.md): the K-PKE arithmetic of KeyGen, Encrypt and Decrypt as fixed programs of polynomial operations on numbered slots, run with the golden
 primitives (ntt, intt, multiply_ntts). The same program list is turned into the RTL program ROM by scripts/gen_kpke_prog.py, so the hardware runs exactly this schedule.
 
 Operations (one polynomial = 256 coefficients in [0, q)):

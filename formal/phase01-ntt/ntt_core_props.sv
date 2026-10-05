@@ -6,7 +6,7 @@
 // subset of the oss-cad-suite Yosys build's `read -formal` SystemVerilog reader.
 //
 // Actual timing of ntt_core's FSM (confirmed by both this proof and the cocotb regression,
-// docs/evidence/phase01-ntt-baseline/cocotb_regression_2026-09-29.txt): busy_o drops to 0 on the
+// evidence/phase01/cocotb_regression.txt): busy_o drops to 0 on the
 // cycle the FSM ENTERS S_DONE; done_o is asserted one cycle later, when the FSM LEAVES S_DONE
 // back to S_IDLE. So the safety property checked here is "exactly one cycle after busy_o drops,
 // done_o is 1" -- not "done_o is already 1 the same cycle busy_o drops" (an earlier, incorrect

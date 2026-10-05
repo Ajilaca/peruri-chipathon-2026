@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // formal/phase04-pipeline/ntt_core_c3_formal_top.sv
-// Phase 4 formal top (docs/evidence/phase04-pipeline/test_plan.md, V9) for the three Quartus wrappers
+// Phase 4 formal top (evidence/phase04/test_plan.md, V9) for the three Quartus wrappers
 // rtl/ntt/ntt_core_c3_p{2,4,6}.sv, selected with `-G P=<2|4|6>` on the read_slang line. The wrappers are
 // instantiated as they are compiled, so the register positions proven are the ones measured.
 //
@@ -16,7 +16,7 @@
 //      port and a write-stage port of S_RUN / S_SCALE requests never carry the same (bank, offset)
 //
 // F_SKEW is for a negative control only: it shifts the delay model of property A by that many cycles,
-// which must make the proof fail (formal/run_formal_phase4.py).
+// which must make the proof fail (formal/run/run_formal_phase4.py).
 
 module ntt_core_c3_formal_top #(
     parameter int P      = 2,

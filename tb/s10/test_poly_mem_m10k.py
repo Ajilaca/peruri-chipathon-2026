@@ -1,4 +1,4 @@
-"""tb/s10/test_poly_mem_m10k.py -- S10 test V2 (docs/evidence/phase06-scheduling/test_plan_s10.md): a copy of the S7 memory test tb/phase5m/test_poly_mem_split.py for
+"""tb/s10/test_poly_mem_m10k.py -- S10 test V2 (evidence/phase06/test_plan_s10.md): a copy of the S7 memory test tb/phase5m/test_poly_mem_split.py for
 rtl/mem/poly_mem_m10k.sv (16 banks, one port per bank per cycle), NUM_LANES = 8, against a cycle-accurate Python model:
 
     request at cycle c -> storage physically read at c (the RAM takes the address at the end of the request cycle) -> rdata_o at c + RD_LAT

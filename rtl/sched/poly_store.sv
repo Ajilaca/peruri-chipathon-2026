@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/sched/poly_store.sv
-// Phase 6 (docs/evidence/phase06-scheduling/test_plan.md): polynomial slots of the K-PKE arithmetic unit. NPOLY slots of 256 coefficients, stored as
+// Phase 6 (evidence/phase06/test_plan.md): polynomial slots of the K-PKE arithmetic unit. NPOLY slots of 256 coefficients, stored as
 // 128 words per slot of one coefficient pair (even half = coefficient 2i, odd half = 2i+1, two 12-bit arrays), word index {slot, pair}.
 //   read ports A and B: synchronous, data one cycle after the address (both halves of the pair)
 //   write port: per-half enables, so a single coefficient (testbench, read-back of the NTT core) or a whole pair (PWM, ADD, SUB) can be written

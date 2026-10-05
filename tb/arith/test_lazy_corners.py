@@ -1,4 +1,4 @@
-"""tb/arith/test_lazy_corners.py — Phase 5c test plan A4 V4-lazy: corner cases of the lazy INTT butterfly input
+"""tb/arith/test_lazy_corners.py - Phase 5c test plan A4 V4-lazy: corner cases of the lazy INTT butterfly input
 (rtl/arith/butterfly_c4_lazy.sv) against the exact per-butterfly step of tb/golden/primitives.py.
 
 Corners (both extreme lazy values, with every twiddle of the table): a = 0, b = q-1 (multiplier input u = 2q-1);

@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/mlkem/mlkem_ram.sv
-// Phase 9c (docs/evidence/phase09-integration/9c/test_plan_9c.md): simple dual-port word RAM, 64 bit, one write port and one read port, synchronous read (rdata_o one cycle after raddr_i). A read of the word that is written in the same cycle
+// Phase 9c (evidence/phase09/9c/test_plan_9c.md): simple dual-port word RAM, 64 bit, one write port and one read port, synchronous read (rdata_o one cycle after raddr_i). A read of the word that is written in the same cycle
 // returns the old word (not used by the core). The memory is not reset.
 
 module mlkem_ram #(

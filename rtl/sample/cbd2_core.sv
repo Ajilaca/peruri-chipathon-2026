@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/sample/cbd2_core.sv
-// Phase 8b (docs/evidence/phase08-keccak-stream/8b/test_plan_8b.md section 1): SamplePolyCBD_2 (FIPS 203 Algorithm 8, eta = 2) straight from a 64-bit word stream. OUTW = 1 (stage W1): one coefficient per cycle
+// Phase 8b (evidence/phase08/8b/test_plan_8b.md section 1): SamplePolyCBD_2 (FIPS 203 Algorithm 8, eta = 2) straight from a 64-bit word stream. OUTW = 1 (stage W1): one coefficient per cycle
 // (256 cycles); OUTW = 2 (stage W2): one byte, i.e. two coefficients (lane 0 = even index), per cycle (128 cycles).
 // Coefficient i uses stream bits 4i .. 4i+3: x = bit0 + bit1, y = bit2 + bit3, f = x - y mod 3329 (values 3327, 3328, 0, 1, 2); the word holds 16 coefficients, nibble 0 first (byte k gives 2k, 2k+1).
 // Exactly 16 words are taken (128 bytes). Control never looks at the data: the cycle count is the same for every input (the stream's own timing aside), no branch, address or loop depends on a stream bit.

@@ -1,4 +1,4 @@
-"""tb/mlkem/hashfo_tb.py -- shared helpers of the Phase 9b tests (docs/evidence/phase09-integration/9b/test_plan_9b.md).
+"""tb/mlkem/hashfo_tb.py -- shared helpers of the Phase 9b tests (evidence/phase09/9b/test_plan_9b.md).
 
 Same cycle model as the 9a drivers: inputs are written at the falling edge, the combinational outputs are read 1 ns later and are the values the next rising edge samples.
 Toplevel: rtl/mlkem/mlkem_hash_fo_top.sv (hash wrapper h_*, comparison f_*).

@@ -16,7 +16,7 @@ set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/ntt/ntt_core_c2_k2_l4.s
 
 # Kernel-only: same rationale as quartus/phase01_ntt_c0/C0.qsf and quartus/phase02_mem_c1/C1.qsf
 # (docs/ROADMAP.md, "Measurement protocol"). Same port list as C0/C1's top (same interface),
-# plus bank_overflow_o (Phase 3 diagnostic, must read 0; see docs/evidence/phase03-multilane/).
+# plus bank_overflow_o (Phase 3 diagnostic, must read 0; see evidence/phase03/).
 set_instance_assignment -name VIRTUAL_PIN ON -to clk_i
 set_instance_assignment -name VIRTUAL_PIN ON -to rst_ni
 set_instance_assignment -name VIRTUAL_PIN ON -to mode_i

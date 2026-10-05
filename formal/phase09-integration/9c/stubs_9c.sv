@@ -3,7 +3,7 @@
 // formal/phase09-integration/9c/stubs_9c.sv
 // Formal-only stand-ins (same module names, parameters and ports) for the sub-blocks of rtl/mlkem/mlkem_core.sv in the proof of the controller: the K-PKE engine (kpke_smp_top_s10), the hash wrapper (mlkem_hash), the comparison (mlkem_fo_cmp) and the two
 // polynomial task modules (mlkem_ldpoly, mlkem_stpoly). Each keeps only the *protocol* the controller sees (start while idle makes it busy; it finishes after a free number of cycles with a one-cycle done pulse where the real block has one) and nothing else.
-// Free signals are declared `(* anyseq *) wire` (a `logic` that is read only in procedural code is not free in yosys-slang: see docs/evidence/phase09-integration/9b/formal_vacuity_check_2026-10-03.md). The signals named f_c* are CONTROL (handshakes, strobes, addresses,
+// Free signals are declared `(* anyseq *) wire` (a `logic` that is read only in procedural code is not free in yosys-slang: see evidence/phase09/9b/formal_vacuity_check.md). The signals named f_c* are CONTROL (handshakes, strobes, addresses,
 // counters): the proof assumes them equal in the two copies of the miter; the signals named f_d* are DATA: they differ between the copies. Not part of the synthesised design.
 
 module kpke_smp_top_s10 #(

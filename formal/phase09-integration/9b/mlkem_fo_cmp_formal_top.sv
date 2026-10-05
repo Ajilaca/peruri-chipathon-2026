@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // formal/phase09-integration/9b/mlkem_fo_cmp_formal_top.sv
-// Phase 9b test V8 (docs/evidence/phase09-integration/9b/test_plan_9b.md): control and result properties of rtl/mlkem/mlkem_fo_cmp.sv (WORDS = 8 here: the properties do not depend on the count) with free inputs.
+// Phase 9b test V8 (evidence/phase09/9b/test_plan_9b.md): control and result properties of rtl/mlkem/mlkem_fo_cmp.sv (WORDS = 8 here: the properties do not depend on the count) with free inputs.
 //   F1  at most WORDS beats accepted per run; no beat accepted while idle; done_o exactly one cycle after the last accepted beat, one pulse, only when not busy
 //   F2  neq_o and k_o do not change except at the last accepted beat (they are held between runs)
 //   F3  the accumulator equals the OR of the XORs of the accepted beats; neq_o equals (accumulator != 0)

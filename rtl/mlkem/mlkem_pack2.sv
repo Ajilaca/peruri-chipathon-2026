@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/mlkem/mlkem_pack2.sv
-// Phase 9M item 1 (docs/evidence/phase09m-optimisation/9m1/test_plan_9m1.md): rtl/mlkem/mlkem_pack.sv with an output of two bytes per beat. Coefficients -> Compress_d -> ByteEncode_d (FIPS 203 Algorithm 5), the same
+// Phase 9M item 1 (evidence/phase9m/batch1/9m1/test_plan_9m1.md): rtl/mlkem/mlkem_pack.sv with an output of two bytes per beat. Coefficients -> Compress_d -> ByteEncode_d (FIPS 203 Algorithm 5), the same
 // pipeline and the same division-free Compress constants as the Phase 9a packer ((M, S) = (315, 20) for d = 1 and 4, (161271, 29) for d = 10; proved on all 3,329 inputs).
 // One run takes exactly 256 coefficients and gives exactly 16 d beats (byte 2i of the encoding in beat_data_o[7:0], byte 2i + 1 in [15:8]), d chosen by dsel_i at start_i: 0 -> 1, 1 -> 4, 2 -> 10, 3 -> 12.
 // The packer inserts d bits LSB first into a 32-bit buffer (when the bits left after this cycle's beat plus d fit) and puts out a beat when 16 bits are buffered, so with an always-ready sink one coefficient enters every cycle for

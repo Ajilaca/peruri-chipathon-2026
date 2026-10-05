@@ -1,4 +1,4 @@
-# quartus/phase08b_sampler/SM2-K0.qsf -- Phase 8b stage W2 (docs/evidence/phase08-keccak-stream/8b/test_plan_8b.md V11): keccak_sampler with OUTW = 2 (streaming SampleNTT and CBD2, two coefficients per cycle),
+# quartus/phase08b_sampler/SM2-K0.qsf -- Phase 8b stage W2 (evidence/phase08/8b/test_plan_8b.md V11): keccak_sampler with OUTW = 2 (streaming SampleNTT and CBD2, two coefficients per cycle),
 # CORE_R2 = 0 (K0 sponge keccak_sponge), kernel-only compile (virtual pins, as Phases 1-8a), 40.000 ns (C.sdc), Quartus defaults, seed 1.
 set_global_assignment -name FAMILY "Cyclone V"
 set_global_assignment -name DEVICE 5CSEBA6U23I7

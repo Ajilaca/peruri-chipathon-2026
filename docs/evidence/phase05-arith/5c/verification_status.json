@@ -1,5 +1,0 @@
-{
-  "_comment": "Input of scripts/phase5_select_5c.py. correct = test plan A4 V1-V8 incl. V2-lazy exhaustive (0 mismatches over a<q, b<2q), formal bound proof PASS with negative control FAIL, both simulators; cycles are simulation measurements.",
-  "correct": "PASS", "cycles_NTT": 119, "cycles_INTT": 375,
-  "evidence": "verify_2026-10-01.txt, formal_2026-10-01.md"
-}

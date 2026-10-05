@@ -1,4 +1,4 @@
-"""tb/arith/run_c4_core_tests.py — Phase 5 core regression (docs/evidence/phase05-arith/test_plan.md V5, V6) against
+"""tb/arith/run_c4_core_tests.py - Phase 5 core regression (evidence/phase05/test_plan.md V5, V6) against
 one simulator, reusing the Phase 4 core test tb/ntt/test_ntt_core_c3.py unchanged (it drives the ports and samples
 the core's internal memory request signals, which rtl/ntt/ntt_core_c4.sv keeps under the same names):
 bit-exact NTT / INTT / round trip / boundary-directed data against tb/golden/primitives.py, the hazard scoreboard,
@@ -16,8 +16,8 @@ Builds:
   negctl  rtl/ntt/ntt_core_c4.sv at depth 8 with WrDly = 8 (RdLat 0; RED_KIND = 0, the only reducer with 8 stage
           boundaries), beyond the schedule's slack of 7, test-only: the scoreboard must trip and the results must be
           wrong. The hazard depends on WrDly, not on P: the memory reads RdLat cycles after the request, so a build
-          with RdLat 1 + WrDly 7 is physically safe (first attempt, docs/evidence/phase05-arith/5a/
-          negctl_first_attempt_rd1_wr7_2026-10-01.txt; test plan amendment A2).
+          with RdLat 1 + WrDly 7 is physically safe (first attempt, evidence/phase05/5a/
+          negctl_first_attempt_rd1_wr7.txt; test plan amendment A2).
 Usage: python3 tb/arith/run_c4_core_tests.py icarus|verilator [c4a c4k0 negctl ...]   (default: all)
 Exit code 0 only if every testcase of every selected build passed and the cycle counts are as required.
 """

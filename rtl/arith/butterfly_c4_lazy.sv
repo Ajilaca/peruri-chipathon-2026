@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/arith/butterfly_c4_lazy.sv
-// Phase 5c (ADR 0014, docs/evidence/phase05-arith/test_plan.md amendment A4): the C4 butterfly with lazy INTT inputs.
+// Phase 5c (ADR 0014, evidence/phase05/test_plan.md amendment A4): the C4 butterfly with lazy INTT inputs.
 // Same ports, function and latency as rtl/arith/butterfly_c4.sv with RED_KIND = 2 (Barrett):
 //
 //   mode_i = 0 (forward, CT):  t = zeta*b mod q;        a_o = a + t;   b_o = a - t      (mod q)

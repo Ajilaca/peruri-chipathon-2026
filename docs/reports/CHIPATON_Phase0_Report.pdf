@@ -1,0 +1,735 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<<
+/Producer (ReportLab PDF Library \055 \050opensource\051)
+/Author (Tim J5 \050ITB\051)
+/CreationDate (D\07220260929182732\05307\04700\047)
+/Creator (\050unspecified\051)
+/Keywords ()
+/ModDate (D\07220260929182732\05307\04700\047)
+/Subject (\050unspecified\051)
+/Title (CHIPATON \055 Laporan Fase 0 \050ID\051)
+/Trapped (\057False)
+>>
+endobj
+2 0 obj
+<<
+/Type /Pages
+/Count 3
+/Kids [ 4 0 R 11 0 R 13 0 R ]
+>>
+endobj
+3 0 obj
+<<
+/Type /Catalog
+/Pages 2 0 R
+>>
+endobj
+4 0 obj
+<<
+/Contents 5 0 R
+/MediaBox [ 0 0 595.2756 841.8898 ]
+/Resources <<
+/Font 6 0 R
+/ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Parent 2 0 R
+>>
+endobj
+5 0 obj
+<<
+/Length 1414
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 54.18898 665.811 cm
+Q
+q
+1 0 0 1 54.18898 649.811 cm
+q
+.266667 .266667 .266667 rg
+BT 1 0 0 1 0 4 Tm /F1 12 Tf 16 TL 141.4188 0 Td (CHIP 2026 Hackathon - Tim J5 \(ITB\)) Tj T* -141.4188 0 Td ET
+Q
+Q
+q
+1 0 0 1 54.18898 641.3071 cm
+Q
+q
+1 0 0 1 54.18898 612.3071 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 6 Tm /F2 23 Tf 29 TL 159.0848 0 Td (Laporan Fase 0) Tj T* -159.0848 0 Td ET
+Q
+Q
+q
+1 0 0 1 54.18898 590.3071 cm
+q
+.266667 .266667 .266667 rg
+BT 1 0 0 1 0 4 Tm /F1 12 Tf 16 TL 17.71682 0 Td (Model Emas ML-KEM-768 \(FIPS 203\) dan Verifikasi terhadap Vektor Uji Resmi NIST) Tj T* -17.71682 0 Td ET
+Q
+Q
+q
+1 0 0 1 54.18898 561.9606 cm
+Q
+q
+1 0 0 1 54.18898 547.9606 cm
+q
+BT 1 0 0 1 0 4 Tm 190.9288 0 Td 14 TL /F1 10 Tf .333333 .333333 .333333 rg (Status: ) Tj /F2 10 Tf (DONE) Tj /F1 10 Tf (, disetujui) Tj T* -190.9288 0 Td ET
+Q
+Q
+q
+1 0 0 1 54.18898 533.9606 cm
+q
+.333333 .333333 .333333 rg
+BT 1 0 0 1 0 4 Tm /F1 10 Tf 14 TL 130.6238 0 Td (Branch: phase2-memory-banking \267 HEAD: 6aa515f) Tj T* -130.6238 0 Td ET
+Q
+Q
+q
+1 0 0 1 54.18898 499.9449 cm
+Q
+q
+1 0 0 1 54.18898 478.3449 cm
+q
+.333333 .333333 .333333 rg
+BT 1 0 0 1 0 13.7 Tm /F1 7.9 Tf 10.8 TL (Ditulis untuk: Tim J5 - terjemahan Bahasa Indonesia dari laporan Fase 0. Sumber kebenaran tetap file-file di repo) Tj T* (\(docs/results/result_phase0.md, docs/evidence/golden/\); dokumen ini adalah rangkuman bacaan.) Tj T* ET
+Q
+Q
+ 
+
+endstream
+endobj
+6 0 obj
+<<
+/F1 7 0 R
+/F2 8 0 R
+/F3 9 0 R
+/F4 10 0 R
+>>
+endobj
+7 0 obj
+<<
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+8 0 obj
+<<
+/BaseFont /Helvetica-Bold
+/Encoding /WinAnsiEncoding
+/Name /F2
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+9 0 obj
+<<
+/BaseFont /Symbol
+/Name /F3
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+10 0 obj
+<<
+/BaseFont /Courier
+/Encoding /WinAnsiEncoding
+/Name /F4
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+11 0 obj
+<<
+/Contents 12 0 R
+/MediaBox [ 0 0 595.2756 841.8898 ]
+/Resources <<
+/Font 6 0 R
+/ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Parent 2 0 R
+>>
+endobj
+12 0 obj
+<<
+/Length 10226
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+BT /F1 7 Tf 8.4 TL ET
+.466667 .466667 .466667 rg
+BT 1 0 0 1 409.3756 25.51181 Tm (CHIPATON - Laporan Fase 0 \(ID\) - hal. 2) Tj T* ET
+q
+1 0 0 1 54.18898 771.3701 cm
+q
+.101961 .101961 .180392 rg
+BT 1 0 0 1 0 6 Tm /F2 16 Tf 22 TL (1. Tujuan dan Lingkup) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 709.7701 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 44.2 Tm /F1 9.4 Tf 13.4 TL (Fase 0 membangun referensi perangkat lunak murni \("model emas"\) dari standar ML-KEM-768 \(FIPS 203, DOI) Tj T* (10.6028/NIST.FIPS.203\), sepenuhnya independen dari RTL, lalu membuktikan kebenarannya terhadap vektor uji) Tj T* (resmi NIST. Tujuannya: setiap blok RTL pada fase-fase selanjutnya \(NTT/INTT, Keccak, sampler, dsb.\) punya acuan) Tj T* (bit-exact yang sudah terpercaya untuk dibandingkan - bukan menebak dari pemahaman standar saja.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 673.7701 cm
+q
+.101961 .101961 .180392 rg
+BT 1 0 0 1 0 6 Tm /F2 16 Tf 22 TL (2. Errata FIPS 203 dan ADR 0003) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 638.9701 cm
+q
+BT 1 0 0 1 0 17.4 Tm 13.4 TL /F1 9.4 Tf 0 0 0 rg (PDF resmi FIPS 203 dan lembar errata resmi NIST diunduh dan di-hash \(SHA-256 dicatat sebagai bukti\). Ditemukan) Tj T* /F2 9.4 Tf (2 butir errata) Tj /F1 9.4 Tf (, keduanya bersifat klarifikasi/perbaikan komentar, ) Tj /F2 9.4 Tf (bukan) Tj /F1 9.4 Tf ( perubahan algoritma:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 620.5701 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 0 1.4 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 66.18898 620.5701 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 4 Tm /F1 9.4 Tf 13.4 TL (Appendix A - penjelasan kenapa tabel konstanta zeta menyertakan indeks i=0.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 602.1701 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 0 1.4 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 66.18898 602.1701 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 4 Tm /F1 9.4 Tf 13.4 TL (Section 5.3, Algoritma 15 - salah ketik pada komentar: seharusnya 'w', tertulis 'v'.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 556.9701 cm
+q
+BT 1 0 0 1 0 30.8 Tm 13.4 TL /F1 9.4 Tf 0 0 0 rg (Keduanya ) Tj /F2 9.4 Tf (tidak memengaruhi) Tj /F1 9.4 Tf ( model emas yang dibangun. Parameter Tabel 2 ML-KEM-768 \(k=3, ) Tj /F3 9.4 Tf 13.4 TL (h) Tj /F1 9.4 Tf 13.4 TL (1=2, ) Tj /F3 9.4 Tf 13.4 TL (h) Tj /F1 9.4 Tf 13.4 TL (2=2,) Tj T* (du=10, dv=4, q=3329, n=256\) dikonfirmasi cocok persis dengan rencana desain. Temuan ini dicatat formal sebagai) Tj T* /F2 9.4 Tf (ADR 0003) Tj /F1 9.4 Tf (, berstatus ) Tj /F2 9.4 Tf (Diterima) Tj /F1 9.4 Tf ( \(Faza Dzil, Tim J5, 2026-09-29\).) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 520.9701 cm
+q
+.101961 .101961 .180392 rg
+BT 1 0 0 1 0 6 Tm /F2 16 Tf 22 TL (3. Yang Dibangun) Tj T* ET
+Q
+Q
+q
+1 0 0 1 70.86614 350.5701 cm
+q
+.14902 .14902 .301961 rg
+n 0 162.4 453.5433 -16.4 re f*
+1 1 1 rg
+n 0 146 453.5433 -26.8 re f*
+.964706 .964706 .984314 rg
+n 0 119.2 453.5433 -26.8 re f*
+1 1 1 rg
+n 0 92.4 453.5433 -16.4 re f*
+.964706 .964706 .984314 rg
+n 0 76 453.5433 -26.8 re f*
+1 1 1 rg
+n 0 49.2 453.5433 -16.4 re f*
+.964706 .964706 .984314 rg
+n 0 32.8 453.5433 -16.4 re f*
+1 1 1 rg
+n 0 16.4 453.5433 -16.4 re f*
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 4 149 cm
+q
+1 1 1 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.8 Tf 10.4 TL (Berkas) Tj T* ET
+Q
+Q
+q
+1 0 0 1 162.7402 149 cm
+q
+1 1 1 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.8 Tf 10.4 TL (Isi) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 132.6 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (tb/golden/params.py) Tj T* ET
+Q
+Q
+q
+1 0 0 1 162.7402 122.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 13 Tm /F1 7.8 Tf 10.4 TL (Konstanta ML-KEM-768 terkunci - nama-nama yang dipakai persis oleh) Tj T* (check_params.py) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 105.8 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (tb/golden/primitives.py) Tj T* ET
+Q
+Q
+q
+1 0 0 1 162.7402 95.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 13 Tm /F1 7.8 Tf 10.4 TL (NTT/INTT, sampling \(CBD, rejection\), encode/decode, compress/decompress,) Tj T* (wrapper SHA-3/SHAKE) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 79 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (tb/golden/kpke.py) Tj T* ET
+Q
+Q
+q
+1 0 0 1 162.7402 79 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (K-PKE: KeyGen, Encrypt, Decrypt \(Algoritma 13\22615 FIPS 203\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 62.6 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (tb/golden/mlkem.py) Tj T* ET
+Q
+Q
+q
+1 0 0 1 162.7402 52.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 13 Tm /F1 7.8 Tf 10.4 TL (ML-KEM tingkat atas: KeyGen, Encaps, Decaps \(Algoritma 16\22621, termasuk FO) Tj T* (transform dan implicit rejection\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 35.8 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (tb/golden/fetch_acvp_vectors.py) Tj T* ET
+Q
+Q
+q
+1 0 0 1 162.7402 35.8 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (Unduh vektor ACVP resmi NIST, commit terpatok + verifikasi SHA-256) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 19.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (tb/golden/run_kat.py) Tj T* ET
+Q
+Q
+q
+1 0 0 1 162.7402 19.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (Jalankan model emas atas vektor ACVP, bandingkan bit-exact) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (tb/golden/crosscheck_kyberpy.py) Tj T* ET
+Q
+Q
+q
+1 0 0 1 162.7402 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (Uji silang acak terhadap implementasi independen kyber-py 1.2.0) Tj T* ET
+Q
+Q
+q
+1 J
+1 j
+.784314 .784314 .815686 RG
+.4 w
+n 0 162.4 m 453.5433 162.4 l S
+n 0 0 m 453.5433 0 l S
+n 0 0 m 0 162.4 l S
+n 453.5433 0 m 453.5433 162.4 l S
+n 0 146 m 453.5433 146 l S
+n 0 119.2 m 453.5433 119.2 l S
+n 0 92.4 m 453.5433 92.4 l S
+n 0 76 m 453.5433 76 l S
+n 0 49.2 m 453.5433 49.2 l S
+n 0 32.8 m 453.5433 32.8 l S
+n 0 16.4 m 453.5433 16.4 l S
+n 158.7402 0 m 158.7402 162.4 l S
+Q
+Q
+Q
+q
+1 0 0 1 54.18898 314.5701 cm
+q
+.101961 .101961 .180392 rg
+BT 1 0 0 1 0 6 Tm /F2 16 Tf 22 TL (4. Hasil Verifikasi \(MEASURED\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 70.86614 240.9701 cm
+q
+.14902 .14902 .301961 rg
+n 0 65.6 453.5433 -16.4 re f*
+1 1 1 rg
+n 0 49.2 453.5433 -16.4 re f*
+.964706 .964706 .984314 rg
+n 0 32.8 453.5433 -16.4 re f*
+1 1 1 rg
+n 0 16.4 453.5433 -16.4 re f*
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 4 52.2 cm
+q
+1 1 1 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.8 Tf 10.4 TL (Pengujian) Tj T* ET
+Q
+Q
+q
+1 0 0 1 259.1181 52.2 cm
+q
+1 1 1 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.8 Tf 10.4 TL (Hasil) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 35.8 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (Tes sifat \(pytest\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 259.1181 35.8 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (23/23 lulus) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 19.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (Vektor ACVP resmi NIST \(ML-KEM-768\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 259.1181 19.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (80/80 cocok - 0 tcId gagal) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (Uji silang independen \(kyber-py, N=2000, seed tetap\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 259.1181 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (2000/2000 cocok) Tj T* ET
+Q
+Q
+q
+1 J
+1 j
+.784314 .784314 .815686 RG
+.4 w
+n 0 65.6 m 453.5433 65.6 l S
+n 0 0 m 453.5433 0 l S
+n 0 0 m 0 65.6 l S
+n 453.5433 0 m 453.5433 65.6 l S
+n 0 49.2 m 453.5433 49.2 l S
+n 0 32.8 m 453.5433 32.8 l S
+n 0 16.4 m 453.5433 16.4 l S
+n 255.1181 0 m 255.1181 65.6 l S
+Q
+Q
+Q
+q
+1 0 0 1 54.18898 212.9701 cm
+q
+.14902 .14902 .301961 rg
+BT 1 0 0 1 0 5.5 Tm /F2 12.5 Tf 18 TL (4.1 Rincian per grup ACVP) Tj T* ET
+Q
+Q
+q
+1 0 0 1 70.86614 98.17008 cm
+q
+.14902 .14902 .301961 rg
+n 0 108.8 453.5433 -16.4 re f*
+1 1 1 rg
+n 0 92.4 453.5433 -16.4 re f*
+.964706 .964706 .984314 rg
+n 0 76 453.5433 -16.4 re f*
+1 1 1 rg
+n 0 59.6 453.5433 -26.8 re f*
+.964706 .964706 .984314 rg
+n 0 32.8 453.5433 -16.4 re f*
+1 1 1 rg
+n 0 16.4 453.5433 -16.4 re f*
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 4 95.4 cm
+q
+1 1 1 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.8 Tf 10.4 TL (Grup) Tj T* ET
+Q
+Q
+q
+1 0 0 1 273.2913 95.4 cm
+q
+1 1 1 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.8 Tf 10.4 TL (Jumlah kasus) Tj T* ET
+Q
+Q
+q
+1 0 0 1 344.1575 95.4 cm
+q
+1 1 1 rg
+BT 1 0 0 1 0 2.6 Tm /F2 7.8 Tf 10.4 TL (Hasil) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 79 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (keyGen) Tj T* ET
+Q
+Q
+q
+1 0 0 1 273.2913 79 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (25) Tj T* ET
+Q
+Q
+q
+1 0 0 1 344.1575 79 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (25/25 cocok) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 62.6 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (encapsulation) Tj T* ET
+Q
+Q
+q
+1 0 0 1 273.2913 62.6 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (25) Tj T* ET
+Q
+Q
+q
+1 0 0 1 344.1575 62.6 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (25/25 cocok) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 35.8 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 13 Tm /F1 7.8 Tf 10.4 TL (decapsulation \(termasuk 5 kasus ciphertext dimodifikasi - jalur) Tj T* (implicit-rejection\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 273.2913 46.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (10) Tj T* ET
+Q
+Q
+q
+1 0 0 1 344.1575 46.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (10/10 cocok) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 19.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (decapsulationKeyCheck) Tj T* ET
+Q
+Q
+q
+1 0 0 1 273.2913 19.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (10) Tj T* ET
+Q
+Q
+q
+1 0 0 1 344.1575 19.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (10/10 cocok) Tj T* ET
+Q
+Q
+q
+1 0 0 1 4 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (encapsulationKeyCheck) Tj T* ET
+Q
+Q
+q
+1 0 0 1 273.2913 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (10) Tj T* ET
+Q
+Q
+q
+1 0 0 1 344.1575 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.6 Tm /F1 7.8 Tf 10.4 TL (10/10 cocok) Tj T* ET
+Q
+Q
+q
+1 J
+1 j
+.784314 .784314 .815686 RG
+.4 w
+n 0 108.8 m 453.5433 108.8 l S
+n 0 0 m 453.5433 0 l S
+n 0 0 m 0 108.8 l S
+n 453.5433 0 m 453.5433 108.8 l S
+n 0 92.4 m 453.5433 92.4 l S
+n 0 76 m 453.5433 76 l S
+n 0 59.6 m 453.5433 59.6 l S
+n 0 32.8 m 453.5433 32.8 l S
+n 0 16.4 m 453.5433 16.4 l S
+n 269.2913 0 m 269.2913 108.8 l S
+n 340.1575 0 m 340.1575 108.8 l S
+Q
+Q
+Q
+q
+1 0 0 1 54.18898 76.57008 cm
+q
+.333333 .333333 .333333 rg
+BT 1 0 0 1 0 13.7 Tm /F1 7.9 Tf 10.8 TL (Vektor diambil dari commit terpatok repositori ACVP NIST \(975de31e...\), diverifikasi SHA-256 sebelum dipakai, sehingga tidak mungkin) Tj T* (tercampur dengan vektor Kyber lama \(pra-standardisasi\) yang parameternya sedikit berbeda.) Tj T* ET
+Q
+Q
+ 
+
+endstream
+endobj
+13 0 obj
+<<
+/Contents 14 0 R
+/MediaBox [ 0 0 595.2756 841.8898 ]
+/Resources <<
+/Font 6 0 R
+/ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Parent 2 0 R
+>>
+endobj
+14 0 obj
+<<
+/Length 756
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+BT /F1 7 Tf 8.4 TL ET
+.466667 .466667 .466667 rg
+BT 1 0 0 1 409.3756 25.51181 Tm (CHIPATON - Laporan Fase 0 \(ID\) - hal. 3) Tj T* ET
+ 
+
+q
+1 0 0 1 54.18898 771.3701 cm
+q
+.101961 .101961 .180392 rg
+BT 1 0 0 1 0 6 Tm /F2 16 Tf 22 TL (5. Status) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54.18898 723.1701 cm
+q
+.913725 .964706 .92549 rg
+n -6 -6 498.8976 52.2 re f*
+Q
+q
+BT 1 0 0 1 0 30.8 Tm 13.4 TL /F1 9.4 Tf .043137 .290196 .121569 rg (Fase 0 ) Tj /F2 9.4 Tf (DONE dan disetujui) Tj /F1 9.4 Tf ( - kotak Approval pada docs/results/result_phase0.md sudah dicentang \(Faza Dzil,) Tj T* (2026-09-29\). Model emas ini menjadi acuan tetap untuk seluruh fase RTL berikutnya; tidak diubah lagi kecuali) Tj T* (ditemukan kesalahan.) Tj T* ET
+Q
+Q
+endstream
+endobj
+xref
+0 15
+0000000000 65535 f 
+0000000015 00000 n 
+0000000367 00000 n 
+0000000440 00000 n 
+0000000489 00000 n 
+0000000688 00000 n 
+0000002154 00000 n 
+0000002216 00000 n 
+0000002323 00000 n 
+0000002435 00000 n 
+0000002512 00000 n 
+0000002618 00000 n 
+0000002819 00000 n 
+0000013099 00000 n 
+0000013300 00000 n 
+trailer
+<<
+/Size 15
+/Root 3 0 R
+/Info 1 0 R
+>>
+startxref
+14108
+%%EOF

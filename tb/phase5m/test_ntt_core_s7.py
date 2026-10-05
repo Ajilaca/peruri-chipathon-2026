@@ -1,4 +1,4 @@
-"""tb/phase5m/test_ntt_core_s7.py -- Phase 5M step S7 core test (docs/evidence/phase05m-memsched/test_plan_s7.md V4, V5): a copy of the Phase 4 core
+"""tb/phase5m/test_ntt_core_s7.py -- Phase 5M step S7 core test (evidence/phase05m/test_plan_s7.md V4, V5): a copy of the Phase 4 core
 test tb/ntt/test_ntt_core_c3.py (which stays frozen) for the core with the memory read split by one register stage (RD_SPLIT = 1).
 Differences from the Phase 4 test, nothing else:
   - C3_RDLAT is the number of cycles from a request to its read DATA (= arbitration cuts + RD_SPLIT, here 4), used for host read-back and the
@@ -100,7 +100,7 @@ def _corner_polys() -> list[list[int]]:
 
 def _tight_addresses(mode: int) -> set[int]:
     """Addresses with the smallest write-to-next-read distance at each layer boundary (and before the
-    INTT scaling pass): same model as scripts/pipeline_hazard_slack.py."""
+    INTT scaling pass): same model as scripts/test/pipeline_hazard_slack.py."""
     t_per = 128 // L
     out = set()
     for layer in range(6):

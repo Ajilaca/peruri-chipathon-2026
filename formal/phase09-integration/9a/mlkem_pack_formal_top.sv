@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // formal/phase09-integration/9a/mlkem_pack_formal_top.sv
-// Phase 9a test V9 (docs/evidence/phase09-integration/9a/test_plan_9a.md): control and range properties of rtl/mlkem/mlkem_pack.sv with free inputs (any start, dsel, valid, data, ready).
+// Phase 9a test V9 (evidence/phase09/9a/test_plan_9a.md): control and range properties of rtl/mlkem/mlkem_pack.sv with free inputs (any start, dsel, valid, data, ready).
 //   P1  at most 256 coefficients accepted and at most 32 d bytes accepted by the sink per run; byte_last_o exactly on byte 32 d - 1
 //   P2  an unaccepted byte is held: byte_valid_o, byte_data_o and byte_last_o stay stable until byte_ready_i
 //   P3  no output while idle: byte_valid_o and coef_ready_o only when busy; done_o only when not busy

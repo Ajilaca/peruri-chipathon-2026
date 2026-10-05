@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/arith/modmul_barrett.sv
-// Phase 5b candidate (docs/evidence/phase05-arith/test_plan.md section 3, ADR 0011): (a_i * b_i) mod Q by
+// Phase 5b candidate (evidence/phase05/test_plan.md section 3, ADR 0011): (a_i * b_i) mod Q by
 // Barrett reduction, same port list as rtl/ntt/modmul_reduce_staged.sv and rtl/arith/modmul_fold.sv.
 //
 //   x  = a_i * b_i                       (24 bits)

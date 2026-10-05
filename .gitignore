@@ -23,13 +23,13 @@ formal/**/*_prove/
 formal/**/*_bmc/
 formal/**/*_safety/
 formal/work/
-# Claude Code personal files (shared: .claude/settings.json and .claude/skills/)
-.claude/settings.local.json
+# Claude Code (local only)
+.claude/
 CLAUDE.local.md
 # Editors / OS
 .DS_Store
 *.swp
-# Local logs (the extracted evidence in docs/evidence/*.md IS committed)
+# Local logs (the extracted evidence in evidence/*.md IS committed)
 *.log
 # Official test vectors are fetched by tb/golden/fetch_acvp_vectors.py (pinned commit + sha256);
 # the JSON files are not committed.
@@ -37,3 +37,6 @@ tb/vectors/acvp/*.json
 
 # Obsidian vault settings (docs/ may be opened as a vault; never committed)
 .obsidian/
+
+# Skrip build (generator ROM, pembangun laporan): hanya di lokal
+scripts/build/

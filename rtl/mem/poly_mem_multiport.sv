@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/mem/poly_mem_multiport.sv
-// Phase 3 (docs/ROADMAP.md Phase 3, docs/evidence/phase03-multilane/test_plan.md): the
+// Phase 3 (docs/ROADMAP.md Phase 3, evidence/phase03/test_plan.md): the
 // multi-lane datapath's memory, built on the same conflict-free bank mapping as
 // rtl/mem/poly_mem_banked.sv (rtl/mem/bank_map_rom.sv, NUM_BANKS = NUM_LANES) but exposing
 // 2*NUM_LANES logical ports instead of 2 -- one (j, jlen) port pair per lane -- so all NUM_LANES
@@ -19,16 +19,16 @@
 //
 // Capacity precondition (caller contract, not re-derived here): at most 2 of the *enabled*
 // logical ports may map to the same bank in any one cycle -- exactly what
-// docs/evidence/phase03-multilane/lane_schedule_verification_2026-09-29.txt
-// (scripts/gen_lane_schedule.py) proves for the lane_p-based schedule rtl/ntt/ntt_core_c2.sv
+// evidence/phase03/lane_schedule_verification.txt
+// (scripts/build/gen_lane_schedule.py) proves for the lane_p-based schedule rtl/ntt/ntt_core_c2.sv
 // drives this module with, for every L in {1,2,4,8}, every layer, every direction. This module
 // does not assume that silently: a third same-cycle, same-bank access is not serviced (dropped)
 // but IS flagged on `bank_overflow_o` so simulation/formal can assert it is never asserted
-// (docs/evidence/phase03-multilane/test_plan.md, "Formal (CRG-8)").
+// (evidence/phase03/test_plan.md, "Formal (CRG-8)").
 //
 // Per bank: 2 physical read/write sub-ports (matching a Cyclone V M10K true dual-port block,
 // same as rtl/mem/poly_mem_banked.sv), combinational read / synchronous write (async-read
-// limitation inherited unchanged from Phase 2, docs/results/result_phase2.md).
+// limitation inherited unchanged from Phase 2, docs/results/phase02.md).
 
 /* verilator lint_off IMPORTSTAR */
 import ntt_pkg::*;

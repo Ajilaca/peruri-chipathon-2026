@@ -1,4 +1,4 @@
-"""tb/mlkem/test_profile_core.py -- Phase 9M profile (docs/evidence/phase09m-optimisation/profile_2026-10-04.md): cycles of rtl/mlkem/mlkem_core.sv per controller state and per micro-operation for one KeyGen, Encaps and Decaps
+"""tb/mlkem/test_profile_core.py -- Phase 9M profile (evidence/phase9m/profile.md): cycles of rtl/mlkem/mlkem_core.sv per controller state and per micro-operation for one KeyGen, Encaps and Decaps
 with fixed inputs (d = 00..1f, z = 20..3f, m = 40..5f). The cycle of each micro-operation is counted from the controller's program counter and state at every falling edge inside run_op. Environment: PROF_OUT (json path).
 Simulation only; the outputs are not checked here (tb/mlkem/test_mlkem_core.py does that)."""
 import json

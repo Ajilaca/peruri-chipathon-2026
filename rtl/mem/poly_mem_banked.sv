@@ -4,7 +4,7 @@
 // Banked version of rtl/ntt/poly_mem.sv (docs/ROADMAP.md Phase 2): the same 256 x 12-bit
 // polynomial store, split into NUM_BANKS independent 2-port banks using the conflict-free
 // mapping in rtl/mem/bank_map_rom.sv (proven for NUM_BANKS in {1,2,4,8},
-// docs/evidence/phase02-memory/bank_scheme_exploration_2026-09-29.txt).
+// evidence/phase02/bank_scheme_exploration.txt).
 //
 // Two logical ports (A, B), each carrying one *logical* 8-bit address (j or jlen). Each port's
 // address is translated to (bank, offset); each bank instance gets up to 2 simultaneous
@@ -13,7 +13,7 @@
 // true dual-port block. This phase instantiates NUM_BANKS=1 only (rtl/mem/ntt_core_c1.sv);
 // larger NUM_BANKS compiles (CRG-1/CRG-2) and is address-proven, but its multi-bank read/write
 // crossbar below is NOT exercised by any cocotb test this phase (see
-// docs/evidence/phase02-memory/test_plan.md) -- building the L>1 datapath is Phase 3 scope.
+// evidence/phase02/test_plan.md) -- building the L>1 datapath is Phase 3 scope.
 
 /* verilator lint_off IMPORTSTAR */
 import ntt_pkg::*;

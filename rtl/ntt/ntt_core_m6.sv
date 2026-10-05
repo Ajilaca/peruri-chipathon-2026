@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/ntt/ntt_core_m6.sv
-// Phase 5M step S6 (docs/evidence/phase05m-memsched/test_plan.md, ADR 0017): rtl/ntt/ntt_core_c4.sv with RED_KIND = 2 (Barrett,
+// Phase 5M step S6 (evidence/phase05m/test_plan.md, ADR 0017): rtl/ntt/ntt_core_c4.sv with RED_KIND = 2 (Barrett,
 // the C4b-B configuration, ADR 0013) and the INTT scaling pass removed. The INTT halves in every layer instead
 // (3303 = 2^-7 mod q, 7 layers): butterfly a' = (a + b) / 2, b' = zeta_h * (b - a) with zeta_h = zeta / 2 mod q taken from
 // rtl/arith/twiddle_rom_half.sv (generated). The result equals FIPS 203 Algorithm 10 including its final multiplication

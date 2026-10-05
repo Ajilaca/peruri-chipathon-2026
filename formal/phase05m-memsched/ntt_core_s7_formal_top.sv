@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // formal/phase05m-memsched/ntt_core_s7_formal_top.sv
-// Phase 5M step S7 formal top (docs/evidence/phase05m-memsched/test_plan_s7.md, V6): the S6 top ntt_core_m6_formal_top.sv for rtl/ntt/ntt_core_s7_p7.sv:
+// Phase 5M step S7 formal top (evidence/phase05m/test_plan_s7.md, V6): the S6 top ntt_core_m6_formal_top.sv for rtl/ntt/ntt_core_s7_p7.sv:
 // P = 7 (three cuts and the read split before the read data, three cuts after it). Property A uses P = 7 (a write fires exactly P cycles after its request);
 // property C uses the PHYSICAL storage read cycle RdLat = 3 (arbitration cuts only; the read data appears one cycle later through the RD_SPLIT register).
 // Properties, delay model and negative-control hook (F_SKEW):

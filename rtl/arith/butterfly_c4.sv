@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/arith/butterfly_c4.sv
-// Phase 5 (docs/evidence/phase05-arith/test_plan.md): the equations and timing of the frozen
+// Phase 5 (evidence/phase05/test_plan.md): the equations and timing of the frozen
 // rtl/ntt/butterfly_shared_pipe.sv, with the multiplier-reducer chosen by RED_KIND through
 // rtl/arith/modmul_sel.sv. Outputs for the inputs of cycle t appear at cycle t + LAT,
 // LAT = number of bits set in MUL_REG.

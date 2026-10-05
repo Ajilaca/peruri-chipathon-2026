@@ -1,0 +1,8 @@
+# MEASURED (formal, control and bank properties only): Phase 5M S6, formal/run/run_formal_phase5m.py at git 4382a5f, 2026-10-02
+
+| Group | Proof | Expected | Result | Engine detail | Time (s) | As expected |
+|---|---|---|---|---|---|---|
+| A Phase 5M | m6 (H, O, R, A, B, C) | PASS | PASS | basecase=pass, induction=pass | 62.4 | yes |
+| B Negative control | NC-O m6: bank_map_rom copy, NUM_BANKS=8: bank(128) 2 -> 3 | FAIL | FAIL | basecase=FAIL; failed assert ntt_core_m6_formal_top.sv:129 | 11.7 | yes |
+| B Negative control | NC-A m6: delay model of property A one cycle short | FAIL | FAIL | basecase=FAIL; failed assert ntt_core_m6_formal_top.sv:130 | 12.4 | yes |
+OVERALL: all results as expected (3/3)

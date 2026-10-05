@@ -1,4 +1,4 @@
-"""tb/phase5m/test_m6_basis.py — Phase 5M S6, test plan V6: the core's INTT (no scaling pass, halving in every layer) for the 256 unit
+"""tb/phase5m/test_m6_basis.py - Phase 5M S6, test plan V6: the core's INTT (no scaling pass, halving in every layer) for the 256 unit
 vectors e_i and the 256 vectors (q-1) * e_i equals BOTH the FIPS 203 intt() (golden, with the final 3303 multiplication) and
 intt_halving() (golden model of the halved algorithm). Uses the Phase 4 helpers of tb/ntt/test_ntt_core_c3.py unchanged
 (same environment variables: C3_RDLAT, C3_WRDLY, C3_CORE, C3_CYCLES_OUT)."""

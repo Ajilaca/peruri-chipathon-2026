@@ -1,9 +1,9 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/mem/poly_mem_m10k.sv
-// S10 (docs/evidence/phase06-scheduling/test_plan_s10.md, ADR 0024, ADR 0022 option A): polynomial memory of the NTT core as 16 banks of 16 x 12 bit, one read and one
+// S10 (evidence/phase06/test_plan_s10.md, ADR 0024, ADR 0022 option A): polynomial memory of the NTT core as 16 banks of 16 x 12 bit, one read and one
 // write per bank per cycle, without slot arbitration. Same port list as rtl/mem/poly_mem_multiport_split.sv. Bank map (S9 study, conflict-free over the whole L = 8
-// schedule of both directions, docs/evidence/phase05m-memsched/s9/port_analysis_2026-10-03.txt):
+// schedule of both directions, evidence/phase05m/s9/port_analysis.txt):
 //
 //   bank(a)   = {a[1]^a[2]^a[3]^a[4], a[7], a[6], a[5]}        offset(a) = a[3:0]
 //

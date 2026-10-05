@@ -3,7 +3,7 @@
 // rtl/ntt/ntt_core_c4a.sv
 // Thin Quartus top-level wrapper (Phase 5a, revision C4a): rtl/ntt/ntt_core_c4.sv at NUM_LANES = 8 with the
 // q-specific fold reducer (RED_KIND = 1, rtl/arith/modmul_fold.sv). Memory cuts as C3-P6 (A_4, A_11, M);
-// multiplier-path cuts X, F_3, F_5 (fold reducer REG_AFTER bits 0, 3, 5; docs/evidence/phase05-arith/test_plan.md
+// multiplier-path cuts X, F_3, F_5 (fold reducer REG_AFTER bits 0, 3, 5; evidence/phase05/test_plan.md
 // section 14). P = 6. Same port list as rtl/ntt/ntt_core_c3_p6.sv. No logic here.
 
 module ntt_core_c4a (

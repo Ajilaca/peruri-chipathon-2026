@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/sched/kpke_sched_top.sv
-// Phase 6 Quartus top (docs/evidence/phase06-scheduling/test_plan.md V9): the K-PKE arithmetic sequencer (rtl/sched/kpke_sched.sv) with the S7 NTT/INTT core
+// Phase 6 Quartus top (evidence/phase06/test_plan.md V9): the K-PKE arithmetic sequencer (rtl/sched/kpke_sched.sv) with the S7 NTT/INTT core
 // (rtl/ntt/ntt_core_s7_p7.sv, host read latency 4; ADR 0024 working assumption, ADR 0021 Proposed). Exchanging the core means exchanging this instance and
 // CORE_RDLAT; the sequencer is unchanged. No logic here.
 

@@ -5,7 +5,7 @@
 // inverse multiplier operand deliberately wrong (sub_mod(a_i, b_i) instead of sub_mod(b_i, a_i)).
 // k1_negctl_operand.sby must FAIL; if it ever passes, the abstraction proof is vacuous.
 // (original header of the copied file follows)
-// Optimisation experiment K1 (docs/evidence/phase03-multilane/, L=8 ALM audit): the same
+// Optimisation experiment K1 (evidence/phase03/, L=8 ALM audit): the same
 // NTT/INTT butterfly as rtl/ntt/butterfly.sv, computing exactly the same equations, but with ONE
 // modular multiplier shared by both modes instead of one per mode. mode_i is fixed for a whole
 // NTT or INTT run, so the forward multiplier (zeta*b) and the inverse multiplier (zeta*(b-a))

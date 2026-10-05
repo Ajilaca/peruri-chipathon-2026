@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/mlkem/mlkem_ldpoly.sv
-// Phase 9c (docs/evidence/phase09-integration/9c/test_plan_9c.md): loads one polynomial into an engine slot. The bytes of 4 d words starting at word woff_i of a region are read through the word read port (rd_req_o, rd_addr_o = woff + index;
+// Phase 9c (evidence/phase09/9c/test_plan_9c.md): loads one polynomial into an engine slot. The bytes of 4 d words starting at word woff_i of a region are read through the word read port (rd_req_o, rd_addr_o = woff + index;
 // rd_data_i valid the cycle after rd_req_o), serialised (mlkem_wordbytes), decoded and decompressed (mlkem_unpack, d chosen by dsel_i: 0 -> 1, 1 -> 4, 2 -> 10, 3 -> 12) and written, one coefficient per cycle, into slot slot_i of the engine through its host port
 // (tb_we_o, tb_slot_o, tb_addr_o = coefficient index, tb_wdata_o). done_o is one pulse after the last coefficient was written. start_i is accepted only when idle. No control depends on the data. Reset: asynchronous, active low, on the control state.
 

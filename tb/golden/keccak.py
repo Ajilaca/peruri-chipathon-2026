@@ -1,6 +1,6 @@
 """tb/golden/keccak.py
 
-Golden Keccak-f[1600] and sponge (FIPS 202), independent of any RTL (Phase 7, docs/evidence/phase07-keccak/test_plan.md).
+Golden Keccak-f[1600] and sponge (FIPS 202), independent of any RTL (Phase 7, evidence/phase07/test_plan.md).
 
 State: 25 lanes of 64 bit, lane index x + 5y (FIPS 202 Section 3.1.2 with A[x, y] = lane[x + 5y]). Byte i of the state string is byte (i mod 8)
 of lane (i div 8), little endian (FIPS 202 Section 3.1.3). The round constants are computed with the rc(t) LFSR (Algorithm 5) and the rho offsets with

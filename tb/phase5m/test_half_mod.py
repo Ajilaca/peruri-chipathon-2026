@@ -1,4 +1,4 @@
-"""tb/phase5m/test_half_mod.py — Phase 5M S6, test plan V2: rtl/arith/half_mod.sv for EVERY x in [0, q): y < q and 2*y = x (mod q),
+"""tb/phase5m/test_half_mod.py - Phase 5M S6, test plan V2: rtl/arith/half_mod.sv for EVERY x in [0, q): y < q and 2*y = x (mod q),
 and y equals the golden half_mod (tb/golden/intt_halving.py). The toplevel is half_mod; the same test is run against a mutant
 (negative control) and must FAIL there."""
 

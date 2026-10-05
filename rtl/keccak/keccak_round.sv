@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/keccak/keccak_round.sv
-// Phase 7 (docs/evidence/phase07-keccak/test_plan.md): one Keccak-f[1600] round, combinational: theta, rho, pi, chi, iota (FIPS 202 Section 3.2).
+// Phase 7 (evidence/phase07/test_plan.md): one Keccak-f[1600] round, combinational: theta, rho, pi, chi, iota (FIPS 202 Section 3.2).
 // State: 25 lanes of 64 bit packed as s_i[64*i +: 64], lane index i = x + 5y. The round constant is an input (selected by the permutation counter).
 // No state, no data-dependent timing.
 

@@ -7,7 +7,7 @@
 #    cells; in the induction step their contents are free state, which produced a spurious
 #    bank_overflow_o counterexample for NUM_LANES > 1 (the earlier UNKNOWN). Mapping ROMs back to
 #    constant logic states a design fact (ROM contents are constants), not an extra assumption.
-#  See docs/evidence/phase03-multilane/formal_rerun_2026-09-30.md.
+#  See evidence/phase03/formal_rerun.md.
 
 [options]
 mode prove

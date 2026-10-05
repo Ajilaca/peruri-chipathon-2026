@@ -3,7 +3,7 @@
 // rtl/ntt/pipe_delay.sv
 // Phase 4: a W-bit value delayed by STAGES clock cycles (STAGES = 0: plain wire). Used for the control and
 // data side-channels that must stay aligned with the pipelined butterfly
-// (docs/evidence/phase04-pipeline/test_plan.md).
+// (evidence/phase04/test_plan.md).
 // Reset: HAS_RST = 1 clears every stage on the asynchronous active-low reset (for valid / write-enable
 // bits, which must not fire after reset); HAS_RST = 0 leaves the stages unreset (plain data).
 

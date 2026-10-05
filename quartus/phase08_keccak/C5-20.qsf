@@ -1,4 +1,4 @@
-# quartus/phase08_keccak/C5-20.qsf -- Phase 8a C5 (docs/evidence/phase08-keccak-stream/8a/test_plan_8a.md V10): keccak_sponge_r2 (Keccak-f[1600] with TWO rounds per cycle, SHA3/SHAKE sponge),
+# quartus/phase08_keccak/C5-20.qsf -- Phase 8a C5 (evidence/phase08/8a/test_plan_8a.md V10): keccak_sponge_r2 (Keccak-f[1600] with TWO rounds per cycle, SHA3/SHAKE sponge),
 # kernel-only compile (virtual pins, as Phases 1-7), 20.000 ns (C-20.sdc, information), Quartus defaults, seed 1.
 set_global_assignment -name FAMILY "Cyclone V"
 set_global_assignment -name DEVICE 5CSEBA6U23I7

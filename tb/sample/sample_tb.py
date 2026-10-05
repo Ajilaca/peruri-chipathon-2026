@@ -1,4 +1,4 @@
-"""tb/sample/sample_tb.py -- shared helpers of the Phase 8b sampler tests (docs/evidence/phase08-keccak-stream/8b/test_plan_8b.md).
+"""tb/sample/sample_tb.py -- shared helpers of the Phase 8b sampler tests (evidence/phase08/8b/test_plan_8b.md).
 
 Cycle model of the drivers: inputs are written at the falling edge, the combinational outputs are read 1 ns later (they settle), and the values read are the ones the next rising edge samples.
 Output beats hold OUTW coefficients (env KS_OUTW, default 1): lane k of a beat is bits [12k+11:12k], lane 0 is the lower coefficient index.

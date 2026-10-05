@@ -1,10 +1,10 @@
-"""tb/mem/test_ntt_core_c1.py — cocotb bit-exact + cycle-exact regression for rtl/mem/ntt_core_c1.sv
+"""tb/mem/test_ntt_core_c1.py - cocotb bit-exact + cycle-exact regression for rtl/mem/ntt_core_c1.sv
 (configuration C1: C0's FSM/butterfly + poly_mem_banked at NUM_BANKS=1) against
 tb/golden/primitives.py and against Phase 1's own MEASURED cycle counts.
 
-Per docs/evidence/phase02-memory/test_plan.md ("Regression: ntt_core_c1"): the banked memory at
+Per evidence/phase02/test_plan.md ("Regression: ntt_core_c1"): the banked memory at
 NUM_BANKS=1 must not change behaviour OR cycle count relative to C0
-(docs/evidence/phase01-ntt-baseline/cocotb_regression_2026-09-29.txt: NTT=897, INTT=1153). This
+(evidence/phase01/cocotb_regression.txt: NTT=897, INTT=1153). This
 test checks equality against those exact numbers, not just "constant" -- a stall cycle introduced
 by the bank-map lookup would still be a constant cycle count, just the wrong one, and must FAIL.
 """

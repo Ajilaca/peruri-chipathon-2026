@@ -1,6 +1,6 @@
 """tb/golden/fo_model.py
 
-Golden model of the Phase 9b comparison and key selection of ML-KEM.Decaps_internal (FIPS 203 Algorithm 18 lines 8-11, docs/evidence/phase09-integration/9b/test_plan_9b.md), written in the form of the hardware:
+Golden model of the Phase 9b comparison and key selection of ML-KEM.Decaps_internal (FIPS 203 Algorithm 18 lines 8-11, evidence/phase09/9b/test_plan_9b.md), written in the form of the hardware:
 the two ciphertexts are compared word by word (64-bit words, byte k of word w is byte 8w + k) as the OR of all XORs, with no early exit, and the key is selected with a 256-bit mask, not with a branch.
 Independent of any RTL; checked against the unmodified golden `mlkem.ml_kem_decaps_internal` in tb/golden/tests/test_fo_model.py.
 """

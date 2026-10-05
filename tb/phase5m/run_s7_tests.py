@@ -1,4 +1,4 @@
-"""tb/phase5m/run_s7_tests.py -- Phase 5M step S7 verification (docs/evidence/phase05m-memsched/test_plan_s7.md V2-V5) against one simulator.
+"""tb/phase5m/run_s7_tests.py -- Phase 5M step S7 verification (evidence/phase05m/test_plan_s7.md V2-V5) against one simulator.
 
 Builds:
   mem1   rtl/mem/poly_mem_multiport_split.sv, RD_SPLIT = 1, ARB_REG = bits 4, 11, 16, WR_DELAY = 3: test_poly_mem_split (V2)

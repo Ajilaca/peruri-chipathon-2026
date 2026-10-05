@@ -2,7 +2,7 @@
 # Phase 4 V9 for rtl/ntt/ntt_core_c3_p6.sv (P = 6): properties H, O, R, A, B, C of
 # ntt_core_c3_formal_top.sv. Control and bank-capacity properties only, not arithmetic.
 # Flow as in Phase 3: yosys-slang frontend + `memory_map -rom-only`
-# (docs/evidence/phase03-multilane/formal_rerun_2026-09-30.md).
+# (evidence/phase03/formal_rerun.md).
 # Depth 9 = P + 3: the induction window must be longer than the pipeline, so that every pipeline
 # register in its last step was loaded from a request issued inside the window.
 

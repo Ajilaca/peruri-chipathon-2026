@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // formal/phase08-keccak-stream/8b/cbd2_core_formal_top.sv
-// Phase 8b test V9 (docs/evidence/phase08-keccak-stream/8b/test_plan_8b.md): control and range properties of rtl/sample/cbd2_core.sv with a free input stream and free handshakes.
+// Phase 8b test V9 (evidence/phase08/8b/test_plan_8b.md): control and range properties of rtl/sample/cbd2_core.sv with a free input stream and free handshakes.
 //   S1  coef_data_o < 3329 whenever coef_valid_o
 //   S2  at most 256 coefficients are handed over per run; coef_last_o exactly on the 256th; at most 16 stream words are taken per run (the 17th is never taken)
 //   S3  a pending output is held until coef_ready_i (or abort_i)

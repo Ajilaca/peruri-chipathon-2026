@@ -1,0 +1,7 @@
+{
+  "_comment": "Input of scripts/quartus/phase5m_select_s8.py. correct = test plan_s8 section 3 V1-V8 all PASS (verify.md V1-V4 and V6 on both simulators, formal.md V5, regression.md V7/V8 run once on the final tree by Amendment A1). cycles are simulation measurements (constant per direction, identical on both simulators).",
+  "correct": "PASS",
+  "cycles_NTT": 122,
+  "cycles_INTT": 122,
+  "evidence": "verify.md, formal.md, regression.md"
+}

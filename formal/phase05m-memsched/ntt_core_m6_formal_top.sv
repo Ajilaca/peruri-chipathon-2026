@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // formal/phase05m-memsched/ntt_core_m6_formal_top.sv
-// Phase 5M step S6 formal top (docs/evidence/phase05m-memsched/test_plan.md, V8): the Phase 5 top
+// Phase 5M step S6 formal top (evidence/phase05m/test_plan.md, V8): the Phase 5 top
 // formal/phase05-arith/ntt_core_c4_formal_top.sv (frozen) for rtl/ntt/ntt_core_m6_p6.sv (P = 6, RdLat = 3, three cuts before the read and
 // three after it; the scaling pass and the S_SCALE state are gone, the state encoding keeps ntt_core_c4's values). Properties,
 // delay model and negative-control hook (F_SKEW) are the Phase 4 / 5 ones:

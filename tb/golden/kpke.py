@@ -191,7 +191,7 @@ def k_pke_decrypt(dk_pke: bytes, c: bytes) -> bytes:
     # (Note: the algorithm's own inline comment in FIPS 203 erroneously says
     # "decode plaintext m from polynomial v" on the next line; the body
     # uses w, matching errata item #2, see
-    # docs/evidence/golden/fips203_errata_2026-09-28.md.)
+    # evidence/phase00/fips203_errata.md.)
     w = _poly_sub(v_prime, intt(_vec_dot(s_hat, u_hat, k)))
     m = byte_encode(1, compress(1, w))  # line 7
     return m

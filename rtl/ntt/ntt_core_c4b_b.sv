@@ -4,7 +4,7 @@
 // Thin Quartus top-level wrapper (Phase 5b candidate, revision C4b-B): rtl/ntt/ntt_core_c4.sv at NUM_LANES = 8
 // with the Barrett reducer (RED_KIND = 2, rtl/arith/modmul_barrett.sv).
 // Memory cuts as C3-P6 (A_4, A_11, M); multiplier-path cuts X, S_1, S_2 (REG_AFTER bits 0, 1, 2;
-// docs/evidence/phase05-arith/test_plan.md section 14, A3). P = 6. Same port list as rtl/ntt/ntt_core_c3_p6.sv.
+// evidence/phase05/test_plan.md section 14, A3). P = 6. Same port list as rtl/ntt/ntt_core_c3_p6.sv.
 // No logic here.
 
 module ntt_core_c4b_b (

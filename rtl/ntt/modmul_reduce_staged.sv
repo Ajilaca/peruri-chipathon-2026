@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/ntt/modmul_reduce_staged.sv
-// Phase 4 (docs/ROADMAP.md Phase 4, ADR 0007, docs/evidence/phase04-pipeline/test_plan.md):
+// Phase 4 (docs/ROADMAP.md Phase 4, ADR 0007, evidence/phase04/test_plan.md):
 // (a_i * b_i) mod Q with the reduction written out as explicit stages so that pipeline registers can
 // be placed between them. Same function as rtl/ntt/modmul_reduce.sv (which stays frozen): the generic
 // `prod % Q` there is replaced by the restoring division it stands for,
@@ -9,7 +9,7 @@
 //     r = a_i * b_i;   for k = 12 downto 0:  if (r >= (Q << k)) r = r - (Q << k);   p_o = r
 //
 // 13 conditional subtractions, the same number of stages as the divider Quartus inferred for the
-// `%` (docs/evidence/phase04-pipeline/k1_l8_worst_path_breakdown_2026-09-30.md). Because
+// `%` (evidence/phase04/k1_l8_worst_path_breakdown.md). Because
 // Q << 13 > 2^24, this equals `prod % Q` for EVERY 24-bit product, i.e. for every 12-bit a_i, b_i, not
 // only for operands below Q; the equality is checked exhaustively (tb/ntt/p4_reducer/).
 // This is not a change of reduction method or of any result (no Barrett/Montgomery: Phase 5).

@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/arith/butterfly_m6.sv
-// Phase 5M step S6 (docs/evidence/phase05m-memsched/test_plan.md): the Barrett (RED_KIND = 2) butterfly of
+// Phase 5M step S6 (evidence/phase05m/test_plan.md): the Barrett (RED_KIND = 2) butterfly of
 // rtl/arith/butterfly_c4.sv with the INTT scaling folded into the layers (halving in every layer). Outputs for the inputs of
 // cycle t appear at cycle t + LAT, LAT = number of bits set in MUL_REG.
 //

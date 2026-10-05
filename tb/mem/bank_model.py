@@ -16,7 +16,7 @@ and log2(len) ranges over 1..7 across the 7 layers (never 0, since the smallest 
 A *fixed* small bit-slice bank function (e.g. addr mod L, or addr's top log2(L) bits) can only
 ever include a handful of those 7 bit positions, so it collides completely on every layer whose
 distinguishing bit falls outside the slice (verified empirically in
-docs/evidence/phase02-memory/bank_scheme_exploration.txt). The XOR-group construction instead
+evidence/phase02/bank_scheme_exploration.txt). The XOR-group construction instead
 makes every one of bits 1..7 influence at least one output bit, so flipping any single one of
 them always changes bank(addr) -- this is checked exhaustively below, not assumed.
 """
@@ -75,7 +75,7 @@ def build_maps(num_banks: int):
     """Returns (bank_of_addr[256], offset_of_addr[256], addr_of[bank][offset]) for one bank
     count. offset(addr) is addr's rank (0-based, ascending) among addresses sharing its bank --
     this makes (bank, offset) a bijection with addr by construction, and is exactly what
-    scripts/gen_bank_map.py turns into a ROM.
+    scripts/build/gen_bank_map.py turns into a ROM.
     """
     banks: dict[int, list[int]] = {}
     for a in range(N):
@@ -94,7 +94,7 @@ def build_maps(num_banks: int):
 def lane_p(num_banks: int, lane: int, t: int) -> int:
     """Which butterfly index p (0..127) lane `lane` (0..num_banks-1) processes at "sub-cycle" t
     (0..128/num_banks-1), under the contiguous-block lane grouping (verified in
-    docs/evidence/phase02-memory/bank_scheme_exploration.txt to be the grouping that keeps every
+    evidence/phase02/bank_scheme_exploration.txt to be the grouping that keeps every
     bank at <=2 accesses/cycle for every L; the alternative round-robin/interleaved grouping does
     not, and is not used).
     """
@@ -116,7 +116,7 @@ def zeta_index_of(layer: int, mode_inv: int, block: int) -> int:
     Derived from rtl/ntt/ntt_core.sv's own update rule (zeta_idx starts at 1 for NTT / 127 for
     INTT, and steps by +-1 once per finished block) and verified exhaustively against that exact
     sequential rule for every one of the 127 (layer, block) pairs in both directions --
-    see scripts/gen_lane_schedule.py / docs/evidence/phase03-multilane/. Not used until that
+    see scripts/build/gen_lane_schedule.py / evidence/phase03/. Not used until that
     verification passes; the formula is not trusted from derivation alone.
 
     NTT (forward): k = 2^layer + block (cumulative block count before layer L is 2^L - 1).

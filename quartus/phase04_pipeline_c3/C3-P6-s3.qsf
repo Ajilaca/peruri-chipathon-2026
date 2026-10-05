@@ -16,7 +16,7 @@ set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/ntt/ntt_core_c3_p6.sv
 
 # Kernel-only, virtual pins: same assignments as the Phase 3 revisions
 # (quartus/phase03_multilane_c2/C2-K2-K1-L8.qsf); the four Phase 4 QSFs differ only in top entity,
-# output folder and RTL file list (docs/evidence/phase04-pipeline/test_plan.md section 5).
+# output folder and RTL file list (evidence/phase04/test_plan.md section 5).
 set_instance_assignment -name VIRTUAL_PIN ON -to clk_i
 set_instance_assignment -name VIRTUAL_PIN ON -to rst_ni
 set_instance_assignment -name VIRTUAL_PIN ON -to mode_i

@@ -1,6 +1,6 @@
 """tb/golden/codec_model.py
 
-Golden model of the Phase 9a codec (docs/evidence/phase09-integration/9a/test_plan_9a.md), independent of any RTL.
+Golden model of the Phase 9a codec (evidence/phase09/9a/test_plan_9a.md), independent of any RTL.
 Compress and Decompress are written without division, exactly as the hardware does (FIPS 203 Section 4.2.1); they are checked against the unmodified golden `primitives.compress` and `primitives.decompress` on the whole
 input domain in tb/golden/tests/test_codec_model.py. `pack_poly` and `unpack_poly` follow the bit-buffer order of the RTL (ByteEncode_d / ByteDecode_d, Algorithms 5 and 6: bits LSB first).
 """

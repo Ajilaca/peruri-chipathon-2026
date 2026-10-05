@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/sched/kpke_smp_top_s10o.sv
-// Phase 9I item 4 (docs/evidence/phase09m-optimisation/9i4/test_plan_9i4.md): rtl/sched/kpke_smp_top_s10.sv with the sequencer variant rtl/sched/kpke_sched_smp4.sv (host port while running, slot interlock): two more ports, tb_wready_o and ov_pend_i. HOSTOV (default 1) = 0 gives the behaviour of kpke_smp_top_s10.
+// Phase 9I item 4 (evidence/phase9m/batch2/9i4/test_plan_9i4.md): rtl/sched/kpke_smp_top_s10.sv with the sequencer variant rtl/sched/kpke_sched_smp4.sv (host port while running, slot interlock): two more ports, tb_wready_o and ov_pend_i. HOSTOV (default 1) = 0 gives the behaviour of kpke_smp_top_s10.
 // original header follows:
 // Phases 8c / 8d: Quartus top of the K-PKE arithmetic with sampling: the sequencer rtl/sched/kpke_sched_smp.sv (store, PWM unit, 8b sampler on the C5 sponge) with the S10 NTT/INTT core (rtl/ntt/ntt_core_s10_p5.sv, host read latency 2).
 // VAR selects the program ROM variant (0 STORE, 1 STREAM, 2 OVERLAP) at compile time; NPOLY the slots of the store (24 for STORE, 12 for STREAM / OVERLAP); STREAM_A and OVERLAP enable the 8c and 8d hardware. No logic here. NTT_P6 (S2, default 0) selects P = 6 in the NTT core.

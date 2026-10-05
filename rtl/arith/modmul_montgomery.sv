@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/arith/modmul_montgomery.sv
-// Phase 5b candidate (docs/evidence/phase05-arith/test_plan.md section 3, ADR 0011): Montgomery multiplication
+// Phase 5b candidate (evidence/phase05/test_plan.md section 3, ADR 0011): Montgomery multiplication
 // with R = 2^12, same port list as rtl/ntt/modmul_reduce_staged.sv.
 //
 //   x  = a_i * b_i                                        (24 bits)

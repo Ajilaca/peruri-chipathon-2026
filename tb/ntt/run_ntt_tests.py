@@ -1,4 +1,4 @@
-"""tb/ntt/run_ntt_tests.py — runs every Phase 1 cocotb test module against one simulator
+"""tb/ntt/run_ntt_tests.py - runs every Phase 1 cocotb test module against one simulator
 (CRG-3: "bit-exact against the golden model, on both simulators").
 
 Usage: python3 tb/ntt/run_ntt_tests.py icarus|verilator [--build-dir DIR]

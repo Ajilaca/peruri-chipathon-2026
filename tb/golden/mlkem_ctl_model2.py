@@ -1,6 +1,6 @@
 """tb/golden/mlkem_ctl_model2.py
 
-Phase 9F step S1b (docs/evidence/phase09m-optimisation/9f1b/test_plan_9f1b.md): the controller micro-programs of tb/golden/mlkem_ctl_model.py with the hash that does not depend on the work next to it moved into a background job:
+Phase 9F step S1b (evidence/phase9m/batch1/9f1b/test_plan_9f1b.md): the controller micro-programs of tb/golden/mlkem_ctl_model.py with the hash that does not depend on the work next to it moved into a background job:
 two new micro-operations ("BGS", pc) start the job whose words (HST, HFD..., HGT, END) are stored after the main program at word pc, and ("JN",) waits until the job has finished (including the write of the digest).
 Functionally the job is computed when it starts (the result is the same as in the Phase 9 programs); `check_static2` proves that the program never uses the hash unit, the job's destination registers or a word range that the job reads between BGS and JN, so that the order of execution cannot change a value.
 Independent of any RTL. The Phase 9 model is not changed.

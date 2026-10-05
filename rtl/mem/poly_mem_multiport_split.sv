@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/mem/poly_mem_multiport_split.sv
-// Phase 5M step S7 (docs/evidence/phase05m-memsched/test_plan_s7.md, ADR 0017/0019/0020): rtl/mem/poly_mem_multiport_pipe.sv (frozen,
+// Phase 5M step S7 (evidence/phase05m/test_plan_s7.md, ADR 0017/0019/0020): rtl/mem/poly_mem_multiport_pipe.sv (frozen,
 // not edited) with one optional register stage in the middle of the read. Same storage (256 x 12 bit in NUM_LANES banks,
 // flip-flops), bank mapping (rtl/mem/bank_map_rom.sv), slot rule and slot arbitration as the Phase 4 module. With RD_SPLIT = 0 every
 // output is cycle-for-cycle identical to the Phase 4 module (checked by tb/phase5m/test_poly_mem_split.py, test V3).
@@ -23,7 +23,7 @@
 // The caller's contract is unchanged in substance: at most two enabled ports per bank per request cycle
 // (checked, and flagged on bank_overflow_o, RdLat cycles after the offending request), and no read of
 // an address whose write is still in flight (the schedule guarantees it:
-// docs/evidence/phase04-pipeline/layer_boundary_slack_2026-09-30.txt; the testbench scoreboard checks it).
+// evidence/phase04/layer_boundary_slack.txt; the testbench scoreboard checks it).
 //
 // Reset (asynchronous, active low): only the enable / write-enable bits of the control pipeline, so no
 // write can fire after reset. Addresses, slots and data are unreset.

@@ -1,7 +1,0 @@
-{
-  "_comment": "Input of scripts/phase5m_select_s8.py. correct = test plan_s8 section 3 V1-V8 all PASS (verify_2026-10-03.md V1-V4 and V6 on both simulators, formal_2026-10-03.md V5, regression_2026-10-03.md V7/V8 run once on the final tree by Amendment A1). cycles are simulation measurements (constant per direction, identical on both simulators).",
-  "correct": "PASS",
-  "cycles_NTT": 122,
-  "cycles_INTT": 122,
-  "evidence": "verify_2026-10-03.md, formal_2026-10-03.md, regression_2026-10-03.md"
-}

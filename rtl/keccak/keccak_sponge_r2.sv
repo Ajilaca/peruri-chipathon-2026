@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // rtl/keccak/keccak_sponge_r2.sv
-// Phase 8a (docs/evidence/phase08-keccak-stream/8a/test_plan_8a.md V5): copy of keccak_sponge.sv (K0) on top of keccak_f1600_r2 (two rounds per cycle, configuration C5); same FSM and ports.
+// Phase 8a (evidence/phase08/8a/test_plan_8a.md V5): copy of keccak_sponge.sv (K0) on top of keccak_f1600_r2 (two rounds per cycle, configuration C5); same FSM and ports.
 // Modes (mode_i): 0 SHA3-256 (rate 136 B), 1 SHA3-512 (72 B), 2 SHAKE128 (168 B), 3 SHAKE256 (136 B).
 // Message: len_i bytes (public), taken as ceil(len / 8) 64-bit words, byte k of a word is message byte 8w + k; bytes past len in the last word are ignored.
 // Padding (domain byte 0x06 for SHA3, 0x1F for SHAKE, final 0x80) is applied in hardware by XOR into the lanes. The number of absorb permutations is
