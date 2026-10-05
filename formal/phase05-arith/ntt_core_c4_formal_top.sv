@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // formal/phase05-arith/ntt_core_c4_formal_top.sv
-// Phase 5 formal top (docs/evidence/phase05-arith/test_plan.md, V8): the Phase 4 top
+// Phase 5 formal top (evidence/phase05/test_plan.md, V8): the Phase 4 top
 // formal/phase04-pipeline/ntt_core_c3_formal_top.sv (frozen) with the Phase 5 Quartus wrappers in place of the
 // C3 ones, selected with `-G V=<n>` (0 = rtl/ntt/ntt_core_c4a.sv,
 // 1 = rtl/ntt/ntt_core_c4b_b.sv, 2 = rtl/ntt/ntt_core_c4b_m.sv, 3 = rtl/ntt/ntt_core_c4c.sv). Every C4 wrapper keeps P = 6 with three cuts

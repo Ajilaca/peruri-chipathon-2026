@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // formal/phase05m-memsched/ntt_core_s8_formal_top.sv
-// Phase 5M step S8 formal top (docs/evidence/phase05m-memsched/test_plan_s8.md, V5): the S7 top ntt_core_s7_formal_top.sv for rtl/ntt/ntt_core_s8_p8.sv: P = 8 (three cuts and the read split before
+// Phase 5M step S8 formal top (evidence/phase05m/test_plan_s8.md, V5): the S7 top ntt_core_s7_formal_top.sv for rtl/ntt/ntt_core_s8_p8.sv: P = 8 (three cuts and the read split before
 // the read data, three multiplier cuts and the write-path register after it) with one bubble cycle (S_STALL) per direction, which is not a request cycle in the delay model. Property A uses P = 8;
 // property C uses the PHYSICAL storage read cycle RdLat = 3 (arbitration cuts only; the read data appears one cycle later through the RD_SPLIT register).
 // Properties, delay model and negative-control hook (F_SKEW):

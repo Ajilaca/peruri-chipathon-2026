@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-"""formal/run_formal_phase9s2.py
+"""formal/run/run_formal_phase9s2.py
 
-Phase 9F step S2 formal run (docs/evidence/phase09m-optimisation/9s2/test_plan_9s2.md, V5): the S10 flow of formal/run_formal_s10.py with P = 6:
+Phase 9F step S2 formal run (evidence/phase9m/batch2/9s2/test_plan_9s2.md, V5): the S10 flow of formal/run/run_formal_s10.py with P = 6:
   A. formal/phase09m-optimisation/9s2/ntt_core_s10_p6_safety.sby -- properties H, O, R, A, B, C of ntt_core_s10_p6_formal_top.sv on
      rtl/ntt/ntt_core_s10_p5.sv. Expected: PASS.
   B. Negative controls on deliberately corrupted COPIES (repository RTL never modified):
        NC-O  bank map without the XOR bit (copy of poly_mem_m10k.sv) -> property O must FAIL
        NC-A  delay model of property A shifted by one cycle  -> property A must FAIL
 Control and bank-capacity properties only, not NTT/INTT arithmetic (simulation and the exhaustive / basis tests cover that).
-Usage: . scripts/env.sh && python3 formal/run_formal_phase9s2.py      Work directory: formal/work/phase9s2/ (git-ignored).
+Usage: . scripts/env.sh && python3 formal/run/run_formal_phase9s2.py      Work directory: formal/work/phase9s2/ (git-ignored).
 """
 import pathlib
 import shutil
@@ -17,7 +17,7 @@ import sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import run_formal_slang as base  # noqa: E402
 
-HERE = pathlib.Path(__file__).resolve().parent
+HERE = pathlib.Path(__file__).resolve().parent.parent  # formal/
 PM = HERE / "phase09m-optimisation" / "9s2"
 WORK = HERE / "work" / "phase9s2"
 SBY = PM / "ntt_core_s10_p6_safety.sby"

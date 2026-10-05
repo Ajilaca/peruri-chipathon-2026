@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""formal/run_formal_phase8b.py
+"""formal/run/run_formal_phase8b.py
 
-Phase 8b formal run (docs/evidence/phase08-keccak-stream/8b/test_plan_8b.md, V9), same flow as formal/run_formal_phase8a.py:
+Phase 8b formal run (evidence/phase08/8b/test_plan_8b.md, V9), same flow as formal/run/run_formal_phase8a.py:
   A. formal/phase08-keccak-stream/8b/sample_ntt_core_safety.sby -- S1-S5 of sample_ntt_core_formal_top.sv. Expected: PASS.
   A. formal/phase08-keccak-stream/8b/cbd2_core_safety.sby       -- S1-S5 of cbd2_core_formal_top.sv (at most 16 words taken). Expected: PASS.
   A. The same two proofs with OUTW = 2 (stage W2): sample_ntt_core_safety_w2.sby (S1-S6, S6 = the carry) and cbd2_core_safety_w2.sby.
@@ -9,7 +9,7 @@ Phase 8b formal run (docs/evidence/phase08-keccak-stream/8b/test_plan_8b.md, V9)
        NC-S1  sample_ntt_core accepts d <= q (the value 3329 reaches the output)           -> S1 must FAIL
        NC-S2  sample_ntt_core counts coefficients from 1 instead of 0 (the count relation behind S2: last on the 256th) -> S2 must FAIL
 Control and range properties only, not coefficient values (simulation against the golden covers those).
-Usage: . scripts/env.sh && python3 formal/run_formal_phase8b.py [1|2|all]      Work directory: formal/work/phase8b/ (git-ignored).
+Usage: . scripts/env.sh && python3 formal/run/run_formal_phase8b.py [1|2|all]      Work directory: formal/work/phase8b/ (git-ignored).
 """
 import pathlib
 import shutil
@@ -18,7 +18,7 @@ import sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import run_formal_slang as base  # noqa: E402
 
-HERE = pathlib.Path(__file__).resolve().parent
+HERE = pathlib.Path(__file__).resolve().parent.parent  # formal/
 PM = HERE / "phase08-keccak-stream" / "8b"
 WORK = HERE / "work" / "phase8b"
 RTL = HERE.parent / "rtl" / "sample"

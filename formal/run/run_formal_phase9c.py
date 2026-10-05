@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
-"""formal/run_formal_phase9c.py
+"""formal/run/run_formal_phase9c.py
 
-Phase 9c formal run (docs/evidence/phase09-integration/9c/test_plan_9c.md, Amendment A2), same flow as formal/run_formal_phase9b.py:
+Phase 9c formal run (evidence/phase09/9c/test_plan_9c.md, Amendment A2), same flow as formal/run/run_formal_phase9b.py:
   A. formal/phase09-integration/9c/mlkem_core_safety.sby -- E1 (non-interference of the control: two copies of the controller with different data and the same handshakes keep identical control state), S1-S7 of mlkem_core_formal_top.sv. Expected: PASS.
   C. formal/phase09-integration/9c/mlkem_core_cover.sby -- the covered states (KeyGen and Encaps complete, a digest word is written) are reachable (depth 260). Expected: PASS. (mlkem_core_cover_deep.sby, depth 480, is a separate long run: Decaps done and CMPK;
-     run it with `python3 formal/run_formal_phase9c.py deep`.)
+     run it with `python3 formal/run/run_formal_phase9c.py deep`.)
   B. Negative controls on deliberately corrupted COPIES of rtl/mlkem/mlkem_core.sv (repository RTL never modified):
        NC-E1  the program counter advances by 2 when a data bit of the register file is set (data-dependent control) -> E1 must FAIL
        NC-S3  a host write is accepted in the state LDP (while busy)                                             -> S3 must FAIL
        NC-S4  the store task is started together with the load task                                              -> S4 must FAIL
 Control and range properties only; values are covered by simulation. The sub-blocks are protocol stubs (formal/phase09-integration/9c/stubs_9c.sv).
-Usage: . scripts/env.sh && python3 formal/run_formal_phase9c.py [all|deep]      Work directory: formal/work/phase9c/ (git-ignored).
+Usage: . scripts/env.sh && python3 formal/run/run_formal_phase9c.py [all|deep]      Work directory: formal/work/phase9c/ (git-ignored).
 """
 import pathlib
 import shutil
@@ -19,7 +19,7 @@ import sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import run_formal_slang as base  # noqa: E402
 
-HERE = pathlib.Path(__file__).resolve().parent
+HERE = pathlib.Path(__file__).resolve().parent.parent  # formal/
 PM = HERE / "phase09-integration" / "9c"
 WORK = HERE / "work" / "phase9c"
 RTL = HERE.parent / "rtl" / "mlkem"

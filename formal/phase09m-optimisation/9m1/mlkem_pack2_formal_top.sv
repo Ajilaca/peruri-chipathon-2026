@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // formal/phase09m-optimisation/9m1/mlkem_pack2_formal_top.sv
-// Phase 9M item 1, test V6 (docs/evidence/phase09m-optimisation/9m1/test_plan_9m1.md): the Phase 9a properties P1-P5 on rtl/mlkem/mlkem_pack2.sv (two bytes per beat; beats instead of bytes, 16 bits per beat), control and range properties with free inputs (any start, dsel, valid, data, ready).
+// Phase 9M item 1, test V6 (evidence/phase9m/batch1/9m1/test_plan_9m1.md): the Phase 9a properties P1-P5 on rtl/mlkem/mlkem_pack2.sv (two bytes per beat; beats instead of bytes, 16 bits per beat), control and range properties with free inputs (any start, dsel, valid, data, ready).
 //   P1  at most 256 coefficients accepted and at most 16 d beats accepted by the sink per run; beat_last_o exactly on beat 16 d - 1
 //   P2  an unaccepted byte is held: byte_valid_o, byte_data_o and byte_last_o stay stable until byte_ready_i
 //   P3  no output while idle: byte_valid_o and coef_ready_o only when busy; done_o only when not busy

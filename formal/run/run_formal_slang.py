@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""formal/run_formal_slang.py
+"""formal/run/run_formal_slang.py
 
 Runs every SymbiYosys proof of Phases 1-3 with the yosys-slang frontend and `memory_map -rom-only`,
 plus negative controls, and checks each result against its expected status.
@@ -17,7 +17,7 @@ Phase 3 bank_overflow_o == 0 plus the t_q / layer_q range invariants; Phase 2's 
 own-pair property on the generated ROM. They do NOT prove NTT/INTT bit-exactness or memory data
 integrity (simulation evidence covers those).
 
-Usage: . scripts/env.sh && python3 formal/run_formal_slang.py
+Usage: . scripts/env.sh && python3 formal/run/run_formal_slang.py
 Work directories go to formal/work/ (git-ignored). Exit code 0 only if every result is as expected.
 """
 import pathlib
@@ -27,7 +27,7 @@ import subprocess
 import sys
 import time
 
-HERE = pathlib.Path(__file__).resolve().parent
+HERE = pathlib.Path(__file__).resolve().parent.parent  # formal/
 ROOT = HERE.parent
 WORK = HERE / "work"
 RESET_OLD = "  initial assume (!rst_ni);\n"

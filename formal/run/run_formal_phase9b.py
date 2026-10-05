@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""formal/run_formal_phase9b.py
+"""formal/run/run_formal_phase9b.py
 
-Phase 9b formal run (docs/evidence/phase09-integration/9b/test_plan_9b.md, V8), same flow as formal/run_formal_phase9a.py:
+Phase 9b formal run (evidence/phase09/9b/test_plan_9b.md, V8), same flow as formal/run/run_formal_phase9a.py:
   A. formal/phase09-integration/9b/mlkem_hash_safety.sby   -- H1-H5 of mlkem_hash_formal_top.sv (C5 sponge inside). Expected: PASS.
   A. formal/phase09-integration/9b/mlkem_fo_cmp_safety.sby -- F1-F4 of mlkem_fo_cmp_formal_top.sv (WORDS = 8). Expected: PASS.
   C. Reachability: formal/phase09-integration/9b/mlkem_hash_cover.sby and mlkem_fo_cmp_cover.sby (cover mode: the covered states must all be reached). Expected: PASS.
@@ -12,7 +12,7 @@ Phase 9b formal run (docs/evidence/phase09-integration/9b/test_plan_9b.md, V8), 
        NC-F4  mlkem_fo_cmp: the key select is inverted                        -> F4 must FAIL
        NC-F1  mlkem_fo_cmp: the compare ends at the first difference          -> F1 must FAIL
 Control and result properties only, not digest values (simulation against hashlib covers those).
-Usage: . scripts/env.sh && python3 formal/run_formal_phase9b.py [hash|fo|all]      Work directory: formal/work/phase9b/ (git-ignored).
+Usage: . scripts/env.sh && python3 formal/run/run_formal_phase9b.py [hash|fo|all]      Work directory: formal/work/phase9b/ (git-ignored).
 """
 import pathlib
 import shutil
@@ -21,7 +21,7 @@ import sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import run_formal_slang as base  # noqa: E402
 
-HERE = pathlib.Path(__file__).resolve().parent
+HERE = pathlib.Path(__file__).resolve().parent.parent  # formal/
 PM = HERE / "phase09-integration" / "9b"
 WORK = HERE / "work" / "phase9b"
 RTL = HERE.parent / "rtl" / "mlkem"

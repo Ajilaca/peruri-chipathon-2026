@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""formal/run_formal_phase4.py
+"""formal/run/run_formal_phase4.py
 
-Phase 4 formal run (docs/evidence/phase04-pipeline/test_plan.md, V9), same flow as
-formal/run_formal_slang.py (yosys-slang frontend, `memory_map -rom-only`):
+Phase 4 formal run (evidence/phase04/test_plan.md, V9), same flow as
+formal/run/run_formal_slang.py (yosys-slang frontend, `memory_map -rom-only`):
 
   A. formal/phase04-pipeline/ntt_core_c3_p{2,4,6}_safety.sby -- properties H, O, R, A, B, C of
      ntt_core_c3_formal_top.sv on the three Quartus wrappers. Expected: PASS.
@@ -18,7 +18,7 @@ formal/run_formal_slang.py (yosys-slang frontend, `memory_map -rom-only`):
 These proofs cover control and bank-capacity properties only. They do NOT prove NTT/INTT bit-exactness
 or memory data integrity (simulation covers those).
 
-Usage: . scripts/env.sh && python3 formal/run_formal_phase4.py
+Usage: . scripts/env.sh && python3 formal/run/run_formal_phase4.py
 Work directories: formal/work/phase04/ (git-ignored). Exit code 0 only if every result is as expected.
 """
 import pathlib
@@ -29,7 +29,7 @@ import sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import run_formal_slang as base  # noqa: E402
 
-HERE = pathlib.Path(__file__).resolve().parent
+HERE = pathlib.Path(__file__).resolve().parent.parent  # formal/
 ROOT = HERE.parent
 P4 = HERE / "phase04-pipeline"
 WORK = HERE / "work" / "phase04"

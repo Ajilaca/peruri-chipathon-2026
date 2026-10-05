@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // formal/phase09-integration/9c/mlkem_core_formal_top.sv
-// Phase 9c (docs/evidence/phase09-integration/9c/test_plan_9c.md, Amendment A2): control properties of the controller rtl/mlkem/mlkem_core.sv with the sub-blocks replaced by protocol stubs (stubs_9c.sv); the memories, the register file and the ROM are the real ones.
+// Phase 9c (evidence/phase09/9c/test_plan_9c.md, Amendment A2): control properties of the controller rtl/mlkem/mlkem_core.sv with the sub-blocks replaced by protocol stubs (stubs_9c.sv); the memories, the register file and the ROM are the real ones.
 // Two copies of the core (A and B) run side by side. They get the same control inputs (op, start, host strobe and address, and the stubs' control signals f_c*, assumed equal) and DIFFERENT data (the host data, the stubs' data signals f_d*, the contents of the memories).
 //   E1  non-interference: every control register of A equals that of B at all times, i.e. the sequence of states, the program counter, the counters and the strobes do not depend on any data (the proof of "no branch, address or count depends on a secret", for the controller)
 //   S1  state and program counter in range

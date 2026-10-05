@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // formal/phase09m-optimisation/9m1/stubs_9m1.sv
-// Phase 9M item 1 (docs/evidence/phase09m-optimisation/9m1/test_plan_9m1.md V6): protocol stubs of mlkem_ldpoly2 and mlkem_stpoly2 for the 9c core proof with -D W2. They are the 9c stubs of mlkem_ldpoly and mlkem_stpoly
+// Phase 9M item 1 (evidence/phase9m/batch1/9m1/test_plan_9m1.md V6): protocol stubs of mlkem_ldpoly2 and mlkem_stpoly2 for the 9c core proof with -D W2. They are the 9c stubs of mlkem_ldpoly and mlkem_stpoly
 // (formal/phase09-integration/9c/stubs_9c.sv) under the new module names: the two-byte tasks have the same ports and the same handshake protocol.
 
 module mlkem_ldpoly2 (

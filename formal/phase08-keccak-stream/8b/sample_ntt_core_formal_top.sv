@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // formal/phase08-keccak-stream/8b/sample_ntt_core_formal_top.sv
-// Phase 8b test V9 (docs/evidence/phase08-keccak-stream/8b/test_plan_8b.md): control and range properties of rtl/sample/sample_ntt_core.sv with a free input stream (any bytes, any gaps) and free handshakes.
+// Phase 8b test V9 (evidence/phase08/8b/test_plan_8b.md): control and range properties of rtl/sample/sample_ntt_core.sv with a free input stream (any bytes, any gaps) and free handshakes.
 //   S1  coef_data_o < 3329 whenever coef_valid_o
 //   S2  at most 256 coefficients are handed over per run; coef_last_o exactly on the 256th (the beat after 255 handed over)
 //   S3  a pending output is held: coef_valid_o, coef_data_o and coef_last_o stay stable until coef_ready_i (or abort_i)

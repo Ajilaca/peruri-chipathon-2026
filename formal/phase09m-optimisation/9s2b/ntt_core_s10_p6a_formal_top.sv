@@ -1,9 +1,9 @@
 `default_nettype none
 `timescale 1ns/1ps
-// formal/phase09m-optimisation/9s2/ntt_core_s10_p6a_formal_top.sv (Phase 9F step S2, docs/evidence/phase09m-optimisation/9s2/test_plan_9s2.md V5; a copy of formal/s10/ntt_core_s10_formal_top.sv with P = 6 and the wrapper parameter P6 = 1)
+// formal/phase09m-optimisation/9s2/ntt_core_s10_p6a_formal_top.sv (Phase 9F step S2, evidence/phase9m/batch2/9s2/test_plan_9s2.md V5; a copy of formal/s10/ntt_core_s10_formal_top.sv with P = 6 and the wrapper parameter P6 = 1)
 // original header follows:
 // formal/s10/ntt_core_s10_formal_top.sv
-// S10 test V5 (docs/evidence/phase06-scheduling/test_plan_s10.md): the S7 formal top for rtl/ntt/ntt_core_s10_p5.sv (16-bank 1R1W memory, P = 5). Property A uses P = 5; property C
+// S10 test V5 (evidence/phase06/test_plan_s10.md): the S7 formal top for rtl/ntt/ntt_core_s10_p5.sv (16-bank 1R1W memory, P = 5). Property A uses P = 5; property C
 // uses the physical storage read in the request cycle (RdLat = 0); the memory probes have the same names as in the S7 memory, with 4-bit bank and offset fields; property O is the
 // new memory's overflow (two ports on one bank).
 // Properties, delay model and negative-control hook (F_SKEW):

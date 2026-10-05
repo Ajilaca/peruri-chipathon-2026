@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""formal/run_formal_phase9f1b.py
+"""formal/run/run_formal_phase9f1b.py
 
-Phase 9F S1b formal run (docs/evidence/phase09m-optimisation/9f1b/test_plan_9f1b.md V7), same flow as formal/run_formal_phase9c.py:
+Phase 9F S1b formal run (evidence/phase9m/batch1/9f1b/test_plan_9f1b.md V7), same flow as formal/run/run_formal_phase9c.py:
   A. formal/phase09m-optimisation/9f1b/mlkem_core3_safety.sby -- E1 (non-interference, now including the sidecar registers), S1-S7 of 9c and B1-B7 of the sidecar (one owner of the hash unit, done only when the sidecar is idle, a main write is never lost on the bus, ranges). Expected: PASS.
   C. formal/phase09m-optimisation/9f1b/mlkem_core3_cover.sby -- reachability: a sidecar digest word is written and the sidecar issues a read (depth 200); whole-program completion is covered by the simulations. Expected: PASS.
   B. Negative controls on deliberately corrupted COPIES of rtl/mlkem/mlkem_core3.sv (bounded model check, mlkem_core3_bmc.sby, depth 160; repository RTL never modified):
@@ -9,7 +9,7 @@ Phase 9F S1b formal run (docs/evidence/phase09m-optimisation/9f1b/test_plan_9f1b
        NC-B7  the digest write of the sidecar ignores a main write in the same cycle -> B7 must FAIL
        NC-E1  the program counter advances by 2 when a data bit of the register file is set -> E1 must FAIL
 Control and range properties only; values are covered by simulation. The sub-blocks are protocol stubs (formal/phase09-integration/9c/stubs_9c.sv, formal/phase09m-optimisation/9m1/stubs_9m1.sv).
-Usage: . scripts/env.sh && python3 formal/run_formal_phase9f1b.py [all|proofs|cover]      Work directory: formal/work/phase9f1b/ (git-ignored).
+Usage: . scripts/env.sh && python3 formal/run/run_formal_phase9f1b.py [all|proofs|cover]      Work directory: formal/work/phase9f1b/ (git-ignored).
 """
 import pathlib
 import shutil
@@ -18,7 +18,7 @@ import sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import run_formal_slang as base  # noqa: E402
 
-HERE = pathlib.Path(__file__).resolve().parent
+HERE = pathlib.Path(__file__).resolve().parent.parent  # formal/
 PM = HERE / "phase09m-optimisation" / "9f1b"
 MODE = sys.argv[1] if len(sys.argv) > 1 else "all"      # all | proofs (safety and controls) | cover
 WORK = HERE / "work" / ("phase9f1b" if MODE == "all" else f"phase9f1b_{MODE}")

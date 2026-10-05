@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""formal/run_formal_phase8a.py
+"""formal/run/run_formal_phase8a.py
 
-Phase 8a formal run (docs/evidence/phase08-keccak-stream/8a/test_plan_8a.md, V8), same flow as formal/run_formal_phase7.py:
+Phase 8a formal run (evidence/phase08/8a/test_plan_8a.md, V8), same flow as formal/run/run_formal_phase7.py:
   A. formal/phase08-keccak-stream/keccak_sponge_r2_safety.sby -- properties K1-K5 of keccak_sponge_r2_formal_top.sv. Expected: PASS.
   B. Negative controls on deliberately corrupted COPIES (repository RTL never modified):
        NC-K1  keccak_f1600_r2 with 11 cycles (rnd_q == ROUNDS / 2 - 2 ends the permutation)  -> K1 must FAIL
        NC-K4  keccak_sponge_r2 whose out_data_o depends on out_ready_i                   -> K4 must FAIL (BMC depth 40: the squeeze phase is reached after about 30 cycles, beyond the induction depth)
 Control properties only, not digest values (simulation against hashlib covers those).
-Usage: . scripts/env.sh && python3 formal/run_formal_phase8a.py      Work directory: formal/work/phase8a/ (git-ignored).
+Usage: . scripts/env.sh && python3 formal/run/run_formal_phase8a.py      Work directory: formal/work/phase8a/ (git-ignored).
 """
 import pathlib
 import shutil
@@ -16,7 +16,7 @@ import sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import run_formal_slang as base  # noqa: E402
 
-HERE = pathlib.Path(__file__).resolve().parent
+HERE = pathlib.Path(__file__).resolve().parent.parent  # formal/
 PM = HERE / "phase08-keccak-stream"
 WORK = HERE / "work" / "phase8a"
 SBY = PM / "keccak_sponge_r2_safety.sby"

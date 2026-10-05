@@ -5,7 +5,7 @@
 // unchanged) against rtl/ntt/ntt_core_c2.sv, plus a Phase 3-specific property: the multi-port
 // memory's bank_overflow_o (rtl/mem/poly_mem_multiport.sv) must never assert -- the formal
 // counterpart to the exhaustive Python proof
-// (docs/evidence/phase03-multilane/lane_schedule_verification_2026-09-29.txt) that the lane
+// (evidence/phase03/lane_schedule_verification.txt) that the lane
 // schedule never puts more than 2 ports on the same bank in one cycle, now checked against the
 // actual generated bank_map_rom.sv contents, not the Python model. NUM_LANES is overridden per
 // run by `-G NUM_LANES=<L>` on the read_slang line of each formal/phase03-multilane/*.sby script.

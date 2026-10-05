@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 // formal/phase08-keccak-stream/keccak_sponge_r2_formal_top.sv
-// Phase 8a test V8 (docs/evidence/phase08-keccak-stream/8a/test_plan_8a.md): the Phase 7 control properties for rtl/keccak/keccak_sponge_r2.sv with rtl/keccak/keccak_f1600_r2.sv (two rounds per cycle), all inputs free.
+// Phase 8a test V8 (evidence/phase08/8a/test_plan_8a.md): the Phase 7 control properties for rtl/keccak/keccak_sponge_r2.sv with rtl/keccak/keccak_f1600_r2.sv (two rounds per cycle), all inputs free.
 //   K1  the cycle counter is in 0..11; once run, busy_o stays high exactly 12 cycles (the counter steps 0, 1, ..., 11 and busy_o drops after 11); done_o is a one-cycle pulse after cycle 11
 //   K2  the sponge never asks for a state xor while the permutation is busy
 //   K3  the word index is below the rate of the mode in every state; a xor lane is below the rate; in a fixed-output squeeze the index never passes the last digest word

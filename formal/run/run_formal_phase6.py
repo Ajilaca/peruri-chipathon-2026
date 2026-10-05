@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""formal/run_formal_phase6.py
+"""formal/run/run_formal_phase6.py
 
-Phase 6 V7 (docs/evidence/phase06-scheduling/test_plan.md), same flow as formal/run_formal_phase5m_s7.py:
+Phase 6 V7 (evidence/phase06/test_plan.md), same flow as formal/run/run_formal_phase5m_s7.py:
   A. formal/phase06-scheduling/kpke_sched_safety.sby -- properties H, T, C, R. Expected: PASS.
   B. Negative control on a deliberately corrupted COPY of rtl/sched/kpke_sched.sv (repository RTL never modified):
        NC-T  the testbench write enable reaches the store also while busy -> property T must FAIL
-Usage: . scripts/env.sh && python3 formal/run_formal_phase6.py      Work directory: formal/work/phase06/ (git-ignored).
+Usage: . scripts/env.sh && python3 formal/run/run_formal_phase6.py      Work directory: formal/work/phase06/ (git-ignored).
 """
 import pathlib
 import shutil
@@ -14,7 +14,7 @@ import sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import run_formal_slang as base  # noqa: E402
 
-HERE = pathlib.Path(__file__).resolve().parent
+HERE = pathlib.Path(__file__).resolve().parent.parent  # formal/
 WORK = HERE / "work" / "phase06"
 SBY = HERE / "phase06-scheduling" / "kpke_sched_safety.sby"
 RTL = HERE.parent / "rtl" / "sched" / "kpke_sched.sv"

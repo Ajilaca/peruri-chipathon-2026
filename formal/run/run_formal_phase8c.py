@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""formal/run_formal_phase8c.py
+"""formal/run/run_formal_phase8c.py
 
-Phase 8c formal run (docs/evidence/phase08-keccak-stream/8c/test_plan_8c.md, V7), same flow as formal/run_formal_phase8b.py:
+Phase 8c formal run (evidence/phase08/8c/test_plan_8c.md, V7), same flow as formal/run/run_formal_phase8b.py:
   A. kpke_sched_smp_safety.sby        -- F1-F5 of kpke_sched_smp_formal_top.sv, STREAM_A = 1, OVERLAP = 0 (the 8c build). Expected: PASS.
   A. kpke_sched_smp_safety_store.sby  -- the same with STREAM_A = 0 (the STORE build). Expected: PASS.
   B. Negative control on a deliberately corrupted COPY (repository RTL never modified):
        NC-F2  the seed registers are written even while the sequencer is busy (gate `idle_st` removed) -> F2 must FAIL
 The NTT core is abstracted and the sampler is replaced by the protocol stub formal/phase08-keccak-stream/8c/keccak_sampler_stub.sv; control properties only, not values.
-Usage: . scripts/env.sh && python3 formal/run_formal_phase8c.py      Work directory: formal/work/phase8c/ (git-ignored).
+Usage: . scripts/env.sh && python3 formal/run/run_formal_phase8c.py      Work directory: formal/work/phase8c/ (git-ignored).
 """
 import pathlib
 import shutil
@@ -16,7 +16,7 @@ import sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import run_formal_slang as base  # noqa: E402
 
-HERE = pathlib.Path(__file__).resolve().parent
+HERE = pathlib.Path(__file__).resolve().parent.parent  # formal/
 PM = HERE / "phase08-keccak-stream" / "8c"
 WORK = HERE / "work" / "phase8c"
 RTL = HERE.parent / "rtl" / "sched"

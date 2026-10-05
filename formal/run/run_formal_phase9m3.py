@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-"""formal/run_formal_phase9m3.py
+"""formal/run/run_formal_phase9m3.py
 
-Phase 9M-3 formal run (docs/evidence/phase09m-optimisation/9m3/test_plan_9m3.md V5): the Phase 9b hash wrapper proof for the K0 sponge instance (CORE_R2 = 0), same flow as formal/run_formal_phase9b.py. (Phase 9b plan, V8), same flow as formal/run_formal_phase9a.py:
+Phase 9M-3 formal run (evidence/phase9m/batch1/9m3/test_plan_9m3.md V5): the Phase 9b hash wrapper proof for the K0 sponge instance (CORE_R2 = 0), same flow as formal/run/run_formal_phase9b.py. (Phase 9b plan, V8), same flow as formal/run/run_formal_phase9a.py:
   A. formal/phase09m-optimisation/9m3/mlkem_hash_k0_safety.sby -- H1-H5 of mlkem_hash_k0_formal_top.sv (mlkem_hash with CORE_R2 = 0; the K0 sponge is replaced by the protocol stub keccak_sponge_stub.sv). Expected: PASS.
   C. Reachability: formal/phase09m-optimisation/9m3/mlkem_hash_k0_cover.sby (cover mode: the covered states must all be reached). Expected: PASS.
   B. Negative controls on deliberately corrupted COPIES (repository RTL never modified):
        NC-H1  mlkem_hash: G stops after 4 digest words (last_idx always 3)     -> H1 must FAIL
        NC-H5  mlkem_hash: J never stops the squeeze (sp_stop = 0)             -> H5 must FAIL
 Control and result properties only, not digest values (simulation against hashlib covers those). The comparison module is independent of the sponge and is not rerun here.
-Usage: . scripts/env.sh && python3 formal/run_formal_phase9m3.py [hash|all]      Work directory: formal/work/phase9m3/ (git-ignored).
+Usage: . scripts/env.sh && python3 formal/run/run_formal_phase9m3.py [hash|all]      Work directory: formal/work/phase9m3/ (git-ignored).
 """
 import pathlib
 import shutil
@@ -17,7 +17,7 @@ import sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import run_formal_slang as base  # noqa: E402
 
-HERE = pathlib.Path(__file__).resolve().parent
+HERE = pathlib.Path(__file__).resolve().parent.parent  # formal/
 PM = HERE / "phase09m-optimisation" / "9m3"
 WORK = HERE / "work" / "phase9m3"
 RTL = HERE.parent / "rtl" / "mlkem"

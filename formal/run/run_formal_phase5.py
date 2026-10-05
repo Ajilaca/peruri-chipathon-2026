@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""formal/run_formal_phase5.py
+"""formal/run/run_formal_phase5.py
 
-Phase 5 formal run (docs/evidence/phase05-arith/test_plan.md, V8), same flow as formal/run_formal_phase4.py
+Phase 5 formal run (evidence/phase05/test_plan.md, V8), same flow as formal/run/run_formal_phase4.py
 (yosys-slang frontend, `memory_map -rom-only`):
 
   A. formal/phase05-arith/ntt_core_c4<x>_safety.sby -- properties H, O, R, A, B, C of ntt_core_c4_formal_top.sv
@@ -13,7 +13,7 @@ Phase 5 formal run (docs/evidence/phase05-arith/test_plan.md, V8), same flow as 
 These proofs cover control and bank-capacity properties only, not NTT/INTT arithmetic or memory data
 (simulation and the exhaustive reducer test cover those).
 
-Usage: . scripts/env.sh && python3 formal/run_formal_phase5.py [c4a ... | lazy]   (default: all wrappers + lazy)
+Usage: . scripts/env.sh && python3 formal/run/run_formal_phase5.py [c4a ... | lazy]   (default: all wrappers + lazy)
 Work directories: formal/work/phase05/ (git-ignored). Exit code 0 only if every result is as expected.
 """
 import pathlib
@@ -23,7 +23,7 @@ import sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import run_formal_slang as base  # noqa: E402
 
-HERE = pathlib.Path(__file__).resolve().parent
+HERE = pathlib.Path(__file__).resolve().parent.parent  # formal/
 P5 = HERE / "phase05-arith"
 WORK = HERE / "work" / "phase05"
 WRAPPERS = {"c4a": 0, "c4b_b": 1, "c4b_m": 2, "c4c": 3}
