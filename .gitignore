@@ -23,8 +23,8 @@ formal/**/*_prove/
 formal/**/*_bmc/
 formal/**/*_safety/
 formal/work/
-# Claude Code personal files (shared: .claude/settings.json and .claude/skills/)
-.claude/settings.local.json
+# Claude Code (local only)
+.claude/
 CLAUDE.local.md
 # Editors / OS
 .DS_Store
