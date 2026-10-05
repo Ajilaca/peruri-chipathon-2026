@@ -5,7 +5,7 @@
 - Status note: technically complete by team decision 2026-10-01 (ADR 0009); Approval ticked 2026-10-01 (Section 10).
 - Date (UTC): 2026-09-30; updated 2026-10-01 (fitter-seed sweep for P = 4 and P = 6; GHRD shell and GHRD + C3-P4 integration evidence; final decision)
 - Git commit (HEAD when verified): c2cc16c plus the Phase 4 working tree, committed together with this file
-- **Current decision (ADR 0009, Accepted 2026-10-01, Faza Dzil, Team J5): L = 8, P = 6, implementation C3-P6; NTT-core design budget 30% = 12,573 ALM.**
+- Current decision (ADR 0009, Accepted 2026-10-01, Faza Dzil, Team J5): L = 8, P = 6, implementation C3-P6; NTT-core design budget 30% = 12,573 ALM.
 - Historical: ADR 0008 (Proposed 2026-09-30, never accepted, now superseded) applied the then 25% / 10,478 ALM budget and proposed P = 4. Sections 3 and 5 keep those figures as measured.
 - Environment: as Phase 3 -- Ubuntu 24.04.4 LTS, OSS CAD Suite 2026-09-23, cocotb 2.1.0, Quartus Prime Lite 25.1std.0 Build 1129.
 - Constraint: `create_clock -period 40.000` for all four revisions (ADR 0006: an experimental milestone target, not a hardware or system requirement).
@@ -60,9 +60,9 @@ Frozen files (`modmul_reduce.sv`, `butterfly*.sv`, `twiddle_rom.sv`, `bank_map_r
 | Quantity | P = 0 | P = 2 | P = 4 | P = 6 |
 |---|---|---|---|---|
 | ALM (of 41,910) | 9,723 | 9,696 | 10,439 | 10,505 |
-| Within the historical 25% budget (10,478; ADR 0004, used by ADR 0008)? | yes | yes | yes (39 below) | **no (27 over)** |
-| Within the current 30% budget (12,573; ADR 0009)? | yes | yes | yes (2,134 below) | **yes (2,068 below)** |
-| Candidate under the current budget (ADR 0007 rule, default seed)? | no (timing) | no (timing) | yes (d = 0.051) | **yes, selected (t_NTT minimum)** |
+| Within the historical 25% budget (10,478; ADR 0004, used by ADR 0008)? | yes | yes | yes (39 below) | no (27 over) |
+| Within the current 30% budget (12,573; ADR 0009)? | yes | yes | yes (2,134 below) | yes (2,068 below) |
+| Candidate under the current budget (ADR 0007 rule, default seed)? | no (timing) | no (timing) | yes (d = 0.051) | yes, selected (t_NTT minimum) |
 | Registers | 3,097 | 3,817 | 4,145 | 4,168 |
 | RAM blocks (M10K) | 0 / 553 | 16 / 553 | 26 / 553 | 29 / 553 |
 | DSP | 9 / 112 | 9 / 112 | 9 / 112 | 9 / 112 |
@@ -84,12 +84,12 @@ No FIPS 203 reading this phase; no parameter, algorithm, twiddle value or reduct
 (`check_params.py` passes; the staged reducer is equal to `modmul_reduce` for all 2^24 input pairs).
 
 ## 5. Coverage and limits
-- **Simulation and static timing only.** No board is attached; nothing here is hardware validation. Fmax is kernel-only, virtual pins, and is not a system clock.
-- **ALM margins and the seed sweep (2026-10-01).** P = 4 is 39 ALM under the budget and P = 6 27 ALM over it at the default seed. A sweep over fitter seeds 1–6 (`evidence/phase04/seed_sweep.md`) found P = 6 over budget at every seed (10,484–10,516 ALM) and P = 4 within budget at 4 of 6 seeds (10,439–10,503 ALM); all 12 compiles meet 40.000 ns. The rule therefore never selects P = 6; for P = 4 the budget margin is a few tens of ALM and seed-dependent.
-- **Tool inference changed the resource picture.** With registers in the memory path Quartus inferred `bank_map_rom` and some register chains into M10K (16 / 26 / 29 blocks). This was not designed; it is why P = 2 has fewer ALM than P = 0 despite more registers.
-- **Near-tie (default seed).** P = 6 has the lowest t_NTT (3.481 us); P = 4 is 5.1% above it. The ALM condition keeps P = 6 out, at every seed measured.
-- **P = 2 misses timing by 0.368 ns** at one slow corner (slow 100C is +0.061 ns); no exception was added.
-- **Formal covers control and bank capacity only.** Arithmetic and data integrity rest on the simulations and the exhaustive reducer check. Two negative controls (NC-B, NC-C) are UNKNOWN in the proof flow, not demonstrated failures; NC-B was demonstrated by a depth-125 BMC, NC-C only by the failed induction.
+- Simulation and static timing only. No board is attached; nothing here is hardware validation. Fmax is kernel-only, virtual pins, and is not a system clock.
+- ALM margins and the seed sweep (2026-10-01). P = 4 is 39 ALM under the budget and P = 6 27 ALM over it at the default seed. A sweep over fitter seeds 1–6 (`evidence/phase04/seed_sweep.md`) found P = 6 over budget at every seed (10,484–10,516 ALM) and P = 4 within budget at 4 of 6 seeds (10,439–10,503 ALM); all 12 compiles meet 40.000 ns. The rule therefore never selects P = 6; for P = 4 the budget margin is a few tens of ALM and seed-dependent.
+- Tool inference changed the resource picture. With registers in the memory path Quartus inferred `bank_map_rom` and some register chains into M10K (16 / 26 / 29 blocks). This was not designed; it is why P = 2 has fewer ALM than P = 0 despite more registers.
+- Near-tie (default seed). P = 6 has the lowest t_NTT (3.481 us); P = 4 is 5.1% above it. The ALM condition keeps P = 6 out, at every seed measured.
+- P = 2 misses timing by 0.368 ns at one slow corner (slow 100C is +0.061 ns); no exception was added.
+- Formal covers control and bank capacity only. Arithmetic and data integrity rest on the simulations and the exhaustive reducer check. Two negative controls (NC-B, NC-C) are UNKNOWN in the proof flow, not demonstrated failures; NC-B was demonstrated by a depth-125 BMC, NC-C only by the failed induction.
 - The expected outcomes stated in the test plan before measuring (P = 0 and probably P = 2 not candidates) held.
 
 ## 5b. System-shell and integration evidence (2026-10-01)

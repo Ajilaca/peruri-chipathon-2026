@@ -13,7 +13,7 @@
 (a) Adopt S8 as the final Phase 5M core. (b) Keep S7 (P = 7, 120 / 120 cycles) as the configuration for Phase 6 and 7; S8 stays a measured experiment. (c) Keep M6 or another base.
 
 ## Decision
-Result of the pre-fixed rule (`scripts/quartus/phase5m_select_s8.py`, no tolerance): **S8 is NOT adopted by the rule**: conditions 1-3 pass; condition 4 fails (t = 122 / 37.990 = 3.211 us versus S7's 120 / 38.720 = 3.099 us;
+Result of the pre-fixed rule (`scripts/quartus/phase5m_select_s8.py`, no tolerance): S8 is NOT adopted by the rule: conditions 1-3 pass; condition 4 fails (t = 122 / 37.990 = 3.211 us versus S7's 120 / 38.720 = 3.099 us;
 S8 needed a median Fmax above 39.365 MHz). The choice of the configuration for later phases is the team's (C5): this record stays Proposed. Suggestion (not a decision): (b).
 
 ## Consequences

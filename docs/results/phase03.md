@@ -5,11 +5,11 @@
 - Date (UTC): 2026-09-29 15:56; updated 2026-09-30 (formal re-run; supplementary K2/K1 experiments;
   ADR 0005)
 - Git commit (HEAD when verified): 7b1d467 for the C2 sweep; dbefa86 for the 2026-09-30 update
-- Selected operating point (ADR 0005, Accepted 2026-09-30): **C2-K2-K1 at L = 8** (Section 3b)
+- Selected operating point (ADR 0005, Accepted 2026-09-30): C2-K2-K1 at L = 8 (Section 3b)
 - Environment: same as Phase 1/2 -- Ubuntu 24.04.4 LTS, OSS CAD Suite 2026-09-23, cocotb 2.1.0,
   pytest 9.1.1, Quartus Prime Lite 25.1std.0 Build 1129 (`~/altera_lite/25.1std`).
 
-**Process note, stated plainly:** `scripts/tooling.env`'s `QUARTUS_BIN` was empty at the start of
+Process note, stated plainly: `scripts/tooling.env`'s `QUARTUS_BIN` was empty at the start of
 this phase (Quartus was previously located manually, per Phase 1/2's own open item); it was found
 at `~/altera_lite/25.1std/quartus/bin` and filled in this phase so `scripts/env.sh` puts Quartus on
 PATH going forward. This is a local machine-config fix, not a design change.
@@ -23,9 +23,9 @@ PATH going forward. This is a local machine-config fix, not a design change.
 | CRG-4 | Corner cases before tests | `evidence/phase03/test_plan.md`, written before `rtl/ntt/ntt_core_c2.sv` | PASS |
 | CRG-5 | Regression: Phase 0-2 tests still pass | `cmd: python3 -m pytest tb/golden/tests/ -q` (23/23), `cmd: python3 tb/ntt/run_ntt_tests.py icarus` (10/10, C0 unaffected), `cmd: python3 tb/mem/run_mem_tests.py icarus` (12/12, C1 unaffected) | PASS |
 | CRG-6 | Locked parameters | `cmd: python3 .claude/skills/mlkem-guard/scripts/check_params.py` | PASS |
-| CRG-7 | Constant-cycle evidence | `evidence/phase03/cocotb_regression.txt` -- constant per L, and L=1 equals C0/C1 exactly (897/1153); L>1 is **lower**, not equal, which is the expected/measured effect of parallel lanes, not a stall | PASS |
-| CRG-8 | Formal properties | `evidence/phase03/formal_rerun.md` (`cmd: python3 formal/run/run_formal_slang.py`, 19/19 results as expected): k-induction **PASS for L=1, 2, 4 and 8** on C2 (and on the supplementary C2-K2 / C2-K2-K1) for bank_overflow_o == 0, the busy/done handshake and the t_q / layer_q range invariants; four negative controls fail as they must. The earlier L=2/4/8 UNKNOWN (`evidence/phase03/formal_verification.txt`) was a formal-harness artefact (ROMs modelled as free memory state in the induction step), corrected in the harness only -- RTL unchanged (Section 6). Scope: these properties only, not NTT/INTT bit-exactness | PASS |
-| CRG-9 | Quartus evidence; no negative slack or the failure documented | `evidence/quartus/C2-L1.md`, `evidence/quartus/C2-L2.md`, `evidence/quartus/C2-L4.md`, `evidence/quartus/C2-L8.md` -- all four compiled and measured; all four have negative worst setup slack (timing NOT met); **L=8 additionally exceeds ADR 0004's 10,478 ALM budget** (11,446 ALM measured); the failure is documented, which is what the criterion asks | PASS |
+| CRG-7 | Constant-cycle evidence | `evidence/phase03/cocotb_regression.txt` -- constant per L, and L=1 equals C0/C1 exactly (897/1153); L>1 is lower, not equal, which is the expected/measured effect of parallel lanes, not a stall | PASS |
+| CRG-8 | Formal properties | `evidence/phase03/formal_rerun.md` (`cmd: python3 formal/run/run_formal_slang.py`, 19/19 results as expected): k-induction PASS for L=1, 2, 4 and 8 on C2 (and on the supplementary C2-K2 / C2-K2-K1) for bank_overflow_o == 0, the busy/done handshake and the t_q / layer_q range invariants; four negative controls fail as they must. The earlier L=2/4/8 UNKNOWN (`evidence/phase03/formal_verification.txt`) was a formal-harness artefact (ROMs modelled as free memory state in the induction step), corrected in the harness only -- RTL unchanged (Section 6). Scope: these properties only, not NTT/INTT bit-exactness | PASS |
+| CRG-9 | Quartus evidence; no negative slack or the failure documented | `evidence/quartus/C2-L1.md`, `evidence/quartus/C2-L2.md`, `evidence/quartus/C2-L4.md`, `evidence/quartus/C2-L8.md` -- all four compiled and measured; all four have negative worst setup slack (timing NOT met); L=8 additionally exceeds ADR 0004's 10,478 ALM budget (11,446 ALM measured); the failure is documented, which is what the criterion asks | PASS |
 | CRG-10 | Result artifact + claim checker | `cmd: python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase03.md` and `cmd: python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal` | PASS |
 
 CRG-9 was first marked FAIL, as in Phase 1 and 2: timing not met at the provisional 20.000 ns
@@ -63,7 +63,7 @@ control/bank-capacity properties, not arithmetic correctness.
 | `formal/run/run_formal_slang.py`, `evidence/phase03/formal_rerun.md` | Corrected formal flow: runs every Phase 1-3 proof plus negative controls; root-cause analysis and the 19/19 result table |
 | `evidence/quartus/C2-L1.md` .. `C2-L8.md` | Standard fitter/STA/Fmax extracts, one per L |
 | `rtl/ntt/ntt_core_c2_k2.sv`, `rtl/ntt/ntt_core_c2_k2_l{1,2,4,8}.sv` | Supplementary experiment K2 (2026-09-30): C2 with `t_q` sized per L; separate files, C2 untouched |
-| `rtl/ntt/butterfly_shared.sv`, `rtl/ntt/ntt_core_c2_k2_k1.sv`, `rtl/ntt/ntt_core_c2_k2_k1_l{1,2,4,8}.sv` | Supplementary experiment K1 on top of K2 (config C2-K2-K1): one shared multiplier per butterfly. **Selected configuration at L=8 (ADR 0005)** |
+| `rtl/ntt/butterfly_shared.sv`, `rtl/ntt/ntt_core_c2_k2_k1.sv`, `rtl/ntt/ntt_core_c2_k2_k1_l{1,2,4,8}.sv` | Supplementary experiment K1 on top of K2 (config C2-K2-K1): one shared multiplier per butterfly. Selected configuration at L=8 (ADR 0005) |
 | `tb/ntt/run_k1_unit_tests.py`, `tb/ntt/k1_exhaustive/`, `formal/phase03-multilane/k1_*`, `formal/phase03-multilane/modmul_reduce_uf.sv` | K1 verification: butterfly unit test, exhaustive equivalence harness, formal equivalence with negative controls |
 | `scripts/quartus/quartus_entity_breakdown.py` | Groups the fitter's per-entity table by function (used for the L=8 ALM audit) |
 | `docs/decisions/adr/ADR-0005-apply-adr-0004-l-selection-to-the-c2-k2-k1-supplementary-con.md` | ADR: adopts C2-K2-K1 and selects L = 8 |
@@ -73,7 +73,7 @@ control/bank-capacity properties, not arithmetic correctness.
 | Quantity | L=1 | L=2 | L=4 | L=8 |
 |---|---|---|---|---|
 | ALM | 6,018 / 41,910 (14%) | 5,728 / 41,910 (14%) | 7,629 / 41,910 (18%) | 11,446 / 41,910 (27%) |
-| Within ADR 0004 budget (10,478 ALM)? | yes | yes | yes | **no** |
+| Within ADR 0004 budget (10,478 ALM)? | yes | yes | yes | no |
 | Registers | 3,100 | 3,098 | 3,102 | 3,100 |
 | RAM Blocks (M10K) | 0 / 553 | 0 / 553 | 0 / 553 | 0 / 553 |
 | DSP | 3 / 112 | 5 / 112 | 9 / 112 | 17 / 112 |
@@ -86,10 +86,10 @@ control/bank-capacity properties, not arithmetic correctness.
 All MEASURED, `evidence/quartus/C2-L{1,2,4,8}.md` and
 `evidence/phase03/cocotb_regression.txt`.
 
-**Applying ADR 0004's criterion** (primary: min cycle count within the 10,478 ALM budget; L=8 is
+Applying ADR 0004's criterion (primary: min cycle count within the 10,478 ALM budget; L=8 is
 disqualified by the budget check above): among L∈{1,2,4}, cycle count strictly decreases with L
-(897/1153 -> 449/705 -> 225/481), so **L=4 has the lowest cycle count of the in-budget
-candidates**. Per ADR 0004 this is reported as the primary-criterion result, not unilaterally
+(897/1153 -> 449/705 -> 225/481), so L=4 has the lowest cycle count of the in-budget
+candidates. Per ADR 0004 this is reported as the primary-criterion result, not unilaterally
 adopted as the team's final choice -- Section 7 asks the team to confirm it. The secondary
 (informational AT re-check) cannot run yet: no L meets timing at any clock, so there is no
 timing-valid Fmax to compute AT from (ADR 0004 anticipated exactly this case).
@@ -98,10 +98,10 @@ timing-valid Fmax to compute AT from (ADR 0004 anticipated exactly this case).
 After the C2 sweep the team asked whether L=8 could be brought under the ALM budget without reducing
 its 8 butterflies per cycle. Two experiments were run as separate configurations (the C2 RTL and
 evidence above are unchanged and remain the baseline):
-- **K2** -- sub-cycle counter `t_q` sized to what each L needs. Valid but insufficient, and not a
+- K2 -- sub-cycle counter `t_q` sized to what each L needs. Valid but insufficient, and not a
   uniform improvement (`evidence/phase03/k2_experiment.md`).
-- **K1** -- one shared modular multiplier per butterfly instead of one per mode, on top of K2
-  (config **C2-K2-K1**, `rtl/ntt/butterfly_shared.sv`, `rtl/ntt/ntt_core_c2_k2_k1.sv`). This changes
+- K1 -- one shared modular multiplier per butterfly instead of one per mode, on top of K2
+  (config C2-K2-K1, `rtl/ntt/butterfly_shared.sv`, `rtl/ntt/ntt_core_c2_k2_k1.sv`). This changes
   the butterfly datapath, i.e. it is outside the written Phase 3 scope ("butterfly, arithmetic and
   memory as in Phase 2"); the team approved it as a supplementary experiment and then adopted it
   (ADR 0005). `modmul_reduce.sv` and the locked parameters are unchanged
@@ -111,8 +111,8 @@ evidence above are unchanged and remain the baseline):
 |---|---|---|---|---|
 | ALM, C2 (Section 3) | 6,018 | 5,728 | 7,629 | 11,446 |
 | ALM, C2-K2 | 6,389 | 5,788 | 7,600 | 11,232 |
-| **ALM, C2-K2-K1** | **5,566** | **5,374** | **6,775** | **9,754** |
-| C2-K2-K1 within the 10,478 ALM budget? | yes | yes | yes | **yes (724 below)** |
+| ALM, C2-K2-K1 | 5,566 | 5,374 | 6,775 | 9,754 |
+| C2-K2-K1 within the 10,478 ALM budget? | yes | yes | yes | yes (724 below) |
 | Registers, C2-K2-K1 | 3,099 | 3,095 | 3,098 | 3,094 |
 | M10K, C2-K2-K1 | 0 / 553 | 0 / 553 | 0 / 553 | 0 / 553 |
 | DSP, C2-K2-K1 | 2 / 112 | 3 / 112 | 5 / 112 | 9 / 112 |
@@ -133,9 +133,9 @@ negative controls (`evidence/phase03/k1_equiv_abstraction.txt`), and
 exhaustive simulation of all 73,785,560,578 inputs, 0 mismatches
 (`evidence/phase03/k1_exhaustive_equivalence.txt`).
 
-**Selected L (ADR 0005, Accepted, Faza Dzil, Team J5, 2026-09-30):** applying ADR 0004's rule
+Selected L (ADR 0005, Accepted, Faza Dzil, Team J5, 2026-09-30): applying ADR 0004's rule
 unchanged to C2-K2-K1, all four L are within budget and L=8 has the lowest cycle count, so the team
-selects **L = 8 on C2-K2-K1** (9,754 ALM; NTT 113 / INTT 369 cycles). Phase 4 starts from that
+selects L = 8 on C2-K2-K1 (9,754 ALM; NTT 113 / INTT 369 cycles). Phase 4 starts from that
 configuration. The C2 result above (L=4) is kept as the baseline comparison.
 
 Limits carried with this selection (not resolved by it): timing is not met for any configuration;
@@ -148,15 +148,15 @@ No new FIPS 203 reading this phase; no parameter or algorithm touched (`check_pa
 passes). Toolchain identical to Phase 1/2 (OSS CAD Suite `2026-09-23`, Quartus 25.1std.0 Build 1129).
 
 ## 5. Coverage and limits
-- **M10K still not used** (0/553, all four L) -- inherited, unresolved Phase 2 gap; Phase 3's own
+- M10K still not used (0/553, all four L) -- inherited, unresolved Phase 2 gap; Phase 3's own
   PASS criteria do not require fixing it, and it was not silently patched.
-- **Timing gets worse as L grows**, monotonically (Fmax 14.76 -> 7.62 MHz; worst slack -47.7 ->
+- Timing gets worse as L grows, monotonically (Fmax 14.76 -> 7.62 MHz; worst slack -47.7 ->
   -111.2 ns). This is the expected cost of more combinational logic per cycle (NUM_LANES parallel
   butterflies, address generators, and twiddle-ROM reads, all still purely combinational, no
   pipelining -- Phase 4 scope) and is reported plainly, not attributed to noise.
-- **No target-clock ADR exists yet** (inherited from Phase 1/2, still open) -- every Fmax/slack
+- No target-clock ADR exists yet (inherited from Phase 1/2, still open) -- every Fmax/slack
   number above is relative-only, not a claim against a real target.
-- **Formal covers control and bank capacity only.** As of 2026-09-30 `bank_overflow_o`==0 (the
+- Formal covers control and bank capacity only. As of 2026-09-30 `bank_overflow_o`==0 (the
   conflict-freedom guarantee the multi-lane memory rests on), the busy/done handshake and the
   `t_q`/`layer_q` ranges are proven by k-induction for all four L (Section 6). NTT/INTT
   bit-exactness, memory data integrity and liveness are NOT formally proven; they rest on the
@@ -165,8 +165,8 @@ passes). Toolchain identical to Phase 1/2 (OSS CAD Suite `2026-09-23`, Quartus 2
   outside [0,255] by construction): same caveats as Phase 1/2, unchanged.
 
 ## 6. Deviations, failures and open issues
-- **`poly_mem_multiport.sv`'s ports were redesigned from unpacked arrays to packed vectors
-  mid-phase.** The first working version used `input wire we_i [0:2*NUM_LANES-1]`-style unpacked
+- `poly_mem_multiport.sv`'s ports were redesigned from unpacked arrays to packed vectors
+  mid-phase. The first working version used `input wire we_i [0:2*NUM_LANES-1]`-style unpacked
   array ports (simulates and synthesizes fine under Verilator/Icarus). SymbiYosys's restricted
   `read -formal` SystemVerilog reader rejects unpacked-array module ports outright (`syntax
   error, unexpected '['`), so every array port and several internal arrays were rewritten as
@@ -175,18 +175,18 @@ passes). Toolchain identical to Phase 1/2 (OSS CAD Suite `2026-09-23`, Quartus 2
   `rtl/ntt/ntt_core_c2.sv`'s per-port signals. cocotb (both simulators) was re-run after the
   rewrite and still shows 16/16 pass with identical cycle counts, so this was a port-shape
   change, not a behavior change.
-- **Icarus Verilog does not support the `automatic` storage-lifetime override inside a procedural
-  block** (`sorry: Overriding the default variable lifetime is not yet supported`), hit twice
+- Icarus Verilog does not support the `automatic` storage-lifetime override inside a procedural
+  block (`sorry: Overriding the default variable lifetime is not yet supported`), hit twice
   (once in the bank-slot counting loop, once in an abandoned helper). Fixed by declaring the
   helper variable outside the `always_comb` instead of using `automatic logic ... = ...;` inline
   -- functionally identical since the value is fully overwritten every evaluation.
-- **`bind` is not supported by SymbiYosys's restricted formal reader either** (same class of
+- `bind` is not supported by SymbiYosys's restricted formal reader either (same class of
   error as the unpacked-array one). An attempt to add an auxiliary inductive invariant
   (`t_q <= TMax`, `layer_q <= 6`) via a `bind`-in per formal-only module was abandoned in favor of
   adding the `assert`s directly inside `rtl/ntt/ntt_core_c2.sv`, guarded by `` `ifdef FORMAL ``
   (never active in synthesis or normal simulation).
-- **CRG-8 formal gap for L=2/4/8: resolved 2026-09-30 -- it was a formal-harness artefact, and the
-  explanation first written here was wrong about the mechanism.** Status then was UNKNOWN (base
+- CRG-8 formal gap for L=2/4/8: resolved 2026-09-30 -- it was a formal-harness artefact, and the
+  explanation first written here was wrong about the mechanism. Status then was UNKNOWN (base
   case pass, induction fail), not FAIL and not a timeout. Root cause, from the induction trace
   (L=2, first NTT cycle, addresses 0/128/64/192 exactly as scheduled, yet the `bank_map_rom`
   instance for address 0 output bank 1 where the source says 0): Yosys's `proc_rom` turns
@@ -216,7 +216,7 @@ passes). Toolchain identical to Phase 1/2 (OSS CAD Suite `2026-09-23`, Quartus 2
      necessarily sweeps every `(layer, t)` pair including this one, and `bank_overflow_o` was
      checked (asserted 0) every cycle in every test, on both simulators -- 16/16 passed.
   Yet the SMT trace's own per-instance `bank_o` outputs for the `bank_map_rom` instances handling
-  addresses 80/192/208 do **not** match the source text or the Python model (the instance for
+  addresses 80/192/208 do not match the source text or the Python model (the instance for
   address 64 is read correctly; the other three are not). This localizes the discrepancy to how
   Yosys's `-formal` frontend evaluates the 256-entry `unique case` ROM under k-induction, not to
   the design. This conclusion is stated as *investigated and believed*, not proven -- fully
@@ -231,12 +231,12 @@ passes). Toolchain identical to Phase 1/2 (OSS CAD Suite `2026-09-23`, Quartus 2
   ADR, whether to pursue synchronous-read M10K mapping, how to read CRG-9.
 - ~~Confirm or override the ADR 0004 primary-criterion result (L=4 on C2)~~ -- decided 2026-09-30
   by ADR 0005: the team adopts the optimised C2-K2-K1 configuration and selects L = 8 (Section 3b).
-- **New (optional):** a fitter seed sweep on C2-K2-K1 L=8 to quantify the ALM-packing margin
+- New (optional): a fitter seed sweep on C2-K2-K1 L=8 to quantify the ALM-packing margin
   against the 10,478 ALM budget (Section 3b limits).
 - ~~How to treat the CRG-8 formal gap for L=2/4/8~~ -- closed 2026-09-30: the gap was a harness
   artefact and all four L are proven (Section 6). Remaining, optional: formal properties beyond
   control/bank capacity (memory data integrity, liveness) if the team wants them.
-- **New:** `QUARTUS_BIN` was filled in `scripts/tooling.env` this phase (Section "Process note"
+- New: `QUARTUS_BIN` was filled in `scripts/tooling.env` this phase (Section "Process note"
   above) -- confirm the path is correct for every team member's machine or that each teammate
   sets their own local value (the file is git-ignored, so this is not shared automatically).
 
@@ -296,4 +296,4 @@ python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/p
       met) and the Section 3b limits as the documented starting point for Phase 4.
 
 ## Status update (2026-10-05)
-The team set this phase to DONE because its goals are met by the final phases: the later configurations meet timing (40 ns at 6 of 6 seeds, and 15 ns for the Phase 9M core, `docs/results/phase9m.md`). The measurements of this phase are unchanged (slack and ALM figures above stay as measured). CRG-9 reads "no negative slack **or the failure documented**"; the failure is documented in the evidence named in its row. The Approval box above was ticked earlier and is not edited.
+The team set this phase to DONE because its goals are met by the final phases: the later configurations meet timing (40 ns at 6 of 6 seeds, and 15 ns for the Phase 9M core, `docs/results/phase9m.md`). The measurements of this phase are unchanged (slack and ALM figures above stay as measured). CRG-9 reads "no negative slack or the failure documented"; the failure is documented in the evidence named in its row. The Approval box above was ticked earlier and is not edited.

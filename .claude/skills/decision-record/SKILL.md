@@ -10,7 +10,7 @@ traceable so the proposal, the RTL, and the claims stay consistent.
 
 ## Rules
 
-1. **Never decide on the team's behalf.** If a choice is open, list it in
+1. Never decide on the team's behalf. If a choice is open, list it in
    `docs/decisions/PENDING.md` and ask. Do not start RTL or write proposal text that
    assumes an undecided option.
 2. Create records with the script; it numbers them and refuses `accepted` without a named
@@ -20,7 +20,7 @@ traceable so the proposal, the RTL, and the claims stay consistent.
    python3 .claude/skills/decision-record/scripts/new_adr.py "Short decision title"            # proposed
    python3 .claude/skills/decision-record/scripts/new_adr.py "Title" --status accepted --decided-by "team J5, <date/where>"
    ```
-3. Fill **Context / Options / Decision / Consequences / Evidence** only from what was said
+3. Fill Context / Options / Decision / Consequences / Evidence only from what was said
    or measured. Quote the source (chat, meeting, report path).
 4. Never edit an accepted record to change history. Write a new ADR that supersedes it and
    set the old status to `Superseded by NNNN`.

@@ -16,14 +16,14 @@
 (c) Another base chosen by the team.
 
 ## Decision
-Result of the pre-fixed rule (`scripts/quartus/phase5m_select_s7.py`, no tolerance): **S7 is adopted by the rule** (all four conditions PASS). Whether the team accepts it as the
-configuration is **not decided here** (C5): status stays Proposed. For schedule reasons the S8 work was started **on the S7 base** (S8 is defined as lever 4 on top of the split read, ADR 0017
+Result of the pre-fixed rule (`scripts/quartus/phase5m_select_s7.py`, no tolerance): S7 is adopted by the rule (all four conditions PASS). Whether the team accepts it as the
+configuration is not decided here (C5): status stays Proposed. For schedule reasons the S8 work was started on the S7 base (S8 is defined as lever 4 on top of the split read, ADR 0017
 table) following the team's working instruction of 2026-10-02 (chat: "kerjakan sesuai dengan agenda hari ini ... s7-s8 selesai"); if the team picks (b) or (c), S8's verdict is
 then read as a measured experiment on S7.
 
 ## Consequences
 - MEASURED (Quartus, seeds 1-6, 40.000 ns; `evidence/phase05m/s7/selection_worksheet.md`): ALM 9,361-9,405 (median 9,391.0; M6 median 9,421.5), registers 4,296-4,324,
-  M10K 31 (M6 29), DSP 16, timing met at every seed, **Fmax median 38.720 MHz (37.89-40.29)** versus M6 34.430 MHz (32.35-35.04); cycles NTT = INTT = 120 (simulation).
+  M10K 31 (M6 29), DSP 16, timing met at every seed, Fmax median 38.720 MHz (37.89-40.29) versus M6 34.430 MHz (32.35-35.04); cycles NTT = INTT = 120 (simulation).
 - INFERENCE (perhitungan tim): t_NTT = t_INTT = 120 / 38.720 = 3.099 us versus M6 3.456 us (-10.3 %). The lowest S7 seed (37.89 MHz) is above the highest M6 seed (35.04 MHz), so
   the Fmax gain is larger than the seed spread seen so far (S7 spread 2.40 MHz). Worst setup slack at 40 ns rose to 13.6-15.2 ns (M6 about 11 ns in C4b-B terms).
 - The threshold printed in the test plan (34.720 MHz) is the rounded value of 120 x 34.430 / 119 = 34.7193; the rounding has no effect on the verdict.

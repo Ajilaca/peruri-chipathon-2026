@@ -2,8 +2,8 @@
 
 Written 2026-10-02 at the end of Phase 5 and updated 2026-10-03 at the end of Phase 5M (S6-S9) and of Phase 6 (with S10), for opening a new Claude Code session. Read this file, then `CLAUDE.md`
 (project rules, they override everything else), then `docs/ROADMAP.md` and `docs/decisions/PENDING.md` before doing anything.
-Labels used below: **MEASURED** (Quartus report or simulation log in this repo), **INFERENCE** (derived from measured
-numbers), **ESTIMATE**, **NOT MEASURED**.
+Labels used below: MEASURED (Quartus report or simulation log in this repo), INFERENCE (derived from measured
+numbers), ESTIMATE, NOT MEASURED.
 
 ## 1. Project
 | Item | Value |
@@ -12,8 +12,8 @@ numbers), **ESTIMATE**, **NOT MEASURED**.
 | Repository | <https://github.com/Ajilaca/peruri-chipathon-2026> (public, MIT licence, ADR 0016) — local `~/FPGA/Projects/CHIPATON` |
 | Branch | `phase6-scheduling` (Phase 6 + S10, not pushed; `main` has Phase 5M, PR #3, tag `phase5m-done-2026-10-03`) |
 | Board | Terasic DE10-Nano (no board attached; no board measurement exists) |
-| FPGA | Intel/Altera Cyclone V SE **5CSEBA6U23I7**: 41,910 ALM, 553 M10K, 112 DSP (fitter denominators) |
-| Quartus | Prime Lite **25.1std.0 Build 1129** at `~/altera_lite/25.1std` (path in git-ignored `scripts/tooling.env`) |
+| FPGA | Intel/Altera Cyclone V SE 5CSEBA6U23I7: 41,910 ALM, 553 M10K, 112 DSP (fitter denominators) |
+| Quartus | Prime Lite 25.1std.0 Build 1129 at `~/altera_lite/25.1std` (path in git-ignored `scripts/tooling.env`) |
 | Environment | `. scripts/env.sh` (OSS CAD Suite, Quartus on PATH, `.venv` with cocotb 2.1.0) |
 
 ## 2. Current Status
@@ -27,10 +27,10 @@ numbers), **ESTIMATE**, **NOT MEASURED**.
 | 5 Modular arithmetic C4 | DONE — C4b-B (ADR 0013, 0015 Accepted) | `phase05.md` | ticked (Jevan, 2026-10-03) |
 | Phase 5M memory / schedule (ADR 0017, S6-S9) | DONE (2026-10-03) — S6 M6 base by team decision (ADR 0020), S7 adopted by the rule, S8 not adopted, S9 study (ADR 0021/0023/0022 superseded by 0025) | `phase05m.md`, PDF `docs/reports/CHIPATON_Phase5M_Report.pdf` | ticked (Jevan, 2026-10-03) |
 | 6 NTT scheduling at operation level (+ S10) | DONE (2026-10-03) — sequencer bit-exact, S10 adopted by its rule and accepted as the core (ADR 0025 Accepted), 20 ns met at 6/6 seeds | `phase06.md`, PDF `docs/reports/CHIPATON_Phase6_Report.pdf` | ticked (Jevan, 2026-10-03) |
-| **7 Keccak-f[1600] + SHA3/SHAKE (K0)** | **DONE technically (2026-10-03); Approval box EMPTY** — K0 bit-exact against hashlib, formal K1-K5, 3,572 ALM, timing met at 40 ns and 20 ns (kernel-only). Not tier T1 (samplers missing) | `phase07.md` | **not ticked** |
+| 7 Keccak-f[1600] + SHA3/SHAKE (K0) | DONE technically (2026-10-03); Approval box EMPTY — K0 bit-exact against hashlib, formal K1-K5, 3,572 ALM, timing met at 40 ns and 20 ns (kernel-only). Not tier T1 (samplers missing) | `phase07.md` | not ticked |
 
 ## 3. Phase 5 outcome (MEASURED unless marked; `docs/results/phase05.md`, PDF `docs/reports/CHIPATON_Phase5_Report.pdf`)
-- **C4 = C4b-B**: C3-P6 core (L = 8, P = 6) with a Barrett reducer (k = 24, M = 5039), `rtl/ntt/ntt_core_c4b_b.sv`, revision
+- C4 = C4b-B: C3-P6 core (L = 8, P = 6) with a Barrett reducer (k = 24, M = 5039), `rtl/ntt/ntt_core_c4b_b.sv`, revision
   `C4b-B` in `quartus/phase05_arith_c4/`. Chosen by the ADR 0011 rule (higher median Fmax, 2.13 % apart = near tie, then lower
   median ALM). ADR 0013 (accepted 2026-10-02, Jevan, Team J5) records the price, DSP 9 -> 18.
 - Cycles unchanged: NTT 119, INTT 375, 0 stall. Bit-exact vs `tb/golden` on Verilator and Icarus; every reducer exhaustively equal
@@ -41,19 +41,19 @@ numbers), **ESTIMATE**, **NOT MEASURED**.
 |---|---|---|---|---|
 | C3-P6 (baseline) | 10,505 (10,484–10,516) | 9 | 33.11 (32.60–34.20) | `evidence/phase04/seed_sweep.md` |
 | C4a fold reducer (5a) | 9,847 (one compile) | 9 | 33.73 (one compile) | `5a/summary_5a.md` |
-| **C4b-B Barrett (5b), the C4 configuration** | 9,208 (9,166–9,208) | 18 | 34.515 (33.46–34.84) | `5b/selection_worksheet.md` |
+| C4b-B Barrett (5b), the C4 configuration | 9,208 (9,166–9,208) | 18 | 34.515 (33.46–34.84) | `5b/selection_worksheet.md` |
 | C4b-M Montgomery (5b) | 9,249 (9,249–9,297) | 9 | 33.780 (32.81–34.25) | same |
-| C4c lazy INTT inputs (5c), **NOT adopted** | 9,043 (9,032–9,094) | 18 | 33.100 (32.27–35.26) | `5c/summary_5c.md`, `5c/selection_worksheet.md` |
-| 5d Karatsuba base case | **not attempted** (ADR 0015 accepted) | — | — | `docs/decisions/0015-*.md` |
+| C4c lazy INTT inputs (5c), NOT adopted | 9,043 (9,032–9,094) | 18 | 33.100 (32.27–35.26) | `5c/summary_5c.md`, `5c/selection_worksheet.md` |
+| 5d Karatsuba base case | not attempted (ADR 0015 accepted) | — | — | `docs/decisions/0015-*.md` |
 
 Timing is met at 40.000 ns in every compile above. t_NTT / t_INTT at the median Fmax (perhitungan tim): C4b-B 3.448 / 10.865 µs,
 C3-P6 3.594 / 11.326 µs, C4c 3.595 / 11.329 µs. The seed ranges overlap, so small Fmax differences are not distinguishable from seed noise.
 
-**Information compiles at 20.000 ns (default seed, not a gate; `closure/info_20ns.md`): neither meets timing.**
+Information compiles at 20.000 ns (default seed, not a gate; `closure/info_20ns.md`): neither meets timing.
 C3-P6: 10,557 ALM, setup −2.059 ns, Fmax 45.33 MHz. C4b-B: 9,305 ALM, setup −2.557 ns, Fmax 44.33 MHz. The target of 50 MHz was
 not reached (ADR 0010: best-effort, not a gate).
 
-**Key finding (INFERENCE from `baseline/c3p6_critical_path.md`):** the worst C3-P6 path is the memory read (21.292 ns of
+Key finding (INFERENCE from `baseline/c3p6_critical_path.md`): the worst C3-P6 path is the memory read (21.292 ns of
 29.345 ns), then `sub_mod` (4.348 ns) and the DSP (3.705 ns). No path inside the reducer is among the 300 worst. Arithmetic changes save
 area (C4b-B about 1,300 ALM below C3-P6) but do not move Fmax beyond the seed spread. Reaching 50 MHz needs memory / schedule work
 (PENDING #19), which is outside Phase 5's fixed scope. The cause of the 5c result is a hypothesis, not tested.
@@ -66,7 +66,7 @@ formal Phase 5 14/14 as expected (control and bank properties, 5c value bounds, 
 |---|---|---|---|---|---|---|
 | C4b-B (Phase 5) | 9,171.0 (9,166-9,208) | 18 | 34.515 (33.46-34.84) | 119 / 375 | 3.448 / 10.865 | base |
 | M6 (S6, INTT halving) | 9,421.5 (9,394-9,441) | 16 | 34.430 (32.35-35.04) | 119 / 119 | 3.456 | not adopted by the rule; base by team decision (ADR 0020) |
-| **S7 (split memory read, P = 7)** | 9,391.0 (9,361-9,405) | 16 | **38.720 (37.89-40.29)** | 120 / 120 | **3.099** | adopted (ADR 0021 Proposed) |
+| S7 (split memory read, P = 7) | 9,391.0 (9,361-9,405) | 16 | 38.720 (37.89-40.29) | 120 / 120 | 3.099 | adopted (ADR 0021 Proposed) |
 | S8 (write register, P = 8, bubble) | 9,443.5 (9,402-9,471) | 16 | 37.990 (36.76-40.22) | 122 / 122 | 3.211 | not adopted (ADR 0023 Proposed) |
 - S8 at 20 ns (information): 9,443 ALM, setup -2.242 ns, Fmax 44.96 MHz, timing not met. S7 is the best measured configuration; the team has not yet accepted it as the base for Phase 6 and 7.
 - S9 (study, no RTL): the 8-bank map needs 2R + 2W per bank per cycle; a 16-bank map `bank = (a1^a2^a3^a4, a7, a6, a5)`, `offset = a[3:0]` needs 1R + 1W over the whole schedule (`evidence/phase05m/s9/`). No Quartus number for it; option list in ADR 0022.
@@ -76,7 +76,7 @@ formal Phase 5 14/14 as expected (control and bank properties, 5c value bounds, 
 - K-PKE arithmetic sequencer (`rtl/sched/`): KeyGen / Encrypt / Decrypt programs generated from `tb/golden/kpke_sched_model.py`, bit-exact end to end against the golden K-PKE on Verilator and Icarus; counts 6/0/9,
   3/4/12, 3/1/3; constant cycles 5,493 / 6,810 / 3,121 (S7 core). P6 (seed 1): 9,840 ALM, 26 DSP, 58 M10K, 37.59 MHz, timing met at 40 ns.
 - S7 path analysis (option 1): the limit is the slot-arbitration ripple; S7 at 20 ns (option 2): 0/6 seeds met.
-- **S10** (`rtl/mem/poly_mem_m10k.sv`, `rtl/ntt/ntt_core_s10_p5.sv`): 16 x 1R1W banks, no arbitration, P = 5, 118 cycles; 5,045-5,091 ALM; median Fmax 44.320 MHz at 40 ns; **20 ns met at 6/6 seeds** (kernel-only, virtual
+- S10 (`rtl/mem/poly_mem_m10k.sv`, `rtl/ntt/ntt_core_s10_p5.sv`): 16 x 1R1W banks, no arbitration, P = 5, 118 cycles; 5,045-5,091 ALM; median Fmax 44.320 MHz at 40 ns; 20 ns met at 6/6 seeds (kernel-only, virtual
   pins; not a board result). ADR 0025 Accepted 2026-10-03 (Jevan): S10 is the NTT/INTT core for the next phases.
 
 ## 3d. Phase 7 outcome (MEASURED unless marked; `docs/results/phase07.md`)
@@ -86,7 +86,7 @@ formal Phase 5 14/14 as expected (control and bank properties, 5c value bounds, 
 - Pre-measurement ESTIMATE vs measurement: ALM 2 % above the written range, registers below it, cycles per permutation 26 not 24 (all recorded in the result file and test plan Amendment A1).
 
 ## 4. Phase 4 summary (still the base; details in `docs/results/phase04.md`)
-- ADR 0009 (Accepted): L = 8, P = 6 (C3-P6); NTT-core budget 30 % = **12,573 ALM** (a budget for the NTT core, not a system limit;
+- ADR 0009 (Accepted): L = 8, P = 6 (C3-P6); NTT-core budget 30 % = 12,573 ALM (a budget for the NTT core, not a system limit;
   exceeding it needs a new team decision, ADR 0012).
 - C3-P6: 10,505 ALM, 29 M10K (tool-inferred), 9 DSP; 119 / 375 cycles; 40 ns met at every seed (`evidence/phase04/`).
 - GHRD shell alone 1,304 ALM; GHRD + C3-P6 in one compile 12,375 ALM (29.53 %), NTT 40 ns met, NTT not connected to the HPS.
@@ -154,7 +154,7 @@ Rebuild reports: `python3 scripts/build/build_phase5_report.py` (also `build_pha
 
 ## 9. Rules for the Next Session
 - Talk to the user in Bahasa Indonesia; code, identifiers and comments in English; reports per phase in Indonesian.
-- **Never push automatically.** Commit only when asked. **No Claude attribution** (no Co-Authored-By / "Generated with Claude") in commits or PRs.
+- Never push automatically. Commit only when asked. No Claude attribution (no Co-Authored-By / "Generated with Claude") in commits or PRs.
 - Never invent measurements; label everything MEASURED / INFERENCE / ESTIMATE / NOT MEASURED. Resource/timing numbers only from Quartus in this repo.
 - Never change historical evidence or rewrite accepted ADRs; record changes in a new ADR (amendment notes are allowed, as for ADR 0006 and 0014).
 - Never tick an Approval box; never decide for the team (C5) — ask, then record with `/decision-record`.

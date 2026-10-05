@@ -19,26 +19,26 @@
 (a) lazy multiplier input only (`b + q − a`); (b) both INTT butterfly inputs lazy. See the pre-check for the costs.
 
 ## Decision
-1. **Scope (b).** In INTT mode the butterfly feeds the multiplier with `u = b + q − a` (exact, in [1, 2q), 13 bits)
+1. Scope (b). In INTT mode the butterfly feeds the multiplier with `u = b + q − a` (exact, in [1, 2q), 13 bits)
    instead of `sub_mod(b, a)`, and carries the side operand `s = a + b` (exact, in [0, 2q), 13 bits) instead of
    `add_mod(a, b)`; `s` is reduced once at the butterfly output (one conditional subtraction, in the write segment).
    NTT mode is unchanged. Memory, schedule, L, P = 6 and the register positions of C4b-B stay as they are.
-2. **Operand contract D6, amended for the C4c lane multiplier only:** the Barrett reducer used there must equal
+2. Operand contract D6, amended for the C4c lane multiplier only: the Barrett reducer used there must equal
    (z·u) mod q for every z in [0, q) and every u in [0, 2q) (exhaustive, 22,164,482 pairs). The scaling multiplier and
    every other use keep the D6 contract [0, q) × [0, q). Results stay bit-exact with FIPS 203 (`tb/golden`).
-3. **Value bounds proven formally** (SymbiYosys) on the lazy input / output logic: u < 2q, s < 2q, (u mod q) =
+3. Value bounds proven formally (SymbiYosys) on the lazy input / output logic: u < 2q, s < 2q, (u mod q) =
    (b − a) mod q, butterfly outputs < q and equal to the reference equations, no signal wider than its declaration;
    with a negative control.
-4. **Adoption rule (fixed before measuring).** C4c (lazy, revision `C4c`, seeds 1–6, 40.000 ns, Quartus defaults) is
-   adopted as the C4 configuration only if **all** hold:
+4. Adoption rule (fixed before measuring). C4c (lazy, revision `C4c`, seeds 1–6, 40.000 ns, Quartus defaults) is
+   adopted as the C4 configuration only if all hold:
    - correct (test plan V1–V8 incl. the 5c items, both simulators) and the formal bound proof PASS with its negative
      control failing;
    - NTT / INTT cycles constant and exactly 119 / 375;
    - ALM ≤ 12,573 at every seed;
    - timing met at 40.000 ns at every seed;
-   - median over seeds 1–6 of the lowest slow-corner Fmax **above 34.84 MHz** (the top of Barrett's 5b seed range,
+   - median over seeds 1–6 of the lowest slow-corner Fmax above 34.84 MHz (the top of Barrett's 5b seed range,
      `evidence/phase05/5b/selection_worksheet.md`);
-   - ADR 0012: t_NTT and t_INTT at that median Fmax **better** than Barrett 5b at its median Fmax (34.515 MHz):
+   - ADR 0012: t_NTT and t_INTT at that median Fmax better than Barrett 5b at its median Fmax (34.515 MHz):
      t_NTT < 3.448 µs and t_INTT < 10.865 µs (119 / 34.515 and 375 / 34.515, perhitungan tim).
    If any condition fails, C4c is reported as measured and not adopted; C4b-B stays the C4 configuration.
 
@@ -57,8 +57,8 @@
 ## Outcome (added 2026-10-01 after the sweep; the decision above is unchanged)
 - The adoption rule was applied unchanged to seeds 1-6 (`evidence/phase05/5c/selection_worksheet.md`).
   Median Fmax 33.100 MHz (rule: above 34.84 MHz); t_NTT 3.595 us and t_INTT 11.329 us (rule: below 3.448 / 10.865 us).
-  Correctness, 119 / 375 cycles, ALM and timing at 40 ns passed. C4c is **not adopted**; C4b-B stays the C4 configuration.
-- The D6 amendment ([0, 2q) second operand) applies **only to the C4c experiment** (`modmul_barrett_lazy.sv`,
+  Correctness, 119 / 375 cycles, ALM and timing at 40 ns passed. C4c is not adopted; C4b-B stays the C4 configuration.
+- The D6 amendment ([0, 2q) second operand) applies only to the C4c experiment (`modmul_barrett_lazy.sv`,
   `ntt_core_c4c.sv`). The C4 configuration keeps the D6 contract [0, q) x [0, q).
 - The pre-RTL baseline path check required by the 5c instruction is recorded in
   `evidence/phase05/5c/precheck_critical_path.md` (measured before any 5c RTL was written).

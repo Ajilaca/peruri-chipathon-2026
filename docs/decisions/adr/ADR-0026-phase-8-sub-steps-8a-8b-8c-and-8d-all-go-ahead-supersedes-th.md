@@ -16,7 +16,7 @@
 (c) Do 8a and 8b only.
 
 ## Decision
-Option (b), by Jose (Team J5): **8a, 8b, 8c and 8d are all to be done.** The skip of 8a, 8c and 8d in ADR 0019 point 2 is superseded (amendment note 5 of ADR 0019). Order: the ROADMAP order 8a, 8b, 8c, 8d, each with its own test plan and adoption rule or "no rule" statement written before measuring, each measured and reviewed separately (STOP after each sub-step by the suggested default of PENDING #26, which stays open). Everything else in ADR 0019 (reporting tiers, process lightening, evidence freeze Wednesday 2026-10-07 night) is unchanged.
+Option (b), by Jose (Team J5): 8a, 8b, 8c and 8d are all to be done. The skip of 8a, 8c and 8d in ADR 0019 point 2 is superseded (amendment note 5 of ADR 0019). Order: the ROADMAP order 8a, 8b, 8c, 8d, each with its own test plan and adoption rule or "no rule" statement written before measuring, each measured and reviewed separately (STOP after each sub-step by the suggested default of PENDING #26, which stays open). Everything else in ADR 0019 (reporting tiers, process lightening, evidence freeze Wednesday 2026-10-07 night) is unchanged.
 
 ## Consequences
 - Dependencies recorded now, not decided: 8c needs the matrix entries to reach the pointwise unit from the sampler stream (the Phase 6 store holds the matrix in slots today); 8d needs a scheduler interface between the Phase 6 sequencer and the sampler (ROADMAP: "scheduler interface"); neither is built. They are designed in their own test plans, and if 8c or 8d proves infeasible in the time left that is reported as "not completed", never as a result (C3).

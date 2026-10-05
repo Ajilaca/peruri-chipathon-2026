@@ -5,7 +5,7 @@ description: Compile a Quartus project for the DE10-Nano (Cyclone V 5CSEBA6U23I7
 
 # quartus-report
 
-Quartus is the **only** source of FPGA implementation numbers in this project
+Quartus is the only source of FPGA implementation numbers in this project
 (CLAUDE.md §5.1). This skill runs a compile and records what Quartus printed.
 
 ## 1. Compile (long: run in the background)
@@ -38,10 +38,10 @@ present, and Critical Warning / Warning / Error counts from the log.
 
 ## 3. Rules when you report the result
 
-1. Label every number **MEASURED** and cite the evidence file path. Quote fitter
+1. Label every number MEASURED and cite the evidence file path. Quote fitter
    denominators exactly as printed (they can differ from the datasheet).
-2. **Negative slack = timing not met.** Say so plainly. Never say "timing closed"
-   without a fresh `sta.summary` showing non-negative worst setup **and** hold slack for
+2. Negative slack = timing not met. Say so plainly. Never say "timing closed"
+   without a fresh `sta.summary` showing non-negative worst setup and hold slack for
    all corners.
 3. Fmax is only real if it comes from the Timing Analyzer's Fmax Summary panel for a
    constrained clock. If the script prints "Fmax not found", open the report and copy the
@@ -56,6 +56,6 @@ present, and Critical Warning / Warning / Error counts from the log.
 
 - The parser was validated on the `fit.summary` / `sta.summary` text logged from this
   team's Quartus Prime Lite 25.1std run (`docs/TOOLING_INSTALL_LOG.md`).
-- The Fmax panel parser is **untested** against a real 25.1 `sta.rpt`. If it misreads,
+- The Fmax panel parser is untested against a real 25.1 `sta.rpt`. If it misreads,
   fix the parser or copy by hand; say which.
 - `--selftest` checks the parser against embedded samples.

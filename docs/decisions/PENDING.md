@@ -4,18 +4,18 @@ Update this list whenever something is decided (move it to an ADR) or discovered
 
 | # | Question | Why it matters | Blocks |
 |---|---|---|---|
-| 1 | **Target side**: accelerator for the *card / secure element* or the *reader*? | Sources place the bottleneck on the card chip (8-12 KB RAM); the DE10-Nano's HPS is far stronger than a card chip. Changes Sections 1-3 wording and the demo. | Phase 4; proposal Section 3 |
-| 2 | **Declared subtheme** (02 Hardware Crypto Accelerator? 01 Secure Identity? other) and how to relate to the reference baselines | ML-KEM uses SHA-3/Keccak, not SHA-256, so the TT07 SHA-256 baseline is not reused directly; subtheme 02 stresses small, area-efficient blocks | Registration text |
-| 3 | **Transfer mechanism**: DMA or plain memory-mapped access | A polynomial is only 3,072 bits; DMA setup may cost more than it saves | Phase 3 (decide by measurement) |
-| 4 | **Randomness source** for prototype: HPS or an FPGA TRNG | TRNG needs its own statistical validation; currently out of scope | Phase 3 |
-| 5 | **Hybrid mode** (classical ECDH + ML-KEM at the HPS): include? | BSI requires hybrid for production; adds scope | Phase 6 |
-| 6 | **Second software baseline** (e.g. soft core in fabric at a low clock) | Cortex-A9 baseline may show little or negative speed-up | Phase 5 |
-| 7 | **Emulated protocol / message flow** ("PQ-PACE" is not a standard; ICAO is still specifying) | Needed to define latency at protocol level | Phase 4 |
-| 8 | **Board availability**: is a DE10-Nano provided or owned? (`jtagconfig` showed none on 2026-09-24; an older Cyclone III board is not a target: no HPS, Quartus II 13.1 only) | Without a board only simulation + Quartus evidence exist | Phases 3-5 |
-| 10 | **Prior-art search** extension (IEEE Xplore, IACR ePrint, Google Patents) | Needed before any novelty wording beyond the current scoped claim | Before submission |
-| 12 | Does the **Appendix** count toward the 6-page limit? | Decides where figures go | Section 3 layout |
-| 13 | **Activate `rtl-agent-team` hooks** by running `/rtl-agent-team:rat-init-project` (creates `.rat/`)? The original blocker ("idea not chosen") is resolved by ADR 0001 | Its Stop-gates block ending a session after unverified RTL edits, which mechanically enforces verify-before-claim; but it also adds structure to the repo | Before Phase 1 |
-| 33 | **ADR 0033 (Phase 9, C7-core as built):** accept the ML-KEM-768 core of Phase 9 (all pinned ACVP vectors pass in simulation; 17,620.5 ALM, 54 RAM blocks, 28 DSP, 49.280 MHz median, timing met at 40 ns at every seed; KeyGen 9,035-9,076, Encaps 10,691, Decaps 16,623 cycles) with the hash instance on the C5 sponge, or on the K0 sponge (about 2,500 ALM fewer, 26 cycles per permutation), and decide whether an optimisation (overlapped encode / decode) is wanted | Fixes the architecture for Section 3 of the proposal and for Phase 10 | Section 3, Phase 10 |
+| 1 | Target side: accelerator for the *card / secure element* or the *reader*? | Sources place the bottleneck on the card chip (8-12 KB RAM); the DE10-Nano's HPS is far stronger than a card chip. Changes Sections 1-3 wording and the demo. | Phase 4; proposal Section 3 |
+| 2 | Declared subtheme (02 Hardware Crypto Accelerator? 01 Secure Identity? other) and how to relate to the reference baselines | ML-KEM uses SHA-3/Keccak, not SHA-256, so the TT07 SHA-256 baseline is not reused directly; subtheme 02 stresses small, area-efficient blocks | Registration text |
+| 3 | Transfer mechanism: DMA or plain memory-mapped access | A polynomial is only 3,072 bits; DMA setup may cost more than it saves | Phase 3 (decide by measurement) |
+| 4 | Randomness source for prototype: HPS or an FPGA TRNG | TRNG needs its own statistical validation; currently out of scope | Phase 3 |
+| 5 | Hybrid mode (classical ECDH + ML-KEM at the HPS): include? | BSI requires hybrid for production; adds scope | Phase 6 |
+| 6 | Second software baseline (e.g. soft core in fabric at a low clock) | Cortex-A9 baseline may show little or negative speed-up | Phase 5 |
+| 7 | Emulated protocol / message flow ("PQ-PACE" is not a standard; ICAO is still specifying) | Needed to define latency at protocol level | Phase 4 |
+| 8 | Board availability: is a DE10-Nano provided or owned? (`jtagconfig` showed none on 2026-09-24; an older Cyclone III board is not a target: no HPS, Quartus II 13.1 only) | Without a board only simulation + Quartus evidence exist | Phases 3-5 |
+| 10 | Prior-art search extension (IEEE Xplore, IACR ePrint, Google Patents) | Needed before any novelty wording beyond the current scoped claim | Before submission |
+| 12 | Does the Appendix count toward the 6-page limit? | Decides where figures go | Section 3 layout |
+| 13 | Activate `rtl-agent-team` hooks by running `/rtl-agent-team:rat-init-project` (creates `.rat/`)? The original blocker ("idea not chosen") is resolved by ADR 0001 | Its Stop-gates block ending a session after unverified RTL edits, which mechanically enforces verify-before-claim; but it also adds structure to the repo | Before Phase 1 |
+| 33 | ADR 0033 (Phase 9, C7-core as built): accept the ML-KEM-768 core of Phase 9 (all pinned ACVP vectors pass in simulation; 17,620.5 ALM, 54 RAM blocks, 28 DSP, 49.280 MHz median, timing met at 40 ns at every seed; KeyGen 9,035-9,076, Encaps 10,691, Decaps 16,623 cycles) with the hash instance on the C5 sponge, or on the K0 sponge (about 2,500 ALM fewer, 26 cycles per permutation), and decide whether an optimisation (overlapped encode / decode) is wanted | Fixes the architecture for Section 3 of the proposal and for Phase 10 | Section 3, Phase 10 |
 
 Closed: #9 FIPS 203 errata — accepted as ADR 0003 (2026-09-29, decided by Faza Dzil, Team J5).
 Closed: #14 Phase 3 lane-count (L) selection criterion — accepted as ADR 0004 (2026-09-29,

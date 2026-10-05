@@ -15,11 +15,11 @@
 (c) Keep the Phase 6 interface with A written by the testbench: no sampler in the system (not a design).
 
 ## Decision
-Not taken by the team. The rule fixed before measuring gives: **STREAM adopted** (all four conditions hold). The team accepts or rejects STREAM; 8d is built on it.
+Not taken by the team. The rule fixed before measuring gives: STREAM adopted (all four conditions hold). The team accepts or rejects STREAM; 8d is built on it.
 
 ## Consequences
 - Whole K-PKE programs with sampling are bit-exact against the golden model and the unmodified golden K-PKE (KeyGen, Encrypt, Decrypt) on both simulators; counters 6/0/9, 3/4/12, 3/1/3 plus 6 and 7 sampling operations; Decrypt is unchanged (3,109 cycles).
-- MEASURED (simulation, mean over the same inputs): KeyGen 7,089.1 cycles (STORE 8,268.1), Encrypt 8,548.6 (STORE 9,727.6). MEASURED (Quartus, medians over seeds 1-6): STREAM 10,995.5 ALM, 3,377-3,395 registers, **44 M10K** (STORE 10,958 ALM, 3,342-3,378 registers, 55 M10K), 26 DSP both, Fmax 43.355 MHz (STORE 42.270), timing met at 40 ns at every seed of both.
+- MEASURED (simulation, mean over the same inputs): KeyGen 7,089.1 cycles (STORE 8,268.1), Encrypt 8,548.6 (STORE 9,727.6). MEASURED (Quartus, medians over seeds 1-6): STREAM 10,995.5 ALM, 3,377-3,395 registers, 44 M10K (STORE 10,958 ALM, 3,342-3,378 registers, 55 M10K), 26 DSP both, Fmax 43.355 MHz (STORE 42.270), timing met at 40 ns at every seed of both.
   t = cycles / Fmax: KeyGen 163.5 us against 195.6 us, Encrypt 197.2 against 230.1 (INFERENCE / perhitungan tim: simulation cycles with the Fmax of a kernel-only compile).
 - Eleven M10K blocks fewer (the store holds 12 slots instead of 24); the ESTIMATE written before measuring was 10-14 fewer blocks and about 15 % fewer cycles: both inside: 11 fewer blocks, 14.3 % fewer KeyGen cycles and 12.1 % fewer Encrypt cycles ((8,268.1 - 7,089.1) / 8,268.1 and (9,727.6 - 8,548.6) / 9,727.6).
 - Information at 20 ns (seed 1): STREAM met (setup +1.783 ns, 54.89 MHz), STORE met (+0.992 ns, 52.61 MHz); kernel-only, not a system at 50 MHz.

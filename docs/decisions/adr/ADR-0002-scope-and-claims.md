@@ -10,9 +10,9 @@ stage from later-stage work. Judges score evidence; unsupported claims are costl
 
 ## Decision
 1. ML-KEM-768 parameters (q, n, k, eta, du, dv, root of unity) and all arithmetic
-   definitions are **not modified**. Innovation is in hardware architecture only.
+   definitions are not modified. Innovation is in hardware architecture only.
 2. Security wording: "designed to follow post-quantum standards", never "quantum-proof".
-3. Side-channel (power/EM) resistance is **not claimed** at core stage. Core claim:
+3. Side-channel (power/EM) resistance is not claimed at core stage. Core claim:
    constant-time by construction, shown by cycle-count invariance. TVLA and masking are
    later stage.
 4. All resource, timing and performance numbers come from Quartus reports or board

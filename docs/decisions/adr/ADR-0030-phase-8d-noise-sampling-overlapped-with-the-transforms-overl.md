@@ -15,7 +15,7 @@
 (c) A second sampler (to hide the matrix too): not built; cost not estimated.
 
 ## Decision
-Not taken by the team. The rule fixed before measuring gives: **OVERLAP adopted** (all four conditions hold). The team accepts or rejects it.
+Not taken by the team. The rule fixed before measuring gives: OVERLAP adopted (all four conditions hold). The team accepts or rejects it.
 
 ## Consequences
 - Bit-exact against the model and the unmodified golden K-PKE on both simulators, in the OVERLAP programs and in the test-only STRESS program (a noise sample collides with an ADD pass; 763 sampler-beat cycles were held back by sequencer writes in the final run, so the arbitration was exercised; the NC-ARB control fails as required).

@@ -20,13 +20,13 @@
   Montgomery instead, the base changes and the baseline numbers are re-measured.
 
 ## Options considered
-(a) **A separate phase between Phase 5 and Phase 6**, with its own branch, test plan, result artifact and Approval gate
+(a) A separate phase between Phase 5 and Phase 6, with its own branch, test plan, result artifact and Approval gate
     (proposed name: "Phase 5M: memory and schedule"; numbering is the team's, e.g. "Phase 5.5"). Cost: one more phase in the roadmap and
     one more approval; benefit: the memory path is changed under the same evidence rules as every earlier phase, and Phase 6 starts
     from a measured base.
-(b) **A sub-phase inside Phase 6** (operation-level scheduling). Cost: mixes a kernel-level timing change with the operation-level
+(b) A sub-phase inside Phase 6 (operation-level scheduling). Cost: mixes a kernel-level timing change with the operation-level
     schedule, so a result cannot be attributed to one change; Phase 6 already has its own scope.
-(c) **No such phase**: stay at about 35 MHz and treat 50 MHz as unreachable. Cost: the project target of ADR 0010 is dropped
+(c) No such phase: stay at about 35 MHz and treat 50 MHz as unreachable. Cost: the project target of ADR 0010 is dropped
     without the measured steps that could reach it; no new RTL risk.
 
 ## Decision

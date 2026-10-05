@@ -20,13 +20,13 @@ The team asked for data before setting limits; it is in
 (b) ALM: keep 12,573 as the limit for added registers, or review it.
 
 ## Decision
-1. **Cycle increase (a):** an increase in NTT / INTT cycle counts is acceptable **only if t_NTT and t_INTT computed with
-   the actually measured Fmax** (lowest slow-corner Fmax from a Quartus compile in this repository, same rule as
-   ADR 0007) **are both better than the C3-P6 baseline** (3.481 µs / 10.968 µs), **and the constant-cycle property
-   still holds** (CRG-7: identical cycle count for every input, both simulators). No fixed percentage limit. Hypothetical
+1. Cycle increase (a): an increase in NTT / INTT cycle counts is acceptable only if t_NTT and t_INTT computed with
+   the actually measured Fmax (lowest slow-corner Fmax from a Quartus compile in this repository, same rule as
+   ADR 0007) are both better than the C3-P6 baseline (3.481 µs / 10.968 µs), and the constant-cycle property
+   still holds (CRG-7: identical cycle count for every input, both simulators). No fixed percentage limit. Hypothetical
    clocks (40 / 45 / 50 MHz) are never used for this check.
-2. **ALM (b):** added registers may use the available room, but the **NTT core total stays ≤ 12,573 ALM** (fitter
-   "ALMs needed", ADR 0009) as a hard limit. If a timing change needs more, it is **not** changed silently: it is
+2. ALM (b): added registers may use the available room, but the NTT core total stays ≤ 12,573 ALM (fitter
+   "ALMs needed", ADR 0009) as a hard limit. If a timing change needs more, it is not changed silently: it is
    brought to the team as a new decision.
 3. The name and position of the phase that does this work remain open (PENDING #19).
 

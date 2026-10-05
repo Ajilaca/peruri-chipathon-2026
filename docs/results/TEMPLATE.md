@@ -1,7 +1,7 @@
 <!-- claim-lint: skip-file (template) -->
 # Result — Phase <N>: <name>
 
-Copy to `docs/results/phase<NN>.md`. Fill it **only from evidence produced in this repository**.
+Copy to `docs/results/phase<NN>.md`. Fill it only from evidence produced in this repository.
 Anything not proven stays `MISSING`. Validate with
 `python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase<NN>.md`.
 

@@ -2,10 +2,10 @@
 # Result — Phase 6: NTT scheduling at operation level (K-PKE arithmetic sequencer) and S10 (16-bank 1R1W memory)
 
 - Status: DONE
-- Status note: Phase 6 PASS criteria met (bit-exact, counts, constant cycles, Quartus evidence). S10 adopted by its pre-fixed rule (ADR 0025 **Proposed**: the team accepts or rejects). The 50 MHz options 1 and 2 of 2026-10-03 are recorded. The Approval box (Section 10) is empty; the Phase 5 and 5M boxes are also still empty.
+- Status note: Phase 6 PASS criteria met (bit-exact, counts, constant cycles, Quartus evidence). S10 adopted by its pre-fixed rule (ADR 0025 Proposed: the team accepts or rejects). The 50 MHz options 1 and 2 of 2026-10-03 are recorded. The Approval box (Section 10) is empty; the Phase 5 and 5M boxes are also still empty.
 - Date (UTC): 2026-10-02 to 2026-10-03
 - Git commit (HEAD when verified): 016bff0 (Phase 6 RTL), 8d8cb6f (S10 RTL), plus documentation commits
-- **Result:** the K-PKE arithmetic of KeyGen, Encrypt and Decrypt runs as fixed programs in hardware, bit-exact against the unmodified golden K-PKE, with the reference transform counts and constant cycles (KeyGen 5,493, Encrypt 6,810, Decrypt 3,121 with the S7 core). **S10** removes the slot arbitration: median Fmax 44.320 MHz at 40 ns (S7 38.720), ALM 5,077 (S7 9,391), 118 cycles, and timing met at 20.000 ns at 6 of 6 seeds (kernel-only).
+- Result: the K-PKE arithmetic of KeyGen, Encrypt and Decrypt runs as fixed programs in hardware, bit-exact against the unmodified golden K-PKE, with the reference transform counts and constant cycles (KeyGen 5,493, Encrypt 6,810, Decrypt 3,121 with the S7 core). S10 removes the slot arbitration: median Fmax 44.320 MHz at 40 ns (S7 38.720), ALM 5,077 (S7 9,391), 118 cycles, and timing met at 20.000 ns at 6 of 6 seeds (kernel-only).
 - Environment: Ubuntu 24.04.4 LTS, OSS CAD Suite 2026-09-23 (Verilator 5.053), cocotb 2.1.0, Quartus Prime Lite 25.1std.0 Build 1129.
 - Constraint: 40.000 ns (`quartus/phase06_sched/P.sdc`); information compiles at 20.000 ns (`P-20.sdc`, `quartus/phase05m_memsched/M-20.sdc`).
 
@@ -59,14 +59,14 @@
 | K-PKE cycles KeyGen / Encrypt / Decrypt | 5,493 / 6,810 / 3,121 (P6 with S7) | 5,475 / 6,789 / 3,109 (P6 with S10) | |
 
 Sources: `evidence/phase06/s10/selection_worksheet.md`, `evidence/phase06/quartus_P6.md`, `evidence/phase05m/fmax50/path_analysis.md`, the verify files above.
-Phase 6 top with the S10 core (information, seed 1; `evidence/phase06/quartus_P6S10.md`, `evidence/phase06/quartus_P6S10-20.md`): 40 ns 5,553 ALM, 840 registers, 26 DSP, 51 M10K, 43.26 MHz; 20 ns **timing met**, setup +0.619 ns, 51.60 MHz, 5,643 ALM.
+Phase 6 top with the S10 core (information, seed 1; `evidence/phase06/quartus_P6S10.md`, `evidence/phase06/quartus_P6S10-20.md`): 40 ns 5,553 ALM, 840 registers, 26 DSP, 51 M10K, 43.26 MHz; 20 ns timing met, setup +0.619 ns, 51.60 MHz, 5,643 ALM.
 Data movement through the core's host port (one coefficient per cycle): transforms x (257 load + 260 read-back) cycles = 3,102 of 5,493 KeyGen cycles (56 %, perhitungan tim from the RTL operation lengths).
 
 ## 4. Standards and sources pinned
 FIPS 203 Algorithms 11 (MultiplyNTTs), 12 (BaseCaseMultiply), 13-15 (K-PKE) as transcribed in `tb/golden/`; γ table and programs generated from the golden model; no parameter or arithmetic changed (`check_params.py` unchanged and passing in the last regression).
 
 ## 5. Coverage and limits
-- **Simulation, formal and static timing only.** No board; Fmax is kernel-only with virtual pins. "Timing met at 20 ns" is this flow's static timing, not a system at 50 MHz.
+- Simulation, formal and static timing only. No board; Fmax is kernel-only with virtual pins. "Timing met at 20 ns" is this flow's static timing, not a system at 50 MHz.
 - Keccak, samplers, compression, encoding and the FO transform are not in hardware (inputs injected by the testbench, as the ROADMAP requires for Phase 6).
 - Formal covers control, not data. P6 is one compile (seed 1). No path analysis after S10.
 - The host port of the core (one coefficient per cycle) dominates the operation cycles; a wider interface is future work (not measured).
@@ -79,7 +79,7 @@ FIPS 203 Algorithms 11 (MultiplyNTTs), 12 (BaseCaseMultiply), 13-15 (K-PKE) as t
 - Critical Warning 15725 (virtual pin clock) in every compile, as in earlier phases; no 332148 in any S10 compile; triaged, nothing waived.
 
 ## 7. Decisions needed
-- **ADR 0025** (S10 adopted by the rule): accept S10 as the core memory (and the Phase 6 top with S10) for the next phases?
+- ADR 0025 (S10 adopted by the rule): accept S10 as the core memory (and the Phase 6 top with S10) for the next phases?
 - ADR 0021 (S7), ADR 0022 (S9), ADR 0023 (S8) are still Proposed (S10 supersedes the S9 question if ADR 0025 is accepted). PENDING #25, #26, #27. Approval boxes of Phases 5, 5M and 6.
 
 ## 8. Claims made in this phase

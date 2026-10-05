@@ -25,29 +25,29 @@
 ## Options considered
 1. Keep 25% and accept ADR 0008 (P = 4). P = 4 is within budget at only 4 of 6 seeds; the P = 4 / P = 6 split rests
    on a few tens of ALM, within fitter noise.
-2. **Raise the NTT-core design budget to 30% (12,573 ALM) and select by the ADR 0007 rule.** Both P = 4 and P = 6
+2. Raise the NTT-core design budget to 30% (12,573 ALM) and select by the ADR 0007 rule. Both P = 4 and P = 6
    are within budget at every measured seed (margin ≥ 2,057 ALM).
 3. Larger budgets (35–40%). No additional P becomes a candidate; only the headroom for later phases changes, and no
    estimate supports a specific larger number.
 
 ## Decision
-1. **Design budget: 30% of the device's ALMs for the NTT core = 12,573 ALM** (41,910 × 0.30, fitter denominator),
+1. Design budget: 30% of the device's ALMs for the NTT core = 12,573 ALM (41,910 × 0.30, fitter denominator),
    using the fitter's "Logic utilization (ALMs needed)" figure as in Phase 4. This replaces the 25% value of ADR 0004
-   for the NTT core from Phase 4 onward. It is a **design budget for the NTT core**, not a limit for the final
+   for the NTT core from Phase 4 onward. It is a design budget for the NTT core, not a limit for the final
    system, and it does not state that the remaining 70% is sufficient for the rest of ML-KEM.
-2. **Selected configuration: L = 8 lanes, pipeline depth P = 6, implementation C3-P6**
+2. Selected configuration: L = 8 lanes, pipeline depth P = 6, implementation C3-P6
    (`rtl/ntt/ntt_core_c3_p6.sv`, Quartus revision `C3-P6`). Phase 5 starts from C3-P6.
 3. Timing targets unchanged (ADR 0006): Phase 4 milestone 40.000 ns (25 MHz, experimental target, met by C3-P6);
    Phase 5 target 20.000 ns (50 MHz, not yet met).
 
 Check against the ADR 0007 rule with the 30% budget (perhitungan tim from `selection_worksheet.md` and
 `seed_sweep.md`): at the default seed the candidates are {4, 6}; t_NTT(6) = 3.481 µs is the minimum and
-d(4) = 0.051 > 0.05, so the rule selects **P = 6**. Stated plainly: across seeds 1–6 the same rule selects P = 6 at
+d(4) = 0.051 > 0.05, so the rule selects P = 6. Stated plainly: across seeds 1–6 the same rule selects P = 6 at
 seeds 1, 4, 5 and P = 4 at seeds 2, 3, 6 (the two are near the 5% tie line). The team's choice of P = 6 is
 consistent with the rule at the default seed used for all measured revisions; it is not claimed to be seed-independent.
 
 ## Relation to earlier ADRs (nothing rewritten)
-- ADR 0004: its 25% value is superseded **for the NTT core from Phase 4 on** by this ADR; ADR 0004's text and the
+- ADR 0004: its 25% value is superseded for the NTT core from Phase 4 on by this ADR; ADR 0004's text and the
   Phase 3 decisions taken under it (ADR 0005, L = 8) stay as recorded.
 - ADR 0007: rule, candidate set and conditions unchanged except that condition 3 now reads "ALM <= 12,573".
 - ADR 0008: Proposed, not accepted; superseded by this ADR. Its measurements remain valid evidence.

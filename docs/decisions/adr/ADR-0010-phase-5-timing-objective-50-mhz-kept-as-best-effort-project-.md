@@ -20,7 +20,7 @@
     25 ns (ESTIMATE), about 40 MHz.
 
 ## Options considered
-1. **Keep 50 MHz as the project target, best-effort, not a Phase 5 gate**; correct ADR 0006's expectation; do the
+1. Keep 50 MHz as the project target, best-effort, not a Phase 5 gate; correct ADR 0006's expectation; do the
    work that touches memory / P / schedule as a separate phase or sub-phase after 5a/5b, with its own ADR and test
    plan.
 2. Drop 50 MHz and fix the project clock at the met 40.000 ns (25 MHz, experimental target per ADR 0006).
@@ -28,16 +28,16 @@
    memory, L and P stay fixed" and mixes arithmetic and memory effects in one set of measurements.
 
 ## Decision
-1. **50 MHz (20.000 ns) stays the project's timing target, on a best-effort basis.** It is neither a guarantee nor a
+1. 50 MHz (20.000 ns) stays the project's timing target, on a best-effort basis. It is neither a guarantee nor a
    Phase 5 gate.
-2. **ADR 0006's expectation is corrected:** reaching 50 MHz is not expected from Phase 5 arithmetic alone, because the
+2. ADR 0006's expectation is corrected: reaching 50 MHz is not expected from Phase 5 arithmetic alone, because the
    critical path of C3-P6 lies in the memory read path (MEASURED, Context). ADR 0006's text is not changed; this ADR
    records the correction.
 3. Work that changes the memory, P or the schedule (e.g. a register inside the read mux, P > 7 with stalls, a write-path
-   register, synchronous-read memory) is done **as a separate phase or sub-phase after 5a/5b**, with its own ADR and
+   register, synchronous-read memory) is done as a separate phase or sub-phase after 5a/5b, with its own ADR and
    test plan (selection rule written before measuring), bit-exact / constant-cycle / hazard re-verification (negative
    controls beyond the slack must still fail) and compiles at 20.000 ns with slack reported per segment.
-   **Its name and position in the roadmap are still open** and will be decided by the team.
+   Its name and position in the roadmap are still open and will be decided by the team.
 4. Phase 5 (5a–5d) proceeds as in the roadmap: arithmetic correct and measured; Fmax, slack and ALM reported against
    C3-P6. Phase 5 passes or fails on the roadmap's PASS criteria, not on 50 MHz.
 

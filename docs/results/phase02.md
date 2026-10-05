@@ -8,8 +8,8 @@
   Suite 2026-09-23, cocotb 2.1.0, pytest 9.1.1, Quartus Prime Lite 25.1std.0 Build 1129
   (`~/altera_lite/25.1std`).
 
-**Process note, stated plainly:** `docs/ROADMAP.md`'s own gate rule is "a phase starts only after
-the previous phase's result artifact passes `check_result.py` **and** a team member has ticked
+Process note, stated plainly: `docs/ROADMAP.md`'s own gate rule is "a phase starts only after
+the previous phase's result artifact passes `check_result.py` and a team member has ticked
 its Approval box." Phase 1's Approval box is still unticked (`docs/results/phase01.md`
 Section 10) and its CRG-9 is FAIL. This phase was started anyway, on an explicit team instruction
 ("lanjut fase 2") to continue in the same session, not because the gate was met. Recorded here
@@ -24,9 +24,9 @@ so nobody reading only this file assumes Phase 1 was approved.
 | CRG-4 | Corner cases before tests | `evidence/phase02/test_plan.md` | PASS |
 | CRG-5 | Regression: Phase 0 + Phase 1 tests still pass | `cmd: python3 -m pytest tb/golden/tests/ -q` (23/23) and `cmd: python3 tb/ntt/run_ntt_tests.py icarus` (10/10, C0 unaffected) | PASS |
 | CRG-6 | Locked parameters | `cmd: python3 .claude/skills/mlkem-guard/scripts/check_params.py` | PASS |
-| CRG-7 | Constant-cycle evidence | `evidence/phase02/cocotb_regression.txt` (NTT=897, INTT=1153, **equal to C0**, i.e. 0 stall cycles) | PASS |
+| CRG-7 | Constant-cycle evidence | `evidence/phase02/cocotb_regression.txt` (NTT=897, INTT=1153, equal to C0, i.e. 0 stall cycles) | PASS |
 | CRG-8 | Formal properties | `evidence/phase02/formal_bank_map.txt` (own-pair property, L=8, BMC depth 1, PASS) and `evidence/phase02/formal_ntt_core_c1_safety.txt` (FSM safety, k-induction depth 6, PASS) | PASS |
-| CRG-9 | Quartus evidence; no negative slack or the failure documented | `evidence/quartus/C1.md`, `evidence/phase02/quartus_C1_vs_C0.md` -- evidence exists, failure documented, but worst setup slack is **-46.720 ns** at 20.000 ns (timing NOT met, same as C0; the failure is documented, which is what the criterion asks) | PASS |
+| CRG-9 | Quartus evidence; no negative slack or the failure documented | `evidence/quartus/C1.md`, `evidence/phase02/quartus_C1_vs_C0.md` -- evidence exists, failure documented, but worst setup slack is -46.720 ns at 20.000 ns (timing NOT met, same as C0; the failure is documented, which is what the criterion asks) | PASS |
 | CRG-10 | Result artifact + claim checker | `cmd: python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase02.md` and `cmd: python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal` | PASS |
 
 CRG-9 was first marked FAIL, as in Phase 1 (`docs/results/phase01.md`). On 2026-10-05 the team chose the
@@ -49,7 +49,7 @@ started (see the process note above); it is DONE since 2026-10-05 (see the statu
 | Path | Purpose |
 |---|---|
 | `tb/mem/bank_model.py` | Golden model: XOR-group bank scheme, offset assignment, lane grouping, and the exact address-generation arithmetic factored out of `rtl/ntt/ntt_core.sv` |
-| `scripts/build/gen_bank_map.py` | Runs the exhaustive conflict-freedom proof; **generates** `rtl/mem/bank_map_rom.sv` from the golden model (never hand-typed) |
+| `scripts/build/gen_bank_map.py` | Runs the exhaustive conflict-freedom proof; generates `rtl/mem/bank_map_rom.sv` from the golden model (never hand-typed) |
 | `rtl/mem/bank_map_rom.sv` | Generated ROM: `addr -> (bank, offset)` for NUM_BANKS ∈ {1,2,4,8} |
 | `rtl/mem/poly_mem_banked.sv` | Banked polynomial memory (generic NUM_BANKS; only NUM_BANKS=1 exercised/tested this phase) |
 | `rtl/mem/ntt_core_c1.sv` | Configuration C1: C0's FSM/butterfly/twiddle-ROM unchanged, memory swapped for the banked version at NUM_BANKS=1 |
@@ -84,24 +84,24 @@ No new FIPS 203 reading this phase; no parameter or algorithm touched (`check_pa
 passes). Toolchain identical to Phase 1 (OSS CAD Suite `2026-09-23`, Quartus 25.1std.0 Build 1129).
 
 ## 5. Coverage and limits
-- **M10K was NOT used, despite the phase's own title ("M10K polynomial storage").** Measured 0/553
+- M10K was NOT used, despite the phase's own title ("M10K polynomial storage"). Measured 0/553
   RAM blocks, identical to C0. Root cause (from the Quartus log, not a guess): both `poly_mem.sv`
   and `poly_mem_banked.sv` use asynchronous (combinational) reads, and Quartus's RAM inference
   requires a synchronous read to map to M10K. This is a genuine, honestly-reported gap relative
   to the phase's stated goal, not something the roadmap's own PASS criteria happen to require
   fixing this phase -- see `evidence/phase02/quartus_C1_vs_C0.md` Section 4
   for the full explanation and why it was not silently patched.
-- **Only NUM_BANKS=1 is built into a tested, measured datapath.** `rtl/mem/poly_mem_banked.sv`
+- Only NUM_BANKS=1 is built into a tested, measured datapath. `rtl/mem/poly_mem_banked.sv`
   compiles (lint-clean) for NUM_BANKS∈{2,4,8}, and `rtl/mem/bank_map_rom.sv`'s address function is
   exhaustively proven conflict-free for all four L values -- but the multi-bank read/write
   crossbar for L>1 has no cocotb test and was not measured by Quartus this phase. Building and
   measuring the actual L-lane datapath is Phase 3 scope.
-- **Timing is still not met** (same root cause as C0, `modmul_reduce.sv`'s inferred divider,
+- Timing is still not met (same root cause as C0, `modmul_reduce.sv`'s inferred divider,
   untouched this phase) -- the ~1.6 ns slack improvement is attributed to routing/placement
   differences around the swapped memory, not to any timing fix.
-- **Phase 1's own gate (Approval ticked) was not met when this phase started** -- see the process
+- Phase 1's own gate (Approval ticked) was not met when this phase started -- see the process
   note at the top of this file.
-- **Target-clock ADR still does not exist** (inherited from Phase 1, still open).
+- Target-clock ADR still does not exist (inherited from Phase 1, still open).
 - Reduction method, formal liveness scope, and address-range argument: same caveats as Phase 1
   (`docs/results/phase01.md` Section 5), unchanged this phase.
 
@@ -112,21 +112,21 @@ passes). Toolchain identical to Phase 1 (OSS CAD Suite `2026-09-23`, Quartus 25.
   `read -formal` rejected (same issue Phase 1 hit and fixed the same way) were both caught by
   lint/formal runs immediately and fixed in the generator/RTL before any test was declared
   passing -- not discovered later.
-- **Tooling mistake, disclosed:** during the Quartus C1 compile, the working directory
+- Tooling mistake, disclosed: during the Quartus C1 compile, the working directory
   (`db/`, `incremental_db/`) was accidentally deleted while `quartus_fit` was still running,
   corrupting that compile (`Fitter Status: Failed`). The directory was cleaned and the compile
   re-run from scratch; the MEASURED numbers in this document are from the clean re-run. No
   corrupted output was used as evidence anywhere.
-- **CRG-9 (Quartus) is FAIL** for the same substantive reason as Phase 1 (timing not met at the
+- CRG-9 (Quartus) is FAIL for the same substantive reason as Phase 1 (timing not met at the
   provisional clock); this is expected, not a surprise, since Phase 2 did not touch arithmetic.
 
 ## 7. Decisions needed
 - Everything already open from Phase 1 (`docs/results/phase01.md` Section 7): target-clock
   ADR, how to read CRG-9, `QUARTUS_BIN` in `scripts/tooling.env`.
-- **New**: whether to pursue synchronous-read M10K mapping (a scheduling change) in a later
+- New: whether to pursue synchronous-read M10K mapping (a scheduling change) in a later
   phase, given it was not required by Phase 2's own PASS criteria but was the phase's stated
   goal.
-- **New**: whether starting Phase 2 before Phase 1's Approval box was ticked is acceptable
+- New: whether starting Phase 2 before Phase 1's Approval box was ticked is acceptable
   process for this team, or whether Phase 1 needs to be formally approved (or explicitly
   superseded) before Phase 3 starts.
 
@@ -171,4 +171,4 @@ python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/p
       phase's own numbers. Phase 1's box was ticked the same day, after the fact.
 
 ## Status update (2026-10-05)
-The team set this phase to DONE because its goals are met by the final phases: the later configurations meet timing (40 ns at 6 of 6 seeds, and 15 ns for the Phase 9M core, `docs/results/phase9m.md`). The measurements of this phase are unchanged (slack and ALM figures above stay as measured). CRG-9 reads "no negative slack **or the failure documented**"; the failure is documented in the evidence named in its row. The Approval box above was ticked earlier and is not edited.
+The team set this phase to DONE because its goals are met by the final phases: the later configurations meet timing (40 ns at 6 of 6 seeds, and 15 ns for the Phase 9M core, `docs/results/phase9m.md`). The measurements of this phase are unchanged (slack and ALM figures above stay as measured). CRG-9 reads "no negative slack or the failure documented"; the failure is documented in the evidence named in its row. The Approval box above was ticked earlier and is not edited.

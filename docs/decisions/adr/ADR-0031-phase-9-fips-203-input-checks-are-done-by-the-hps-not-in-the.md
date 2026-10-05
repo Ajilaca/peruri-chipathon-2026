@@ -18,7 +18,7 @@
 (b). The FIPS 203 input checks are done by the HPS (software), not in the RTL, for now. Chat 2026-10-03 (Jo, Team J5): 'HPS untuk sekarang karena papan tidak ada aksesnya'. The words "for now" are the team's: the question can be reopened if a board becomes available or time remains.
 
 ## Consequences
-- Phase 9 (C7-core) has no key-check RTL. The vector runs cover the ACVP groups keyGen, encapsulation and decapsulation (decapsulation with modified ciphertexts included); the key-check groups (10 + 10) are **not** run against the RTL. Whether they are run against the software function of the golden model is a separate, optional step and must be labelled as software only.
+- Phase 9 (C7-core) has no key-check RTL. The vector runs cover the ACVP groups keyGen, encapsulation and decapsulation (decapsulation with modified ciphertexts included); the key-check groups (10 + 10) are not run against the RTL. Whether they are run against the software function of the golden model is a separate, optional step and must be labelled as software only.
 - The RTL core states the assumption in its specification: the caller (HPS) has checked the inputs. The proposal must not say that the hardware performs the FIPS 203 input checks.
 - NOT tested on a board: the HPS-side checks stay a design intent until Phase 10 (blocked on PENDING #8). No claim of hardware validation (C8). The implicit rejection of Decaps (FO) stays in the RTL and is part of Phase 9.
 - The constant-cycle evidence for Decaps is unaffected (valid and modified ciphertexts, different secret keys).

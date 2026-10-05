@@ -6,7 +6,7 @@
 
 ## Context
 The Phase 5 test plan (`evidence/phase05/test_plan.md`, CRG-4) listed eight open questions (§13, D1–D8)
-with a suggestion for each, and a proposed selection rule for sub-step 5b (§11) that must be fixed **before** any 5b
+with a suggestion for each, and a proposed selection rule for sub-step 5b (§11) that must be fixed before any 5b
 revision is compiled (as with ADR 0004 / ADR 0007). Phase 5's timing objective is ADR 0010. Starting point: C3-P6
 (ADR 0009), MEASURED in `evidence/phase04/quartus_C3-P6.md` and
 `evidence/phase05/baseline/c3p6_critical_path.md`.
@@ -17,7 +17,7 @@ For each item, the options are those of test plan §13 and §3; the suggestion w
 ## Decision
 | # | Decision |
 |---|---|
-| D1 | Every Phase 5 Quartus revision (C4a–C4d) uses `create_clock -period 40.000` on `clk_i`, as C3-P6. At the end, the final C4 configuration **and** C3-P6 are each compiled once more at 20.000 ns; those two results are information, not a gate (ADR 0010). |
+| D1 | Every Phase 5 Quartus revision (C4a–C4d) uses `create_clock -period 40.000` on `clk_i`, as C3-P6. At the end, the final C4 configuration and C3-P6 are each compiled once more at 20.000 ns; those two results are information, not a gate (ADR 0010). |
 | D2 | The NTT-core budget stays 12,573 ALM (ADR 0009). Compiles use Quartus defaults as in Phase 4 (comparable with C3-P6); a GHRD-settings compile of the final C4 is optional. DSP use is reported; no DSP limit is set. |
 | D3 | Whether 5c and 5d are attempted is decided after the 5a / 5b results; the test plan keeps both plans (5c formal bound proof; 5d as a standalone unit, because `base_case_multiply.sv` is not part of C3-P6). |
 | D4 | Reading (ii) of 5a: a q-specific fold reducer using q = 2^11 + 2^10 + 2^8 + 1 (2^12 ≡ 767 mod q, shift-and-add only, then a fixed number of conditional subtractions). 5b = Barrett and Montgomery, in both of which the multiplication by q is shift-and-add. |
@@ -26,9 +26,9 @@ For each item, the options are those of test plan §13 and §3; the suggestion w
 | D7 | Default fitter seed for every revision; seeds 1–6 for the two 5b candidates. |
 | D8 | The 5b selection rule below. |
 
-**5b selection rule (D8).**
+5b selection rule (D8).
 1. Both candidates (Barrett, Montgomery) are built, verified and compiled at seeds 1–6 before the rule is applied.
-2. A candidate qualifies only if **all** hold: correct per test plan §7 (both simulators, exhaustive reducer test,
+2. A candidate qualifies only if all hold: correct per test plan §7 (both simulators, exhaustive reducer test,
    negative controls); NTT / INTT cycles exactly 119 / 375; ALM ≤ 12,573 (fitter "ALMs needed"); timing met at
    40.000 ns (non-negative setup and hold at every reported corner). Applied per seed; a candidate is a qualifier
    if it qualifies at every seed.

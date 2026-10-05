@@ -16,8 +16,8 @@
 (c) Team decides a different rule for this case (for example "t_NTT must not be worse than the seed spread"). Not made by the assistant.
 
 ## Decision
-**M6 is adopted as the base for S7 and S8 by decision of the team (Jevan, 2026-10-02), option (c) of the list above.** The pre-fixed rule of the test
-plan is not changed and its result stays on record as measured: M6 is **not adopted by the rule** (only the NTT part of ADR 0012 failed, t_NTT
+M6 is adopted as the base for S7 and S8 by decision of the team (Jevan, 2026-10-02), option (c) of the list above. The pre-fixed rule of the test
+plan is not changed and its result stays on record as measured: M6 is not adopted by the rule (only the NTT part of ADR 0012 failed, t_NTT
 3.456 us vs 3.448 us, a 0.25 % median-Fmax difference inside the seed spread). The team's reason: S7 and S8 follow on this base, and INTT drops from
 375 to 119 cycles. Consequences of the team's choice, stated so they are not forgotten:
 - the NTT/INTT configuration from now on is M6 (revision `M6`, `rtl/ntt/ntt_core_m6_p6.sv`), 16 DSP, about 250 more ALM than C4b-B, INTT = NTT = 119 cycles;

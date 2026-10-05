@@ -2,10 +2,10 @@
 # Result — Phase 5: Modular arithmetic optimisation (config C4: 5a fold, 5b Barrett vs Montgomery, 5c lazy INTT, 5d not attempted)
 
 - Status: DONE
-- Status note: technically complete by the Phase 5 plan (every attempted sub-step correct and measured; 5d marked "not attempted"). **Two records are still Proposed and wait for the team: ADR 0013 (5b choice: Barrett, DSP 9 -> 18; PENDING #23) and ADR 0015 (5d not attempted, moved to Phase 6).** The Approval box (Section 10) is empty.
+- Status note: technically complete by the Phase 5 plan (every attempted sub-step correct and measured; 5d marked "not attempted"). Two records are still Proposed and wait for the team: ADR 0013 (5b choice: Barrett, DSP 9 -> 18; PENDING #23) and ADR 0015 (5d not attempted, moved to Phase 6). The Approval box (Section 10) is empty.
 - Date (UTC): 2026-10-01 to 2026-10-02
 - Git commit (HEAD when verified): c572864 plus the Phase 5 closure working tree, committed together with this file
-- **Resulting configuration: C4 = C4b-B (Barrett reducer in the C3-P6 core, L = 8, P = 6), chosen by the ADR 0011 rule; 5c (C4c) measured and NOT adopted (ADR 0014 rule).** Cycles unchanged: NTT 119, INTT 375.
+- Resulting configuration: C4 = C4b-B (Barrett reducer in the C3-P6 core, L = 8, P = 6), chosen by the ADR 0011 rule; 5c (C4c) measured and NOT adopted (ADR 0014 rule). Cycles unchanged: NTT 119, INTT 375.
 - Environment: Ubuntu 24.04.4 LTS, OSS CAD Suite 2026-09-23 (Verilator 5.053), cocotb 2.1.0, Quartus Prime Lite 25.1std.0 Build 1129.
 - Constraint: `create_clock -period 40.000` (`quartus/phase05_arith_c4/C4.sdc`) for every C4 revision (ADR 0011 D1); information compiles of C4b-B and C3-P6 at 20.000 ns (`C4-20.sdc`). 50 MHz is best-effort, not a gate (ADR 0010).
 
@@ -27,8 +27,8 @@
 | # | Criterion | Evidence | Status |
 |---|---|---|---|
 | 1 | Every attempted sub-step correct and measured | 5a: `evidence/phase05/5a/summary_5a.md`; 5b: `evidence/phase05/5b/selection_worksheet.md`; 5c: `evidence/phase05/5c/summary_5c.md` and `evidence/phase05/5c/selection_worksheet.md` | PASS |
-| 2 | The 5b choice recorded in an ADR | `docs/decisions/adr/ADR-0013-phase-5b-choice-barrett-reducer-selected-by-the-adr-0011-rul.md` (**Proposed**: Barrett selected by the ADR 0011 rule, DSP 9 -> 18 stated; acceptance is the team's, PENDING #23) | PASS |
-| 3 | Optional sub-steps completed with evidence or explicitly "not attempted" | 5c completed and not adopted: `docs/decisions/adr/ADR-0014-phase-5c-lazy-intt-butterfly-inputs-operand-contract-d6-amen.md` (Accepted, outcome note). 5d "not attempted": `docs/decisions/adr/ADR-0015-phase-5d-karatsuba-style-base-case-not-attempted-in-phase-5-.md` (**Proposed**) and the C4d row of `docs/ROADMAP.md` | PASS |
+| 2 | The 5b choice recorded in an ADR | `docs/decisions/adr/ADR-0013-phase-5b-choice-barrett-reducer-selected-by-the-adr-0011-rul.md` (Proposed: Barrett selected by the ADR 0011 rule, DSP 9 -> 18 stated; acceptance is the team's, PENDING #23) | PASS |
+| 3 | Optional sub-steps completed with evidence or explicitly "not attempted" | 5c completed and not adopted: `docs/decisions/adr/ADR-0014-phase-5c-lazy-intt-butterfly-inputs-operand-contract-d6-amen.md` (Accepted, outcome note). 5d "not attempted": `docs/decisions/adr/ADR-0015-phase-5d-karatsuba-style-base-case-not-attempted-in-phase-5-.md` (Proposed) and the C4d row of `docs/ROADMAP.md` | PASS |
 | 4 | C4 ablation rows filled | `docs/ROADMAP.md`, rows C4a / C4b-B / C4b-M / C4c / C4d and the two 20 ns information rows | PASS |
 | 5 | Evidence artifact with one section per sub-step | `evidence/phase05/` (`baseline/`, `5a/`, `5b/`, `5c/`, `closure/`; there is no `5d/` because 5d was not attempted) and Section 3b of this file | PASS |
 
@@ -65,13 +65,13 @@ Frozen files of Phases 1-4 (RTL, tests, formal, evidence, ADRs) were not edited;
 
 Sources: `evidence/phase04/quartus_C3-P6.md` and `seed_sweep.md` (C3-P6 seed medians recomputed from those files), `evidence/phase05/5a/quartus_C4a.md`, `evidence/phase05/5b/selection_worksheet.md`, `evidence/phase05/5c/selection_worksheet.md`, `evidence/phase05/regression.md`. Medians, ranges and t = cycles / Fmax are INFERENCE / perhitungan tim.
 
-Information compiles at 20.000 ns (MEASURED, default seed, `evidence/phase05/closure/info_20ns.md`): **timing not met by either**. C3-P6: 10,557 ALM, setup -2.059 ns, lowest-corner Fmax 45.33 MHz. C4b-B: 9,305 ALM, setup -2.557 ns, lowest-corner Fmax 44.33 MHz. The target of 50 MHz was not reached; reported Fmax under a tighter constraint is not comparable with the 40 ns figures.
+Information compiles at 20.000 ns (MEASURED, default seed, `evidence/phase05/closure/info_20ns.md`): timing not met by either. C3-P6: 10,557 ALM, setup -2.059 ns, lowest-corner Fmax 45.33 MHz. C4b-B: 9,305 ALM, setup -2.557 ns, lowest-corner Fmax 44.33 MHz. The target of 50 MHz was not reached; reported Fmax under a tighter constraint is not comparable with the 40 ns figures.
 
 ## 3b. Per sub-step
-- **5a** (C4a, fold reducer): -658 ALM vs C3-P6 (INFERENCE from two compiles), Fmax -0.46 MHz at the lowest corner (within the seed spread), cycles unchanged. `evidence/phase05/5a/summary_5a.md`.
-- **5b** (Barrett vs Montgomery, seeds 1-6): rule of ADR 0011 selects **Barrett**: higher median Fmax (34.515 vs 33.780 MHz, 2.13 % apart, within the 5 % near-tie band), then lower median ALM (9,171.0 vs 9,286.5). Cost recorded in ADR 0013: DSP 9 -> 18. Montgomery keeps 9 DSP. The ADR is Proposed. `evidence/phase05/5b/selection_worksheet.md`.
-- **5c** (C4c, lazy INTT inputs, seeds 1-6): correct, 119 / 375, ALM and timing pass, but median Fmax 33.100 MHz is below the rule's 34.84 MHz and ADR 0012 is not met, so it is **not adopted**. Seed ranges overlap (C4c seed 2 is 35.26 MHz), so the difference is not distinguishable from seed noise. Post-hoc path analysis (MEASURED slack, hypothesis for the cause): the worst class stays memory read side -> multiplier input. `evidence/phase05/5c/summary_5c.md`. The D6 operand-contract amendment ([0, 2q)) applies only to this experiment; C4 keeps [0, q).
-- **5d**: not attempted (ADR 0015 Proposed). `base_case_multiply.sv` is not part of the C3-P6 / C4 core.
+- 5a (C4a, fold reducer): -658 ALM vs C3-P6 (INFERENCE from two compiles), Fmax -0.46 MHz at the lowest corner (within the seed spread), cycles unchanged. `evidence/phase05/5a/summary_5a.md`.
+- 5b (Barrett vs Montgomery, seeds 1-6): rule of ADR 0011 selects Barrett: higher median Fmax (34.515 vs 33.780 MHz, 2.13 % apart, within the 5 % near-tie band), then lower median ALM (9,171.0 vs 9,286.5). Cost recorded in ADR 0013: DSP 9 -> 18. Montgomery keeps 9 DSP. The ADR is Proposed. `evidence/phase05/5b/selection_worksheet.md`.
+- 5c (C4c, lazy INTT inputs, seeds 1-6): correct, 119 / 375, ALM and timing pass, but median Fmax 33.100 MHz is below the rule's 34.84 MHz and ADR 0012 is not met, so it is not adopted. Seed ranges overlap (C4c seed 2 is 35.26 MHz), so the difference is not distinguishable from seed noise. Post-hoc path analysis (MEASURED slack, hypothesis for the cause): the worst class stays memory read side -> multiplier input. `evidence/phase05/5c/summary_5c.md`. The D6 operand-contract amendment ([0, 2q)) applies only to this experiment; C4 keeps [0, q).
+- 5d: not attempted (ADR 0015 Proposed). `base_case_multiply.sv` is not part of the C3-P6 / C4 core.
 
 Technical reading (INFERENCE): reducer changes save area (C4b-B about 1,300 ALM below C3-P6) but do not move Fmax by more than the seed spread; the critical path is the memory read (baseline analysis `evidence/phase05/baseline/c3p6_critical_path.md`, ADR 0010).
 
@@ -79,7 +79,7 @@ Technical reading (INFERENCE): reducer changes save area (C4b-B about 1,300 ALM 
 No FIPS 203 reading this phase; no parameter, algorithm, twiddle value or result changed (`check_params.py` passes; every reducer equals `(a*b) mod q` for all a, b in [0, q), exhaustively). The Montgomery twiddle ROM is generated by `scripts/build/gen_twiddle_rom_mont.py` from the golden model and checked by `tb/arith/check_mont_rom.py`. Barrett: k = 24, M = 5039. Montgomery: R = 2^12, q' = 3327.
 
 ## 5. Coverage and limits
-- **Simulation, formal and static timing only.** No board is attached; nothing here is hardware validation. Fmax is kernel-only with virtual pins, not a system clock.
+- Simulation, formal and static timing only. No board is attached; nothing here is hardware validation. Fmax is kernel-only with virtual pins, not a system clock.
 - Formal covers control, bank capacity and (5c) value bounds. Arithmetic equality rests on the exhaustive checks (11,082,241 pairs per reducer; 22,164,482 for the lazy operand domain).
 - C4a and the two 20 ns compiles are single compiles at the default seed. The Fmax differences between C3-P6, C4a, C4b-B, C4b-M and C4c are small compared with the seed spread (C4b-B 33.46-34.84 MHz, C4c 32.27-35.26 MHz), so no Fmax ranking among them is claimed beyond what the stated rules compute.
 - The 5b choice follows the pre-fixed rule; the near-tie (2.13 %) and the DSP cost (9 -> 18) are team trade-offs, not settled by measurement.
@@ -95,9 +95,9 @@ No FIPS 203 reading this phase; no parameter, algorithm, twiddle value or result
 - `claim_lint` reports 1 pre-existing error at `docs/AI_TOOLING_RESEARCH.md:197`, not introduced in Phase 5 (it scans `docs/results docs/proposal` for CRG-10; see Section 9).
 
 ## 7. Decisions needed
-- **ADR 0013** (5b: Barrett, DSP 9 -> 18) is Proposed: accept, or choose Montgomery (9 DSP) knowing the rule picked Barrett by a near-tie (PENDING #23).
-- **ADR 0015** (5d not attempted, move to Phase 6) is Proposed: accept, or ask for a standalone C4d.
-- **PENDING #19**: a "memory and schedule" phase between Phase 5 and Phase 6 (the measured limit is the memory read path); not started.
+- ADR 0013 (5b: Barrett, DSP 9 -> 18) is Proposed: accept, or choose Montgomery (9 DSP) knowing the rule picked Barrett by a near-tie (PENDING #23).
+- ADR 0015 (5d not attempted, move to Phase 6) is Proposed: accept, or ask for a standalone C4d.
+- PENDING #19: a "memory and schedule" phase between Phase 5 and Phase 6 (the measured limit is the memory read path); not started.
 - The ablation rows for C4b-B and C4b-M name Barrett as the C4 configuration under ADR 0013 being Proposed.
 
 ## 8. Claims made in this phase

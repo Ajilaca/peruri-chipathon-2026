@@ -12,10 +12,10 @@
 (a) Adopt C5 as the Keccak permutation core for 8b-8d and Phase 9. (b) Keep K0 (one round per cycle). (c) Other.
 
 ## Decision
-Result of the pre-fixed rule (`scripts/quartus/select_8a.py`, no tolerance): **C5 is adopted by the rule** (all conditions PASS). Acceptance as the configuration is the team's (C5): this record stays Proposed.
+Result of the pre-fixed rule (`scripts/quartus/select_8a.py`, no tolerance): C5 is adopted by the rule (all conditions PASS). Acceptance as the configuration is the team's (C5): this record stays Proposed.
 
 ## Consequences
-- MEASURED (Quartus, seeds 1-6, 40.000 ns; `evidence/phase08/8a/selection_worksheet.md`): ALM 6,152-6,169 (median 6,167.0; K0 3,558-3,572, median 3,566.5), registers 1,652 (K0 1,653), 0 M10K, 0 DSP; timing met at every seed; median lowest-slow-corner Fmax **50.655 MHz** (range 47.38-51.67) against K0's **67.675 MHz** (56.99-70.39).
+- MEASURED (Quartus, seeds 1-6, 40.000 ns; `evidence/phase08/8a/selection_worksheet.md`): ALM 6,152-6,169 (median 6,167.0; K0 3,558-3,572, median 3,566.5), registers 1,652 (K0 1,653), 0 M10K, 0 DSP; timing met at every seed; median lowest-slow-corner Fmax 50.655 MHz (range 47.38-51.67) against K0's 67.675 MHz (56.99-70.39).
 - A permutation is 14 cycles in the sponge instead of 26 (12 busy instead of 24); t per permutation at the median Fmax is 14 / 50.655 = 0.2764 us against 26 / 67.675 = 0.3842 us (-28 %, perhitungan tim). A whole call shrinks by less (H(ek) 1184 B: 281 cycles against 389).
 - Keccak cycles of one ML-KEM-768 operation (perhitungan tim from the measured formula): about 1,510 / 1,550 / 1,542 (KeyGen / Encaps / Decaps, median over 200 rho) against about 2,026 / 2,078 / 2,070 with K0, nothing overlapped.
 - Cost: +73 % ALM (about +2,600 ALM); the Fmax of the permutation core drops by 25 %, so a system whose critical path is the Keccak core would lose that much Fmax; at present the NTT core (S10: median 44.320 MHz at 40 ns) is slower than C5's median, so the whole design is not limited by C5 (INFERENCE; no system compile yet).

@@ -49,18 +49,18 @@ distinction starts in Phase 1).
 | FIPS 203 errata items found | 2, both non-normative (clarification / comment typo) | MEASURED | `evidence/phase00/fips203_errata.md` |
 
 ## 4. Standards and sources pinned
-- **FIPS 203** (Module-Lattice-Based Key-Encapsulation Mechanism Standard), published 2024-08-13,
+- FIPS 203 (Module-Lattice-Based Key-Encapsulation Mechanism Standard), published 2024-08-13,
   DOI 10.6028/NIST.FIPS.203. PDF fetched 2026-09-28 UTC from
   `https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.203.pdf`,
   sha256 `fe1f12f32a7e44ec9fdebbf400cda843a40b506dee676725234dc6f7923b6cac`.
-- **Errata state read**: NIST's "Potential Updates (Errata)" spreadsheet, fetched 2026-09-28 UTC
+- Errata state read: NIST's "Potential Updates (Errata)" spreadsheet, fetched 2026-09-28 UTC
   from `https://csrc.nist.gov/files/pubs/fips/203/final/docs/fips-203-potential-updates.xlsx`,
   sha256 `edf899c89762449f43d7713883caeefc2e4ae9ae98d5a76b339547db22cb3ac7`. Contains 2 items as of
   that access date (2025-03-31 Appendix A zeta-table clarification; 2025-10-17 Section 5.3
   comment typo), both non-normative. Full quotes and impact analysis in
   `evidence/phase00/fips203_errata.md`. Handling recorded in ADR 0003
-  (**Status: Accepted**, 2026-09-29, decided by Faza Dzil / Team J5 -- see Section 7 below).
-- **NIST ACVP-Server** test vectors: repository `https://github.com/usnistgov/ACVP-Server`,
+  (Status: Accepted, 2026-09-29, decided by Faza Dzil / Team J5 -- see Section 7 below).
+- NIST ACVP-Server test vectors: repository `https://github.com/usnistgov/ACVP-Server`,
   pinned commit `975de31eb83d87039ec88934fdc47d8c312b892d`. Files used:
   `gen-val/json-files/ML-KEM-keyGen-FIPS203/internalProjection.json`
   (sha256 `d7a62a2c3476957f56dd8d24f9004ea6776ccfe995ffe71a65bb9506dc9c7b1b`, top-level
@@ -70,34 +70,34 @@ distinction starts in Phase 1).
   (sha256 `a556952ce869bb89c3a3196a701dad89647c193a34c86eafb61a9d710d5b810f`, top-level
   `isSample: true`). Both hashes verified before use; see
   `evidence/phase00/kat_mlkem768.txt`.
-- **Independent oracle**: kyber-py 1.2.0 (`https://github.com/GiacomoPope/kyber-py`), license
+- Independent oracle: kyber-py 1.2.0 (`https://github.com/GiacomoPope/kyber-py`), license
   MIT OR Apache-2.0, Copyright Giacomo Pope. Installed only in a throwaway virtualenv outside
   this repository; not added to `scripts/requirements-dev.txt`, not copied into the repo.
 
 ## 5. Coverage and limits
-- **NIST sample/shipped vector sets only.** ACVP KAT coverage is 80 ML-KEM-768 cases total (25
+- NIST sample/shipped vector sets only. ACVP KAT coverage is 80 ML-KEM-768 cases total (25
   keyGen AFT, 25 encapsulation AFT, 10 decapsulation VAL, 10 decapsulationKeyCheck VAL, 10
   encapsulationKeyCheck VAL) from one pinned commit -- not exhaustive coverage of every possible
   input, decapsulation-failure path, or invalid-key construction.
-- **ML-KEM-512 and ML-KEM-1024 are entirely untested.** Only ML-KEM-768 groups were used from
+- ML-KEM-512 and ML-KEM-1024 are entirely untested. Only ML-KEM-768 groups were used from
   both ACVP files, and `tb/golden/params.py` defines ML-KEM-768 constants only (by design, see
   mlkem-guard SKILL.md).
-- **This Python model is NOT a constant-time implementation and no such claim is made about
-  it.** `tb/golden/mlkem.py`'s docstring states this explicitly (branches on secret/derived data
+- This Python model is NOT a constant-time implementation and no such claim is made about
+  it. `tb/golden/mlkem.py`'s docstring states this explicitly (branches on secret/derived data
   in the implicit-rejection and input-check paths). Constant-time is an RTL-level property to be
   measured in later phases, separately from this golden model's correctness.
-- **kyber-py cross-check is 2000 pseudorandom trials from one fixed seed** (reproducible, not
+- kyber-py cross-check is 2000 pseudorandom trials from one fixed seed (reproducible, not
   exhaustive) -- explicitly labelled "not a proof" in its own log.
-- **No FPGA/Quartus numbers exist yet** -- Phase 0 is Python-only; no ALM/register/M10K/DSP/Fmax
+- No FPGA/Quartus numbers exist yet -- Phase 0 is Python-only; no ALM/register/M10K/DSP/Fmax
   or cycle-count claim is made or implied by this phase.
-- **§7.1 "key pair check" (seed-consistency + pairwise-consistency) is not implemented or
-  tested** -- only the per-call §7.2 encapsulation-key check and §7.3 decapsulation-input check
+- §7.1 "key pair check" (seed-consistency + pairwise-consistency) is not implemented or
+  tested -- only the per-call §7.2 encapsulation-key check and §7.3 decapsulation-input check
   are implemented (`tb/golden/mlkem.py`), matching what the ACVP `encapsulationKeyCheck` /
   `decapsulationKeyCheck` groups actually exercise.
-- **Invalid-input rejection paths for our own `check_encapsulation_key` /
-  `check_decapsulation_input`** were exercised only through the 20 ACVP key-check cases (10+10);
+- Invalid-input rejection paths for our own `check_encapsulation_key` /
+  `check_decapsulation_input` were exercised only through the 20 ACVP key-check cases (10+10);
   no additional fuzzing of malformed lengths/hashes was done beyond that.
-- **ADR 0003 (errata handling) is Accepted** (2026-09-29, Faza Dzil / Team J5); see Section 7.
+- ADR 0003 (errata handling) is Accepted (2026-09-29, Faza Dzil / Team J5); see Section 7.
 
 ## 6. Deviations, failures and open issues
 None. No test failed at any point in this phase; no tolerance, assertion, or comparison was
@@ -105,13 +105,13 @@ weakened to make a result pass.
 
 One factual correction relative to an earlier assumption: `.claude/skills/mlkem-guard/reference/kat_sources.md`
 states the ACVP vectors are NIST "sample sets (isSample: true)". As actually downloaded and
-sha256-verified (2026-09-28), the **keyGen** file's own JSON says `"isSample": false` (only the
-**encapDecap** file says `true`). This is reported as found, not silently corrected in that
+sha256-verified (2026-09-28), the keyGen file's own JSON says `"isSample": false` (only the
+encapDecap file says `true`). This is reported as found, not silently corrected in that
 reference file; see `evidence/phase00/kat_mlkem768.txt` for the exact values.
 
 ## 7. Decisions needed
-- **ADR 0003** (`docs/decisions/adr/ADR-0003-fips-203-errata-findings-and-golden-model-handling.md`) is
-  now **Accepted** (2026-09-29, decided by Faza Dzil / Team J5). `docs/decisions/PENDING.md`
+- ADR 0003 (`docs/decisions/adr/ADR-0003-fips-203-errata-findings-and-golden-model-handling.md`) is
+  now Accepted (2026-09-29, decided by Faza Dzil / Team J5). `docs/decisions/PENDING.md`
   item #9 is closed as a result.
 - No other `docs/decisions/PENDING.md` item blocks Phase 0 closure; items #1-#8 and #10-#13 all
   target later phases (see PENDING.md itself for the up-to-date list).

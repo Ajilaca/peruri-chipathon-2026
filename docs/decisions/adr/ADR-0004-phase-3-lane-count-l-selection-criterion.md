@@ -29,19 +29,19 @@ Two prior conditions affect this decision and must be named, not hidden:
 The Phase 3 spec's own example is "lowest AT within a stated resource budget." Concretely,
 for team J5 to decide:
 
-1. **Lowest AT (Area x Time) product, no fixed budget** — for each L, AT = ALM_used x
+1. Lowest AT (Area x Time) product, no fixed budget — for each L, AT = ALM_used x
    (1 / Fmax_measured). Pick the L with the smallest AT. Simple, single-number ranking;
    but on a Cyclone V 5CSEBA6U23I7 (41,910 ALM datasheet ceiling) a large L could still win
    on AT while eating an impractical fraction of the device, leaving no headroom for
    Keccak, the sampler, or protocol logic sharing the same fabric.
-2. **Lowest AT within a stated ALM budget** (e.g. reserve X% of 41,910 ALM for the NTT/INTT
+2. Lowest AT within a stated ALM budget (e.g. reserve X% of 41,910 ALM for the NTT/INTT
    block; disqualify any L exceeding it, then rank the rest by AT). Matches the spec's
    own example. Requires the team to state the budget percentage now, as part of this ADR,
    not as a post-hoc filter.
-3. **Highest throughput (lowest total cycles for NTT+INTT+pointwise) within the same ALM
-   budget**, ignoring Fmax differences across L (since none of C0-C1 meet timing yet, a
+3. Highest throughput (lowest total cycles for NTT+INTT+pointwise) within the same ALM
+   budget, ignoring Fmax differences across L (since none of C0-C1 meet timing yet, a
    throughput-in-cycles metric is arguably more honest than an Fmax-weighted one right now).
-4. **Keep L configurable, defer the choice** — ship all four configs, expose L as a
+4. Keep L configurable, defer the choice — ship all four configs, expose L as a
    synthesis-time parameter, and let Phase 4+ (pipelining) or the final proposal pick per
    context. Satisfies "keeping L configurable" allowed by the Phase 3 PASS criteria, but
    defers a decision the spec asked to be fixed before measuring.
@@ -52,15 +52,15 @@ this ADR is about the *rule*, not the *result*.
 ## Decision
 Two-stage criterion, in priority order:
 
-1. **Primary — minimize cycle count, subject to an ALM budget of 25% of the target
-   device (5CSEBA6U23I7, 41,910 ALM datasheet ceiling) -> budget = 10,478 ALM.** Any
+1. Primary — minimize cycle count, subject to an ALM budget of 25% of the target
+   device (5CSEBA6U23I7, 41,910 ALM datasheet ceiling) -> budget = 10,478 ALM. Any
    L whose Quartus C2-L<n> compile exceeds 10,478 ALM is disqualified regardless of its
    cycle count. Among the remaining (in-budget) L values, the one with the lowest total
    cycle count (NTT + INTT + pointwise product, from cocotb, cycle-identical requirement
    from Phase 2 still applies within each L) wins. This is option 3 from the list above,
    chosen because C0/C1 timing is still unmet, so cycles are the more honest metric
    right now than an Fmax-weighted AT product.
-2. **Secondary — informational only, does not auto-override the primary pick.** Once a
+2. Secondary — informational only, does not auto-override the primary pick. Once a
    timing-valid constrained clock exists (i.e. once the target-clock ADR lands and a
    config actually meets timing), re-evaluate the primary-selected L's AT product
    (ALM x 1/Fmax) against the same 10,478 ALM budget, for the record. If this secondary

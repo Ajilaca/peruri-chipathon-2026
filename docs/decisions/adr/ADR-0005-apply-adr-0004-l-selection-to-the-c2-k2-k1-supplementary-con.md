@@ -7,7 +7,7 @@
 ## Context
 ADR 0004 (Accepted) fixes the Phase 3 lane-count criterion: minimise cycle count among the L values
 whose Quartus ALM is within 25% of the device (10,478 ALM, ADR 0004 / 'perhitungan tim'). Applied to the C2 sweep
-(`docs/results/phase03.md`), L=8 (MEASURED 11,446 ALM, `evidence/quartus/C2-L8.md`) was disqualified and **L=4** is the reported
+(`docs/results/phase03.md`), L=8 (MEASURED 11,446 ALM, `evidence/quartus/C2-L8.md`) was disqualified and L=4 is the reported
 result (pending team sign-off).
 
 The team then approved two supplementary optimisation experiments on C2, run as separate
@@ -29,7 +29,7 @@ simulators; cycle counts identical to C2):
 | 4 | 6,775 | yes | 225 / 481 |
 | 8 | 9,754 | yes (724 below) | 113 / 369 |
 
-Applying ADR 0004's rule unchanged to this family gives **L=8** (lowest cycle count, within budget).
+Applying ADR 0004's rule unchanged to this family gives L=8 (lowest cycle count, within budget).
 ADR 0004's secondary AT check still cannot run: no configuration meets timing at any clock.
 
 Open items that bear on this decision (from the K1 record): the fitter's
@@ -43,19 +43,19 @@ L=1/2/4/8 for bank_overflow_o, the busy/done handshake and the counter ranges
 (`formal_rerun.md`).
 
 ## Options considered
-1. **Adopt C2-K2-K1 as the Phase 3 configuration family and select L=8** under ADR 0004's rule.
+1. Adopt C2-K2-K1 as the Phase 3 configuration family and select L=8 under ADR 0004's rule.
    Throughput: 8 butterflies/cycle, NTT 113 / INTT 369 cycles (MEASURED in simulation, `k1_cocotb_regression.txt`). Cost: accepts a butterfly change
    outside the written Phase 3 scope, recorded here as a deliberate deviation; Phase 4 then starts
    from C2-K2-K1-L8.
-2. **Adopt C2-K2-K1 but keep L=4** (e.g. for more ALM headroom for Keccak/sampler, or timing, which is
+2. Adopt C2-K2-K1 but keep L=4 (e.g. for more ALM headroom for Keccak/sampler, or timing, which is
    worse at larger L). Contradicts ADR 0004's rule unless a new criterion is stated.
-3. **Keep the C2 result (L=4) for Phase 3 and carry K1 into a later phase** (e.g. Phase 5, arithmetic
+3. Keep the C2 result (L=4) for Phase 3 and carry K1 into a later phase (e.g. Phase 5, arithmetic
    optimisation). Keeps Phase 3 strictly within its written scope; L=8 is revisited later.
-4. **Defer** (e.g. until a seed sweep quantifies the ALM-packing margin).
+4. Defer (e.g. until a seed sweep quantifies the ALM-packing margin).
 
 ## Decision
-**Option 1.** The team adopts the optimised configuration **C2-K2-K1** as the Phase 3 configuration
-family and, applying ADR 0004's rule to it unchanged, selects **L = 8** (MEASURED 9,754 ALM, within the
+Option 1. The team adopts the optimised configuration C2-K2-K1 as the Phase 3 configuration
+family and, applying ADR 0004's rule to it unchanged, selects L = 8 (MEASURED 9,754 ALM, within the
 10,478 ALM budget; NTT 113 / INTT 369 cycles; 8 butterflies per cycle).
 
 This is a deliberate, recorded deviation from the written Phase 3 implementation scope ("butterfly,
@@ -64,7 +64,7 @@ butterfly). The modular reduction method (`modmul_reduce.sv`) and every locked F
 unchanged (ADR 0002 still holds). ADR 0004 itself is not edited; this record applies it.
 
 ## Consequences
-- Phase 4 (pipelining) starts from **C2-K2-K1 at L = 8** (`rtl/ntt/ntt_core_c2_k2_k1.sv`,
+- Phase 4 (pipelining) starts from C2-K2-K1 at L = 8 (`rtl/ntt/ntt_core_c2_k2_k1.sv`,
   `rtl/ntt/butterfly_shared.sv`), not from C2 at L = 4. The earlier ADR 0004 result on the C2 family
   (L = 4, `docs/results/phase03.md` Section 3) is kept as the measured baseline comparison, not
   as the selected operating point.

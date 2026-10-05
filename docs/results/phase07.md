@@ -2,10 +2,10 @@
 # Result — Phase 7: Keccak-f[1600] + SHA3/SHAKE baseline (configuration K0)
 
 - Status: DONE
-- Status note: Phase 7 PASS criteria met (all four modes bit-exact, fixed permutation latency shown, K0 row filled). The Approval box (Section 10) is empty. This is **not** tier T1 of ADR 0019: T1 also needs the samplers (Phase 8b), which are not built.
+- Status note: Phase 7 PASS criteria met (all four modes bit-exact, fixed permutation latency shown, K0 row filled). The Approval box (Section 10) is empty. This is not tier T1 of ADR 0019: T1 also needs the samplers (Phase 8b), which are not built.
 - Date (UTC): 2026-10-03
 - Git commit (HEAD when verified): c69d62f (Phase 7 RTL, tests, formal, Quartus revisions and evidence), plus the documentation commit of this file
-- **Result:** an iterative Keccak-f[1600] (one round per cycle, `busy_o` high for exactly 24 cycles for every state) and a sponge for SHA3-256, SHA3-512, SHAKE128 and SHAKE256 with multi-block absorb and squeeze, equal to hashlib for every tested length and output size on Verilator and Icarus, with data-independent cycle counts. Quartus (kernel-only, virtual pins): **3,572 ALM, 1,653 registers, 0 M10K, 0 DSP**, timing met at 40 ns (setup +22.452 ns, Fmax 56.99 MHz, seed 1) and at 20 ns (setup +6.893 ns, Fmax 76.30 MHz, seed 1).
+- Result: an iterative Keccak-f[1600] (one round per cycle, `busy_o` high for exactly 24 cycles for every state) and a sponge for SHA3-256, SHA3-512, SHAKE128 and SHAKE256 with multi-block absorb and squeeze, equal to hashlib for every tested length and output size on Verilator and Icarus, with data-independent cycle counts. Quartus (kernel-only, virtual pins): 3,572 ALM, 1,653 registers, 0 M10K, 0 DSP, timing met at 40 ns (setup +22.452 ns, Fmax 56.99 MHz, seed 1) and at 20 ns (setup +6.893 ns, Fmax 76.30 MHz, seed 1).
 - Environment: Ubuntu 24.04.4 LTS, OSS CAD Suite 2026-09-23 (Verilator 5.053, Icarus 14.0 devel), cocotb 2.1.0, Quartus Prime Lite 25.1std.0 Build 1129.
 - Constraint: 40.000 ns (`quartus/phase07_keccak/K.sdc`, identical to `quartus/phase06_sched/P.sdc`); information compile at 20.000 ns (`K-20.sdc`).
 
@@ -46,8 +46,8 @@
 ## 3. Numbers (MEASURED: Quartus reports and simulation; ESTIMATE and perhitungan tim marked)
 | Quantity | K0 at 40.000 ns | K0-20 at 20.000 ns | Estimate written before measuring (ESTIMATE) |
 |---|---|---|---|
-| ALM (seed 1) | 3,572 / 41,910 (9 %) | 3,573 / 41,910 (9 %) | 1,500-3,500: **measured is 2 % above the top of the range** |
-| Registers | 1,653 | 1,653 | 1,700-2,000: **measured is below the range** (1,600 state bits + 53 control; the estimate counted extra buffers that the design does not have) |
+| ALM (seed 1) | 3,572 / 41,910 (9 %) | 3,573 / 41,910 (9 %) | 1,500-3,500: measured is 2 % above the top of the range |
+| Registers | 1,653 | 1,653 | 1,700-2,000: measured is below the range (1,600 state bits + 53 control; the estimate counted extra buffers that the design does not have) |
 | M10K / DSP | 0 / 0 | 0 / 0 | about 0 / 0 |
 | Timing | met; worst setup +22.452 ns (Slow 100 C), worst hold +0.163 ns (Fast -40 C) | met; worst setup +6.893 ns, worst hold +0.164 ns | not expected to limit the system (INFERENCE) |
 | Fmax lowest slow corner (MHz) | 56.99 (seed 1) | 76.30 (seed 1) | - |
@@ -64,7 +64,7 @@ Sources: `evidence/phase07/quartus_K0.md`, `quartus_K0-20.md`, `keccak_cycles.md
 FIPS 202 (Keccak-p[1600, 24], Algorithms 2, 5, 6 for the rho offsets and round constants, pad10*1, SHA3-256, SHA3-512, SHAKE128, SHAKE256, domain bytes 0x06 and 0x1F) as used by FIPS 203 (H, J, G, PRF, XOF); reference outputs from Python hashlib. No parameter or arithmetic of FIPS 203 changed (C1); `check_params.py` passes.
 
 ## 5. Coverage and limits
-- **Simulation, formal and static timing only.** No board; Fmax and slack are kernel-only with virtual pins and one seed (ADR 0019: one compile for a block without an adoption rule). "Timing met at 20 ns" is this flow's static timing, not a system at 50 MHz.
+- Simulation, formal and static timing only. No board; Fmax and slack are kernel-only with virtual pins and one seed (ADR 0019: one compile for a block without an adoption rule). "Timing met at 20 ns" is this flow's static timing, not a system at 50 MHz.
 - Formal covers control (K1-K5), not digest values; the digests are covered by simulation against hashlib.
 - One round per cycle only (two rounds per cycle, unrolling, streaming samplers and the connection to the arithmetic unit are not allowed in this phase and were not built).
 - Constant-time here means cycle counts depend only on the public length and the number of output words; it is not a side-channel statement.

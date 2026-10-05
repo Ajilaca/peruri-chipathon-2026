@@ -2,10 +2,10 @@
 # Result — Phase 5M: Memory and schedule (S6 INTT without scaling pass, S7 split memory read, S8 write-path register, S9 M10K study)
 
 - Status: DONE
-- Status note: technically complete by ADR 0017 / 0019 (S6, S7, S8 correct and measured; S9 is the documentation-only study). **Records waiting for the team: ADR 0021 (S7, Proposed), ADR 0022 (S9, Proposed), ADR 0023 (S8, Proposed).** The Approval box (Section 10) is empty; the Phase 5 Approval box is also still empty.
+- Status note: technically complete by ADR 0017 / 0019 (S6, S7, S8 correct and measured; S9 is the documentation-only study). Records waiting for the team: ADR 0021 (S7, Proposed), ADR 0022 (S9, Proposed), ADR 0023 (S8, Proposed). The Approval box (Section 10) is empty; the Phase 5 Approval box is also still empty.
 - Date (UTC): 2026-10-02 to 2026-10-03
 - Git commit (HEAD when verified): 300aaf3 (RTL, tests and proofs of S6-S8; the full regression ran at this commit), plus the documentation commits that follow it
-- **Result:** S6 (M6) is the base by team decision although the pre-fixed rule did not adopt it (ADR 0020); **S7 is adopted by the rule** (median Fmax 38.720 MHz, NTT = INTT = 120 cycles); **S8 is not adopted by the rule** (median Fmax 37.990 MHz, 122 cycles); S9 shows a conflict-free 1R1W 16-bank map exists, no hardware number.
+- Result: S6 (M6) is the base by team decision although the pre-fixed rule did not adopt it (ADR 0020); S7 is adopted by the rule (median Fmax 38.720 MHz, NTT = INTT = 120 cycles); S8 is not adopted by the rule (median Fmax 37.990 MHz, 122 cycles); S9 shows a conflict-free 1R1W 16-bank map exists, no hardware number.
 - Environment: Ubuntu 24.04.4 LTS, OSS CAD Suite 2026-09-23 (Verilator 5.053), cocotb 2.1.0, Quartus Prime Lite 25.1std.0 Build 1129.
 - Constraint: `create_clock -period 40.000` (`quartus/phase05m_memsched/M.sdc`) for every revision; one information compile of S8 at 20.000 ns (`M-20.sdc`).
 
@@ -55,26 +55,26 @@ No frozen file of Phases 1-5 (RTL, tests, formal, evidence) was edited. Existing
 | Registers (min-max) | 4,083-4,115 | 4,030-4,080 | 4,296-4,324 | 4,130-4,144 |
 | M10K / DSP | 29 / 18 | 29 / 16 | 31 / 16 | 33 / 16 |
 | Timing met at 40.000 ns, every seed | yes | yes | yes | yes |
-| Fmax lowest slow corner, median (min-max) MHz | 34.515 (33.46-34.84) | 34.430 (32.35-35.04) | **38.720 (37.89-40.29)** | 37.990 (36.76-40.22) |
+| Fmax lowest slow corner, median (min-max) MHz | 34.515 (33.46-34.84) | 34.430 (32.35-35.04) | 38.720 (37.89-40.29) | 37.990 (36.76-40.22) |
 | NTT / INTT cycles | 119 / 375 | 119 / 119 | 120 / 120 | 122 / 122 |
-| t_NTT / t_INTT at median Fmax (us, perhitungan tim) | 3.448 / 10.865 | 3.456 / 3.456 | **3.099 / 3.099** | 3.211 / 3.211 |
+| t_NTT / t_INTT at median Fmax (us, perhitungan tim) | 3.448 / 10.865 | 3.456 / 3.456 | 3.099 / 3.099 | 3.211 / 3.211 |
 | Rule result | (Phase 5 base) | not adopted by the rule; base by team decision (ADR 0020) | adopted | not adopted |
 
 Sources: `evidence/phase05m/s8/selection_worksheet.md` (all four rows, recomputed from the evidence files), `s7/selection_worksheet.md`, `s6/selection_worksheet.md`.
-Information compile at 20.000 ns (MEASURED, S8, seed 1, `s8/quartus_S8-20.md`): 9,443 ALM, setup -2.242 ns, Fmax 44.96 MHz, timing **not met**. Earlier 20 ns compiles: C3-P6 10,557 ALM, -2.059 ns; C4b-B 9,305 ALM, -2.557 ns (`evidence/phase05/closure/info_20ns.md`).
+Information compile at 20.000 ns (MEASURED, S8, seed 1, `s8/quartus_S8-20.md`): 9,443 ALM, setup -2.242 ns, Fmax 44.96 MHz, timing not met. Earlier 20 ns compiles: C3-P6 10,557 ALM, -2.059 ns; C4b-B 9,305 ALM, -2.557 ns (`evidence/phase05/closure/info_20ns.md`).
 S9 (model of the real schedule, perhitungan tim): the 8-bank map needs 2 reads + 2 writes per bank per cycle; the 16-bank map `bank = (a1^a2^a3^a4, a7, a6, a5)`, `offset = a[3:0]` needs 1 + 1 over the whole timeline (`s9/port_analysis.txt`).
 
 ## 3b. Per step
-- **S6 (M6):** INTT 375 -> 119 cycles, DSP 18 -> 16, median Fmax -0.25 % versus C4b-B (inside seed noise); the rule failed only on the NTT part by 0.008 us; the team adopted M6 anyway (ADR 0020).
-- **S7:** median Fmax +12.5 % (38.720 versus 34.430 MHz), the lowest S7 seed above the highest M6 seed, ALM not higher; adopted by the rule (ADR 0021, Proposed).
-- **S8:** cycles as predicted, median Fmax 0.73 MHz below S7 (inside the seed spreads), +2 cycles: not adopted by the rule (ADR 0023, Proposed). Cause not analysed (hypothesis in the ADR).
-- **S9:** a conflict-free 1R1W 16-bank map exists; option list and evidence conditions for an M10K memory (ADR 0022, Proposed). The first hand-derived map was wrong and was refuted by the script (plan Amendment A1).
+- S6 (M6): INTT 375 -> 119 cycles, DSP 18 -> 16, median Fmax -0.25 % versus C4b-B (inside seed noise); the rule failed only on the NTT part by 0.008 us; the team adopted M6 anyway (ADR 0020).
+- S7: median Fmax +12.5 % (38.720 versus 34.430 MHz), the lowest S7 seed above the highest M6 seed, ALM not higher; adopted by the rule (ADR 0021, Proposed).
+- S8: cycles as predicted, median Fmax 0.73 MHz below S7 (inside the seed spreads), +2 cycles: not adopted by the rule (ADR 0023, Proposed). Cause not analysed (hypothesis in the ADR).
+- S9: a conflict-free 1R1W 16-bank map exists; option list and evidence conditions for an M10K memory (ADR 0022, Proposed). The first hand-derived map was wrong and was refuted by the script (plan Amendment A1).
 
 ## 4. Standards and sources pinned
 No FIPS 203 reading this phase; no parameter, algorithm, twiddle value or result changed (`check_params.py` passes). The halved INTT equals FIPS 203 Algorithm 10 by the argument and checks recorded in ADR 0020 (3303 = 2^-7 mod q, 128 x 3303 = 127 x 3329 + 1). Intel M10K device facts used in S9 are NOT VERIFIED against the handbook (stated in the study).
 
 ## 5. Coverage and limits
-- **Simulation, formal and static timing only.** No board is attached; nothing here is hardware validation. Fmax is kernel-only with virtual pins, not a system clock.
+- Simulation, formal and static timing only. No board is attached; nothing here is hardware validation. Fmax is kernel-only with virtual pins, not a system clock.
 - Formal covers control and bank capacity, not data. One 20 ns compile (S8 only). Seed spreads: M6 2.69, S7 2.40, S8 3.46 MHz; S8 versus S7 is inside them, but the rule uses no tolerance.
 - No path analysis after S7 or S8: why S7 gained and S8 did not is a hypothesis. Register and M10K counts changed between steps without a per-entity explanation.
 - S9 produced no Quartus number. Not measured: HPS integration, power, system-level budget.
@@ -89,7 +89,7 @@ No FIPS 203 reading this phase; no parameter, algorithm, twiddle value or result
 - 20 ns compile: Critical Warnings 15725 and 332148 x2 as in earlier phases, triaged, nothing waived.
 
 ## 7. Decisions needed
-- **ADR 0021** (S7, rule passed): accept S7 as the NTT/INTT configuration for Phase 6 and 7? **ADR 0023** (S8, not adopted): keep S7, or another base? **ADR 0022** (S9): which option, and when (suggestion: S7 now, M10K experiment after the deadline-critical blocks)?
+- ADR 0021 (S7, rule passed): accept S7 as the NTT/INTT configuration for Phase 6 and 7? ADR 0023 (S8, not adopted): keep S7, or another base? ADR 0022 (S9): which option, and when (suggestion: S7 now, M10K experiment after the deadline-critical blocks)?
 - PENDING #25 (FIPS 203 input checks: hardware or HPS) and #26 (one STOP per block or per step). The Phase 5 and Phase 5M Approval boxes.
 
 ## 8. Claims made in this phase

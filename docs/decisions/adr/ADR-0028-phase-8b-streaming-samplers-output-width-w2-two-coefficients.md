@@ -15,7 +15,7 @@
 (c) neither (keep a buffered sampler): not built; the gate needs M10K = 0, which the buffered design cannot meet by construction.
 
 ## Decision
-Not taken by the team. The rule fixed before measuring gives: both widths pass the gate and **W2 is chosen** (it passes the gate and t = cycles / median Fmax is lower than W1's for SampleNTT and for CBD). The team accepts or rejects W2 as the 8b sampler; until then W2 is the default for 8c and 8d (the plan of 8c names it).
+Not taken by the team. The rule fixed before measuring gives: both widths pass the gate and W2 is chosen (it passes the gate and t = cycles / median Fmax is lower than W1's for SampleNTT and for CBD). The team accepts or rejects W2 as the 8b sampler; until then W2 is the default for 8c and 8d (the plan of 8c names it).
 
 ## Consequences
 - 8c and 8d use the sampler with `OUTW` = 2. W1 stays in the same files (`OUTW` = 1, verified again after W2 was added).

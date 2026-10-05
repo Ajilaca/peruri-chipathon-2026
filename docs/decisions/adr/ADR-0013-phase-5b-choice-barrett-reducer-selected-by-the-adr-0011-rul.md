@@ -6,7 +6,7 @@
 
 ## Context
 - `docs/ROADMAP.md` Phase 5b: Montgomery versus Barrett behind the same interface, both measured, "choice by ADR".
-- ADR 0011 (Accepted) fixed the selection rule (D8) and the seeds (D7, seeds 1–6) **before** any 5b compile.
+- ADR 0011 (Accepted) fixed the selection rule (D8) and the seeds (D7, seeds 1–6) before any 5b compile.
 - Both candidates were built, verified and compiled (test plan `evidence/phase05/test_plan.md`, amendment A3):
   - correctness (MEASURED, both simulators): exhaustive reducer test 0 mismatches over all a, b in [0, q) for each;
     unit tests 40/40; core tests 22/22 incl. cycles exactly 119 / 375, Montgomery ROM check and negative controls;
@@ -16,13 +16,13 @@
 
 | Candidate | Qualifies at all 6 seeds | ALM median (min–max) | Fmax median, lowest slow corner (min–max) | DSP | t_NTT at median Fmax |
 |---|---|---:|---:|---:|---:|
-| Barrett (C4b-B) | yes | 9,171.0 (9,166–9,208) | 34.515 MHz (33.46–34.84) | **18 / 112** | 3.448 µs |
+| Barrett (C4b-B) | yes | 9,171.0 (9,166–9,208) | 34.515 MHz (33.46–34.84) | 18 / 112 | 3.448 µs |
 | Montgomery (C4b-M) | yes | 9,286.5 (9,249–9,297) | 33.780 MHz (32.81–34.25) | 9 / 112 | 3.523 µs |
 
 ## Options considered
-1. **Accept the rule result: Barrett.** Rule steps (ADR 0011 D8): both qualify; Barrett has the higher median Fmax and
+1. Accept the rule result: Barrett. Rule steps (ADR 0011 D8): both qualify; Barrett has the higher median Fmax and
    Montgomery is 2.13 % lower, a near tie (≤ 5 %); in a near tie the lower median ALM wins; the ALM medians differ by
-   115.5 ALM (≥ 32), so the rule selects **Barrett** without a team tie-break.
+   115.5 ALM (≥ 32), so the rule selects Barrett without a team tie-break.
 2. Override the rule in favour of Montgomery because of DSP use (9 instead of 18). ADR 0011 D2 sets no DSP limit, so
    the rule does not weigh DSP; an override would be a team decision with its own reason.
 
@@ -30,7 +30,7 @@
 *(Accepted 2026-10-02 by Jevan, Team J5: Barrett, as selected by the rule; the DSP cost below was shown before the choice.)* Barrett (`rtl/arith/modmul_barrett.sv`, RED_KIND 2, revision C4b-B)
 is the Phase 5b choice, as selected by the ADR 0011 rule.
 
-**Recorded explicitly: DSP use doubles from 9 to 18** (of 112, fitter denominator). Per entity (MEASURED, seed 1,
+Recorded explicitly: DSP use doubles from 9 to 18 (of 112, fitter denominator). Per entity (MEASURED, seed 1,
 `quartus/phase05_arith_c4/output_files_C4b-B/C4b-B.fit.rpt`): each of the nine Barrett reducers uses 2 DSP blocks
 and 20.5–26.5 ALM, 225.3 ALM in total (INFERENCE: the second DSP holds the quotient estimate x·5039, the only
 multiplication besides a·b that the RTL leaves to the tool); Montgomery uses 1 DSP and 37.7–42.1 ALM each (352.0 ALM in total; its q' multiplication is shift-and-add).
