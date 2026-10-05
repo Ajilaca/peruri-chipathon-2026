@@ -1,7 +1,6 @@
 # Laporan PDF
 
-Satu laporan per fase dan satu laporan lengkap. Semua dibuat dari skrip di [`../../scripts/build/`](../../scripts/README.md)
-(`build_*report.py`), jadi isinya mengikuti `docs/results/` dan `evidence/`. Laporan tidak ditulis tangan.
+Satu laporan per fase dan satu laporan lengkap. Semua dibuat dari skrip `build_*report.py` di `scripts/build/` (hanya ada di lokal, tidak disimpan di GitHub), jadi isinya mengikuti `docs/results/` dan `evidence/`. Laporan tidak ditulis tangan.
 
 | File | Isi |
 |---|---|

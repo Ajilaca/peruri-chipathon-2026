@@ -19,7 +19,7 @@ Skrip dikelompokkan menurut fungsi. Jalankan dari root repository setelah `. scr
 | `*.tcl` | laporan jalur kritis dan segmen untuk Timing Analyzer |
 | `phase*_path_classes.py`, `classify_paths_9f.py`, `quartus_entity_breakdown.py`, `phase4_seed_sweep_summary.py` | analisis jalur dan rincian per entitas dari laporan yang sudah ada |
 
-## Pembangkit dan laporan: [build/](build/)
+## Pembangkit dan laporan: build/ (hanya di lokal, tidak ada di GitHub)
 
 | Skrip | Fungsi |
 |---|---|
