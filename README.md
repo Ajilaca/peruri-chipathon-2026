@@ -45,7 +45,7 @@ yang dirancang hemat area dan dapat diintegrasikan ke sistem lain. Baseline TT07
 `q = 3329`, `n = 256`, `k = 3`, `η1 = η2 = 2`, `du = 10`, `dv = 4`, akar satuan `ζ = 17`.
 Ukuran: ek 1184 B, dk 2400 B, ciphertext 1088 B, shared key 32 B.
 NTT-nya *incomplete* (7 layer, perkalian titik berupa base-case multiply derajat 1). Konstanta dikunci di
-[tb/golden/params.py](tb/golden/params.py) dan diperiksa oleh `check_params.py`.
+[tb/golden/params.py](tb/golden/params.py).
 Pemeriksaan masukan FIPS 203 dikerjakan HPS, bukan RTL (ADR 0031).
 
 ## Status: Phase 9 — Submission
@@ -83,7 +83,7 @@ Phase 10 sampai 12 tercatat di ROADMAP dan belum dikerjakan.
 
 ## Verifikasi
 
-Lapisan yang dipakai, dari yang paling dekat ke standar:
+Verifikasi dilakukan dalam beberapa lapis:
 
 1. Model acuan Python (`tb/golden/`) terhadap vektor ACVP resmi dan pustaka independen.
 2. RTL terhadap model acuan, bit-exact, di Verilator dan Icarus (cocotb).
@@ -103,10 +103,9 @@ Struktur test: [tb/](tb/README.md). Properti formal dan batasnya: [formal/](form
 | [formal/](formal/README.md) | properti SymbiYosys per fase, dan `run/` untuk menjalankannya |
 | [quartus/](quartus/README.md) | proyek dan revisi Quartus |
 | [scripts/](scripts/README.md) | generator ROM, pemilih hasil, uji, arsip Quartus |
-| [docs/](docs/README.md) | roadmap, keputusan, hasil per fase, laporan PDF, arsitektur, verifikasi |
+| [docs/](docs/README.md) | roadmap, keputusan, hasil per fase, laporan PDF |
 | [evidence/](evidence/README.md) | bukti terukur per fase |
 | [sw/hps/](sw/hps/README.md) | sisi HPS (belum ada kode) |
-| [.claude/](.claude/README.md) | skill Claude Code untuk tim |
 
 ## Keterbatasan saat ini
 

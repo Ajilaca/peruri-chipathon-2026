@@ -63,10 +63,10 @@ def build():
     st = [Spacer(1, 58 * mm), P("PERURI Digital Summit \u00b7 CHIP 2026 Hackathon \u2014 Tim J5 (ITB)", "csub"), Spacer(1, 6),
           P("Laporan Fase 9M", "ctitle"), P("Optimasi inti ML-KEM-768: siklus, area, Fmax", "csub"),
           P("Terasic DE10-Nano \u00b7 Intel/Altera Cyclone V SE 5CSEBA6U23I7", "csub"), Spacer(1, 14),
-          P("Status: sembilan langkah selesai diukur (simulasi, formal, Quartus <i>kernel-only</i>); ACVP 100 % di dua simulator; tiga bukti formal berbatas habis waktu; ADR 0035-0043 Proposed; kotak Approval kosong", "cmeta"),
-          P("Branch: phase9m-optimisation \u00b7 2026-10-04/05 \u00b7 Batch 1 di-commit, Batch 2 belum", "cmeta"), Spacer(1, 22),
-          P("<b>Ditulis untuk: Tim J5.</b> Berkas di repo tetap sumber kebenaran (docs/results/phase9m.md, evidence/phase9m/). Label: <b>MEASURED</b> (laporan Quartus atau log simulasi di repo), "
-            "<b>INFERENCE</b>, <b>ESTIMATE</b>, <i>perhitungan tim</i>. Tidak ada pengukuran pada papan; semua hasil berasal dari simulasi, analisis formal, dan analisis Quartus (<i>kernel-only</i>, <i>virtual pin</i>). "
+          P("Status: sembilan langkah selesai diukur (simulasi, formal, Quartus <i>kernel-only</i>); ACVP 100 % di dua simulator; tiga bukti formal berbatas habis waktu; ADR hasil 9M diterima tim pada 2026-10-05; kotak Approval kosong", "cmeta"),
+          P("Branch: phase9m-optimisation \u00b7 2026-10-04/05 \u00b7 Batch 1 dan Batch 2 sudah di-commit", "cmeta"), Spacer(1, 22),
+          P("Berkas di repo tetap sumber kebenaran (docs/results/phase9m.md, evidence/phase9m/). Label: MEASURED (laporan Quartus atau log simulasi di repo), "
+            "INFERENCE, ESTIMATE, <i>perhitungan tim</i>. Tidak ada pengukuran pada papan; semua hasil berasal dari simulasi, analisis formal, dan analisis Quartus (<i>kernel-only</i>, <i>virtual pin</i>). "
             "Dokumen ini bukan teks proposal.", "small"), PageBreak()]
     st += flow(CONTENT, W)
     doc.build(st, onFirstPage=lambda c, d: None, onLaterPages=footer)
@@ -75,14 +75,14 @@ def build():
 
 CONTENT = r"""
 ## 1. Ringkasan eksekutif
-- Inti Fase 9 (`mlkem_core`, 17.620,5 ALM, 9.095 / 10.735 / 16.667 siklus untuk KeyGen / Encaps / Decaps) menjadi **K4 (`mlkem_core4`): 14.222,0 ALM pada 40 ns (−19 %) dan 8.416 / 9.611 / 12.989 siklus (−7,5 % / −10,5 % / −22,1 %)**. Timing 15,000 ns terpenuhi di 6 dari 6 seed (median Fmax 76,665 MHz, lowest slow corner). Latensi pada 15 ns: **109,8 / 125,4 / 169,4 µs**.
+- Inti Fase 9 (`mlkem_core`, 17.620,5 ALM, 9.095 / 10.735 / 16.667 siklus untuk KeyGen / Encaps / Decaps) menjadi K4 (`mlkem_core4`): 14.222,0 ALM pada 40 ns (−19 %) dan 8.416 / 9.611 / 12.989 siklus (−7,5 % / −10,5 % / −22,1 %). Timing 15,000 ns terpenuhi di 6 dari 6 seed (median Fmax 76,665 MHz, lowest slow corner). Latensi pada 15 ns: 109,8 / 125,4 / 169,4 µs.
 - ACVP 100 % di dua simulator (keyGen 25, encapsulation 25, decapsulation 10). Siklus Encaps dan Decaps identik untuk semua masukan yang diuji (bukti invarian siklus, bukan ketahanan side-channel).
 - Sembilan langkah dikerjakan, masing-masing dengan rencana uji dan aturan adopsi yang ditulis sebelum pengukuran: 9M-1, 9M-2, 9M-3, S0, S1, S1b (Batch 1), S2, S2b, item 4 (Batch 2). Item 5 (sampler kedua) sengaja tidak dibangun.
-- **Hasil jujur:** S2 netral (+0,27 MHz, di dalam derau seed); S2b menaikkan median 3,43 MHz tetapi **tidak lolos aturannya seperti tertulis**; item 4 lolos aturannya dan memberi penghematan terbesar di Encaps dan Decaps. K4 berdiri di atas K3, jadi keputusan rantai ADR 0038 → 0043 ada di tangan tim.
-- **Batas bukti:** tiga bukti formal berbatas (P1 dan NC-E1-4 pada core4, NC-B7 pada core3) habis waktu dan tidak punya hasil formal; semuanya dicatat sebagai TIMEOUT.
+- Hasil: S2 netral (+0,27 MHz, di dalam derau seed); S2b menaikkan median 3,43 MHz tetapi tidak lolos aturannya seperti tertulis; item 4 lolos aturannya dan memberi penghematan terbesar di Encaps dan Decaps. K4 berdiri di atas K3. Rantai ADR 0038 sampai 0043 diterima tim pada 2026-10-05.
+- Batas bukti: tiga bukti formal berbatas (P1 dan NC-E1-4 pada core4, NC-B7 pada core3) habis waktu dan tidak punya hasil formal; semuanya dicatat sebagai TIMEOUT.
 
 ## 2. Mengapa ada Fase 9M
-Profil siklus inti Fase 9 (simulasi) menunjukkan: mesin K-PKE 65–72 % dari siklus, pemuatan polinomial ke mesin 0–23 %, penyimpanan 9–26 %, hash dan pembanding sekitar 3 %. Pemuatan dan penyimpanan dibatasi jalur satu byte per siklus pada codec, bukan oleh port mesin. ADR 0034 (Accepted, Faza Dzil, 2026-10-04) memilih item 1–4; item 5 disimpan sebagai ide. ADR 0036 menambah rencana Fmax (S0–S2) dan ADR 0039 menetapkan **15 ns sebagai batas pelaporan Fmax** (14 ns disimpan untuk nanti; gerbang 40 ns tetap).
+Profil siklus inti Fase 9 (simulasi) menunjukkan: mesin K-PKE 65–72 % dari siklus, pemuatan polinomial ke mesin 0–23 %, penyimpanan 9–26 %, hash dan pembanding sekitar 3 %. Pemuatan dan penyimpanan dibatasi jalur satu byte per siklus pada codec, bukan oleh port mesin. ADR 0034 (Accepted, Faza Dzil, 2026-10-04) memilih item 1–4; item 5 disimpan sebagai ide. ADR 0036 menambah rencana Fmax (S0–S2) dan ADR 0039 menetapkan 15 ns sebagai batas pelaporan Fmax (14 ns disimpan untuk nanti; gerbang 40 ns tetap).
 
 ## 3. Langkah-langkah dan hasilnya
 Median enam seed, kernel-only, virtual pin. Denominator fitter: 41.910 ALM, 553 blok RAM, 112 DSP. Blok RAM 53–54 dan DSP 28 di semua konfigurasi.
@@ -97,8 +97,8 @@ Median enam seed, kernel-only, virtual pin. Denominator fitter: 41.910 ALM, 553 
 | S1 (K1) | sampler K0 + hash K0 | `SMP_C5 = 0` | 14.061,0 | 73,070 | 8.795 / 10.627 / 15.983 | 120,4 / 145,4 / 218,7 | lolos; lebih kecil, bukan lebih cepat |
 | S1b (K1b) | hash di sidecar latar belakang | `mlkem_core3` | 14.335,0 | 73,855 | 8.404 / 10.236 / 15.597 | 113,8 / 138,6 / 211,2 | lolos |
 | S2 (K2) | register setelah reducer Barrett (P = 5 → 6) | `NTT_P6 = 1` | 14.213,0 | 74,125 | 8.416 / 10.250 / 15.619 | 113,5 / 138,3 / 210,7 | lolos, tetapi netral |
-| S2b (K3) | alamat issue NTT dihitung lebih awal dan diregistrasi | `NTT_AR = 1` | 14.115,5 | 77,555 | 8.416 / 10.250 / 15.619 | 108,5 / 132,2 / 201,4 | **tidak lolos seperti tertulis** (butir 5) |
-| **Item 4 (K4)** | pemuatan polinomial di belakang mesin K-PKE | `mlkem_core4` | **14.222,0** | **76,665** | **8.416 / 9.611 / 12.989** | **109,8 / 125,4 / 169,4** | lolos |
+| S2b (K3) | alamat issue NTT dihitung lebih awal dan diregistrasi | `NTT_AR = 1` | 14.115,5 | 77,555 | 8.416 / 10.250 / 15.619 | 108,5 / 132,2 / 201,4 | tidak lolos seperti tertulis (butir 5) |
+| Item 4 (K4) | pemuatan polinomial di belakang mesin K-PKE | `mlkem_core4` | 14.222,0 | 76,665 | 8.416 / 9.611 / 12.989 | 109,8 / 125,4 / 169,4 | lolos |
 
 ### 3.1 Item 1 (9M-1): jalur codec dua byte per siklus
 Beban satu polinomial d = 12 turun dari 391 ke 263 siklus; penyimpanan 393 → 265. Siklus KeyGen / Encaps / Decaps turun 8,4 % / 5,4 % / 6,9 % tanpa perubahan aritmetika. Pada d = 1 dan 4 tidak ada perubahan (dibatasi port mesin, 1 koefisien per siklus). Biaya: +33,5 ALM (derau).
@@ -113,8 +113,8 @@ Sponge K0 (satu ronde per siklus) menggantikan sponge C5 (dua ronde per siklus) 
 Tiga hash independen (H(ek) di KeyGen dan Encaps, J di Decaps) berjalan di sidecar saat pengendali memuat atau menyimpan. Siklus turun 391 / 391 / 386 terhadap K1 dengan +274 ALM. Sidecar tidak pernah menunda pengendali utama.
 
 ### 3.5 S2 dan S2b: Fmax
-S2 menambah satu register di akhir reducer Barrett (`MUL_REG` bit 3; 119 siklus per transformasi). Jalur reducer ke memori naik dari +1,170 ke +2,349 ns slack, **tetapi dinding berikutnya ternyata jalur penghitung layer ke alamat memori** yang sudah ada di K1b, sehingga median Fmax naik hanya 0,27 MHz. Perkiraan rencana (76–80 MHz) meleset.
-S2b menghitung alamat issue satu siklus lebih awal dan meregistrasikannya (128 register). Kelas `layer_q` ke memori hilang dari 300 jalur terburuk. Median 77,555 MHz lawan 74,125 MHz (+3,43 MHz), lima dari enam seed K3 di atas semua seed K2. Aturan butir 5 (gain lebih besar dari spread seed K3 6,35 MHz atau seed terendah K3 di atas seed tertinggi K2) **tidak terpenuhi seperti tertulis** (seed 4: 73,02 MHz). Tiga seed tambahan (amandemen A2, dipilih setelah hasil dan dilaporkan di samping) memberi median sembilan seed 77,320 MHz. Ekor seed rendah ditelusuri kemudian pada laporan jalur K4: suku `start_go` pada logika S2b membuat alamat terregistrasi bergantung pada `host_we_i` yang dikendalikan sequencer dari `cnt_q != 0` (INFERENCE untuk K3 sendiri).
+S2 menambah satu register di akhir reducer Barrett (`MUL_REG` bit 3; 119 siklus per transformasi). Jalur reducer ke memori naik dari +1,170 ke +2,349 ns slack, tetapi dinding berikutnya ternyata jalur penghitung layer ke alamat memori yang sudah ada di K1b, sehingga median Fmax naik hanya 0,27 MHz. Perkiraan rencana (76–80 MHz) meleset.
+S2b menghitung alamat issue satu siklus lebih awal dan meregistrasikannya (128 register). Kelas `layer_q` ke memori hilang dari 300 jalur terburuk. Median 77,555 MHz lawan 74,125 MHz (+3,43 MHz), lima dari enam seed K3 di atas semua seed K2. Aturan butir 5 (gain lebih besar dari spread seed K3 6,35 MHz atau seed terendah K3 di atas seed tertinggi K2) tidak terpenuhi seperti tertulis (seed 4: 73,02 MHz). Tiga seed tambahan (amandemen A2, dipilih setelah hasil dan dilaporkan di samping) memberi median sembilan seed 77,320 MHz. Ekor seed rendah ditelusuri kemudian pada laporan jalur K4: suku `start_go` pada logika S2b membuat alamat terregistrasi bergantung pada `host_we_i` yang dikendalikan sequencer dari `cnt_q != 0` (INFERENCE untuk K3 sendiri).
 
 ### 3.6 Item 4: pemuatan di belakang mesin
 Pengendali menjalankan program mesin (`RUNS`), memuat polinomial lain di belakangnya, lalu bergabung (`RUNJ`). Varian mesin `kpke_sched_smp4` memberi port tulis host saat berjalan (prioritas terendah); interlock per slot menahan operasi mesin yang memakai slot yang belum dimuat; pemuat `mlkem_ldpoly2o` memakai backpressure. Penyimpanan tetap berderet dan KeyGen tidak diubah. Hasil: Encaps −639 (−6,2 %) dan Decaps −2.630 (−16,8 %) siklus; biaya sekitar +190 ALM (+1,3 %) dan beberapa puluh register; Fmax −0,89 MHz (di dalam spread). Jalur terburuk seed terlemah (69,43 MHz) adalah jalur S2b, bukan item 4.
@@ -127,7 +127,7 @@ Pengendali menjalankan program mesin (`RUNS`), memuat polinomial lain di belakan
 | Port host yang di-throttle (`ncthr`, `ncthrld`) dengan interlock utuh | lolos seluruh target |
 | Lint | Verilator `-Wall` 0 peringatan; slang 0 error, 0 peringatan |
 | ROM pengendali | sama dengan hasil generator; pemeriksaan statis lolos |
-| Formal (protokol stub) | E1 non-interference, S1–S7, B1–B7: PASS (induksi); cover PASS; NC-JOIN4 gagal sesuai syarat; **P1 dan NC-E1-4: TIMEOUT** |
+| Formal (protokol stub) | E1 non-interference, S1–S7, B1–B7: PASS (induksi); cover PASS; NC-JOIN4 gagal sesuai syarat; P1 dan NC-E1-4: TIMEOUT |
 | Quartus | 12 kompilasi K4, semua rc=0; terpenuhi 6/6 di 40 ns dan 6/6 di 15 ns |
 
 Dua kontrol dibangun salah pada percobaan pertama (`ncthrld`: pencacah throttle berjalan bebas; `ncgrant`: mutasi pada gerbang yang sudah diterapkan pemuat). Keduanya perbaikan kontrol, bukan desain, lalu dijalankan ulang.
@@ -139,18 +139,18 @@ Dua kontrol dibangun salah pada percobaan pertama (`ncthrld`: pencacah throttle 
 - Model formal memakai stub protokol untuk engine, sampler, dan sponge; ia membuktikan sifat kontrol dan rentang, bukan nilai.
 - Item 5 (sampler kedua, ESTIMATE 1–4 % latensi untuk sekitar +3.500 ALM) tidak dibangun.
 
-## 6. Kesalahan dan temuan proses (dicatat apa adanya)
+## 6. Kesalahan dan temuan proses
 1. VS Code crash mematikan dua kompilasi Quartus paralel dan satu proses formal; sejak itu kompilasi berjalan satu per satu dengan sisa RAM minimal 2 GB.
 2. Satu pertanyaan status disalahartikan dan antrean kompilasi dihentikan, lalu dipulihkan; tercatat di amandemen A1 rencana S2b.
 3. Banyak estimasi rencana meleset dan tercatat di hasil masing-masing: S2 siklus +12 / +14 / +22 (bukan +6 / +7 / +11), Fmax S2 74,1 MHz (bukan 76–80), ALM S2 −122 (bukan +0..+250).
 4. Rencana item 4 ditulis setelah RTL dan simulasi pertama (rencana menyatakannya); aturan ditulis sebelum kompilasi Quartus dan sebelum kontrol.
 5. Tiga seed tambahan S2b dipilih setelah hasil enam seed; dilaporkan di samping, tidak ada seed yang dibuang.
 
-## 7. Keputusan yang menunggu tim
-PENDING #34–#40 (ADR 0035, 0037, 0038, 0040, 0041, 0042, 0043; semuanya Proposed). Rantai bersarang: K4 memerlukan K3, K3 memerlukan K2, K2 memerlukan K1b. Tim dapat berhenti di tautan mana pun, tetapi pengukuran berikutnya harus diulang pada dasar yang baru. Kotak Approval `phase9m.md` kosong dan hanya dicentang anggota tim.
+## 7. Keputusan tim
+ADR 0035, 0037, 0038, 0040, 0041, 0042, dan 0043 diterima tim pada 2026-10-05 (PENDING #34 sampai #40 ditutup). ADR 0042 (K3) tidak lolos aturannya seperti tertulis, tetapi diterima. Rantai bersarang: K4 memerlukan K3, K3 memerlukan K2, K2 memerlukan K1b. Kotak Approval `phase9m.md` masih kosong dan hanya dicentang anggota tim.
 
 ## 8. Berkas
-`docs/results/phase9m.md`; `evidence/phase9m/batch1/{9m1,9m2,9m3,9f0,9f1,9f1b}/` dan `evidence/phase9m/batch2/{9s2,9s2b,9i4}/` (rencana, hasil, worksheet, simulasi, formal, ekstrak Quartus); `quartus/phase09*_core/`; `formal/run/run_formal_phase9*.py`; `docs/decisions/0034 .. 0043`.
+`docs/results/phase9m.md`; `evidence/phase9m/batch1/{9m1,9m2,9m3,9f0,9f1,9f1b}/` dan `evidence/phase9m/batch2/{9s2,9s2b,9i4}/` (rencana, hasil, worksheet, simulasi, formal, ekstrak Quartus); `quartus/phase09*_core/`; `formal/run/run_formal_phase9*.py`; `docs/decisions/adr/ADR-0034 … ADR-0043`.
 
 """
 

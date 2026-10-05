@@ -17,5 +17,5 @@ Revisi seed berakhiran `-s2` sampai `-s6`; revisi `-15` memakai batasan 15 ns, `
 Setiap clock didefinisikan di `.sdc`. Pin berasal dari dokumentasi Terasic, tidak dikarang.
 
 `output_files/` dan `db/` diabaikan Git dan dipindah ke luar repository oleh `scripts/quartus/archive_quartus_outputs.py`.
-Ekstrak yang dikomit ada di `evidence/` (dibuat oleh skill `/quartus-report`). Output penuh: lihat bagian *Quartus Outputs* di
+Ekstrak yang dikomit ada di `evidence/` (diekstrak dari laporan Quartus). Output penuh: lihat bagian *Quartus Outputs* di
 [../README.md](../README.md).
