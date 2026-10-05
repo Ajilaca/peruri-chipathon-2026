@@ -1,0 +1,16 @@
+Phase 3 formal verification (ntt_core_c2, SymbiYosys k-induction, per L)
+Generated: 2026-09-29 15:00 UTC
+
+=== L=1: PASS (full k-induction proof) ===
+Both properties proven: busy_o->done_o handshake (reused from Phase 1), bank_overflow_o == 0 always.
+
+=== L=2, L=4, L=8: UNKNOWN (induction counterexample, investigated, believed to be a tool artifact) ===
+SymbiYosys reports a bank_overflow_o counterexample at layer_q=3, t_q=32 (L=2 case investigated in detail).
+Cross-checked and found NOT reproducible in:
+  - tb/mem/bank_model.py (bank_of(64,2)=1, bank_of(80,2)=0, bank_of(192,2)=0, bank_of(208,2)=1 -- exactly 2/bank, no overflow)
+  - rtl/mem/bank_map_rom.sv source text itself (8'd80: bank_o=1'd0; 8'd192: bank_o=1'd0; 8'd208: bank_o=1'd1; -- matches the Python model exactly)
+  - cocotb regression on both Icarus and Verilator (evidence/phase03/cocotb_regression.txt):
+    every L=2/4/8 run necessarily sweeps every (layer,t) pair including this one; bank_overflow_o was asserted =0 every cycle, 16/16 tests passed
+Yosys's own read of bank_map_rom.sv's individual bank_o output at this state (n131/n134/n137/n140 in the SMT trace) does NOT match the source text's case entries for addr 80/192/208,
+while addr 64 (instance 0) is read correctly -- consistent with a Yosys -formal frontend issue evaluating a large (256-entry) case-statement ROM under k-induction, not a design defect.
+Not force-passed: this is reported as an open item, not weakened into a false PASS (CLAUDE.md verification-first rule).

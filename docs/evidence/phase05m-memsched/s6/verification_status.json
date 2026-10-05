@@ -1,7 +1,0 @@
-{
-  "_comment": "Input of scripts/phase5m_select_s6.py. correct = test plan section 3 V1-V8 all PASS on both simulators (verify_2026-10-02.md, formal_2026-10-02.md); V9 (Phase 0-5 regression) is NOT run for S6 by Amendment A1 (decided by Jevan, 2026-10-02): `git diff --name-status 288a78c HEAD` at that time showed 33 files added and 0 existing files modified. cycles are simulation measurements (constant per direction, identical on both simulators).",
-  "correct": "PASS",
-  "cycles_NTT": 119,
-  "cycles_INTT": 119,
-  "evidence": "verify_2026-10-02.md (V1-V7), formal_2026-10-02.md (V8)"
-}

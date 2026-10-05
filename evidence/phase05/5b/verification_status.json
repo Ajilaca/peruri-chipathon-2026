@@ -1,0 +1,7 @@
+{
+  "_comment": "Input of scripts/quartus/phase5_select_5b.py. correct = test plan section 7 V1-V7, V10 all PASS on both simulators (verify.txt) and V8 formal (formal.md); cycles are simulation measurements (constant per direction, identical on both simulators).",
+  "B": {"correct": "PASS", "cycles_NTT": 119, "cycles_INTT": 375,
+        "evidence": "verify.txt (kind 2 exhaustive, unit tests, core c4bb), formal.md (c4b_b)"},
+  "M": {"correct": "PASS", "cycles_NTT": 119, "cycles_INTT": 375,
+        "evidence": "verify.txt (kind 3 exhaustive, check_mont_rom, unit tests, core c4bm, negrom), formal.md (c4b_m)"}
+}

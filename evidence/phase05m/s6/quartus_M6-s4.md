@@ -1,0 +1,71 @@
+# MEASURED — Quartus results for revision `M6-s4`
+
+- Generated: 2026-10-02 12:42 UTC by `extract_quartus_report.py` (values copied from the reports, not computed)
+- Source directory: `quartus/phase05m_memsched/output_files_M6-s4`
+- Note: Phase 5M step S6 candidate: rtl/ntt/ntt_core_m6_p6.sv (Barrett, INTT without the scaling pass, halving in every layer; ADR 0017, test plan evidence/phase05m/test_plan.md); cuts as C4b-B (A_4, A_11, M; X, S_1, S_2); constraint 40.000 ns (quartus/phase05m_memsched/M.sdc); Quartus defaults; fitter seed 4 (confirmed in the fit report: Fitter Initial Placement Seed line); RTL = branch phase5m-memory-schedule working tree on top of git f47efcc; full compile from a clean db
+
+## Fitter (`M6-s4.fit.summary`)
+
+| Item | Value (verbatim) |
+|---|---|
+| Fitter Status | Successful - Fri Oct  2 19:06:46 2026 |
+| Quartus Prime Version | 25.1std.0 Build 1129 10/21/2025 SC Lite Edition |
+| Revision Name | M6-s4 |
+| Top-level Entity Name | ntt_core_m6_p6 |
+| Family | Cyclone V |
+| Device | 5CSEBA6U23I7 |
+| Timing Models | Final |
+| Logic utilization (in ALMs) | 9,409 / 41,910 ( 22 % ) |
+| Total registers | 4080 |
+| Total pins | 0 / 314 ( 0 % ) |
+| Total block memory bits | 30,314 / 5,662,720 ( < 1 % ) |
+| Total RAM Blocks | 29 / 553 ( 5 % ) |
+| Total DSP Blocks | 16 / 112 ( 14 % ) |
+| Total PLLs | 0 / 6 ( 0 % ) |
+| Total DLLs | 0 / 4 ( 0 % ) |
+
+Denominators above are the fitter's own; quote them as printed.
+
+## Timing (`M6-s4.sta.summary`)
+
+| Type | Slack (ns) | TNS |
+|---|---|---|
+| Slow 1100mV 100C Model Setup 'clk_i' | 9.090 | 0.000 |
+| Slow 1100mV 100C Model Hold 'clk_i' | 0.434 | 0.000 |
+| Slow 1100mV 100C Model Recovery 'clk_i' | 38.292 | 0.000 |
+| Slow 1100mV 100C Model Removal 'clk_i' | 0.773 | 0.000 |
+| Slow 1100mV 100C Model Minimum Pulse Width 'clk_i' | 18.569 | 0.000 |
+| Slow 1100mV -40C Model Setup 'clk_i' | 9.143 | 0.000 |
+| Slow 1100mV -40C Model Hold 'clk_i' | 0.348 | 0.000 |
+| Slow 1100mV -40C Model Recovery 'clk_i' | 38.426 | 0.000 |
+| Slow 1100mV -40C Model Removal 'clk_i' | 0.648 | 0.000 |
+| Slow 1100mV -40C Model Minimum Pulse Width 'clk_i' | 18.519 | 0.000 |
+| Fast 1100mV 100C Model Setup 'clk_i' | 22.840 | 0.000 |
+| Fast 1100mV 100C Model Hold 'clk_i' | 0.178 | 0.000 |
+| Fast 1100mV 100C Model Recovery 'clk_i' | 39.068 | 0.000 |
+| Fast 1100mV 100C Model Removal 'clk_i' | 0.384 | 0.000 |
+| Fast 1100mV 100C Model Minimum Pulse Width 'clk_i' | 18.899 | 0.000 |
+| Fast 1100mV -40C Model Setup 'clk_i' | 25.621 | 0.000 |
+| Fast 1100mV -40C Model Hold 'clk_i' | 0.120 | 0.000 |
+| Fast 1100mV -40C Model Recovery 'clk_i' | 39.240 | 0.000 |
+| Fast 1100mV -40C Model Removal 'clk_i' | 0.272 | 0.000 |
+| Fast 1100mV -40C Model Minimum Pulse Width 'clk_i' | 18.903 | 0.000 |
+
+- Worst setup slack: **9.09 ns** (Slow 1100mV 100C Model Setup 'clk_i')
+- Worst hold slack: **0.12 ns** (Fast 1100mV -40C Model Hold 'clk_i')
+
+## Fmax (`M6-s4.sta.rpt`, Fmax Summary panels)
+
+| Model | Fmax | Restricted Fmax | Clock Name | Note |
+|---|---|---|---|---|
+| Slow 1100mV 100C Model Fmax Summary | 32.35 MHz | 32.35 MHz | clk_i |  |
+| Slow 1100mV -40C Model Fmax Summary | 32.41 MHz | 32.41 MHz | clk_i |  |
+
+## Compile log message counts
+
+- Critical warnings: 1
+- Warnings: 19
+- Errors: 0
+
+Critical warnings must be triaged in writing (CLAUDE.md rule 10).
+

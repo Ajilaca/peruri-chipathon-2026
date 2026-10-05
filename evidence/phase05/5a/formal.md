@@ -1,0 +1,11 @@
+# Phase 5a formal (test plan V8) — 2026-10-01
+
+Command: `. scripts/env.sh && python3 formal/run/run_formal_phase5.py` (yosys-slang frontend, `memory_map -rom-only`, SymbiYosys, smtbmc boolector).
+Scope: control and bank-capacity properties H, O, R, A, B, C of `formal/phase05-arith/ntt_core_c4_formal_top.sv` on the Quartus wrapper `rtl/ntt/ntt_core_c4a.sv` (P = 6), with two negative controls on corrupted copies. **Not** arithmetic (covered by the exhaustive reducer test and the bit-exact simulations).
+
+| Group | Proof | Expected | Result | Engine detail | Time (s) | As expected |
+|---|---|---|---|---|---|---|
+| A Phase 5 | c4a (H, O, R, A, B, C) | PASS | PASS | basecase=pass, induction=pass | 12.2 | yes |
+| B Negative control | NC-O c4a: bank_map_rom copy, NUM_BANKS=8: bank(128) 2 -> 3 | FAIL | FAIL | basecase=FAIL; failed assert ntt_core_c4_formal_top.sv:135 | 10.1 | yes |
+| B Negative control | NC-A c4a: delay model of property A one cycle short | FAIL | FAIL | basecase=FAIL; failed assert ntt_core_c4_formal_top.sv:136 | 14.7 | yes |
+OVERALL: all results as expected (3/3)

@@ -1,0 +1,17 @@
+<!-- claim-lint: skip-file (internal evidence record, not proposal text) -->
+# Phase 8b formal run, W1 and W2 rows (test plan V9), 2026-10-03
+
+Command: `. scripts/env.sh && python3 formal/run/run_formal_phase8b.py all`. Label: MEASURED (SymbiYosys, boolector, induction depth 30). Control and range properties only, not coefficient values. The W1 file `formal_W1.md` was produced before the W2 code existed.
+
+| Group | Proof | Expected | Result | Engine detail | Time (s) | As expected |
+|---|---|---|---|---|---|---|
+| A Phase 8b W1 | sample_ntt_core OUTW=1 (S1, S2, S3, S4, S5) | PASS | PASS | basecase=pass, induction=pass | 12.4 | yes |
+| A Phase 8b W1 | cbd2_core OUTW=1 (S1, S2 with at most 16 words, S3, S4, S5) | PASS | PASS | basecase=pass, induction=pass | 8.6 | yes |
+| B Negative control W1 | NC-S1: a candidate equal to q is accepted (S1 range), OUTW=1 | FAIL | FAIL | basecase=FAIL; failed assert sample_ntt_core_formal_top.sv:146 | 1.1 | yes |
+| B Negative control W1 | NC-S2: the coefficient count starts at 1 (S2 count relation: last on the last beat), OUTW=1 | FAIL | FAIL | basecase=FAIL; failed assert sample_ntt_core_formal_top.sv:127 | 1.3 | yes |
+| A Phase 8b W2 | sample_ntt_core OUTW=2 (S1, S2, S3, S4, S5, S6 carry) | PASS | PASS | basecase=pass, induction=pass | 17.4 | yes |
+| A Phase 8b W2 | cbd2_core OUTW=2 (S1, S2 with at most 16 words, S3, S4, S5) | PASS | PASS | basecase=pass, induction=pass | 8.8 | yes |
+| B Negative control W2 | NC-S1: a candidate equal to q is accepted (S1 range), OUTW=2 | FAIL | FAIL | basecase=FAIL; failed assert sample_ntt_core_formal_top.sv:146 | 0.8 | yes |
+| B Negative control W2 | NC-S2: the coefficient count starts at 1 (S2 count relation: last on the last beat), OUTW=2 | FAIL | FAIL | basecase=FAIL; failed assert sample_ntt_core_formal_top.sv:127 | 0.7 | yes |
+
+ALL AS EXPECTED

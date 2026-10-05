@@ -1,0 +1,117 @@
+<!-- claim-lint: skip-file (internal evidence, not proposal text) -->
+# Phase 9M profile of the ML-KEM-768 core, 2026-10-04
+
+MEASURED in simulation (Verilator and Icarus give identical numbers), `tb/mlkem/profile_core.py` with `tb/mlkem/test_profile_core.py` on `rtl/mlkem/mlkem_core.sv` as merged in PR #9 (main 49bebf7). Fixed inputs d = 00..1f, z = 20..3f, m = 40..5f; one KeyGen, then Encaps with its ek, then Decaps of that ciphertext. Cycles are counted at every falling edge inside `run_op` of `tb/mlkem/core_tb.py` (the same count as the Phase 9 tests). These cycle counts depend on rho (the matrix sampling); the Phase 9 ACVP ranges are KeyGen 9,035-9,076, Encaps 10,664-10,727, Decaps 16,601-16,663. Raw data: `profile_verilator.json`.
+
+## Cycles per controller state
+
+| State | KeyGen | Encaps | Decaps |
+|---|---|---|---|
+| RUN | 6,380 | 7,698 | 10,807 |
+| LDP | 0 | 1,428 | 3,831 |
+| STP | 2,346 | 1,244 | 1,507 |
+| HFD | 268 | 271 | 264 |
+| HGT | 43 | 43 | 43 |
+| CMP | 0 | 0 | 138 |
+| CMPK | 0 | 0 | 4 |
+| WR32 | 12 | 0 | 0 |
+| RD32 | 0 | 5 | 5 |
+| SDL | 8 | 8 | 8 |
+| FETCH | 18 | 18 | 29 |
+| DISP | 19 | 19 | 30 |
+| IDLE | 1 | 1 | 1 |
+| **total** | **9,095** | **10,735** | **16,667** |
+
+RUN is the K-PKE engine (Phase 8d, unchanged); LDP loads one polynomial from a byte buffer into an engine slot (unpack + decompress), STP stores one (compress + pack); HFD / HGT feed and take the hash; CMP / CMPK compare the ciphertexts and select the key.
+
+## Cycles per micro-operation
+
+Format of an operation: as `tb/golden/mlkem_ctl_model.py` (LDP / STP: slot, region, word offset, d).
+
+### keygen (9,095 cycles)
+
+| pc | Operation | Cycles |
+|---|---|---|
+| 0 | `HST 1 33` | 1 |
+| 1 | `HFD 3 0 4` | 7 |
+| 2 | `HFD 4 0 1` | 4 |
+| 3 | `HGT 3 4` | 25 |
+| 4 | `SDL` | 10 |
+| 5 | `RUN 0` | 6,382 |
+| 6 | `STP 3 0 144 12` | 393 |
+| 7 | `STP 4 0 192 12` | 393 |
+| 8 | `STP 5 0 240 12` | 393 |
+| 9 | `STP 0 0 0 12` | 393 |
+| 10 | `STP 1 0 48 12` | 393 |
+| 11 | `STP 2 0 96 12` | 393 |
+| 12 | `WR32 3 288` | 6 |
+| 13 | `HST 0 1184` | 2 |
+| 14 | `HFD 0 144 148` | 263 |
+| 15 | `HGT 7 0` | 22 |
+| 16 | `WR32 7 292` | 6 |
+| 17 | `WR32 1 296` | 6 |
+| 18 | `END` | 3 |
+
+### encaps (10,735 cycles)
+
+| pc | Operation | Cycles |
+|---|---|---|
+| 0 | `HST 0 1184` | 1 |
+| 1 | `HFD 0 144 148` | 263 |
+| 2 | `HGT 7 0` | 22 |
+| 3 | `HST 1 64` | 2 |
+| 4 | `HFD 3 8 4` | 7 |
+| 5 | `HFD 3 28 4` | 7 |
+| 6 | `HGT 5 4` | 25 |
+| 7 | `RD32 3 288` | 7 |
+| 8 | `LDP 7 0 144 12` | 391 |
+| 9 | `LDP 8 0 192 12` | 391 |
+| 10 | `LDP 9 0 240 12` | 391 |
+| 11 | `LDP 11 3 8 1` | 263 |
+| 12 | `SDL` | 10 |
+| 13 | `RUN 1` | 7,700 |
+| 14 | `STP 3 1 0 10` | 329 |
+| 15 | `STP 4 1 40 10` | 329 |
+| 16 | `STP 5 1 80 10` | 329 |
+| 17 | `STP 10 1 120 4` | 265 |
+| 18 | `END` | 3 |
+
+### decaps (16,667 cycles)
+
+| pc | Operation | Cycles |
+|---|---|---|
+| 0 | `LDP 3 1 0 10` | 326 |
+| 1 | `LDP 4 1 40 10` | 327 |
+| 2 | `LDP 5 1 80 10` | 327 |
+| 3 | `LDP 10 1 120 4` | 263 |
+| 4 | `LDP 0 0 0 12` | 391 |
+| 5 | `LDP 1 0 48 12` | 391 |
+| 6 | `LDP 2 0 96 12` | 391 |
+| 7 | `RUN 2` | 3,111 |
+| 8 | `STP 10 3 8 1` | 265 |
+| 9 | `HST 1 64` | 2 |
+| 10 | `HFD 3 8 4` | 7 |
+| 11 | `HFD 0 292 4` | 7 |
+| 12 | `HGT 5 4` | 25 |
+| 13 | `HST 2 1120` | 2 |
+| 14 | `HFD 0 296 4` | 7 |
+| 15 | `HFD 1 0 136` | 251 |
+| 16 | `HGT 6 0` | 22 |
+| 17 | `RD32 3 288` | 7 |
+| 18 | `LDP 7 0 144 12` | 391 |
+| 19 | `LDP 8 0 192 12` | 391 |
+| 20 | `LDP 9 0 240 12` | 391 |
+| 21 | `LDP 11 3 8 1` | 263 |
+| 22 | `SDL` | 10 |
+| 23 | `RUN 1` | 7,700 |
+| 24 | `STP 3 2 0 10` | 329 |
+| 25 | `STP 4 2 40 10` | 329 |
+| 26 | `STP 5 2 80 10` | 329 |
+| 27 | `STP 10 2 120 4` | 265 |
+| 28 | `CMP` | 144 |
+| 29 | `END` | 3 |
+
+## Reading (INFERENCE)
+- Loading or storing one polynomial costs 391-393 cycles at d = 12, 326-329 at d = 10 and 263-265 at d = 1 or 4. The engine port takes one coefficient per cycle (256 cycles per polynomial); the codec moves one byte per cycle, i.e. 384 bytes at d = 12 and 320 at d = 10. At d = 12 and d = 10 the byte path is the limit, at d = 1 and 4 the coefficient port.
+- Share of the cycles: KeyGen RUN 70 %, STP 26 %; Encaps RUN 72 %, LDP 13 %, STP 12 %; Decaps RUN 65 %, LDP 23 %, STP 9 %; hashing and comparison about 3 % each.
+- The engine's host port works only while the engine is idle (`evidence/phase09/phase9_plan.md` section 3), so loads and stores cannot overlap RUN without a new engine variant.
