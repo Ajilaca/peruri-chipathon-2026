@@ -29,7 +29,7 @@ CLAUDE.local.md
 # Editors / OS
 .DS_Store
 *.swp
-# Local logs (the extracted evidence in docs/evidence/*.md IS committed)
+# Local logs (the extracted evidence in evidence/*.md IS committed)
 *.log
 # Official test vectors are fetched by tb/golden/fetch_acvp_vectors.py (pinned commit + sha256);
 # the JSON files are not committed.

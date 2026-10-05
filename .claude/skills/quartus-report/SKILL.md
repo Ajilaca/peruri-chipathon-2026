@@ -32,7 +32,7 @@ python3 .claude/skills/quartus-report/scripts/extract_quartus_report.py \
     --note "<what changed: git commit, parameters, clock>"
 ```
 
-It writes `docs/evidence/quartus/<revision>-<UTCdate>.md` containing:
+It writes `evidence/quartus/<revision>.md` containing:
 fitter summary (verbatim), timing slack table, worst setup/hold slack, Fmax panels if
 present, and Critical Warning / Warning / Error counts from the log.
 

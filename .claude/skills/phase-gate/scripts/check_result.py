@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Validate a phase result artifact (docs/results/result_phase<N>.md).
+"""Validate a phase result artifact (docs/results/phase<NN>.md).
 
-  check_result.py docs/results/result_phase0.md [--root .]
+  check_result.py docs/results/phase00.md [--root .]
   check_result.py --selftest
 
 Errors (exit 1): missing sections; a criterion status other than PASS/FAIL/MISSING; a PASS row
@@ -90,7 +90,7 @@ GOOD = """# Result — Phase 0: Foundations
 | # | Criterion | Evidence | Status |
 |---|---|---|---|
 | 1 | Params locked | `cmd: python3 check_params.py` | PASS |
-| 2 | KAT | `docs/evidence/golden/kat.txt` | PASS |
+| 2 | KAT | `evidence/phase00/kat.txt` | PASS |
 ## 2. What was produced
 | path | purpose |
 |---|---|
@@ -98,7 +98,7 @@ GOOD = """# Result — Phase 0: Foundations
 ## 3. Numbers
 | quantity | value | label | evidence |
 |---|---|---|---|
-| KAT cases | 70 | MEASURED | `docs/evidence/golden/kat.txt` |
+| KAT cases | 70 | MEASURED | `evidence/phase00/kat.txt` |
 ## 4. Standards and sources pinned
 FIPS 203.
 ## 5. Coverage and limits
@@ -118,11 +118,11 @@ pytest
 
 def selftest():
     with tempfile.TemporaryDirectory() as d:
-        os.makedirs(os.path.join(d, "docs/evidence/golden"))
-        open(os.path.join(d, "docs/evidence/golden/kat.txt"), "w").write("ok")
+        os.makedirs(os.path.join(d, "evidence/phase00"))
+        open(os.path.join(d, "evidence/phase00/kat.txt"), "w").write("ok")
         assert check(GOOD, d) == [], check(GOOD, d)
-        assert any("does not exist" in e for e in check(GOOD.replace("kat.txt`| PASS", "gone.txt` | PASS").replace("docs/evidence/golden/kat.txt` | PASS", "docs/evidence/golden/gone.txt` | PASS"), d))
-        assert any("without evidence" in e for e in check(GOOD.replace("`docs/evidence/golden/kat.txt` | PASS", "we ran it | PASS"), d))
+        assert any("does not exist" in e for e in check(GOOD.replace("kat.txt`| PASS", "gone.txt` | PASS").replace("evidence/phase00/kat.txt` | PASS", "evidence/phase00/gone.txt` | PASS"), d))
+        assert any("without evidence" in e for e in check(GOOD.replace("`evidence/phase00/kat.txt` | PASS", "we ran it | PASS"), d))
         assert any("not every criterion" in e for e in check(GOOD.replace("| PASS |\n## 2", "| MISSING |\n## 2"), d))
         assert any("placeholders" in e for e in check(GOOD.replace("Sample vectors only.", "TODO write this"), d))
         assert any("Git commit" in e for e in check(GOOD.replace("abc1234", "<sha>"), d))

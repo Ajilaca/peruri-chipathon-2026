@@ -6,7 +6,7 @@ rounded, or filled in. Missing items are reported as "not found".
 
 Usage:
   extract_quartus_report.py <output_files_dir> <revision> [--log quartus.log]
-                            [--out docs/evidence/quartus/<rev>-<UTCdate>.md] [--note "text"]
+                            [--out evidence/quartus/<rev>.md] [--note "text"]
   extract_quartus_report.py --selftest
 """
 import argparse, datetime, os, re, sys, tempfile
@@ -234,7 +234,7 @@ def main():
         ap.error("outdir and rev are required")
     md, _ = build(a.outdir, a.rev, a.log, a.note)
     out = a.out or os.path.join("docs", "evidence", "quartus",
-                                 f"{a.rev}-{datetime.datetime.now(datetime.timezone.utc):%Y%m%d}.md")
+                                 f"{a.rev}.md")
     os.makedirs(os.path.dirname(out), exist_ok=True)
     open(out, "w", encoding="utf-8").write(md)
     print(md)

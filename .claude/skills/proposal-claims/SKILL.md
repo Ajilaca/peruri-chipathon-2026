@@ -23,7 +23,7 @@ the rules themselves.
 |---|---|---|
 | `[n]` | From a cited source | Reference `n` exists in `docs/proposal/references.md` |
 | `ESTIMATE` | Analytical guess | State method and assumptions in the same paragraph |
-| `MEASURED` | Produced by a tool run **in this repo** | Path to evidence under `docs/evidence/` |
+| `MEASURED` | Produced by a tool run **in this repo** | Path to evidence under `evidence/` |
 | `perhitungan tim` | Simple arithmetic from cited facts | Show the inputs |
 
 Literature numbers are context, never our result. Example: "OCAKE takes 1.39 s on a
@@ -34,7 +34,7 @@ Literature numbers are context, never our result. Example: "OCAKE takes 1.39 s o
 1. "Quantum-proof / kebal kuantum". Say: *dirancang mengikuti standar pasca-kuantum*.
 2. Side-channel (power/EM) protection. Core stage claims **constant-time by construction,
    proven by cycle-count invariance**. TVLA with the oscilloscope and masking are *later
-   stage*. See `docs/decisions/0002-scope-and-claims.md`.
+   stage*. See `docs/decisions/adr/ADR-0002-scope-and-claims.md`.
 3. Speed-up versus software. The HPS Cortex-A9 is far stronger than the microcontroller
    in the literature, and bridge overhead may cancel gains. Needs a MEASURED baseline on
    the same board.

@@ -16,7 +16,7 @@ SCOPING = re.compile(r"\b(bukan|tidak|belum|tanpa|tahap lanjut|later stage|not|n
 # Provenance markers: a quantitative sentence needs at least one of these.
 PROVENANCE = re.compile(
     r"(\[\d+\]|\[[a-z ]*\d+[a-z ]*\]|ESTIMATE|MEASURED|perhitungan tim|inferensi tim|literatur|"
-    r"\bTBD\b|\[\.\.\.\]|docs/evidence|datasheet|product table|tabel (produk )?Intel|Intel\'?s? (product )?table|fitter|hasil kutipan)", re.I)
+    r"\bTBD\b|\[\.\.\.\]|evidence|datasheet|product table|tabel (produk )?Intel|Intel\'?s? (product )?table|fitter|hasil kutipan)", re.I)
 
 METRIC = re.compile(
     r"\b(ALM|ALMs|LUT|LEs?|register|flip-?flop|M10K|DSP|Fmax|MHz|GHz|latensi|latency|throughput|"

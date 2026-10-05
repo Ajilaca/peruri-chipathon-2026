@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Create the next numbered decision record in docs/decisions/.
+"""Create the next numbered decision record in docs/decisions/adr/.
 
-  new_adr.py "Title" [--status proposed|accepted] [--decided-by "names"] [--dir docs/decisions]
+  new_adr.py "Title" [--status proposed|accepted] [--decided-by "names"] [--dir docs/decisions/adr]
   new_adr.py --selftest
 
 An ADR may be `accepted` only with --decided-by (a human decision). Everything else is
@@ -28,7 +28,7 @@ TEMPLATE = """# ADR {num}: {title}
 <!-- What becomes easier or harder. What must be re-checked (claims, proposal text, measurements). -->
 
 ## Evidence
-<!-- docs/evidence/... paths or numbered proposal references. Label estimates as ESTIMATE. -->
+<!-- evidence/... paths or numbered proposal references. Label estimates as ESTIMATE. -->
 """
 
 
@@ -39,7 +39,7 @@ def slugify(s):
 
 
 def next_number(d):
-    nums = [int(m.group(1)) for f in os.listdir(d) if (m := re.match(r"^(\d{4})-", f))]
+    nums = [int(m.group(1)) for f in os.listdir(d) if (m := re.match(r"^(?:ADR-)?(\d{4})-", f))]
     return max(nums, default=0) + 1
 
 
@@ -48,7 +48,7 @@ def create(title, status, decided_by, d):
         raise SystemExit("refused: 'accepted' needs --decided-by (a human team decision). Use 'proposed'.")
     os.makedirs(d, exist_ok=True)
     num = f"{next_number(d):04d}"
-    path = os.path.join(d, f"{num}-{slugify(title)}.md")
+    path = os.path.join(d, f"ADR-{num}-{slugify(title)}.md")
     text = TEMPLATE.format(num=num, title=title, status=status.capitalize(),
                            date=datetime.date.today().isoformat(),
                            decided=decided_by or "pending team decision")
@@ -61,7 +61,7 @@ def selftest():
     with tempfile.TemporaryDirectory() as d:
         p1 = create("Choose DMA vs register I/O", "proposed", None, d)
         p2 = create("Reader-side or card-side accelerator?", "proposed", None, d)
-        assert os.path.basename(p1).startswith("0001-") and os.path.basename(p2).startswith("0002-"), (p1, p2)
+        assert os.path.basename(p1).startswith("ADR-0001-") and os.path.basename(p2).startswith("ADR-0002-"), (p1, p2)
         try:
             create("x", "accepted", None, d); raise AssertionError("accepted without decider must be refused")
         except SystemExit as e:
@@ -77,7 +77,7 @@ def main():
     ap.add_argument("title", nargs="?")
     ap.add_argument("--status", choices=["proposed", "accepted"], default="proposed")
     ap.add_argument("--decided-by")
-    ap.add_argument("--dir", default="docs/decisions")
+    ap.add_argument("--dir", default="docs/decisions/adr")
     ap.add_argument("--selftest", action="store_true")
     a = ap.parse_args()
     if a.selftest:
