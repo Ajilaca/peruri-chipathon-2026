@@ -27,8 +27,8 @@ Pemeriksaan masukan FIPS 203 dikerjakan HPS, bukan RTL (ADR 0031).
 ## Status: Phase 9 — Submission
 
 Inti ML-KEM-768 penuh (KeyGen, Encaps, Decaps) sudah ada di RTL dan lolos semua vektor ACVP yang berlaku di dua
-simulator. Phase 9M mengoptimasi inti itu; hasil terakhirnya (K4, `mlkem_core4`) tercatat sebagai *Proposed* sampai
-tim memutuskan (PENDING #33 sampai #40).
+simulator. Phase 9M mengoptimasi inti itu; hasil terakhirnya (K4, `mlkem_core4`) diterima tim pada 2026-10-05
+(ADR 0035, 0037, 0038, 0040 sampai 0043). ADR 0033 (inti Phase 9 apa adanya) masih menunggu keputusan (PENDING #33).
 
 Angka K4 (kernel-only, virtual pin, bukan pengukuran papan; sumber
 [docs/results/phase9m.md](docs/results/phase9m.md)):
@@ -41,9 +41,6 @@ Angka K4 (kernel-only, virtual pin, bukan pengukuran papan; sumber
 K4 memakai 14.222,0 ALM median pada batasan 40 ns. Batasan 15 ns terpenuhi di 6 dari 6 seed.
 
 ![roadmap](docs/roadmap.png)
-
-Gambar dibuat oleh [scripts/build/gen_roadmap_png.py](scripts/build/gen_roadmap_png.py) dari status di
-[docs/results/](docs/results/). Rencana lengkap: [docs/ROADMAP.md](docs/ROADMAP.md).
 
 | Phase | Isi | Status (file hasil) |
 |---|---|---|
@@ -94,7 +91,6 @@ Struktur test: [tb/](tb/README.md). Properti formal dan batasnya: [formal/](form
 - Tidak ada perbandingan dengan perangkat lunak di HPS (Phase 11).
 - Siklus konstan dibuktikan pada masukan yang diuji. Ini bukan klaim ketahanan side-channel (daya/EM).
 - Formal berbatas: P1 dan NC-E1-4 di `core4` serta NC-B7 di `core3` habis waktu dan dicatat sebagai TIMEOUT, bukan lolos.
-- Keputusan hasil 9M (ADR 0035, 0037, 0038, 0040 sampai 0043) masih *Proposed*.
 
 ## Dokumentasi
 
