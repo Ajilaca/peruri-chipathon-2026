@@ -50,19 +50,20 @@ Pemeriksaan masukan FIPS 203 dikerjakan HPS, bukan RTL (ADR 0031).
 
 ## Status: Phase 9 - Submission
 
-Inti ML-KEM-768 penuh (KeyGen, Encaps, Decaps) sudah ada di RTL dan lolos semua vektor ACVP yang berlaku di dua
-simulator. Phase 9M mengoptimasi inti itu; hasil terakhirnya (K4, `mlkem_core4`) diterima tim pada 2026-10-05
-(ADR 0035, 0037, 0038, 0040 sampai 0043). ADR 0033 (inti Phase 9 apa adanya) masih menunggu keputusan (PENDING #33).
+Sistem ini menghitung KeyGen, Encaps, dan Decaps ML-KEM-768 sesuai FIPS 203 di RTL. Hasilnya cocok bit demi bit dengan model acuan dan lolos semua vektor ACVP yang berlaku (keyGen 25, encapsulation 25, decapsulation 10) di Verilator dan Icarus. Jumlah siklus Encaps dan Decaps sama untuk ciphertext valid, ciphertext ditolak, dan kunci rahasia berbeda pada masukan yang diuji. Pemeriksaan masukan FIPS 203 dikerjakan HPS, bukan RTL.
 
-Angka K4 (kernel-only, virtual pin, bukan pengukuran papan; sumber
-[docs/results/phase9m.md](docs/results/phase9m.md)):
+Konfigurasi akhir adalah K4 (`mlkem_core4`) dari Phase 9M. Dibanding inti Phase 9, ALM turun 19 % dan siklus turun 7,5 % / 10,5 % / 22,1 % untuk KeyGen / Encaps / Decaps. Parameter dan hasil ukur K4 dibandingkan dengan kapasitas DE10-Nano (kompilasi Quartus kernel-only dengan virtual pin, median enam seed, bukan pengukuran papan; sumber [docs/results/phase9m.md](docs/results/phase9m.md)):
 
-| | KeyGen | Encaps | Decaps |
+| Besaran | K4 | Kapasitas DE10-Nano | Pemakaian |
 |---|---|---|---|
-| Siklus (simulasi) | 8.416 | 9.611 | 12.989 |
-| Latensi pada Fmax median 76,665 MHz (perhitungan tim) | 109,8 µs | 125,4 µs | 169,4 µs |
+| ALM (batasan 40 ns) | 14.222,0 | 41.910 | 34 % |
+| Blok RAM | 53-54 | 553 | 9,6-9,8 % |
+| DSP | 28 | 112 | 25 % |
+| Fmax median | 76,665 MHz | | 15 ns terpenuhi di 6 dari 6 seed |
+| Siklus KeyGen / Encaps / Decaps | 8.416 / 9.611 / 12.989 | | |
+| Latensi pada Fmax median (perhitungan tim) | 109,8 / 125,4 / 169,4 µs | | |
 
-K4 memakai 14.222,0 ALM median pada batasan 40 ns. Batasan 15 ns terpenuhi di 6 dari 6 seed.
+Persentase pemakaian dihitung dari kolom K4 dan kapasitas. Latensi adalah siklus dibagi Fmax.
 
 ![roadmap](docs/roadmap.png)
 
@@ -72,12 +73,12 @@ K4 memakai 14.222,0 ALM median pada batasan 40 ns. Batasan 15 ns terpenuhi di 6 
 | 1 – 3 | NTT L = 1, banking memori, multi-lane (L = 8) | DONE |
 | 4 – 5 | Pipeline P = 6, reducer Barrett | DONE |
 | 5M, 6 | Memori S10 (16 bank 1R1W), sequencer K-PKE | DONE |
-| 7 – 8 | Keccak-f[1600], sponge, sampler streaming | DONE (penerimaan ADR oleh tim) |
-| 9 | Inti ML-KEM-768 penuh, simulasi | DONE (penerimaan ADR 0033 oleh tim) |
+| 7 – 8 | Keccak-f[1600], sponge, sampler streaming | DONE |
+| 9 | Inti ML-KEM-768 penuh, simulasi | DONE |
 | 9M | Optimasi inti | PARTIAL: tiga bukti formal berbatas habis waktu |
-| 10 | Integrasi HPS di DE10-Nano | Direncanakan; terblokir tanpa papan (PENDING #8) |
-| 11 | Benchmark terhadap perangkat lunak | Direncanakan |
-| 12 | Fitur keamanan lanjutan (opsional) | Direncanakan |
+| 10 | Integrasi HPS di DE10-Nano | Direncanakan (menunggu papan untuk memulai) |
+| 11 | Benchmark terhadap perangkat lunak | Direncanakan (menunggu papan untuk memulai) |
+| 12 | Fitur keamanan lanjutan (opsional) | Direncanakan (menunggu papan untuk memulai) |
 
 Phase 10 sampai 12 tercatat di ROADMAP dan belum dikerjakan.
 
