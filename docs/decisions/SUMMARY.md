@@ -2,7 +2,7 @@
 
 Ringkasan ini merangkum semua catatan keputusan di folder [`adr/`](adr/). Sumber kebenaran tetap berkas ADR masing-masing; daftar pilihan yang masih terbuka ada di [`PENDING.md`](PENDING.md). Status dan pengambil keputusan dikutip dari header tiap ADR. ADR yang sudah *Accepted* tidak disunting; perubahan dicatat dengan ADR baru yang menggantikan.
 
-**Hitungan status:** 30 Accepted · 5 Superseded (0008, 0018, 0021, 0022, 0023) · 8 Proposed (0033, 0035, 0037, 0038, 0040, 0041, 0042, 0043).
+**Hitungan status:** 37 Accepted · 5 Superseded (0008, 0018, 0021, 0022, 0023) · 1 Proposed (0033).
 
 ## 1. Fondasi, kebijakan, dan lisensi
 | ADR | Keputusan | Status | Diputuskan |
@@ -63,20 +63,20 @@ Ringkasan ini merangkum semua catatan keputusan di folder [`adr/`](adr/). Sumber
 | [0034](adr/ADR-0034-phase-9m-optimisation-scope-wider-codec-byte-path-20-ns-seed.md) | Lingkup 9M: item 1 (codec dua byte), 2 (inti pada 20 ns), 3 (hash K0), 4 (tumpang-tindih muat dengan mesin). Item 5 (sampler kedua) disimpan sebagai ide, tidak dibangun. | Accepted | Faza Dzil, 2026-10-04 |
 | [0036](adr/ADR-0036-phase-9f-fmax-plan-s0-s1-s2-latency-rule-and-reporting-at-a-.md) | Rencana Fmax S0 → S1 (→ S2); aturan adopsi berdasarkan latensi t = siklus / Fmax untuk KeyGen, Encaps, Decaps; Fmax dilaporkan pada batasan 15 ns di samping gerbang 40 ns. | Accepted | Faza Dzil, 2026-10-04 |
 | [0039](adr/ADR-0039-phase-9f-15-ns-is-the-fmax-reporting-limit-14-ns-is-kept-for.md) | **15 ns adalah batas pelaporan Fmax**; 14 ns disimpan untuk dipertimbangkan nanti. | Accepted | Faza Dzil, 2026-10-04 |
-| [0035](adr/ADR-0035-phase-9m-1-result-two-byte-codec-path-codec-w2-adopted-by-it.md) | Hasil 9M-1: jalur codec dua byte (`CODEC_W2 = 1`) diadopsi aturan. | Proposed | (menunggu tim) |
-| [0037](adr/ADR-0037-phase-9m-3-result-k0-hash-sponge-hash-c5-0-adopted-by-its-ru.md) | Hasil 9M-3: sponge hash K0 (`HASH_C5 = 0`) diadopsi aturan sebagai opsi lebih kecil (−1.736,5 ALM, +120 siklus). | Proposed | (menunggu tim) |
-| [0038](adr/ADR-0038-phase-9f-s1-result-k0-sampler-and-k0-hash-k1-adopted-by-its-.md) | Hasil S1: sampler K0 + hash K0 (K1) diadopsi aturan, **lebih kecil bukan lebih cepat** (terhadap MW pada batasan sama 3–6 % lebih lambat). | Proposed | (menunggu tim) |
-| [0040](adr/ADR-0040-phase-9f-s1b-result-background-hash-k1b-adopted-by-its-rule-.md) | Hasil S1b: hash di latar belakang (K1b) diadopsi aturan, memulihkan biaya siklus K1 (8.404 / 10.236 / 15.597). | Proposed | (menunggu tim) |
-| [0041](adr/ADR-0041-phase-9f-s2-result-register-after-the-barrett-reducer-k2-ado.md) | Hasil S2: register setelah reducer Barrett (K2) diadopsi aturan, tetapi **netral** untuk Fmax (+0,27 MHz, di dalam derau seed). | Proposed | (menunggu tim) |
-| [0042](adr/ADR-0042-phase-9f-s2b-result-registered-ntt-issue-address-k3-not-adop.md) | Hasil S2b: alamat issue NTT terregistrasi (K3) **tidak diadopsi aturan seperti tertulis**, tetapi median Fmax +3,4 MHz dengan ekor seed rendah. | Proposed | (menunggu tim) |
-| [0043](adr/ADR-0043-phase-9i-item-4-result-loads-behind-the-k-pke-engine-k4-adop.md) | Hasil item 4: pemuatan di belakang mesin K-PKE (K4) diadopsi aturan; Encaps −639 dan Decaps −2.630 siklus. | Proposed | (menunggu tim) |
+| [0035](adr/ADR-0035-phase-9m-1-result-two-byte-codec-path-codec-w2-adopted-by-it.md) | Hasil 9M-1: jalur codec dua byte (`CODEC_W2 = 1`) diadopsi aturan. | Accepted | Jo, 2026-10-05 |
+| [0037](adr/ADR-0037-phase-9m-3-result-k0-hash-sponge-hash-c5-0-adopted-by-its-ru.md) | Hasil 9M-3: sponge hash K0 (`HASH_C5 = 0`) diadopsi aturan sebagai opsi lebih kecil (−1.736,5 ALM, +120 siklus). | Accepted | Jo, 2026-10-05 |
+| [0038](adr/ADR-0038-phase-9f-s1-result-k0-sampler-and-k0-hash-k1-adopted-by-its-.md) | Hasil S1: sampler K0 + hash K0 (K1) diadopsi aturan, **lebih kecil bukan lebih cepat** (terhadap MW pada batasan sama 3–6 % lebih lambat). | Accepted | Jo, 2026-10-05 |
+| [0040](adr/ADR-0040-phase-9f-s1b-result-background-hash-k1b-adopted-by-its-rule-.md) | Hasil S1b: hash di latar belakang (K1b) diadopsi aturan, memulihkan biaya siklus K1 (8.404 / 10.236 / 15.597). | Accepted | Jo, 2026-10-05 |
+| [0041](adr/ADR-0041-phase-9f-s2-result-register-after-the-barrett-reducer-k2-ado.md) | Hasil S2: register setelah reducer Barrett (K2) diadopsi aturan, tetapi **netral** untuk Fmax (+0,27 MHz, di dalam derau seed). | Accepted | Jo, 2026-10-05 |
+| [0042](adr/ADR-0042-phase-9f-s2b-result-registered-ntt-issue-address-k3-not-adop.md) | Hasil S2b: alamat issue NTT terregistrasi (K3) **tidak diadopsi aturan seperti tertulis**, tetapi median Fmax +3,4 MHz dengan ekor seed rendah. | Accepted | Jo, 2026-10-05 |
+| [0043](adr/ADR-0043-phase-9i-item-4-result-loads-behind-the-k-pke-engine-k4-adop.md) | Hasil item 4: pemuatan di belakang mesin K-PKE (K4) diadopsi aturan; Encaps −639 dan Decaps −2.630 siklus. | Accepted | Jo, 2026-10-05 |
 
 ### Rantai ketergantungan keputusan 9M
 K4 (0043) berdiri di atas K3 (0042), K3 di atas K2 (0041), K2 di atas K1b (0040), K1b di atas K1 (0038). Tim dapat berhenti di tautan mana pun, tetapi pengukuran sesudahnya harus diulang pada dasar yang baru. Khusus K4: siklus yang dihemat tidak bergantung pada parameter NTT, tetapi Fmax-nya bergantung.
 
 ## 7. Pola yang berulang di seluruh keputusan
 - **Aturan sebelum pengukuran.** Hampir setiap langkah teknis punya aturan adopsi yang ditulis lebih dulu; hasilnya dicatat apa adanya, juga saat aturan berkata tidak (0020, 0023, 0042) atau saat tim memilih berbeda dari aturan (0020).
-- **Pengusul bukan pemutus.** ADR berstatus *Proposed* sampai anggota tim menyatakan keputusan; catatan hasil 9M semuanya masih *Proposed*.
+- **Pengusul bukan pemutus.** ADR berstatus *Proposed* sampai anggota tim menyatakan keputusan. Hasil 9M diterima Jo (Team J5) pada 2026-10-05; hanya ADR 0033 yang masih *Proposed*.
 - **Satu langkah, satu perubahan, satu STOP** (0017, 0032).
 - **Batas kejujuran bukti:** tidak ada klaim papan, kecepatan terhadap perangkat lunak, atau ketahanan side-channel (0002); angka implementasi hanya dari Quartus (CLAUDE.md §6.2).
 

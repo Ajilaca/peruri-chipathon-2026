@@ -30,21 +30,26 @@ Keputusan di bawah berstatus *Accepted* oleh tim kecuali dinyatakan lain.
 | [0036](adr/ADR-0036-phase-9f-fmax-plan-s0-s1-s2-latency-rule-and-reporting-at-a-.md) | Rencana Fmax S0, S1, S2; aturan adopsi pada latensi KeyGen, Encaps, Decaps. | Latensi = siklus / Fmax menghindari pemilihan yang hanya mengejar Fmax. | Dipakai oleh seluruh keputusan hasil 9M. |
 | [0039](adr/ADR-0039-phase-9f-15-ns-is-the-fmax-reporting-limit-14-ns-is-kept-for.md) | 15 ns adalah batas pelaporan Fmax; 14 ns disimpan. | Memberi satu batas pelaporan yang tetap. | Hasil 9M dilaporkan pada 40 ns (gerbang) dan 15 ns. |
 
-## Hasil Phase 9 dan 9M yang menunggu keputusan tim
+## Hasil Phase 9M (diterima 2026-10-05)
 
-Berstatus *Proposed*. Pengusul bukan pemutus; ADR tidak diterima sebelum anggota tim menyatakannya.
-Rantai: K4 (0043) berdiri di atas K3 (0042), K2 (0041), K1b (0040), K1 (0038). Tim dapat berhenti di tautan mana pun, tetapi angka sesudahnya harus diukur ulang di dasar baru.
+Diterima oleh Jo (Team J5). Rantai: K4 (0043) berdiri di atas K3 (0042), K2 (0041), K1b (0040), K1 (0038).
+ADR 0042 (K3) tidak diadopsi aturan seperti tertulis, tetapi diterima tim.
+
+| ADR | Isi |
+|---|---|
+| [0035](adr/ADR-0035-phase-9m-1-result-two-byte-codec-path-codec-w2-adopted-by-it.md) | Jalur codec dua byte (`CODEC_W2 = 1`). |
+| [0037](adr/ADR-0037-phase-9m-3-result-k0-hash-sponge-hash-c5-0-adopted-by-its-ru.md) | Sponge hash K0 (`HASH_C5 = 0`), lebih kecil, +120 siklus. |
+| [0038](adr/ADR-0038-phase-9f-s1-result-k0-sampler-and-k0-hash-k1-adopted-by-its-.md) | Sampler K0 + hash K0 (K1), lebih kecil bukan lebih cepat. |
+| [0040](adr/ADR-0040-phase-9f-s1b-result-background-hash-k1b-adopted-by-its-rule-.md) | Hash di latar belakang (K1b, `mlkem_core3`). |
+| [0041](adr/ADR-0041-phase-9f-s2-result-register-after-the-barrett-reducer-k2-ado.md) | Register setelah Barrett (K2), netral untuk Fmax. |
+| [0042](adr/ADR-0042-phase-9f-s2b-result-registered-ntt-issue-address-k3-not-adop.md) | Alamat issue NTT terregistrasi (K3), Fmax median +3,4 MHz dengan ekor seed rendah. |
+| [0043](adr/ADR-0043-phase-9i-item-4-result-loads-behind-the-k-pke-engine-k4-adop.md) | Pemuatan di belakang mesin K-PKE (K4, `mlkem_core4`): Encaps -639, Decaps -2.630 siklus. |
+
+## Menunggu keputusan tim
 
 | ADR | Isi | PENDING |
 |---|---|---|
 | [0033](adr/ADR-0033-phase-9-c7-core-as-built-ml-kem-768-in-simulation-acvp-100-p.md) | Inti Phase 9 (`mlkem_core`) apa adanya, ACVP 100 % dalam simulasi. | #33 |
-| [0035](adr/ADR-0035-phase-9m-1-result-two-byte-codec-path-codec-w2-adopted-by-it.md) | 9M-1: jalur codec dua byte (`CODEC_W2 = 1`). | #34 |
-| [0037](adr/ADR-0037-phase-9m-3-result-k0-hash-sponge-hash-c5-0-adopted-by-its-ru.md) | 9M-3: sponge hash K0 (`HASH_C5 = 0`), lebih kecil, +120 siklus. | #35 |
-| [0038](adr/ADR-0038-phase-9f-s1-result-k0-sampler-and-k0-hash-k1-adopted-by-its-.md) | S1: sampler K0 + hash K0 (K1), lebih kecil bukan lebih cepat. | #36 |
-| [0040](adr/ADR-0040-phase-9f-s1b-result-background-hash-k1b-adopted-by-its-rule-.md) | S1b: hash di latar belakang (K1b, `mlkem_core3`). | #37 |
-| [0041](adr/ADR-0041-phase-9f-s2-result-register-after-the-barrett-reducer-k2-ado.md) | S2: register setelah Barrett (K2), netral untuk Fmax. | #38 |
-| [0042](adr/ADR-0042-phase-9f-s2b-result-registered-ntt-issue-address-k3-not-adop.md) | S2b: alamat issue NTT terregistrasi (K3), tidak diadopsi aturan seperti tertulis. | #39 |
-| [0043](adr/ADR-0043-phase-9i-item-4-result-loads-behind-the-k-pke-engine-k4-adop.md) | Item 4: pemuatan di belakang mesin K-PKE (K4, `mlkem_core4`). | #40 |
 
 ## Historis (superseded)
 
