@@ -40,3 +40,7 @@ tb/vectors/acvp/*.json
 
 # Skrip build (generator ROM, pembangun laporan): hanya di lokal
 scripts/build/
+
+# Catatan kerja lokal
+CLAUDE.md
+HANDOFF.md
