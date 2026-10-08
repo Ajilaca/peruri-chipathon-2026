@@ -1,140 +1,140 @@
 <!-- claim-lint: skip-file (result artifact: internal status page, not proposal text) -->
-# Result - Phase 2: Memory architecture (M10K storage, banking, address generation, config C1)
+# Hasil - Fase 2: Arsitektur memori (penyimpanan M10K, banking, pembangkit alamat, konfigurasi C1)
 
 - Status: DONE
-- Date (UTC): 2026-09-29 11:07
-- Git commit (HEAD when verified): 4e26498
-- Environment: same as Phase 1 (`docs/results/phase01.md`) -- Ubuntu 24.04.4 LTS, OSS CAD
+- Tanggal (UTC): 2026-09-29 11:07
+- Git commit (HEAD saat diverifikasi): 4e26498
+- Lingkungan: sama dengan Fase 1 (`docs/results/phase01.md`) -- Ubuntu 24.04.4 LTS, OSS CAD
   Suite 2026-09-23, cocotb 2.1.0, pytest 9.1.1, Quartus Prime Lite 25.1std.0 Build 1129
   (`~/altera_lite/25.1std`).
 
-Process note, stated plainly: `docs/ROADMAP.md`'s own gate rule is "a phase starts only after
-the previous phase's result artifact passes `check_result.py` and a team member has ticked
-its Approval box." Phase 1's Approval box is still unticked (`docs/results/phase01.md`
-Section 10) and its CRG-9 is FAIL. This phase was started anyway, on an explicit team instruction
-("lanjut fase 2") to continue in the same session, not because the gate was met. Recorded here
-so nobody reading only this file assumes Phase 1 was approved.
+Catatan proses, dinyatakan apa adanya: aturan gerbang `docs/ROADMAP.md` sendiri adalah "sebuah fase dimulai hanya setelah
+artefak hasil fase sebelumnya lulus `check_result.py` dan anggota tim telah mencentang
+kotak Persetujuannya." Kotak Persetujuan Fase 1 masih belum dicentang (`docs/results/phase01.md`
+Bagian 10) dan CRG-9-nya FAIL. Fase ini tetap dimulai, atas instruksi eksplisit tim
+("lanjut fase 2") untuk melanjutkan di sesi yang sama, bukan karena gerbang terpenuhi. Dicatat di sini
+agar siapa pun yang hanya membaca file ini tidak mengira Fase 1 telah disetujui.
 
-## 1. Done-criteria (Common RTL Gate, docs/ROADMAP.md, copied unchanged)
-| # | Criterion | Evidence | Status |
+## 1. Kriteria selesai (Common RTL Gate, docs/ROADMAP.md, disalin tanpa perubahan)
+| # | Kriteria | Evidence | Status |
 |---|---|---|---|
-| CRG-1 | Lint clean | `cmd: verilator --lint-only -Wall --timing -sv rtl/ntt/*.sv rtl/mem/*.sv --top-module ntt_core_c1` (0 warnings); also checked standalone for the bank-map ROM and banked-memory modules at NUM_BANKS∈{1,2,4,8} | PASS |
-| CRG-2 | Elaboration clean (slang) | `cmd: slang --top ntt_core_c1 rtl/ntt/*.sv rtl/mem/*.sv` (0 errors, 0 warnings) | PASS |
-| CRG-3 | Bit-exact vs golden, both simulators | `evidence/phase02/cocotb_regression.txt` (12/12 on Icarus AND Verilator: bank_map_rom x4 L values + ntt_core_c1) | PASS |
-| CRG-4 | Corner cases before tests | `evidence/phase02/test_plan.md` | PASS |
-| CRG-5 | Regression: Phase 0 + Phase 1 tests still pass | `cmd: python3 -m pytest tb/golden/tests/ -q` (23/23) and `cmd: python3 tb/ntt/run_ntt_tests.py icarus` (10/10, C0 unaffected) | PASS |
-| CRG-6 | Locked parameters | `cmd: python3 .claude/skills/mlkem-guard/scripts/check_params.py` | PASS |
-| CRG-7 | Constant-cycle evidence | `evidence/phase02/cocotb_regression.txt` (NTT=897, INTT=1153, equal to C0, i.e. 0 stall cycles) | PASS |
-| CRG-8 | Formal properties | `evidence/phase02/formal_bank_map.txt` (own-pair property, L=8, BMC depth 1, PASS) and `evidence/phase02/formal_ntt_core_c1_safety.txt` (FSM safety, k-induction depth 6, PASS) | PASS |
-| CRG-9 | Quartus evidence; no negative slack or the failure documented | `evidence/quartus/C1.md`, `evidence/phase02/quartus_C1_vs_C0.md` -- evidence exists, failure documented, but worst setup slack is -46.720 ns at 20.000 ns (timing NOT met, same as C0; the failure is documented, which is what the criterion asks) | PASS |
-| CRG-10 | Result artifact + claim checker | `cmd: python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase02.md` and `cmd: python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal` | PASS |
+| CRG-1 | Lint bersih | `cmd: verilator --lint-only -Wall --timing -sv rtl/ntt/*.sv rtl/mem/*.sv --top-module ntt_core_c1` (0 peringatan); juga diperiksa mandiri untuk ROM peta bank dan modul memori berbank pada NUM_BANKS∈{1,2,4,8} | PASS |
+| CRG-2 | Elaborasi bersih (slang) | `cmd: slang --top ntt_core_c1 rtl/ntt/*.sv rtl/mem/*.sv` (0 error, 0 peringatan) | PASS |
+| CRG-3 | Bit-exact terhadap model acuan, kedua simulator | `evidence/phase02/cocotb_regression.txt` (12/12 di Icarus DAN Verilator: bank_map_rom x4 nilai L + ntt_core_c1) | PASS |
+| CRG-4 | Kasus sudut sebelum tes | `evidence/phase02/test_plan.md` | PASS |
+| CRG-5 | Regresi: tes Fase 0 + Fase 1 masih lulus | `cmd: python3 -m pytest tb/golden/tests/ -q` (23/23) dan `cmd: python3 tb/ntt/run_ntt_tests.py icarus` (10/10, C0 tidak terpengaruh) | PASS |
+| CRG-6 | Parameter terkunci | `cmd: python3 .claude/skills/mlkem-guard/scripts/check_params.py` | PASS |
+| CRG-7 | Evidence jumlah siklus konstan | `evidence/phase02/cocotb_regression.txt` (NTT=897, INTT=1153, sama dengan C0, yaitu 0 siklus stall) | PASS |
+| CRG-8 | Properti formal | `evidence/phase02/formal_bank_map.txt` (properti pasangan-sendiri, L=8, kedalaman BMC 1, PASS) dan `evidence/phase02/formal_ntt_core_c1_safety.txt` (keselamatan FSM, k-induction kedalaman 6, PASS) | PASS |
+| CRG-9 | Evidence Quartus; tidak ada slack negatif atau kegagalan didokumentasikan | `evidence/quartus/C1.md`, `evidence/phase02/quartus_C1_vs_C0.md` -- evidence ada, kegagalan didokumentasikan, tetapi worst setup slack adalah -46.720 ns pada 20.000 ns (timing TIDAK terpenuhi, sama seperti C0; kegagalan didokumentasikan, dan itu yang diminta kriteria) | PASS |
+| CRG-10 | Artefak hasil + pemeriksa klaim | `cmd: python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase02.md` dan `cmd: python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal` | PASS |
 
-CRG-9 was first marked FAIL, as in Phase 1 (`docs/results/phase01.md`). On 2026-10-05 the team chose the
-reading that a documented failure satisfies it, so it is PASS now; the measured slack is unchanged.
+CRG-9 semula ditandai FAIL, seperti pada Fase 1 (`docs/results/phase01.md`). Pada 2026-10-05 tim memilih
+pembacaan bahwa kegagalan yang terdokumentasi memenuhinya, sehingga kini PASS; slack terukur tidak berubah.
 
-## 1b. Phase 2 PASS criteria (docs/ROADMAP.md Phase 2, beyond the CRG table)
-| # | Criterion | Evidence | Status |
+## 1b. Kriteria PASS Fase 2 (docs/ROADMAP.md Fase 2, di luar tabel CRG)
+| # | Kriteria | Evidence | Status |
 |---|---|---|---|
-| 1 | Conflict-freedom proven for all four L values (1,2,4,8) | `evidence/phase02/bank_scheme_exploration.txt` (exhaustive Python: own-pair, balance, bijectivity, multi-lane <=2/bank/cycle) + `evidence/phase02/formal_bank_map.txt` (formal, on the actual ROM) | PASS |
-| 2 | Measured stall cycles = 0 at L = 1 | `evidence/phase02/cocotb_regression.txt` (C1 cycles == C0 cycles exactly, both directions) | PASS |
-| 3 | Bit-exact | same cocotb log | PASS |
-| 4 | Constant cycle count | same cocotb log | PASS |
-| 5 | C1 row of the ablation matrix filled | `docs/ROADMAP.md` ablation matrix, row C1 | PASS |
+| 1 | Bebas-konflik terbukti untuk keempat nilai L (1,2,4,8) | `evidence/phase02/bank_scheme_exploration.txt` (Python menyeluruh: pasangan-sendiri, keseimbangan, bijektivitas, multi-lane <=2/bank/siklus) + `evidence/phase02/formal_bank_map.txt` (formal, pada ROM sebenarnya) | PASS |
+| 2 | Siklus stall terukur = 0 pada L = 1 | `evidence/phase02/cocotb_regression.txt` (siklus C1 == siklus C0 persis, kedua arah) | PASS |
+| 3 | Bit-exact | log cocotb yang sama | PASS |
+| 4 | Jumlah siklus konstan | log cocotb yang sama | PASS |
+| 5 | Baris C1 pada matriks ablasi terisi | `docs/ROADMAP.md` matriks ablasi, baris C1 | PASS |
 
-All five of this phase's own stated PASS criteria are met. Status was PARTIAL at first
-because of CRG-9 (timing) and because Phase 1's own gate was not satisfied when this phase
-started (see the process note above); it is DONE since 2026-10-05 (see the status update at the end).
+Kelima kriteria PASS yang dinyatakan fase ini sendiri terpenuhi. Status semula PARTIAL
+karena CRG-9 (timing) dan karena gerbang Fase 1 sendiri belum terpenuhi saat fase ini
+dimulai (lihat catatan proses di atas); sejak 2026-10-05 statusnya DONE (lihat pembaruan status di bagian akhir).
 
-## 2. What was produced
-| Path | Purpose |
+## 2. Yang dihasilkan
+| Path | Fungsi |
 |---|---|
-| `tb/mem/bank_model.py` | Golden model: XOR-group bank scheme, offset assignment, lane grouping, and the exact address-generation arithmetic factored out of `rtl/ntt/ntt_core.sv` |
-| `scripts/build/gen_bank_map.py` | Runs the exhaustive conflict-freedom proof; generates `rtl/mem/bank_map_rom.sv` from the golden model (never hand-typed) |
-| `rtl/mem/bank_map_rom.sv` | Generated ROM: `addr -> (bank, offset)` for NUM_BANKS ∈ {1,2,4,8} |
-| `rtl/mem/poly_mem_banked.sv` | Banked polynomial memory (generic NUM_BANKS; only NUM_BANKS=1 exercised/tested this phase) |
-| `rtl/mem/ntt_core_c1.sv` | Configuration C1: C0's FSM/butterfly/twiddle-ROM unchanged, memory swapped for the banked version at NUM_BANKS=1 |
-| `tb/mem/test_bank_map.py` | cocotb, exhaustive (256/256 addresses) vs `tb/mem/bank_model.py`, all 4 L values |
-| `tb/mem/test_ntt_core_c1.py` | cocotb regression: bit-exact + cycle-exact (== C0) vs `tb/golden/primitives.py` |
-| `tb/mem/run_mem_tests.py` | Runs all Phase 2 cocotb tests against one simulator |
-| `formal/phase02-mem/bank_map_props.sv`, `bank_map_safety.sby` | Formal own-pair proof on the actual ROM (L=8) |
-| `formal/phase02-mem/ntt_core_c1_formal_top.sv`, `ntt_core_c1_safety.sby` | Formal FSM-safety re-proof on `ntt_core_c1` |
-| `quartus/phase02_mem_c1/` | Quartus project for C1 (same virtual-pin methodology and provisional clock as C0) |
-| `evidence/phase02/test_plan.md` | CRG-4 test plan, written before any test code |
-| `evidence/phase02/bank_map_spec.md` | Bank-mapping scheme specification and rationale |
-| `evidence/phase02/bank_scheme_exploration.txt` | Raw exhaustive-proof log |
-| `evidence/phase02/formal_bank_map.txt`, `formal_ntt_core_c1_safety.txt` | Raw SymbiYosys logs |
-| `evidence/phase02/cocotb_regression.txt` | Raw cocotb pass/fail + cycle-count log, both simulators |
-| `evidence/quartus/C1.md` | Standard fitter/STA summary extract |
-| `evidence/phase02/quartus_C1_vs_C0.md` | C1 vs C0 comparison, worst-path re-check, honest M10K finding |
+| `tb/mem/bank_model.py` | Model acuan: skema bank grup-XOR, penetapan offset, pengelompokan lane, dan aritmetika pembangkit alamat persis yang diambil dari `rtl/ntt/ntt_core.sv` |
+| `scripts/build/gen_bank_map.py` | Menjalankan bukti bebas-konflik menyeluruh; membangkitkan `rtl/mem/bank_map_rom.sv` dari model acuan (tidak pernah diketik tangan) |
+| `rtl/mem/bank_map_rom.sv` | ROM yang dibangkitkan: `addr -> (bank, offset)` untuk NUM_BANKS ∈ {1,2,4,8} |
+| `rtl/mem/poly_mem_banked.sv` | Memori polinomial berbank (NUM_BANKS generik; hanya NUM_BANKS=1 yang dijalankan/diuji pada fase ini) |
+| `rtl/mem/ntt_core_c1.sv` | Konfigurasi C1: FSM/butterfly/ROM twiddle C0 tidak berubah, memori diganti dengan versi berbank pada NUM_BANKS=1 |
+| `tb/mem/test_bank_map.py` | cocotb, menyeluruh (256/256 alamat) terhadap `tb/mem/bank_model.py`, keempat nilai L |
+| `tb/mem/test_ntt_core_c1.py` | Regresi cocotb: bit-exact + siklus-exact (== C0) terhadap `tb/golden/primitives.py` |
+| `tb/mem/run_mem_tests.py` | Menjalankan semua tes cocotb Fase 2 pada satu simulator |
+| `formal/phase02-mem/bank_map_props.sv`, `bank_map_safety.sby` | Bukti formal pasangan-sendiri pada ROM sebenarnya (L=8) |
+| `formal/phase02-mem/ntt_core_c1_formal_top.sv`, `ntt_core_c1_safety.sby` | Bukti ulang formal keselamatan FSM pada `ntt_core_c1` |
+| `quartus/phase02_mem_c1/` | Proyek Quartus untuk C1 (metodologi pin virtual dan clock sementara yang sama seperti C0) |
+| `evidence/phase02/test_plan.md` | Rencana tes CRG-4, ditulis sebelum kode tes apa pun |
+| `evidence/phase02/bank_map_spec.md` | Spesifikasi skema pemetaan bank dan alasannya |
+| `evidence/phase02/bank_scheme_exploration.txt` | Log mentah bukti menyeluruh |
+| `evidence/phase02/formal_bank_map.txt`, `formal_ntt_core_c1_safety.txt` | Log mentah SymbiYosys |
+| `evidence/phase02/cocotb_regression.txt` | Log mentah lulus/gagal cocotb + jumlah siklus, kedua simulator |
+| `evidence/quartus/C1.md` | Ekstrak ringkasan fitter/STA standar |
+| `evidence/phase02/quartus_C1_vs_C0.md` | Perbandingan C1 lawan C0, pemeriksaan ulang jalur terburuk, temuan M10K yang jujur |
 
-## 3. Numbers (each labelled MEASURED, ESTIMATE, or cited [n])
-| Quantity | C0 | C1 | Evidence |
+## 3. Angka (masing-masing berlabel MEASURED, ESTIMATE, atau kutipan [n])
+| Besaran | C0 | C1 | Evidence |
 |---|---|---|---|
 | ALM | 7,010 / 41,910 | 6,749 / 41,910 | MEASURED, `evidence/phase02/quartus_C1_vs_C0.md` |
-| Registers | 3,104 | 3,105 | MEASURED, same |
-| RAM Blocks (M10K) | 0 / 553 | 0 / 553 | MEASURED, same (M10K goal not achieved -- Section 5) |
-| DSP | 3 / 112 | 3 / 112 | MEASURED, same |
-| Fmax (Slow 100C) | 14.64 MHz | 14.99 MHz | MEASURED, same |
-| Worst setup slack @ 20.000 ns | -48.323 ns | -46.720 ns | MEASURED, same |
-| NTT / INTT cycles (simulation) | 897 / 1153 | 897 / 1153 (identical) | MEASURED (simulation), `evidence/phase02/cocotb_regression.txt` |
-| Bank-map conflict-freedom, all L∈{1,2,4,8} | n/a | 0 collisions (exhaustive + formal) | MEASURED, `evidence/phase02/bank_scheme_exploration.txt` |
+| Register | 3,104 | 3,105 | MEASURED, sama |
+| Blok RAM (M10K) | 0 / 553 | 0 / 553 | MEASURED, sama (tujuan M10K tidak tercapai -- Bagian 5) |
+| DSP | 3 / 112 | 3 / 112 | MEASURED, sama |
+| Fmax (Slow 100C) | 14.64 MHz | 14.99 MHz | MEASURED, sama |
+| Worst setup slack @ 20.000 ns | -48.323 ns | -46.720 ns | MEASURED, sama |
+| Siklus NTT / INTT (simulasi) | 897 / 1153 | 897 / 1153 (identik) | MEASURED (simulasi), `evidence/phase02/cocotb_regression.txt` |
+| Bebas-konflik peta bank, semua L∈{1,2,4,8} | n/a | 0 tabrakan (menyeluruh + formal) | MEASURED, `evidence/phase02/bank_scheme_exploration.txt` |
 
-## 4. Standards and sources pinned
-No new FIPS 203 reading this phase; no parameter or algorithm touched (`check_params.py` still
-passes). Toolchain identical to Phase 1 (OSS CAD Suite `2026-09-23`, Quartus 25.1std.0 Build 1129).
+## 4. Standar dan sumber yang dipatok
+Tidak ada pembacaan FIPS 203 baru pada fase ini; tidak ada parameter atau algoritma yang disentuh (`check_params.py` tetap
+lulus). Toolchain identik dengan Fase 1 (OSS CAD Suite `2026-09-23`, Quartus 25.1std.0 Build 1129).
 
-## 5. Coverage and limits
-- M10K was NOT used, despite the phase's own title ("M10K polynomial storage"). Measured 0/553
-  RAM blocks, identical to C0. Root cause (from the Quartus log, not a guess): both `poly_mem.sv`
-  and `poly_mem_banked.sv` use asynchronous (combinational) reads, and Quartus's RAM inference
-  requires a synchronous read to map to M10K. This is a genuine, honestly-reported gap relative
-  to the phase's stated goal, not something the roadmap's own PASS criteria happen to require
-  fixing this phase -- see `evidence/phase02/quartus_C1_vs_C0.md` Section 4
-  for the full explanation and why it was not silently patched.
-- Only NUM_BANKS=1 is built into a tested, measured datapath. `rtl/mem/poly_mem_banked.sv`
-  compiles (lint-clean) for NUM_BANKS∈{2,4,8}, and `rtl/mem/bank_map_rom.sv`'s address function is
-  exhaustively proven conflict-free for all four L values -- but the multi-bank read/write
-  crossbar for L>1 has no cocotb test and was not measured by Quartus this phase. Building and
-  measuring the actual L-lane datapath is Phase 3 scope.
-- Timing is still not met (same root cause as C0, `modmul_reduce.sv`'s inferred divider,
-  untouched this phase) -- the ~1.6 ns slack improvement is attributed to routing/placement
-  differences around the swapped memory, not to any timing fix.
-- Phase 1's own gate (Approval ticked) was not met when this phase started -- see the process
-  note at the top of this file.
-- Target-clock ADR still does not exist (inherited from Phase 1, still open).
-- Reduction method, formal liveness scope, and address-range argument: same caveats as Phase 1
-  (`docs/results/phase01.md` Section 5), unchanged this phase.
+## 5. Cakupan dan batas
+- M10K TIDAK dipakai, meskipun judul fase ini sendiri ("penyimpanan polinomial M10K"). Terukur 0/553
+  blok RAM, identik dengan C0. Akar masalah (dari log Quartus, bukan dugaan): baik `poly_mem.sv`
+  maupun `poly_mem_banked.sv` memakai pembacaan asinkron (kombinasional), dan inferensi RAM Quartus
+  memerlukan pembacaan sinkron agar dipetakan ke M10K. Ini celah yang nyata dan dilaporkan jujur terhadap
+  tujuan fase yang dinyatakan, bukan sesuatu yang kriteria PASS roadmap sendiri wajibkan
+  diperbaiki pada fase ini -- lihat `evidence/phase02/quartus_C1_vs_C0.md` Bagian 4
+  untuk penjelasan lengkap dan alasan mengapa hal ini tidak ditambal diam-diam.
+- Hanya NUM_BANKS=1 yang dibangun menjadi datapath teruji dan terukur. `rtl/mem/poly_mem_banked.sv`
+  dapat dikompilasi (lint bersih) untuk NUM_BANKS∈{2,4,8}, dan fungsi alamat `rtl/mem/bank_map_rom.sv`
+  terbukti bebas-konflik secara menyeluruh untuk keempat nilai L -- tetapi crossbar baca/tulis multi-bank
+  untuk L>1 tidak punya tes cocotb dan tidak diukur Quartus pada fase ini. Membangun dan
+  mengukur datapath L-lane yang sebenarnya adalah cakupan Fase 3.
+- Timing masih tidak terpenuhi (akar masalah sama dengan C0, pembagi hasil inferensi `modmul_reduce.sv`,
+  tidak disentuh pada fase ini) -- perbaikan slack sekitar 1.6 ns dikaitkan dengan perbedaan routing/penempatan
+  di sekitar memori yang diganti, bukan perbaikan timing apa pun.
+- Gerbang Fase 1 sendiri (Persetujuan dicentang) belum terpenuhi saat fase ini dimulai -- lihat catatan
+  proses di bagian atas file ini.
+- ADR clock target masih belum ada (diwarisi dari Fase 1, masih terbuka).
+- Metode reduksi, cakupan liveness formal, dan argumen rentang alamat: catatan yang sama seperti Fase 1
+  (`docs/results/phase01.md` Bagian 5), tidak berubah pada fase ini.
 
-## 6. Deviations, failures and open issues
-- No RTL bug was found or fixed this phase. The two "generate a ROM function with output
-  arguments" attempts that failed under Icarus Verilog (SV `function` with `output` ports is not
-  accepted by Icarus) and the "`module X import pkg::*; #(...)`" header syntax that Yosys's
-  `read -formal` rejected (same issue Phase 1 hit and fixed the same way) were both caught by
-  lint/formal runs immediately and fixed in the generator/RTL before any test was declared
-  passing -- not discovered later.
-- Tooling mistake, disclosed: during the Quartus C1 compile, the working directory
-  (`db/`, `incremental_db/`) was accidentally deleted while `quartus_fit` was still running,
-  corrupting that compile (`Fitter Status: Failed`). The directory was cleaned and the compile
-  re-run from scratch; the MEASURED numbers in this document are from the clean re-run. No
-  corrupted output was used as evidence anywhere.
-- CRG-9 (Quartus) is FAIL for the same substantive reason as Phase 1 (timing not met at the
-  provisional clock); this is expected, not a surprise, since Phase 2 did not touch arithmetic.
+## 6. Penyimpangan, kegagalan, dan masalah terbuka
+- Tidak ada bug RTL yang ditemukan atau diperbaiki pada fase ini. Dua percobaan "membangkitkan fungsi ROM dengan
+  argumen keluaran" yang gagal di Icarus Verilog (`function` SV dengan port `output` tidak
+  diterima Icarus) dan sintaks header "`module X import pkg::*; #(...)`" yang ditolak oleh
+  `read -formal` Yosys (masalah yang sama dengan Fase 1, diperbaiki dengan cara yang sama) keduanya tertangkap oleh
+  lint/formal seketika dan diperbaiki di generator/RTL sebelum tes apa pun dinyatakan
+  lulus -- bukan ditemukan belakangan.
+- Kesalahan perkakas, diungkapkan: saat kompilasi Quartus C1, direktori kerja
+  (`db/`, `incremental_db/`) tidak sengaja terhapus saat `quartus_fit` masih berjalan,
+  merusak kompilasi itu (`Fitter Status: Failed`). Direktori dibersihkan dan kompilasi
+  dijalankan ulang dari awal; angka MEASURED dalam dokumen ini berasal dari jalankan ulang yang bersih. Tidak ada
+  keluaran rusak yang dipakai sebagai evidence di mana pun.
+- CRG-9 (Quartus) FAIL karena alasan substantif yang sama dengan Fase 1 (timing tidak terpenuhi pada
+  clock sementara); ini diharapkan, bukan kejutan, karena Fase 2 tidak menyentuh aritmetika.
 
-## 7. Decisions needed
-- Everything already open from Phase 1 (`docs/results/phase01.md` Section 7): target-clock
-  ADR, how to read CRG-9, `QUARTUS_BIN` in `scripts/tooling.env`.
-- New: whether to pursue synchronous-read M10K mapping (a scheduling change) in a later
-  phase, given it was not required by Phase 2's own PASS criteria but was the phase's stated
-  goal.
-- New: whether starting Phase 2 before Phase 1's Approval box was ticked is acceptable
-  process for this team, or whether Phase 1 needs to be formally approved (or explicitly
-  superseded) before Phase 3 starts.
+## 7. Keputusan yang diperlukan
+- Semua yang sudah terbuka dari Fase 1 (`docs/results/phase01.md` Bagian 7): ADR clock
+  target, cara membaca CRG-9, `QUARTUS_BIN` di `scripts/tooling.env`.
+- Baru: apakah akan mengejar pemetaan M10K pembacaan-sinkron (perubahan penjadwalan) pada fase
+  berikutnya, mengingat hal itu tidak diwajibkan kriteria PASS Fase 2 sendiri tetapi merupakan tujuan
+  fase yang dinyatakan.
+- Baru: apakah memulai Fase 2 sebelum kotak Persetujuan Fase 1 dicentang dapat diterima sebagai
+  proses bagi tim ini, atau Fase 1 perlu disetujui secara formal (atau digantikan secara eksplisit)
+  sebelum Fase 3 dimulai.
 
-## 8. Claims made in this phase
-None written for judges/proposal text. `docs/ROADMAP.md`'s C1 ablation row was filled from the
-evidence above; no proposal number was invented.
+## 8. Klaim yang dibuat pada fase ini
+Tidak ada yang ditulis untuk juri/teks proposal. Baris ablasi C1 di `docs/ROADMAP.md` diisi dari
+evidence di atas; tidak ada angka proposal yang dikarang.
 
-## 9. Reproduce
+## 9. Mereproduksi
 ```bash
 # from repo root, branch phase2-memory-banking
 . scripts/env.sh
@@ -163,12 +163,12 @@ python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase02.m
 python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal
 ```
 
-## 10. Approval
-- [x] Human approver (name, date): Faza Dzil, 2026-09-29
-      Next phase starts only after a team member ticks this box. Given CRG-9 is FAIL, approving
-      this PARTIAL status means the team explicitly accepts the process deviation noted at the
-      top of this file (Phase 2 started before Phase 1's own box was ticked), not just this
-      phase's own numbers. Phase 1's box was ticked the same day, after the fact.
+## 10. Persetujuan
+- [x] Penyetuju manusia (nama, tanggal): Faza Dzil, 2026-09-29
+      Fase berikutnya dimulai hanya setelah anggota tim mencentang kotak ini. Mengingat CRG-9 FAIL, menyetujui
+      status PARTIAL ini berarti tim secara eksplisit menerima penyimpangan proses yang dicatat di
+      bagian atas file ini (Fase 2 dimulai sebelum kotak Fase 1 sendiri dicentang), bukan hanya angka
+      fase ini. Kotak Fase 1 dicentang pada hari yang sama, setelah kejadian.
 
-## Status update (2026-10-05)
-The team set this phase to DONE because its goals are met by the final phases: the later configurations meet timing (40 ns at 6 of 6 seeds, and 15 ns for the Phase 9M core, `docs/results/phase9m.md`). The measurements of this phase are unchanged (slack and ALM figures above stay as measured). CRG-9 reads "no negative slack or the failure documented"; the failure is documented in the evidence named in its row. The Approval box above was ticked earlier and is not edited.
+## Pembaruan status (2026-10-05)
+Tim menetapkan fase ini DONE karena tujuannya dipenuhi oleh fase-fase akhir: konfigurasi berikutnya memenuhi timing (40 ns pada 6 dari 6 seed, dan 15 ns untuk inti Fase 9M, `docs/results/phase9m.md`). Pengukuran fase ini tidak berubah (angka slack dan ALM di atas tetap sebagaimana terukur). CRG-9 berbunyi "tidak ada slack negatif atau kegagalan didokumentasikan"; kegagalan itu didokumentasikan pada evidence yang disebut di barisnya. Kotak Persetujuan di atas dicentang sebelumnya dan tidak diedit.

@@ -43,7 +43,7 @@ Jadwal lomba belum diketahui.
   simulasi/papan di repository ini, dengan path-nya) atau berlabel `ESTIMATE` beserta metode dan asumsinya. Angka dari literatur hanya konteks.
 - Gerbang gagal = berhenti. Jangan lanjut setelah gerbang gagal. Tulis file hasil dengan Status `NOT DONE` atau `PARTIAL`,
   catat kegagalan dan path lognya, lalu tanyakan ke tim. Jangan melemahkan test, toleransi, assertion, atau batasan timing agar lolos.
-- Setiap fase berakhir dengan file hasil `docs/results/phase<NN>.md` (templat `docs/results/TEMPLATE.md`), divalidasi oleh
+- Setiap fase berakhir dengan file hasil `docs/results/phase<NN>.md`, divalidasi oleh
   `python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase<NN>.md`.
 - Bukti fase N ada di `evidence/phaseNN/` (Fase 5M di `evidence/phase05m/`, Fase 9M di `evidence/phase9m/`).
 
