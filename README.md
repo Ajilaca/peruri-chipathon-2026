@@ -118,8 +118,8 @@ Struktur test: [tb/](tb/README.md). Properti formal dan batasnya: [formal/](form
 
 ## Dokumentasi
 
+- [Keputusan desain aktif](docs/decisions/decision_summary.md), ringkasan semua ADR: [SUMMARY.md](docs/decisions/SUMMARY.md)
 - [Evidence per fase](evidence/README.md)
-- [Evidence per fase](docs/evidence/README.md)
 - [Laporan PDF](docs/reports/README.md), laporan lengkap: [CHIPATON_COMPLETE_REPORT.pdf](docs/reports/CHIPATON_COMPLETE_REPORT.pdf)
 - [Quartus Outputs](https://drive.google.com/drive/folders/10K6DFZt6R8QQfE4S6NYVbSmj5wOPOBIW?usp=sharing)
 
