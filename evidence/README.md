@@ -5,4 +5,4 @@ Tata letak: `phase00` (model acuan, KAT), `phase01` ... `phase09` (satu folder p
 Bukti mentah atau hasil ekstrak di balik setiap angka MEASURED: ekstrak Quartus (`quartus/`), log golden/KAT (`golden/`),
 tangkapan SignalTap, log papan. Setiap file menyebut apa yang menghasilkannya dan kapan. Tidak ada yang diketik tangan.
 
-Setiap folder fase punya `README.md` singkat (tujuan, yang diuji, alat, hasil utama, file penting). Indeks: [../docs/evidence/README.md](../docs/evidence/README.md).
+Setiap folder fase punya `README.md` singkat (tujuan, yang diuji, alat, hasil utama, file penting).
