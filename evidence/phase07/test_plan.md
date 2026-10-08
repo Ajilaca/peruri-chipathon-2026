@@ -1,92 +1,92 @@
 <!-- claim-lint: skip-file (internal test plan, not proposal text) -->
-# Phase 7: Keccak-f[1600] + SHA3/SHAKE baseline (K0) - test plan
+# Fase 7: Keccak-f[1600] + baseline SHA3/SHAKE (K0) - test plan
 
-Written 2026-10-03, **before the Phase 7 golden model, before any Phase 7 RTL and before any Phase 7 measurement** (CRG-4). Scope: `docs/ROADMAP.md` Phase 7; ADR 0019 (minimal path, single compile
-for a new block without an adoption rule); ADR 0025 (S10 is the NTT/INTT core; not touched in this phase). Labels: MEASURED, INFERENCE, ESTIMATE, NOT MEASURED, perhitungan tim.
-Standards: FIPS 202 (Keccak-p, sponge, SHA3-256, SHA3-512, SHAKE128, SHAKE256) as used by FIPS 203 (H, J, G, PRF, XOF). The mathematics is locked (C1): nothing here changes a hash function.
+Ditulis 2026-10-03, sebelum model golden Fase 7, sebelum RTL Fase 7 apa pun, dan sebelum pengukuran Fase 7 apa pun (CRG-4). Lingkup: `docs/ROADMAP.md` Fase 7; ADR 0019 (jalur minimal, satu kompilasi
+untuk blok baru tanpa aturan adopsi); ADR 0025 (S10 adalah inti NTT/INTT; tidak disentuh di fase ini). Label: MEASURED, INFERENCE, ESTIMATE, NOT MEASURED, perhitungan tim.
+Standar: FIPS 202 (Keccak-p, sponge, SHA3-256, SHA3-512, SHAKE128, SHAKE256) sebagaimana dipakai FIPS 203 (H, J, G, PRF, XOF). Matematika terkunci (C1): tidak ada di sini yang mengubah fungsi hash.
 
-## 1. What is built
-| Block (new files) | Function |
+## 1. Apa yang dibangun
+| Blok (file baru) | Fungsi |
 |---|---|
-| `tb/golden/keccak.py` | Golden Keccak independent of the RTL: state as 25 lanes of 64 bit (index x + 5y), the five step maps θ, ρ, π, χ, ι per FIPS 202, round constants computed by the rc(t) LFSR (FIPS 202 Alg. 5) and ρ offsets by Alg. 2 (not typed in), `keccak_round`, `keccak_f1600`, a per-round trace, `sponge(rate, ds, msg, outlen)` with pad10*1, and the four functions |
-| `scripts/build/gen_keccak_consts.py` | Generates `rtl/keccak/keccak_consts_pkg.sv` (24 round constants, 25 ρ offsets) from the golden model; `--check` regenerates byte for byte |
-| `rtl/keccak/keccak_round.sv` | One combinational round θ → ρ → π → χ → ι on 1600 bits, round constant as input |
-| `rtl/keccak/keccak_f1600.sv` | State register (1600 FF), round counter 0..23, **one round per cycle, exactly 24 cycles per permutation** (no early exit, no data-dependent condition); a lane-XOR port (absorb), a lane-read port (squeeze), a clear |
-| `rtl/keccak/keccak_sponge.sv` | Sponge controller and Quartus top of K0: modes, absorb in 64-bit words, padding in hardware, squeeze in 64-bit words |
+| `tb/golden/keccak.py` | Keccak golden independen dari RTL: state sebagai 25 lane 64 bit (indeks x + 5y), kelima step map θ, ρ, π, χ, ι menurut FIPS 202, konstanta ronde dihitung oleh LFSR rc(t) (FIPS 202 Alg. 5) dan offset ρ oleh Alg. 2 (tidak diketik), `keccak_round`, `keccak_f1600`, jejak per ronde, `sponge(rate, ds, msg, outlen)` dengan pad10*1, dan keempat fungsi |
+| `scripts/build/gen_keccak_consts.py` | Membangkitkan `rtl/keccak/keccak_consts_pkg.sv` (24 konstanta ronde, 25 offset ρ) dari model golden; `--check` membangkitkan ulang byte demi byte |
+| `rtl/keccak/keccak_round.sv` | Satu ronde kombinasional θ → ρ → π → χ → ι pada 1600 bit, konstanta ronde sebagai masukan |
+| `rtl/keccak/keccak_f1600.sv` | Register state (1600 FF), counter ronde 0..23, satu ronde per siklus, tepat 24 siklus per permutasi (tanpa keluar dini, tanpa kondisi bergantung data); port XOR-lane (absorb), port baca-lane (squeeze), clear |
+| `rtl/keccak/keccak_sponge.sv` | Pengendali sponge dan top Quartus K0: mode, absorb dalam word 64-bit, padding di perangkat keras, squeeze dalam word 64-bit |
 
-Interface of `keccak_sponge` (fixed here so tests and RTL are written against one contract):
-- `start_i` with `mode_i[1:0]` (0 SHA3-256, 1 SHA3-512, 2 SHAKE128, 3 SHAKE256) and `len_i[15:0]` (message length in bytes, public). Accepted in IDLE; clears the state.
-- Input: `in_valid_i`, `in_ready_o`, `in_data_i[63:0]`. Exactly ceil(len / 8) words are taken; byte k of a word (bits 8k+7..8k) is message byte 8w + k (FIPS 202 lane byte order). Bytes past `len` in the last word are ignored.
-- Output: `out_valid_o`, `out_ready_i`, `out_data_o[63:0]` (same byte order), `out_last_o` on the last digest word of SHA3-256 (4 words) and SHA3-512 (8 words), then IDLE. SHAKE squeezes without end
-  (a new block every rate words) until `stop_i`.
-- `stop_i`: back to IDLE from any state on the next cycle (ends a SHAKE stream). `busy_o`, and a permutation counter `perm_cnt_o` (test and evidence only).
-- Rates (bytes / 64-bit words): SHA3-256 136 / 17, SHA3-512 72 / 9, SHAKE128 168 / 21, SHAKE256 136 / 17. Domain bytes: 0x06 (SHA3), 0x1F (SHAKE); final bit 0x80 at byte rate − 1.
-- Padding: after the last message word the domain byte is XORed at byte `len mod rate` of the final block and 0x80 at byte rate − 1 (one byte 0x86 when `len mod rate = rate − 1`). When `len` is a multiple of the
-  rate (including 0) the final block holds only padding. Absorb permutations = floor(len / rate) + 1 for every length.
+Antarmuka `keccak_sponge` (ditetapkan di sini agar test dan RTL ditulis terhadap satu kontrak):
+- `start_i` dengan `mode_i[1:0]` (0 SHA3-256, 1 SHA3-512, 2 SHAKE128, 3 SHAKE256) dan `len_i[15:0]` (panjang pesan dalam byte, publik). Diterima di IDLE; menghapus state.
+- Masukan: `in_valid_i`, `in_ready_o`, `in_data_i[63:0]`. Tepat ceil(len / 8) word diambil; byte k sebuah word (bit 8k+7..8k) adalah byte pesan 8w + k (urutan byte lane FIPS 202). Byte melewati `len` di word terakhir diabaikan.
+- Keluaran: `out_valid_o`, `out_ready_i`, `out_data_o[63:0]` (urutan byte sama), `out_last_o` pada word digest terakhir SHA3-256 (4 word) dan SHA3-512 (8 word), lalu IDLE. SHAKE melakukan squeeze tanpa akhir
+  (blok baru setiap rate word) sampai `stop_i`.
+- `stop_i`: kembali ke IDLE dari state mana pun pada siklus berikutnya (mengakhiri aliran SHAKE). `busy_o`, dan counter permutasi `perm_cnt_o` (hanya test dan evidence).
+- Rate (byte / word 64-bit): SHA3-256 136 / 17, SHA3-512 72 / 9, SHAKE128 168 / 21, SHAKE256 136 / 17. Byte domain: 0x06 (SHA3), 0x1F (SHAKE); bit akhir 0x80 pada byte rate − 1.
+- Padding: setelah word pesan terakhir byte domain di-XOR pada byte `len mod rate` blok akhir dan 0x80 pada byte rate − 1 (satu byte 0x86 bila `len mod rate = rate − 1`). Bila `len` adalah kelipatan
+  rate (termasuk 0) blok akhir hanya memuat padding. Permutasi absorb = floor(len / rate) + 1 untuk setiap panjang.
 
-## 2. Golden model first (V2)
-`tb/golden/tests/test_keccak.py` (pytest) compares `tb/golden/keccak.py` with Python `hashlib` (sha3_256, sha3_512, shake_128, shake_256):
-every length 0 .. 3·rate + 1 per mode, the ML-KEM-768 input lengths 32, 33, 34, 64, 1120, 1184, 50 random lengths up to 2,000 bytes; SHAKE output lengths 0 .. 3·rate + 1, 128 (PRF, η = 2), 504 and 840
-(SampleNTT streams); all-0x00 and all-0xFF messages. The per-round trace composed over 24 rounds must equal `keccak_f1600`. Only then is RTL written.
+## 2. Model golden lebih dulu (V2)
+`tb/golden/tests/test_keccak.py` (pytest) membandingkan `tb/golden/keccak.py` dengan `hashlib` Python (sha3_256, sha3_512, shake_128, shake_256):
+setiap panjang 0 .. 3·rate + 1 per mode, panjang masukan ML-KEM-768 32, 33, 34, 64, 1120, 1184, 50 panjang acak sampai 2,000 byte; panjang keluaran SHAKE 0 .. 3·rate + 1, 128 (PRF, η = 2), 504 dan 840
+(aliran SampleNTT); pesan semua-0x00 dan semua-0xFF. Jejak per ronde yang disusun atas 24 ronde harus sama dengan `keccak_f1600`. Baru setelah itu RTL ditulis.
 
-## 3. Corner cases (enumerated before the tests)
-- Permutation: all-zero state; all-ones state; each single-bit state (1,600 states); 200 random states; a chain (output fed back as input, 10 times). Every round compared, not only the final state.
-- Round constants: all 24 rounds reached in every permutation (ι is the only round-dependent step: an error in one constant shows only in that round's trace).
-- Message lengths per mode: 0, 1, 7, 8, 9 (word boundary), rate − 1, rate, rate + 1, 2·rate − 1, 2·rate, 2·rate + 1, 3·rate; ML-KEM lengths 32, 33, 34, 64, 1120, 1184; random lengths up to 1,200.
-- Last word: 0 (no words), 1..7 valid bytes, 8 valid bytes; garbage in the ignored bytes of the last word (must not change the digest).
-- Squeeze: SHA3 digests (4 and 8 words); SHAKE128 one block exactly (21 words), 22 words, 63 and 105 words (3 and 5 blocks); SHAKE256 16 words (PRF η = 2 output, 128 bytes), 4 words (J).
-- Back-to-back messages of different modes without reset; `stop_i` in the middle of absorb, during a permutation and during a SHAKE squeeze, then a new message (must be exact: the state is cleared at start).
-- Back-pressure: random gaps in `in_valid_i` and `out_ready_i` (digest bit-exact; cycle counts are not compared in these runs).
-- Reset in the middle of a message; `start_i` while busy is ignored.
+## 3. Kasus sudut (didaftar sebelum test)
+- Permutasi: state semua-nol; state semua-satu; setiap state satu-bit (1,600 state); 200 state acak; rantai (keluaran diumpan balik sebagai masukan, 10 kali). Setiap ronde dibandingkan, bukan hanya state akhir.
+- Konstanta ronde: ke-24 ronde dicapai di setiap permutasi (ι adalah satu-satunya step yang bergantung ronde: kesalahan satu konstanta hanya tampak di jejak ronde itu).
+- Panjang pesan per mode: 0, 1, 7, 8, 9 (batas word), rate − 1, rate, rate + 1, 2·rate − 1, 2·rate, 2·rate + 1, 3·rate; panjang ML-KEM 32, 33, 34, 64, 1120, 1184; panjang acak sampai 1,200.
+- Word terakhir: 0 (tanpa word), 1..7 byte valid, 8 byte valid; sampah di byte yang diabaikan word terakhir (tidak boleh mengubah digest).
+- Squeeze: digest SHA3 (4 dan 8 word); SHAKE128 tepat satu blok (21 word), 22 word, 63 dan 105 word (3 dan 5 blok); SHAKE256 16 word (keluaran PRF η = 2, 128 byte), 4 word (J).
+- Pesan beruntun dengan mode berbeda tanpa reset; `stop_i` di tengah absorb, selama permutasi, dan selama squeeze SHAKE, lalu pesan baru (harus tepat: state dihapus saat start).
+- Back-pressure: jeda acak di `in_valid_i` dan `out_ready_i` (digest bit-exact; jumlah siklus tidak dibandingkan di run ini).
+- Reset di tengah pesan; `start_i` saat sibuk diabaikan.
 
-## 4. Tests
-| ID | Check | Tool | Required |
+## 4. Test
+| ID | Pemeriksaan | Alat | Disyaratkan |
 |---|---|---|---|
-| V1 | Lint of every new module (CRG-1, CRG-2) | Verilator `-Wall`, slang | 0 warnings, 0 errors |
-| V2 | Golden Keccak equals `hashlib` (section 2) | pytest `tb/golden/tests/test_keccak.py` | all equal |
-| V3 | Constants package generated from the golden model, regenerated byte for byte | `scripts/build/gen_keccak_consts.py --check` | 0 differences |
-| V4 | `keccak_f1600`: permutation corner cases of section 3, state after **every round** equal to the golden trace; done exactly 24 cycles after start for every state | cocotb `tb/keccak/test_keccak_f1600.py`, both simulators (CRG-3) | all equal; latency 24 in every run |
-| V5 | `keccak_sponge`: all four modes, every length and squeeze case of section 3, against `hashlib` and the golden sponge; `perm_cnt_o` equal to the golden number of permutations | cocotb `tb/keccak/test_keccak_sponge.py`, both simulators | all equal |
-| V6 | Constant cycles (CRG-7): for each mode, length and output length, three messages (random, all-0x00, all-0xFF) with no back-pressure give identical cycle counts; cycles recorded as a table and as a formula in `len` and output words | cocotb (same test, cycle log `cycles_k0.json`) | identical per (mode, len, out); formula matches every logged point |
-| V7 | Negative controls (test-only copies): NC-RC one bit of one round constant wrong; NC-PAD SHA3 domain byte 0x1F instead of 0x06; NC-R 23 rounds | cocotb | bit-exact checks FAIL (NC-R also fails the latency check) |
-| V8 | Formal (CRG-8) on the sponge with the permutation: K1 round counter in 0..23 and a permutation lasts exactly 24 cycles; K2 no input word accepted and no state XOR during a permutation; K3 absorb and squeeze lane index < rate words of the mode; K4 `out_valid_o` stays high with stable data until `out_ready_i`; K5 legal FSM state, `stop_i` reaches IDLE in one cycle. Controls: NC-K1 (23 rounds) and NC-K4 (valid dropped without ready) must FAIL | SymbiYosys | PASS; controls FAIL |
-| V9 | Locked parameters (CRG-6) and regression (CRG-5) | `check_params.py`; Phase 0-6 scripts only if an existing RTL or test file is modified (Phase 5M Amendment A1); `git diff --name-status` as evidence | PASS / not required |
-| V10 | Quartus (CRG-9): revision `K0` (top `keccak_sponge`, kernel-only, virtual pins), 40.000 ns, seed 1 (ADR 0019); information revision `K0-20` at 20.000 ns, seed 1. One revision at a time | `quartus_sh`, `/quartus-report` | evidence extracted; timing met or the failure documented |
+| V1 | Lint setiap modul baru (CRG-1, CRG-2) | Verilator `-Wall`, slang | 0 peringatan, 0 error |
+| V2 | Keccak golden sama dengan `hashlib` (bagian 2) | pytest `tb/golden/tests/test_keccak.py` | semua sama |
+| V3 | Paket konstanta dibangkitkan dari model golden, dibangkitkan ulang byte demi byte | `scripts/build/gen_keccak_consts.py --check` | 0 selisih |
+| V4 | `keccak_f1600`: kasus sudut permutasi bagian 3, state setelah setiap ronde sama dengan jejak golden; done tepat 24 siklus setelah start untuk setiap state | cocotb `tb/keccak/test_keccak_f1600.py`, kedua simulator (CRG-3) | semua sama; latensi 24 di setiap run |
+| V5 | `keccak_sponge`: keempat mode, setiap panjang dan kasus squeeze bagian 3, terhadap `hashlib` dan sponge golden; `perm_cnt_o` sama dengan jumlah permutasi golden | cocotb `tb/keccak/test_keccak_sponge.py`, kedua simulator | semua sama |
+| V6 | Siklus konstan (CRG-7): untuk setiap mode, panjang, dan panjang keluaran, tiga pesan (acak, semua-0x00, semua-0xFF) tanpa back-pressure memberi jumlah siklus identik; siklus dicatat sebagai tabel dan sebagai rumus dalam `len` dan word keluaran | cocotb (test sama, log siklus `cycles_k0.json`) | identik per (mode, len, out); rumus cocok dengan setiap titik yang dicatat |
+| V7 | Kontrol negatif (salinan khusus test): NC-RC satu bit satu konstanta ronde salah; NC-PAD byte domain SHA3 0x1F sebagai ganti 0x06; NC-R 23 ronde | cocotb | pemeriksaan bit-exact FAIL (NC-R juga gagal pada pemeriksaan latensi) |
+| V8 | Formal (CRG-8) pada sponge dengan permutasi: K1 counter ronde dalam 0..23 dan permutasi berlangsung tepat 24 siklus; K2 tidak ada word masukan diterima dan tidak ada XOR state selama permutasi; K3 indeks lane absorb dan squeeze < word rate mode; K4 `out_valid_o` tetap tinggi dengan data stabil sampai `out_ready_i`; K5 state FSM legal, `stop_i` mencapai IDLE dalam satu siklus. Kontrol: NC-K1 (23 ronde) dan NC-K4 (valid turun tanpa ready) harus FAIL | SymbiYosys | PASS; kontrol FAIL |
+| V9 | Parameter terkunci (CRG-6) dan regresi (CRG-5) | `check_params.py`; skrip Fase 0-6 hanya bila file RTL atau test yang ada dimodifikasi (Amandemen A1 Fase 5M); `git diff --name-status` sebagai evidence | PASS / tidak diperlukan |
+| V10 | Quartus (CRG-9): revisi `K0` (top `keccak_sponge`, kernel-only, virtual pin), 40.000 ns, seed 1 (ADR 0019); revisi informasi `K0-20` pada 20.000 ns, seed 1. Satu revisi sekali | `quartus_sh`, `/quartus-report` | evidence diekstrak; timing terpenuhi atau kegagalan didokumentasikan |
 
-## 5. Parameters recorded
-| Parameter | Source | Label |
+## 5. Parameter yang dicatat
+| Parameter | Sumber | Label |
 |---|---|---|
-| ALM, registers, M10K, DSP (fitter denominators quoted) | `K0` fit summary | MEASURED |
-| Fmax lowest slow corner, worst setup and hold slack (all corners), critical warnings triaged | `K0`, `K0-20` timing reports | MEASURED |
-| Cycles per permutation (must be 24) | V4 | MEASURED (simulation) |
-| Cycles per message per mode as a function of `len` and output words | V6 | MEASURED (simulation) |
-| Throughput (absorbed bytes per cycle per mode, at long lengths) and time per permutation at Fmax | computed from the two lines above | perhitungan tim |
-| Permutations per ML-KEM-768 KeyGen / Encaps / Decaps | golden model instrumentation (43-44 / 44-45 / 44-45 on three random seeds; SHAKE128 count depends on ρ, public) | perhitungan tim |
+| ALM, register, M10K, DSP (denominator fitter dikutip) | ringkasan fit `K0` | MEASURED |
+| Fmax slow corner terendah, slack setup dan hold terburuk (semua corner), peringatan kritis ditriase | laporan timing `K0`, `K0-20` | MEASURED |
+| Siklus per permutasi (harus 24) | V4 | MEASURED (simulasi) |
+| Siklus per pesan per mode sebagai fungsi `len` dan word keluaran | V6 | MEASURED (simulasi) |
+| Throughput (byte absorb per siklus per mode, pada panjang besar) dan waktu per permutasi pada Fmax | dihitung dari dua baris di atas | perhitungan tim |
+| Permutasi per KeyGen / Encaps / Decaps ML-KEM-768 | instrumentasi model golden (43-44 / 44-45 / 44-45 pada tiga seed acak; hitungan SHAKE128 bergantung ρ, publik) | perhitungan tim |
 
-## 6. PASS criteria (ROADMAP Phase 7) and expectation
-- PASS: V1-V9 as required; all modes bit-exact; fixed permutation latency of 24 cycles shown; Quartus evidence recorded; K0 row of ROADMAP filled. **No adoption rule**: K0 is a new block (a baseline), it
-  replaces nothing.
-- ESTIMATE (written before measuring; FSM assumed: one clear cycle, one word per cycle, one padding cycle, 24 cycles per permutation, one word per cycle out, no overlap of I/O with the permutation):
-  cycles(len, out_words) ≈ 1 + ceil(len / 8) + 1 + 24·(floor(len / rate) + 1) + out_words + 24·(ceil(out_words / rate_words) − 1). Example SHA3-256 of 1,184 bytes (H(ek)): 1 + 148 + 1 + 24·9 + 4 = 370 cycles.
-  The RTL may differ by a few transition cycles; the measured formula replaces this one (recorded, not tuned to match). Per ML-KEM-768 operation about 44 permutations × 24 ≈ 1,060 cycles of permutation
-  plus word I/O (perhitungan tim), against KeyGen arithmetic 5,475 cycles with S10 (MEASURED, simulation).
-- ESTIMATE resources: registers about 1,700-2,000 (1,600 state + control); ALM about 1,500-3,500 (method: θ column parities 320 bits, θ output 1,600 bits, χ 1,600 bits as 3-input functions, plus a 25-way 64-bit
-  read select and the sponge control; ALM packing by the fitter unknown); DSP 0; M10K 0 expected (the round-constant table could be inferred as a ROM block: reported, not assumed).
-- Fmax: INFERENCE, a round is a few LUT levels plus the input XOR and read select; expected not to be the system limit. Not a rule; 20 ns is information only.
+## 6. Kriteria PASS (ROADMAP Fase 7) dan harapan
+- PASS: V1-V9 seperti disyaratkan; semua mode bit-exact; latensi permutasi tetap 24 siklus ditunjukkan; evidence Quartus tercatat; baris K0 ROADMAP terisi. Tanpa aturan adopsi: K0 adalah blok baru (baseline), ia
+  tidak menggantikan apa pun.
+- ESTIMATE (ditulis sebelum mengukur; FSM diasumsikan: satu siklus clear, satu word per siklus, satu siklus padding, 24 siklus per permutasi, satu word per siklus keluar, tanpa tumpang tindih I/O dengan permutasi):
+  siklus(len, out_words) ≈ 1 + ceil(len / 8) + 1 + 24·(floor(len / rate) + 1) + out_words + 24·(ceil(out_words / rate_words) − 1). Contoh SHA3-256 1,184 byte (H(ek)): 1 + 148 + 1 + 24·9 + 4 = 370 siklus.
+  RTL dapat berbeda beberapa siklus transisi; rumus terukur menggantikan yang ini (dicatat, tidak disetel agar cocok). Per operasi ML-KEM-768 sekitar 44 permutasi × 24 ≈ 1,060 siklus permutasi
+  ditambah I/O word (perhitungan tim), terhadap aritmetika KeyGen 5,475 siklus dengan S10 (MEASURED, simulasi).
+- ESTIMATE sumber daya: register sekitar 1,700-2,000 (1,600 state + kendali); ALM sekitar 1,500-3,500 (metode: paritas kolom θ 320 bit, keluaran θ 1,600 bit, χ 1,600 bit sebagai fungsi 3-masukan, ditambah pemilih baca 64-bit 25-arah
+  dan kendali sponge; pengepakan ALM oleh fitter tidak diketahui); DSP 0; M10K 0 diharapkan (tabel konstanta ronde dapat diinferensi sebagai blok ROM: dilaporkan, tidak diasumsikan).
+- Fmax: INFERENCE, satu ronde adalah beberapa level LUT ditambah XOR masukan dan pemilih baca; diharapkan bukan batas sistem. Bukan aturan; 20 ns hanya informasi.
 
-## 7. Not allowed in this phase / not covered
-- Not allowed (ROADMAP): two rounds per cycle or unrolling; streaming samplers; connection to the Phase 6 arithmetic unit; overlap of I/O with the permutation.
-- Not covered: hardware (no board); seeds beyond 1; samplers, compression, encoding and FO (later phases). Constant-time here means cycle counts depend only on public lengths; it is not a side-channel claim.
+## 7. Tidak boleh di fase ini / tidak dicakup
+- Tidak boleh (ROADMAP): dua ronde per siklus atau unrolling; sampler streaming; koneksi ke unit aritmetika Fase 6; tumpang tindih I/O dengan permutasi.
+- Tidak dicakup: perangkat keras (tanpa papan); seed selain 1; sampler, kompresi, encoding, dan FO (fase berikutnya). Waktu-konstan di sini berarti jumlah siklus hanya bergantung pada panjang publik; ini bukan klaim side-channel.
 
-## Amendment A1 (2026-10-03, after the RTL and the first verification run; no threshold, rule or required result changed)
-Differences between this plan and what was built, recorded as found:
-- File name: the generated constants package is `rtl/keccak/keccak_pkg.sv` (functions `keccak_rc`, `keccak_rho`), not `keccak_consts_pkg.sv`; `scripts/build/gen_keccak_consts.py --check` is V3 as planned.
-- Section 5 / 6 ESTIMATE of cycles: the plan assumed 24 cycles per permutation. The controller needs 1 run cycle and 1 done cycle around the 24 busy cycles, so a permutation is 26 cycles there; the
-  measured formula and the H(ek) value (389 instead of about 370) are in `keccak_cycles.md`. The planned figure stays above as written; it is superseded, not edited. V4 still requires, and measures, exactly 24 busy cycles.
-- The state is also wiped on `stop_i`, on the last SHA3 digest word and on reset (hygiene: the state holds secret-dependent intermediate values); the plan only required clearing at start.
-- V8: NC-K4 runs as BMC to depth 40, not induction, because the squeeze phase is reached after about 30 cycles (the induction run on the mutant did not terminate in reasonable time). Properties and the required FAIL are unchanged.
-- First-run test fixes, all in the testbenches (the RTL was right): the digest-end check lowered `out_ready_i` before the clock edge (the last word was never accepted); the stop test asked for 1 output word from SHA3 (digests are 4 or 8 words);
-  the cycle log was deleted by the next build (file name now per test). The RTL had one change after the first verification: an enum ternary rewritten as if/else because Icarus rejected it. The whole verification and formal runs
-  in `verify.md` and `formal.md` are of the final RTL.
-- A wrong assertion of the golden test (24 distinct round constants) was corrected to the true value (22 distinct: rounds 5 and 22, and 6 and 20, share a value); all hashes equal hashlib.
+## Amandemen A1 (2026-10-03, setelah RTL dan run verifikasi pertama; tidak ada ambang, aturan, atau hasil yang disyaratkan berubah)
+Selisih antara rencana ini dan yang dibangun, dicatat apa adanya:
+- Nama file: paket konstanta yang dibangkitkan adalah `rtl/keccak/keccak_pkg.sv` (fungsi `keccak_rc`, `keccak_rho`), bukan `keccak_consts_pkg.sv`; `scripts/build/gen_keccak_consts.py --check` adalah V3 seperti direncanakan.
+- ESTIMATE siklus bagian 5 / 6: rencana mengasumsikan 24 siklus per permutasi. Pengendali butuh 1 siklus run dan 1 siklus done di sekitar 24 siklus sibuk, jadi satu permutasi adalah 26 siklus di sana; rumus
+  terukur dan nilai H(ek) (389 bukan sekitar 370) ada di `keccak_cycles.md`. Angka yang direncanakan tetap di atas sebagaimana tertulis; ia digantikan, tidak diedit. V4 tetap mensyaratkan, dan mengukur, tepat 24 siklus sibuk.
+- State juga dihapus pada `stop_i`, pada word digest SHA3 terakhir, dan pada reset (higiene: state memuat nilai antara yang bergantung rahasia); rencana hanya mensyaratkan penghapusan saat start.
+- V8: NC-K4 berjalan sebagai BMC sampai kedalaman 40, bukan induksi, karena fase squeeze tercapai setelah sekitar 30 siklus (run induksi pada mutan tidak selesai dalam waktu wajar). Properti dan FAIL yang disyaratkan tidak berubah.
+- Perbaikan test run pertama, semuanya di testbench (RTL benar): pemeriksaan akhir digest menurunkan `out_ready_i` sebelum tepi clock (word terakhir tidak pernah diterima); test stop meminta 1 word keluaran dari SHA3 (digest 4 atau 8 word);
+  log siklus dihapus oleh build berikutnya (nama file kini per test). RTL punya satu perubahan setelah verifikasi pertama: ternary enum ditulis ulang sebagai if/else karena Icarus menolaknya. Seluruh verifikasi dan run formal
+  di `verify.md` dan `formal.md` adalah milik RTL akhir.
+- Asersi golden test yang salah (24 konstanta ronde berbeda) dikoreksi ke nilai sebenarnya (22 berbeda: ronde 5 dan 22, dan 6 dan 20, berbagi nilai); semua hash sama dengan hashlib.
 

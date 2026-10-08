@@ -1,31 +1,31 @@
 <!-- claim-lint: skip-file (internal evidence record, not proposal text) -->
-# 50 MHz question, option 1: critical-path analysis of S7 and S8 (2026-10-03, team request "jalankan opsi 1 dan 2")
+# Pertanyaan 50 MHz, opsi 1: analisis jalur kritis S7 dan S8 (2026-10-03, permintaan tim "jalankan opsi 1 dan 2")
 
-Method (read-only, MEASURED): `scripts/quartus/phase5m_top_paths.tcl` run with `quartus_sta` on a **copy** of `quartus/phase05m_memsched/` (the database of revisions S7 and S8, seed 1, 40.000 ns; the repository
-`.qpf` is never opened by the analysis), 300 worst setup paths per corner (Slow 1100 mV 100 C and -40 C), three in full detail; grouped by start and end block with `scripts/quartus/phase5_path_classes.py`
-(bit indices collapsed). Files: `S7_top300_path_classes_slow{100,-40}.txt`, `S8_top300_path_classes_slow{100,-40}.txt`, `S7_worst_path_slow-40.txt`.
+Metode (hanya baca, MEASURED): `scripts/quartus/phase5m_top_paths.tcl` dijalankan dengan `quartus_sta` pada salinan `quartus/phase05m_memsched/` (database revisi S7 dan S8, seed 1, 40,000 ns; `.qpf` repository
+tidak pernah dibuka oleh analisis), 300 jalur setup terburuk per corner (Slow 1100 mV 100 C dan -40 C), tiga dalam detail penuh; dikelompokkan menurut blok awal dan akhir dengan `scripts/quartus/phase5_path_classes.py`
+(indeks bit diringkas). File: `S7_top300_path_classes_slow{100,-40}.txt`, `S8_top300_path_classes_slow{100,-40}.txt`, `S7_worst_path_slow-40.txt`.
 
-## Worst path classes (slack at 40.000 ns; path delay = 40 - slack, INFERENCE)
-| Rev / corner | Worst class | Slack (ns) | Next class |
+## Kelas jalur terburuk (slack pada 40,000 ns; delay jalur = 40 - slack, INFERENCE)
+| Revisi / corner | Kelas terburuk | Slack (ns) | Kelas berikutnya |
 |---|---|---|---|
-| S7 / -40 C | bank map ROM (inferred as M10K, `bank_map_rom:g_map[4]`) -> slot-arbitration ripple ports 4..10 -> cut register `g_arb[10].count_q` (cut A_11) | 14.439 (16 paths) | multiplier cut 2 (`u_mul.cut2`) -> memory write (storage flip-flops): 17.711 (269 paths) |
-| S7 / 100 C | same | 14.617 | same, 17.770 |
-| S8 / -40 C | same arbitration class | 15.135 | `layer_q` -> RAM; `bank_rdata_q` -> multiplier cut 0: 19.015 (the S7 write-path class is gone) |
+| S7 / -40 C | ROM peta bank (diinferensi sebagai M10K, `bank_map_rom:g_map[4]`) -> riak arbitrasi slot port 4..10 -> register potong `g_arb[10].count_q` (potongan A_11) | 14.439 (16 jalur) | potongan pengali 2 (`u_mul.cut2`) -> penulisan memori (flip-flop penyimpanan): 17.711 (269 jalur) |
+| S7 / 100 C | sama | 14.617 | sama, 17.770 |
+| S8 / -40 C | kelas arbitrasi yang sama | 15.135 | `layer_q` -> RAM; `bank_rdata_q` -> potongan pengali 0: 19.015 (kelas jalur tulis S7 hilang) |
 
-Worst S7 path in detail (`S7_worst_path_slow-40.txt`): clock to the M10K 7.043 ns, M10K clock-to-out 1.080 ns, then about 22.6 ns of mux / add cells of the arbitration ripple (`Mux7` ... `Mux18`,
-`count_c` of ports 4 to 10) up to `g_arb[10].count_q`; data path 23.932 ns, clock skew -1.569 ns.
+Jalur terburuk S7 secara rinci (`S7_worst_path_slow-40.txt`): clock ke M10K 7,043 ns, clock-to-out M10K 1,080 ns, lalu sekitar 22,6 ns sel mux / penjumlah riak arbitrasi (`Mux7` ... `Mux18`,
+`count_c` port 4 sampai 10) sampai `g_arb[10].count_q`; jalur data 23,932 ns, skew clock -1,569 ns.
 
-## Reading (INFERENCE)
-- After S7 the limit is **the slot arbitration between the cuts A_4 and A_11** (seven ports of the ripple), fed by the bank-map ROM that Quartus placed in an M10K block (this also explains part of
-  the M10K count of 31 / 33: the bank-map ROMs are inferred as RAM blocks; not decomposed further).
-- For 50 MHz (20 ns) both the arbitration segment (about 25.6 ns at -40 C) and the multiplier-to-write segment (about 22.3 ns) must drop below about 19-20 ns. S8's write register removed the second
-  class but not the first, which is why S8 did not raise Fmax.
-- The arbitration depends only on addresses, i.e. on the fixed schedule, never on data. Two ways to remove it, both new steps for the team: (a) **S10** (16 x 1R1W banks, ADR 0022): no slot arbitration at all;
-  (b) a precomputed arbitration table (slot and offset per port and cycle from a ROM indexed by mode, layer and t) in place of the ripple. More arbitration cuts are a third way, with stalls (P > 7).
-- Quartus option without RTL: keeping the bank-map ROM out of M10K (logic ROM) would replace the RAM block clock-to-out (1.080 ns) and its clock-path skew (-1.569 ns) at the start of the path by a logic ROM delay (effect not measured).
+## Pembacaan (INFERENCE)
+- Setelah S7 batasnya adalah arbitrasi slot di antara potongan A_4 dan A_11 (tujuh port riak), diberi makan ROM peta bank yang ditempatkan Quartus di blok M10K (ini juga menjelaskan sebagian
+  jumlah M10K 31 / 33: ROM peta bank diinferensi sebagai blok RAM; tidak diurai lebih lanjut).
+- Untuk 50 MHz (20 ns) baik segmen arbitrasi (sekitar 25,6 ns pada -40 C) maupun segmen pengali-ke-tulis (sekitar 22,3 ns) harus turun di bawah sekitar 19-20 ns. Register tulis S8 menghapus kelas kedua
+  tetapi bukan yang pertama, itulah sebabnya S8 tidak menaikkan Fmax.
+- Arbitrasi hanya bergantung pada alamat, yaitu pada jadwal tetap, tidak pernah pada data. Dua cara menghapusnya, keduanya langkah baru untuk tim: (a) S10 (16 bank 1R1W, ADR 0022): tidak ada arbitrasi slot sama sekali;
+  (b) tabel arbitrasi yang dihitung lebih dulu (slot dan offset per port dan siklus dari ROM yang diindeks mode, layer, dan t) sebagai ganti riak. Lebih banyak potongan arbitrasi adalah cara ketiga, dengan stall (P > 7).
+- Opsi Quartus tanpa RTL: menjaga ROM peta bank di luar M10K (ROM logika) akan mengganti clock-to-out blok RAM (1,080 ns) dan skew jalur clock-nya (-1,569 ns) di awal jalur dengan delay ROM logika (efek tidak diukur).
 
-## Option 2: S7 at 20.000 ns, seeds 1-6 (MEASURED, `quartus_S7-20[-s2..s6].md`, `quartus/phase05m_memsched/run_s7_20_sweep.sh`)
-| Seed | ALM | Worst setup (ns, all corners) | Worst hold (ns) | Fmax lowest slow corner (MHz) |
+## Opsi 2: S7 pada 20,000 ns, seed 1-6 (MEASURED, `quartus_S7-20[-s2..s6].md`, `quartus/phase05m_memsched/run_s7_20_sweep.sh`)
+| Seed | ALM | Setup terburuk (ns, semua corner) | Hold terburuk (ns) | Fmax slow corner terendah (MHz) |
 |---|---|---|---|---|
 | 1 | 9,365 | -1.388 | 0.151 | 46.76 |
 | 2 | 9,358 | -1.655 | 0.127 | 46.18 |
@@ -34,5 +34,5 @@ Worst S7 path in detail (`S7_worst_path_slow-40.txt`): clock to the M10K 7.043 n
 | 5 | 9,369 | -1.933 | 0.124 | 45.59 |
 | 6 | 9,355 | -1.615 | 0.150 | 46.26 |
 
-Timing at 20.000 ns met at **0 of 6 seeds**; median lowest-corner Fmax 45.885 MHz (INFERENCE: median). Under the 20 ns constraint the fitter works harder than at 40 ns, so these Fmax values are not comparable
-with the 40 ns figures. Note: a status message of 2026-10-03 quoted "-0.836 ns" for seed 1; that was the Slow 100 C setup line only; the worst over all corners is -1.388 ns (corrected here).
+Timing pada 20,000 ns terpenuhi di 0 dari 6 seed; median Fmax corner terendah 45,885 MHz (INFERENCE: median). Di bawah batasan 20 ns fitter bekerja lebih keras daripada pada 40 ns, jadi nilai Fmax ini tidak sebanding
+dengan angka 40 ns. Catatan: pesan status 2026-10-03 mengutip "-0,836 ns" untuk seed 1; itu hanya baris setup Slow 100 C; yang terburuk atas semua corner adalah -1,388 ns (dikoreksi di sini).

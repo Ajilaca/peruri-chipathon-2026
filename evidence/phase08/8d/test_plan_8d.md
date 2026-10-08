@@ -1,60 +1,60 @@
 <!-- claim-lint: skip-file (internal test plan, not proposal text) -->
-# Phase 8d: overlap of the sampler with the arithmetic - test plan and adoption rule
+# Fase 8d: tumpang tindih sampler dengan aritmetika - test plan dan aturan adopsi
 
-Written 2026-10-03, **before any 8d RTL change and before any 8d measurement** (CRG-4). Scope: `docs/ROADMAP.md` Phase 8d; ADR 0026 (Accepted); chat 2026-10-03 (no name given): do 8b, 8c and 8d without stopping, then the report and the result.
-Base: the 8c sequencer `rtl/sched/kpke_sched_smp.sv` (STREAM build, `evidence/phase08/8c/`), the Phase 6 files and the 8b sampler, all as they are. Labels: MEASURED, INFERENCE, ESTIMATE, NOT MEASURED, perhitungan tim. The mathematics is locked (C1): only the order and the time at which noise polynomials are sampled change.
+Ditulis 2026-10-03, sebelum perubahan RTL 8d apa pun dan sebelum pengukuran 8d apa pun (CRG-4). Lingkup: `docs/ROADMAP.md` Fase 8d; ADR 0026 (Accepted); chat 2026-10-03 (tanpa nama): kerjakan 8b, 8c, dan 8d tanpa berhenti, lalu laporan dan hasilnya.
+Basis: sequencer 8c `rtl/sched/kpke_sched_smp.sv` (build STREAM, `evidence/phase08/8c/`), file Fase 6 dan sampler 8b, semuanya apa adanya. Label: MEASURED, INFERENCE, ESTIMATE, NOT MEASURED, perhitungan tim. Matematika terkunci (C1): hanya urutan dan waktu polinomial noise disampel yang berubah.
 
-## 1. What is built (one change: sampling of the noise polynomials runs while the transforms compute)
-In 8c the sampler is idle while the NTT core transforms and while the INTT runs (about 635 cycles per transform in the Phase 6 operation) and the sequencer waits for every `SMPN`. In 8d a noise polynomial is sampled **non-blocking**: the sampler starts and the sequencer goes on with the next operation; the sampler's beats
-are written into the store whenever the store write port is free; the sequencer always has priority on that port. The matrix entries stay streamed (`PWMS`, which needs the sampler and therefore waits until it is idle: the sampler is one shared unit, so the matrix and the noise are sampled one after the other, never at the same time).
-- `rtl/sched/kpke_sched_smp.sv` (the file of 8c, extended; parameter `OVERLAP`, default 0, so the 8c build is unchanged): with `OVERLAP = 1` the operation `SMPN` with `first = 1` is non-blocking, `WAIT` waits until the sampler is idle, the store write of a sampler beat is allowed only when the sequencer does not write
-  (`wr_free = !seq_wr && !idle`), and an `END` waits for a busy sampler. These are already in the 8c source as inactive paths (selected by the parameter); the 8c evidence was taken with `OVERLAP = 0`, and the paths are exercised and measured only here.
-- Program set **OVERLAP** (`VAR` = 2), generated from `tb/golden/kpke_smp_model.py` (extended) by `scripts/build/gen_kpke_smp_roms.py`: the STREAM programs with the noise sampling moved. KeyGen: s0 blocking; then each next noise polynomial is started non-blocking right before the transform of the previous one, and a `WAIT` follows each transform
-  (s1 during NTT s0, s2 during NTT s1, e0 during NTT s2, e1 during NTT e0, e2 during NTT e1; NTT e2 needs e2). Encrypt: y0 blocking; y1 and y2 during NTT y0 and y1; e1_0 during NTT y2; e1_1, e1_2 and e2 each started right before the INTT of the previous pass (the polynomial is first needed at the ADD after the next
-  PWMS passes, which wait for the sampler anyway); a `WAIT` before every operation that reads a polynomial sampled non-blocking and not separated from its start by a `PWMS`. Decrypt has no sampling and is unchanged. Slot numbers as STREAM (12 slots).
-- Program set **STRESS** (`VAR` = 3, **test only**, never compiled in Quartus): Encrypt of STREAM with e1_2 (slot 14) started non-blocking right before the first `ADD` (a pass that writes the store in 128 of its 130 cycles), so that sampler beats and sequencer writes are ready in the same cycles and the arbitration is exercised; KeyGen as OVERLAP. Same results by construction.
-Not changed: the sampler, the NTT core, the store, the PWM unit, the Phase 6 files.
+## 1. Apa yang dibangun (satu perubahan: sampling polinomial noise berjalan saat transformasi menghitung)
+Di 8c sampler menganggur saat inti NTT mentransformasi dan saat INTT berjalan (sekitar 635 siklus per transformasi dalam operasi Fase 6) dan sequencer menunggu setiap `SMPN`. Di 8d polinomial noise disampel tanpa memblokir: sampler mulai dan sequencer lanjut ke operasi berikutnya; beat sampler
+ditulis ke store kapan pun port tulis store bebas; sequencer selalu punya prioritas pada port itu. Entri matriks tetap di-streaming (`PWMS`, yang butuh sampler dan karenanya menunggu sampai idle: sampler adalah satu unit bersama, jadi matriks dan noise disampel satu setelah yang lain, tidak pernah bersamaan).
+- `rtl/sched/kpke_sched_smp.sv` (file 8c, diperluas; parameter `OVERLAP`, bawaan 0, jadi build 8c tidak berubah): dengan `OVERLAP = 1` operasi `SMPN` dengan `first = 1` tidak memblokir, `WAIT` menunggu sampai sampler idle, tulis store sebuah beat sampler diizinkan hanya bila sequencer tidak menulis
+  (`wr_free = !seq_wr && !idle`), dan sebuah `END` menunggu sampler yang sibuk. Ini sudah ada di sumber 8c sebagai jalur tidak aktif (dipilih oleh parameter); evidence 8c diambil dengan `OVERLAP = 0`, dan jalurnya dijalankan dan diukur hanya di sini.
+- Set program OVERLAP (`VAR` = 2), dibangkitkan dari `tb/golden/kpke_smp_model.py` (diperluas) oleh `scripts/build/gen_kpke_smp_roms.py`: program STREAM dengan sampling noise dipindahkan. KeyGen: s0 memblokir; lalu setiap polinomial noise berikutnya dimulai tanpa memblokir tepat sebelum transformasi yang sebelumnya, dan sebuah `WAIT` mengikuti setiap transformasi
+  (s1 saat NTT s0, s2 saat NTT s1, e0 saat NTT s2, e1 saat NTT e0, e2 saat NTT e1; NTT e2 butuh e2). Encrypt: y0 memblokir; y1 dan y2 saat NTT y0 dan y1; e1_0 saat NTT y2; e1_1, e1_2, dan e2 masing-masing dimulai tepat sebelum INTT pass sebelumnya (polinomial pertama dibutuhkan di ADD setelah
+  pass PWMS berikutnya, yang menunggu sampler juga); sebuah `WAIT` sebelum setiap operasi yang membaca polinomial yang disampel tanpa memblokir dan tidak dipisahkan dari awalnya oleh `PWMS`. Decrypt tidak punya sampling dan tidak berubah. Nomor slot seperti STREAM (12 slot).
+- Set program STRESS (`VAR` = 3, hanya untuk test, tidak pernah dikompilasi di Quartus): Encrypt STREAM dengan e1_2 (slot 14) dimulai tanpa memblokir tepat sebelum `ADD` pertama (pass yang menulis store pada 128 dari 130 siklusnya), sehingga beat sampler dan tulis sequencer siap di siklus yang sama dan arbitrasi diuji; KeyGen seperti OVERLAP. Hasil sama menurut konstruksi.
+Tidak berubah: sampler, inti NTT, store, unit PWM, file Fase 6.
 
-## 2. Golden model first
-`tb/golden/tests/test_kpke_smp_model.py` is extended: the OVERLAP and STRESS programs run with the golden primitives give the same logical slots as STREAM and the same end results as the unmodified golden K-PKE; the operation counts are unchanged; every `WAIT` is checked statically against the data flow: no operation reads a slot that a non-blocking `SMPN` writes
-unless a `WAIT` or a `PWMS` (which waits for the sampler) lies between them (a checker in the model, a hazard exists exactly when this fails).
+## 2. Model golden lebih dulu
+`tb/golden/tests/test_kpke_smp_model.py` diperluas: program OVERLAP dan STRESS yang dijalankan dengan primitives golden memberi slot logis yang sama dengan STREAM dan hasil akhir yang sama dengan K-PKE golden yang tidak diubah; hitungan operasi tidak berubah; setiap `WAIT` diperiksa secara statis terhadap aliran data: tidak ada operasi yang membaca slot yang ditulis `SMPN` tanpa memblokir
+kecuali sebuah `WAIT` atau `PWMS` (yang menunggu sampler) berada di antaranya (pemeriksa di model, bahaya ada tepat bila ini gagal).
 
-## 3. Corner cases
-- A sampler beat while the sequencer writes the store: during an `ADD` pass (STRESS), during the unload of a transform, during the final slot write of a `PWMS` pass; the beat is held (valid and data stable) and written afterwards; the pair index of the beat writer is the right one afterwards.
-- A non-blocking sample that is still running when the sequencer reaches the next sampling operation or `PWMS` (waits), `WAIT` with an idle sampler (no delay beyond the fetch), `END` with a busy sampler.
-- The same slot is never read before its sample is complete (hazard checker); the noise polynomial used by the transform that follows is correct for every ctr.
-- Constant cycles: fixed rho, varied secrets give identical cycles (the sampling of the noise has a fixed length; the overlap does not make a secret-dependent difference); same input twice, same count.
-- Reset in the middle of a program with a non-blocking sample running; start while busy ignored.
+## 3. Kasus sudut
+- Beat sampler saat sequencer menulis store: selama pass `ADD` (STRESS), selama unload transformasi, selama tulis slot akhir pass `PWMS`; beat ditahan (valid dan data stabil) dan ditulis sesudahnya; indeks pasangan penulis beat benar sesudahnya.
+- Sampel tanpa memblokir yang masih berjalan saat sequencer mencapai operasi sampling berikutnya atau `PWMS` (menunggu), `WAIT` dengan sampler idle (tanpa delay selain fetch), `END` dengan sampler sibuk.
+- Slot yang sama tidak pernah dibaca sebelum sampelnya lengkap (pemeriksa bahaya); polinomial noise yang dipakai transformasi berikutnya benar untuk setiap ctr.
+- Siklus konstan: rho tetap, rahasia bervariasi memberi siklus identik (sampling noise punya panjang tetap; tumpang tindih tidak membuat selisih yang bergantung rahasia); masukan sama dua kali, hitungan sama.
+- Reset di tengah program dengan sampel tanpa memblokir berjalan; start saat sibuk diabaikan.
 
-## 4. Tests
-| ID | Check | Tool | Required |
+## 4. Test
+| ID | Pemeriksaan | Alat | Disyaratkan |
 |---|---|---|---|
-| V1 | Lint of the sequencer for `OVERLAP` = 1 and the ROM (CRG-1, CRG-2) | Verilator `-Wall`, slang | 0 warnings, 0 errors |
-| V2 | Golden model, hazard checker, ROM regenerated byte for byte | pytest, `scripts/build/gen_kpke_smp_roms.py --check` | all equal |
-| V3 | Top with OVERLAP and STRESS: every slot read back equals the model, end results equal the golden K-PKE, counters as before (smp counts 6 / 7 / 0) | cocotb, both simulators | all equal |
-| V4 | Overlap seen: in OVERLAP the cycles of KeyGen and Encrypt are lower than STREAM's by about the hidden sampling; in STRESS at least one sampler beat is held back by a sequencer write (probe `smp_cvalid && !smp_cready`) | cocotb | seen |
-| V5 | Constant cycles as in section 3 (OVERLAP and STRESS) | cocotb | identical per fixed rho |
-| V6 | Negative controls (test-only copies): NC-HAZ `WAIT` ignored (a transform reads a slot too early); NC-ARB no arbitration (`wr_free` always 1), run on STRESS where the beats and the sequencer writes collide | cocotb | the bit-exact checks FAIL |
-| V7 | Formal: the 8c properties F1-F5 for `OVERLAP` = 1 (F4 now relies on the arbitration: no sequencer write and beat write in the same cycle) | SymbiYosys | PASS |
-| V8 | Regression: the 8c tests for STORE and STREAM (the same file now has the OVERLAP paths) and the 8b and 8a scripts | scripts | PASS |
-| V9 | Quartus: `kpke_smp_top_s10` OVERLAP (NPOLY 12, `OVERLAP` = 1), 40.000 ns, **seeds 1-6, one at a time**; information: seed 1 at 20.000 ns. The STREAM revisions of 8c are the baseline | `quartus_sh`, `/quartus-report` | evidence extracted |
+| V1 | Lint sequencer untuk `OVERLAP` = 1 dan ROM (CRG-1, CRG-2) | Verilator `-Wall`, slang | 0 peringatan, 0 error |
+| V2 | Model golden, pemeriksa bahaya, ROM dibangkitkan ulang byte demi byte | pytest, `scripts/build/gen_kpke_smp_roms.py --check` | semua sama |
+| V3 | Top dengan OVERLAP dan STRESS: setiap slot yang dibaca balik sama dengan model, hasil akhir sama dengan K-PKE golden, counter seperti sebelumnya (hitungan smp 6 / 7 / 0) | cocotb, kedua simulator | semua sama |
+| V4 | Tumpang tindih terlihat: di OVERLAP siklus KeyGen dan Encrypt lebih rendah dari STREAM sekitar sampling yang tersembunyi; di STRESS paling sedikit satu beat sampler ditahan oleh tulis sequencer (probe `smp_cvalid && !smp_cready`) | cocotb | terlihat |
+| V5 | Siklus konstan seperti bagian 3 (OVERLAP dan STRESS) | cocotb | identik per rho tetap |
+| V6 | Kontrol negatif (salinan khusus test): NC-HAZ `WAIT` diabaikan (transformasi membaca slot terlalu awal); NC-ARB tanpa arbitrasi (`wr_free` selalu 1), dijalankan pada STRESS di mana beat dan tulis sequencer bertabrakan | cocotb | pemeriksaan bit-exact FAIL |
+| V7 | Formal: properti 8c F1-F5 untuk `OVERLAP` = 1 (F4 kini bergantung pada arbitrasi: tidak ada tulis sequencer dan tulis beat di siklus yang sama) | SymbiYosys | PASS |
+| V8 | Regresi: test 8c untuk STORE dan STREAM (file yang sama kini punya jalur OVERLAP) dan skrip 8b dan 8a | skrip | PASS |
+| V9 | Quartus: `kpke_smp_top_s10` OVERLAP (NPOLY 12, `OVERLAP` = 1), 40.000 ns, seed 1-6, satu per satu; informasi: seed 1 pada 20.000 ns. Revisi STREAM 8c adalah baseline | `quartus_sh`, `/quartus-report` | evidence diekstrak |
 
-## 5. Adoption rule (ADR 0012 style, fixed before measuring; no tolerance)
-OVERLAP is adopted over STREAM only if **all** hold: 1. V1-V8 PASS on both simulators and the controls fail as required; 2. timing met at 40.000 ns at every seed for OVERLAP and the fit succeeds; 3. with F the median over seeds 1-6 of the lowest slow-corner Fmax at 40 ns and c the mean cycles over the same rho set:
-**t = c / F is lower for OVERLAP than for STREAM for KeyGen and for Encrypt**; 4. M10K(OVERLAP) <= M10K(STREAM). If the rule fails, 8d is recorded as measured and not adopted and STREAM stays.
+## 5. Aturan adopsi (gaya ADR 0012, ditetapkan sebelum mengukur; tanpa toleransi)
+OVERLAP diadopsi atas STREAM hanya bila semua berikut berlaku: 1. V1-V8 PASS di kedua simulator dan kontrol gagal seperti disyaratkan; 2. timing terpenuhi pada 40.000 ns di setiap seed untuk OVERLAP dan fit berhasil; 3. dengan F median atas seed 1-6 dari Fmax slow corner terendah pada 40 ns dan c rata-rata siklus atas himpunan rho yang sama:
+t = c / F lebih rendah untuk OVERLAP daripada STREAM untuk KeyGen dan untuk Encrypt; 4. M10K(OVERLAP) <= M10K(STREAM). Jika aturan gagal, 8d dicatat sebagai terukur dan tidak diadopsi dan STREAM tetap.
 
-## 6. ESTIMATE written before measuring (not measurements)
-- Cycles (perhitungan tim from the 8c STREAM figures of the same simulation, KeyGen about 7,090 and Encrypt about 8,550, and the sampling time of one noise polynomial, about 160 cycles with the sequencer overhead): KeyGen hides 5 of 6 noise polynomials, about 5 x 160 = about 800 cycles: about 6,300; Encrypt hides 6 of 7: about 960 cycles: about 7,600 (about 11 % fewer than STREAM).
-  The first polynomial of each program cannot be hidden (nothing to overlap with).
-- Resources: the OVERLAP paths are a few comparators and one more state; ALM, registers and M10K within a few dozen of STREAM; Fmax: the arbitration puts `seq_wr` (a function of the sequencer state) into the beat's ready path, a short path; expect Fmax within the seed spread of STREAM (INFERENCE, not measured).
+## 6. ESTIMATE yang ditulis sebelum mengukur (bukan pengukuran)
+- Siklus (perhitungan tim dari angka STREAM 8c pada simulasi yang sama, KeyGen sekitar 7,090 dan Encrypt sekitar 8,550, dan waktu sampling satu polinomial noise, sekitar 160 siklus dengan overhead sequencer): KeyGen menyembunyikan 5 dari 6 polinomial noise, sekitar 5 x 160 = sekitar 800 siklus: sekitar 6,300; Encrypt menyembunyikan 6 dari 7: sekitar 960 siklus: sekitar 7,600 (sekitar 11 % lebih sedikit dari STREAM).
+  Polinomial pertama setiap program tidak dapat disembunyikan (tidak ada yang bisa ditumpang).
+- Sumber daya: jalur OVERLAP adalah beberapa pembanding dan satu state lagi; ALM, register, dan M10K dalam beberapa puluh dari STREAM; Fmax: arbitrasi menaruh `seq_wr` (fungsi state sequencer) ke jalur ready beat, jalur pendek; harapkan Fmax dalam sebaran seed STREAM (INFERENCE, tidak diukur).
 
-## 7. Not covered
-Hardware (no board); more than one sampler (the matrix cannot be sampled while the noise is); overlap of the matrix streaming with the transforms (needs a second sampler or a buffer); hashing of the keys and the whole KEM; seeds beyond 6.
+## 7. Tidak dicakup
+Perangkat keras (tanpa papan); lebih dari satu sampler (matriks tidak dapat disampel saat noise disampel); tumpang tindih streaming matriks dengan transformasi (butuh sampler kedua atau buffer); hashing kunci dan seluruh KEM; seed selain 6.
 
-## 8. Amendment A1 (2026-10-03, written after the first runs of the OVERLAP and STRESS programs; the adoption rule of section 5 is unchanged)
-1. **Finding of the STRESS run (RTL changed):** when the sequencer starts the sampler in the same cycle in which the previous non-blocking sample reports its `done_o` pulse, the `done` branch cleared `smp_pwm_q` after the start branch had set it, so a following `PWMS` pass never received a beat and the program never finished (`done_o` never rose within 120,000 cycles).
-   The OVERLAP programs never produce that coincidence (their transforms take hundreds of cycles); the STRESS Encrypt does (a `PWMS` right behind the non-blocking sample). The `done` branch now comes before the start branch, so a start wins. The 8c evidence is not affected functionally (the case needs a non-blocking sample), but the file changed, so the 8c Quartus revisions were recompiled from the final file.
-2. **NC-HAZ realised differently:** ignoring `WAIT` does not break the OVERLAP programs (every sample is started long before its use: the overlapped transform takes 635 cycles and a noise sample about 160), so that control would pass. The control is a test-only copy of the ROM in which the first transform of the OVERLAP KeyGen reads the slot that the non-blocking sample has just started: the bit-exact check must fail.
-   This also shows that the `WAIT` operations are a safety property of the schedule, not a measured need; the static hazard checker (V2) is what guards them.
-3. **Formal control:** for OVERLAP = 1 the control is NC-F2 as in 8c (F4 holds by construction through `wr_free`; a violation of it is reachable only by the induction step, which SymbiYosys reports as UNKNOWN).
-4. **ESTIMATE check:** the smoke runs gave OVERLAP KeyGen 6,326-6,351 and Encrypt 7,655-7,665 cycles (ESTIMATE about 6,300 and 7,600); in STRESS 545 sampler-beat cycles were held back by sequencer writes (the arbitration was exercised).
+## 8. Amandemen A1 (2026-10-03, ditulis setelah run pertama program OVERLAP dan STRESS; aturan adopsi bagian 5 tidak berubah)
+1. Temuan run STRESS (RTL berubah): ketika sequencer memulai sampler pada siklus yang sama saat sampel tanpa-memblokir sebelumnya melaporkan pulsa `done_o`-nya, cabang `done` menghapus `smp_pwm_q` setelah cabang start mengaturnya, sehingga pass `PWMS` berikutnya tidak pernah menerima beat dan program tidak pernah selesai (`done_o` tidak pernah naik dalam 120,000 siklus).
+   Program OVERLAP tidak pernah menghasilkan kebetulan itu (transformasinya memakan ratusan siklus); Encrypt STRESS menghasilkannya (`PWMS` tepat di belakang sampel tanpa-memblokir). Cabang `done` kini datang sebelum cabang start, sehingga start menang. Evidence 8c tidak terpengaruh secara fungsional (kasusnya butuh sampel tanpa-memblokir), tetapi file berubah, jadi revisi Quartus 8c dikompilasi ulang dari file akhir.
+2. NC-HAZ diwujudkan secara berbeda: mengabaikan `WAIT` tidak merusak program OVERLAP (setiap sampel dimulai jauh sebelum dipakai: transformasi yang ditumpangi memakan 635 siklus dan sampel noise sekitar 160), jadi kontrol itu akan lulus. Kontrolnya adalah salinan ROM khusus test di mana transformasi pertama KeyGen OVERLAP membaca slot yang baru saja dimulai sampel tanpa-memblokir: pemeriksaan bit-exact harus gagal.
+   Ini juga menunjukkan bahwa operasi `WAIT` adalah properti keselamatan jadwal, bukan kebutuhan terukur; pemeriksa bahaya statis (V2) yang menjaganya.
+3. Kontrol formal: untuk OVERLAP = 1 kontrolnya NC-F2 seperti di 8c (F4 berlaku menurut konstruksi lewat `wr_free`; pelanggarannya hanya dapat dicapai oleh langkah induksi, yang dilaporkan SymbiYosys sebagai UNKNOWN).
+4. Pemeriksaan ESTIMATE: run smoke memberi KeyGen OVERLAP 6,326-6,351 dan Encrypt 7,655-7,665 siklus (ESTIMATE sekitar 6,300 dan 7,600); di STRESS 545 siklus beat sampler ditahan oleh tulis sequencer (arbitrasi diuji).

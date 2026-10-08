@@ -1,50 +1,50 @@
 <!-- claim-lint: skip-file (internal test plan, not proposal text) -->
-# S10 (inside Phase 6, ADR 0024): 16 x 1R1W bank memory without slot arbitration - test plan and adoption rule
+# S10 (di dalam Fase 6, ADR 0024): memori 16 x 1R1W bank tanpa arbitrasi slot - test plan dan aturan adopsi
 
-Written 2026-10-03, **before any S10 RTL and before any S10 measurement** (CRG-4). Basis: ADR 0022 option A (S9 study: the map `bank = (a1^a2^a3^a4, a7, a6, a5)`, `offset = a[3:0]` gives at most one read
-and one write per bank per cycle over the whole schedule, `evidence/phase05m/s9/port_analysis.txt`) and the S7 path analysis (the measured limit of S7 is the slot-arbitration ripple
-between the cuts A_4 and A_11, `evidence/phase05m/fmax50/path_analysis.md`). Base: S7 (`rtl/ntt/ntt_core_s7_p7.sv`). Labels: MEASURED, INFERENCE, ESTIMATE, NOT MEASURED.
+Ditulis 2026-10-03, sebelum RTL S10 apa pun dan sebelum pengukuran S10 apa pun (CRG-4). Dasar: ADR 0022 opsi A (studi S9: peta `bank = (a1^a2^a3^a4, a7, a6, a5)`, `offset = a[3:0]` memberi paling banyak satu baca
+dan satu tulis per bank per siklus sepanjang jadwal, `evidence/phase05m/s9/port_analysis.txt`) dan analisis jalur S7 (batas terukur S7 adalah riak arbitrasi slot
+antara potongan A_4 dan A_11, `evidence/phase05m/fmax50/path_analysis.md`). Basis: S7 (`rtl/ntt/ntt_core_s7_p7.sv`). Label: MEASURED, INFERENCE, ESTIMATE, NOT MEASURED.
 
-## 1. The change (one change: the memory)
-- new memory `rtl/mem/poly_mem_m10k.sv`: same port list as `poly_mem_multiport_split.sv` (en, wr, addr per port, rdata, wdata, bank_overflow_o), 16 banks of 16 x 12 bit, bank and offset by the map above (pure XOR and
-  bit selection, no ROM, no arbitration). Per bank: the read address and the write address / data / enable are selected from the one port whose bank matches (16-way select); per port the read data is selected
-  from its bank (16-way select). Each bank is written as a synchronous-read simple-dual-port RAM (`ramstyle` "M10K", read-during-write of the same word not relied on); whether Quartus maps it to M10K is
-  reported, not assumed.
-- Timing: the request's address is taken by the RAM at the end of the request cycle (physical read in the request cycle), the read data are selected and registered: read data `RD_LAT = 2` cycles after the
-  request; the write of a request lands at the end of cycle `request + RD_LAT + WR_DELAY` with the bank and offset of the request (delayed). `bank_overflow_o`: two or more enabled ports on one bank in one request
-  cycle, registered (one cycle later).
-- new core `rtl/ntt/ntt_core_s10.sv` (copy of `ntt_core_s7.sv`: the memory instance replaced, `RdLat = RD_LAT`), wrapper `rtl/ntt/ntt_core_s10_p5.sv` (RD_LAT 2, MUL_REG bits 0, 1, 2: P = 5). The schedule is the S7
-  schedule; P = 5 needs no stall (stall table: none up to P = 7). Cycles: 113 + 5 = **118** (ESTIMATE until simulated).
-- **Existing files modified: none.**
+## 1. Perubahannya (satu perubahan: memori)
+- memori baru `rtl/mem/poly_mem_m10k.sv`: daftar port sama dengan `poly_mem_multiport_split.sv` (en, wr, addr per port, rdata, wdata, bank_overflow_o), 16 bank 16 x 12 bit, bank dan offset menurut peta di atas (XOR murni dan
+  pemilihan bit, tanpa ROM, tanpa arbitrasi). Per bank: alamat baca dan alamat tulis / data / enable dipilih dari satu port yang banknya cocok (pilihan 16-arah); per port data baca dipilih
+  dari banknya (pilihan 16-arah). Setiap bank ditulis sebagai RAM simple-dual-port baca-sinkron (`ramstyle` "M10K", read-during-write pada word yang sama tidak diandalkan); apakah Quartus memetakannya ke M10K
+  dilaporkan, tidak diasumsikan.
+- Timing: alamat permintaan diambil RAM di akhir siklus permintaan (baca fisik pada siklus permintaan), data baca dipilih dan diregister: data baca `RD_LAT = 2` siklus setelah
+  permintaan; tulis sebuah permintaan mendarat di akhir siklus `request + RD_LAT + WR_DELAY` dengan bank dan offset permintaan (ditunda). `bank_overflow_o`: dua port aktif atau lebih pada satu bank dalam satu siklus permintaan,
+  diregister (satu siklus kemudian).
+- inti baru `rtl/ntt/ntt_core_s10.sv` (salinan `ntt_core_s7.sv`: instans memori diganti, `RdLat = RD_LAT`), pembungkus `rtl/ntt/ntt_core_s10_p5.sv` (RD_LAT 2, bit MUL_REG 0, 1, 2: P = 5). Jadwalnya adalah jadwal
+  S7; P = 5 tidak butuh stall (tabel stall: tidak ada sampai P = 7). Siklus: 113 + 5 = 118 (ESTIMATE sampai disimulasikan).
+- File yang sudah ada dimodifikasi: tidak ada.
 
-## 2. Corner cases
-- Every address through every port; the scheduled traffic of both directions back to back (16 ports, every bank once per cycle); read in the landing cycle (old value) and the cycle after (new value).
-- Two ports on one bank in one cycle (must raise `bank_overflow_o`); one port per bank (must not). Host access through port 0 in IDLE (one port).
-- Core level: the Phase 4 / S7 core test unchanged in content (NTT, INTT, round trip, boundary data, constant cycles, scoreboard, 512 INTT unit vectors).
+## 2. Kasus sudut
+- Setiap alamat melalui setiap port; lalu lintas terjadwal kedua arah beruntun (16 port, setiap bank sekali per siklus); baca pada siklus pendaratan (nilai lama) dan siklus sesudahnya (nilai baru).
+- Dua port pada satu bank dalam satu siklus (harus mengaktifkan `bank_overflow_o`); satu port per bank (tidak boleh). Akses host lewat port 0 di IDLE (satu port).
+- Tingkat inti: test inti Fase 4 / S7 tidak berubah isinya (NTT, INTT, round trip, data batas, siklus konstan, scoreboard, 512 vektor satuan INTT).
 
-## 3. Tests
-| ID | Check | Tool | Required |
+## 3. Test
+| ID | Pemeriksaan | Alat | Disyaratkan |
 |---|---|---|---|
-| V1 | Lint of the memory, core, wrapper | Verilator `-Wall`, slang | 0 warnings, 0 errors |
-| V2 | Memory vs a cycle-accurate Python model (copy of the S7 memory test with the new latencies and the 16-bank conflict rule) | cocotb `tb/s10/test_poly_mem_m10k.py`, both simulators | all equal; overflow only when two ports share a bank |
-| V3 | Core vs golden (`tb/phase5m/test_ntt_core_s7.py` with C3_RDLAT 2, C3_RDPHYS 0, C3_WRDLY 3) | cocotb, both simulators | all PASS; 0 scoreboard violations; constant cycles 118 / 118 |
-| V4 | Negative controls (test-only copies): NC-M bank map without the XOR bit (`bank = {a7, a6, a5, a4}`): overflow and wrong results; NC-W write control one cycle short | cocotb | bit-exact FAIL (NC-M also raises `bank_overflow_o`) |
-| V5 | Formal: H, O, R, A, C of a copy of the S7 formal top for the new memory (probes renamed) with NC-O (map mutant) and NC-A | SymbiYosys | PASS; controls FAIL |
-| V6 | Phase 6 top with the S10 core (CORE_RDLAT 2): the Phase 6 test V5 | cocotb, both simulators | all PASS (information: cycles per program) |
-| V7 | Quartus `S10` seeds 1-6 at 40.000 ns, one at a time; plus `S10-20` seeds 1-6 at 20.000 ns (information, comparable to the S7-20 sweep of the 50 MHz question) | `quartus_sh` | evidence extracted |
+| V1 | Lint memori, inti, pembungkus | Verilator `-Wall`, slang | 0 peringatan, 0 error |
+| V2 | Memori lawan model Python akurat-siklus (salinan test memori S7 dengan latensi baru dan aturan konflik 16-bank) | cocotb `tb/s10/test_poly_mem_m10k.py`, kedua simulator | semua sama; overflow hanya bila dua port berbagi bank |
+| V3 | Inti lawan golden (`tb/phase5m/test_ntt_core_s7.py` dengan C3_RDLAT 2, C3_RDPHYS 0, C3_WRDLY 3) | cocotb, kedua simulator | semua PASS; 0 pelanggaran scoreboard; siklus konstan 118 / 118 |
+| V4 | Kontrol negatif (salinan khusus test): NC-M peta bank tanpa bit XOR (`bank = {a7, a6, a5, a4}`): overflow dan hasil salah; NC-W kontrol tulis kurang satu siklus | cocotb | FAIL bit-exact (NC-M juga mengaktifkan `bank_overflow_o`) |
+| V5 | Formal: H, O, R, A, C dari salinan top formal S7 untuk memori baru (probe diganti nama) dengan NC-O (mutan peta) dan NC-A | SymbiYosys | PASS; kontrol FAIL |
+| V6 | Top Fase 6 dengan inti S10 (CORE_RDLAT 2): test V5 Fase 6 | cocotb, kedua simulator | semua PASS (informasi: siklus per program) |
+| V7 | Quartus `S10` seed 1-6 pada 40.000 ns, satu per satu; ditambah `S10-20` seed 1-6 pada 20.000 ns (informasi, sebanding dengan sapuan S7-20 pertanyaan 50 MHz) | `quartus_sh` | evidence diekstrak |
 
-## 4. Adoption rule (ADR 0012, fixed before measuring)
-S10 replaces S7 as the core memory only if **all** hold: (1) V1-V6 PASS, controls fail; (2) cycles exactly 118 / 118 and constant; (3) ALM <= 12,573 and timing met at 40.000 ns at every seed; (4) with F the median over
-seeds 1-6 of the lowest slow-corner Fmax at 40 ns: **118 / F < 120 / F_S7** (F_S7 = 38.720 MHz recomputed from the S7 files), i.e. F > 38.075 MHz. No tolerance. Whether a result at 20 ns meets 50 MHz is reported,
-not part of the rule.
+## 4. Aturan adopsi (ADR 0012, ditetapkan sebelum mengukur)
+S10 menggantikan S7 sebagai memori inti hanya bila semua berikut berlaku: (1) V1-V6 PASS, kontrol gagal; (2) siklus tepat 118 / 118 dan konstan; (3) ALM <= 12,573 dan timing terpenuhi pada 40.000 ns di setiap seed; (4) dengan F median atas
+seed 1-6 dari Fmax slow corner terendah pada 40 ns: 118 / F < 120 / F_S7 (F_S7 = 38.720 MHz dihitung ulang dari file S7), yaitu F > 38.075 MHz. Tanpa toleransi. Apakah hasil pada 20 ns memenuhi 50 MHz dilaporkan,
+bukan bagian aturan.
 
-## 5. Expectation (ESTIMATE, written before measuring)
-The arbitration ripple (the measured worst S7 path, about 25.6 ns) is removed; new paths: address arithmetic -> XOR map -> 16-way select -> RAM address (short), RAM data -> 16-way select -> register, multiplier ->
-16-way write select -> RAM. Fmax may rise; it may also be limited by the M10K timing or by the butterfly / write segments (S7: multiplier to write about 22.3 ns). M10K: 16 blocks more if the tool maps the banks
-there; ALM: lower (no 3,072 storage flip-flops, no arbitration) or higher (crossbars), not predictable from the study (upper bound of the crossbars about 1,920 ALM, ESTIMATE).
+## 5. Harapan (ESTIMATE, ditulis sebelum mengukur)
+Riak arbitrasi (jalur S7 terburuk terukur, sekitar 25.6 ns) dihilangkan; jalur baru: aritmetika alamat -> peta XOR -> pilihan 16-arah -> alamat RAM (pendek), data RAM -> pilihan 16-arah -> register, pengali ->
+pilihan tulis 16-arah -> RAM. Fmax dapat naik; ia juga dapat dibatasi oleh timing M10K atau oleh segmen butterfly / tulis (S7: pengali ke tulis sekitar 22.3 ns). M10K: 16 blok lebih banyak bila alat memetakan bank
+ke sana; ALM: lebih rendah (tanpa 3,072 flip-flop penyimpanan, tanpa arbitrasi) atau lebih tinggi (crossbar), tidak dapat diprediksi dari studi (batas atas crossbar sekitar 1,920 ALM, ESTIMATE).
 
-## Amendment A1 (2026-10-03, after the first S10 core run, before any Quartus run)
-The first run of V3 with the unmodified S7 test failed only on its start-latency check (`start_i taken only after 6 cycles`, bound `WRDLY + 2` = 5). That bound encodes the S7 host-write guard
-(landing minus physical read = WRDLY + 1). In S10 the storage is read in the request cycle, so the guard is the whole pipe (5) and the start takes 6 cycles; the core is correct by construction of the guard
-(a host write must land before the first transform read). V3 now runs `tb/s10/test_ntt_core_s10.py`, a copy of the S7 test whose bound is `(RDLAT - RDPHYS + WRDLY) + 1` (5 for S7, 6 for S10); nothing else in
-the test changed. Thresholds and the adoption rule are unchanged.
+## Amandemen A1 (2026-10-03, setelah run inti S10 pertama, sebelum run Quartus apa pun)
+Run pertama V3 dengan test S7 yang tidak diubah gagal hanya pada pemeriksaan latensi start (`start_i taken only after 6 cycles`, batas `WRDLY + 2` = 5). Batas itu mengodekan guard tulis host S7
+(pendaratan dikurangi baca fisik = WRDLY + 1). Di S10 penyimpanan dibaca pada siklus permintaan, jadi guard adalah seluruh pipa (5) dan start memakan 6 siklus; inti benar menurut konstruksi guard
+(tulis host harus mendarat sebelum baca transformasi pertama). V3 kini menjalankan `tb/s10/test_ntt_core_s10.py`, salinan test S7 yang batasnya `(RDLAT - RDPHYS + WRDLY) + 1` (5 untuk S7, 6 untuk S10); tidak ada hal lain di
+test yang berubah. Ambang dan aturan adopsi tidak berubah.

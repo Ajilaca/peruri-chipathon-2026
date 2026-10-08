@@ -1,54 +1,54 @@
 <!-- claim-lint: skip-file (internal test plan, not proposal text) -->
-# Phase 9F step S1: K0 sponge in both places (hash instance and the sampler of the engine) - test plan and adoption rule
+# Fase 9F langkah S1: sponge K0 di kedua tempat (instans hash dan sampler mesin) - test plan dan aturan adopsi
 
-Written 2026-10-04 before any S1 RTL change and before any S1 compile. Scope: ADR 0036 (Accepted, Faza Dzil), step S1. Baseline: the 9M-1 core (`CODEC_W2 = 1`, C5 everywhere), report `../9m1/result_9m1.md`; the critical-path report `../../critical_paths_MW.md` (all 300 worst paths at 20 ns inside the two C5 permutations). Labels: MEASURED, ESTIMATE, INFERENCE, perhitungan tim. The mathematics is locked (C1): K0 and C5 compute the same Keccak-f[1600]; only the rounds per cycle differ.
+Ditulis 2026-10-04 sebelum perubahan RTL S1 apa pun dan sebelum kompilasi S1 apa pun. Lingkup: ADR 0036 (Accepted, Faza Dzil), langkah S1. Baseline: inti 9M-1 (`CODEC_W2 = 1`, C5 di mana-mana), laporan `../9m1/result_9m1.md`; laporan jalur kritis `../../critical_paths_MW.md` (semua 300 jalur terburuk pada 20 ns berada di dalam dua permutasi C5). Label: MEASURED, ESTIMATE, INFERENCE, perhitungan tim. Matematika terkunci (C1): K0 dan C5 menghitung Keccak-f[1600] yang sama; hanya ronde per siklus yang berbeda.
 
-## 1. What changes
-- `rtl/mlkem/mlkem_core.sv`: one new parameter `SMP_C5` (default 1) passed to the engine's `CORE_R2` (now written as the constant `1'b1`). At the default the behaviour is exactly that of Phase 9 / 9M-1. The engine files (Phase 6-8, frozen) are not edited: `kpke_smp_top_s10`, `kpke_sched_smp` and `keccak_sampler` already have the parameter `CORE_R2` (K0 sampler verified in Phase 8b; the full sequencer with the K0 sampler was **not** run in Phases 8c/8d: that is what V2 and V3 add).
-- Configuration K1: `HASH_C5 = 0`, `SMP_C5 = 0`, `CODEC_W2 = 1` (the hash instance K0 is item 3).
+## 1. Apa yang berubah
+- `rtl/mlkem/mlkem_core.sv`: satu parameter baru `SMP_C5` (bawaan 1) diteruskan ke `CORE_R2` mesin (kini ditulis sebagai konstanta `1'b1`). Pada nilai bawaan perilakunya persis seperti Fase 9 / 9M-1. File mesin (Fase 6-8, beku) tidak diedit: `kpke_smp_top_s10`, `kpke_sched_smp`, dan `keccak_sampler` sudah punya parameter `CORE_R2` (sampler K0 diverifikasi di Fase 8b; sequencer penuh dengan sampler K0 belum dijalankan di Fase 8c/8d: itulah yang ditambahkan V2 dan V3).
+- Konfigurasi K1: `HASH_C5 = 0`, `SMP_C5 = 0`, `CODEC_W2 = 1` (instans hash K0 adalah butir 3).
 
-## 2. Estimates written before measuring (ESTIMATE; sources: 8b cycles per polynomial, 9b cycles per hash, area of 8b and 9b blocks)
-| Quantity | MW (C5, MEASURED) | K1 ESTIMATE |
+## 2. Estimasi yang ditulis sebelum mengukur (ESTIMATE; sumber: siklus per polinomial 8b, siklus per hash 9b, area blok 8b dan 9b)
+| Besaran | MW (C5, MEASURED) | K1 ESTIMATE |
 |---|---|---|
-| Sampling cycles inside one operation (perhitungan tim, 8b: KeyGen 2,770 -> 3,168, Encaps and the re-encryption of Decaps 2,922 -> 3,332) | | +398 (KeyGen), +410 (Encaps, Decaps), partly hidden by the 8d overlap |
-| Cycles KeyGen / Encaps / Decaps (profile inputs) | 8,327 / 10,159 / 15,515 | about 8,850 / 10,690 / 16,045 (hash +120 and sampling about +400 each, no hiding assumed) |
-| ALM median | 17,654.0 | about 13,400 (hash instance -2,513 from 9b, sampler -1,739 from 8b; +/- 500) |
-| Registers | 8,189-8,376 | about -1,000 to -1,500 |
-| RAM blocks / DSP | 54 / 28 | 54 / 28 |
-| Fmax at the 40 ns gate (lowest slow corner, median) | 48.855 MHz | 52-60 MHz (the Keccak permutations leave the critical list; the next limit is not identified) |
-| Fmax at a 15 ns constraint (median, seeds 1-6) | not measured (S0 gives the baseline) | 62-70 MHz |
-| Latency at the Fmax of the 15 ns constraint | MW at 20 ns: 8,327 / 10,159 / 15,515 cycles at 63.990 MHz = 130.1 / 158.8 / 242.5 us | about 126-143 / 153-172 / 229-259 us: the same as MW within the estimate range, not clearly lower |
-The honest expectation: a higher Fmax and about 4,200 ALM less, with latency about equal to MW at 20 ns because the cycles grow (ADR 0036 point 2: the rule uses latency).
+| Siklus sampling di dalam satu operasi (perhitungan tim, 8b: KeyGen 2,770 -> 3,168, Encaps dan enkripsi ulang Decaps 2,922 -> 3,332) | | +398 (KeyGen), +410 (Encaps, Decaps), sebagian tersembunyi oleh tumpang tindih 8d |
+| Siklus KeyGen / Encaps / Decaps (masukan profil) | 8,327 / 10,159 / 15,515 | sekitar 8,850 / 10,690 / 16,045 (hash +120 dan sampling sekitar +400 masing-masing, tanpa asumsi tersembunyi) |
+| Median ALM | 17,654.0 | sekitar 13,400 (instans hash -2,513 dari 9b, sampler -1,739 dari 8b; +/- 500) |
+| Register | 8,189-8,376 | sekitar -1,000 sampai -1,500 |
+| Blok RAM / DSP | 54 / 28 | 54 / 28 |
+| Fmax pada gerbang 40 ns (slow corner terendah, median) | 48.855 MHz | 52-60 MHz (permutasi Keccak keluar dari daftar kritis; batas berikutnya belum teridentifikasi) |
+| Fmax pada batasan 15 ns (median, seed 1-6) | tidak diukur (S0 memberi baseline) | 62-70 MHz |
+| Latensi pada Fmax batasan 15 ns | MW pada 20 ns: 8,327 / 10,159 / 15,515 siklus pada 63.990 MHz = 130.1 / 158.8 / 242.5 us | sekitar 126-143 / 153-172 / 229-259 us: sama dengan MW dalam rentang estimasi, tidak jelas lebih rendah |
+Harapan yang jujur: Fmax lebih tinggi dan sekitar 4,200 ALM lebih sedikit, dengan latensi kira-kira sama dengan MW pada 20 ns karena siklus bertambah (ADR 0036 butir 2: aturan memakai latensi).
 
-## 3. Tests (both simulators; repository RTL never mutated)
-| # | Test | Pass condition |
+## 3. Test (kedua simulator; RTL repository tidak pernah dimutasi)
+| # | Test | Syarat lulus |
 |---|---|---|
-| V1 | lint Verilator `-Wall` and slang of the core at `SMP_C5 = 0`, `HASH_C5 = 0`, `CODEC_W2 = 1` and at the defaults | 0 warnings, 0 errors |
-| V2 | the Phase 8c/8d sequencer tests with the K0 sampler: `tb/smp/test_kpke_smp.py` (3 programs bit-exact, counters, constant cycles for fixed rho, PWMS stall coverage, STRESS) built with `CORE_R2 = 0` (env `KP_CORE_R2=0` in the runner) | all pass, both simulators; the stall classes are covered (the K0 sampler is slower: more waits in PWMS) |
-| V3 | core at `SMP_C5 = 0`, `HASH_C5 = 0`, `CODEC_W2 = 1`: the whole 9c `core` target (ACVP keyGen 25, encapsulation 25, decapsulation 10, random cross-check, chain, protocol, constant cycles) | 100 % equal, both simulators |
-| V4 | profile (`tb/mlkem/profile_core.py`, same inputs) at K1 | recorded; RUN, HFD and HGT states longer, every other state count equal to MW |
-| V5 | control that the K0 sampler is really in use and tested: `nclen` at K1 | `test_acvp_encaps` fails, both simulators |
-| V6 | formal: the sequencer proofs of 8c and 8d (F1-F5) at `CORE_R2 = 0` with the sampler protocol stub (the stub does not depend on the sponge: INFERENCE; run to show the proofs hold at the parameter value) and the 9c controller proof (independent of the parameter) | as 8c/8d, ALL AS EXPECTED |
-| V7 | regression at the defaults: `scripts/test/phase9c_verify.sh` and a profile equal to the Phase 9 profile | PASS |
-| V8 | Quartus: revision K1 seeds 1-6 at 40.000 ns (the gate) and K1-15 seeds 1-6 at 15.000 ns (information, ADR 0036 point 3), one at a time, kernel-only | extracts; timing at 40 ns met at every seed; at 15 ns: the number of seeds met and the Fmax reported |
-| V9 | critical-path classification of K1 at the tightest constraint met (script `scripts/quartus/phase5m_top_paths.tcl` on a copy) | names the block that limits timing (input to S2) |
+| V1 | lint Verilator `-Wall` dan slang inti pada `SMP_C5 = 0`, `HASH_C5 = 0`, `CODEC_W2 = 1` dan pada nilai bawaan | 0 peringatan, 0 error |
+| V2 | test sequencer Fase 8c/8d dengan sampler K0: `tb/smp/test_kpke_smp.py` (3 program bit-exact, counter, siklus konstan untuk rho tetap, cakupan stall PWMS, STRESS) dibangun dengan `CORE_R2 = 0` (env `KP_CORE_R2=0` di runner) | semua lulus, kedua simulator; kelas stall tercakup (sampler K0 lebih lambat: lebih banyak tunggu di PWMS) |
+| V3 | inti pada `SMP_C5 = 0`, `HASH_C5 = 0`, `CODEC_W2 = 1`: seluruh target `core` 9c (ACVP keyGen 25, enkapsulasi 25, dekapsulasi 10, cross-check acak, rantai, protokol, siklus konstan) | 100 % sama, kedua simulator |
+| V4 | profil (`tb/mlkem/profile_core.py`, masukan sama) pada K1 | dicatat; state RUN, HFD, dan HGT lebih panjang, setiap hitungan state lain sama dengan MW |
+| V5 | kontrol bahwa sampler K0 benar-benar dipakai dan diuji: `nclen` pada K1 | `test_acvp_encaps` gagal, kedua simulator |
+| V6 | formal: bukti sequencer 8c dan 8d (F1-F5) pada `CORE_R2 = 0` dengan stub protokol sampler (stub tidak bergantung pada sponge: INFERENCE; dijalankan untuk menunjukkan bukti berlaku pada nilai parameter) dan bukti pengendali 9c (tidak bergantung parameter) | seperti 8c/8d, SEMUA SESUAI HARAPAN |
+| V7 | regresi pada nilai bawaan: `scripts/test/phase9c_verify.sh` dan profil sama dengan profil Fase 9 | PASS |
+| V8 | Quartus: revisi K1 seed 1-6 pada 40.000 ns (gerbang) dan K1-15 seed 1-6 pada 15.000 ns (informasi, ADR 0036 butir 3), satu per satu, kernel-only | ekstrak; timing pada 40 ns terpenuhi di setiap seed; pada 15 ns: jumlah seed yang terpenuhi dan Fmax dilaporkan |
+| V9 | klasifikasi jalur kritis K1 pada batasan paling ketat yang terpenuhi (skrip `scripts/quartus/phase5m_top_paths.tcl` pada salinan) | menyebut blok yang membatasi timing (masukan untuk S2) |
 
-## 4. Parameters reported
-ALM (median, min-max, % of the fitter's denominator, against the 20,000 budget), registers, RAM blocks, block memory bits, DSP, worst setup and hold slack, timing met per seed, Fmax lowest slow corner (median, min-max) at 40 ns and at 15 ns; cycles per operation (profile inputs and ACVP ranges); latency t = cycles / median Fmax at each constraint (perhitungan tim); ACVP counts; formal results; critical warnings; the limiting block.
+## 4. Parameter yang dilaporkan
+ALM (median, min-maks, % dari denominator fitter, terhadap anggaran 20,000), register, blok RAM, bit memori blok, DSP, slack setup dan hold terburuk, timing terpenuhi per seed, Fmax slow corner terendah (median, min-maks) pada 40 ns dan 15 ns; siklus per operasi (masukan profil dan rentang ACVP); latensi t = siklus / median Fmax pada tiap batasan (perhitungan tim); jumlah ACVP; hasil formal; peringatan kritis; blok pembatas.
 
-## 5. Adoption rule (fixed before measuring; ADR 0036: by latency)
-K1 is **adopted** as the high-Fmax / small-area configuration only if all hold:
-1. V1-V7 pass as stated (any ACVP mismatch rejects it).
-2. Timing met at 40.000 ns at every seed 1-6.
-3. ALM median at most 20,000 (the budget).
-4. For each of KeyGen, Encaps and Decaps, t = cycles / median Fmax at the 15 ns constraint (seeds 1-6, lowest slow corner) of K1 is at most 3 % above the latency of MW at its 20 ns result (`../9m2/selection_worksheet.md`: 130.1 / 158.8 / 242.5 us).
-5. At 15 ns timing is met at every seed 1-6 **or** the failing seeds are named and the Fmax is reported for the seeds that meet it (the statement then reads "met at k of 6 seeds").
-If item 4 fails but items 1-3 hold, K1 is reported as a **smaller, not faster** configuration and the team decides (ADR 0033 and 0035 list the choices); latency is never claimed lower than measured. The result is a Proposed ADR.
+## 5. Aturan adopsi (ditetapkan sebelum mengukur; ADR 0036: menurut latensi)
+K1 diadopsi sebagai konfigurasi Fmax tinggi / area kecil hanya bila semua berikut berlaku:
+1. V1-V7 lulus seperti dinyatakan (ketidakcocokan ACVP apa pun menolaknya).
+2. Timing terpenuhi pada 40.000 ns di setiap seed 1-6.
+3. Median ALM paling banyak 20,000 (anggaran).
+4. Untuk masing-masing KeyGen, Encaps, dan Decaps, t = siklus / median Fmax pada batasan 15 ns (seed 1-6, slow corner terendah) K1 paling banyak 3 % di atas latensi MW pada hasil 20 ns-nya (`../9m2/selection_worksheet.md`: 130.1 / 158.8 / 242.5 us).
+5. Pada 15 ns timing terpenuhi di setiap seed 1-6 atau seed yang gagal disebut namanya dan Fmax dilaporkan untuk seed yang memenuhinya (pernyataannya lalu berbunyi "terpenuhi di k dari 6 seed").
+Bila butir 4 gagal tetapi butir 1-3 berlaku, K1 dilaporkan sebagai konfigurasi yang lebih kecil, bukan lebih cepat dan tim memutuskan (ADR 0033 dan 0035 mendaftar pilihannya); latensi tidak pernah diklaim lebih rendah dari yang terukur. Hasilnya adalah ADR Proposed.
 
-## 6. Not in this step
-No S2 change (the next limit is only identified, V9); no board result; no clock claim for the DE10-Nano (a PLL decision belongs to Phase 10); constant time means cycle-count invariance only.
+## 6. Bukan bagian langkah ini
+Tanpa perubahan S2 (batas berikutnya hanya diidentifikasi, V9); tanpa hasil papan; tanpa klaim clock untuk DE10-Nano (keputusan PLL milik Fase 10); waktu-konstan berarti invarian jumlah siklus saja.
 
-## 7. Amendment A1 (2026-10-04, written while building; nothing above is edited and the rule of section 5 is unchanged)
-1. **New module instead of editing `mlkem_core.sv`:** section 1 said the parameter `SMP_C5` is added to `rtl/mlkem/mlkem_core.sv`. The S0 Quartus campaign (`quartus/phase09f0_core`, sources of `mlkem_core.sv`) was still compiling, and an edit would change what its later revisions read. The parameter is therefore added in a copy, `rtl/mlkem/mlkem_core2.sv` (module `mlkem_core2`; differences from `mlkem_core.sv`: the module name, the header comment, the parameter `SMP_C5` default 1, and `.CORE_R2(SMP_C5)` in the engine instance). At `SMP_C5 = 1` it is the same design as `mlkem_core`. Quartus revisions K1 use `mlkem_core2.sv`. S1b builds on this file (new ROM).
-2. **Test scripts:** `tb/mlkem/run_core_tests.py` and `profile_core.py` take `CORE_TOP=mlkem_core2` and `CORE_SMP0=1`; `tb/smp/run_smp_tests.py` takes `KP_CORE_R2`. At the defaults they behave as before (V7 repeats the default regression).
-3. **The default `mlkem_core.sv` stays unchanged**; the Phase 9 / 9M configurations are measured as before.
+## 7. Amandemen A1 (2026-10-04, ditulis saat membangun; tidak ada di atas yang diedit dan aturan bagian 5 tidak berubah)
+1. Modul baru, bukan mengedit `mlkem_core.sv`: bagian 1 berkata parameter `SMP_C5` ditambahkan ke `rtl/mlkem/mlkem_core.sv`. Kampanye Quartus S0 (`quartus/phase09f0_core`, sumber `mlkem_core.sv`) masih berkompilasi, dan sebuah edit akan mengubah apa yang dibaca revisi berikutnya. Parameter itu karenanya ditambahkan pada salinan, `rtl/mlkem/mlkem_core2.sv` (modul `mlkem_core2`; selisih dari `mlkem_core.sv`: nama modul, komentar header, parameter `SMP_C5` bawaan 1, dan `.CORE_R2(SMP_C5)` pada instans mesin). Pada `SMP_C5 = 1` ia adalah desain yang sama dengan `mlkem_core`. Revisi Quartus K1 memakai `mlkem_core2.sv`. S1b dibangun di atas file ini (ROM baru).
+2. Skrip test: `tb/mlkem/run_core_tests.py` dan `profile_core.py` menerima `CORE_TOP=mlkem_core2` dan `CORE_SMP0=1`; `tb/smp/run_smp_tests.py` menerima `KP_CORE_R2`. Pada nilai bawaan mereka berperilaku seperti sebelumnya (V7 mengulang regresi bawaan).
+3. `mlkem_core.sv` bawaan tetap tidak berubah; konfigurasi Fase 9 / 9M diukur seperti sebelumnya.

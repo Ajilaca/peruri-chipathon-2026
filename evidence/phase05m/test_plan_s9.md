@@ -1,32 +1,32 @@
 <!-- claim-lint: skip-file (internal test plan, not proposal text) -->
-# Phase 5M, step S9: M10K / synchronous-read study (documentation only, no RTL) - plan
+# Fase 5M, langkah S9: studi M10K / baca sinkron (hanya dokumentasi, tanpa RTL) - rencana
 
-Written 2026-10-03, **before the analysis script was written or run**. Scope: ADR 0017 (S9 = "M10K / synchronous-read study: documentation only, no RTL; port needs vs M10K, options (more 1R1W banks, two
-coefficients per word, double-pumping, schedule change), conflict-free evidence conditions, ESTIMATE-labelled ALM / M10K; the team chooses; no adoption rule"). ADR 0019 had dropped S9 for the
-deadline; it is done now because the team asked for it in chat on 2026-10-03 ("s9 sekalian dikerjain"); amendment note 3 of ADR 0019 records that. Labels: MEASURED, INFERENCE, ESTIMATE, NOT MEASURED.
+Ditulis 2026-10-03, sebelum skrip analisis ditulis atau dijalankan. Lingkup: ADR 0017 (S9 = "studi M10K / baca sinkron: hanya dokumentasi, tanpa RTL; kebutuhan port lawan M10K, opsi (lebih banyak bank 1R1W, dua
+koefisien per word, double-pumping, perubahan jadwal), syarat evidence bebas konflik, ESTIMATE ALM / M10K berlabel; tim memilih; tanpa aturan adopsi"). ADR 0019 telah menghapus S9 demi
+tenggat; ia dikerjakan sekarang karena tim memintanya di chat pada 2026-10-03 ("s9 sekalian dikerjain"); catatan amandemen 3 ADR 0019 mencatat hal itu. Label: MEASURED, INFERENCE, ESTIMATE, NOT MEASURED.
 
-## 1. Questions the study answers
-Q1. What does the NTT/INTT schedule at L = 8 demand from each memory bank per cycle (reads, writes, together), with the current 8-bank map and with the P of S7?
-Q2. Does that fit an M10K block (true dual port: two port operations per cycle; simple dual port: one read and one write)? What does a 1R1W bank need from the address map?
-Q3. Is there a bank map with conflict-free access for every layer, both directions and every cycle (one read and one write per bank per cycle)? Checked by exhaustive enumeration of the real address schedule, not by argument.
-Q4. For each option of ADR 0017 (more 1R1W banks, two coefficients per word, double-pumping, schedule change): what does it need, what would it cost (ESTIMATE with method), what must be proved before RTL?
+## 1. Pertanyaan yang dijawab studi
+Q1. Apa yang dituntut jadwal NTT/INTT pada L = 8 dari setiap bank memori per siklus (baca, tulis, keduanya), dengan peta 8 bank saat ini dan dengan P dari S7?
+Q2. Apakah itu muat dalam satu blok M10K (true dual port: dua operasi port per siklus; simple dual port: satu baca dan satu tulis)? Apa yang dibutuhkan bank 1R1W dari peta alamat?
+Q3. Adakah peta bank dengan akses bebas konflik untuk setiap layer, kedua arah, dan setiap siklus (satu baca dan satu tulis per bank per siklus)? Diperiksa dengan enumerasi menyeluruh jadwal alamat nyata, bukan dengan argumen.
+Q4. Untuk setiap opsi ADR 0017 (lebih banyak bank 1R1W, dua koefisien per word, double-pumping, perubahan jadwal): apa yang dibutuhkan, berapa biayanya (ESTIMATE dengan metode), apa yang harus dibuktikan sebelum RTL?
 
-## 2. Method (fixed before running)
-- `scripts/test/phase5m_s9_port_analysis.py`: pure Python on the existing model `tb/mem/bank_model.py` (`addr_pair`, `lane_p`, `bank_of`, `build_maps`), no RTL, no Quartus; deterministic output saved as
-  `evidence/phase05m/s9/port_analysis.txt`. Timeline model: layer k issues one butterfly per lane per cycle for 16 cycles; the 16 addresses of a cycle are read in that cycle and
-  written P cycles later (P = 7, the S7 value, as the no-stall reference); layers follow back to back; both directions; all 256 addresses.
-- Checks: (1) current map: worst reads, writes and reads + writes per bank per cycle; (2) candidate 16-bank map `bank = (a7^a3^a2^a1, a6, a5, a4)`, `offset = a[3:0]` (derived by hand from the structure of
-  `addr_pair`, to be confirmed or refuted by the script): bijective, balanced (16 words per bank), at most one read and one write per bank per cycle over the whole timeline; (3) negative controls that must
-  conflict: `bank = a[7:4]` (no XOR), `bank = a[3:0]`, and the current 8-bank map used with 16 ports at one access per bank; (4) exhaustive count of conflict-free-ness failures for each.
-- Resource figures: only MEASURED values already in the repo (Quartus evidence files) and ESTIMATEs whose method is written next to them. No Quartus run for S9 (no RTL). Intel device facts (M10K
-  capacity, port modes, read-during-write behaviour, maximum frequency) are taken from the repository's cited sources or marked NOT VERIFIED here; none is invented.
+## 2. Metode (ditetapkan sebelum dijalankan)
+- `scripts/test/phase5m_s9_port_analysis.py`: Python murni pada model yang ada `tb/mem/bank_model.py` (`addr_pair`, `lane_p`, `bank_of`, `build_maps`), tanpa RTL, tanpa Quartus; keluaran deterministik disimpan sebagai
+  `evidence/phase05m/s9/port_analysis.txt`. Model timeline: layer k mengeluarkan satu butterfly per lajur per siklus selama 16 siklus; 16 alamat satu siklus dibaca pada siklus itu dan
+  ditulis P siklus kemudian (P = 7, nilai S7, sebagai acuan tanpa stall); layer berurutan beruntun; kedua arah; semua 256 alamat.
+- Pemeriksaan: (1) peta saat ini: baca, tulis, dan baca + tulis terburuk per bank per siklus; (2) peta 16 bank kandidat `bank = (a7^a3^a2^a1, a6, a5, a4)`, `offset = a[3:0]` (diturunkan dengan tangan dari struktur
+  `addr_pair`, untuk dikonfirmasi atau dibantah oleh skrip): bijektif, seimbang (16 word per bank), paling banyak satu baca dan satu tulis per bank per siklus sepanjang timeline; (3) kontrol negatif yang harus
+  konflik: `bank = a[7:4]` (tanpa XOR), `bank = a[3:0]`, dan peta 8 bank saat ini dipakai dengan 16 port pada satu akses per bank; (4) hitungan menyeluruh kegagalan bebas konflik untuk masing-masing.
+- Angka sumber daya: hanya nilai MEASURED yang sudah ada di repository (file evidence Quartus) dan ESTIMATE yang metodenya ditulis di sebelahnya. Tidak ada run Quartus untuk S9 (tanpa RTL). Fakta perangkat Intel (kapasitas M10K,
+  mode port, perilaku read-during-write, frekuensi maksimum) diambil dari sumber yang dikutip repository atau ditandai NOT VERIFIED di sini; tidak ada yang dikarang.
 
-## 3. Output and decision rule
-`evidence/phase05m/s9/study_m10k.md` (options, evidence conditions, estimates) and an ADR (Proposed) that lists the options for the team. **No adoption rule: the team chooses**
-(C5). S9 changes no RTL, so no regression is needed for it. If the analysis refutes the hand-derived map, that is reported as the result.
+## 3. Keluaran dan aturan keputusan
+`evidence/phase05m/s9/study_m10k.md` (opsi, syarat evidence, estimasi) dan sebuah ADR (Proposed) yang mendaftar opsi untuk tim. Tanpa aturan adopsi: tim memilih
+(C5). S9 tidak mengubah RTL, jadi tidak perlu regresi. Bila analisis membantah peta turunan tangan, hal itu dilaporkan sebagai hasilnya.
 
-## Amendment A1 (2026-10-03, written after the first run of the script)
-The first run **refuted** the hand-derived map of section 2 (`bank = (a7^a3^a2^a1, a6, a5, a4)`): 384 (cycle, bank) cells with two reads and 384 with two writes in each direction, the same count as the negative
-control `bank = a[7:4]`. Cause: my derivation placed the butterfly lane bits (p bits 4..6) on address bits 4..6 for every layer; they land on bit k only if k < log2len, otherwise on bit k + 1. The corrected
-derivation (candidate 2, `bank = (a1^a2^a3^a4, a7, a6, a5)`, `offset = a[3:0]`) was tested by the same script in the same form; both results stay in the evidence file. The script also gained the check of the
-"two coefficients per word" option (section 4 of its output). No criterion or threshold changed.
+## Amandemen A1 (2026-10-03, ditulis setelah run pertama skrip)
+Run pertama membantah peta turunan tangan di bagian 2 (`bank = (a7^a3^a2^a1, a6, a5, a4)`): 384 sel (siklus, bank) dengan dua baca dan 384 dengan dua tulis di setiap arah, jumlah yang sama dengan kontrol
+negatif `bank = a[7:4]`. Penyebab: turunan saya menaruh bit lajur butterfly (bit p 4..6) pada bit alamat 4..6 untuk setiap layer; bit itu jatuh pada bit k hanya bila k < log2len, selain itu pada bit k + 1. Turunan
+yang dikoreksi (kandidat 2, `bank = (a1^a2^a3^a4, a7, a6, a5)`, `offset = a[3:0]`) diuji oleh skrip yang sama dalam bentuk yang sama; kedua hasil tetap ada di file evidence. Skrip juga mendapat pemeriksaan
+opsi "dua koefisien per word" (bagian 4 keluarannya). Tidak ada kriteria atau ambang yang berubah.

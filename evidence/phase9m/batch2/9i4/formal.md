@@ -1,25 +1,25 @@
-# Phase 9I item 4 formal run, 2026-10-05 (V8)
+# Run formal Fase 9I butir 4, 2026-10-05 (V8)
 
-MEASURED with SymbiYosys (yosys-slang, boolector, `formal/run/run_formal_phase9i4.py`; work directories `formal/work/phase9i4_*`, git-ignored). Flow of 9f1b adapted to `rtl/mlkem/mlkem_core4.sv` with protocol stubs of the sub-blocks (`formal/phase09m-optimisation/9i4/`). Control and range only; values are covered by simulation. Results of the run `proofs` (2026-10-05) and the run `cover`:
+MEASURED dengan SymbiYosys (yosys-slang, boolector, `formal/run/run_formal_phase9i4.py`; direktori kerja `formal/work/phase9i4_*`, diabaikan git). Alur 9f1b disesuaikan untuk `rtl/mlkem/mlkem_core4.sv` dengan stub protokol sub-blok (`formal/phase09m-optimisation/9i4/`). Hanya kendali dan rentang; nilai dicakup simulasi. Hasil run `proofs` (2026-10-05) dan run `cover`:
 
-| Group | Proof | Expected | Result | Engine detail | Time (s) |
+| Kelompok | Bukti | Diharapkan | Hasil | Detail mesin | Waktu (s) |
 |---|---|---|---|---|---|
-| A Phase 9I item 4 | mlkem_core4 controller (E1 non-interference including `pend_q` and `eng_dn_q`, S1-S7, B1-B7) | PASS | **PASS** | basecase = pass, induction = pass | 8.6 |
-| C Reachability | a load runs while the engine is busy and a slot is marked; RUNJ with the engine done; the earlier covers of 9f1b | PASS | **PASS** | bmc = pass | 868.9 |
-| B Negative control | NC-JOIN4: RUNJ does not wait for the engine (P1) | FAIL | **FAIL as required** | bmc = FAIL; failed assert `mlkem_core4_formal_top.sv:200` | 355.5 |
-| P Bounded | P1: no STP or SDL while the engine is busy (bounded model check, depth 160, real RTL) | PASS | **TIMEOUT** | no result | 1,800 |
-| B Negative control | NC-E1-4: the interlock mask depends on a data bit of the register file (E1) | FAIL | **TIMEOUT** | no result | 1,800 |
+| A Fase 9I butir 4 | pengendali mlkem_core4 (E1 non-interferensi termasuk `pend_q` dan `eng_dn_q`, S1-S7, B1-B7) | PASS | PASS | basecase = pass, induction = pass | 8.6 |
+| C Keterjangkauan | sebuah muat berjalan saat mesin sibuk dan sebuah slot ditandai; RUNJ dengan mesin selesai; cover 9f1b sebelumnya | PASS | PASS | bmc = pass | 868.9 |
+| B Kontrol negatif | NC-JOIN4: RUNJ tidak menunggu mesin (P1) | FAIL | GAGAL seperti diharuskan | bmc = FAIL; failed assert `mlkem_core4_formal_top.sv:200` | 355.5 |
+| P Terbatas | P1: tidak ada STP atau SDL saat mesin sibuk (bounded model check, kedalaman 160, RTL nyata) | PASS | TIMEOUT | tidak ada hasil | 1,800 |
+| B Kontrol negatif | NC-E1-4: mask interlock bergantung pada satu bit data register file (E1) | FAIL | TIMEOUT | tidak ada hasil | 1,800 |
 
-## Timeouts (stated, not hidden)
-- **P1 is not proven formally.** The bounded check (depth 160, the length of the longest program) did not finish within 1,800 s. A retry with a 4 h limit was started on 2026-10-05 and was **stopped by decision of the team (Jevan) after about 2 h 40 min without a result**; it is recorded as TIMEOUT. P1 is covered by simulation only: ACVP 100 % on both simulators, the constant-cycles test, and the controls `ncjoin` and `ncgrant` (they fail as required), see `sim.md`.
-- **NC-E1-4 did not finish** (1,800 s; same retry). So there is no formal evidence that the property E1 catches an interlock mask that depends on data; the simulation controls `ncilk` and `ncthrld` test the interlock but not that mutation. The property E1 itself passes (row A).
-- **NC-JOIN4 (a negative control of P1) failed as required**, so P1 can fail (it detects the missing wait); this is evidence that the property is not vacuous, not a proof of P1 on the real design.
-- Same class as the NC-B7 limit of Batch 1 (`../../batch1/9f1b/formal.md`): bounded checks on the real RTL at depth 160 that do not finish in the time given. The cause is an inference (the search space of 160 steps with free handshakes of the stubbed sub-blocks; no profile of the solver was made, and the first run shared the machine with Quartus and simulator jobs).
+## Timeout (dinyatakan, tidak disembunyikan)
+- P1 tidak terbukti secara formal. Pemeriksaan terbatas (kedalaman 160, panjang program terpanjang) tidak selesai dalam 1.800 s. Percobaan ulang dengan batas 4 jam dimulai pada 2026-10-05 dan dihentikan atas keputusan tim (Jevan) setelah sekitar 2 jam 40 menit tanpa hasil; dicatat sebagai TIMEOUT. P1 hanya dicakup simulasi: ACVP 100 % di kedua simulator, test siklus konstan, dan kontrol `ncjoin` dan `ncgrant` (gagal sesuai syarat), lihat `sim.md`.
+- NC-E1-4 tidak selesai (1.800 s; percobaan ulang yang sama). Jadi tidak ada evidence formal bahwa properti E1 menangkap mask interlock yang bergantung pada data; kontrol simulasi `ncilk` dan `ncthrld` menguji interlock tetapi bukan mutasi itu. Properti E1 sendiri lolos (baris A).
+- NC-JOIN4 (kontrol negatif P1) gagal sesuai syarat, jadi P1 dapat gagal (ia mendeteksi tunggu yang hilang); ini evidence bahwa properti tidak vakum, bukan bukti P1 pada desain nyata.
+- Kelas yang sama dengan batas NC-B7 Batch 1 (`../../batch1/9f1b/formal.md`): pemeriksaan terbatas pada RTL nyata di kedalaman 160 yang tidak selesai dalam waktu yang diberikan. Sebabnya adalah inferensi (ruang pencarian 160 langkah dengan handshake bebas sub-blok stub; tidak ada profil solver, dan run pertama berbagi mesin dengan job Quartus dan simulator).
 
-## What was changed to make the proofs run (stated)
-- The first safety run (before the final properties) failed **induction** for two properties, P1 (the engine is not busy in STP and SDL) and P2 (`pend_q` equals 0 when the controller is idle). Both are true of the program ROM but need an invariant on the program position that was not written. **P2 was dropped and is not proven** (the plan did not require it; it is not claimed anywhere). **P1 was moved** to a bounded check (`mlkem_core4_bmc.sby`, parameter `P1_ON`; the safety run uses `-G P1_ON=0`).
-- The formal tops use the stub engine `kpke_smp_top_s10o` (`stubs_9i4.sv`); the parameters `NTT_P6` and `NTT_AR` are accepted and ignored there, so these results do not depend on the NTT parameters.
-- The `cover` run elaborated the working-tree files at the time it started, after the `proofs` run; the controller, the engine variant and the defaults of `NTT_P6` and `NTT_AR` were the same in both runs.
+## Apa yang diubah agar bukti berjalan (dinyatakan)
+- Run keselamatan pertama (sebelum properti akhir) gagal induksi untuk dua properti, P1 (mesin tidak sibuk di STP dan SDL) dan P2 (`pend_q` sama dengan 0 saat pengendali idle). Keduanya benar untuk ROM program tetapi memerlukan invarian pada posisi program yang belum ditulis. P2 dibuang dan tidak terbukti (rencana tidak mensyaratkannya; tidak diklaim di mana pun). P1 dipindah ke pemeriksaan terbatas (`mlkem_core4_bmc.sby`, parameter `P1_ON`; run keselamatan memakai `-G P1_ON=0`).
+- Top formal memakai mesin stub `kpke_smp_top_s10o` (`stubs_9i4.sv`); parameter `NTT_P6` dan `NTT_AR` diterima dan diabaikan di sana, jadi hasil ini tidak bergantung pada parameter NTT.
+- Run `cover` mengelaborasi file working tree pada saat dimulai, setelah run `proofs`; pengendali, varian mesin, dan nilai bawaan `NTT_P6` dan `NTT_AR` sama di kedua run.
 
-## What this does not show
-Nothing here proves the arithmetic or the values (simulation covers them); the formal model uses protocol stubs for the engine, sampler and sponge; P1 and NC-E1-4 have no formal result.
+## Yang tidak ditunjukkan ini
+Tidak ada di sini yang membuktikan aritmetika atau nilai (simulasi mencakupnya); model formal memakai stub protokol untuk mesin, sampler, dan sponge; P1 dan NC-E1-4 tidak punya hasil formal.

@@ -1,42 +1,42 @@
 <!-- claim-lint: skip-file (internal block report, not proposal text) -->
-# Phase 9b block report: hash wrapper (G, H, J) and the FO comparison / key selection
+# Laporan blok Fase 9b: pembungkus hash (G, H, J) dan perbandingan FO / pemilihan kunci
 
-- Status: **DONE** (STOP after the block, ADR 0032). A block checkpoint, not the phase result; `docs/results/phase09.md` comes at the end of Phase 9 and its Approval box is the team's.
-- Date (UTC): 2026-10-03. The work is in the working tree and not committed (chat 2026-10-03: commits are made when the work is finished).
-- Plan and rule: `test_plan_9b.md` (written before the RTL; Amendment A1 records the findings below), `../phase9_plan.md` (Amendment A1: word interface, no byte feeder). Simulation and formal results are not board results.
+- Status: SELESAI (STOP setelah blok, ADR 0032). Checkpoint blok, bukan hasil fase; `docs/results/phase09.md` datang di akhir Fase 9 dan kotak Approval-nya milik tim.
+- Tanggal (UTC): 2026-10-03. Pekerjaan ada di working tree dan belum di-commit (chat 2026-10-03: commit dibuat saat pekerjaan selesai).
+- Rencana dan aturan: `test_plan_9b.md` (ditulis sebelum RTL; Amandemen A1 mencatat temuan di bawah), `../phase9_plan.md` (Amandemen A1: antarmuka word, tanpa byte feeder). Hasil simulasi dan formal bukan hasil papan.
 
-## 1. Result
-`rtl/mlkem/mlkem_hash.sv` (H = SHA3-256, G = SHA3-512, J = SHAKE256 with 32 bytes, on a 64-bit word stream; the SHAKE squeeze is stopped after 4 words; parameter `CORE_R2` selects the C5 sponge or the K0 sponge), `rtl/mlkem/mlkem_fo_cmp.sv` (constant-time comparison of two 136-word ciphertexts and the mask selection of K' or K_bar; no early exit, no branch on data) and the wrapper `rtl/mlkem/mlkem_hash_fo_top.sv`. Digests equal the unmodified golden `primitives.H/G/J` (hashlib); the comparison equals the hardware-form model `tb/golden/fo_model.py`, which equals the unmodified golden `ml_kem_decaps_internal` end to end.
+## 1. Hasil
+`rtl/mlkem/mlkem_hash.sv` (H = SHA3-256, G = SHA3-512, J = SHAKE256 dengan 32 byte, pada aliran word 64-bit; squeeze SHAKE dihentikan setelah 4 word; parameter `CORE_R2` memilih sponge C5 atau sponge K0), `rtl/mlkem/mlkem_fo_cmp.sv` (pembandingan waktu-konstan dua ciphertext 136-word dan pemilihan mask K' atau K_bar; tanpa keluar dini, tanpa cabang pada data) dan pembungkus `rtl/mlkem/mlkem_hash_fo_top.sv`. Digest sama dengan `primitives.H/G/J` golden yang tidak diubah (hashlib); perbandingan sama dengan model bentuk-perangkat-keras `tb/golden/fo_model.py`, yang sama dengan `ml_kem_decaps_internal` golden yang tidak diubah dari ujung ke ujung.
 
-## 2. Verification (MEASURED; `verify.md`, `formal.md`, `formal_vacuity_check.md`)
-| Test | Result |
+## 2. Verifikasi (MEASURED; `verify.md`, `formal.md`, `formal_vacuity_check.md`)
+| Test | Hasil |
 |---|---|
-| V1 lint: Verilator `-Wall` (both sponge cores) and slang | 0 warnings, 0 errors |
-| V2 golden FO model vs `ml_kem_decaps_internal` (every one of the 8,704 single-bit changes for the select; 40 random changes end to end) | 3 passed |
-| V3, V4 hash, both sponge cores: the four lengths of Algorithms 16-18, 16 boundary lengths at the rates of all modes and random lengths, 9 back-pressure / gap mode pairs, start / sel / len while busy ignored, reset mid-run, J then H then G in a row | 6/6 per core on each simulator |
-| V5 compare: equal and random pairs, every one of the 8,704 single-bit differences, first / last / all beats, special keys, start while busy, reset, result held after done | 5/5 on each simulator |
-| V6 constant cycles (hash per operation; compare for equal, first-bit, last-bit, random and all-different inputs) | identical |
-| V7 negative controls (NC-STOP, NC-LAST, NC-SEL, NC-MASK, NC-SWAP, NC-EARLY) | each fails the test named for it, on both simulators |
-| V8 formal: hash wrapper H1-H5 (with the protocol stub of the sponge) and compare F1-F4; cover runs; controls | both proofs PASS; both cover runs reach every covered state; NC-H1, NC-H5, NC-F1, NC-F3, NC-F4 FAIL as required |
-| V10 cycles, always-ready sink, no gaps | G of 33 bytes 30, G of 64 bytes 33, H of 1,184 bytes 282, J of 1,120 bytes 274 (C5); 42, 45, 390, 382 (K0); compare 137 |
+| V1 lint: Verilator `-Wall` (kedua inti sponge) dan slang | 0 peringatan, 0 error |
+| V2 model FO golden lawan `ml_kem_decaps_internal` (setiap dari 8,704 perubahan satu bit untuk pilihan; 40 perubahan acak dari ujung ke ujung) | 3 lulus |
+| V3, V4 hash, kedua inti sponge: empat panjang Algoritma 16-18, 16 panjang batas pada rate semua mode dan panjang acak, 9 pasangan mode back-pressure / jeda, start / sel / len saat sibuk diabaikan, reset di tengah run, J lalu H lalu G beruntun | 6/6 per inti di setiap simulator |
+| V5 compare: pasangan sama dan acak, setiap dari 8,704 selisih satu bit, beat pertama / terakhir / semua, kunci khusus, start saat sibuk, reset, hasil ditahan setelah done | 5/5 di setiap simulator |
+| V6 siklus konstan (hash per operasi; compare untuk masukan sama, bit-pertama, bit-terakhir, acak, dan semua-berbeda) | identik |
+| V7 kontrol negatif (NC-STOP, NC-LAST, NC-SEL, NC-MASK, NC-SWAP, NC-EARLY) | masing-masing gagal pada test yang dinamai untuknya, di kedua simulator |
+| V8 formal: pembungkus hash H1-H5 (dengan stub protokol sponge) dan compare F1-F4; run cover; kontrol | kedua bukti PASS; kedua run cover mencapai setiap state yang dicakup; NC-H1, NC-H5, NC-F1, NC-F3, NC-F4 FAIL seperti disyaratkan |
+| V10 siklus, sink selalu siap, tanpa jeda | G 33 byte 30, G 64 byte 33, H 1,184 byte 282, J 1,120 byte 274 (C5); 42, 45, 390, 382 (K0); compare 137 |
 
-## 3. Quartus (MEASURED, kernel-only, virtual pins, 25.1std Lite; `selection_worksheet.md`, `quartus_HF*.md`)
-- Seeds 1-6 at 40.000 ns, C5 sponge: ALM 6,712-6,745 (median 6,734.5), registers 1,976, DSP 0, block memory 0 bits, **timing met at every seed** (worst setup 19.095 ns, worst hold 0.161 ns); Fmax lowest slow corner median 50.625 MHz (47.84-52.07).
-- Information: HF-20 (20.000 ns): timing met (worst setup 3.843 ns), Fmax 61.89 MHz. HF-K0 (K0 sponge, 40.000 ns, seed 1): 4,221 ALM, 1,977 registers, timing met (worst setup 25.719 ns), Fmax 70.02 MHz.
-- Critical Warning 15725 (clock port fed by a virtual pin) in every compile, as in all earlier kernel-only compiles; nothing waived.
+## 3. Quartus (MEASURED, kernel-only, virtual pin, 25.1std Lite; `selection_worksheet.md`, `quartus_HF*.md`)
+- Seed 1-6 pada 40.000 ns, sponge C5: ALM 6,712-6,745 (median 6,734.5), register 1,976, DSP 0, memori blok 0 bit, timing terpenuhi di setiap seed (setup terburuk 19.095 ns, hold terburuk 0.161 ns); Fmax slow corner terendah median 50.625 MHz (47.84-52.07).
+- Informasi: HF-20 (20.000 ns): timing terpenuhi (setup terburuk 3.843 ns), Fmax 61.89 MHz. HF-K0 (sponge K0, 40.000 ns, seed 1): 4,221 ALM, 1,977 register, timing terpenuhi (setup terburuk 25.719 ns), Fmax 70.02 MHz.
+- Critical Warning 15725 (port clock diberi makan virtual pin) di setiap kompilasi, seperti semua kompilasi kernel-only sebelumnya; tidak ada yang diabaikan.
 
-## 4. Findings and deviations (all in Amendment A1 of the test plan)
-1. **A vacuous proof, found by a cover check and discarded.** The first stub of the sponge for the formal proof had a free signal that the tool treated as a constant, so the proof returned PASS without ever reaching the squeeze. The stub was corrected, cover statements and cover-mode runs were added to the runner, and the proofs and controls were rerun. The other formal stubs of the repository that use free signals were checked: the 8c sampler stub's free signals are free (covers reached; the PWMS state itself is not reached at depth 140 or 20, a depth effect, so the 8c PWMS properties rest on the induction, not on a trace), and the Phase 3 stub is confirmed free by its own control (`formal_vacuity_check.md`). No Phase 6-8 result was changed by this.
-2. The hash wrapper is proved with a protocol stub of the sponge because the real sponge made the induction too slow (stopped after 30 minutes at step 20); the sponge's own control is covered by Phase 8a formal and its digests by simulation against hashlib. The comparison module is proved as it is.
-3. A control text (NC-EARLY) did not compile on Icarus (use before declaration): fixed; every reported run was made after the fix.
-4. ESTIMATE check: the hash and compare cycles matched the ESTIMATE within a few cycles; the wrapper plus comparison add about 570 ALM to the C5 sponge (INFERENCE).
+## 4. Temuan dan penyimpangan (semuanya di Amandemen A1 test plan)
+1. Bukti vakum, ditemukan oleh pemeriksaan cover dan dibuang. Stub sponge pertama untuk bukti formal punya sinyal bebas yang diperlakukan alat sebagai konstanta, sehingga bukti memberi PASS tanpa pernah mencapai squeeze. Stub dikoreksi, pernyataan cover dan run mode cover ditambahkan ke runner, dan bukti serta kontrol dijalankan ulang. Stub formal lain di repository yang memakai sinyal bebas diperiksa: sinyal bebas stub sampler 8c memang bebas (cover tercapai; state PWMS sendiri tidak tercapai pada kedalaman 140 atau 20, efek kedalaman, jadi properti PWMS 8c bertumpu pada induksi, bukan pada jejak), dan stub Fase 3 dikonfirmasi bebas oleh kontrolnya sendiri (`formal_vacuity_check.md`). Tidak ada hasil Fase 6-8 yang berubah karenanya.
+2. Pembungkus hash dibuktikan dengan stub protokol sponge karena sponge nyata membuat induksi terlalu lambat (dihentikan setelah 30 menit pada langkah 20); kontrol sponge sendiri dicakup formal Fase 8a dan digest-nya oleh simulasi terhadap hashlib. Modul perbandingan dibuktikan apa adanya.
+3. Teks kontrol (NC-EARLY) tidak dikompilasi di Icarus (dipakai sebelum dideklarasikan): diperbaiki; setiap run yang dilaporkan dibuat setelah perbaikan.
+4. Pemeriksaan ESTIMATE: siklus hash dan compare cocok dengan ESTIMATE dalam beberapa siklus; pembungkus ditambah perbandingan menambah sekitar 570 ALM pada sponge C5 (INFERENCE).
 
-## 5. What this does not show
-No board result. The block has no buffers and no message assembly (9c). The sponge control inside the wrapper proof is stubbed (item 2). The input checks are not in the RTL (ADR 0031). Values outside the stated lengths (messages above 65,535 bytes) are not covered. Cycle invariance is shown in simulation only.
+## 5. Yang tidak ditunjukkan ini
+Bukan hasil papan. Blok belum punya buffer dan perakitan pesan (9c). Kendali sponge di dalam bukti pembungkus di-stub (butir 2). Pemeriksaan masukan tidak ada di RTL (ADR 0031). Nilai di luar panjang yang dinyatakan (pesan di atas 65,535 byte) tidak dicakup. Invarian siklus ditunjukkan hanya dalam simulasi.
 
-## 6. Cost for the budget of 9c (ESTIMATE, perhitungan tim, from the MEASURED cycles above)
-KeyGen hashes: G(d || 3) about 30 + H(ek) about 282 = about 312 cycles; Encaps: H(ek) about 282 + G about 33 = about 315; Decaps: G about 33 + J about 274 + compare 137 = about 444 cycles (plus the re-encryption of the K-PKE engine); all with word buffers that deliver one word per cycle. These are costs to be placed in the schedule of 9c and not results.
+## 6. Biaya untuk anggaran 9c (ESTIMATE, perhitungan tim, dari siklus MEASURED di atas)
+Hash KeyGen: G(d || 3) sekitar 30 + H(ek) sekitar 282 = sekitar 312 siklus; Encaps: H(ek) sekitar 282 + G sekitar 33 = sekitar 315; Decaps: G sekitar 33 + J sekitar 274 + compare 137 = sekitar 444 siklus (ditambah enkripsi ulang mesin K-PKE); semuanya dengan buffer word yang mengirim satu word per siklus. Ini biaya yang akan ditempatkan di jadwal 9c dan bukan hasil.
 
-## 7. Decision for the team
-Optional, not blocking: the hash instance can use the C5 sponge (default, ADR 0027: 6,745 ALM and 50.6 MHz median here) or the K0 sponge (4,221 ALM and 70.0 MHz at seed 1, 26 cycles per permutation instead of 14). The hashing time is a small part of the operation either way (the numbers in section 3 and 6); the saving of the K0 choice is about 2,500 ALM. Not decided here; say so if you want it as a PENDING item.
-The next block is 9c (the controller and all ACVP groups); it starts when the team says so (ADR 0032).
+## 7. Keputusan untuk tim
+Opsional, tidak memblokir: instans hash dapat memakai sponge C5 (bawaan, ADR 0027: 6,745 ALM dan median 50.6 MHz di sini) atau sponge K0 (4,221 ALM dan 70.0 MHz pada seed 1, 26 siklus per permutasi bukan 14). Waktu hashing adalah bagian kecil dari operasi pada kedua pilihan (angka di bagian 3 dan 6); penghematan pilihan K0 sekitar 2,500 ALM. Tidak diputuskan di sini; beri tahu bila ingin dijadikan butir PENDING.
+Blok berikutnya adalah 9c (pengendali dan semua grup ACVP); dimulai saat tim berkata begitu (ADR 0032).

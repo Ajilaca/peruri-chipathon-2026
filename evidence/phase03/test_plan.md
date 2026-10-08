@@ -1,91 +1,91 @@
-# Phase 3 test plan - multi-lane exploration L = 1/2/4/8 (C2), written before any RTL is coded (CRG-4)
+# Test plan Fase 3 - eksplorasi multi-lajur L = 1/2/4/8 (C2), ditulis sebelum RTL apa pun dikodekan (CRG-4)
 
-Scope: new RTL only - `rtl/ntt/ntt_core_c2.sv` (parameterized `#(.NUM_LANES(L))`), instantiating
-`L` copies of `rtl/ntt/butterfly.sv` and `rtl/ntt/twiddle_rom.sv`, driving
-`rtl/mem/poly_mem_banked.sv #(.NUM_BANKS(L))`'s multi-bank crossbar (built in Phase 2, address-
-proven but never exercised by a datapath - see `rtl/mem/poly_mem_banked.sv` header). No other
-module changes: `rtl/ntt/ntt_core.sv` (C0) and `rtl/mem/ntt_core_c1.sv` (C1) stay frozen.
-Reference: `tb/golden/primitives.py` (`ntt`, `intt`), `tb/mem/bank_model.py` (bank/offset scheme,
-`lane_p`, and the two functions added for this phase: `zeta_index_of`, `reference_zeta_trace`).
-Lane-count selection criterion: `docs/decisions/adr/ADR-0004-phase-3-lane-count-l-selection-criterion.md`
-(ADR 0004, Accepted) - primary: min cycle count within a 10,478 ALM (25%) budget; secondary:
-informational AT re-check once a timing-valid clock exists. No RTL below was written before this
-plan.
+Lingkup: hanya RTL baru - `rtl/ntt/ntt_core_c2.sv` (berparameter `#(.NUM_LANES(L))`), yang menginstansiasi
+`L` salinan `rtl/ntt/butterfly.sv` dan `rtl/ntt/twiddle_rom.sv`, menggerakkan
+crossbar multi-bank `rtl/mem/poly_mem_banked.sv #(.NUM_BANKS(L))` (dibangun di Fase 2, alamatnya
+terbukti tetapi belum pernah dijalankan datapath - lihat header `rtl/mem/poly_mem_banked.sv`). Tidak ada modul lain
+yang berubah: `rtl/ntt/ntt_core.sv` (C0) dan `rtl/mem/ntt_core_c1.sv` (C1) tetap dibekukan.
+Acuan: `tb/golden/primitives.py` (`ntt`, `intt`), `tb/mem/bank_model.py` (skema bank/offset,
+`lane_p`, dan dua fungsi yang ditambahkan untuk fase ini: `zeta_index_of`, `reference_zeta_trace`).
+Kriteria pemilihan jumlah lajur: `docs/decisions/adr/ADR-0004-phase-3-lane-count-l-selection-criterion.md`
+(ADR 0004, Accepted) - utama: jumlah siklus minimum dalam anggaran 10,478 ALM (25%); sekunder:
+pemeriksaan ulang AT informasi begitu clock yang valid timing ada. Tidak ada RTL di bawah yang ditulis sebelum
+rencana ini.
 
-## Architecture note: per-lane zeta index (verified before RTL, not assumed)
+## Catatan arsitektur: indeks zeta per lajur (diverifikasi sebelum RTL, tidak diasumsikan)
 
-`ntt_core.sv`'s (C0) zeta index is one sequential counter, incremented once per finished block,
-shared across the whole core - that does not generalise to `L` lanes advancing through different
-blocks in the same cycle. Phase 3 instead gives each lane a **closed-form** zeta index,
+Indeks zeta `ntt_core.sv` (C0) adalah satu counter berurutan, bertambah sekali per blok selesai,
+dipakai bersama di seluruh inti - itu tidak menggeneralisasi ke `L` lajur yang maju melalui blok berbeda
+pada siklus yang sama. Fase 3 sebagai gantinya memberi setiap lajur indeks zeta bentuk tertutup,
 `bank_model.zeta_index_of(layer, mode_inv, block)`:
 
-- NTT (forward): `k = 2^layer + block`.
-- INTT (inverse): `k = 127 - (blocks completed in earlier layers) - block`.
+- NTT (maju): `k = 2^layer + block`.
+- INTT (mundur): `k = 127 - (blok selesai di layer sebelumnya) - block`.
 
-This was cross-checked against `bank_model.reference_zeta_trace` - a restatement of C0's own
-sequential update rule (Phase 1 CRG-7/CRG-8, already proven bit-exact/cycle-exact) - for all 127
-`(layer, block)` pairs, both directions: **0 mismatches**
+Ini dicek silang terhadap `bank_model.reference_zeta_trace` - pernyataan ulang aturan pembaruan berurutan C0 sendiri
+(Fase 1 CRG-7/CRG-8, sudah terbukti bit-exact/cycle-exact) - untuk semua 127
+pasangan `(layer, block)`, kedua arah: 0 ketidakcocokan
 (`evidence/phase03/lane_schedule_verification.txt`,
-`scripts/build/gen_lane_schedule.py`). The same script also confirms, for every `L ∈ {1,2,4,8}`, every
-mode, every layer: the `L` lanes active at each sub-cycle `t` (`bank_model.lane_p`) cover all 128
-butterfly indices `p` of that layer exactly once - no duplicate, no gap.
+`scripts/build/gen_lane_schedule.py`). Skrip yang sama juga mengonfirmasi, untuk setiap `L ∈ {1,2,4,8}`, setiap
+mode, setiap layer: `L` lajur aktif pada setiap sub-siklus `t` (`bank_model.lane_p`) mencakup semua 128
+indeks butterfly `p` layer itu tepat sekali - tanpa duplikat, tanpa celah.
 
-RTL implication: each lane computes `(j, jlen, zeta)` purely combinationally from
-`(layer_q, lane_id, t_q)`, with no lane-to-lane dependency and no shared running zeta counter -
-this is what makes `L` a synthesis-time parameter rather than a control rewrite per `L`.
+Implikasi RTL: setiap lajur menghitung `(j, jlen, zeta)` murni secara kombinasional dari
+`(layer_q, lane_id, t_q)`, tanpa ketergantungan antar lajur dan tanpa counter zeta berjalan bersama -
+inilah yang menjadikan `L` parameter waktu sintesis, bukan penulisan ulang kendali per `L`.
 
-## Unit: ntt_core_c2 lane datapath, all four L instances
+## Unit: datapath lajur ntt_core_c2, keempat instans L
 
-- Corner cases (same 6 as Phase 1's `ntt_core` test plan, run through every `L`): all-zero
-  polynomial; all coefficients = q-1; impulse at coefficient 0; impulse at coefficient 255;
-  alternating 0/q-1.
-- Bit-exact, cross-checked against `tb/golden/primitives.py`:
-  - `ntt(f)` and `intt(f)` match for every corner case + 100 random polynomials, for each `L`.
-  - `intt(ntt(f)) == f`, 50 random polynomials, for each `L`.
-- **Cycle count (CRG-7), measured per L, not assumed equal to C0/C1.** Unlike Phase 2 (L=1
-  banking only, required cycle-identical to C0), Phase 3's `L>1` datapaths are expected to take
-  fewer cycles (`128/L` sub-cycles per layer instead of 128) - this is the quantity Phase 3
-  exists to measure. Requirement: constant cycle count *within* a given `L` (no data-dependent
-  stall - same constant-cycle argument as CRG-7, now checked per `L`), and the measured NTT/INTT
-  cycle counts for all four `L` recorded in `docs/results/phase03.md`'s comparison table.
-- Stall cycles = 0 for every `L` (Phase 3 PASS criterion): no cycle spent waiting on a bank
-  conflict, since the schedule above is conflict-free by the Phase 2 proof
-  (`evidence/phase02/bank_scheme_exploration.txt`) applied per-`L`.
-- Run twice: Icarus and Verilator (CRG-3), for every `L`.
+- Kasus sudut (sama dengan 6 kasus test plan `ntt_core` Fase 1, dijalankan melalui setiap `L`): polinomial
+  semua-nol; semua koefisien = q-1; impuls pada koefisien 0; impuls pada koefisien 255;
+  bergantian 0/q-1.
+- Bit-exact, dicek silang terhadap `tb/golden/primitives.py`:
+  - `ntt(f)` dan `intt(f)` cocok untuk setiap kasus sudut + 100 polinomial acak, untuk setiap `L`.
+  - `intt(ntt(f)) == f`, 50 polinomial acak, untuk setiap `L`.
+- Jumlah siklus (CRG-7), diukur per L, tidak diasumsikan sama dengan C0/C1. Berbeda dengan Fase 2 (hanya banking L=1,
+  harus identik siklus dengan C0), datapath `L>1` Fase 3 diharapkan memakai
+  lebih sedikit siklus (`128/L` sub-siklus per layer sebagai ganti 128) - inilah besaran yang ingin diukur Fase 3.
+  Syarat: jumlah siklus konstan di dalam satu `L` (tanpa stall yang bergantung data -
+  argumen siklus-konstan yang sama seperti CRG-7, kini diperiksa per `L`), dan jumlah siklus
+  NTT/INTT terukur untuk keempat `L` dicatat di tabel perbandingan `docs/results/phase03.md`.
+- Siklus stall = 0 untuk setiap `L` (kriteria PASS Fase 3): tidak ada siklus yang terbuang menunggu konflik bank,
+  karena jadwal di atas bebas konflik menurut bukti Fase 2
+  (`evidence/phase02/bank_scheme_exploration.txt`) yang diterapkan per `L`.
+- Dijalankan dua kali: Icarus dan Verilator (CRG-3), untuk setiap `L`.
 
 ## Formal (CRG-8, SymbiYosys), per L
 
-- Re-run Phase 1/2's FSM safety properties (`busy_o`/`done_o` handshake; `done_o` asserted
-  exactly one cycle) against `ntt_core_c2` at each `L`.
-- Address range: every address driven into `poly_mem_banked` (per-lane `j`, `jlen`, and the
-  scan address for the INTT scaling pass) stays in `[0, 255]` for every reachable state, for
-  every `L` - re-proves Phase 2's own-pair/range properties still hold once the multi-bank
-  crossbar is actually driven by `L>1` lanes concurrently (not just addressed one port at a time
-  as in C1).
+- Jalankan ulang properti keselamatan FSM Fase 1/2 (handshake `busy_o`/`done_o`; `done_o` diaktifkan
+  tepat satu siklus) terhadap `ntt_core_c2` pada setiap `L`.
+- Rentang alamat: setiap alamat yang digerakkan ke `poly_mem_banked` (per lajur `j`, `jlen`, dan
+  alamat pindai untuk lintasan skala INTT) tetap di `[0, 255]` untuk setiap state yang dapat dicapai, untuk
+  setiap `L` - membuktikan ulang properti own-pair/rentang Fase 2 tetap berlaku begitu crossbar
+  multi-bank benar-benar digerakkan oleh `L>1` lajur bersamaan (bukan hanya dialamatkan satu port sekali
+  seperti di C1).
 
-## Quartus: one revision per L (CRG-9/CRG-10 evidence)
+## Quartus: satu revisi per L (evidence CRG-9/CRG-10)
 
-- `quartus/phase03_multilane_c2/` - four revisions, `C2-L1`, `C2-L2`, `C2-L4`, `C2-L8`, identical
-  constraints and seed to C0/C1 (`evidence/quartus/C0.md`,
+- `quartus/phase03_multilane_c2/` - empat revisi, `C2-L1`, `C2-L2`, `C2-L4`, `C2-L8`, batasan dan seed
+  identik dengan C0/C1 (`evidence/quartus/C0.md`,
   `evidence/quartus/C1.md`).
-- Recorded per `L`: ALM, registers, M10K, DSP, Fmax (worst corner), worst setup/hold slack,
-  measured NTT/INTT cycle counts, and whether `L` is in-budget (≤ 10,478 ALM, ADR 0004).
-- The M10K situation inherited from Phase 2 (0/553, async-read limitation,
-  `docs/results/phase02.md` §"Temuan Jujur") is expected to persist or worsen with `L>1`
-  banks; report it as-is per `L`, do not treat it as a Phase 3 regression to hide.
+- Dicatat per `L`: ALM, register, M10K, DSP, Fmax (corner terburuk), slack setup/hold terburuk,
+  jumlah siklus NTT/INTT terukur, dan apakah `L` dalam anggaran (≤ 10,478 ALM, ADR 0004).
+- Situasi M10K yang diwarisi dari Fase 2 (0/553, keterbatasan baca asinkron,
+  `docs/results/phase02.md` §"Temuan Jujur") diperkirakan bertahan atau memburuk dengan bank `L>1`;
+  laporkan apa adanya per `L`, jangan perlakukan sebagai regresi Fase 3 yang disembunyikan.
 
-## L-selection application (ADR 0004)
+## Penerapan pemilihan L (ADR 0004)
 
-`docs/results/phase03.md` must show, in order: (1) the four `L` values with their measured
-ALM vs the 10,478 budget - pass/fail; (2) cycle counts for the in-budget candidates; (3) the
-selected `L` (lowest cycle count among in-budget candidates); (4) once any later phase produces a
-timing-valid clock, the secondary informational AT re-check - explicitly marked as not
-overriding the primary selection without a follow-up ADR.
+`docs/results/phase03.md` harus menunjukkan, berurutan: (1) keempat nilai `L` dengan ALM
+terukur lawan anggaran 10,478 - lulus/gagal; (2) jumlah siklus untuk kandidat dalam anggaran; (3) `L`
+terpilih (jumlah siklus terendah di antara kandidat dalam anggaran); (4) begitu fase berikutnya menghasilkan
+clock yang valid timing, pemeriksaan ulang AT informasi sekunder - ditandai jelas tidak
+menimpa pemilihan utama tanpa ADR lanjutan.
 
-## Explicitly out of scope for Phase 3 (see docs/ROADMAP.md "Not allowed yet")
+## Secara eksplisit di luar lingkup Fase 3 (lihat docs/ROADMAP.md "Belum boleh")
 
-`L > 8`; butterfly pipelining or arithmetic changes (Barrett/Montgomery, lazy reduction -
-Phase 5); choosing `L` from anything other than the measured comparison table required above;
-comparing against software or literature as if measured on the same platform; a target-clock ADR
-(still open, `docs/decisions/PENDING.md`) - Phase 3's Fmax numbers remain relative-only until
-that lands.
+`L > 8`; pipelining butterfly atau perubahan aritmetika (Barrett/Montgomery, reduksi malas -
+Fase 5); memilih `L` dari selain tabel perbandingan terukur yang disyaratkan di atas;
+membandingkan dengan perangkat lunak atau literatur seolah terukur pada platform yang sama; ADR clock target
+(masih terbuka, `docs/decisions/PENDING.md`) - angka Fmax Fase 3 tetap hanya relatif sampai
+itu selesai.

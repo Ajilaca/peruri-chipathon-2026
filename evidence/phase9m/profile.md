@@ -1,9 +1,9 @@
 <!-- claim-lint: skip-file (internal evidence, not proposal text) -->
-# Phase 9M profile of the ML-KEM-768 core, 2026-10-04
+# Profil Fase 9M inti ML-KEM-768, 2026-10-04
 
-MEASURED in simulation (Verilator and Icarus give identical numbers), `tb/mlkem/profile_core.py` with `tb/mlkem/test_profile_core.py` on `rtl/mlkem/mlkem_core.sv` as merged in PR #9 (main 49bebf7). Fixed inputs d = 00..1f, z = 20..3f, m = 40..5f; one KeyGen, then Encaps with its ek, then Decaps of that ciphertext. Cycles are counted at every falling edge inside `run_op` of `tb/mlkem/core_tb.py` (the same count as the Phase 9 tests). These cycle counts depend on rho (the matrix sampling); the Phase 9 ACVP ranges are KeyGen 9,035-9,076, Encaps 10,664-10,727, Decaps 16,601-16,663. Raw data: `profile_verilator.json`.
+MEASURED dalam simulasi (Verilator dan Icarus memberi angka identik), `tb/mlkem/profile_core.py` dengan `tb/mlkem/test_profile_core.py` pada `rtl/mlkem/mlkem_core.sv` sebagaimana digabung di PR #9 (main 49bebf7). Masukan tetap d = 00..1f, z = 20..3f, m = 40..5f; satu KeyGen, lalu Encaps dengan ek-nya, lalu Decaps ciphertext itu. Siklus dihitung pada setiap falling edge di dalam `run_op` di `tb/mlkem/core_tb.py` (hitungan yang sama dengan test Fase 9). Jumlah siklus ini bergantung pada rho (sampling matriks); rentang ACVP Fase 9 adalah KeyGen 9,035-9,076, Encaps 10,664-10,727, Decaps 16,601-16,663. Data mentah: `profile_verilator.json`.
 
-## Cycles per controller state
+## Siklus per state pengendali
 
 | State | KeyGen | Encaps | Decaps |
 |---|---|---|---|
@@ -20,17 +20,17 @@ MEASURED in simulation (Verilator and Icarus give identical numbers), `tb/mlkem/
 | FETCH | 18 | 18 | 29 |
 | DISP | 19 | 19 | 30 |
 | IDLE | 1 | 1 | 1 |
-| **total** | **9,095** | **10,735** | **16,667** |
+| total | 9,095 | 10,735 | 16,667 |
 
-RUN is the K-PKE engine (Phase 8d, unchanged); LDP loads one polynomial from a byte buffer into an engine slot (unpack + decompress), STP stores one (compress + pack); HFD / HGT feed and take the hash; CMP / CMPK compare the ciphertexts and select the key.
+RUN adalah mesin K-PKE (Fase 8d, tidak berubah); LDP memuat satu polinomial dari buffer byte ke slot mesin (unpack + decompress), STP menyimpan satu (compress + pack); HFD / HGT memberi makan hash dan mengambilnya; CMP / CMPK membandingkan ciphertext dan memilih kunci.
 
-## Cycles per micro-operation
+## Siklus per operasi mikro
 
-Format of an operation: as `tb/golden/mlkem_ctl_model.py` (LDP / STP: slot, region, word offset, d).
+Format sebuah operasi: seperti `tb/golden/mlkem_ctl_model.py` (LDP / STP: slot, region, offset word, d).
 
-### keygen (9,095 cycles)
+### keygen (9,095 siklus)
 
-| pc | Operation | Cycles |
+| pc | Operasi | Siklus |
 |---|---|---|
 | 0 | `HST 1 33` | 1 |
 | 1 | `HFD 3 0 4` | 7 |
@@ -52,9 +52,9 @@ Format of an operation: as `tb/golden/mlkem_ctl_model.py` (LDP / STP: slot, regi
 | 17 | `WR32 1 296` | 6 |
 | 18 | `END` | 3 |
 
-### encaps (10,735 cycles)
+### encaps (10,735 siklus)
 
-| pc | Operation | Cycles |
+| pc | Operasi | Siklus |
 |---|---|---|
 | 0 | `HST 0 1184` | 1 |
 | 1 | `HFD 0 144 148` | 263 |
@@ -76,9 +76,9 @@ Format of an operation: as `tb/golden/mlkem_ctl_model.py` (LDP / STP: slot, regi
 | 17 | `STP 10 1 120 4` | 265 |
 | 18 | `END` | 3 |
 
-### decaps (16,667 cycles)
+### decaps (16,667 siklus)
 
-| pc | Operation | Cycles |
+| pc | Operasi | Siklus |
 |---|---|---|
 | 0 | `LDP 3 1 0 10` | 326 |
 | 1 | `LDP 4 1 40 10` | 327 |
@@ -111,7 +111,7 @@ Format of an operation: as `tb/golden/mlkem_ctl_model.py` (LDP / STP: slot, regi
 | 28 | `CMP` | 144 |
 | 29 | `END` | 3 |
 
-## Reading (INFERENCE)
-- Loading or storing one polynomial costs 391-393 cycles at d = 12, 326-329 at d = 10 and 263-265 at d = 1 or 4. The engine port takes one coefficient per cycle (256 cycles per polynomial); the codec moves one byte per cycle, i.e. 384 bytes at d = 12 and 320 at d = 10. At d = 12 and d = 10 the byte path is the limit, at d = 1 and 4 the coefficient port.
-- Share of the cycles: KeyGen RUN 70 %, STP 26 %; Encaps RUN 72 %, LDP 13 %, STP 12 %; Decaps RUN 65 %, LDP 23 %, STP 9 %; hashing and comparison about 3 % each.
-- The engine's host port works only while the engine is idle (`evidence/phase09/phase9_plan.md` section 3), so loads and stores cannot overlap RUN without a new engine variant.
+## Pembacaan (INFERENCE)
+- Memuat atau menyimpan satu polinomial memakan 391-393 siklus pada d = 12, 326-329 pada d = 10, dan 263-265 pada d = 1 atau 4. Port mesin menerima satu koefisien per siklus (256 siklus per polinomial); codec memindahkan satu byte per siklus, yaitu 384 byte pada d = 12 dan 320 pada d = 10. Pada d = 12 dan d = 10 jalur byte adalah batasnya, pada d = 1 dan 4 port koefisien.
+- Porsi siklus: KeyGen RUN 70 %, STP 26 %; Encaps RUN 72 %, LDP 13 %, STP 12 %; Decaps RUN 65 %, LDP 23 %, STP 9 %; hashing dan pembandingan masing-masing sekitar 3 %.
+- Port host mesin hanya bekerja saat mesin idle (`evidence/phase09/phase9_plan.md` bagian 3), sehingga load dan store tidak dapat tumpang tindih dengan RUN tanpa varian mesin baru.
