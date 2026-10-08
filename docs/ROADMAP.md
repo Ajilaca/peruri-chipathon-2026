@@ -376,10 +376,3 @@ dan per panggilan hash; baris operasi melaporkan siklus per KeyGen, Encaps dan D
 clock terbatas yang memenuhi timing. Salinan akhir matriks ini yang terukur masuk ke
 `evidence/phase11-benchmark/ablation_matrix.md`.
 
-## Halaman proposal (sampul dan referensi tidak dihitung; batas 6 halaman)
-- Halaman 1-3: Bagian 1-2 (sudah ditulis).
-- Halaman 4-6: Bagian 3 "Proposed Chip Design" (diagram blok, daftar modul RTL, tabel sumber daya, alat,
-  test plan, metrik keberhasilan). Belum ditulis. Sel sumber daya tetap `ESTIMATE` atau `[...]` sampai
-  fase terkait menghasilkan evidence Quartus (nilai kernel mulai Fase 1, nilai inti penuh mulai Fase 9,
-  nilai sistem mulai Fase 10); setiap angka menyebut file evidence-nya.
-- Kesalahan templat yang harus dihindari: templat menyebut 415.000 flip-flop, sedangkan tabel Intel menyebut 166.036.

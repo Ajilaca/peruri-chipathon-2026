@@ -2,7 +2,7 @@
 # scripts/test/phase9c_verify.sh -- Phase 9c verification (evidence/phase09/9c/test_plan_9c.md V1-V8, V10), both simulators.
 # V10 regression: scripts/test/phase9a_verify.sh and scripts/test/phase9b_verify.sh (unless P9C_REGRESS=0), and a check that no file of the frozen blocks (rtl/sched, rtl/ntt, rtl/mem, rtl/arith, rtl/sample, rtl/keccak) differs from main.
 # P9C_SIMS=0 skips the two simulator runs (about 3 minutes on Verilator and about an hour on Icarus; run them separately with tb/mlkem/run_core_tests.py).
-# Usage: . scripts/env.sh && scripts/test/phase9c_verify.sh
+# Usage: scripts/test/phase9c_verify.sh
 set -u
 cd "$(dirname "${BASH_SOURCE[0]}")/../.."
 export CORE_BUILD_DIR="${CORE_BUILD_DIR:-$(mktemp -d -t chip2026_9c_XXXX)}"

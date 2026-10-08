@@ -13,6 +13,7 @@ Angka sumber daya dan timing hanya dari Quartus.
 | `keccak/` | Keccak-f[1600] 1 ronde (`keccak_f1600`) dan 2 ronde (`_r2`), sponge SHA3/SHAKE | 7, 8a |
 | `sample/` | sampler streaming: SampleNTT, CBD2, wrapper `keccak_sampler` | 8b |
 | `sched/` | sequencer K-PKE, unit PWM, ROM program, penyimpan polinomial | 6, 8c, 8d, 9M |
+| [mlkem_final/](mlkem_final/README.md) | salinan inti final K4 (`mlkem_core4`) beserta semua file yang dibutuhkan, dalam satu folder | 9M |
 | `mlkem/` | inti ML-KEM: `mlkem_core` ... `mlkem_core4`, codec, hash, FO compare, ROM kendali | 9, 9M |
 
 ## Aturan membaca folder ini

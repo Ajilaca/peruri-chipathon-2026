@@ -10,4 +10,4 @@ Dokumentasi proyek. Kode ada di `rtl/`, bukti mentah di [`../evidence/`](../evid
 | [evidence/](evidence/README.md) | indeks bukti per fase (isinya ada di `../evidence/`) |
 | [reports/](reports/README.md) | laporan PDF per fase dan laporan lengkap |
 
-Urutan baca untuk orang baru: README root, ROADMAP, `decisions/decision_summary.md`, `results/phase9m.md`.
+Urutan baca : README root, ROADMAP, `decisions/decision_summary.md`, `results/phase9m.md`.

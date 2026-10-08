@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # scripts/test/phase6_verify.sh -- Phase 6 verification (evidence/phase06/test_plan.md V1-V6), both simulators.
 # Prints one "## <step>" header per step, the step's summary lines and "rc=<n>"; the last line is "OVERALL: PASS" only if every step returned 0.
-# V7 (formal) is formal/run/run_formal_phase6.py. Usage: . scripts/env.sh && scripts/test/phase6_verify.sh
+# V7 (formal) is formal/run/run_formal_phase6.py. Usage: scripts/test/phase6_verify.sh
 set -u
 cd "$(dirname "${BASH_SOURCE[0]}")/../.."
 export P6_BUILD_DIR="${P6_BUILD_DIR:-$(mktemp -d -t chip2026_p6_XXXX)}"

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # scripts/test/phase9a_verify.sh -- Phase 9a verification (evidence/phase09/9a/test_plan_9a.md V1-V9, V11), both simulators.
 # V9 (formal) is formal/run/run_formal_phase9a.py, run at the end unless P9A_FORMAL=0 (the two BMC control runs at depth 300 take about 10 minutes each).
-# Usage: . scripts/env.sh && scripts/test/phase9a_verify.sh
+# Usage: scripts/test/phase9a_verify.sh
 set -u
 cd "$(dirname "${BASH_SOURCE[0]}")/../.."
 export CT_BUILD_DIR="${CT_BUILD_DIR:-$(mktemp -d -t chip2026_9a_XXXX)}"

@@ -2,7 +2,7 @@
 # scripts/test/phase5m_verify_s7.sh -- Phase 5M step S7 verification (evidence/phase05m/test_plan_s7.md V1-V5), both simulators.
 # Prints one "## <step>" header per step, the step's summary lines and "rc=<n>"; the last line is "OVERALL: PASS" only if every step returned 0.
 # V6 (formal) is formal/run/run_formal_phase5m_s7.py; V7 (regression) is not run for S7 (Amendment A1 of evidence/phase05m/test_plan.md).
-# Usage: . scripts/env.sh && scripts/test/phase5m_verify_s7.sh
+# Usage: scripts/test/phase5m_verify_s7.sh
 set -u
 cd "$(dirname "${BASH_SOURCE[0]}")/../.."
 export S7_BUILD_DIR="${S7_BUILD_DIR:-$(mktemp -d -t chip2026_s7_XXXX)}"

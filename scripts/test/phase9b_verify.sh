@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # scripts/test/phase9b_verify.sh -- Phase 9b verification (evidence/phase09/9b/test_plan_9b.md V1-V8, V10), both simulators.
 # V8 (formal) is formal/run/run_formal_phase9b.py, run at the end unless P9B_FORMAL=0.
-# Usage: . scripts/env.sh && scripts/test/phase9b_verify.sh
+# Usage: scripts/test/phase9b_verify.sh
 set -u
 cd "$(dirname "${BASH_SOURCE[0]}")/../.."
 export HF_BUILD_DIR="${HF_BUILD_DIR:-$(mktemp -d -t chip2026_9b_XXXX)}"

@@ -3,7 +3,7 @@
 # simulators. Prints one "## <step>" header per step, the step's summary lines and "rc=<n>"; the last line is
 # "OVERALL: PASS" only if every step returned 0. V8 (formal) is formal/run/run_formal_phase5.py; V9 is
 # scripts/test/phase5_regression.sh.
-# Usage: . scripts/env.sh && scripts/test/phase5_verify.sh [wrapper ...]   (default: every C4 wrapper; exhaustive kinds 1 2 3)
+# Usage: scripts/test/phase5_verify.sh [wrapper ...]   (default: every C4 wrapper; exhaustive kinds 1 2 3)
 set -u
 cd "$(dirname "${BASH_SOURCE[0]}")/../.."
 export C4_BUILD_DIR="${C4_BUILD_DIR:-$(mktemp -d -t chip2026_c4_XXXX)}"

@@ -2,7 +2,7 @@
 # scripts/test/phase5_regression.sh -- Phase 5 test plan V9 (CRG-5, CRG-6): every earlier-phase check, unchanged,
 # run after the Phase 5 RTL was added. Prints one "## <step>" header per step, the step's summary lines and
 # "rc=<n>"; the last line is "OVERALL: PASS" only if every step returned 0.
-# Usage: . scripts/env.sh && scripts/test/phase5_regression.sh > <log>
+# Usage: scripts/test/phase5_regression.sh > <log>
 set -u
 cd "$(dirname "${BASH_SOURCE[0]}")/../.."
 export P4_BUILD_DIR="${P4_BUILD_DIR:-$(mktemp -d -t chip2026_reg_XXXX)}"

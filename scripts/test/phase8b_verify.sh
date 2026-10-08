@@ -2,7 +2,7 @@
 # scripts/test/phase8b_verify.sh -- Phase 8b verification (evidence/phase08/8b/test_plan_8b.md V1-V10), both simulators.
 # V10 regression: scripts/test/phase8a_verify.sh (which runs scripts/test/phase7_verify.sh first) and the formal runs of Phases 7 and 8a, unless KS_REGRESS=0.
 # V9 (formal for the samplers) is formal/run/run_formal_phase8b.py, run here at the end. KS_OUTW selects the output width under test (1 = stage W1, 2 = stage W2); the W1 test set is rerun in stage W2 with KS_OUTW=1.
-# Usage: . scripts/env.sh && scripts/test/phase8b_verify.sh
+# Usage: scripts/test/phase8b_verify.sh
 set -u
 cd "$(dirname "${BASH_SOURCE[0]}")/../.."
 export KS_BUILD_DIR="${KS_BUILD_DIR:-$(mktemp -d -t chip2026_8b_XXXX)}"

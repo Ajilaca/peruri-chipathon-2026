@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # scripts/test/s10_verify.sh -- S10 verification (evidence/phase06/test_plan_s10.md V1-V4, V6), both simulators. V5 (formal) is formal/run/run_formal_s10.py.
-# Usage: . scripts/env.sh && scripts/test/s10_verify.sh
+# Usage: scripts/test/s10_verify.sh
 set -u
 cd "$(dirname "${BASH_SOURCE[0]}")/../.."
 export S10_BUILD_DIR="${S10_BUILD_DIR:-$(mktemp -d -t chip2026_s10_XXXX)}"

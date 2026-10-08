@@ -3,7 +3,7 @@
 # regression of the S6-S8 sequence, run on the final tree. Header: git SHA, dirty state, and the added / modified file counts since 288a78c (the commit
 # before the first Phase 5M RTL file). Then, one after the other and unchanged: S6 verification, S7 verification, Phase 0-5 regression (V8), Phase 5 verification
 # of the C4 wrappers. The formal runs are separate (formal/run/run_formal_phase5m*.py, formal/run/run_formal_phase5.py). Last line "OVERALL: PASS" only if every step
-# returned 0. Usage: . scripts/env.sh && scripts/test/phase5m_final_regression.sh > <log>
+# returned 0. Usage: scripts/test/phase5m_final_regression.sh > <log>
 set -u
 cd "$(dirname "${BASH_SOURCE[0]}")/../.."
 echo "git SHA: $(git rev-parse HEAD)"

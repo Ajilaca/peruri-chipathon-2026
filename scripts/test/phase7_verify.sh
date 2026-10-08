@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # scripts/test/phase7_verify.sh -- Phase 7 verification (evidence/phase07/test_plan.md V1-V7, V9 parameters), both simulators. V8 (formal) is formal/run/run_formal_phase7.py.
-# Usage: . scripts/env.sh && scripts/test/phase7_verify.sh
+# Usage: scripts/test/phase7_verify.sh
 set -u
 cd "$(dirname "${BASH_SOURCE[0]}")/../.."
 export KK_BUILD_DIR="${KK_BUILD_DIR:-$(mktemp -d -t chip2026_k0_XXXX)}"

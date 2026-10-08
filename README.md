@@ -99,7 +99,7 @@ Struktur test: [tb/](tb/README.md). Properti formal dan batasnya: [formal/](form
 
 | Folder | Isi |
 |---|---|
-| [rtl/](rtl/README.md) | SystemVerilog: `arith`, `ntt`, `mem`, `keccak`, `sample`, `sched`, `mlkem` |
+| [rtl/](rtl/README.md) | SystemVerilog: `arith`, `ntt`, `mem`, `keccak`, `sample`, `sched`, `mlkem`; inti final K4 lengkap di [rtl/mlkem_final/](rtl/mlkem_final/README.md) |
 | [tb/](tb/README.md) | testbench cocotb dan model acuan Python |
 | [formal/](formal/README.md) | properti SymbiYosys per fase, dan `run/` untuk menjalankannya |
 | [quartus/](quartus/README.md) | proyek dan revisi Quartus |

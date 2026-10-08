@@ -1,6 +1,6 @@
 # scripts/
 
-Skrip dikelompokkan menurut fungsi. Jalankan dari root repository setelah `. scripts/env.sh`.
+Skrip dikelompokkan menurut fungsi. Jalankan dari root repository dengan Quartus dan OSS CAD Suite sudah ada di PATH dan `.venv` aktif.
 
 ## Verifikasi: [test/](test/)
 
@@ -19,16 +19,6 @@ Skrip dikelompokkan menurut fungsi. Jalankan dari root repository setelah `. scr
 | `*.tcl` | laporan jalur kritis dan segmen untuk Timing Analyzer |
 | `phase*_path_classes.py`, `classify_paths_9f.py`, `quartus_entity_breakdown.py`, `phase4_seed_sweep_summary.py` | analisis jalur dan rincian per entitas dari laporan yang sudah ada |
 
-## Pembangkit dan laporan: build/ (hanya di lokal, tidak ada di GitHub)
-
-| Skrip | Fungsi |
-|---|---|
-| `gen_*.py` | membangkitkan ROM (twiddle, peta bank, jadwal lajur, program K-PKE, ROM kendali ML-KEM, konstanta Keccak) dari model acuan |
-| `build_phase*_report.py`, `build_complete_report.py` | membangun PDF di `docs/reports/` |
-| `gen_roadmap_png.py` | menggambar `docs/roadmap.png` |
-
-Keluaran `gen_*.py` masuk ke `rtl/` dan ditandai "GENERATED"; jangan diedit tangan.
-
 ## Analisis (di `test/`)
 
 `phase5_stall_cycles.py`, `phase7_op_cycles.py`, `phase8b_cycles.py`, `pipeline_hazard_slack.py`, `phase5m_s9_port_analysis.py`
@@ -38,7 +28,4 @@ menghitung stall, siklus per operasi, slack hazard dan konflik port dari log ata
 
 | File | Fungsi |
 |---|---|
-| `env.sh` | PATH untuk Quartus dan OSS CAD Suite, mengaktifkan `.venv` |
-| `setup_tooling.sh` | menyiapkan dan memeriksa perkakas (`check` hanya membaca) |
-| `setup_github.sh` | pemeriksaan sebelum commit: rahasia, data pribadi, file besar (`check` hanya membaca) |
 | `requirements-dev.txt`, `tooling.env` | versi paket Python dan variabel perkakas |

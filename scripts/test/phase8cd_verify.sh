@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # scripts/test/phase8cd_verify.sh -- Phases 8c and 8d verification (evidence/phase08/8c/test_plan_8c.md V1-V8, 8d/test_plan_8d.md V1-V8), both simulators.
 # Variants: 0 STORE and 1 STREAM (8c), 2 OVERLAP and 3 STRESS (8d, STRESS is test only). The 8b sampler is not changed by 8c/8d; its regression is scripts/test/phase8b_verify.sh (not rerun here).
-# Usage: . scripts/env.sh && scripts/test/phase8cd_verify.sh
+# Usage: scripts/test/phase8cd_verify.sh
 set -u
 cd "$(dirname "${BASH_SOURCE[0]}")/../.."
 export KP_BUILD_DIR="${KP_BUILD_DIR:-$(mktemp -d -t chip2026_8cd_XXXX)}"

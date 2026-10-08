@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # scripts/test/phase8a_verify.sh -- Phase 8a verification (evidence/phase08/8a/test_plan_8a.md V1, V4-V7, V9), both simulators.
 # V9 regression: runs scripts/test/phase7_verify.sh first (K0 with the parameterised tests, defaults unchanged). V8 (formal) is formal/run/run_formal_phase8a.py.
-# Usage: . scripts/env.sh && scripts/test/phase8a_verify.sh
+# Usage: scripts/test/phase8a_verify.sh
 set -u
 cd "$(dirname "${BASH_SOURCE[0]}")/../.."
 export KK_BUILD_DIR="${KK_BUILD_DIR:-$(mktemp -d -t chip2026_k0_XXXX)}"
