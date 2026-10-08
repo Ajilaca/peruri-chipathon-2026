@@ -1,12 +1,12 @@
-# MEASURED - Quartus results for revision `SMP1-20`
+# MEASURED - Hasil Quartus untuk revisi `SMP1-20`
 
-- Generated: 2026-10-03 13:26 UTC by `extract_quartus_report.py` (values copied from the reports, not computed)
-- Source directory: `quartus/par_a/output_files_SMP1-20`
-- Note: Phases 8c/8d: kpke_smp_top_s10 revision SMP1-20, kernel-only virtual pins; compiled in quartus/par_a (a copy of quartus/phase08c_smp with identical .qsf, .sdc and sources, used to run compiles in parallel; not committed); working tree on top of commit d965b4d
+- Dibuat: 2026-10-03 13:26 UTC oleh `extract_quartus_report.py` (nilai disalin dari laporan, tidak dihitung)
+- Direktori sumber: `quartus/par_a/output_files_SMP1-20`
+- Catatan: Fase 8c/8d: kpke_smp_top_s10 revisi SMP1-20, kernel-only dengan virtual pin; dikompilasi di quartus/par_a (salinan quartus/phase08c_smp dengan .qsf, .sdc, dan sumber identik, dipakai untuk menjalankan kompilasi paralel; tidak di-commit); working tree di atas commit d965b4d
 
 ## Fitter (`SMP1-20.fit.summary`)
 
-| Item | Value (verbatim) |
+| Item | Nilai (verbatim) |
 |---|---|
 | Fitter Status | Successful - Sat Oct  3 19:43:12 2026 |
 | Quartus Prime Version | 25.1std.0 Build 1129 10/21/2025 SC Lite Edition |
@@ -24,11 +24,11 @@
 | Total PLLs | 0 / 6 ( 0 % ) |
 | Total DLLs | 0 / 4 ( 0 % ) |
 
-Denominators above are the fitter's own; quote them as printed.
+Penyebut di atas adalah penyebut fitter sendiri; kutip persis seperti tercetak.
 
 ## Timing (`SMP1-20.sta.summary`)
 
-| Type | Slack (ns) | TNS |
+| Tipe | Slack (ns) | TNS |
 |---|---|---|
 | Slow 1100mV 100C Model Setup 'clk_i' | 2.498 | 0.000 |
 | Slow 1100mV 100C Model Hold 'clk_i' | 0.310 | 0.000 |
@@ -51,21 +51,21 @@ Denominators above are the fitter's own; quote them as printed.
 | Fast 1100mV -40C Model Removal 'clk_i' | 0.612 | 0.000 |
 | Fast 1100mV -40C Model Minimum Pulse Width 'clk_i' | 8.904 | 0.000 |
 
-- Worst setup slack: **1.783 ns** (Slow 1100mV -40C Model Setup 'clk_i')
-- Worst hold slack: **0.095 ns** (Fast 1100mV -40C Model Hold 'clk_i')
+- Slack setup terburuk: **1.783 ns** (Slow 1100mV -40C Model Setup 'clk_i')
+- Slack hold terburuk: **0.095 ns** (Fast 1100mV -40C Model Hold 'clk_i')
 
-## Fmax (`SMP1-20.sta.rpt`, Fmax Summary panels)
+## Fmax (`SMP1-20.sta.rpt`, panel Fmax Summary)
 
-| Model | Fmax | Restricted Fmax | Clock Name | Note |
+| Model | Fmax | Fmax terbatas | Nama clock | Catatan |
 |---|---|---|---|---|
 | Slow 1100mV 100C Model Fmax Summary | 57.14 MHz | 57.14 MHz | clk_i |  |
 | Slow 1100mV -40C Model Fmax Summary | 54.89 MHz | 54.89 MHz | clk_i |  |
 
-## Compile log message counts
+## Jumlah pesan log kompilasi
 
-- Critical warnings: 1
-- Warnings: 261
-- Errors: 0
+- Peringatan kritis: 1
+- Peringatan: 261
+- Kesalahan: 0
 
-Critical warnings must be triaged in writing (CLAUDE.md rule 10).
+Peringatan kritis harus dibahas secara tertulis.
 

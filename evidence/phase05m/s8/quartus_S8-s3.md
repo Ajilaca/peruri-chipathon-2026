@@ -1,12 +1,12 @@
-# MEASURED - Quartus results for revision `S8-s3`
+# MEASURED - Hasil Quartus untuk revisi `S8-s3`
 
-- Generated: 2026-10-02 17:38 UTC by `extract_quartus_report.py` (values copied from the reports, not computed)
-- Source directory: `quartus/phase05m_memsched/output_files_S8-s3`
-- Note: Phase 5M step S8 candidate: rtl/ntt/ntt_core_s8_p8.sv (S7 plus write-path register WR_REG = 1, P = 8, one bubble per direction; ADR 0017/0019/0020/0021, test plan evidence/phase05m/test_plan_s8.md); constraint 40.000 ns (quartus/phase05m_memsched/M.sdc); Quartus defaults; git 300aaf3
+- Dibuat: 2026-10-02 17:38 UTC oleh `extract_quartus_report.py` (nilai disalin dari laporan, tidak dihitung)
+- Direktori sumber: `quartus/phase05m_memsched/output_files_S8-s3`
+- Catatan: Fase 5M langkah S8 kandidat: rtl/ntt/ntt_core_s8_p8.sv (S7 ditambah register jalur tulis WR_REG = 1, P = 8, satu bubble per arah; ADR 0017/0019/0020/0021, test plan evidence/phase05m/test_plan_s8.md); batasan 40.000 ns (quartus/phase05m_memsched/M.sdc); bawaan Quartus; git 300aaf3
 
 ## Fitter (`S8-s3.fit.summary`)
 
-| Item | Value (verbatim) |
+| Item | Nilai (verbatim) |
 |---|---|
 | Fitter Status | Successful - Fri Oct  2 22:34:44 2026 |
 | Quartus Prime Version | 25.1std.0 Build 1129 10/21/2025 SC Lite Edition |
@@ -24,11 +24,11 @@
 | Total PLLs | 0 / 6 ( 0 % ) |
 | Total DLLs | 0 / 4 ( 0 % ) |
 
-Denominators above are the fitter's own; quote them as printed.
+Penyebut di atas adalah penyebut fitter sendiri; kutip persis seperti tercetak.
 
 ## Timing (`S8-s3.sta.summary`)
 
-| Type | Slack (ns) | TNS |
+| Tipe | Slack (ns) | TNS |
 |---|---|---|
 | Slow 1100mV 100C Model Setup 'clk_i' | 13.767 | 0.000 |
 | Slow 1100mV 100C Model Hold 'clk_i' | 0.441 | 0.000 |
@@ -51,21 +51,21 @@ Denominators above are the fitter's own; quote them as printed.
 | Fast 1100mV -40C Model Removal 'clk_i' | 0.347 | 0.000 |
 | Fast 1100mV -40C Model Minimum Pulse Width 'clk_i' | 18.914 | 0.000 |
 
-- Worst setup slack: **13.017 ns** (Slow 1100mV -40C Model Setup 'clk_i')
-- Worst hold slack: **0.09 ns** (Fast 1100mV -40C Model Hold 'clk_i')
+- Slack setup terburuk: **13.017 ns** (Slow 1100mV -40C Model Setup 'clk_i')
+- Slack hold terburuk: **0.09 ns** (Fast 1100mV -40C Model Hold 'clk_i')
 
-## Fmax (`S8-s3.sta.rpt`, Fmax Summary panels)
+## Fmax (`S8-s3.sta.rpt`, panel Fmax Summary)
 
-| Model | Fmax | Restricted Fmax | Clock Name | Note |
+| Model | Fmax | Fmax terbatas | Nama clock | Catatan |
 |---|---|---|---|---|
 | Slow 1100mV 100C Model Fmax Summary | 38.12 MHz | 38.12 MHz | clk_i |  |
 | Slow 1100mV -40C Model Fmax Summary | 37.06 MHz | 37.06 MHz | clk_i |  |
 
-## Compile log message counts
+## Jumlah pesan log kompilasi
 
-- Critical warnings: 1
-- Warnings: 20
-- Errors: 0
+- Peringatan kritis: 1
+- Peringatan: 20
+- Kesalahan: 0
 
-Critical warnings must be triaged in writing (CLAUDE.md rule 10).
+Peringatan kritis harus dibahas secara tertulis.
 

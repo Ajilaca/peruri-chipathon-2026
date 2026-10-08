@@ -1,12 +1,12 @@
-# MEASURED - Quartus results for revision `F13-s2`
+# MEASURED - Hasil Quartus untuk revisi `F13-s2`
 
-- Generated: 2026-10-04 09:34 UTC by `extract_quartus_report.py` (values copied from the reports, not computed)
-- Source directory: `quartus/phase09f0_core/output_files_F13-s2`
-- Note: Phase 9F step S0 amendment A2: the 9M-1 core at 13.000 ns, revision F13-s2, kernel-only virtual pins; branch phase9m-optimisation
+- Dibuat: 2026-10-04 09:34 UTC oleh `extract_quartus_report.py` (nilai disalin dari laporan, tidak dihitung)
+- Direktori sumber: `quartus/phase09f0_core/output_files_F13-s2`
+- Catatan: Fase 9F langkah S0 amandemen A2: inti 9M-1 pada 13.000 ns, revisi F13-s2, kernel-only dengan virtual pin; branch phase9m-optimisation
 
 ## Fitter (`F13-s2.fit.summary`)
 
-| Item | Value (verbatim) |
+| Item | Nilai (verbatim) |
 |---|---|
 | Fitter Status | Successful - Sun Oct  4 16:32:13 2026 |
 | Quartus Prime Version | 25.1std.0 Build 1129 10/21/2025 SC Lite Edition |
@@ -24,11 +24,11 @@
 | Total PLLs | 0 / 6 ( 0 % ) |
 | Total DLLs | 0 / 4 ( 0 % ) |
 
-Denominators above are the fitter's own; quote them as printed.
+Penyebut di atas adalah penyebut fitter sendiri; kutip persis seperti tercetak.
 
 ## Timing (`F13-s2.sta.summary`)
 
-| Type | Slack (ns) | TNS |
+| Tipe | Slack (ns) | TNS |
 |---|---|---|
 | Slow 1100mV 100C Model Setup 'clk_i' | -0.185 | -4.710 |
 | Slow 1100mV 100C Model Hold 'clk_i' | 0.354 | 0.000 |
@@ -43,21 +43,21 @@ Denominators above are the fitter's own; quote them as printed.
 | Fast 1100mV -40C Model Hold 'clk_i' | 0.100 | 0.000 |
 | Fast 1100mV -40C Model Minimum Pulse Width 'clk_i' | 5.440 | 0.000 |
 
-- Worst setup slack: **-0.213 ns** (Slow 1100mV -40C Model Setup 'clk_i')  **NEGATIVE: timing not met**
-- Worst hold slack: **0.1 ns** (Fast 1100mV -40C Model Hold 'clk_i')
+- Slack setup terburuk: **-0.213 ns** (Slow 1100mV -40C Model Setup 'clk_i')  **NEGATIVE: timing not met**
+- Slack hold terburuk: **0.1 ns** (Fast 1100mV -40C Model Hold 'clk_i')
 
-## Fmax (`F13-s2.sta.rpt`, Fmax Summary panels)
+## Fmax (`F13-s2.sta.rpt`, panel Fmax Summary)
 
-| Model | Fmax | Restricted Fmax | Clock Name | Note |
+| Model | Fmax | Fmax terbatas | Nama clock | Catatan |
 |---|---|---|---|---|
 | Slow 1100mV 100C Model Fmax Summary | 75.84 MHz | 75.84 MHz | clk_i |  |
 | Slow 1100mV -40C Model Fmax Summary | 75.68 MHz | 75.68 MHz | clk_i |  |
 
-## Compile log message counts
+## Jumlah pesan log kompilasi
 
-- Critical warnings: 3
-- Warnings: 253
-- Errors: 0
+- Peringatan kritis: 3
+- Peringatan: 253
+- Kesalahan: 0
 
-Critical warnings must be triaged in writing (CLAUDE.md rule 10).
+Peringatan kritis harus dibahas secara tertulis.
 

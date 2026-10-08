@@ -1,12 +1,12 @@
-# MEASURED - Quartus results for revision `SMP0-s2`
+# MEASURED - Hasil Quartus untuk revisi `SMP0-s2`
 
-- Generated: 2026-10-03 13:26 UTC by `extract_quartus_report.py` (values copied from the reports, not computed)
-- Source directory: `quartus/phase08c_smp/output_files_SMP0-s2`
-- Note: Phases 8c/8d: kpke_smp_top_s10 revision SMP0-s2, kernel-only virtual pins; compiled in quartus/phase08c_smp; working tree on top of commit d965b4d
+- Dibuat: 2026-10-03 13:26 UTC oleh `extract_quartus_report.py` (nilai disalin dari laporan, tidak dihitung)
+- Direktori sumber: `quartus/phase08c_smp/output_files_SMP0-s2`
+- Catatan: Fase 8c/8d: kpke_smp_top_s10 revisi SMP0-s2, kernel-only dengan virtual pin; dikompilasi di quartus/phase08c_smp; working tree di atas commit d965b4d
 
 ## Fitter (`SMP0-s2.fit.summary`)
 
-| Item | Value (verbatim) |
+| Item | Nilai (verbatim) |
 |---|---|
 | Fitter Status | Successful - Sat Oct  3 18:26:30 2026 |
 | Quartus Prime Version | 25.1std.0 Build 1129 10/21/2025 SC Lite Edition |
@@ -24,11 +24,11 @@
 | Total PLLs | 0 / 6 ( 0 % ) |
 | Total DLLs | 0 / 4 ( 0 % ) |
 
-Denominators above are the fitter's own; quote them as printed.
+Penyebut di atas adalah penyebut fitter sendiri; kutip persis seperti tercetak.
 
 ## Timing (`SMP0-s2.sta.summary`)
 
-| Type | Slack (ns) | TNS |
+| Tipe | Slack (ns) | TNS |
 |---|---|---|
 | Slow 1100mV 100C Model Setup 'clk_i' | 17.213 | 0.000 |
 | Slow 1100mV 100C Model Hold 'clk_i' | 0.258 | 0.000 |
@@ -51,21 +51,21 @@ Denominators above are the fitter's own; quote them as printed.
 | Fast 1100mV -40C Model Removal 'clk_i' | 0.397 | 0.000 |
 | Fast 1100mV -40C Model Minimum Pulse Width 'clk_i' | 18.906 | 0.000 |
 
-- Worst setup slack: **16.417 ns** (Slow 1100mV -40C Model Setup 'clk_i')
-- Worst hold slack: **0.098 ns** (Fast 1100mV -40C Model Hold 'clk_i')
+- Slack setup terburuk: **16.417 ns** (Slow 1100mV -40C Model Setup 'clk_i')
+- Slack hold terburuk: **0.098 ns** (Fast 1100mV -40C Model Hold 'clk_i')
 
-## Fmax (`SMP0-s2.sta.rpt`, Fmax Summary panels)
+## Fmax (`SMP0-s2.sta.rpt`, panel Fmax Summary)
 
-| Model | Fmax | Restricted Fmax | Clock Name | Note |
+| Model | Fmax | Fmax terbatas | Nama clock | Catatan |
 |---|---|---|---|---|
 | Slow 1100mV 100C Model Fmax Summary | 43.88 MHz | 43.88 MHz | clk_i |  |
 | Slow 1100mV -40C Model Fmax Summary | 42.4 MHz | 42.4 MHz | clk_i |  |
 
-## Compile log message counts
+## Jumlah pesan log kompilasi
 
-- Critical warnings: 1
-- Warnings: 243
-- Errors: 0
+- Peringatan kritis: 1
+- Peringatan: 243
+- Kesalahan: 0
 
-Critical warnings must be triaged in writing (CLAUDE.md rule 10).
+Peringatan kritis harus dibahas secara tertulis.
 

@@ -41,8 +41,8 @@ def parse_quartus(path: pathlib.Path) -> dict:
     reg = re.search(r"\| Total registers \| (\d+)", s)
     dsp = re.search(r"\| Total DSP Blocks \| (\d+) / (\d+)", s)
     ram = re.search(r"\| Total RAM Blocks \| (\d+) / (\d+)", s)
-    setup = re.search(r"Worst setup slack: \*\*(-?[\d.]+) ns\*\* \(([^)]*)\)", s)
-    hold = re.search(r"Worst hold slack: \*\*(-?[\d.]+) ns\*\* \(([^)]*)\)", s)
+    setup = re.search(r"Slack setup terburuk: \*\*(-?[\d.]+) ns\*\* \(([^)]*)\)", s)
+    hold = re.search(r"Slack hold terburuk: \*\*(-?[\d.]+) ns\*\* \(([^)]*)\)", s)
     fmax = re.findall(r"\| (Slow [^|]*?) Model Fmax Summary \| ([\d.]+) MHz \|", s)
     if not (alm and reg and dsp and ram and setup and hold and fmax):
         raise SystemExit(f"{path}: could not read every field; fix the parser or the evidence file")

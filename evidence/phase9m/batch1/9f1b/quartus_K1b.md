@@ -1,12 +1,12 @@
-# MEASURED - Quartus results for revision `K1b`
+# MEASURED - Hasil Quartus untuk revisi `K1b`
 
-- Generated: 2026-10-04 12:08 UTC by `extract_quartus_report.py` (values copied from the reports, not computed)
-- Source directory: `quartus/phase09f1b_core/output_files_K1b`
-- Note: Phase 9F step S1b: mlkem_core3 (background hash sidecar) with SMP_C5 = 0, HASH_C5 = 0, CODEC_W2 = 1, revision K1b, kernel-only virtual pins; branch phase9m-optimisation
+- Dibuat: 2026-10-04 12:08 UTC oleh `extract_quartus_report.py` (nilai disalin dari laporan, tidak dihitung)
+- Direktori sumber: `quartus/phase09f1b_core/output_files_K1b`
+- Catatan: Fase 9F langkah S1b: mlkem_core3 (sidecar hash latar belakang) dengan SMP_C5 = 0, HASH_C5 = 0, CODEC_W2 = 1, revisi K1b, kernel-only dengan virtual pin; branch phase9m-optimisation
 
 ## Fitter (`K1b.fit.summary`)
 
-| Item | Value (verbatim) |
+| Item | Nilai (verbatim) |
 |---|---|
 | Fitter Status | Successful - Sun Oct  4 17:11:51 2026 |
 | Quartus Prime Version | 25.1std.0 Build 1129 10/21/2025 SC Lite Edition |
@@ -24,11 +24,11 @@
 | Total PLLs | 0 / 6 ( 0 % ) |
 | Total DLLs | 0 / 4 ( 0 % ) |
 
-Denominators above are the fitter's own; quote them as printed.
+Penyebut di atas adalah penyebut fitter sendiri; kutip persis seperti tercetak.
 
 ## Timing (`K1b.sta.summary`)
 
-| Type | Slack (ns) | TNS |
+| Tipe | Slack (ns) | TNS |
 |---|---|---|
 | Slow 1100mV 100C Model Setup 'clk_i' | 20.857 | 0.000 |
 | Slow 1100mV 100C Model Hold 'clk_i' | 0.285 | 0.000 |
@@ -51,21 +51,21 @@ Denominators above are the fitter's own; quote them as printed.
 | Fast 1100mV -40C Model Removal 'clk_i' | 0.126 | 0.000 |
 | Fast 1100mV -40C Model Minimum Pulse Width 'clk_i' | 18.908 | 0.000 |
 
-- Worst setup slack: **20.857 ns** (Slow 1100mV 100C Model Setup 'clk_i')
-- Worst hold slack: **0.11 ns** (Fast 1100mV -40C Model Hold 'clk_i')
+- Slack setup terburuk: **20.857 ns** (Slow 1100mV 100C Model Setup 'clk_i')
+- Slack hold terburuk: **0.11 ns** (Fast 1100mV -40C Model Hold 'clk_i')
 
-## Fmax (`K1b.sta.rpt`, Fmax Summary panels)
+## Fmax (`K1b.sta.rpt`, panel Fmax Summary)
 
-| Model | Fmax | Restricted Fmax | Clock Name | Note |
+| Model | Fmax | Fmax terbatas | Nama clock | Catatan |
 |---|---|---|---|---|
 | Slow 1100mV 100C Model Fmax Summary | 52.24 MHz | 52.24 MHz | clk_i |  |
 | Slow 1100mV -40C Model Fmax Summary | 54.47 MHz | 54.47 MHz | clk_i |  |
 
-## Compile log message counts
+## Jumlah pesan log kompilasi
 
-- Critical warnings: 1
-- Warnings: 253
-- Errors: 0
+- Peringatan kritis: 1
+- Peringatan: 253
+- Kesalahan: 0
 
-Critical warnings must be triaged in writing (CLAUDE.md rule 10).
+Peringatan kritis harus dibahas secara tertulis.
 

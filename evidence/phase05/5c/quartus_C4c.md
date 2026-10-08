@@ -1,12 +1,12 @@
-# MEASURED - Quartus results for revision `C4c`
+# MEASURED - Hasil Quartus untuk revisi `C4c`
 
-- Generated: 2026-10-01 14:36 UTC by `extract_quartus_report.py` (values copied from the reports, not computed)
-- Source directory: `quartus/phase05_arith_c4/output_files_C4c`
-- Note: Phase 5c candidate: rtl/ntt/ntt_core_c4c.sv (Barrett RED_KIND=2, LAZY=1, lazy INTT inputs, ADR 0014; cuts X, S_1, S_2 as C4b-B; memory cuts A_4, A_11, M); constraint 40.000 ns (C4.sdc); Quartus defaults; fitter seed 1 (confirmed in the fit report: Fitter Initial Placement Seed line); RTL = working tree on branch phase5-arith on top of git 97f41a1
+- Dibuat: 2026-10-01 14:36 UTC oleh `extract_quartus_report.py` (nilai disalin dari laporan, tidak dihitung)
+- Direktori sumber: `quartus/phase05_arith_c4/output_files_C4c`
+- Catatan: Fase 5c kandidat: rtl/ntt/ntt_core_c4c.sv (Barrett RED_KIND=2, LAZY=1, masukan INTT malas, ADR 0014; potongan X, S_1, S_2 seperti C4b-B; potongan memori A_4, A_11, M); batasan 40.000 ns (C4.sdc); bawaan Quartus; fitter seed 1 (dikonfirmasi di laporan fit: baris Fitter Initial Placement Seed); RTL = working tree branch phase5-arith di atas git 97f41a1
 
 ## Fitter (`C4c.fit.summary`)
 
-| Item | Value (verbatim) |
+| Item | Nilai (verbatim) |
 |---|---|
 | Fitter Status | Successful - Thu Oct  1 21:03:52 2026 |
 | Quartus Prime Version | 25.1std.0 Build 1129 10/21/2025 SC Lite Edition |
@@ -24,11 +24,11 @@
 | Total PLLs | 0 / 6 ( 0 % ) |
 | Total DLLs | 0 / 4 ( 0 % ) |
 
-Denominators above are the fitter's own; quote them as printed.
+Penyebut di atas adalah penyebut fitter sendiri; kutip persis seperti tercetak.
 
 ## Timing (`C4c.sta.summary`)
 
-| Type | Slack (ns) | TNS |
+| Tipe | Slack (ns) | TNS |
 |---|---|---|
 | Slow 1100mV 100C Model Setup 'clk_i' | 9.682 | 0.000 |
 | Slow 1100mV 100C Model Hold 'clk_i' | 0.430 | 0.000 |
@@ -51,21 +51,21 @@ Denominators above are the fitter's own; quote them as printed.
 | Fast 1100mV -40C Model Removal 'clk_i' | 0.274 | 0.000 |
 | Fast 1100mV -40C Model Minimum Pulse Width 'clk_i' | 18.908 | 0.000 |
 
-- Worst setup slack: **9.682 ns** (Slow 1100mV 100C Model Setup 'clk_i')
-- Worst hold slack: **0.098 ns** (Fast 1100mV -40C Model Hold 'clk_i')
+- Slack setup terburuk: **9.682 ns** (Slow 1100mV 100C Model Setup 'clk_i')
+- Slack hold terburuk: **0.098 ns** (Fast 1100mV -40C Model Hold 'clk_i')
 
-## Fmax (`C4c.sta.rpt`, Fmax Summary panels)
+## Fmax (`C4c.sta.rpt`, panel Fmax Summary)
 
-| Model | Fmax | Restricted Fmax | Clock Name | Note |
+| Model | Fmax | Fmax terbatas | Nama clock | Catatan |
 |---|---|---|---|---|
 | Slow 1100mV 100C Model Fmax Summary | 32.98 MHz | 32.98 MHz | clk_i |  |
 | Slow 1100mV -40C Model Fmax Summary | 33.19 MHz | 33.19 MHz | clk_i |  |
 
-## Compile log message counts
+## Jumlah pesan log kompilasi
 
-- Critical warnings: 1
-- Warnings: 23
-- Errors: 0
+- Peringatan kritis: 1
+- Peringatan: 23
+- Kesalahan: 0
 
-Critical warnings must be triaged in writing (CLAUDE.md rule 10).
+Peringatan kritis harus dibahas secara tertulis.
 

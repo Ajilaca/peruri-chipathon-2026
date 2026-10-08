@@ -24,8 +24,8 @@ def parse(rev):
     g = lambda pat: int(num(re.search(pat, t).group(1)))  # noqa: E731
     fm = [num(x) for x in re.findall(r"Slow 1100mV [-\d]+C Model Fmax Summary \| ([\d.]+) MHz", t)]
     return dict(alm=g(r"Logic utilization \(in ALMs\) \| ([\d,]+)"), regs=g(r"Total registers \| ([\d,]+)"), membits=g(r"Total block memory bits \| ([\d,]+)"), dsp=g(r"Total DSP Blocks \| ([\d,]+)"),
-                setup=num(re.search(r"Worst setup slack: \*\*(-?[\d.]+) ns", t).group(1)), hold=num(re.search(r"Worst hold slack: \*\*(-?[\d.]+) ns", t).group(1)), fmax=min(fm),
-                crit=g(r"Critical warnings: (\d+)"), file=f.name)
+                setup=num(re.search(r"Slack setup terburuk: \*\*(-?[\d.]+) ns", t).group(1)), hold=num(re.search(r"Slack hold terburuk: \*\*(-?[\d.]+) ns", t).group(1)), fmax=min(fm),
+                crit=g(r"Peringatan kritis: (\d+)"), file=f.name)
 
 
 def main():

@@ -1,12 +1,12 @@
-# MEASURED - Quartus results for revision `de10-nano-base`
+# MEASURED - Hasil Quartus untuk revisi `de10-nano-base`
 
-- Generated: 2026-10-01 04:23 UTC by `extract_quartus_report.py` (values copied from the reports, not computed)
-- Source directory: `<session scratch directory>/ghrd/de10-nano-base/output_files` (local path redacted before commit; public repository, CLAUDE.md C7 - no measured value changed)
-- Note: Intel DE10-Nano GHRD (github.com/intel/de10-nano-hardware, commit 9b5fc81654c61922b625607d007933a69b5fdb52), revision de10-nano-base, no NTT core; DEVICE set to 5CSEBA6U23I7 (the GHRD default is 5CSEBA6U23I7DK, which gave identical fitter figures); Quartus Prime Lite 25.1std.0 Build 1129; system shell overhead investigation for the ALM-budget review
+- Dibuat: 2026-10-01 04:23 UTC oleh `extract_quartus_report.py` (nilai disalin dari laporan, tidak dihitung)
+- Direktori sumber: `<session scratch directory>/ghrd/de10-nano-base/output_files` (local path redacted before commit; public repository, CLAUDE.md C7 - no measured value changed)
+- Catatan: GHRD DE10-Nano Intel (github.com/intel/de10-nano-hardware, commit 9b5fc81654c61922b625607d007933a69b5fdb52), revisi de10-nano-base, tanpa inti NTT; DEVICE diset ke 5CSEBA6U23I7 (bawaan GHRD adalah 5CSEBA6U23I7DK, yang memberi angka fitter identik); Quartus Prime Lite 25.1std.0 Build 1129; penyelidikan overhead shell sistem untuk tinjauan anggaran ALM
 
 ## Fitter (`de10-nano-base.fit.summary`)
 
-| Item | Value (verbatim) |
+| Item | Nilai (verbatim) |
 |---|---|
 | Fitter Status | Successful - Thu Oct  1 11:14:03 2026 |
 | Quartus Prime Version | 25.1std.0 Build 1129 10/21/2025 SC Lite Edition |
@@ -24,11 +24,11 @@
 | Total PLLs | 0 / 6 ( 0 % ) |
 | Total DLLs | 1 / 4 ( 25 % ) |
 
-Denominators above are the fitter's own; quote them as printed.
+Penyebut di atas adalah penyebut fitter sendiri; kutip persis seperti tercetak.
 
 ## Timing (`de10-nano-base.sta.summary`)
 
-| Type | Slack (ns) | TNS |
+| Tipe | Slack (ns) | TNS |
 |---|---|---|
 | Slow 1100mV 100C Model Setup 'soc_system:soc_inst|soc_system_hps_0:hps_0|soc_system_hps_0_hps_io:hps_io|soc_system_hps_0_hps_io_border:border|hps_sdram:hps_sdram_inst|hps_sdram_pll:pll|afi_clk_write_clk' | 1.574 | 0.000 |
 | Slow 1100mV 100C Model Setup 'fpga_clk1_50' | 6.202 | 0.000 |
@@ -123,12 +123,12 @@ Denominators above are the fitter's own; quote them as printed.
 | Fast 1100mV -40C Model Minimum Pulse Width 'hps_i2c0_SCL' | 499.274 | 0.000 |
 | Fast 1100mV -40C Model Minimum Pulse Width 'hps_i2c1_SCL' | 499.274 | 0.000 |
 
-- Worst setup slack: **1.573 ns** (Slow 1100mV -40C Model Setup 'soc_system:soc_inst|soc_system_hps_0:hps_0|soc_system_hps_0_hps_io:hps_io|soc_system_hps_0_hps_io_border:border|hps_sdram:hps_sdram_inst|hps_sdram_pll:pll|afi_clk_write_clk')
-- Worst hold slack: **0.076 ns** (Fast 1100mV -40C Model Hold 'soc_system:soc_inst|soc_system_hps_0:hps_0|soc_system_hps_0_hps_io:hps_io|soc_system_hps_0_hps_io_border:border|hps_sdram:hps_sdram_inst|hps_sdram_pll:pll|afi_clk_write_clk')
+- Slack setup terburuk: **1.573 ns** (Slow 1100mV -40C Model Setup 'soc_system:soc_inst|soc_system_hps_0:hps_0|soc_system_hps_0_hps_io:hps_io|soc_system_hps_0_hps_io_border:border|hps_sdram:hps_sdram_inst|hps_sdram_pll:pll|afi_clk_write_clk')
+- Slack hold terburuk: **0.076 ns** (Fast 1100mV -40C Model Hold 'soc_system:soc_inst|soc_system_hps_0:hps_0|soc_system_hps_0_hps_io:hps_io|soc_system_hps_0_hps_io_border:border|hps_sdram:hps_sdram_inst|hps_sdram_pll:pll|afi_clk_write_clk')
 
-## Fmax (`de10-nano-base.sta.rpt`, Fmax Summary panels)
+## Fmax (`de10-nano-base.sta.rpt`, panel Fmax Summary)
 
-| Model | Fmax | Restricted Fmax | Clock Name | Note |
+| Model | Fmax | Fmax terbatas | Nama clock | Catatan |
 |---|---|---|---|---|
 | Slow 1100mV 100C Model Fmax Summary | 48.02 MHz | 48.02 MHz | altera_reserved_tck |  |
 | Slow 1100mV 100C Model Fmax Summary | 94.71 MHz | 94.71 MHz | fpga_clk1_50 |  |
@@ -139,11 +139,11 @@ Denominators above are the fitter's own; quote them as printed.
 | Slow 1100mV -40C Model Fmax Summary | 968.05 MHz | 650.2 MHz | soc_inst|hps_0|fpga_interfaces|clocks_resets|h2f_user1_clk | limit due to minimum period restriction (tmin) |
 | Slow 1100mV -40C Model Fmax Summary | 1007.05 MHz | 650.2 MHz | soc_system:soc_inst|soc_system_hps_0:hps_0|soc_system_hps_0_hps_io:hps_io|soc_system_hps_0_hps_io_border:border|hps_sdram:hps_sdram_inst|hps_sdram_pll:pll|afi_clk_write_clk | limit due to minimum period restriction (tmin) |
 
-## Compile log message counts
+## Jumlah pesan log kompilasi
 
-- Critical warnings: 2
-- Warnings: 255
-- Errors: 0
+- Peringatan kritis: 2
+- Peringatan: 255
+- Kesalahan: 0
 
-Critical warnings must be triaged in writing (CLAUDE.md rule 10).
+Peringatan kritis harus dibahas secara tertulis.
 

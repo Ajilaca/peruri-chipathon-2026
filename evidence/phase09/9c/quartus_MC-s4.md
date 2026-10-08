@@ -1,12 +1,12 @@
-# MEASURED - Quartus results for revision `MC-s4`
+# MEASURED - Hasil Quartus untuk revisi `MC-s4`
 
-- Generated: 2026-10-03 18:15 UTC by `extract_quartus_report.py` (values copied from the reports, not computed)
-- Source directory: `quartus/phase09c_core/output_files_MC-s4`
-- Note: Phase 9c: mlkem_core (KeyGen, Encaps, Decaps; engine of 8d, codec, hash with the C5 sponge, comparison), revision MC-s4, kernel-only virtual pins; working tree before the Phase 9 commits
+- Dibuat: 2026-10-03 18:15 UTC oleh `extract_quartus_report.py` (nilai disalin dari laporan, tidak dihitung)
+- Direktori sumber: `quartus/phase09c_core/output_files_MC-s4`
+- Catatan: Fase 9c: mlkem_core (KeyGen, Encaps, Decaps; mesin 8d, codec, hash dengan sponge C5, pembanding), revisi MC-s4, kernel-only dengan virtual pin; working tree sebelum commit Fase 9
 
 ## Fitter (`MC-s4.fit.summary`)
 
-| Item | Value (verbatim) |
+| Item | Nilai (verbatim) |
 |---|---|
 | Fitter Status | Successful - Sun Oct  4 00:40:59 2026 |
 | Quartus Prime Version | 25.1std.0 Build 1129 10/21/2025 SC Lite Edition |
@@ -24,11 +24,11 @@
 | Total PLLs | 0 / 6 ( 0 % ) |
 | Total DLLs | 0 / 4 ( 0 % ) |
 
-Denominators above are the fitter's own; quote them as printed.
+Penyebut di atas adalah penyebut fitter sendiri; kutip persis seperti tercetak.
 
 ## Timing (`MC-s4.sta.summary`)
 
-| Type | Slack (ns) | TNS |
+| Tipe | Slack (ns) | TNS |
 |---|---|---|
 | Slow 1100mV 100C Model Setup 'clk_i' | 19.815 | 0.000 |
 | Slow 1100mV 100C Model Hold 'clk_i' | 0.308 | 0.000 |
@@ -51,21 +51,21 @@ Denominators above are the fitter's own; quote them as printed.
 | Fast 1100mV -40C Model Removal 'clk_i' | 0.197 | 0.000 |
 | Fast 1100mV -40C Model Minimum Pulse Width 'clk_i' | 18.935 | 0.000 |
 
-- Worst setup slack: **19.815 ns** (Slow 1100mV 100C Model Setup 'clk_i')
-- Worst hold slack: **0.133 ns** (Fast 1100mV -40C Model Hold 'clk_i')
+- Slack setup terburuk: **19.815 ns** (Slow 1100mV 100C Model Setup 'clk_i')
+- Slack hold terburuk: **0.133 ns** (Fast 1100mV -40C Model Hold 'clk_i')
 
-## Fmax (`MC-s4.sta.rpt`, Fmax Summary panels)
+## Fmax (`MC-s4.sta.rpt`, panel Fmax Summary)
 
-| Model | Fmax | Restricted Fmax | Clock Name | Note |
+| Model | Fmax | Fmax terbatas | Nama clock | Catatan |
 |---|---|---|---|---|
 | Slow 1100mV 100C Model Fmax Summary | 49.54 MHz | 49.54 MHz | clk_i |  |
 | Slow 1100mV -40C Model Fmax Summary | 50.93 MHz | 50.93 MHz | clk_i |  |
 
-## Compile log message counts
+## Jumlah pesan log kompilasi
 
-- Critical warnings: 1
-- Warnings: 253
-- Errors: 0
+- Peringatan kritis: 1
+- Peringatan: 253
+- Kesalahan: 0
 
-Critical warnings must be triaged in writing (CLAUDE.md rule 10).
+Peringatan kritis harus dibahas secara tertulis.
 

@@ -25,10 +25,10 @@ def parse(rev):
     regs = int(num(re.search(r"Total registers \| ([\d,]+)", t).group(1)))
     m10k = int(num(re.search(r"Total block memory bits \| ([\d,]+)", t).group(1)))
     dsp = int(num(re.search(r"Total DSP Blocks \| ([\d,]+)", t).group(1)))
-    setup = num(re.search(r"Worst setup slack: \*\*(-?[\d.]+) ns", t).group(1))
-    hold = num(re.search(r"Worst hold slack: \*\*(-?[\d.]+) ns", t).group(1))
+    setup = num(re.search(r"Slack setup terburuk: \*\*(-?[\d.]+) ns", t).group(1))
+    hold = num(re.search(r"Slack hold terburuk: \*\*(-?[\d.]+) ns", t).group(1))
     fm = [num(x) for x in re.findall(r"Slow 1100mV [-\d]+C Model Fmax Summary \| ([\d.]+) MHz", t)]
-    crit = int(re.search(r"Critical warnings: (\d+)", t).group(1))
+    crit = int(re.search(r"Peringatan kritis: (\d+)", t).group(1))
     return dict(alm=alm, regs=regs, membits=m10k, dsp=dsp, setup=setup, hold=hold, fmax=min(fm), crit=crit, file=f.name)
 
 

@@ -1,12 +1,12 @@
-# MEASURED - Quartus results for revision `C3-P6-20`
+# MEASURED - Hasil Quartus untuk revisi `C3-P6-20`
 
-- Generated: 2026-10-01 17:08 UTC by `extract_quartus_report.py` (values copied from the reports, not computed)
-- Source directory: `quartus/phase05_arith_c4/output_files_C3-P6-20`
-- Note: Phase 5 closure, INFORMATION compile (ADR 0011 D1): C3-P6 (ntt_core_c3_p6, Phase 4 RTL unchanged, QSF = C3-P6.qsf with only output folder and SDC changed) at 20.000 ns (quartus/phase05_arith_c4/C4-20.sdc); Quartus defaults; default seed 1; not a Phase 5 gate (ADR 0010)
+- Dibuat: 2026-10-01 17:08 UTC oleh `extract_quartus_report.py` (nilai disalin dari laporan, tidak dihitung)
+- Direktori sumber: `quartus/phase05_arith_c4/output_files_C3-P6-20`
+- Catatan: Penutup Fase 5, kompilasi INFORMASI (ADR 0011 D1): C3-P6 (ntt_core_c3_p6, RTL Fase 4 tidak berubah, QSF = C3-P6.qsf dengan hanya folder keluaran dan SDC yang diubah) pada 20.000 ns (quartus/phase05_arith_c4/C4-20.sdc); bawaan Quartus; seed bawaan 1; bukan gerbang Fase 5 (ADR 0010)
 
 ## Fitter (`C3-P6-20.fit.summary`)
 
-| Item | Value (verbatim) |
+| Item | Nilai (verbatim) |
 |---|---|
 | Fitter Status | Successful - Fri Oct  2 00:07:37 2026 |
 | Quartus Prime Version | 25.1std.0 Build 1129 10/21/2025 SC Lite Edition |
@@ -24,11 +24,11 @@
 | Total PLLs | 0 / 6 ( 0 % ) |
 | Total DLLs | 0 / 4 ( 0 % ) |
 
-Denominators above are the fitter's own; quote them as printed.
+Penyebut di atas adalah penyebut fitter sendiri; kutip persis seperti tercetak.
 
 ## Timing (`C3-P6-20.sta.summary`)
 
-| Type | Slack (ns) | TNS |
+| Tipe | Slack (ns) | TNS |
 |---|---|---|
 | Slow 1100mV 100C Model Setup 'clk_i' | -2.022 | -393.097 |
 | Slow 1100mV 100C Model Hold 'clk_i' | 0.435 | 0.000 |
@@ -51,21 +51,21 @@ Denominators above are the fitter's own; quote them as printed.
 | Fast 1100mV -40C Model Removal 'clk_i' | 0.723 | 0.000 |
 | Fast 1100mV -40C Model Minimum Pulse Width 'clk_i' | 8.950 | 0.000 |
 
-- Worst setup slack: **-2.059 ns** (Slow 1100mV -40C Model Setup 'clk_i')  **NEGATIVE: timing not met**
-- Worst hold slack: **0.147 ns** (Fast 1100mV -40C Model Hold 'clk_i')
+- Slack setup terburuk: **-2.059 ns** (Slow 1100mV -40C Model Setup 'clk_i')  **NEGATIVE: timing not met**
+- Slack hold terburuk: **0.147 ns** (Fast 1100mV -40C Model Hold 'clk_i')
 
-## Fmax (`C3-P6-20.sta.rpt`, Fmax Summary panels)
+## Fmax (`C3-P6-20.sta.rpt`, panel Fmax Summary)
 
-| Model | Fmax | Restricted Fmax | Clock Name | Note |
+| Model | Fmax | Fmax terbatas | Nama clock | Catatan |
 |---|---|---|---|---|
 | Slow 1100mV 100C Model Fmax Summary | 45.41 MHz | 45.41 MHz | clk_i |  |
 | Slow 1100mV -40C Model Fmax Summary | 45.33 MHz | 45.33 MHz | clk_i |  |
 
-## Compile log message counts
+## Jumlah pesan log kompilasi
 
-- Critical warnings: 3
-- Warnings: 19
-- Errors: 0
+- Peringatan kritis: 3
+- Peringatan: 19
+- Kesalahan: 0
 
-Critical warnings must be triaged in writing (CLAUDE.md rule 10).
+Peringatan kritis harus dibahas secara tertulis.
 

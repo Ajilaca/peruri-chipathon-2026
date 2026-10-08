@@ -1,12 +1,12 @@
-# MEASURED - Quartus results for revision `MK-s6`
+# MEASURED - Hasil Quartus untuk revisi `MK-s6`
 
-- Generated: 2026-10-04 06:47 UTC by `extract_quartus_report.py` (values copied from the reports, not computed)
-- Source directory: `quartus/phase09m3_core/output_files_MK-s6`
-- Note: Phase 9M item 3: mlkem_core with HASH_C5 = 0 (K0 hash sponge), CODEC_W2 = 1, revision MK-s6, kernel-only virtual pins; branch phase9m-optimisation
+- Dibuat: 2026-10-04 06:47 UTC oleh `extract_quartus_report.py` (nilai disalin dari laporan, tidak dihitung)
+- Direktori sumber: `quartus/phase09m3_core/output_files_MK-s6`
+- Catatan: Fase 9M butir 3: mlkem_core dengan HASH_C5 = 0 (sponge hash K0), CODEC_W2 = 1, revisi MK-s6, kernel-only dengan virtual pin; branch phase9m-optimisation
 
 ## Fitter (`MK-s6.fit.summary`)
 
-| Item | Value (verbatim) |
+| Item | Nilai (verbatim) |
 |---|---|
 | Fitter Status | Successful - Sun Oct  4 13:30:28 2026 |
 | Quartus Prime Version | 25.1std.0 Build 1129 10/21/2025 SC Lite Edition |
@@ -24,11 +24,11 @@
 | Total PLLs | 0 / 6 ( 0 % ) |
 | Total DLLs | 0 / 4 ( 0 % ) |
 
-Denominators above are the fitter's own; quote them as printed.
+Penyebut di atas adalah penyebut fitter sendiri; kutip persis seperti tercetak.
 
 ## Timing (`MK-s6.sta.summary`)
 
-| Type | Slack (ns) | TNS |
+| Tipe | Slack (ns) | TNS |
 |---|---|---|
 | Slow 1100mV 100C Model Setup 'clk_i' | 19.577 | 0.000 |
 | Slow 1100mV 100C Model Hold 'clk_i' | 0.282 | 0.000 |
@@ -51,21 +51,21 @@ Denominators above are the fitter's own; quote them as printed.
 | Fast 1100mV -40C Model Removal 'clk_i' | 0.838 | 0.000 |
 | Fast 1100mV -40C Model Minimum Pulse Width 'clk_i' | 18.908 | 0.000 |
 
-- Worst setup slack: **19.577 ns** (Slow 1100mV 100C Model Setup 'clk_i')
-- Worst hold slack: **0.117 ns** (Fast 1100mV -40C Model Hold 'clk_i')
+- Slack setup terburuk: **19.577 ns** (Slow 1100mV 100C Model Setup 'clk_i')
+- Slack hold terburuk: **0.117 ns** (Fast 1100mV -40C Model Hold 'clk_i')
 
-## Fmax (`MK-s6.sta.rpt`, Fmax Summary panels)
+## Fmax (`MK-s6.sta.rpt`, panel Fmax Summary)
 
-| Model | Fmax | Restricted Fmax | Clock Name | Note |
+| Model | Fmax | Fmax terbatas | Nama clock | Catatan |
 |---|---|---|---|---|
 | Slow 1100mV 100C Model Fmax Summary | 48.96 MHz | 48.96 MHz | clk_i |  |
 | Slow 1100mV -40C Model Fmax Summary | 49.72 MHz | 49.72 MHz | clk_i |  |
 
-## Compile log message counts
+## Jumlah pesan log kompilasi
 
-- Critical warnings: 1
-- Warnings: 254
-- Errors: 0
+- Peringatan kritis: 1
+- Peringatan: 254
+- Kesalahan: 0
 
-Critical warnings must be triaged in writing (CLAUDE.md rule 10).
+Peringatan kritis harus dibahas secara tertulis.
 

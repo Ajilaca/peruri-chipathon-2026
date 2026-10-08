@@ -1,12 +1,12 @@
-# MEASURED - Quartus results for revision `S10-s2`
+# MEASURED - Hasil Quartus untuk revisi `S10-s2`
 
-- Generated: 2026-10-02 20:27 UTC by `extract_quartus_report.py` (values copied from the reports, not computed)
-- Source directory: `quartus/phase06_sched/output_files_S10-s2`
-- Note: S10 candidate: rtl/ntt/ntt_core_s10_p5.sv (16-bank 1R1W memory without slot arbitration, P = 5; ADR 0024, test plan evidence/phase06/test_plan_s10.md); constraint 40.000 ns; Quartus defaults; git 8d8cb6f
+- Dibuat: 2026-10-02 20:27 UTC oleh `extract_quartus_report.py` (nilai disalin dari laporan, tidak dihitung)
+- Direktori sumber: `quartus/phase06_sched/output_files_S10-s2`
+- Catatan: Kandidat S10: rtl/ntt/ntt_core_s10_p5.sv (memori 16 bank 1R1W tanpa arbitrasi slot, P = 5; ADR 0024, test plan evidence/phase06/test_plan_s10.md); batasan 40.000 ns; bawaan Quartus; git 8d8cb6f
 
 ## Fitter (`S10-s2.fit.summary`)
 
-| Item | Value (verbatim) |
+| Item | Nilai (verbatim) |
 |---|---|
 | Fitter Status | Successful - Sat Oct  3 02:40:28 2026 |
 | Quartus Prime Version | 25.1std.0 Build 1129 10/21/2025 SC Lite Edition |
@@ -24,11 +24,11 @@
 | Total PLLs | 0 / 6 ( 0 % ) |
 | Total DLLs | 0 / 4 ( 0 % ) |
 
-Denominators above are the fitter's own; quote them as printed.
+Penyebut di atas adalah penyebut fitter sendiri; kutip persis seperti tercetak.
 
 ## Timing (`S10-s2.sta.summary`)
 
-| Type | Slack (ns) | TNS |
+| Tipe | Slack (ns) | TNS |
 |---|---|---|
 | Slow 1100mV 100C Model Setup 'clk_i' | 16.919 | 0.000 |
 | Slow 1100mV 100C Model Hold 'clk_i' | 0.293 | 0.000 |
@@ -51,21 +51,21 @@ Denominators above are the fitter's own; quote them as printed.
 | Fast 1100mV -40C Model Removal 'clk_i' | 0.303 | 0.000 |
 | Fast 1100mV -40C Model Minimum Pulse Width 'clk_i' | 18.950 | 0.000 |
 
-- Worst setup slack: **16.382 ns** (Slow 1100mV -40C Model Setup 'clk_i')
-- Worst hold slack: **0.132 ns** (Fast 1100mV -40C Model Hold 'clk_i')
+- Slack setup terburuk: **16.382 ns** (Slow 1100mV -40C Model Setup 'clk_i')
+- Slack hold terburuk: **0.132 ns** (Fast 1100mV -40C Model Hold 'clk_i')
 
-## Fmax (`S10-s2.sta.rpt`, Fmax Summary panels)
+## Fmax (`S10-s2.sta.rpt`, panel Fmax Summary)
 
-| Model | Fmax | Restricted Fmax | Clock Name | Note |
+| Model | Fmax | Fmax terbatas | Nama clock | Catatan |
 |---|---|---|---|---|
 | Slow 1100mV 100C Model Fmax Summary | 43.33 MHz | 43.33 MHz | clk_i |  |
 | Slow 1100mV -40C Model Fmax Summary | 42.34 MHz | 42.34 MHz | clk_i |  |
 
-## Compile log message counts
+## Jumlah pesan log kompilasi
 
-- Critical warnings: 1
-- Warnings: 18
-- Errors: 0
+- Peringatan kritis: 1
+- Peringatan: 18
+- Kesalahan: 0
 
-Critical warnings must be triaged in writing (CLAUDE.md rule 10).
+Peringatan kritis harus dibahas secara tertulis.
 

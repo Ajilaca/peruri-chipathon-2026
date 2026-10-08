@@ -1,12 +1,12 @@
-# MEASURED - Quartus results for revision `C4b-M-s4`
+# MEASURED - Hasil Quartus untuk revisi `C4b-M-s4`
 
-- Generated: 2026-10-01 12:31 UTC by `extract_quartus_report.py` (values copied from the reports, not computed)
-- Source directory: `quartus/phase05_arith_c4/output_files_C4b-M-s4`
-- Note: Phase 5b candidate: rtl/ntt/ntt_core_c4b_m.sv (Montgomery RED_KIND=3, Montgomery-form ROM and scaling constant; multiplier-path cuts X, S_1, S_2; memory cuts A_4, A_11, M as C3-P6; test_plan.md amendment A3); constraint 40.000 ns (quartus/phase05_arith_c4/C4.sdc); Quartus defaults; fitter seed 4 (confirmed in the fit report: Fitter Initial Placement Seed = 4); RTL = working tree on branch phase5-arith on top of git 5a1eec0
+- Dibuat: 2026-10-01 12:31 UTC oleh `extract_quartus_report.py` (nilai disalin dari laporan, tidak dihitung)
+- Direktori sumber: `quartus/phase05_arith_c4/output_files_C4b-M-s4`
+- Catatan: Fase 5b kandidat: rtl/ntt/ntt_core_c4b_m.sv (Montgomery RED_KIND=3, ROM bentuk Montgomery dan konstanta skala; potongan jalur pengali X, S_1, S_2; potongan memori A_4, A_11, M seperti C3-P6; test_plan.md amandemen A3); batasan 40.000 ns (quartus/phase05_arith_c4/C4.sdc); bawaan Quartus; fitter seed 4 (dikonfirmasi di laporan fit: Fitter Initial Placement Seed = 4); RTL = working tree branch phase5-arith di atas git 5a1eec0
 
 ## Fitter (`C4b-M-s4.fit.summary`)
 
-| Item | Value (verbatim) |
+| Item | Nilai (verbatim) |
 |---|---|
 | Fitter Status | Successful - Thu Oct  1 19:09:23 2026 |
 | Quartus Prime Version | 25.1std.0 Build 1129 10/21/2025 SC Lite Edition |
@@ -24,11 +24,11 @@
 | Total PLLs | 0 / 6 ( 0 % ) |
 | Total DLLs | 0 / 4 ( 0 % ) |
 
-Denominators above are the fitter's own; quote them as printed.
+Penyebut di atas adalah penyebut fitter sendiri; kutip persis seperti tercetak.
 
 ## Timing (`C4b-M-s4.sta.summary`)
 
-| Type | Slack (ns) | TNS |
+| Tipe | Slack (ns) | TNS |
 |---|---|---|
 | Slow 1100mV 100C Model Setup 'clk_i' | 9.884 | 0.000 |
 | Slow 1100mV 100C Model Hold 'clk_i' | 0.399 | 0.000 |
@@ -51,21 +51,21 @@ Denominators above are the fitter's own; quote them as printed.
 | Fast 1100mV -40C Model Removal 'clk_i' | 0.414 | 0.000 |
 | Fast 1100mV -40C Model Minimum Pulse Width 'clk_i' | 18.906 | 0.000 |
 
-- Worst setup slack: **9.884 ns** (Slow 1100mV 100C Model Setup 'clk_i')
-- Worst hold slack: **0.112 ns** (Fast 1100mV -40C Model Hold 'clk_i')
+- Slack setup terburuk: **9.884 ns** (Slow 1100mV 100C Model Setup 'clk_i')
+- Slack hold terburuk: **0.112 ns** (Fast 1100mV -40C Model Hold 'clk_i')
 
-## Fmax (`C4b-M-s4.sta.rpt`, Fmax Summary panels)
+## Fmax (`C4b-M-s4.sta.rpt`, panel Fmax Summary)
 
-| Model | Fmax | Restricted Fmax | Clock Name | Note |
+| Model | Fmax | Fmax terbatas | Nama clock | Catatan |
 |---|---|---|---|---|
 | Slow 1100mV 100C Model Fmax Summary | 33.2 MHz | 33.2 MHz | clk_i |  |
 | Slow 1100mV -40C Model Fmax Summary | 33.34 MHz | 33.34 MHz | clk_i |  |
 
-## Compile log message counts
+## Jumlah pesan log kompilasi
 
-- Critical warnings: 1
-- Warnings: 20
-- Errors: 0
+- Peringatan kritis: 1
+- Peringatan: 20
+- Kesalahan: 0
 
-Critical warnings must be triaged in writing (CLAUDE.md rule 10).
+Peringatan kritis harus dibahas secara tertulis.
 

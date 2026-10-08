@@ -1,12 +1,12 @@
-# MEASURED - Quartus results for revision `C3-P4-s3`
+# MEASURED - Hasil Quartus untuk revisi `C3-P4-s3`
 
-- Generated: 2026-10-01 03:00 UTC by `extract_quartus_report.py` (values copied from the reports, not computed)
-- Source directory: `quartus/phase04_pipeline_c3/output_files_P4_s3`
-- Note: Phase 4 seed sweep (input to ADR 0008): C3-P4 with fitter SEED 3; everything else identical to C3-P4 (RTL at git 7947c0c, C3.sdc 40.000 ns)
+- Dibuat: 2026-10-01 03:00 UTC oleh `extract_quartus_report.py` (nilai disalin dari laporan, tidak dihitung)
+- Direktori sumber: `quartus/phase04_pipeline_c3/output_files_P4_s3`
+- Catatan: Sapuan seed Fase 4 (masukan untuk ADR 0008): C3-P4 dengan SEED fitter 3; semua yang lain identik dengan C3-P4 (RTL pada git 7947c0c, C3.sdc 40.000 ns)
 
 ## Fitter (`C3-P4-s3.fit.summary`)
 
-| Item | Value (verbatim) |
+| Item | Nilai (verbatim) |
 |---|---|
 | Fitter Status | Successful - Wed Sep 30 23:37:44 2026 |
 | Quartus Prime Version | 25.1std.0 Build 1129 10/21/2025 SC Lite Edition |
@@ -24,11 +24,11 @@
 | Total PLLs | 0 / 6 ( 0 % ) |
 | Total DLLs | 0 / 4 ( 0 % ) |
 
-Denominators above are the fitter's own; quote them as printed.
+Penyebut di atas adalah penyebut fitter sendiri; kutip persis seperti tercetak.
 
 ## Timing (`C3-P4-s3.sta.summary`)
 
-| Type | Slack (ns) | TNS |
+| Tipe | Slack (ns) | TNS |
 |---|---|---|
 | Slow 1100mV 100C Model Setup 'clk_i' | 8.198 | 0.000 |
 | Slow 1100mV 100C Model Hold 'clk_i' | 0.434 | 0.000 |
@@ -43,21 +43,21 @@ Denominators above are the fitter's own; quote them as printed.
 | Fast 1100mV -40C Model Hold 'clk_i' | 0.129 | 0.000 |
 | Fast 1100mV -40C Model Minimum Pulse Width 'clk_i' | 18.907 | 0.000 |
 
-- Worst setup slack: **7.324 ns** (Slow 1100mV -40C Model Setup 'clk_i')
-- Worst hold slack: **0.129 ns** (Fast 1100mV -40C Model Hold 'clk_i')
+- Slack setup terburuk: **7.324 ns** (Slow 1100mV -40C Model Setup 'clk_i')
+- Slack hold terburuk: **0.129 ns** (Fast 1100mV -40C Model Hold 'clk_i')
 
-## Fmax (`C3-P4-s3.sta.rpt`, Fmax Summary panels)
+## Fmax (`C3-P4-s3.sta.rpt`, panel Fmax Summary)
 
-| Model | Fmax | Restricted Fmax | Clock Name | Note |
+| Model | Fmax | Fmax terbatas | Nama clock | Catatan |
 |---|---|---|---|---|
 | Slow 1100mV 100C Model Fmax Summary | 31.44 MHz | 31.44 MHz | clk_i |  |
 | Slow 1100mV -40C Model Fmax Summary | 30.6 MHz | 30.6 MHz | clk_i |  |
 
-## Compile log message counts
+## Jumlah pesan log kompilasi
 
-- Critical warnings: 1
-- Warnings: 19
-- Errors: 0
+- Peringatan kritis: 1
+- Peringatan: 19
+- Kesalahan: 0
 
-Critical warnings must be triaged in writing (CLAUDE.md rule 10).
+Peringatan kritis harus dibahas secara tertulis.
 

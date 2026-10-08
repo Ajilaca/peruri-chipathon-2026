@@ -1,12 +1,12 @@
-# MEASURED - Quartus results for revision `M6-s6`
+# MEASURED - Hasil Quartus untuk revisi `M6-s6`
 
-- Generated: 2026-10-02 12:42 UTC by `extract_quartus_report.py` (values copied from the reports, not computed)
-- Source directory: `quartus/phase05m_memsched/output_files_M6-s6`
-- Note: Phase 5M step S6 candidate: rtl/ntt/ntt_core_m6_p6.sv (Barrett, INTT without the scaling pass, halving in every layer; ADR 0017, test plan evidence/phase05m/test_plan.md); cuts as C4b-B (A_4, A_11, M; X, S_1, S_2); constraint 40.000 ns (quartus/phase05m_memsched/M.sdc); Quartus defaults; fitter seed 6 (confirmed in the fit report: Fitter Initial Placement Seed line); RTL = branch phase5m-memory-schedule working tree on top of git f47efcc; full compile from a clean db
+- Dibuat: 2026-10-02 12:42 UTC oleh `extract_quartus_report.py` (nilai disalin dari laporan, tidak dihitung)
+- Direktori sumber: `quartus/phase05m_memsched/output_files_M6-s6`
+- Catatan: Fase 5M langkah S6 kandidat: rtl/ntt/ntt_core_m6_p6.sv (Barrett, INTT tanpa lintasan skala, pembagian dua di tiap layer; ADR 0017, test plan evidence/phase05m/test_plan.md); potongan seperti C4b-B (A_4, A_11, M; X, S_1, S_2); batasan 40.000 ns (quartus/phase05m_memsched/M.sdc); bawaan Quartus; fitter seed 6 (dikonfirmasi di laporan fit: baris Fitter Initial Placement Seed); RTL = working tree branch phase5m-memory-schedule di atas git f47efcc; kompilasi penuh dari db bersih
 
 ## Fitter (`M6-s6.fit.summary`)
 
-| Item | Value (verbatim) |
+| Item | Nilai (verbatim) |
 |---|---|
 | Fitter Status | Successful - Fri Oct  2 19:14:08 2026 |
 | Quartus Prime Version | 25.1std.0 Build 1129 10/21/2025 SC Lite Edition |
@@ -24,11 +24,11 @@
 | Total PLLs | 0 / 6 ( 0 % ) |
 | Total DLLs | 0 / 4 ( 0 % ) |
 
-Denominators above are the fitter's own; quote them as printed.
+Penyebut di atas adalah penyebut fitter sendiri; kutip persis seperti tercetak.
 
 ## Timing (`M6-s6.sta.summary`)
 
-| Type | Slack (ns) | TNS |
+| Tipe | Slack (ns) | TNS |
 |---|---|---|
 | Slow 1100mV 100C Model Setup 'clk_i' | 10.972 | 0.000 |
 | Slow 1100mV 100C Model Hold 'clk_i' | 0.416 | 0.000 |
@@ -51,21 +51,21 @@ Denominators above are the fitter's own; quote them as printed.
 | Fast 1100mV -40C Model Removal 'clk_i' | 0.133 | 0.000 |
 | Fast 1100mV -40C Model Minimum Pulse Width 'clk_i' | 18.911 | 0.000 |
 
-- Worst setup slack: **10.972 ns** (Slow 1100mV 100C Model Setup 'clk_i')
-- Worst hold slack: **0.084 ns** (Fast 1100mV -40C Model Hold 'clk_i')
+- Slack setup terburuk: **10.972 ns** (Slow 1100mV 100C Model Setup 'clk_i')
+- Slack hold terburuk: **0.084 ns** (Fast 1100mV -40C Model Hold 'clk_i')
 
-## Fmax (`M6-s6.sta.rpt`, Fmax Summary panels)
+## Fmax (`M6-s6.sta.rpt`, panel Fmax Summary)
 
-| Model | Fmax | Restricted Fmax | Clock Name | Note |
+| Model | Fmax | Fmax terbatas | Nama clock | Catatan |
 |---|---|---|---|---|
 | Slow 1100mV 100C Model Fmax Summary | 34.45 MHz | 34.45 MHz | clk_i |  |
 | Slow 1100mV -40C Model Fmax Summary | 34.59 MHz | 34.59 MHz | clk_i |  |
 
-## Compile log message counts
+## Jumlah pesan log kompilasi
 
-- Critical warnings: 1
-- Warnings: 19
-- Errors: 0
+- Peringatan kritis: 1
+- Peringatan: 19
+- Kesalahan: 0
 
-Critical warnings must be triaged in writing (CLAUDE.md rule 10).
+Peringatan kritis harus dibahas secara tertulis.
 

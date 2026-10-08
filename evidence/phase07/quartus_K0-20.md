@@ -1,12 +1,12 @@
-# MEASURED - Quartus results for revision `K0-20`
+# MEASURED - Hasil Quartus untuk revisi `K0-20`
 
-- Generated: 2026-10-03 04:47 UTC by `extract_quartus_report.py` (values copied from the reports, not computed)
-- Source directory: `quartus/phase07_keccak/output_files_K0-20`
-- Note: Phase 7 K0-20: same RTL as K0, 20.000 ns (K-20.sdc, information, not a gate), seed 1, kernel-only virtual pins
+- Dibuat: 2026-10-03 04:47 UTC oleh `extract_quartus_report.py` (nilai disalin dari laporan, tidak dihitung)
+- Direktori sumber: `quartus/phase07_keccak/output_files_K0-20`
+- Catatan: Fase 7 K0-20: RTL sama dengan K0, 20.000 ns (K-20.sdc, informasi, bukan gerbang), seed 1, kernel-only dengan virtual pin
 
 ## Fitter (`K0-20.fit.summary`)
 
-| Item | Value (verbatim) |
+| Item | Nilai (verbatim) |
 |---|---|
 | Fitter Status | Successful - Sat Oct  3 11:46:32 2026 |
 | Quartus Prime Version | 25.1std.0 Build 1129 10/21/2025 SC Lite Edition |
@@ -24,11 +24,11 @@
 | Total PLLs | 0 / 6 ( 0 % ) |
 | Total DLLs | 0 / 4 ( 0 % ) |
 
-Denominators above are the fitter's own; quote them as printed.
+Penyebut di atas adalah penyebut fitter sendiri; kutip persis seperti tercetak.
 
 ## Timing (`K0-20.sta.summary`)
 
-| Type | Slack (ns) | TNS |
+| Tipe | Slack (ns) | TNS |
 |---|---|---|
 | Slow 1100mV 100C Model Setup 'clk_i' | 6.893 | 0.000 |
 | Slow 1100mV 100C Model Hold 'clk_i' | 0.408 | 0.000 |
@@ -43,21 +43,21 @@ Denominators above are the fitter's own; quote them as printed.
 | Fast 1100mV -40C Model Hold 'clk_i' | 0.164 | 0.000 |
 | Fast 1100mV -40C Model Minimum Pulse Width 'clk_i' | 9.596 | 0.000 |
 
-- Worst setup slack: **6.893 ns** (Slow 1100mV 100C Model Setup 'clk_i')
-- Worst hold slack: **0.164 ns** (Fast 1100mV -40C Model Hold 'clk_i')
+- Slack setup terburuk: **6.893 ns** (Slow 1100mV 100C Model Setup 'clk_i')
+- Slack hold terburuk: **0.164 ns** (Fast 1100mV -40C Model Hold 'clk_i')
 
-## Fmax (`K0-20.sta.rpt`, Fmax Summary panels)
+## Fmax (`K0-20.sta.rpt`, panel Fmax Summary)
 
-| Model | Fmax | Restricted Fmax | Clock Name | Note |
+| Model | Fmax | Fmax terbatas | Nama clock | Catatan |
 |---|---|---|---|---|
 | Slow 1100mV 100C Model Fmax Summary | 76.3 MHz | 76.3 MHz | clk_i |  |
 | Slow 1100mV -40C Model Fmax Summary | 79.65 MHz | 79.65 MHz | clk_i |  |
 
-## Compile log message counts
+## Jumlah pesan log kompilasi
 
-- Critical warnings: 1
-- Warnings: 6
-- Errors: 0
+- Peringatan kritis: 1
+- Peringatan: 6
+- Kesalahan: 0
 
-Critical warnings must be triaged in writing (CLAUDE.md rule 10).
+Peringatan kritis harus dibahas secara tertulis.
 

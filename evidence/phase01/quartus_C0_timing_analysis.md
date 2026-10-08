@@ -44,8 +44,8 @@ All four stages completed without errors. Completing is not the same as meeting 
 | Fast 1100mV -40C Model Hold 'clk_i' | 0.211 | 0.000 |
 | Fast 1100mV -40C Model Minimum Pulse Width 'clk_i' | 9.557 | 0.000 |
 
-- Worst setup slack: **-48.323 ns** (all four corners negative) -> **timing NOT met** at the 20.000 ns provisional period.
-- Worst hold slack: **0.211 ns** (positive in all corners -> hold met).
+- Slack setup terburuk: **-48.323 ns** (all four corners negative) -> **timing NOT met** at the 20.000 ns provisional period.
+- Slack hold terburuk: **0.211 ns** (positive in all corners -> hold met).
 - Worst setup TNS: **-143688.194 ns**.
 - Cross-check (derived): 1 / (20.000 ns + 48.323 ns) = 14.64 MHz, equal to the Fmax panel.
 
