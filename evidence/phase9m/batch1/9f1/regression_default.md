@@ -1,6 +1,6 @@
-# Phase 9F S1 regression at the defaults (V7), 2026-10-04
+# Regresi Fase 9F S1 pada nilai bawaan (V7), 2026-10-04
 
-MEASURED (simulation). (a) `tb/mlkem/run_core_tests.py verilator core` at the defaults (`mlkem_core`, no CORE_* variable): the whole ACVP set and the other tests. (b) `tb/mlkem/profile_core.py` at the defaults for `mlkem_core` and for `mlkem_core2` at its defaults (`SMP_C5 = 1`, `HASH_C5 = 1`, `CODEC_W2 = 0`): both profile JSON files equal `../../profile_verilator.json` (Phase 9 profile: KeyGen 9,095, Encaps 10,735, Decaps 16,667 cycles, every per-state and per-micro-operation count). `rtl/mlkem/mlkem_core.sv` is unchanged by S1 and S1b (they use new modules). Only result lines are kept.
+MEASURED (simulasi). (a) `tb/mlkem/run_core_tests.py verilator core` pada nilai bawaan (`mlkem_core`, tanpa variabel CORE_*): seluruh himpunan ACVP dan test lain. (b) `tb/mlkem/profile_core.py` pada nilai bawaan untuk `mlkem_core` dan untuk `mlkem_core2` pada nilai bawaannya (`SMP_C5 = 1`, `HASH_C5 = 1`, `CODEC_W2 = 0`): kedua file JSON profil sama dengan `../../profile_verilator.json` (profil Fase 9: KeyGen 9.095, Encaps 10.735, Decaps 16.667 siklus, setiap hitungan per-state dan per-micro-operation). `rtl/mlkem/mlkem_core.sv` tidak diubah oleh S1 dan S1b (keduanya memakai modul baru). Hanya baris hasil yang disimpan.
 
 ```
 2342515.00ns INFO     cocotb.mlkem_core                  ACVP keyGen: 25 vectors equal

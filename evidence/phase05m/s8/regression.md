@@ -1,6 +1,6 @@
-# MEASURED (simulation, formal, lint): Phase 5M final regression, scripts/test/phase5m_final_regression.sh (test plan_s8 V7 and V8, Amendment A1), 2026-10-03
+# MEASURED (simulasi, formal, lint): Regresi akhir Fase 5M, scripts/test/phase5m_final_regression.sh (test plan_s8 V7 dan V8, Amandemen A1), 2026-10-03
 
-Run at the git SHA printed in the first line of the log (RTL, tests and proofs identical at the later commits; only documents changed after it). The scripts return a nonzero code on any failure; none did (grep of rc=[1-9]: 0 matches).
+Dijalankan pada git SHA yang tercetak di baris pertama log (RTL, test, dan bukti identik pada commit berikutnya; hanya dokumen yang berubah sesudahnya). Skrip mengembalikan kode bukan-nol pada kegagalan apa pun; tidak ada yang demikian (grep rc=[1-9]: 0 kecocokan).
 
 ```
 git SHA: 300aaf33257f25daa378cfb52c23d75ec661f944

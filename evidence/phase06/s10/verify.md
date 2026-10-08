@@ -1,4 +1,4 @@
-# MEASURED (simulation / lint, not hardware): S10 verification, scripts/test/s10_verify.sh at git 8d8cb6f, 2026-10-03
+# MEASURED (simulasi / lint, bukan perangkat keras): Verifikasi S10, scripts/test/s10_verify.sh pada git 8d8cb6f, 2026-10-03
 
 ```
 ## V1 verilator --lint-only -Wall ntt_core_s10_p5
@@ -37,4 +37,4 @@ rc=0
 OVERALL: PASS
 ```
 
-Failures inside the `ncm` / `ncw` blocks are the negative controls and are required. Any `%Warning-UNOPTFLAT` line comes from the cocotb Verilator simulation build (see the Phase 6 verify note), not from the V1 lint.
+Kegagalan di dalam blok `ncm` / `ncw` adalah kontrol negatif dan memang diharuskan. Baris `%Warning-UNOPTFLAT` apa pun berasal dari build simulasi cocotb Verilator (lihat catatan verifikasi Fase 6), bukan dari lint V1.

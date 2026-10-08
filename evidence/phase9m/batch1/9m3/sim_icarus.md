@@ -1,6 +1,6 @@
-# Phase 9M-3 core simulator run (V2, V4), `CORE_W2=1 CORE_K0=1 tb/mlkem/run_core_tests.py icarus core nclen`, 2026-10-04
+# Run simulator inti Fase 9M-3 (V2, V4), `CORE_W2=1 CORE_K0=1 tb/mlkem/run_core_tests.py icarus core nclen`, 2026-10-04
 
-MEASURED (simulation only), core with `HASH_C5 = 0` (K0 sponge for the hash instance) and `CODEC_W2 = 1`. `[icarus] core` is the whole set (ACVP keyGen 25, encapsulation 25, decapsulation 10; random cross-check with CORE_N=20; protocol; constant cycles); `nclen` is the control (every hash one byte short), which must fail the ACVP encapsulation test. Only the result lines of the log are kept; the repository path prefix in tracebacks is shortened to <repo>.
+MEASURED (hanya simulasi), inti dengan `HASH_C5 = 0` (sponge K0 untuk instans hash) dan `CODEC_W2 = 1`. `[icarus] core` adalah seluruh himpunan (ACVP keyGen 25, encapsulation 25, decapsulation 10; uji silang acak dengan CORE_N=20; protokol; siklus konstan); `nclen` adalah kontrol (setiap hash kurang satu byte), yang harus menggagalkan test enkapsulasi ACVP. Hanya baris hasil log yang disimpan; awalan path repository pada traceback dipendekkan menjadi <repo>.
 
 ```
 2180515.00ns INFO     cocotb.mlkem_core                  ACVP keyGen: 25 vectors equal

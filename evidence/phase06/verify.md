@@ -1,4 +1,4 @@
-# MEASURED (simulation / lint, not hardware): Phase 6 verification, scripts/test/phase6_verify.sh at git 016bff0 (RTL unchanged since), 2026-10-03
+# MEASURED (simulasi / lint, bukan perangkat keras): Verifikasi Fase 6, scripts/test/phase6_verify.sh pada git 016bff0 (RTL tidak berubah sejak itu), 2026-10-03
 
 ```
 ## V1 verilator --lint-only -Wall kpke_sched_top
@@ -91,5 +91,5 @@ rc=0
 OVERALL: PASS
 ```
 
-Failures inside the `ncg` / `ncr` blocks are the negative controls and are required.
-The `%Warning-UNOPTFLAT` line comes from the cocotb Verilator simulation build of `pwm_unit` (built with `-Wno-fatal`): Verilator reports the stage vector `s_cut` of the frozen `rtl/arith/modmul_barrett.sv` as circular because different bit ranges of one vector feed each other; it is a simulation-scheduling notice, not a combinational loop (Quartus reports none, `-Wall` lint in V1 is clean, results are bit-exact on both simulators). Not waived silently: recorded here.
+Kegagalan di dalam blok `ncg` / `ncr` adalah kontrol negatif dan memang diharuskan.
+Baris `%Warning-UNOPTFLAT` berasal dari build simulasi cocotb Verilator untuk `pwm_unit` (dibangun dengan `-Wno-fatal`): Verilator melaporkan vektor tahap `s_cut` dari `rtl/arith/modmul_barrett.sv` yang dibekukan sebagai melingkar karena rentang bit berbeda dari satu vektor saling memberi masukan; ini pemberitahuan penjadwalan simulasi, bukan loop kombinasional (Quartus tidak melaporkan apa pun, lint `-Wall` di V1 bersih, hasil bit-exact di kedua simulator). Tidak diabaikan diam-diam: dicatat di sini.

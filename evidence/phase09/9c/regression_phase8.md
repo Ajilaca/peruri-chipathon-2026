@@ -1,6 +1,6 @@
-# Phase 9 regression of Phase 8 (CRG-5), 2026-10-04
+# Regresi Fase 8 pada Fase 9 (CRG-5), 2026-10-04
 
-MEASURED: the Phase 8 verification scripts were rerun on the working tree that contains Phase 9 (the frozen Phase 6-8 files are unmodified; see `verify.md`), `scripts/test/phase8cd_verify.sh` then `KS_OUTW=2 scripts/test/phase8b_verify.sh` (which reruns `scripts/test/phase8a_verify.sh`). Only the section headers and result lines of the raw logs are kept here (the raw logs are about 1 MB; the full flow is `scripts/phase8*_verify.sh`). Simulation, lint and formal only.
+MEASURED: skrip verifikasi Fase 8 dijalankan ulang pada working tree yang memuat Fase 9 (file Fase 6-8 yang dibekukan tidak diubah; lihat `verify.md`), `scripts/test/phase8cd_verify.sh` lalu `KS_OUTW=2 scripts/test/phase8b_verify.sh` (yang menjalankan ulang `scripts/test/phase8a_verify.sh`). Hanya header bagian dan baris hasil dari log mentah yang disimpan di sini (log mentah sekitar 1 MB; alur lengkap `scripts/phase8*_verify.sh`). Hanya simulasi, lint, dan formal.
 
 ## scripts/test/phase8cd_verify.sh
 ```
@@ -99,7 +99,7 @@ rc=0
 OVERALL: PASS
 ```
 
-## Locked parameters (check_params.py)
+## Parameter terkunci (check_params.py)
 ```
 ok        Q         = 3329
 ok        N         = 256

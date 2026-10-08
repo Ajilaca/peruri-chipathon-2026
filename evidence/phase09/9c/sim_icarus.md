@@ -1,6 +1,6 @@
-# Phase 9c simulator run (V3-V8), `tb/mlkem/run_core_tests.py icarus`, 2026-10-03
+# Run simulator Fase 9c (V3-V8), `tb/mlkem/run_core_tests.py icarus`, 2026-10-03
 
-MEASURED (simulation only). The line `[icarus] core` is the whole set (ACVP keyGen 25, encapsulation 25, decapsulation 10; random cross-check; protocol; constant cycles); the lines `[icarus] nc...` are the negative controls (test-only copies of the RTL / ROM, reduced vector set) that must fail the test named on the line.
+MEASURED (hanya simulasi). Baris `[icarus] core` adalah seluruh himpunan (ACVP keyGen 25, encapsulation 25, decapsulation 10; uji silang acak; protokol; siklus konstan); baris `[icarus] nc...` adalah kontrol negatif (salinan RTL / ROM khusus uji, himpunan vektor dikurangi) yang harus menggagalkan test yang disebut pada baris itu.
 
 ```
                                                             V3: ACVP keyGen: ek and dk of every vector.

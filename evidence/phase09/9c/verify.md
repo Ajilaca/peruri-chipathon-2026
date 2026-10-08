@@ -1,6 +1,6 @@
-# Phase 9c verification run (V1, V2, V10), `scripts/test/phase9c_verify.sh` with P9C_SIMS=0, 2026-10-03/04
+# Run verifikasi Fase 9c (V1, V2, V10), `scripts/test/phase9c_verify.sh` dengan P9C_SIMS=0, 2026-10-03/04
 
-MEASURED. The simulator runs of V3-V8 are in `sim_verilator.md` and `sim_icarus.md` (produced by `tb/mlkem/run_core_tests.py`; the Icarus run of the whole set takes about an hour, see Amendment A1 item 5 of the test plan). The regression runs the 9a script without its formal part and the 9b script with its formal part; no file of the frozen blocks differs from main.
+MEASURED. Run simulator V3-V8 ada di `sim_verilator.md` dan `sim_icarus.md` (dihasilkan oleh `tb/mlkem/run_core_tests.py`; run Icarus untuk seluruh himpunan memakan sekitar satu jam, lihat Amandemen A1 butir 5 test plan). Regresi menjalankan skrip 9a tanpa bagian formalnya dan skrip 9b dengan bagian formalnya; tidak ada file blok beku yang berbeda dari main.
 
 ```
 ## V1 verilator --lint-only -Wall mlkem_core (whole design)

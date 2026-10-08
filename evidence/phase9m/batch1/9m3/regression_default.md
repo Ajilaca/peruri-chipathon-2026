@@ -1,6 +1,6 @@
-# Phase 9M-3 regression at the default parameters (V6), 2026-10-04
+# Regresi Fase 9M-3 pada parameter bawaan (V6), 2026-10-04
 
-MEASURED (simulation). The core at the defaults (`HASH_C5 = 1`, `CODEC_W2 = 0`) must behave as in Phase 9. `tb/mlkem/run_core_tests.py verilator core` (no CORE_K0 / CORE_W2) and `tb/mlkem/profile_core.py` at the defaults; the profile JSON is byte-for-byte equal in content to `../../profile_verilator.json` (Phase 9 profile: KeyGen 9,095, Encaps 10,735, Decaps 16,667 cycles, every per-state and per-micro-operation count equal). No RTL file was changed in this item. Only the result lines of the log are kept.
+MEASURED (simulasi). Inti pada nilai bawaan (`HASH_C5 = 1`, `CODEC_W2 = 0`) harus berperilaku seperti di Fase 9. `tb/mlkem/run_core_tests.py verilator core` (tanpa CORE_K0 / CORE_W2) dan `tb/mlkem/profile_core.py` pada nilai bawaan; JSON profil sama persis isinya dengan `../../profile_verilator.json` (profil Fase 9: KeyGen 9.095, Encaps 10.735, Decaps 16.667 siklus, setiap hitungan per-state dan per-micro-operation sama). Tidak ada file RTL yang diubah di butir ini. Hanya baris hasil log yang disimpan.
 
 ```
 2342515.00ns INFO     cocotb.mlkem_core                  ACVP keyGen: 25 vectors equal

@@ -1,8 +1,8 @@
 <!-- claim-lint: skip-file (internal evidence record, not proposal text) -->
-# Phase 7 verification run (test plan V1-V7, V9), 2026-10-03
+# Run verifikasi Fase 7 (test plan V1-V7, V9), 2026-10-03
 
-Command: `. scripts/env.sh && scripts/test/phase7_verify.sh` (KK_SEEDS = 20). Environment: Ubuntu 24.04, OSS CAD Suite (Verilator 5.053, Icarus, slang, SymbiYosys), cocotb 2.1.0.
-Label: MEASURED (simulation and lint output of this run; not hardware). Output of the script (filtered by the script itself):
+Perintah: `. scripts/env.sh && scripts/test/phase7_verify.sh` (KK_SEEDS = 20). Lingkungan: Ubuntu 24.04, OSS CAD Suite (Verilator 5.053, Icarus, slang, SymbiYosys), cocotb 2.1.0.
+Label: MEASURED (keluaran simulasi dan lint run ini; bukan perangkat keras). Keluaran skrip (difilter oleh skrip sendiri):
 
 ```
 ## V1 verilator --lint-only -Wall keccak_f1600
@@ -52,16 +52,16 @@ rc=0
 OVERALL: PASS
 ```
 
-Reading:
-- V1 lint: Verilator `-Wall` and slang clean for `keccak_f1600` and `keccak_sponge` (0 warnings, 0 errors).
-- V2: golden `tb/golden/keccak.py` equals hashlib (16 pytest cases: every length 0..3 rate + 1 per mode, ML-KEM lengths, random lengths up to 2,000 bytes, SHAKE output lengths, per-round trace, 1,600 single-bit states
-  all distinct after the permutation, round constants and rho offsets against the FIPS 202 values).
-- V3: `rtl/keccak/keccak_pkg.sv` regenerated from the golden model, 0 differences.
-- V4 (`perm`): zero state, all-ones state, 1,600 single-bit states, 200 random states and a chain of 10: the state after every round equals the golden trace; `busy_o` is high for exactly 24 cycles and `done_o` pulses once
-  for every state; lane read port, xor to lane >= 25 ignored, xor and run while busy ignored, clear in the middle of a permutation.
-- V5 (`sponge`): all four modes bit-exact against hashlib and the golden sponge for the boundary lengths of the test plan, ML-KEM lengths, 20 random lengths per mode and all output sizes of the plan; permutation
-  counter equal to the golden count; random back-pressure on both interfaces; garbage in the ignored bytes of the last word; stop in absorb, in a permutation and in a squeeze (including between two squeeze blocks);
-  start while busy ignored; reset in the middle of a message.
-- V6: 306 (mode, length, output words) points, each with three messages (random, all-0x00, all-0xFF) and identical cycle counts; every point equals the FSM formula (`cycles_k0.json`, `cycles_k0_table.md`).
-- V7: negative controls fail as required on both simulators: NC-RC (one bit of round constant 1), NC-R (23 rounds, also fails the 24-cycle check), NC-PAD (SHA3 domain byte 0x1F).
-- V9: `check_params.py`: all locked parameters match. No existing RTL or test file was modified in Phase 7 (new files only), so the regression of Phases 0-6 is not required (Phase 5M Amendment A1).
+Pembacaan:
+- V1 lint: Verilator `-Wall` dan slang bersih untuk `keccak_f1600` dan `keccak_sponge` (0 peringatan, 0 kesalahan).
+- V2: `tb/golden/keccak.py` acuan sama dengan hashlib (16 kasus pytest: setiap panjang 0..3 rate + 1 per mode, panjang ML-KEM, panjang acak hingga 2.000 byte, panjang keluaran SHAKE, jejak per ronde, 1.600 state satu-bit
+  semuanya berbeda setelah permutasi, konstanta ronde dan offset rho terhadap nilai FIPS 202).
+- V3: `rtl/keccak/keccak_pkg.sv` dibangkitkan ulang dari model acuan, 0 selisih.
+- V4 (`perm`): state nol, state semua-satu, 1.600 state satu-bit, 200 state acak dan rantai 10: state setelah setiap ronde sama dengan jejak acuan; `busy_o` tinggi tepat 24 siklus dan `done_o` berpulsa sekali
+  untuk setiap state; port baca lane, xor ke lane >= 25 diabaikan, xor dan run saat sibuk diabaikan, clear di tengah permutasi.
+- V5 (`sponge`): keempat mode bit-exact terhadap hashlib dan sponge acuan untuk panjang batas test plan, panjang ML-KEM, 20 panjang acak per mode dan semua ukuran keluaran rencana; counter permutasi
+  sama dengan hitungan acuan; back-pressure acak di kedua antarmuka; sampah di byte yang diabaikan pada word terakhir; stop di absorb, di permutasi, dan di squeeze (termasuk antara dua blok squeeze);
+  start saat sibuk diabaikan; reset di tengah pesan.
+- V6: 306 titik (mode, panjang, word keluaran), masing-masing dengan tiga pesan (acak, semua-0x00, semua-0xFF) dan jumlah siklus identik; setiap titik sama dengan rumus FSM (`cycles_k0.json`, `cycles_k0_table.md`).
+- V7: kontrol negatif gagal sesuai syarat di kedua simulator: NC-RC (satu bit konstanta ronde 1), NC-R (23 ronde, juga menggagalkan pemeriksaan 24 siklus), NC-PAD (byte domain SHA3 0x1F).
+- V9: `check_params.py`: semua parameter terkunci cocok. Tidak ada file RTL atau test yang ada yang diubah di Fase 7 (hanya file baru), jadi regresi Fase 0-6 tidak diperlukan (Amandemen A1 Fase 5M).

@@ -1,8 +1,8 @@
-# Phase 9F S1b simulator runs, 2026-10-04 (V3, V5, V6)
+# Run simulator Fase 9F S1b, 2026-10-04 (V3, V5, V6)
 
-MEASURED (simulation only). Commands (environment `CORE_TOP=mlkem_core3 CORE_SMP0=1 CORE_K0=1 CORE_W2=1`): `tb/mlkem/run_core_tests.py verilator core nclen ncoff ncrom`; `... icarus core nclen`; `... verilator ncprio ncwr ncjob ncthr ncthrnj`. `ncthr` must PASS (a throttled sidecar, one read per 32 cycles, so that the job outlasts the main work: the join waits); every other control must fail the named test. Only result lines are kept; the repository path prefix is shortened to <repo>.
+MEASURED (hanya simulasi). Perintah (lingkungan `CORE_TOP=mlkem_core3 CORE_SMP0=1 CORE_K0=1 CORE_W2=1`): `tb/mlkem/run_core_tests.py verilator core nclen ncoff ncrom`; `... icarus core nclen`; `... verilator ncprio ncwr ncjob ncthr ncthrnj`. `ncthr` harus LOLOS (sidecar yang di-throttle, satu pembacaan per 32 siklus, agar job lebih lama dari pekerjaan utama: join menunggu); setiap kontrol lain harus menggagalkan test yang disebut. Hanya baris hasil yang disimpan; awalan path repository dipendekkan menjadi <repo>.
 
-## Verilator, core and controls
+## Verilator, inti dan kontrol
 ```
 2166885.00ns INFO     cocotb.mlkem_core3                 ACVP keyGen: 25 vectors equal
 4789110.00ns INFO     cocotb.mlkem_core3                 ACVP encapsulation: 25 vectors equal
@@ -19,7 +19,7 @@ MEASURED (simulation only). Commands (environment `CORE_TOP=mlkem_core3 CORE_SMP
 [verilator] TOTAL: 9/9 passed
 ```
 
-## Icarus, core and control nclen
+## Icarus, inti dan kontrol nclen
 ```
 2166885.00ns INFO     cocotb.mlkem_core3                 ACVP keyGen: 25 vectors equal
 4789110.00ns INFO     cocotb.mlkem_core3                 ACVP encapsulation: 25 vectors equal
@@ -31,7 +31,7 @@ MEASURED (simulation only). Commands (environment `CORE_TOP=mlkem_core3 CORE_SMP
 [icarus] TOTAL: 7/7 passed
 ```
 
-## Verilator, S1b controls (the first run of NC-PRIO expected test_acvp_keygen, which does not read while the job runs; the expected test was corrected to test_acvp_encaps and NC-PRIO rerun below)
+## Verilator, kontrol S1b (run pertama NC-PRIO mengharapkan test_acvp_keygen, yang tidak membaca saat job berjalan; test yang diharapkan dikoreksi menjadi test_acvp_encaps dan NC-PRIO dijalankan ulang di bawah)
 ```
 173515.00ns INFO     cocotb.mlkem_core3                 ACVP keyGen: 2 vectors equal
 296700.00ns INFO     cocotb.mlkem_core3                 ACVP encapsulation: 2 vectors equal
@@ -52,7 +52,7 @@ MEASURED (simulation only). Commands (environment `CORE_TOP=mlkem_core3 CORE_SMP
 [verilator] TOTAL: 4/5 passed
 ```
 
-## Verilator, NC-PRIO rerun with the expected test test_acvp_encaps
+## Verilator, NC-PRIO dijalankan ulang dengan test yang diharapkan test_acvp_encaps
 ```
 173515.00ns INFO     cocotb.mlkem_core3                 ACVP keyGen: 2 vectors equal
 [verilator] ncprio: test_acvp_encaps failed as required: True; failed=['test_acvp_encaps', 'test_acvp_decaps', 'test_random_cross_check_and_chain', 'test_protocol_corner_cases', 'test_constant_cycles']

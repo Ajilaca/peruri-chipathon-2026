@@ -1,6 +1,6 @@
-# Phase 9a verification run (V1-V8, V11), `scripts/test/phase9a_verify.sh` with P9A_FORMAL=0, 2026-10-03
+# Run verifikasi Fase 9a (V1-V8, V11), `scripts/test/phase9a_verify.sh` dengan P9A_FORMAL=0, 2026-10-03
 
-MEASURED (simulation only). The formal part (V9) is in `formal.md` (separate run of `formal/run/run_formal_phase9a.py`). The WARNING lines after the passing tests are the negative controls (test-only RTL copies) failing, as required; the per-control result is the `[simulator] nc...` line.
+MEASURED (hanya simulasi). Bagian formal (V9) ada di `formal.md` (run terpisah `formal/run/run_formal_phase9a.py`). Baris WARNING setelah test yang lolos adalah kontrol negatif (salinan RTL khusus uji) yang gagal, seperti diharuskan; hasil per kontrol adalah baris `[simulator] nc...`.
 
 ```
 ## V1 verilator --lint-only -Wall mlkem_pack

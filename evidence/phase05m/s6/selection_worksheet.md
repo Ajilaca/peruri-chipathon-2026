@@ -1,26 +1,26 @@
 ## Per seed, M6 (MEASURED)
-| Seed | ALM | Registers | M10K | DSP | Worst setup / hold (ns) | Timing met @ 40 ns | Fmax lowest slow corner (MHz) | Evidence |
+| Seed | ALM | Register | M10K | DSP | Setup / hold terburuk (ns) | Timing terpenuhi @ 40 ns | Fmax slow corner terendah (MHz) | Evidence |
 |---|---|---|---|---|---|---|---|---|
-| 1 | 9,426 | 4041 | 29 | 16 | 11.161 / 0.145 | yes | 34.68 | `quartus_M6.md` |
-| 2 | 9,394 | 4030 | 29 | 16 | 10.942 / 0.126 | yes | 34.41 | `quartus_M6-s2.md` |
-| 3 | 9,417 | 4063 | 29 | 16 | 10.721 / 0.143 | yes | 34.15 | `quartus_M6-s3.md` |
-| 4 | 9,409 | 4080 | 29 | 16 | 9.090 / 0.120 | yes | 32.35 | `quartus_M6-s4.md` |
-| 5 | 9,441 | 4049 | 29 | 16 | 11.464 / 0.126 | yes | 35.04 | `quartus_M6-s5.md` |
-| 6 | 9,429 | 4036 | 29 | 16 | 10.972 / 0.084 | yes | 34.45 | `quartus_M6-s6.md` |
+| 1 | 9,426 | 4041 | 29 | 16 | 11.161 / 0.145 | ya | 34.68 | `quartus_M6.md` |
+| 2 | 9,394 | 4030 | 29 | 16 | 10.942 / 0.126 | ya | 34.41 | `quartus_M6-s2.md` |
+| 3 | 9,417 | 4063 | 29 | 16 | 10.721 / 0.143 | ya | 34.15 | `quartus_M6-s3.md` |
+| 4 | 9,409 | 4080 | 29 | 16 | 9.090 / 0.120 | ya | 32.35 | `quartus_M6-s4.md` |
+| 5 | 9,441 | 4049 | 29 | 16 | 11.464 / 0.126 | ya | 35.04 | `quartus_M6-s5.md` |
+| 6 | 9,429 | 4036 | 29 | 16 | 10.972 / 0.084 | ya | 34.45 | `quartus_M6-s6.md` |
 
-## Comparison with C4b-B (medians over seeds 1-6; INFERENCE)
-| | ALM median (min-max) | DSP | Fmax median (min-max) MHz | cycles NTT / INTT | t_NTT / t_INTT at median Fmax (us) |
+## Perbandingan dengan C4b-B (median atas seed 1-6; INFERENCE)
+| | Median ALM (min-maks) | DSP | Median Fmax (min-maks) MHz | siklus NTT / INTT | t_NTT / t_INTT pada median Fmax (us) |
 |---|---|---|---|---|---|
-| C4b-B (previous step) | 9,171.0 (9,166-9,208) | 18 | 34.515 (33.46-34.84) | 119 / 375 | 3.448 / 10.865 |
-| M6 (INTT without scaling pass) | 9,421.5 (9,394-9,441) | 16 | 34.430 (32.35-35.04) | 119 / 119 | 3.456 / 3.456 |
+| C4b-B (langkah sebelumnya) | 9,171.0 (9,166-9,208) | 18 | 34.515 (33.46-34.84) | 119 / 375 | 3.448 / 10.865 |
+| M6 (INTT tanpa lintasan skala) | 9,421.5 (9,394-9,441) | 16 | 34.430 (32.35-35.04) | 119 / 119 | 3.456 / 3.456 |
 
-## Adoption rule (test plan section 4)
-- PASS: correct (verification_status.json: V1-V8; V9 not run for S6, Amendment A1)
-- PASS: cycles exactly NTT 119 / INTT 119
-- PASS: ALM <= 12,573 at every seed
-- PASS: timing met at 40.000 ns at every seed
-- PASS: ADR 0012, t_INTT 3.456 < 10.865 us (C4b-B median Fmax 34.515 MHz)
-- FAIL: ADR 0012, t_NTT 3.456 < 3.448 us (needs M6 median Fmax 34.430 MHz > 34.515 MHz)
+## Aturan adopsi (test plan bagian 4)
+- PASS: benar (verification_status.json: V1-V8; V9 tidak dijalankan untuk S6, Amandemen A1)
+- PASS: siklus persis NTT 119 / INTT 119
+- PASS: ALM <= 12,573 di setiap seed
+- PASS: timing terpenuhi pada 40,000 ns di setiap seed
+- PASS: ADR 0012, t_INTT 3.456 < 10.865 us (median Fmax C4b-B 34.515 MHz)
+- FAIL: ADR 0012, t_NTT 3.456 < 3.448 us (memerlukan median Fmax M6 34.430 MHz > 34.515 MHz)
 
-**Rule result: M6 NOT adopted by the rule (no tolerance was added).**
-Only the NTT part of ADR 0012 failed (NTT mode is unchanged in cycles; the margin is the median Fmax). Test plan section 4: reported as measured; any other rule is a new decision of the team.
+Hasil aturan: M6 TIDAK diadopsi oleh aturan (tidak ada toleransi yang ditambahkan).
+Hanya bagian NTT ADR 0012 yang gagal (mode NTT tidak berubah dalam siklus; marginnya adalah median Fmax). Test plan bagian 4: dilaporkan seperti terukur; aturan lain apa pun adalah keputusan baru tim.

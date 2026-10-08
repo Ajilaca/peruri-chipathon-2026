@@ -1,8 +1,8 @@
-# Phase 9F S1 simulator run, Icarus (V2, V3, V5), 2026-10-04
+# Run simulator Fase 9F S1, Icarus (V2, V3, V5), 2026-10-04
 
-MEASURED (simulation only). Same commands as `sim_verilator.md` with the simulator `icarus`: (a) `CORE_TOP=mlkem_core2 CORE_SMP0=1 CORE_K0=1 CORE_W2=1 tb/mlkem/run_core_tests.py icarus core nclen`; (b) `KP_VAR=2 KP_CORE_R2=0 tb/smp/run_smp_tests.py icarus top`. Only result lines are kept.
+MEASURED (hanya simulasi). Perintah sama dengan `sim_verilator.md` dengan simulator `icarus`: (a) `CORE_TOP=mlkem_core2 CORE_SMP0=1 CORE_K0=1 CORE_W2=1 tb/mlkem/run_core_tests.py icarus core nclen`; (b) `KP_VAR=2 KP_CORE_R2=0 tb/smp/run_smp_tests.py icarus top`. Hanya baris hasil yang disimpan.
 
-## (a) core
+## (a) inti
 ```
 2264635.00ns INFO     cocotb.mlkem_core2                 ACVP keyGen: 25 vectors equal
 2264635.00ns INFO     cocotb.regression                  test_mlkem_core.test_acvp_keygen passed
@@ -20,7 +20,7 @@ MEASURED (simulation only). Same commands as `sim_verilator.md` with the simulat
 [icarus] TOTAL: 7/7 passed
 ```
 
-## (b) sequencer with the K0 sampler
+## (b) sequencer dengan sampler K0
 ```
                                                         ** test_kpke_smp.test_programs_bit_exact          PASS     1928135.00         329.95       5843.79  **
                                                         ** test_kpke_smp.test_constant_cycles_fixed_rho   PASS     1646445.00         369.93       4450.74  **

@@ -1,4 +1,4 @@
-# MEASURED (simulation / lint, not hardware): Phase 5M S8 verification, scripts/test/phase5m_verify_s8.sh at git 300aaf3, 2026-10-03
+# MEASURED (simulasi / lint, bukan perangkat keras): Verifikasi Fase 5M S8, scripts/test/phase5m_verify_s8.sh pada git 300aaf3, 2026-10-03
 
 ```
 ## V1 verilator --lint-only -Wall ntt_core_s8_p8
@@ -68,4 +68,4 @@ rc=0
 OVERALL: PASS
 ```
 
-Note: `%Warning-WIDTHEXPAND` lines (if any) come from the cocotb Verilator builds of the test tops, not from the V1 lint (first two steps, 0 warnings). Failures inside the `ncb` / `ncw` blocks are the negative controls and are required.
+Catatan: baris `%Warning-WIDTHEXPAND` (bila ada) berasal dari build cocotb Verilator untuk top uji, bukan dari lint V1 (dua langkah pertama, 0 peringatan). Kegagalan di dalam blok `ncb` / `ncw` adalah kontrol negatif dan memang diharuskan.

@@ -1,6 +1,6 @@
-# Phase 9M-1 core simulator run (V3, V5), `CORE_W2=1 tb/mlkem/run_core_tests.py verilator core ncwcore`, 2026-10-04
+# Run simulator inti Fase 9M-1 (V3, V5), `CORE_W2=1 tb/mlkem/run_core_tests.py verilator core ncwcore`, 2026-10-04
 
-MEASURED (simulation only), core with `CODEC_W2 = 1` (two-byte load / store tasks). The line `[verilator] core` is the whole set (ACVP keyGen 25, encapsulation 25, decapsulation 10; random cross-check with CORE_N=20; protocol; constant cycles); `ncwcore` is the negative control NC-W-CORE (the loader writes the coefficient index + 1), which must fail the ACVP encapsulation test. Only the result lines of the log are kept; the repository path prefix in the traceback of the expected control failure is shortened to <repo>.
+MEASURED (hanya simulasi), inti dengan `CODEC_W2 = 1` (tugas muat / simpan dua byte). Baris `[verilator] core` adalah seluruh himpunan (ACVP keyGen 25, encapsulation 25, decapsulation 10; uji silang acak dengan CORE_N=20; protokol; siklus konstan); `ncwcore` adalah kontrol negatif NC-W-CORE (pemuat menulis indeks koefisien + 1), yang harus menggagalkan test enkapsulasi ACVP. Hanya baris hasil log yang disimpan; awalan path repository pada traceback kegagalan kontrol yang diharapkan dipendekkan menjadi <repo>.
 
 ```
 2150515.00ns INFO     cocotb.mlkem_core                  ACVP keyGen: 25 vectors equal

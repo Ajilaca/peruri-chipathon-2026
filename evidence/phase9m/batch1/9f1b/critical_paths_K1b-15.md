@@ -1,7 +1,7 @@
 <!-- claim-lint: skip-file (internal evidence, not proposal text) -->
-# Critical paths of K1b at 15 ns (K1b-15-s1, the seed with the smallest 100 C slack), 2026-10-04
+# Jalur kritis K1b pada 15 ns (K1b-15-s1, seed dengan slack 100 C terkecil), 2026-10-04
 
-MEASURED with `quartus_sta -t scripts/quartus/phase5m_top_paths.tcl` (300 worst setup paths, slow model, 1,100 mV, 100 C) on a copy of the compiled database of `quartus/phase09f1b_core`; classified by `scripts/quartus/classify_paths_9f.py`. The raw report is not stored.
+MEASURED dengan `quartus_sta -t scripts/quartus/phase5m_top_paths.tcl` (300 jalur setup terburuk, model slow, 1.100 mV, 100 C) pada salinan database terkompilasi `quartus/phase09f1b_core`; diklasifikasikan oleh `scripts/quartus/classify_paths_9f.py`. Laporan mentah tidak disimpan.
 
 ```
 ## K1b-15-s1_paths_slow100_summary.rpt
@@ -10,5 +10,5 @@ paths: 300, slack 1.170 .. 2.457 ns
   worst slack   2.420 ns,    2 paths: engine sequencer -> Keccak permutation (sampler sponge)
 ```
 
-## Reading
-- 298 of the 300 worst paths are in the NTT core / memory / PWM class (+1.170 .. about +2.4 ns); the sidecar (new in K1b) does not appear among them; the next class is the engine sequencer to the sampler sponge at +2.420 ns (2 paths). The wall of K1b at 15 ns is the same as that of K1 (`../9f1/critical_paths_K1-15.md`): the NTT core / memory.
+## Pembacaan
+- 298 dari 300 jalur terburuk ada di kelas inti NTT / memori / PWM (+1,170 .. sekitar +2,4 ns); sidecar (baru di K1b) tidak muncul di antaranya; kelas berikutnya adalah sequencer mesin ke sponge sampler pada +2,420 ns (2 jalur). Dinding K1b pada 15 ns sama dengan K1 (`../9f1/critical_paths_K1-15.md`): inti NTT / memori.

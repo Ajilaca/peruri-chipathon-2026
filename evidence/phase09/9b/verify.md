@@ -1,6 +1,6 @@
-# Phase 9b verification run (V1-V7, V10), `scripts/test/phase9b_verify.sh` with P9B_FORMAL=0, 2026-10-03
+# Run verifikasi Fase 9b (V1-V7, V10), `scripts/test/phase9b_verify.sh` dengan P9B_FORMAL=0, 2026-10-03
 
-MEASURED (simulation only). The formal part (V8) is in `formal.md` (separate run of `formal/run/run_formal_phase9b.py`). The per-control result is the `[simulator] nc...` line of each simulator (six controls each, all "failed as required: True").
+MEASURED (hanya simulasi). Bagian formal (V8) ada di `formal.md` (run terpisah `formal/run/run_formal_phase9b.py`). Hasil per kontrol adalah baris `[simulator] nc...` tiap simulator (masing-masing enam kontrol, semua "failed as required: True").
 
 ```
 ## V1 verilator --lint-only -Wall mlkem_hash (CORE_R2 = 1)

@@ -1,17 +1,17 @@
 <!-- claim-lint: skip-file (internal checkpoint record, not proposal text) -->
-# Phase 5M S8 checkpoint: write-path register, P = 8, one bubble per direction (revision S8) vs S7
+# Checkpoint Fase 5M S8: register jalur tulis, P = 8, satu bubble per arah (revisi S8) lawan S7
 
-Plan and rule: `evidence/phase05m/test_plan_s8.md` (fixed before measuring). Record: ADR 0023 (Proposed).
+Rencana dan aturan: `evidence/phase05m/test_plan_s8.md` (ditetapkan sebelum mengukur). Catatan: ADR 0023 (ketika itu Proposed).
 
-| Quantity | S7 (MEASURED) | S8 (MEASURED) | Delta (INFERENCE) |
+| Besaran | S7 (MEASURED) | S8 (MEASURED) | Delta (INFERENCE) |
 |---|---:|---:|---:|
-| ALM, median of seeds 1-6 (min-max) | 9,391.0 (9,361-9,405) | 9,443.5 (9,402-9,471) | +52.5 |
-| Registers (min-max) | 4,296-4,324 | 4,130-4,144 | about -170 |
+| ALM, median seed 1-6 (min-maks) | 9,391.0 (9,361-9,405) | 9,443.5 (9,402-9,471) | +52.5 |
+| Register (min-maks) | 4,296-4,324 | 4,130-4,144 | sekitar -170 |
 | DSP / M10K | 16 / 31 | 16 / 33 | 0 / +2 |
-| Fmax median, lowest slow corner (MHz) | 38.720 (37.89-40.29) | 37.990 (36.76-40.22) | -0.730 (-1.9 %) |
-| NTT / INTT cycles (simulation) | 120 / 120 | 122 / 122 | +2 / +2 |
-| t_NTT / t_INTT at median Fmax (us, perhitungan tim) | 3.099 / 3.099 | 3.211 / 3.211 | +0.112 |
-| Timing met at 40.000 ns, every seed | yes | yes | - |
-| 20 ns information compile (seed 1) | not run | 9,443 ALM, setup -2.242 ns, Fmax 44.96 MHz, not met | - |
+| Median Fmax, slow corner terendah (MHz) | 38.720 (37.89-40.29) | 37.990 (36.76-40.22) | -0.730 (-1.9 %) |
+| Siklus NTT / INTT (simulasi) | 120 / 120 | 122 / 122 | +2 / +2 |
+| t_NTT / t_INTT pada median Fmax (us, perhitungan tim) | 3.099 / 3.099 | 3.211 / 3.211 | +0.112 |
+| Timing terpenuhi pada 40,000 ns, setiap seed | ya | ya | - |
+| Kompilasi informasi 20 ns (seed 1) | tidak dijalankan | 9,443 ALM, setup -2.242 ns, Fmax 44.96 MHz, tidak terpenuhi | - |
 
-Rule result: **not adopted by the rule** (condition 4: needed a median Fmax above 39.365 MHz). Verification: lint clean, 12/12 on both simulators, negative controls fail as required, formal 3/3, full regression OVERALL PASS.
+Hasil aturan: tidak diadopsi oleh aturan (syarat 4: memerlukan median Fmax di atas 39.365 MHz). Verifikasi: lint bersih, 12/12 di kedua simulator, kontrol negatif gagal sesuai syarat, formal 3/3, regresi penuh OVERALL PASS.

@@ -1,10 +1,10 @@
-# MEASURED - Phase 0-4 + Phase 5 (5a, 5b, 5c) regression, CRG-5 (simulation / formal; not hardware)
+# MEASURED - Regresi Fase 0-4 + Fase 5 (5a, 5b, 5c), CRG-5 (simulasi / formal; bukan perangkat keras)
 
-- Date: 2026-10-01, git SHA `b418d1e81cb47f2e30d21160364eb03967f07f6d` (branch phase5-arith). rtl/, tb/, formal/, scripts/, quartus/ had no uncommitted changes (checked with git status); uncommitted at the time: docs only (.gitignore, docs/AI_TOOLING_RESEARCH.md, new 5c path-analysis evidence, ADR 0015).
-- Commands: `scripts/test/phase5_regression.sh`, `scripts/test/phase5_verify.sh`, `formal/run/run_formal_phase5.py` (raw output below, unedited).
-- Result: Phase 0-4 regression OVERALL: PASS (21 steps, 0 failed); Phase 5 verify OVERALL: PASS (17 steps, 0 failed); formal Phase 5: all results as expected (14/14).
+- Tanggal: 2026-10-01, git SHA `b418d1e81cb47f2e30d21160364eb03967f07f6d` (branch phase5-arith). rtl/, tb/, formal/, scripts/, quartus/ tidak punya perubahan yang belum di-commit (diperiksa dengan git status); yang belum di-commit saat itu: hanya dokumen (.gitignore, docs/AI_TOOLING_RESEARCH.md, evidence analisis jalur 5c baru, ADR 0015).
+- Perintah: `scripts/test/phase5_regression.sh`, `scripts/test/phase5_verify.sh`, `formal/run/run_formal_phase5.py` (keluaran mentah di bawah, tidak diedit).
+- Hasil: regresi Fase 0-4 OVERALL: PASS (21 langkah, 0 gagal); verifikasi Fase 5 OVERALL: PASS (17 langkah, 0 gagal); formal Fase 5: semua hasil sesuai harapan (14/14).
 
-## Phase 0-4 (scripts/test/phase5_regression.sh)
+## Fase 0-4 (scripts/test/phase5_regression.sh)
 ```
 ## check_params
 check_params: all locked parameters match.
@@ -453,7 +453,7 @@ OVERALL: all results as expected (9/9)
 rc=0
 OVERALL: PASS
 ```
-## Phase 5 verify (scripts/test/phase5_verify.sh)
+## Verifikasi Fase 5 (scripts/test/phase5_verify.sh)
 ```
 ## V1 verilator --lint-only -Wall ntt_core_c4a
 rc=0
@@ -743,7 +743,7 @@ rc=0
 rc=0
 OVERALL: PASS
 ```
-## Phase 5 formal (formal/run/run_formal_phase5.py)
+## Formal Fase 5 (formal/run/run_formal_phase5.py)
 ```
 | Group | Proof | Expected | Result | Engine detail | Time (s) | As expected |
 |---|---|---|---|---|---|---|

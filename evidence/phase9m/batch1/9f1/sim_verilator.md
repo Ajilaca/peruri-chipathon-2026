@@ -1,8 +1,8 @@
-# Phase 9F S1 simulator run, Verilator (V2, V3, V5), 2026-10-04
+# Run simulator Fase 9F S1, Verilator (V2, V3, V5), 2026-10-04
 
-MEASURED (simulation only). (a) `CORE_TOP=mlkem_core2 CORE_SMP0=1 CORE_K0=1 CORE_W2=1 tb/mlkem/run_core_tests.py verilator core nclen`: the core at K1 (`SMP_C5 = 0`, `HASH_C5 = 0`, `CODEC_W2 = 1`); `nclen` is the control (every hash one byte short), which must fail the ACVP encapsulation test. (b) `KP_VAR=2 KP_CORE_R2=0 tb/smp/run_smp_tests.py verilator top`: the Phase 8c / 8d sequencer tests with the K0 sampler. Only result lines are kept; the repository path prefix is shortened to <repo>.
+MEASURED (hanya simulasi). (a) `CORE_TOP=mlkem_core2 CORE_SMP0=1 CORE_K0=1 CORE_W2=1 tb/mlkem/run_core_tests.py verilator core nclen`: inti pada K1 (`SMP_C5 = 0`, `HASH_C5 = 0`, `CODEC_W2 = 1`); `nclen` adalah kontrol (setiap hash kurang satu byte), yang harus menggagalkan test enkapsulasi ACVP. (b) `KP_VAR=2 KP_CORE_R2=0 tb/smp/run_smp_tests.py verilator top`: test sequencer Fase 8c / 8d dengan sampler K0. Hanya baris hasil yang disimpan; awalan path repository dipendekkan menjadi <repo>.
 
-## (a) core
+## (a) inti
 ```
 2264635.00ns INFO     cocotb.mlkem_core2                 ACVP keyGen: 25 vectors equal
 2264635.00ns INFO     cocotb.regression                  test_mlkem_core.test_acvp_keygen passed
@@ -20,7 +20,7 @@ MEASURED (simulation only). (a) `CORE_TOP=mlkem_core2 CORE_SMP0=1 CORE_K0=1 CORE
 [verilator] TOTAL: 7/7 passed
 ```
 
-## (b) sequencer with the K0 sampler
+## (b) sequencer dengan sampler K0
 ```
                                                         ** test_kpke_smp.test_programs_bit_exact          PASS     1928135.00          16.18     119158.65  **
                                                         ** test_kpke_smp.test_constant_cycles_fixed_rho   PASS     1646445.00          10.20     161345.01  **
@@ -30,4 +30,4 @@ MEASURED (simulation only). (a) `CORE_TOP=mlkem_core2 CORE_SMP0=1 CORE_K0=1 CORE
 [verilator] TOTAL: 3/3 passed
 ```
 
-Cycles of the engine tests (`cycles_smp_v2_verilator_k0sampler.json`) against the C5 sampler of 8d (`../../../phase08/8d/cycles_v2.json`): KeyGen 6,352 -> 6,688, Encrypt 7,653 -> 7,989 (+336 each), Decrypt 3,109 unchanged. The K0 sampler is therefore really in use.
+Siklus test mesin (`cycles_smp_v2_verilator_k0sampler.json`) terhadap sampler C5 8d (`../../../phase08/8d/cycles_v2.json`): KeyGen 6.352 -> 6.688, Encrypt 7.653 -> 7.989 (+336 masing-masing), Decrypt 3.109 tidak berubah. Jadi sampler K0 benar-benar dipakai.

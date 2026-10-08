@@ -1,4 +1,4 @@
-# MEASURED (simulation / lint, not hardware): Phase 5M S7 verification, scripts/test/phase5m_verify_s7.sh at git b53309d, 2026-10-02
+# MEASURED (simulasi / lint, bukan perangkat keras): Verifikasi Fase 5M S7, scripts/test/phase5m_verify_s7.sh pada git b53309d, 2026-10-02
 
 ```
 ## V1 verilator --lint-only -Wall ntt_core_s7_p7
@@ -84,4 +84,4 @@ rc=0
 OVERALL: PASS
 ```
 
-Note: the `%Warning-WIDTHEXPAND` lines come from the cocotb Verilator builds of the test tops (runner built with `-Wno-fatal`; the parameter ARB_REG is passed as a 32-bit constant to a 33-bit parameter by the runner). They are not part of the V1 lint of the RTL, which is 0 warnings (first two steps). The repeated cocotb lines are the simulators' per-test logs; failures in the `ncd` / `ncs` blocks are the negative controls and are required.
+Catatan: baris `%Warning-WIDTHEXPAND` berasal dari build cocotb Verilator untuk top uji (runner dibangun dengan `-Wno-fatal`; parameter ARB_REG diberikan sebagai konstanta 32 bit ke parameter 33 bit oleh runner). Baris itu bukan bagian lint V1 untuk RTL, yang 0 peringatan (dua langkah pertama). Baris cocotb yang berulang adalah log per-test simulator; kegagalan di blok `ncd` / `ncs` adalah kontrol negatif dan memang diharuskan.
