@@ -1,10 +1,10 @@
 <!-- claim-lint: skip-file (internal evidence record, not proposal text) -->
-# Phase 8b stage W2 verification run (test plan V1-V10), 2026-10-03
+# Run verifikasi Fase 8b tahap W2 (test plan V1-V10), 2026-10-03
 
-Command: `. scripts/env.sh && KS_OUTW=2 scripts/test/phase8b_verify.sh` (KS_OUTW = 2, KS_N = 500). Same structure as the W1 run; additionally the whole W1 test set is rerun against the current RTL (V10, `OUTW` = 1) on both simulators, and the formal runner runs the W1 and W2 rows.
-Environment: Ubuntu 24.04, OSS CAD Suite (Verilator 5.053, Icarus 14.0, slang, SymbiYosys), cocotb 2.1.0, git HEAD 794db0d plus the working-tree files of this stage (committed afterwards).
-Label: MEASURED (simulation, lint and formal output of this run; not hardware). An earlier run of the same script was discarded because the simulator processes of one test step were killed by a command of the operator session (0/8 in that step); the same step passed when rerun alone and the whole script was then rerun from the start; this file is that clean run.
-The cycle tables of Verilator and Icarus are byte-identical (checked with cmp). Filtered output of the script:
+Perintah: `. scripts/env.sh && KS_OUTW=2 scripts/test/phase8b_verify.sh` (KS_OUTW = 2, KS_N = 500). Struktur sama dengan run W1; selain itu seluruh himpunan test W1 dijalankan ulang terhadap RTL saat ini (V10, `OUTW` = 1) di kedua simulator, dan runner formal menjalankan baris W1 dan W2.
+Lingkungan: Ubuntu 24.04, OSS CAD Suite (Verilator 5.053, Icarus 14.0, slang, SymbiYosys), cocotb 2.1.0, git HEAD 794db0d ditambah file working tree tahap ini (di-commit sesudahnya).
+Label: MEASURED (keluaran simulasi, lint, dan formal run ini; bukan perangkat keras). Run sebelumnya dari skrip yang sama dibuang karena proses simulator satu langkah test dimatikan oleh perintah sesi operator (0/8 di langkah itu); langkah yang sama lolos saat dijalankan ulang sendiri dan seluruh skrip lalu dijalankan ulang dari awal; file ini adalah run bersih itu.
+Tabel siklus Verilator dan Icarus identik byte demi byte (diperiksa dengan cmp). Keluaran skrip yang difilter:
 
 ```
 KS_OUTW=2 KS_N=500

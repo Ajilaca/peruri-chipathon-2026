@@ -1,32 +1,32 @@
-## W1: per seed at 40.000 ns (MEASURED)
-| Seed | ALM | Registers | M10K | DSP | Worst setup / hold (ns) | Timing met @ 40 ns | Fmax lowest slow corner (MHz) | Evidence |
+## W1: per seed pada 40,000 ns (MEASURED)
+| Seed | ALM | Register | M10K | DSP | Setup / hold terburuk (ns) | Timing terpenuhi @ 40 ns | Fmax slow corner terendah (MHz) | Evidence |
 |---|---|---|---|---|---|---|---|---|
-| 1 | 5,276 | 1913 | 0 | 0 | 20.399 / 0.161 | yes | 51.02 | `quartus_SM1.md` |
-| 2 | 5,271 | 1913 | 0 | 0 | 20.470 / 0.162 | yes | 51.20 | `quartus_SM1-s2.md` |
-| 3 | 5,298 | 1913 | 0 | 0 | 20.789 / 0.162 | yes | 52.05 | `quartus_SM1-s3.md` |
-| 4 | 5,311 | 1913 | 0 | 0 | 20.038 / 0.163 | yes | 50.10 | `quartus_SM1-s4.md` |
-| 5 | 5,282 | 1913 | 0 | 0 | 20.484 / 0.162 | yes | 51.24 | `quartus_SM1-s5.md` |
-| 6 | 5,273 | 1913 | 0 | 0 | 22.075 / 0.161 | yes | 55.79 | `quartus_SM1-s6.md` |
+| 1 | 5,276 | 1913 | 0 | 0 | 20.399 / 0.161 | ya | 51.02 | `quartus_SM1.md` |
+| 2 | 5,271 | 1913 | 0 | 0 | 20.470 / 0.162 | ya | 51.20 | `quartus_SM1-s2.md` |
+| 3 | 5,298 | 1913 | 0 | 0 | 20.789 / 0.162 | ya | 52.05 | `quartus_SM1-s3.md` |
+| 4 | 5,311 | 1913 | 0 | 0 | 20.038 / 0.163 | ya | 50.10 | `quartus_SM1-s4.md` |
+| 5 | 5,282 | 1913 | 0 | 0 | 20.484 / 0.162 | ya | 51.24 | `quartus_SM1-s5.md` |
+| 6 | 5,273 | 1913 | 0 | 0 | 22.075 / 0.161 | ya | 55.79 | `quartus_SM1-s6.md` |
 
-ALM median (min-max): 5,279.0 (5,271-5,311); registers 1913-1913; Fmax median (min-max): 51.220 (50.10-55.79) MHz
+Median ALM (min-maks): 5,279.0 (5,271-5,311); register 1913-1913; median Fmax (min-maks): 51.220 (50.10-55.79) MHz
 
-### W1 acceptance gate (test plan section 4)
-- PASS: correct (verification_status: V1-V10, both simulators, controls fail, formal, regression)
-- PASS: M10K = 0 and DSP = 0 at every seed
-- PASS: ALM <= 12,573 at every seed (working cap)
-- PASS: timing met at 40.000 ns at every seed
-- PASS: median Fmax 51.220 MHz >= S10 median 44.320 MHz
+### Gerbang penerimaan W1 (test plan bagian 4)
+- PASS: benar (verification_status: V1-V10, kedua simulator, kontrol gagal, formal, regresi)
+- PASS: M10K = 0 dan DSP = 0 di setiap seed
+- PASS: ALM <= 12,573 di setiap seed (batas kerja)
+- PASS: timing terpenuhi pada 40,000 ns di setiap seed
+- PASS: median Fmax 51.220 MHz >= median S10 44.320 MHz
 
-**W1 gate result: PASSED.**
+Hasil gerbang W1: LOLOS.
 
-Cycles (C5 top, `cycles_w1_c5.json`; coef_ready always high): SampleNTT mean 305.23 cycles over 500 polynomials; CBD [280] cycles.
+Siklus (top C5, `cycles_w1_c5.json`; coef_ready selalu tinggi): SampleNTT rata-rata 305.23 siklus pada 500 polinomial; CBD [280] siklus.
 
-- information SM1-20 (20.000 ns), seed 1: ALM 5,296, worst setup 3.892 ns (met), Fmax lowest slow corner 62.08 MHz, `quartus_SM1-20.md`
-- information SM1-K0 (K0 sponge), seed 1: ALM 3,470, worst setup 23.928 ns (met), Fmax lowest slow corner 62.22 MHz, `quartus_SM1-K0.md`
+- informasi SM1-20 (20,000 ns), seed 1: ALM 5,296, setup terburuk 3.892 ns (terpenuhi), Fmax slow corner terendah 62.08 MHz, `quartus_SM1-20.md`
+- informasi SM1-K0 (sponge K0), seed 1: ALM 3,470, setup terburuk 23.928 ns (terpenuhi), Fmax slow corner terendah 62.22 MHz, `quartus_SM1-K0.md`
 
-## W2: not measured (no evidence files)
+## W2: tidak diukur (tidak ada file evidence)
 
-Reference: S10 (NTT/INTT core) Fmax median 44.320 MHz over seeds 1-6 (recomputed from `evidence/phase06/s10/`).
+Acuan: median Fmax S10 (inti NTT/INTT) 44.320 MHz pada seed 1-6 (dihitung ulang dari `evidence/phase06/s10/`).
 
-## Selection W1 versus W2 (test plan section 5)
-- W2 not measured yet. W1 gate: passed.
+## Pemilihan W1 lawan W2 (test plan bagian 5)
+- W2 belum diukur. Gerbang W1: lolos.

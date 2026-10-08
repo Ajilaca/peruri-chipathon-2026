@@ -1,9 +1,9 @@
 <!-- claim-lint: skip-file (internal evidence record, not proposal text) -->
-# Phase 8a verification run (test plan V1, V4-V7, V9), 2026-10-03
+# Run verifikasi Fase 8a (test plan V1, V4-V7, V9), 2026-10-03
 
-Command: `. scripts/env.sh && scripts/test/phase8a_verify.sh` (KK_SEEDS = 20). It first reruns the K0 verification (`scripts/test/phase7_verify.sh`, V9 regression: the K0 test files now take environment parameters whose defaults reproduce
-K0), then lints and tests `keccak_f1600_r2` and `keccak_sponge_r2` (two rounds per cycle) with `KK_RPC=2`. Environment: Ubuntu 24.04, OSS CAD Suite (Verilator 5.053, Icarus 14.0, slang, SymbiYosys), cocotb 2.1.0.
-Label: MEASURED (simulation and lint output of this run; not hardware). Filtered output of the script:
+Perintah: `. scripts/env.sh && scripts/test/phase8a_verify.sh` (KK_SEEDS = 20). Skrip lebih dulu menjalankan ulang verifikasi K0 (`scripts/test/phase7_verify.sh`, regresi V9: file test K0 kini menerima parameter lingkungan yang nilai bawaannya mereproduksi
+K0), lalu me-lint dan menguji `keccak_f1600_r2` dan `keccak_sponge_r2` (dua ronde per siklus) dengan `KK_RPC=2`. Lingkungan: Ubuntu 24.04, OSS CAD Suite (Verilator 5.053, Icarus 14.0, slang, SymbiYosys), cocotb 2.1.0.
+Label: MEASURED (keluaran simulasi dan lint run ini; bukan perangkat keras). Keluaran skrip yang difilter:
 
 ```
 ## V9 regression: scripts/test/phase7_verify.sh (K0)
@@ -75,11 +75,11 @@ rc=0
 OVERALL: PASS
 ```
 
-Reading:
-- V9 regression: the K0 verification (lint, golden vs hashlib 16 pytest, constants 0 differences, K0 permutation and sponge on both simulators with the three negative controls, `check_params`) is **OVERALL: PASS** again after the test-file change.
-- V1: Verilator `-Wall` and slang clean for `keccak_f1600_r2` and `keccak_sponge_r2` (0 warnings, 0 errors).
-- V4 (`perm`, C5): zero, all-ones, 1,600 single-bit, 200 random states and a chain of 10: the state after every cycle equals the golden trace after rounds 1, 3, ..., 23, the first-round output `mid` equals the golden trace
-  after rounds 0, 2, ..., 22 (so all 24 rounds are compared), `busy_o` is high for exactly 12 cycles, `done_o` pulses once; port tests (read, lane >= 25, xor and run while busy, clear mid-permutation).
-- V5 and V6 (`sponge`, C5): all four modes bit-exact against hashlib and the golden sponge; permutation counts equal the golden counts; back-pressure, stop, start while busy, reset; 306 (mode, length, output) points with identical cycle
-  counts for three messages each, every point equal to the formula with p = 14 (`cycles_c5.json`). Identical on Verilator and Icarus.
-- V7: NC-RC (one bit of round constant 1, used by the second round of cycle 0), NC-R (11 cycles) and NC-PAD fail as required on both simulators.
+Pembacaan:
+- Regresi V9: verifikasi K0 (lint, acuan lawan hashlib 16 pytest, konstanta 0 selisih, permutasi dan sponge K0 di kedua simulator dengan tiga kontrol negatif, `check_params`) kembali OVERALL: PASS setelah perubahan file test.
+- V1: Verilator `-Wall` dan slang bersih untuk `keccak_f1600_r2` dan `keccak_sponge_r2` (0 peringatan, 0 kesalahan).
+- V4 (`perm`, C5): nol, semua-satu, 1.600 satu-bit, 200 state acak dan rantai 10: state setelah setiap siklus sama dengan jejak acuan setelah ronde 1, 3, ..., 23, keluaran ronde pertama `mid` sama dengan jejak acuan
+  setelah ronde 0, 2, ..., 22 (jadi semua 24 ronde dibandingkan), `busy_o` tinggi tepat 12 siklus, `done_o` berpulsa sekali; test port (baca, lane >= 25, xor dan run saat sibuk, clear di tengah permutasi).
+- V5 dan V6 (`sponge`, C5): keempat mode bit-exact terhadap hashlib dan sponge acuan; jumlah permutasi sama dengan hitungan acuan; back-pressure, stop, start saat sibuk, reset; 306 titik (mode, panjang, keluaran) dengan jumlah siklus
+  identik untuk tiga pesan masing-masing, setiap titik sama dengan rumus dengan p = 14 (`cycles_c5.json`). Identik di Verilator dan Icarus.
+- V7: NC-RC (satu bit konstanta ronde 1, dipakai ronde kedua siklus 0), NC-R (11 siklus) dan NC-PAD gagal sesuai syarat di kedua simulator.

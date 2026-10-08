@@ -1,9 +1,9 @@
 <!-- claim-lint: skip-file (internal evidence record, not proposal text) -->
-# Phases 8c and 8d verification run (8c test plan V1-V8, 8d test plan V1-V8), 2026-10-03
+# Run verifikasi Fase 8c dan 8d (test plan 8c V1-V8, test plan 8d V1-V8), 2026-10-03
 
-Command: `. scripts/env.sh && scripts/test/phase8cd_verify.sh` (KP_N = 3 random cases per program plus corner cases per variant). Variants: 0 STORE and 1 STREAM (8c), 2 OVERLAP and 3 STRESS (8d; STRESS is test only). Environment: Ubuntu 24.04, OSS CAD Suite (Verilator 5.053, Icarus 14.0, slang, SymbiYosys), cocotb 2.1.0, git HEAD fbca60f plus the working-tree files of these stages (committed afterwards).
-Label: MEASURED (simulation, lint and formal output of this run; not hardware). The cycle tables of Verilator and Icarus are byte-identical for every variant (checked with cmp). Runs of the same script before the final RTL (the findings of Amendment A1 of both plans) were discarded; this file is the clean run on the final RTL.
-The 8b sampler is not changed by 8c or 8d; its regression is `verify_W2.md` of 8b (including the rerun of the W1 test set). Filtered output of the script:
+Perintah: `. scripts/env.sh && scripts/test/phase8cd_verify.sh` (KP_N = 3 kasus acak per program ditambah kasus sudut per varian). Varian: 0 STORE dan 1 STREAM (8c), 2 OVERLAP dan 3 STRESS (8d; STRESS hanya untuk uji). Lingkungan: Ubuntu 24.04, OSS CAD Suite (Verilator 5.053, Icarus 14.0, slang, SymbiYosys), cocotb 2.1.0, git HEAD fbca60f ditambah file working tree tahap-tahap ini (di-commit sesudahnya).
+Label: MEASURED (keluaran simulasi, lint, dan formal run ini; bukan perangkat keras). Tabel siklus Verilator dan Icarus identik byte demi byte untuk setiap varian (diperiksa dengan cmp). Run skrip yang sama sebelum RTL akhir (temuan Amandemen A1 kedua rencana) dibuang; file ini adalah run bersih pada RTL akhir.
+Sampler 8b tidak diubah oleh 8c atau 8d; regresinya adalah `verify_W2.md` 8b (termasuk menjalankan ulang himpunan test W1). Keluaran skrip yang difilter:
 
 ```
 ## V2 golden model (STORE, STREAM, OVERLAP, STRESS) against the unmodified golden K-PKE, hazard checker

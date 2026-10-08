@@ -1,10 +1,10 @@
 <!-- claim-lint: skip-file (internal evidence record, not proposal text) -->
-# Phase 8b stage W1 verification run (test plan V1-V10), 2026-10-03
+# Run verifikasi Fase 8b tahap W1 (test plan V1-V10), 2026-10-03
 
-Command: `. scripts/env.sh && scripts/test/phase8b_verify.sh` (KS_OUTW = 1, KS_N = 500, KK_SEEDS = 20 inside the regression). It first reruns the K0 and C5 verification (`scripts/test/phase8a_verify.sh`, which runs `scripts/test/phase7_verify.sh`) and the formal runs of Phases 7 and 8a (V10),
-then lints and tests the sampler (V1-V8, both simulators) and runs the sampler formal proofs (V9, `formal/run/run_formal_phase8b.py`). Environment: Ubuntu 24.04, OSS CAD Suite (Verilator 5.053, Icarus 14.0, slang, SymbiYosys), cocotb 2.1.0, git HEAD dcae678 plus the working-tree files of this stage (committed afterwards).
-Label: MEASURED (simulation, lint and formal output of this run; not hardware). An earlier full run of the same script failed one check on both simulators (V5 permutation counter, K0 top, one case); that finding and the change of the expected value are Amendment A1 of the test plan (section 8).
-The cycle tables of Verilator and Icarus are byte-identical (checked with cmp). Filtered output of the script:
+Perintah: `. scripts/env.sh && scripts/test/phase8b_verify.sh` (KS_OUTW = 1, KS_N = 500, KK_SEEDS = 20 di dalam regresi). Skrip lebih dulu menjalankan ulang verifikasi K0 dan C5 (`scripts/test/phase8a_verify.sh`, yang menjalankan `scripts/test/phase7_verify.sh`) dan run formal Fase 7 dan 8a (V10),
+lalu me-lint dan menguji sampler (V1-V8, kedua simulator) dan menjalankan bukti formal sampler (V9, `formal/run/run_formal_phase8b.py`). Lingkungan: Ubuntu 24.04, OSS CAD Suite (Verilator 5.053, Icarus 14.0, slang, SymbiYosys), cocotb 2.1.0, git HEAD dcae678 ditambah file working tree tahap ini (di-commit sesudahnya).
+Label: MEASURED (keluaran simulasi, lint, dan formal run ini; bukan perangkat keras). Satu run penuh skrip yang sama sebelumnya gagal pada satu pemeriksaan di kedua simulator (V5 counter permutasi, top K0, satu kasus); temuan itu dan perubahan nilai yang diharapkan adalah Amandemen A1 test plan (bagian 8).
+Tabel siklus Verilator dan Icarus identik byte demi byte (diperiksa dengan cmp). Keluaran skrip yang difilter:
 
 ```
 KS_OUTW=1 KS_N=500

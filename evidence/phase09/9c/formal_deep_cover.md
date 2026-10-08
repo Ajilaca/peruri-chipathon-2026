@@ -1,18 +1,18 @@
-# Phase 9c deep cover (depth 480), 2026-10-04
+# Cover dalam Fase 9c (kedalaman 480), 2026-10-04
 
-MEASURED with SymbiYosys (yosys-slang, boolector), `formal/phase09-integration/9c/mlkem_core_cover_deep.sby` (cover mode, depth 480, `-D DEEP`), run by hand in a copy of the work directory; the same five cover statements of `mlkem_core_formal_top.sv` as the depth-260 run plus the two that need the longest program. Result: **DONE (PASS, rc=0): all five covered states are reached**, so the safety proof of `formal.md` is not vacuous for the Decaps program either. Elapsed 0:28:07 (1,687 s). Control and range only; this shows reachability with the sub-blocks replaced by protocol stubs that finish at once, not a timing of the real core.
+MEASURED dengan SymbiYosys (yosys-slang, boolector), `formal/phase09-integration/9c/mlkem_core_cover_deep.sby` (mode cover, kedalaman 480, `-D DEEP`), dijalankan manual di salinan direktori kerja; lima pernyataan cover yang sama dari `mlkem_core_formal_top.sv` seperti run kedalaman 260 ditambah dua yang memerlukan program terpanjang. Hasil: SELESAI (PASS, rc=0): kelima state yang dicakup tercapai, jadi bukti keselamatan `formal.md` tidak vakum juga untuk program Decaps. Waktu berjalan 0:28:07 (1,687 s). Hanya kendali dan rentang; ini menunjukkan keterjangkauan dengan sub-blok diganti stub protokol yang selesai seketika, bukan timing inti nyata.
 
-| Cover statement | First step reached |
+| Pernyataan cover | Langkah pertama tercapai |
 |---|---|
-| a digest word is taken from the hash stub (state S_HGT, `hg_take`) | 18 |
-| KeyGen done (`done_a_o` with op 0) | 233 |
-| Encaps done (`done_a_o` with op 1) | 233 |
-| state S_CMPK (comparison of the re-encrypted ciphertext) | 266 |
-| Decaps done (`done_a_o` with op 2) | 272 |
+| sebuah word digest diambil dari stub hash (state S_HGT, `hg_take`) | 18 |
+| KeyGen done (`done_a_o` dengan op 0) | 233 |
+| Encaps done (`done_a_o` dengan op 1) | 233 |
+| state S_CMPK (pembandingan ciphertext hasil enkripsi ulang) | 266 |
+| Decaps done (`done_a_o` dengan op 2) | 272 |
 
-(INFERENCE: SymbiYosys prints the source positions of the DEEP build with an offset, so the table assigns the five reached statements to their meaning by the length of each statement at the printed position (37 characters: the two `done_a_o` covers, 35: the digest word, 21: S_CMPK) and by the step order; the five distinct statements, all reached, are the point of this run.)
+(INFERENCE: SymbiYosys mencetak posisi sumber build DEEP dengan offset, jadi tabel menetapkan lima pernyataan yang tercapai ke maknanya lewat panjang tiap pernyataan pada posisi yang tercetak (37 karakter: dua cover `done_a_o`, 35: word digest, 21: S_CMPK) dan urutan langkah; lima pernyataan berbeda yang semuanya tercapai adalah inti run ini.)
 
-Raw summary lines of the run:
+Baris ringkasan mentah run:
 
 ```
 SBY  2:21:27 [out] summary: Elapsed clock time [H:MM:SS (secs)]: 0:28:07 (1687)

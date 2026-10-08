@@ -1,13 +1,13 @@
-# Phase 9c formal run (CRG-8), `formal/run/run_formal_phase9c.py all`, 2026-10-04
+# Run formal Fase 9c (CRG-8), `formal/run/run_formal_phase9c.py all`, 2026-10-04
 
-MEASURED with SymbiYosys (yosys-slang, boolector). Group C is a cover-mode run (every covered state must be reached; it shows the proof is not vacuous), depth 260. The controller is proved with protocol stubs of the sub-blocks (`formal/phase09-integration/9c/stubs_9c.sv`; test plan 9c, Amendment A2). E1 is a two-copy non-interference property: two copies of the controller with different data and identical handshakes keep identical control state. Control and range properties only; values are covered by simulation (ACVP). Decaps done and the S_CMPK state are not reached at depth 260 (the hash-feed state needs 136-148 words); the separate deep cover run (`formal_deep_cover.md`, depth 480) reaches both. Work directory `formal/work/phase9c/` (git-ignored).
+MEASURED dengan SymbiYosys (yosys-slang, boolector). Kelompok C adalah run mode cover (setiap state yang dicakup harus tercapai; menunjukkan bukti tidak vakum), kedalaman 260. Pengendali dibuktikan dengan stub protokol sub-blok (`formal/phase09-integration/9c/stubs_9c.sv`; test plan 9c, Amandemen A2). E1 adalah properti non-interferensi dua salinan: dua salinan pengendali dengan data berbeda dan handshake identik mempertahankan state kendali identik. Hanya properti kendali dan rentang; nilai dicakup simulasi (ACVP). Decaps done dan state S_CMPK tidak tercapai pada kedalaman 260 (state pemberian hash memerlukan 136-148 word); run cover dalam terpisah (`formal_deep_cover.md`, kedalaman 480) mencapai keduanya. Direktori kerja `formal/work/phase9c/` (diabaikan git).
 
-| Group | Proof | Expected | Result | Engine detail | Time (s) | As expected |
+| Kelompok | Bukti | Diharapkan | Hasil | Detail mesin | Waktu (s) | Sesuai harapan |
 |---|---|---|---|---|---|---|
-| C Reachability | mlkem_core: KeyGen done, Encaps done and a digest word written are reachable (the proof is not vacuous) | PASS | PASS | bmc=pass | 1134.8 | yes |
-| A Phase 9c | mlkem_core controller (E1 non-interference, S1 ranges, S2 busy / done, S3 no host write while busy, S4 strobes, S5 engine ports, S6 addresses, S7 counters) | PASS | PASS | basecase=pass, induction=pass | 5.0 | yes |
-| B Negative control | NC-E1: the program counter depends on a data bit (E1 non-interference) | FAIL | FAIL | basecase=FAIL; failed assert mlkem_core_formal_top.sv:70 | 3.9 | yes |
-| B Negative control | NC-S3: a host write is accepted while busy, in the state LDP (S3) | FAIL | FAIL | basecase=FAIL; failed assert mlkem_core_formal_top.sv:97 | 3.4 | yes |
-| B Negative control | NC-S4: the store task starts together with the load task (S4) | FAIL | FAIL | basecase=FAIL; failed assert mlkem_core_formal_top.sv:99 | 3.3 | yes |
+| C Keterjangkauan | mlkem_core: KeyGen done, Encaps done, dan sebuah word digest tertulis dapat dicapai (bukti tidak vakum) | PASS | PASS | bmc=pass | 1134.8 | ya |
+| A Fase 9c | pengendali mlkem_core (E1 non-interferensi, S1 rentang, S2 busy / done, S3 tidak ada tulis host saat sibuk, S4 strobe, S5 port mesin, S6 alamat, S7 counter) | PASS | PASS | basecase=pass, induction=pass | 5.0 | ya |
+| B Kontrol negatif | NC-E1: program counter bergantung pada satu bit data (non-interferensi E1) | FAIL | FAIL | basecase=FAIL; failed assert mlkem_core_formal_top.sv:70 | 3.9 | ya |
+| B Kontrol negatif | NC-S3: tulis host diterima saat sibuk, di state LDP (S3) | FAIL | FAIL | basecase=FAIL; failed assert mlkem_core_formal_top.sv:97 | 3.4 | ya |
+| B Kontrol negatif | NC-S4: tugas simpan mulai bersamaan dengan tugas muat (S4) | FAIL | FAIL | basecase=FAIL; failed assert mlkem_core_formal_top.sv:99 | 3.3 | ya |
 
-ALL AS EXPECTED
+SEMUA SESUAI HARAPAN
