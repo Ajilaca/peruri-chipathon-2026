@@ -11,7 +11,7 @@
 Catatan proses, dinyatakan apa adanya: aturan gerbang `docs/ROADMAP.md` sendiri adalah "sebuah fase dimulai hanya setelah
 artefak hasil fase sebelumnya lulus `check_result.py` dan anggota tim telah mencentang
 kotak Persetujuannya." Kotak Persetujuan Fase 1 masih belum dicentang (`docs/results/phase01.md`
-Bagian 10) dan CRG-9-nya FAIL. Fase ini tetap dimulai, atas instruksi eksplisit tim
+Bagian 9) dan CRG-9-nya FAIL. Fase ini tetap dimulai, atas instruksi eksplisit tim
 ("lanjut fase 2") untuk melanjutkan di sesi yang sama, bukan karena gerbang terpenuhi. Dicatat di sini
 agar siapa pun yang hanya membaca file ini tidak mengira Fase 1 telah disetujui.
 
@@ -134,36 +134,7 @@ lulus). Toolchain identik dengan Fase 1 (OSS CAD Suite `2026-09-23`, Quartus 25.
 Tidak ada yang ditulis untuk juri/teks proposal. Baris ablasi C1 di `docs/ROADMAP.md` diisi dari
 evidence di atas; tidak ada angka proposal yang dikarang.
 
-## 9. Mereproduksi
-```bash
-# from repo root, branch phase2-memory-banking
-. scripts/env.sh
-
-python3 scripts/build/gen_bank_map.py   # exhaustive proof + regenerates rtl/mem/bank_map_rom.sv
-
-verilator --lint-only -Wall --timing -sv rtl/ntt/*.sv rtl/mem/*.sv --top-module ntt_core_c1
-slang --top ntt_core_c1 rtl/ntt/*.sv rtl/mem/*.sv
-
-python3 tb/mem/run_mem_tests.py icarus
-python3 tb/mem/run_mem_tests.py verilator
-python3 tb/ntt/run_ntt_tests.py icarus   # Phase 1 regression, unaffected
-python3 -m pytest tb/golden/tests/ -q
-python3 .claude/skills/mlkem-guard/scripts/check_params.py
-
-(cd formal/phase02-mem && sby -f bank_map_safety.sby)
-(cd formal/phase02-mem && sby -f ntt_core_c1_safety.sby)
-
-# Quartus (paths for this machine)
-export PATH=$HOME/altera_lite/25.1std/quartus/bin:$PATH
-(cd quartus/phase02_mem_c1 && quartus_sh --flow compile phase02_mem_c1 -c C1)
-python3 .claude/skills/quartus-report/scripts/extract_quartus_report.py \
-    quartus/phase02_mem_c1/output_files C1 --log quartus/phase02_mem_c1/output_files/C1.flow.rpt
-
-python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase02.md
-python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal
-```
-
-## 10. Persetujuan
+## 9. Persetujuan
 - [x] Penyetuju manusia (nama, tanggal): Faza Dzil, 2026-09-29
       Fase berikutnya dimulai hanya setelah anggota tim mencentang kotak ini. Mengingat CRG-9 FAIL, menyetujui
       status PARTIAL ini berarti tim secara eksplisit menerima penyimpangan proses yang dicatat di

@@ -85,19 +85,7 @@ FIPS 202 (Keccak-p[1600, 24], Algoritma 2, 5, 6 untuk offset rho dan konstanta r
 ## 8. Klaim yang dibuat pada fase ini
 Tidak ada yang ditulis untuk juri/teks proposal. Baris ROADMAP diisi dari evidence di atas.
 
-## 9. Mereproduksi
-```bash
-. scripts/env.sh
-scripts/test/phase7_verify.sh; python3 formal/run/run_formal_phase7.py
-python3 scripts/build/gen_keccak_consts.py --check
-cd quartus/phase07_keccak && ./run_k0.sh; cd ../..
-python3 scripts/test/phase7_op_cycles.py 200
-python3 scripts/build/build_phase7_report.py
-python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase07.md
-python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal
-```
-
-## 9b. Catatan amandemen 1 (2026-10-03, setelah persetujuan; tidak ada yang di atas diedit)
+## 9. Catatan amandemen 1 (2026-10-03, setelah persetujuan; tidak ada yang di atas diedit)
 Seed 2-6 K0 dikompilasi sebagai baseline aturan Fase 8a (`evidence/phase07/quartus_K0-s2.md` .. `quartus_K0-s6.md`). Atas seed 1-6: ALM 3,558-3,572, register 1,653, Fmax slow corner terendah median 67.675 MHz (56.99-70.39), timing terpenuhi pada 40 ns di setiap seed. Angka 56.99 MHz pada Bagian 3 adalah seed 1 dan yang terendah dari keenamnya; jangan dibaca sebagai nilai tipikal.
 
 ## 10. Persetujuan

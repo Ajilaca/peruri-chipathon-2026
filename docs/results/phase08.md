@@ -63,7 +63,6 @@
 Informasi pada 20.000 ns (seed 1): C5-20 6,178 ALM, setup +4.591 ns (terpenuhi), 64.90 MHz; K0-20 3,573 ALM, +6.893 ns, 76.30 MHz. Fmax di bawah constraint 20 ns tidak dapat dibandingkan dengan angka 40 ns.
 Sumber: `evidence/phase08/8a/selection_worksheet.md`, `keccak_cycles.md`, `quartus_C5*.md`, `evidence/phase07/quartus_K0*.md`.
 
-
 ### 3b. 8b, sampler streaming (sampler + sponge C5; sumber: `8b/selection_worksheet.md`, `8b/sampler_cycles_W1.md`, `8b/sampler_cycles_W2.md`)
 | Besaran | W1 (satu koefisien per siklus) | W2 (dua per siklus) | ESTIMATE yang ditulis sebelum pengukuran |
 |---|---|---|---|
@@ -122,19 +121,6 @@ FIPS 202 seperti di Fase 7; FIPS 203 Algoritma 7 (SampleNTT) dan Algoritma 8 (Sa
 ## 8. Klaim yang dibuat pada fase ini
 Tidak ada yang ditulis untuk juri atau teks proposal. Baris ROADMAP C5, C6b-W1, C6b-W2, C6c-STORE, C6c, dan C6d diisi dari evidence di atas.
 
-## 9. Mereproduksi
-```bash
-. scripts/env.sh
-scripts/test/phase8a_verify.sh; KS_OUTW=2 scripts/test/phase8b_verify.sh; scripts/test/phase8cd_verify.sh
-python3 formal/run/run_formal_phase8a.py; python3 formal/run/run_formal_phase8b.py all; python3 formal/run/run_formal_phase8c.py; python3 formal/run/run_formal_phase8d.py
-cd quartus/phase07_keccak && ./run_k0_seeds.sh; cd ../phase08_keccak && ./run_c5.sh; cd ../phase08b_sampler && ./run_sm1.sh && ./run_sm2.sh; cd ../phase08c_smp && ./run_smp.sh; cd ../..
-python3 scripts/quartus/select_8a.py; python3 scripts/quartus/select_8b.py; python3 scripts/quartus/select_8cd.py
-python3 scripts/build/gen_kpke_smp_roms.py --check
-python3 scripts/build/build_phase8_report.py
-python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase08.md
-python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal
-```
-
-## 10. Persetujuan
+## 9. Persetujuan
 - [x] Penyetuju manusia (nama, tanggal): Jose (Tim J5), 2026-10-03
       Fase berikutnya dimulai hanya setelah anggota tim mencentang kotak ini. Claude tidak pernah mencentangnya.

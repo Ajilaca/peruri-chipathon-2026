@@ -2,7 +2,7 @@
 # Hasil - Fase 4: Sapuan pipeline butterfly (P = 0 / 2 / 4 / 6, konfigurasi C3)
 
 - Status: DONE
-- Catatan status: selesai secara teknis atas keputusan tim 2026-10-01 (ADR 0009); Persetujuan dicentang 2026-10-01 (Bagian 10).
+- Catatan status: selesai secara teknis atas keputusan tim 2026-10-01 (ADR 0009); Persetujuan dicentang 2026-10-01 (Bagian 9).
 - Tanggal (UTC): 2026-09-30; diperbarui 2026-10-01 (sapuan seed fitter untuk P = 4 dan P = 6; evidence shell GHRD dan integrasi GHRD + C3-P4; keputusan akhir)
 - Git commit (HEAD saat diverifikasi): c2cc16c ditambah working tree Fase 4, di-commit bersama file ini
 - Keputusan saat ini (ADR 0009, Accepted 2026-10-01, Faza Dzil, Tim J5): L = 8, P = 6, implementasi C3-P6; anggaran desain inti NTT 30% = 12,573 ALM.
@@ -114,24 +114,7 @@ Tidak ada pembacaan FIPS 203 pada fase ini; tidak ada parameter, algoritma, nila
 ## 8. Klaim yang dibuat pada fase ini
 Tidak ada yang ditulis untuk juri/teks proposal. Baris C3 ROADMAP diisi dari evidence di atas.
 
-## 9. Mereproduksi
-```bash
-. scripts/env.sh
-python3 tb/ntt/run_p4_unit_tests.py verilator && python3 tb/ntt/run_p4_unit_tests.py icarus
-python3 tb/ntt/run_ntt_c3_tests.py verilator && python3 tb/ntt/run_ntt_c3_tests.py icarus
-tb/ntt/p4_reducer/run_modmul_staged_exhaustive.sh
-python3 formal/run/run_formal_phase4.py          # ~40 min (one BMC depth 125)
-python3 formal/run/run_formal_slang.py           # Phase 1-3 proofs, unchanged
-cd quartus/phase04_pipeline_c3
-for r in C3-P0 C3-P2 C3-P4 C3-P6; do quartus_sh --flow compile phase04_pipeline_c3 -c $r; done
-python3 scripts/quartus/phase4_select_p.py
-# seed sweep: run the C3-P4-s<n> / C3-P6-s<n> revisions ONE AT A TIME (parallel runs corrupt the shared .qpf)
-python3 scripts/quartus/phase4_seed_sweep_summary.py
-python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase04.md
-python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal
-```
-
-## 10. Persetujuan
+## 9. Persetujuan
 - [x] Penyetuju manusia (Faza Dzil, 2026-10-01; dicentang oleh asisten atas instruksi eksplisit penyetuju):
       Fase berikutnya dimulai hanya setelah anggota tim mencentang kotak ini. Tim menyatakan Fase 4 selesai secara teknis
       pada 2026-10-01 dan mencatat keputusan sebagai ADR 0009 (L = 8, P = 6, anggaran inti NTT 30%).

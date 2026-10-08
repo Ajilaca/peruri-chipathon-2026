@@ -128,31 +128,7 @@ validasi perangkat keras (belum ada papan).
 Tidak ada yang ditulis untuk juri/teks proposal. Hanya `docs/ROADMAP.md` (baris status dan baris C0
 pada matriks ablasi) yang diperbarui, dari file evidence di atas.
 
-## 9. Mereproduksi
-```bash
-# from repo root, branch phase1-ntt-baseline
-. scripts/env.sh
-verilator --lint-only -Wall --timing -sv rtl/ntt/*.sv --top-module ntt_core
-slang --top ntt_core rtl/ntt/*.sv
-python3 tb/ntt/run_ntt_tests.py icarus
-python3 tb/ntt/run_ntt_tests.py verilator
-python3 -m pytest tb/golden/tests/ -q
-python3 .claude/skills/mlkem-guard/scripts/check_params.py
-(cd formal/phase01-ntt && sby -f ntt_core_safety.sby)
-
-# Quartus (paths for this machine)
-export PATH=$HOME/altera_lite/25.1std/quartus/bin:$PATH
-(cd quartus/phase01_ntt_c0 && quartus_sh --flow compile phase01_ntt_c0 -c C0)
-python3 .claude/skills/quartus-report/scripts/extract_quartus_report.py \
-    quartus/phase01_ntt_c0/output_files C0 --log quartus/phase01_ntt_c0/output_files/C0.flow.rpt
-(cd quartus/phase01_ntt_c0 && quartus_sta -t report_critical_paths.tcl \
-    && python3 extract_c0_timing_evidence.py)
-
-python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase01.md
-python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal
-```
-
-## 10. Persetujuan
+## 9. Persetujuan
 - [x] Penyetuju manusia (nama, tanggal): Faza Dzil, 2026-09-29
       Fase berikutnya dimulai hanya setelah anggota tim mencentang kotak ini. Dengan CRG-9 FAIL dan
       ADR clock target belum ada, fase ini PARTIAL; menyetujuinya berarti tim menerima C0 sebagai

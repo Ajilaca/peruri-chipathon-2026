@@ -81,10 +81,3 @@ TIDAK dibuktikan oleh bukti ini: bit-exact NTT/INTT inti, integritas data memori
 (bahwa `done_o` akhirnya tercapai), atau properti rentang alamat. Bit-exact bertumpu pada regresi
 cocotb (dua simulator) dan, untuk butterfly K1, pada evidence ekuivalensi
 (`k1_equiv_abstraction.txt`, `k1_exhaustive_equivalence.txt`).
-
-## 4. Reproduksi
-```bash
-. scripts/env.sh
-python3 formal/run/run_formal_slang.py          # all of the above; exit code 0 only if all as expected
-(cd formal/phase03-multilane && sby -f ntt_core_c2_k2_k1_l8_safety.sby)   # a single proof
-```

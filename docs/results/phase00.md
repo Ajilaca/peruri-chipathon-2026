@@ -119,33 +119,9 @@ acuan tersebut; lihat `evidence/phase00/kat_mlkem768.txt` untuk nilai persisnya.
 ## 8. Klaim yang dibuat pada fase ini
 Tidak ada yang ditulis untuk juri/teks proposal pada fase ini. Satu-satunya artefak proposal yang disentuh adalah
 `docs/proposal/CLAIMS_REGISTER.md` baris "Bit-exact match with official KATs", diperbarui pada perubahan yang sama
-dari "not started" menjadi pernyataan yang tepat dan berbukti (lihat git log / diff pada Bagian 9);
-`claim_lint.py` dijalankan terhadap `docs/results` dan `docs/proposal` sebagaimana disyaratkan (lihat Bagian 9).
+dari "not started" menjadi pernyataan yang tepat dan berbukti;
+`claim_lint.py` dijalankan terhadap `docs/results` dan `docs/proposal` sebagaimana disyaratkan.
 
-## 9. Mereproduksi
-```bash
-# from repo root
-. scripts/env.sh
-
-# 1. Golden model tests
-python3 -m pytest tb/golden/tests/ -v
-
-# 2. Locked parameters
-python3 .claude/skills/mlkem-guard/scripts/check_params.py
-
-# 3. Official NIST ACVP KAT comparison (downloads + sha256-verifies vectors first)
-python3 tb/golden/fetch_acvp_vectors.py
-python3 tb/golden/run_kat.py
-
-# 4. Independent oracle cross-check (needs a throwaway venv with kyber-py==1.2.0
-#    installed OUTSIDE this repo, e.g. ~/.cache/chip2026-oracle/venv)
-~/.cache/chip2026-oracle/venv/bin/python3 tb/golden/crosscheck_kyberpy.py
-
-# 5. Validate this result artifact
-python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase00.md
-python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal
-```
-
-## 10. Persetujuan
+## 9. Persetujuan
 - [x] Penyetuju manusia (Faza Dzil, 2026-09-29):
       Fase berikutnya dimulai hanya setelah anggota tim mencentang kotak ini.

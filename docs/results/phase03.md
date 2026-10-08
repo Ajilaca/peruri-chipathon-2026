@@ -243,48 +243,7 @@ lulus). Toolchain identik dengan Fase 1/2 (OSS CAD Suite `2026-09-23`, Quartus 2
 Tidak ada yang ditulis untuk juri/teks proposal. Baris ablasi C2-L1/L2/L4/L8 di `docs/ROADMAP.md`
 diisi dari evidence di atas; tidak ada angka proposal yang dikarang.
 
-## 9. Mereproduksi
-```bash
-# from repo root, branch phase3-multilane
-. scripts/env.sh
-
-python3 scripts/build/gen_lane_schedule.py   # zeta-formula + p-coverage proof
-
-for L in 1 2 4 8; do
-  verilator --lint-only -Wall --timing -sv rtl/ntt/*.sv rtl/mem/*.sv --top-module ntt_core_c2 -GNUM_LANES=$L
-done
-slang --top ntt_core_c2 rtl/ntt/*.sv rtl/mem/*.sv
-
-python3 tb/ntt/run_ntt_c2_tests.py icarus
-python3 tb/ntt/run_ntt_c2_tests.py verilator
-python3 tb/ntt/run_ntt_tests.py icarus   # Phase 1 regression, unaffected
-python3 tb/mem/run_mem_tests.py icarus   # Phase 2 regression, unaffected
-python3 -m pytest tb/golden/tests/ -q
-python3 .claude/skills/mlkem-guard/scripts/check_params.py
-
-python3 formal/run/run_formal_slang.py   # every Phase 1-3 proof + negative controls (19 results)
-
-# Supplementary experiments (Section 3b): K2 and K2+K1 regressions, butterfly equivalence
-python3 tb/ntt/run_ntt_c2_tests.py verilator k2 && python3 tb/ntt/run_ntt_c2_tests.py icarus k2
-python3 tb/ntt/run_ntt_c2_tests.py verilator k1 && python3 tb/ntt/run_ntt_c2_tests.py icarus k1
-python3 tb/ntt/run_k1_unit_tests.py verilator && python3 tb/ntt/run_k1_unit_tests.py icarus
-(cd formal/phase03-multilane && sby -f k1_butterfly_equiv_abs.sby)   # PASS; k1_negctl_*.sby must FAIL
-tb/ntt/k1_exhaustive/run_k1_exhaustive.sh                            # ~20 min on 8 cores
-# Quartus revisions: C2-L<n>-K2 and C2-K2-K1-L<n> in quartus/phase03_multilane_c2/ (same flow as below)
-
-# Quartus (paths for this machine; QUARTUS_BIN in scripts/tooling.env, git-ignored)
-cd quartus/phase03_multilane_c2
-for L in 1 2 4 8; do
-  quartus_sh --flow compile C2-L$L
-  python3 ../../.claude/skills/quartus-report/scripts/extract_quartus_report.py \
-      output_files_L$L C2-L$L --log compile_L$L.log
-done
-
-python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase03.md
-python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal
-```
-
-## 10. Persetujuan
+## 9. Persetujuan
 - [x] Penyetuju manusia (faza dzil, 30-09-2026):
       Fase berikutnya dimulai hanya setelah anggota tim mencentang kotak ini. Di luar pola CRG-9
       (timing tidak terpenuhi) yang sudah diterima untuk C0/C1, fase ini memiliki dua butir yang memerlukan

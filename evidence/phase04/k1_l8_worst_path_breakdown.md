@@ -55,17 +55,3 @@ data polinomial. Itu yang memungkinkan stage register di dalamnya tanpa menyentu
   Pembagian rata 129.6 ns butuh sekitar 7 stage untuk 20 ns dan sekitar 4 untuk 40 ns.
 - Ini angka satu jalur dari satu kompilasi; jalur hampir-kritis lain ada dan fitter
   menempatkan ulang logika saat register ditambah, jadi angka ini membatasi harapan, bukan memprediksi Fmax.
-
-## Reproduksi
-```tcl
-# quartus_sta -t <this script>, run in quartus/phase03_multilane_c2/ after compiling C2-K2-K1-L8
-project_open phase03_multilane_c2 -revision C2-K2-K1-L8
-create_timing_netlist
-set_operating_conditions 7_slow_1100mv_100c
-read_sdc
-update_timing_netlist
-report_timing -setup -npaths 1 -detail full_path -file k1_l8_worst.rpt
-delete_timing_netlist
-project_close
-```
-(`project_open` menulis ulang `phase03_multilane_c2.qpf`; pulihkan dengan `git checkout` sesudahnya.)

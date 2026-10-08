@@ -2,7 +2,7 @@
 # Hasil - Fase 5: Optimasi aritmetika modular (konfigurasi C4: 5a fold, 5b Barrett lawan Montgomery, 5c INTT lazy, 5d tidak dicoba)
 
 - Status: DONE
-- Catatan status: selesai secara teknis menurut rencana Fase 5 (setiap sub-langkah yang dicoba benar dan terukur; 5d ditandai "tidak dicoba"). Dua catatan masih Proposed dan menunggu tim: ADR 0013 (pilihan 5b: Barrett, DSP 9 -> 18; PENDING #23) dan ADR 0015 (5d tidak dicoba, dipindah ke Fase 6). Kotak Persetujuan (Bagian 10) kosong.
+- Catatan status: selesai secara teknis menurut rencana Fase 5 (setiap sub-langkah yang dicoba benar dan terukur; 5d ditandai "tidak dicoba"). Dua catatan masih Proposed dan menunggu tim: ADR 0013 (pilihan 5b: Barrett, DSP 9 -> 18; PENDING #23) dan ADR 0015 (5d tidak dicoba, dipindah ke Fase 6). Kotak Persetujuan (Bagian 9) kosong.
 - Tanggal (UTC): 2026-10-01 sampai 2026-10-02
 - Git commit (HEAD saat diverifikasi): c572864 ditambah working tree penutupan Fase 5, di-commit bersama file ini
 - Konfigurasi hasil: C4 = C4b-B (reducer Barrett pada inti C3-P6, L = 8, P = 6), dipilih oleh aturan ADR 0011; 5c (C4c) terukur dan TIDAK diadopsi (aturan ADR 0014). Siklus tidak berubah: NTT 119, INTT 375.
@@ -103,23 +103,6 @@ Tidak ada pembacaan FIPS 203 pada fase ini; tidak ada parameter, algoritma, nila
 ## 8. Klaim yang dibuat pada fase ini
 Tidak ada yang ditulis untuk juri/teks proposal. Baris C4 ROADMAP diisi dari evidence di atas.
 
-## 9. Mereproduksi
-```bash
-. scripts/env.sh
-scripts/test/phase5_verify.sh                      # lint, exhaustive reducers, unit and core tests on both simulators
-python3 formal/run/run_formal_phase5.py           # formal incl. negative controls
-scripts/test/phase5_regression.sh                  # Phase 0-4 regression
-cd quartus/phase05_arith_c4
-# one revision at a time (parallel runs corrupt the shared .qpf): C4a, C4b-B[-s2..s6], C4b-M[-s2..s6], C4c[-s2..s6]
-./run_5b_sweep.sh; ./run_5c_sweep.sh; ./run_20ns_info.sh
-cd ../..
-python3 scripts/quartus/phase5_select_5b.py           # ADR 0011 rule
-python3 scripts/quartus/phase5_select_5c.py --date 20261001   # ADR 0014 rule
-python3 scripts/build/build_phase5_report.py        # PDF report
-python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase05.md
-python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal
-```
-
-## 10. Persetujuan
+## 9. Persetujuan
 - [x] Penyetuju manusia (nama, tanggal): Jevan (Tim J5), 2026-10-03
       Fase berikutnya dimulai hanya setelah anggota tim mencentang kotak ini. Claude tidak pernah mencentangnya.

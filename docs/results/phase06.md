@@ -2,7 +2,7 @@
 # Hasil - Fase 6: Penjadwalan NTT pada tingkat operasi (sequencer aritmetika K-PKE) dan S10 (memori 16-bank 1R1W)
 
 - Status: DONE
-- Catatan status: kriteria PASS Fase 6 terpenuhi (bit-exact, jumlah, siklus konstan, evidence Quartus). S10 diadopsi oleh aturannya yang ditetapkan sebelumnya (ADR 0025 Proposed: tim menerima atau menolak). Opsi 50 MHz nomor 1 dan 2 dari 2026-10-03 tercatat. Kotak Persetujuan (Bagian 10) kosong; kotak Fase 5 dan 5M juga masih kosong.
+- Catatan status: kriteria PASS Fase 6 terpenuhi (bit-exact, jumlah, siklus konstan, evidence Quartus). S10 diadopsi oleh aturannya yang ditetapkan sebelumnya (ADR 0025 Proposed: tim menerima atau menolak). Opsi 50 MHz nomor 1 dan 2 dari 2026-10-03 tercatat. Kotak Persetujuan (Bagian 9) kosong; kotak Fase 5 dan 5M juga masih kosong.
 - Tanggal (UTC): 2026-10-02 sampai 2026-10-03
 - Git commit (HEAD saat diverifikasi): 016bff0 (RTL Fase 6), 8d8cb6f (RTL S10), ditambah commit dokumentasi
 - Hasil: aritmetika K-PKE untuk KeyGen, Encrypt, dan Decrypt berjalan sebagai program tetap di perangkat keras, bit-exact terhadap K-PKE acuan yang tidak dimodifikasi, dengan jumlah transformasi acuan dan siklus konstan (KeyGen 5,493, Encrypt 6,810, Decrypt 3,121 dengan inti S7). S10 menghapus arbitrasi slot: Fmax median 44.320 MHz pada 40 ns (S7 38.720), ALM 5,077 (S7 9,391), 118 siklus, dan timing terpenuhi pada 20.000 ns di 6 dari 6 seed (kernel-only).
@@ -85,19 +85,6 @@ FIPS 203 Algoritma 11 (MultiplyNTTs), 12 (BaseCaseMultiply), 13-15 (K-PKE) sebag
 ## 8. Klaim yang dibuat pada fase ini
 Tidak ada yang ditulis untuk juri/teks proposal. Baris ROADMAP diisi dari evidence di atas.
 
-## 9. Mereproduksi
-```bash
-. scripts/env.sh
-scripts/test/phase6_verify.sh; python3 formal/run/run_formal_phase6.py
-scripts/test/s10_verify.sh;    python3 formal/run/run_formal_s10.py
-cd quartus/phase06_sched && ./run_p6.sh && ./run_s10_sweep.sh && ./run_p6s10.sh; cd ../..
-cd quartus/phase05m_memsched && ./run_s7_20_sweep.sh; cd ../..
-python3 scripts/quartus/select_s10.py
-python3 scripts/build/build_phase6_report.py
-python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase06.md
-python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal
-```
-
-## 10. Persetujuan
+## 9. Persetujuan
 - [x] Penyetuju manusia (nama, tanggal): Jevan (Tim J5), 2026-10-03
       Fase berikutnya dimulai hanya setelah anggota tim mencentang kotak ini. Claude tidak pernah mencentangnya.

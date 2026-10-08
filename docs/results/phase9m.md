@@ -81,22 +81,6 @@ PENDING #34 (ADR 0035, codec dua byte), #35 (ADR 0037, hash K0), #36 (ADR 0038, 
 ## 8. Klaim yang dibuat pada fase ini
 Setiap angka di atas berlabel MEASURED (static timing kernel-only atau simulasi) atau perhitungan tim (latensi). Tidak ada klaim validasi perangkat keras, kecepatan terhadap perangkat lunak, daya, atau ketahanan side-channel. Satu-satunya pernyataan keamanan adalah invariansi jumlah siklus Encaps dan Decaps pada masukan yang diuji. Tidak ada yang di sini merupakan teks proposal; klaim untuk juri melalui `/proposal-claims`.
 
-## 9. Mereproduksi
-```bash
-. scripts/env.sh
-python3 .claude/skills/mlkem-guard/scripts/check_params.py
-# K4 core target on both simulators (about 2 minutes on Verilator, about 1 hour on Icarus):
-CORE_TOP=mlkem_core4 CORE_SMP0=1 CORE_K0=1 CORE_W2=1 CORE_P6=1 CORE_AR=1 python3 tb/mlkem/run_core_tests.py verilator core
-CORE_TOP=mlkem_core4 CORE_SMP0=1 CORE_K0=1 CORE_W2=1 CORE_P6=1 CORE_AR=1 python3 tb/mlkem/run_core_tests.py icarus core nclen
-# controls of item 4 (Verilator):
-CORE_TOP=mlkem_core4 CORE_SMP0=1 CORE_K0=1 CORE_W2=1 CORE_P6=1 CORE_AR=1 python3 tb/mlkem/run_core_tests.py verilator nclen ncoff ncrom ncprio ncwr ncjob ncthr ncilk ncthrld ncgrant ncjoin
-python3 tb/s10/run_s10_tests.py verilator s10p6a ncar s10p6 s10      # NTT core at P = 6 with the registered address, and the defaults
-python3 formal/run/run_formal_phase9i4.py proofs                         # item 4 formal (P1 and NC-E1-4 time out)
-cd quartus/phase09i4_core && quartus_sh --flow compile phase09i4_core -c K4-15-s1   # one Quartus compile (about 12 min)
-python3 scripts/quartus/select_9i4.py                                       # worksheet of K4 against K3
-python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase9m.md
-```
-
-## 10. Persetujuan
+## 9. Persetujuan
 - [x] Penyetuju manusia (Faza Dzil, 2026-10-05; dicentang oleh asisten atas instruksi Jo, Tim J5):
       Fase berikutnya dimulai hanya setelah anggota tim mencentang kotak ini. Claude tidak pernah mencentangnya.

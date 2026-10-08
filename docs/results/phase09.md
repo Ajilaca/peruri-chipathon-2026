@@ -128,19 +128,6 @@ FIPS 203 (ML-KEM) Algoritma 4-6 (ByteEncode, ByteDecode, Compress, Decompress) d
 ## 8. Klaim yang dibuat pada fase ini
 Tidak ada yang ditulis untuk juri atau teks proposal. Baris ROADMAP C7a, C7b, dan C7-core diisi dari evidence di atas. Klaim apa pun kemudian harus membawa label hanya simulasi.
 
-## 9. Mereproduksi
-```bash
-. scripts/env.sh
-scripts/test/phase9a_verify.sh; scripts/test/phase9b_verify.sh; scripts/test/phase9c_verify.sh
-python3 formal/run/run_formal_phase9a.py; python3 formal/run/run_formal_phase9b.py all; python3 formal/run/run_formal_phase9c.py all
-cd quartus/phase09a_codec && ./run_cd.sh; cd ../phase09b_hashfo && ./run_hf.sh; cd ../phase09c_core && ./run_mc.sh; cd ../..
-python3 scripts/quartus/select_9a.py; python3 scripts/quartus/select_9b.py; python3 scripts/quartus/select_9c.py
-python3 scripts/build/gen_mlkem_ctl_rom.py --check
-python3 scripts/build/build_phase9_report.py
-python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase09.md
-python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal
-```
-
-## 10. Persetujuan
+## 9. Persetujuan
 - [x] Penyetuju manusia (Faza Dzil, 2026-10-05; dicentang oleh asisten atas instruksi Jo, Tim J5):
       Fase berikutnya dimulai hanya setelah anggota tim mencentang kotak ini. Claude tidak pernah mencentangnya.

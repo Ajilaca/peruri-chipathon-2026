@@ -2,7 +2,7 @@
 # Hasil - Fase 5M: Memori dan jadwal (S6 INTT tanpa lintasan penskalaan, S7 pembacaan memori terbelah, S8 register jalur tulis, S9 studi M10K)
 
 - Status: DONE
-- Catatan status: selesai secara teknis menurut ADR 0017 / 0019 (S6, S7, S8 benar dan terukur; S9 adalah studi yang hanya berupa dokumentasi). Catatan yang menunggu tim: ADR 0021 (S7, Proposed), ADR 0022 (S9, Proposed), ADR 0023 (S8, Proposed). Kotak Persetujuan (Bagian 10) kosong; kotak Persetujuan Fase 5 juga masih kosong.
+- Catatan status: selesai secara teknis menurut ADR 0017 / 0019 (S6, S7, S8 benar dan terukur; S9 adalah studi yang hanya berupa dokumentasi). Catatan yang menunggu tim: ADR 0021 (S7, Proposed), ADR 0022 (S9, Proposed), ADR 0023 (S8, Proposed). Kotak Persetujuan (Bagian 9) kosong; kotak Persetujuan Fase 5 juga masih kosong.
 - Tanggal (UTC): 2026-10-02 sampai 2026-10-03
 - Git commit (HEAD saat diverifikasi): 300aaf3 (RTL, tes, dan bukti S6-S8; regresi penuh dijalankan pada commit ini), ditambah commit dokumentasi yang mengikutinya
 - Hasil: S6 (M6) menjadi basis atas keputusan tim meskipun aturan yang ditetapkan sebelumnya tidak mengadopsinya (ADR 0020); S7 diadopsi oleh aturan (Fmax median 38.720 MHz, NTT = INTT = 120 siklus); S8 tidak diadopsi oleh aturan (Fmax median 37.990 MHz, 122 siklus); S9 menunjukkan bahwa peta 16-bank 1R1W bebas-konflik ada, tanpa angka perangkat keras.
@@ -95,23 +95,6 @@ Tidak ada pembacaan FIPS 203 pada fase ini; tidak ada parameter, algoritma, nila
 ## 8. Klaim yang dibuat pada fase ini
 Tidak ada yang ditulis untuk juri/teks proposal. Baris ROADMAP diisi dari evidence di atas.
 
-## 9. Mereproduksi
-```bash
-. scripts/env.sh
-scripts/test/phase5m_verify.sh; scripts/test/phase5m_verify_s7.sh; scripts/test/phase5m_verify_s8.sh
-python3 formal/run/run_formal_phase5m.py; python3 formal/run/run_formal_phase5m_s7.py; python3 formal/run/run_formal_phase5m_s8.py
-cd quartus/phase05m_memsched
-# one revision at a time (parallel runs corrupt the shared .qpf)
-./run_m6_sweep.sh; ./run_s7_sweep.sh; ./run_s8_sweep.sh
-cd ../..
-scripts/test/phase5m_final_regression.sh
-python3 scripts/quartus/phase5m_select_s6.py; python3 scripts/quartus/phase5m_select_s7.py; python3 scripts/quartus/phase5m_select_s8.py
-python3 scripts/test/phase5m_s9_port_analysis.py
-python3 scripts/build/build_phase5m_report.py
-python3 .claude/skills/phase-gate/scripts/check_result.py docs/results/phase05m.md
-python3 .claude/skills/proposal-claims/scripts/claim_lint.py docs/results docs/proposal
-```
-
-## 10. Persetujuan
+## 9. Persetujuan
 - [x] Penyetuju manusia (nama, tanggal): Jevan (Tim J5), 2026-10-03
       Fase berikutnya dimulai hanya setelah anggota tim mencentang kotak ini. Claude tidak pernah mencentangnya.
