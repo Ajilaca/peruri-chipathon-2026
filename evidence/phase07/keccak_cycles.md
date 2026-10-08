@@ -1,11 +1,11 @@
 <!-- claim-lint: skip-file (internal evidence record, not proposal text) -->
-# K0 cycle counts (Phase 7, test plan V6), 2026-10-03
+# Jumlah siklus K0 (Fase 7, test plan V6), 2026-10-03
 
-## 1. Measured cycle table (MEASURED, simulation; `cycles_k0.json`, 306 points, identical on Verilator and Icarus)
-Cycles from the cycle that carries `start_i` to the cycle that accepts the last output word, no back-pressure. For every (mode, length, output words) three messages (random, all-0x00, all-0xFF) gave the
-**same** count: the cycle count depends only on the public length and the number of output words, never on data (CRG-7). Selected points:
+## 1. Tabel siklus terukur (MEASURED, simulasi; `cycles_k0.json`, 306 titik, identik di Verilator dan Icarus)
+Siklus dari siklus yang membawa `start_i` sampai siklus yang menerima word keluaran terakhir, tanpa back-pressure. Untuk setiap (mode, panjang, word keluaran) tiga pesan (acak, semua-0x00, semua-0xFF) memberi hitungan yang sama: jumlah siklus hanya bergantung pada panjang publik dan jumlah word keluaran, tidak pernah pada data (CRG-7). Titik terpilih:
 
-| Mode | Message bytes | Output words | Cycles |
+
+| Mode | Byte pesan | Word keluaran | Siklus |
 |---|---|---|---|
 | sha3_256 | 0 | 4 | 33 |
 | sha3_256 | 32 | 4 | 37 |
@@ -23,16 +23,16 @@ Cycles from the cycle that carries `start_i` to the cycle that accepts the last 
 | shake_256 | 33 | 16 | 49 |
 | shake_256 | 1120 | 4 | 381 |
 
-All 306 points equal the formula derived from the FSM of `rtl/keccak/keccak_sponge.sv` (formula written after the RTL, then checked against every point; it was not tuned):
+Semua 306 titik sama dengan rumus yang diturunkan dari FSM `rtl/keccak/keccak_sponge.sv` (rumus ditulis setelah RTL, lalu diperiksa terhadap setiap titik; tidak disetel):
 
     cycles = 1 + (len div 8 + 1) + pad2 + 26 * (len div rate + 1) + out_words + 26 * ((out_words - 1) div rate_words)
     pad2   = 0 when (len mod rate) div 8 = rate_words - 1, else 1;   rate_words = rate / 8
 
-One permutation is 26 cycles as seen by the controller: 1 run cycle, 24 cycles with `keccak_f1600.busy_o` high (V4: exactly 24 for every state), 1 done cycle. The pre-measurement ESTIMATE of the test plan
-used 24 per permutation and about 370 cycles for H(ek); the measured value is **389** cycles (+5 %). The estimate was optimistic by the 2 control cycles per permutation; it is superseded, not tuned.
+Satu permutasi adalah 26 siklus seperti terlihat pengendali: 1 siklus run, 24 siklus dengan `keccak_f1600.busy_o` tinggi (V4: tepat 24 untuk setiap state), 1 siklus done. ESTIMATE test plan sebelum pengukuran
+memakai 24 per permutasi dan sekitar 370 siklus untuk H(ek); nilai terukur adalah 389 siklus (+5 %). Estimasi itu optimistis sebesar 2 siklus kendali per permutasi; digantikan, tidak disetel.
 
-## 2. Keccak cycles of one ML-KEM-768 operation with K0 (perhitungan tim, computed by `scripts/test/phase7_op_cycles.py` from the measured formula; no new measurement)
-| Call | Mode | Message bytes | Output words | Permutations | Cycles (formula) |
+## 2. Siklus Keccak satu operasi ML-KEM-768 dengan K0 (perhitungan tim, dihitung oleh `scripts/test/phase7_op_cycles.py` dari rumus terukur; tanpa pengukuran baru)
+| Panggilan | Mode | Byte pesan | Word keluaran | Permutasi | Siklus (rumus) |
 |---|---|---|---|---|---|
 | G 33 B (KeyGen) | sha3_512 | 33 | 8 | 1 | 41 |
 | G 64 B | sha3_512 | 64 | 8 | 1 | 44 |
@@ -41,12 +41,12 @@ used 24 per permutation and about 370 cycles for H(ek); the measured value is **
 | J 1120 B -> 32 B | shake_256 | 1120 | 4 | 9 | 381 |
 | SampleNTT x 9 (matrix), 200 random rho | shake_128 | 34 each | by rejection | min 27, median 27, max 29 | min 1289, median 1302, max 1364 |
 
-| Operation | Keccak cycles without SampleNTT | + SampleNTT (min / median / max) | Total Keccak cycles (min / median / max) | Permutations (median total) |
+| Operasi | Siklus Keccak tanpa SampleNTT | + SampleNTT (min / median / max) | Total siklus Keccak (min / median / maks) | Permutasi (total median) |
 |---|---|---|---|---|
 | KeyGen | 724 | 1289 / 1302 / 1364 | 2013 / 2026 / 2088 | 43 |
 | Encaps | 776 | 1289 / 1302 / 1364 | 2065 / 2078 / 2140 | 44 |
 | Decaps | 768 | 1289 / 1302 / 1364 | 2057 / 2070 / 2132 | 44 |
 
-Reading (INFERENCE): about 2,000 Keccak cycles per operation when every call runs on its own and nothing overlaps. The pre-measurement figure of about 1,060 cycles (44 permutations x 24) omitted the
-2 control cycles per permutation, the word-by-word transfers (H(ek) alone moves 148 words in and 4 out) and the restart of the sponge for every call; this table replaces it. Compare, in the same units,
-with the arithmetic of Phase 6 with S10: KeyGen 5,475, Encrypt 6,789, Decrypt 3,109 cycles (MEASURED, simulation, `evidence/phase06/verify.md`); the two blocks are not connected yet.
+Pembacaan (INFERENCE): sekitar 2.000 siklus Keccak per operasi saat setiap panggilan berjalan sendiri dan tidak ada yang tumpang-tindih. Angka sekitar 1.060 siklus sebelum pengukuran (44 permutasi x 24) melewatkan
+2 siklus kendali per permutasi, transfer word demi word (H(ek) saja memindahkan 148 word masuk dan 4 keluar) dan restart sponge untuk setiap panggilan; tabel ini menggantikannya. Bandingkan, dalam satuan sama,
+dengan aritmetika Fase 6 dengan S10: KeyGen 5.475, Encrypt 6.789, Decrypt 3.109 siklus (MEASURED, simulasi, `evidence/phase06/verify.md`); kedua blok belum tersambung.
