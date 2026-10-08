@@ -12,7 +12,7 @@ Diperbarui hanya dari bukti yang sudah diverifikasi. Rincian ada di `docs/result
 | 3 | Multi-lane (C2) | DONE | L = 8 pada C2-K2-K1 (ADR 0005): 9.754 ALM, NTT 113 / INTT 369 siklus; `evidence/phase03/` |
 | 4 – 8 | Pipeline, aritmetika, memori, K-PKE, Keccak | DONE | lihat file hasil dan matriks ablasi di bawah |
 | 9 | Inti ML-KEM-768 penuh (simulasi) | DONE | ACVP 100 % di dua simulator; `docs/results/phase09.md` |
-| 9M | Optimasi inti | PARTIAL | K4: 8.416 / 9.611 / 12.989 siklus; tiga bukti formal habis waktu; `docs/results/phase9m.md` |
+| 9M | Optimasi inti | DONE | K4: 8.416 / 9.611 / 12.989 siklus; tiga bukti formal habis waktu; `docs/results/phase9m.md` |
 | 10 – 12 | HPS, benchmark, fitur keamanan | belum dimulai | Fase 10 terblokir: belum ada papan (PENDING #8) |
 
 Fase 1 sampai 3 awalnya disetujui sebagai baseline dengan timing tidak terpenuhi. Pada 2026-10-05 tim menetapkannya DONE

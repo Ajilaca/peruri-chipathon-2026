@@ -75,7 +75,7 @@ Persentase pemakaian dihitung dari kolom K4 dan kapasitas. Latensi adalah siklus
 | 5M, 6 | Memori S10 (16 bank 1R1W), sequencer K-PKE | DONE |
 | 7 – 8 | Keccak-f[1600], sponge, sampler streaming | DONE |
 | 9 | Inti ML-KEM-768 penuh, simulasi | DONE |
-| 9M | Optimasi inti | PARTIAL: tiga bukti formal berbatas habis waktu |
+| 9M | Optimasi inti | DONE (tiga bukti formal berbatas habis waktu, dicatat sebagai batas evidence) |
 | 10 | Integrasi HPS di DE10-Nano | Direncanakan (menunggu papan untuk memulai) |
 | 11 | Benchmark terhadap perangkat lunak | Direncanakan (menunggu papan untuk memulai) |
 | 12 | Fitur keamanan lanjutan (opsional) | Direncanakan (menunggu papan untuk memulai) |
