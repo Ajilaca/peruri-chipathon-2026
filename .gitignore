@@ -35,9 +35,6 @@ CLAUDE.local.md
 # the JSON files are not committed.
 tb/vectors/acvp/*.json
 
-# Obsidian vault settings (docs/ may be opened as a vault; never committed)
-.obsidian/
-
 # Skrip build (generator ROM, pembangun laporan): hanya di lokal
 scripts/build/
 
