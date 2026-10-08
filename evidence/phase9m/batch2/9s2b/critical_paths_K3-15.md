@@ -1,7 +1,7 @@
 <!-- claim-lint: skip-file (internal evidence, not proposal text) -->
-# Critical paths of K3 at 15 ns (K3-15-s4), 2026-10-05
+# Jalur kritis K3 pada 15 ns (K3-15-s4), 2026-10-05
 
-MEASURED with `quartus_sta -t scripts/quartus/phase5m_top_paths.tcl` (300 worst setup paths, slow model, 1,100 mV, 100 C) on a copy of the compiled database of `quartus/phase09s2b_core`, classified by `scripts/quartus/classify_paths_9f.py` and grouped by start and end register (the raw report is not stored). K3-15-s4 was the seed with the smallest setup slack of the six seeds of the rule (+1.305 ns over all corners; the seed with the lowest Fmax, 73.02 MHz). Written after the compile campaign of S2b; the seeds 7-9 were not analysed.
+MEASURED dengan `quartus_sta -t scripts/quartus/phase5m_top_paths.tcl` (300 jalur setup terburuk, model slow, 1.100 mV, 100 C) pada salinan database terkompilasi `quartus/phase09s2b_core`, diklasifikasikan oleh `scripts/quartus/classify_paths_9f.py` dan dikelompokkan menurut register awal dan akhir (laporan mentah tidak disimpan). K3-15-s4 adalah seed dengan slack setup terkecil dari enam seed aturan (+1,305 ns pada semua corner; seed dengan Fmax terendah, 73,02 MHz). Ditulis setelah kampanye kompilasi S2b; seed 7-9 tidak dianalisis.
 
 ```
 ## K3-15-s4_paths_slow100_summary.rpt
@@ -10,11 +10,11 @@ paths: 300, slack 1.666 .. 3.883 ns
   worst slack   3.335 ns,   10 paths: engine sequencer -> sampler (outside the permutation)
   (the remaining classes at +3.4 .. +3.9 ns)
 ```
-| Paths | Worst slack (ns) | From | To |
+| Jalur | Slack terburuk (ns) | Dari | Ke |
 |---|---|---|---|
-| 144 | 1.666 | read-position delay of the NTT core (`u_dly_pos`) | the Barrett reducer inside the butterflies |
-| 126 | 2.368 | side-operand delay of the butterfly (`u_side`) | the M10K banks |
+| 144 | 1.666 | delay posisi baca inti NTT (`u_dly_pos`) | reducer Barrett di dalam butterfly |
+| 126 | 2.368 | delay operand sisi butterfly (`u_side`) | bank M10K |
 
-## Reading
-- The `layer_q` to memory class of K2 (+1.404 ns) is gone from the 300 worst paths; the registered issue address works as designed. The worst class of this seed is the read-position / zeta path to the reducer (+1.666 ns).
-- Not visible here but present in the design (found in the K4 seed with the smallest slack, `critical_paths_K4-15.md`, same S2b logic in `ntt_core_s10.sv`): the term `start_go` of S2b makes the address register depend on `host_we_i`, which the sequencer drives from `cnt_q != 0`; a path `cnt_q` -> `core_hwe_o` -> `mode_n` -> shifts and adders -> `jlen_r`. In K4-15-s6 it is the worst path (+0.736 ns). It is the likely reason for the low seeds of K3 (seeds 4, 8 and 9 at 73.0, 75.5 and 72.8 MHz) beside the six seeds at 77.0 to 79.4 MHz (INFERENCE: not checked in the K3 seeds with a path report).
+## Pembacaan
+- Kelas `layer_q` ke memori K2 (+1,404 ns) hilang dari 300 jalur terburuk; alamat issue terregistrasi bekerja seperti dirancang. Kelas terburuk seed ini adalah jalur posisi baca / zeta ke reducer (+1,666 ns).
+- Tidak terlihat di sini tetapi ada di desain (ditemukan pada seed K4 dengan slack terkecil, `critical_paths_K4-15.md`, logika S2b yang sama di `ntt_core_s10.sv`): suku `start_go` S2b membuat register alamat bergantung pada `host_we_i`, yang digerakkan sequencer dari `cnt_q != 0`; jalur `cnt_q` -> `core_hwe_o` -> `mode_n` -> geser dan penjumlah -> `jlen_r`. Pada K4-15-s6 ia adalah jalur terburuk (+0,736 ns). Itu kemungkinan sebab seed rendah K3 (seed 4, 8, dan 9 pada 73,0, 75,5, dan 72,8 MHz) di samping enam seed pada 77,0 sampai 79,4 MHz (INFERENCE: tidak diperiksa pada seed K3 dengan laporan jalur).

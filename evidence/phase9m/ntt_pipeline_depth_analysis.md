@@ -1,7 +1,7 @@
 <!-- claim-lint: skip-file (internal analysis, not proposal text) -->
-# Butterfly pipeline depth P: stall-free limit of the lane schedule and effect on the core, 2026-10-04
+# Kedalaman pipeline butterfly P: batas bebas-stall jadwal lajur dan efeknya pada inti, 2026-10-04
 
-Planning analysis (perhitungan tim, no RTL, no Quartus run of P = 16): output of `scripts/test/pipeline_hazard_slack.py` (Phase 4 aid; read-after-write slack at the layer boundaries of the lane schedule `tb/mem/bank_model.py`), plus arithmetic from Phase 4 (`docs/results/phase04.md`: NTT / INTT cycles = 113 / 369 + P), the S10 core (118 cycles at P = 5, Phase 6) and the profile of the core (`profile.md`). INFERENCE: the model assumes the S10 core has the same layer-boundary dependency as the Phase 4 core (same lane schedule).
+Analisis perencanaan (perhitungan tim, tanpa RTL, tanpa kompilasi Quartus P = 16): keluaran `scripts/test/pipeline_hazard_slack.py` (alat bantu Fase 4; slack read-after-write di batas layer jadwal lajur `tb/mem/bank_model.py`), ditambah aritmetika dari Fase 4 (`docs/results/phase04.md`: siklus NTT / INTT = 113 / 369 + P), inti S10 (118 siklus pada P = 5, Fase 6) dan profil inti (`profile.md`). INFERENCE: model mengasumsikan inti S10 punya ketergantungan batas layer yang sama dengan inti Fase 4 (jadwal lajur sama).
 
 ```
 Layer-boundary slack (cycles) of the current lane schedule; a pipeline of depth P needs no
@@ -20,8 +20,8 @@ L=8 INTT T= 16: slack per boundary [13, 11, 7, 15, 15, 15] -> largest stall-free
 L=8 INTT last layer -> scaling pass: slack 15 (no stall before the scaling pass iff slack >= P)
 ```
 
-## Reading (L = 8)
-- Largest stall-free P = 7. For P = 16 the stall at a boundary is P - slack: NTT boundaries (slack 15, 15, 15, 7, 11, 13) stall 1 + 1 + 1 + 9 + 5 + 3 = 20 cycles; INTT boundaries (13, 11, 7, 15, 15, 15) stall 3 + 5 + 9 + 1 + 1 + 1 = 20 cycles, plus 1 before the scaling pass (slack 15).
-- Cycles per transform: 118 at P = 5 (MEASURED, S10). At P = 16: +11 (latency) + 20 stalls = about 149 (NTT); INTT about 170 (ESTIMATE).
-- Transforms per operation (counters of the programs): KeyGen 6 NTT; Encaps 3 NTT + 4 INTT; Decaps 11 transforms (decrypt 3 NTT + 1 INTT, re-encryption 3 NTT + 4 INTT). At 118 cycles each the NTT core is busy 708 / 826 / 1,298 cycles = 8.5 % / 8.1 % / 8.4 % of 8,327 / 10,159 / 15,515 (9M-1 core).
-- P = 16 adds about 186 / 301 / 446 cycles (+2.2 % / +3.0 % / +2.9 %).
+## Pembacaan (L = 8)
+- P bebas-stall terbesar = 7. Untuk P = 16 stall di batas adalah P - slack: batas NTT (slack 15, 15, 15, 7, 11, 13) stall 1 + 1 + 1 + 9 + 5 + 3 = 20 siklus; batas INTT (13, 11, 7, 15, 15, 15) stall 3 + 5 + 9 + 1 + 1 + 1 = 20 siklus, ditambah 1 sebelum lintasan skala (slack 15).
+- Siklus per transformasi: 118 pada P = 5 (MEASURED, S10). Pada P = 16: +11 (latensi) + 20 stall = sekitar 149 (NTT); INTT sekitar 170 (ESTIMATE).
+- Transformasi per operasi (counter program): KeyGen 6 NTT; Encaps 3 NTT + 4 INTT; Decaps 11 transformasi (dekripsi 3 NTT + 1 INTT, enkripsi ulang 3 NTT + 4 INTT). Pada 118 siklus masing-masing inti NTT sibuk 708 / 826 / 1.298 siklus = 8,5 % / 8,1 % / 8,4 % dari 8.327 / 10.159 / 15.515 (inti 9M-1).
+- P = 16 menambah sekitar 186 / 301 / 446 siklus (+2,2 % / +3,0 % / +2,9 %).

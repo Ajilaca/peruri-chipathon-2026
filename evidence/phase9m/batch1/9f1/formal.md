@@ -1,10 +1,10 @@
-# Phase 9F S1 formal run (V6), `formal/run/run_formal_phase9f1.py`, 2026-10-04
+# Run formal Fase 9F S1 (V6), `formal/run/run_formal_phase9f1.py`, 2026-10-04
 
-MEASURED with SymbiYosys (yosys-slang, boolector). The Phase 8d proof F1-F5 of `kpke_sched_smp` (STREAM_A = 1, OVERLAP = 1) with the sequencer instantiated at CORE_R2 = 0 (K0 sampler) in the formal top `formal/phase09m-optimisation/9f1/kpke_sched_smp_formal_top.sv`. The sampler is the 8c protocol stub, which ignores CORE_R2, so the proof shows only that the parameter value elaborates and the control properties hold; INFERENCE: the sequencer control logic does not use CORE_R2 (`grep CORE_R2 rtl/sched`: only the pass-through to `keccak_sampler`). That the real K0 sampler follows the stub protocol is shown by the simulations of V2 / V3 (the K0 sampler of 8b is bit-exact; the stall classes are covered). The 9c controller proof does not depend on the sampler parameter (the engine is a stub there) and was not rerun for `mlkem_core2` (its controller text is the same as `mlkem_core`; INFERENCE). Work directory `formal/work/phase9f1/` (git-ignored).
+MEASURED dengan SymbiYosys (yosys-slang, boolector). Bukti Fase 8d F1-F5 untuk `kpke_sched_smp` (STREAM_A = 1, OVERLAP = 1) dengan sequencer diinstansiasi pada CORE_R2 = 0 (sampler K0) di top formal `formal/phase09m-optimisation/9f1/kpke_sched_smp_formal_top.sv`. Sampler adalah stub protokol 8c, yang mengabaikan CORE_R2, jadi bukti hanya menunjukkan bahwa nilai parameter itu dapat dielaborasi dan properti kendali berlaku; INFERENCE: logika kendali sequencer tidak memakai CORE_R2 (`grep CORE_R2 rtl/sched`: hanya penerusan ke `keccak_sampler`). Bahwa sampler K0 nyata mengikuti protokol stub ditunjukkan oleh simulasi V2 / V3 (sampler K0 8b bit-exact; kelas stall tercakup). Bukti pengendali 9c tidak bergantung pada parameter sampler (mesin adalah stub di sana) dan tidak dijalankan ulang untuk `mlkem_core2` (teks pengendalinya sama dengan `mlkem_core`; INFERENCE). Direktori kerja `formal/work/phase9f1/` (diabaikan git).
 
-| Group | Proof | Expected | Result | Engine detail | Time (s) | As expected |
+| Kelompok | Bukti | Diharapkan | Hasil | Detail mesin | Waktu (s) | Sesuai harapan |
 |---|---|---|---|---|---|---|
-| A Phase 9F S1 | kpke_sched_smp STREAM_A=1 OVERLAP=1 CORE_R2=0 (F1-F5) | PASS | PASS | basecase=pass, induction=pass | 2.2 | yes |
-| B Negative control | NC-F2: seed write accepted while busy (F2), OVERLAP=1 | FAIL | FAIL | basecase=FAIL; failed assert kpke_sched_smp_formal_top.sv:88 | 1.4 | yes |
+| A Fase 9F S1 | kpke_sched_smp STREAM_A=1 OVERLAP=1 CORE_R2=0 (F1-F5) | PASS | PASS | basecase=pass, induction=pass | 2.2 | ya |
+| B Kontrol negatif | NC-F2: penulisan seed diterima saat sibuk (F2), OVERLAP=1 | FAIL | FAIL | basecase=FAIL; failed assert kpke_sched_smp_formal_top.sv:88 | 1.4 | ya |
 
-ALL AS EXPECTED
+SEMUA SESUAI HARAPAN

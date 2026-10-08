@@ -1,7 +1,7 @@
 <!-- claim-lint: skip-file (internal evidence, not proposal text) -->
-# Critical paths of K1 at 15 ns (K1-15-s4, the seed with the smallest slack), 2026-10-04
+# Jalur kritis K1 pada 15 ns (K1-15-s4, seed dengan slack terkecil), 2026-10-04
 
-MEASURED with `quartus_sta -t scripts/quartus/phase5m_top_paths.tcl` (300 worst setup paths, slow model, 1,100 mV, 100 C) on a copy of the compiled database of `quartus/phase09f1_core`; classified by `scripts/quartus/classify_paths_9f.py`. The raw report is not stored (300 lines).
+MEASURED dengan `quartus_sta -t scripts/quartus/phase5m_top_paths.tcl` (300 jalur setup terburuk, model slow, 1.100 mV, 100 C) pada salinan database terkompilasi `quartus/phase09f1_core`; diklasifikasikan oleh `scripts/quartus/classify_paths_9f.py`. Laporan mentah tidak disimpan (300 baris).
 
 ```
 ## K1-15-s4_paths_slow100_summary.rpt
@@ -9,6 +9,6 @@ paths: 300, slack 1.114 .. 2.447 ns
   worst slack   1.114 ns,  300 paths: NTT core / memory / PWM -> NTT core / memory / PWM
 ```
 
-## Reading
-- At 15 ns all 300 worst setup paths of K1 (K0 sampler and K0 hash) lie in the **NTT core / memory / PWM** class (slack +1.114 .. +2.447 ns); no Keccak path is among them. The C5 permutations that limited the 9M-1 core (S0, 14 ns) are gone from the critical list, and the NTT / memory class is what remains.
-- Together with S0 (the NTT class was within 0.2 ns of the C5 permutations at the 13 ns limit) this shows that S1 removes the permutation limit but meets the NTT / memory wall: the Fmax gain of S1 is small (section 3 of result_9f1.md); S2 (a deeper pipeline in this class) is the next lever if the team wants more Fmax; the pipeline-depth analysis (`ntt_pipeline_depth_analysis.md`) says its cycle cost is small (about 8 % of cycles are NTT).
+## Pembacaan
+- Pada 15 ns semua 300 jalur setup terburuk K1 (sampler K0 dan hash K0) ada di kelas inti NTT / memori / PWM (slack +1,114 .. +2,447 ns); tidak ada jalur Keccak di antaranya. Permutasi C5 yang membatasi inti 9M-1 (S0, 14 ns) sudah hilang dari daftar kritis, dan kelas NTT / memori yang tersisa.
+- Bersama S0 (kelas NTT berada dalam 0,2 ns dari permutasi C5 pada batas 13 ns) ini menunjukkan bahwa S1 menghapus batas permutasi tetapi menabrak dinding NTT / memori: kenaikan Fmax S1 kecil (bagian 3 result_9f1.md); S2 (pipeline lebih dalam di kelas ini) adalah tuas berikutnya bila tim menginginkan Fmax lebih tinggi; analisis kedalaman pipeline (`ntt_pipeline_depth_analysis.md`) menyatakan biaya siklusnya kecil (sekitar 8 % siklus adalah NTT).

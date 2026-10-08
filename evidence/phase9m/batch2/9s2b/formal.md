@@ -1,6 +1,6 @@
-# Phase 9F S2b formal run, 2026-10-05 (V4)
+# Run formal Fase 9F S2b, 2026-10-05 (V4)
 
-MEASURED (formal, control and bank capacity only). Command: `. scripts/env.sh && python3 formal/run/run_formal_phase9s2b.py` (depth 9 = P + 3, `smtbmc boolector`, work directory `formal/work/phase9s2b/`, not stored; the same run was made on 2026-10-04 with the same result and its output was not stored). Properties H, O, R, A, B, C of `formal/phase09m-optimisation/9s2b/ntt_core_s10_p6a_formal_top.sv` (the S2 top with the wrapper parameter `AREG = 1`) on `rtl/ntt/ntt_core_s10_p5.sv`. Nothing here proves NTT/INTT arithmetic or memory data (simulation covers that).
+MEASURED (formal, hanya kendali dan kapasitas bank). Perintah: `. scripts/env.sh && python3 formal/run/run_formal_phase9s2b.py` (kedalaman 9 = P + 3, `smtbmc boolector`, direktori kerja `formal/work/phase9s2b/`, tidak disimpan; run yang sama dibuat pada 2026-10-04 dengan hasil sama dan keluarannya tidak disimpan). Properti H, O, R, A, B, C dari `formal/phase09m-optimisation/9s2b/ntt_core_s10_p6a_formal_top.sv` (top S2 dengan parameter pembungkus `AREG = 1`) pada `rtl/ntt/ntt_core_s10_p5.sv`. Tidak ada di sini yang membuktikan aritmetika NTT/INTT atau data memori (simulasi mencakupnya).
 
 ```
 | Group | Proof | Expected | Result | Engine detail | Time (s) | As expected |
@@ -12,4 +12,4 @@ MEASURED (formal, control and bank capacity only). Command: `. scripts/env.sh &&
 OVERALL: all results as expected (3/3)
 ```
 
-Reading: the proofs hold with the registered issue address (every write fires exactly 6 cycles after its request, drained at S_DONE, no read and write of one location in the same cycle, no bank overflow); both negative controls fail as required. This is the evidence for the statement of the plan that the registered address presents the same value in the same cycle: the memory-facing probes of the proof are unchanged. Limit: control and bank capacity only.
+Pembacaan: bukti berlaku dengan alamat issue terregistrasi (setiap penulisan terjadi tepat 6 siklus setelah permintaannya, dikosongkan di S_DONE, tidak ada baca dan tulis satu lokasi pada siklus yang sama, tidak ada overflow bank); kedua kontrol negatif gagal sesuai syarat. Ini evidence untuk pernyataan rencana bahwa alamat terregistrasi menyajikan nilai yang sama pada siklus yang sama: probe sisi memori pada bukti tidak berubah. Batas: hanya kendali dan kapasitas bank.
