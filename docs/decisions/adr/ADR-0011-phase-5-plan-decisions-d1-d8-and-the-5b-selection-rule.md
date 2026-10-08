@@ -1,57 +1,57 @@
-# ADR 0011: Phase 5 plan decisions D1-D8 and the 5b selection rule
+# ADR 0011: Keputusan rencana Fase 5 D1-D8 dan aturan seleksi 5b
 
 - Status: Accepted
-- Date: 2026-10-01
-- Decided by: Faza Dzil, Team J5 (session 2026-10-01: "terima semua saran")
+- Tanggal: 2026-10-01
+- Diputuskan oleh: Faza Dzil, Team J5 (sesi 2026-10-01: "terima semua saran")
 
-## Context
-The Phase 5 test plan (`evidence/phase05/test_plan.md`, CRG-4) listed eight open questions (§13, D1–D8)
-with a suggestion for each, and a proposed selection rule for sub-step 5b (§11) that must be fixed before any 5b
-revision is compiled (as with ADR 0004 / ADR 0007). Phase 5's timing objective is ADR 0010. Starting point: C3-P6
-(ADR 0009), MEASURED in `evidence/phase04/quartus_C3-P6.md` and
+## Konteks
+Test plan Fase 5 (`evidence/phase05/test_plan.md`, CRG-4) mendaftar delapan pertanyaan terbuka (§13, D1-D8) dengan
+saran untuk masing-masing, dan usulan aturan seleksi untuk langkah 5b (§11) yang harus ditetapkan sebelum revisi 5b
+mana pun dikompilasi (seperti ADR 0004 / ADR 0007). Tujuan timing Fase 5 ada di ADR 0010. Titik awal: C3-P6
+(ADR 0009), MEASURED di `evidence/phase04/quartus_C3-P6.md` dan
 `evidence/phase05/baseline/c3p6_critical_path.md`.
 
-## Options considered
-For each item, the options are those of test plan §13 and §3; the suggestion was accepted in every case.
+## Opsi yang dipertimbangkan
+Untuk tiap butir, opsinya adalah yang ada di test plan §13 dan §3; saran diterima di setiap kasus.
 
-## Decision
-| # | Decision |
+## Keputusan
+| # | Keputusan |
 |---|---|
-| D1 | Every Phase 5 Quartus revision (C4a–C4d) uses `create_clock -period 40.000` on `clk_i`, as C3-P6. At the end, the final C4 configuration and C3-P6 are each compiled once more at 20.000 ns; those two results are information, not a gate (ADR 0010). |
-| D2 | The NTT-core budget stays 12,573 ALM (ADR 0009). Compiles use Quartus defaults as in Phase 4 (comparable with C3-P6); a GHRD-settings compile of the final C4 is optional. DSP use is reported; no DSP limit is set. |
-| D3 | Whether 5c and 5d are attempted is decided after the 5a / 5b results; the test plan keeps both plans (5c formal bound proof; 5d as a standalone unit, because `base_case_multiply.sv` is not part of C3-P6). |
-| D4 | Reading (ii) of 5a: a q-specific fold reducer using q = 2^11 + 2^10 + 2^8 + 1 (2^12 ≡ 767 mod q, shift-and-add only, then a fixed number of conditional subtractions). 5b = Barrett and Montgomery, in both of which the multiplication by q is shift-and-add. |
-| D5 | In Phase 5 no register moves between the memory path and the multiplier path; the multiplier path keeps exactly 3 registers (P = 6, cycles 119 / 375 unchanged). Exact positions inside each new reducer are written into the test plan before its compile. |
-| D6 | Operand contract: a new reducer must equal (a·b) mod q for all a, b in [0, q) (exhaustive); behaviour for 12-bit operands ≥ q is measured and reported, not required. |
-| D7 | Default fitter seed for every revision; seeds 1–6 for the two 5b candidates. |
-| D8 | The 5b selection rule below. |
+| D1 | Setiap revisi Quartus Fase 5 (C4a-C4d) memakai `create_clock -period 40.000` pada `clk_i`, seperti C3-P6. Pada akhirnya, konfigurasi C4 akhir dan C3-P6 masing-masing dikompilasi sekali lagi pada 20,000 ns; kedua hasil itu informasi, bukan gerbang (ADR 0010). |
+| D2 | Anggaran inti NTT tetap 12.573 ALM (ADR 0009). Kompilasi memakai bawaan Quartus seperti di Fase 4 (sebanding dengan C3-P6); kompilasi dengan setelan GHRD untuk C4 akhir bersifat opsional. Pemakaian DSP dilaporkan; tidak ada batas DSP. |
+| D3 | Apakah 5c dan 5d dicoba ditentukan setelah hasil 5a / 5b; test plan menyimpan kedua rencana (5c bukti batas formal; 5d sebagai unit mandiri, karena `base_case_multiply.sv` bukan bagian C3-P6). |
+| D4 | Pembacaan (ii) untuk 5a: reducer fold khusus q memakai q = 2^11 + 2^10 + 2^8 + 1 (2^12 ≡ 767 mod q, hanya penjumlahan geser, lalu jumlah tetap pengurangan bersyarat). 5b = Barrett dan Montgomery, yang pada keduanya perkalian dengan q adalah penjumlahan geser. |
+| D5 | Di Fase 5 tidak ada register yang dipindah antara jalur memori dan jalur pengali; jalur pengali tetap persis 3 register (P = 6, siklus 119 / 375 tidak berubah). Posisi tepat di dalam tiap reducer baru ditulis di test plan sebelum kompilasinya. |
+| D6 | Kontrak operand: reducer baru harus sama dengan (a·b) mod q untuk semua a, b di [0, q) (menyeluruh); perilaku untuk operand 12 bit ≥ q diukur dan dilaporkan, tidak disyaratkan. |
+| D7 | Seed fitter bawaan untuk setiap revisi; seed 1-6 untuk kedua kandidat 5b. |
+| D8 | Aturan seleksi 5b di bawah. |
 
-5b selection rule (D8).
-1. Both candidates (Barrett, Montgomery) are built, verified and compiled at seeds 1–6 before the rule is applied.
-2. A candidate qualifies only if all hold: correct per test plan §7 (both simulators, exhaustive reducer test,
-   negative controls); NTT / INTT cycles exactly 119 / 375; ALM ≤ 12,573 (fitter "ALMs needed"); timing met at
-   40.000 ns (non-negative setup and hold at every reported corner). Applied per seed; a candidate is a qualifier
-   if it qualifies at every seed.
-3. Metric: Fmax(c) = median over seeds 1–6 of the lowest slow-corner Fmax (values as printed). Cycles are equal by
-   condition 2, so time per NTT is proportional to 1 / Fmax.
-4. The higher Fmax wins, unless the other qualifier is within 5% of it (near tie). In a near tie the qualifier with
-   the lower median ALM wins. If the medians of ALM also differ by less than 32 ALM (C3-P6 seed spread), the team
-   decides; suggested tie-break Barrett (no Montgomery-form tables).
-5. If no candidate qualifies, nothing is selected automatically; results are reported and the team decides.
-6. The result of the rule is recorded in a separate ADR (the "choice by ADR" of the roadmap).
+Aturan seleksi 5b (D8).
+1. Kedua kandidat (Barrett, Montgomery) dibangun, diverifikasi, dan dikompilasi pada seed 1-6 sebelum aturan diterapkan.
+2. Sebuah kandidat memenuhi syarat hanya bila semuanya terpenuhi: benar menurut test plan §7 (kedua simulator, uji
+   reducer menyeluruh, kontrol negatif); siklus NTT / INTT persis 119 / 375; ALM ≤ 12.573 ("ALMs needed" fitter);
+   timing terpenuhi pada 40,000 ns (slack setup dan hold tidak negatif di setiap corner yang dilaporkan). Diterapkan
+   per seed; sebuah kandidat memenuhi syarat bila lolos di setiap seed.
+3. Metrik: Fmax(c) = median atas seed 1-6 dari Fmax slow-corner terendah (nilai seperti tercetak). Siklus sama
+   menurut syarat 2, jadi waktu per NTT sebanding dengan 1 / Fmax.
+4. Fmax lebih tinggi menang, kecuali kandidat lain yang memenuhi syarat berada dalam 5 % darinya (hampir seri).
+   Pada hampir seri, kandidat dengan median ALM lebih rendah menang. Bila median ALM juga berbeda kurang dari 32 ALM
+   (sebaran seed C3-P6), tim memutuskan; saran pemecah seri: Barrett (tanpa tabel bentuk Montgomery).
+5. Bila tidak ada kandidat yang memenuhi syarat, tidak ada yang dipilih otomatis; hasil dilaporkan dan tim memutuskan.
+6. Hasil aturan dicatat di ADR terpisah ("pilihan lewat ADR" di roadmap).
 
-Stated before measuring (INFERENCE from the baseline path analysis): Fmax is likely to tie because the critical path
-lies in the memory read path; the rule then reduces to ALM.
+Dinyatakan sebelum mengukur (INFERENCE dari analisis jalur baseline): Fmax kemungkinan seri karena jalur kritis ada
+di jalur pembacaan memori; aturan lalu menyempit ke ALM.
 
-## Consequences
-- The test plan is final with these answers (its §13 records them); Phase 5 RTL may start with 5a.
-- Four Quartus revisions at the default seed (C4a, C4c, C4d, BCM-ref as applicable) plus 12 for 5b (seeds 1–6 × 2),
-  plus 2 informational compiles at 20.000 ns; one at a time.
-- Moving registers between memory and multiplier paths, P changes and stalls belong to the separate phase of
-  ADR 0010 (rules in ADR 0012).
+## Konsekuensi
+- Test plan final dengan jawaban ini (§13-nya mencatatnya); RTL Fase 5 boleh mulai dengan 5a.
+- Empat revisi Quartus pada seed bawaan (C4a, C4c, C4d, BCM-ref sesuai kebutuhan) ditambah 12 untuk 5b
+  (seed 1-6 x 2), ditambah 2 kompilasi informasi pada 20,000 ns; satu per satu.
+- Memindahkan register antara jalur memori dan pengali, perubahan P, dan stall termasuk fase terpisah di ADR 0010
+  (aturan di ADR 0012).
 
-## Evidence
+## Bukti
 - `evidence/phase05/test_plan.md` (§3, §5, §7, §9, §11, §13)
 - `evidence/phase05/baseline/c3p6_critical_path.md`
-- `evidence/phase04/seed_sweep.md` (32-ALM seed spread of C3-P6)
-- `docs/decisions/0006-*.md`, `0007-*.md`, `0009-*.md`, `0010-*.md`
+- `evidence/phase04/seed_sweep.md` (sebaran seed 32 ALM pada C3-P6)
+- `docs/decisions/adr/ADR-0006-*.md`, `ADR-0007-*.md`, `ADR-0009-*.md`, `ADR-0010-*.md`

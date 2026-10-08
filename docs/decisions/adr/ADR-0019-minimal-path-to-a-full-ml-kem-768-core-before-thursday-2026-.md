@@ -1,79 +1,97 @@
-# ADR 0019: Minimal path to a full ML-KEM-768 core before Thursday 2026-10-08 (supersedes ADR 0018 scope)
+# ADR 0019: Jalur minimal ke inti ML-KEM-768 penuh sebelum Kamis 2026-10-08 (menggantikan lingkup ADR 0018)
 
 - Status: Accepted
-- Date: 2026-10-02
-- Decided by: Jevan, Team J5 (chat 2026-10-02: phases 8 and 9 must exist; option 'Jalur minimal ke ML-KEM penuh'; 6-8 h per day)
+- Tanggal: 2026-10-02
+- Diputuskan oleh: Jevan, Team J5 (chat 2026-10-02: Fase 8 dan 9 harus ada; opsi "Jalur minimal ke ML-KEM penuh"; 6-8 jam per hari)
 
-## Context
-- ADR 0018 (Accepted 2026-10-02) planned: finish Phase 5M S6-S8, then Keccak K0, Section 3 of the proposal; Phases 8 and 9 not attempted.
-- The team then said Phases 8 and 9 must be done, and chose the "minimal path to a full ML-KEM" option, with 6-8 hours per day of team attention.
-- Deadline: Thursday 2026-10-08 (from Friday 2026-10-02; time of day not given; evidence freeze planned for Wednesday night).
-- Estimates (ESTIMATE, low confidence; basis: step S6 took about 6 hours wall-clock): Keccak K0 8-14 h; baseline samplers 8-12 h; minimal full
-  ML-KEM controller and integration 35-60 h; Section 3 of the proposal 6-10 h. Total about 57-96 h against six days. Success is not
-  guaranteed; the tiers below keep partial results reportable.
-- Known risks: (1) the polynomial storage of the whole KEM does not fit as flip-flop memory like the NTT core's (ADR 0009 budget is for the NTT
-  core only; the full design must fit 41,910 ALM, fitter denominator), so storage of the other polynomials likely needs M10K; (2) the roadmap
-  requires an ADR on whether the FIPS 203 input checks run in hardware or on the HPS before Phase 9 starts; (3) Decaps needs constant-cycle
-  evidence for valid and rejected ciphertexts.
+## Konteks
+- ADR 0018 (Accepted 2026-10-02) merencanakan: menyelesaikan Fase 5M S6-S8, lalu Keccak K0, Bagian 3 proposal; Fase 8
+  dan 9 tidak dicoba.
+- Tim lalu menyatakan Fase 8 dan 9 harus dikerjakan, dan memilih opsi "jalur minimal ke ML-KEM penuh", dengan perhatian
+  tim 6-8 jam per hari.
+- Batas waktu: Kamis 2026-10-08 (dari Jumat 2026-10-02; jam tidak disebutkan; pembekuan evidence direncanakan Rabu malam).
+- Estimasi (ESTIMATE, keyakinan rendah; dasar: langkah S6 memakan sekitar 6 jam waktu jam dinding): Keccak K0 8-14 jam;
+  sampler baseline 8-12 jam; pengendali ML-KEM penuh minimal dan integrasi 35-60 jam; Bagian 3 proposal 6-10 jam. Total
+  sekitar 57-96 jam untuk enam hari. Keberhasilan tidak dijamin; tingkat di bawah menjaga hasil parsial tetap dapat dilaporkan.
+- Risiko yang diketahui: (1) penyimpanan polinomial seluruh KEM tidak muat sebagai memori flip-flop seperti inti NTT
+  (anggaran ADR 0009 hanya untuk inti NTT; desain penuh harus muat di 41.910 ALM, penyebut fitter), jadi penyimpanan
+  polinomial lain kemungkinan memerlukan M10K; (2) roadmap mensyaratkan ADR tentang apakah pemeriksaan masukan FIPS 203
+  berjalan di perangkat keras atau di HPS sebelum Fase 9 mulai; (3) Decaps memerlukan bukti siklus konstan untuk
+  ciphertext valid dan ditolak.
 
-## Options considered
-(a) Minimal path: stop Phase 5M after S6; skip Phase 6; skip the Phase 8 optimisations (8a two rounds per cycle, 8c matrix on the fly,
-    8d overlap) and use baseline samplers; integrate a full ML-KEM-768 with the simplest controller; optimisations stay planned work.
-(b) Parallel by block with other team members on separate branches (same scope as (a)). Not chosen in the answer, but compatible with (a) if
-    members join; integration and verification stay under the same rules.
-(c) Keep ADR 0018 (no Phases 8-9 before the deadline).
+## Opsi yang dipertimbangkan
+(a) Jalur minimal: hentikan Fase 5M setelah S6; lewati Fase 6; lewati optimasi Fase 8 (8a dua ronde per siklus, 8c
+    matriks on-the-fly, 8d tumpang-tindih) dan pakai sampler baseline; integrasikan ML-KEM-768 penuh dengan pengendali
+    paling sederhana; optimasi tetap pekerjaan yang direncanakan.
+(b) Paralel per blok dengan anggota tim lain di branch terpisah (lingkup sama dengan (a)). Tidak dipilih dalam jawaban,
+    tetapi kompatibel dengan (a) bila anggota bergabung; integrasi dan verifikasi tetap di bawah aturan yang sama.
+(c) Pertahankan ADR 0018 (tanpa Fase 8-9 sebelum batas waktu).
 
-## Decision
-Option (a), chosen by Jevan, Team J5. ADR 0018 is superseded by this record (its status header is updated; its text is unchanged).
-1. Phase 5M covers S6, S7, S8 and S9 *(edited 2026-10-03 at the team's request, see amendment note 3; the original text said "Phase 5M stops after S6; S7, S8 and S9 are not done before the deadline")*. ADR 0017
-   stays Accepted. The Phase 5M report is written after S8 and its verdict is the team's.
-2. Phase 6 is skipped before the deadline (a trivial fixed operation order is used in the controller), recorded as a deviation from the
-   roadmap's "approval of phase N before N+1".
-3. Order of work (each block: golden model first, lint Verilator -Wall + slang, both simulators, bit-exact tests, constant-cycle evidence where it
-   applies): Phase 7 Keccak K0 (SHA3-256/512, SHAKE128/256) -> baseline samplers (SampleNTT, SamplePolyCBD; non-streaming-optimised, from the K0
-   stream) -> encode/decode and compress/decompress (no division) -> K-PKE KeyGen / Encrypt / Decrypt -> ML-KEM Encaps / Decaps with the FO
-   transform, constant-time comparison and implicit rejection -> pinned NIST ACVP vectors.
-4. Reporting tiers (a tier is only claimed when its evidence exists in `evidence/`): T1 K0 and samplers bit-exact; T2 K-PKE KeyGen /
-   Encrypt / Decrypt bit-exact; T3 full ML-KEM Encaps / Decaps against the ACVP vectors with constant-cycle evidence. A tier that is not reached is
-   described in the proposal as not completed.
-5. Process lightening, without weakening any correctness check: blocks that have no adoption rule use one Quartus compile (default seed, labelled
-   single compile) instead of a seed sweep; formal proofs only where they are cheap and already patterned; the full Phase 0-5 regression runs once,
-   on the final integrated tree, as in the spirit of Amendment A1 of the 5M test plan. Lint, both simulators, golden bit-exactness and the
-   constant-cycle checks are not reduced.
-6. Section 3 of the proposal is written in parallel from the repository's evidence only, under the claim rules; nothing is claimed beyond the tiers
-   reached; evidence freeze Wednesday 2026-10-07 night.
+## Keputusan
+Opsi (a), dipilih oleh Jevan, Team J5. ADR 0018 digantikan oleh catatan ini (header statusnya diperbarui; teksnya tidak
+berubah).
+1. Fase 5M mencakup S6, S7, S8, dan S9 (diedit 2026-10-03 atas permintaan tim, lihat catatan amandemen 3; teks aslinya
+   berbunyi "Fase 5M berhenti setelah S6; S7, S8, dan S9 tidak dikerjakan sebelum batas waktu"). ADR 0017 tetap
+   Accepted. Laporan Fase 5M ditulis setelah S8 dan vonisnya milik tim.
+2. Fase 6 dilewati sebelum batas waktu (urutan operasi tetap yang sepele dipakai di pengendali), dicatat sebagai
+   penyimpangan dari "persetujuan fase N sebelum N+1" di roadmap.
+3. Urutan kerja (tiap blok: model acuan dulu, lint Verilator -Wall + slang, kedua simulator, uji bit-exact, bukti
+   siklus konstan bila berlaku): Fase 7 Keccak K0 (SHA3-256/512, SHAKE128/256) -> sampler baseline (SampleNTT,
+   SamplePolyCBD; tanpa optimasi streaming, dari aliran K0) -> encode/decode dan compress/decompress (tanpa
+   pembagian) -> K-PKE KeyGen / Encrypt / Decrypt -> ML-KEM Encaps / Decaps dengan transformasi FO, pembandingan
+   waktu konstan, dan implicit rejection -> vektor NIST ACVP terpatok.
+4. Tingkat pelaporan (sebuah tingkat hanya diklaim bila evidence-nya ada di `evidence/`): T1 K0 dan sampler bit-exact;
+   T2 K-PKE KeyGen / Encrypt / Decrypt bit-exact; T3 ML-KEM Encaps / Decaps penuh terhadap vektor ACVP dengan bukti
+   siklus konstan. Tingkat yang tidak tercapai dinyatakan di proposal sebagai tidak selesai.
+5. Peringanan proses, tanpa melemahkan pemeriksaan kebenaran apa pun: blok tanpa aturan adopsi memakai satu kompilasi
+   Quartus (seed bawaan, diberi label kompilasi tunggal) sebagai ganti sapuan seed; bukti formal hanya di tempat yang
+   murah dan sudah berpola; regresi Fase 0-5 penuh dijalankan sekali, pada pohon terintegrasi akhir, sesuai semangat
+   Amandemen A1 test plan 5M. Lint, kedua simulator, bit-exact terhadap model acuan, dan pemeriksaan siklus konstan
+   tidak dikurangi.
+6. Bagian 3 proposal ditulis paralel hanya dari evidence repository, di bawah aturan klaim; tidak ada yang diklaim di
+   luar tingkat yang tercapai; pembekuan evidence Rabu malam 2026-10-07.
 
-## Consequences
-- Two items must be decided by the team before the controller work reaches them: PENDING #25 (FIPS 203 input checks in hardware or on the HPS) and
-  PENDING #26 (checkpoint protocol: fewer STOPs, see below).
-- The proposal states measured results for NTT/INTT and for the tiers reached; optimisations (Phase 6, 8a, 8c, 8d) appear as planned work only; S6-S9 are done and appear with their measured results *(edited 2026-10-03; the original text listed S7-S9 as planned work)*.
-- If resource overflow appears at integration, it becomes a team decision (ADR), not a silent change; the 12,573 ALM budget stays the NTT-core
-  budget (ADR 0009, 0012).
+## Konsekuensi
+- Dua butir harus diputuskan tim sebelum pekerjaan pengendali mencapainya: PENDING #25 (pemeriksaan masukan FIPS 203
+  di perangkat keras atau di HPS) dan PENDING #26 (protokol checkpoint: lebih sedikit STOP, lihat di bawah).
+- Proposal menyatakan hasil terukur untuk NTT/INTT dan tingkat yang tercapai; optimasi (Fase 6, 8a, 8c, 8d) muncul
+  hanya sebagai pekerjaan yang direncanakan; S6-S9 selesai dan muncul dengan hasil terukurnya (diedit 2026-10-03; teks
+  aslinya mendaftar S7-S9 sebagai pekerjaan yang direncanakan).
+- Bila kelebihan sumber daya muncul saat integrasi, itu menjadi keputusan tim (ADR), bukan perubahan diam-diam;
+  anggaran 12.573 ALM tetap anggaran inti NTT (ADR 0009, 0012).
 
-## Evidence
-- `docs/decisions/0017-*.md`, `0018-*.md`, `docs/ROADMAP.md` Phases 6-9, chat 2026-10-02.
+## Bukti
+- `docs/decisions/adr/ADR-0017-*.md`, `ADR-0018-*.md`, `docs/ROADMAP.md` Fase 6-9, chat 2026-10-02.
 
-## Amendment note (2026-10-02, Jevan, Team J5; the decision above is unchanged)
-*(Superseded by amendment notes 2 and 3: S7 and S8 were planned and then done; original wording follows.)* S7 and S8 of ADR 0017 were kept as stretch work, not scheduled: the team may reopen them only if time remains after tier T2 (K-PKE
-KeyGen / Encrypt / Decrypt bit-exact) is reached, and only by a new explicit instruction. They would start from C4b-B on branch
-`phase5m-memory-schedule` and follow the S6 pattern (test plan and adoption rule first, ADR 0012). Because they modify the memory and core
-files, merging them after the integration work started requires the full Phase 0-5 regression (Amendment A1 of the 5M test plan) and a
-re-run of the integrated tests; otherwise they stay unmerged as future work. The Fmax lever without RTL changes (Quartus performance settings,
-Phase 4 evidence `ghrd_plus_c3p6_integration.md`) is allowed for the final compile as an information result, labelled with its settings.
+## Catatan amandemen (2026-10-02, Jevan, Team J5; keputusan di atas tidak berubah)
+(Digantikan catatan amandemen 2 dan 3: S7 dan S8 direncanakan lalu dikerjakan; kata-kata asli menyusul.) S7 dan S8 ADR
+0017 disimpan sebagai pekerjaan cadangan, tidak dijadwalkan: tim boleh membukanya kembali hanya bila waktu tersisa
+setelah tingkat T2 (K-PKE KeyGen / Encrypt / Decrypt bit-exact) tercapai, dan hanya lewat instruksi eksplisit baru.
+Keduanya akan mulai dari C4b-B di branch `phase5m-memory-schedule` dan mengikuti pola S6 (test plan dan aturan adopsi
+dulu, ADR 0012). Karena mengubah file memori dan inti, menggabungkannya setelah pekerjaan integrasi dimulai memerlukan
+regresi Fase 0-5 penuh (Amandemen A1 test plan 5M) dan menjalankan ulang uji terintegrasi; selain itu keduanya tetap
+tidak digabung sebagai pekerjaan mendatang. Tuas Fmax tanpa perubahan RTL (setelan kinerja Quartus, evidence Fase 4
+`ghrd_plus_c3p6_integration.md`) diizinkan untuk kompilasi akhir sebagai hasil informasi, diberi label setelannya.
 
-## Amendment note 2 (2026-10-02, Jevan, Team J5; supersedes the "stretch" wording of amendment note 1, decision unchanged otherwise)
-The team stated that S7 and S8 will be done on the M6 base (ADR 0020) before moving on to the next phase. S7 and S8 are therefore planned, not
-stretch, and come before Phase 7 (Keccak K0); S9 stays dropped *(superseded by note 3: S9 is done)*. Schedule impact (ESTIMATE): about 9-10 hours more before Phase 7 starts. The deadline
-risk this adds is the team's; a time-box is proposed in the S7 test plan. The tiers of this record are reached later, or not at all, accordingly.
+## Catatan amandemen 2 (2026-10-02, Jevan, Team J5; menggantikan kata "cadangan" di catatan amandemen 1, keputusan selebihnya tidak berubah)
+Tim menyatakan S7 dan S8 akan dikerjakan di basis M6 (ADR 0020) sebelum pindah ke fase berikutnya. S7 dan S8 karena itu
+direncanakan, bukan cadangan, dan datang sebelum Fase 7 (Keccak K0); S9 tetap dilepas (digantikan catatan 3: S9
+dikerjakan). Dampak jadwal (ESTIMATE): sekitar 9-10 jam lagi sebelum Fase 7 mulai. Risiko batas waktu yang ditambahkan
+ini milik tim; batas waktu usulan ada di test plan S7. Tingkat-tingkat catatan ini tercapai lebih lambat, atau tidak
+sama sekali, sesuai itu.
 
-## Amendment note 3 (2026-10-03, Jevan, Team J5, chat: "s9 sekalian dikerjain" and "tolong hapus/edit adr atau .md yang menyatakan s7-s9 tidak di implementasikan"; decision otherwise unchanged)
-S7, S8 and S9 of ADR 0017 are all done (S9 as the documentation-only study the ADR defines). Statements in this record, in ADR 0020 and in the repository documents that say S7-S9 are not done, not scheduled or dropped
-were edited in place at the team's request, each with a bracketed trace of what the text said before. Results: S7 adopted by the rule (ADR 0021, Proposed), S8 not adopted by the rule (ADR 0023, Proposed), S9 study
-(ADR 0022, Proposed). ADR 0018 (Superseded) is left as it is: its text records a rejected option and is historical. The schedule impact written in note 2 became real; the time spent is in the Phase 5M report.
+## Catatan amandemen 3 (2026-10-03, Jevan, Team J5, chat: "s9 sekalian dikerjain" dan "tolong hapus/edit adr atau .md yang menyatakan s7-s9 tidak di implementasikan"; keputusan selebihnya tidak berubah)
+S7, S8, dan S9 ADR 0017 semuanya dikerjakan (S9 sebagai studi hanya-dokumentasi yang didefinisikan ADR). Pernyataan di
+catatan ini, di ADR 0020, dan di dokumen repository yang menyebut S7-S9 tidak dikerjakan, tidak dijadwalkan, atau
+dilepas diedit di tempat atas permintaan tim, masing-masing dengan jejak berkurung tentang apa yang tertulis
+sebelumnya. Hasil: S7 diadopsi aturan (ADR 0021, Proposed), S8 tidak diadopsi aturan (ADR 0023, Proposed), studi S9
+(ADR 0022, Proposed). ADR 0018 (Superseded) dibiarkan: teksnya mencatat opsi yang ditolak dan bersifat historis.
+Dampak jadwal yang ditulis di catatan 2 menjadi nyata; waktu yang dihabiskan ada di laporan Fase 5M.
 
-## Amendment note 4 (2026-10-03, Jevan, Team J5, chat: "fase 6 dulu aja"; supersedes point 2 only: "Phase 6 is skipped")
-Phase 6 is done next, before Phase 7 (Keccak), and S10 (ADR 0022 option A) inside Phase 6 afterwards. Recorded in ADR 0024 (Accepted). The rest of this record is unchanged.
+## Catatan amandemen 4 (2026-10-03, Jevan, Team J5, chat: "fase 6 dulu aja"; menggantikan butir 2 saja: "Fase 6 dilewati")
+Fase 6 dikerjakan berikutnya, sebelum Fase 7 (Keccak), dan S10 (ADR 0022 opsi A) di dalam Fase 6 sesudahnya. Dicatat di
+ADR 0024 (Accepted). Sisa catatan ini tidak berubah.
 
-## Amendment note 5 (2026-10-03, Jose, Team J5, chat: "8a 8b 8c 8d dikerjakan , adr tolong diganti"; supersedes the skip of 8a, 8c and 8d in point 2)
-Sub-steps 8a, 8b, 8c and 8d of Phase 8 are all to be done, in ROADMAP order, each measured and reviewed separately. Recorded in ADR 0026 (Accepted). The rest of this record is unchanged.
-
+## Catatan amandemen 5 (2026-10-03, Jose, Team J5, chat: "8a 8b 8c 8d dikerjakan , adr tolong diganti"; menggantikan pelewatan 8a, 8c, dan 8d di butir 2)
+Langkah bagian 8a, 8b, 8c, dan 8d Fase 8 semuanya dikerjakan, berurutan menurut ROADMAP, masing-masing diukur dan
+ditinjau sendiri. Dicatat di ADR 0026 (Accepted). Sisa catatan ini tidak berubah.

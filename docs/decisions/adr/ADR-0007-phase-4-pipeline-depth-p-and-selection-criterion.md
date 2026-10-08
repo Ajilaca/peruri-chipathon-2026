@@ -1,195 +1,192 @@
-# ADR 0007: Phase 4 pipeline depth P and selection criterion
+# ADR 0007: Kedalaman pipeline P Fase 4 dan kriteria seleksi
 
 - Status: Accepted
-- Amended 2026-10-01 by ADR 0009: candidate condition 3 uses 12,573 ALM (30%) instead of 10,478 ALM; rule,
-  candidate set and other conditions unchanged. The text below is kept unchanged as the record of 2026-09-30.
-- Date: 2026-09-30
-- Decided by: Faza Dzil, Team J5
+- Diubah 2026-10-01 oleh ADR 0009: syarat kandidat 3 memakai 12.573 ALM (30 %) sebagai ganti 10.478 ALM; aturan,
+  himpunan kandidat, dan syarat lain tidak berubah. Teks di bawah dibiarkan apa adanya sebagai catatan 2026-09-30.
+- Tanggal: 2026-09-30
+- Diputuskan oleh: Faza Dzil, Team J5
 
-## Context
-Phase 4 (`docs/ROADMAP.md`) pipelines the butterfly of the selected configuration, C2-K2-K1 at L = 8
-(ADR 0005), as configuration C3: "pipeline depth P as a parameter over a small documented set; hazard
-handling between NTT layers (stall or schedule), with the stall cost counted. No arithmetic changes;
-no layer merging." The PASS criteria ask for an ADR for the chosen P. As with ADR 0004 for L, the set
-of P values and the rule for choosing among them are to be fixed before anything is measured.
+## Konteks
+Fase 4 (`docs/ROADMAP.md`) mem-pipeline butterfly dari konfigurasi terpilih, C2-K2-K1 pada L = 8
+(ADR 0005), sebagai konfigurasi C3: "kedalaman pipeline P sebagai parameter pada himpunan kecil terdokumentasi;
+penanganan hazard antar layer NTT (stall atau jadwal), dengan biaya stall dihitung. Tanpa perubahan aritmetika;
+tanpa penggabungan layer." Kriteria PASS meminta ADR untuk P terpilih. Seperti ADR 0004 untuk L, himpunan nilai
+P dan aturan memilih di antaranya harus ditetapkan sebelum apa pun diukur.
 
-Definition proposed. P = the number of register stages on the path of one butterfly from the
-cycle its addresses are issued to the cycle its results are written to memory. P = 0 is today's
-C2-K2-K1: read, compute and write in one cycle. A butterfly issued at cycle t writes at cycle t + P.
+Definisi yang diusulkan. P = jumlah tahap register pada jalur satu butterfly dari siklus alamatnya
+diterbitkan sampai siklus hasilnya ditulis ke memori. P = 0 adalah C2-K2-K1 hari ini: baca, hitung, dan tulis
+dalam satu siklus. Butterfly yang diterbitkan pada siklus t menulis pada siklus t + P.
 
-Facts available today (no new compile was run for this ADR):
-- MEASURED worst path of the P = 0 starting point, by block
-  (`evidence/phase04/k1_l8_worst_path_breakdown.md`): 129.6 ns data delay =
-  address generation about 5 ns, memory access (bank slot arbitration across 16 ports, read mux)
-  about 57 ns, butterfly pre/post logic about 5 ns, multiplier about 4 ns, divider (`%` in
-  `modmul_reduce`) about 44 ns, write path about 9 ns.
-  Candidate register positions that follow from it: (c1) after address generation / bank mapping,
-  (c2) inside the memory access path, (c3) after memory read, (c4) between multiplier and divider,
-  (c5) inside the divider chain, (c6) before the memory write.
-- Hazards, from an exhaustive check of the existing lane schedule
-  (`evidence/phase04/layer_boundary_slack.txt`, perhitungan tim): inside a
-  layer every address is read and written exactly once, so there is no read-after-write hazard within
-  a layer for any P. At a layer boundary the next layer must not read an address whose write is still
-  in the pipeline; for L = 8 the tightest boundary has 7 cycles of slack in both directions, so
-  P ≤ 7 needs no stall at any layer boundary with the schedule unchanged. P > 7 would need stall
-  cycles or a changed schedule.
-- ALM: C2-K2-K1-L8 is at 9,754 ALM, 724 below ADR 0004's 10,478 ALM budget; fitter packing alone was
-  seen to move totals by up to about 370 ALM (`k1_experiment.md`, caveat 1).
+Fakta yang tersedia hari ini (tidak ada kompilasi baru untuk ADR ini):
+- Jalur terburuk MEASURED dari titik awal P = 0, per blok
+  (`evidence/phase04/k1_l8_worst_path_breakdown.md`): delay data 129,6 ns =
+  pembangkit alamat sekitar 5 ns, akses memori (arbitrasi slot bank di 16 port, read mux)
+  sekitar 57 ns, logika pra/pasca butterfly sekitar 5 ns, pengali sekitar 4 ns, pembagi (`%` di
+  `modmul_reduce`) sekitar 44 ns, jalur tulis sekitar 9 ns.
+  Posisi register kandidat yang mengikutinya: (c1) setelah pembangkit alamat / pemetaan bank,
+  (c2) di dalam jalur akses memori, (c3) setelah pembacaan memori, (c4) antara pengali dan pembagi,
+  (c5) di dalam rantai pembagi, (c6) sebelum penulisan memori.
+- Hazard, dari pemeriksaan menyeluruh atas jadwal lajur yang ada
+  (`evidence/phase04/layer_boundary_slack.txt`, perhitungan tim): di dalam sebuah
+  layer setiap alamat dibaca dan ditulis tepat sekali, jadi tidak ada hazard read-after-write di dalam layer
+  untuk P mana pun. Di batas layer, layer berikutnya tidak boleh membaca alamat yang penulisannya masih di
+  pipeline; untuk L = 8 batas tersempit punya slack 7 siklus di kedua arah, jadi
+  P ≤ 7 tidak memerlukan stall di batas layer mana pun dengan jadwal tidak berubah. P > 7 akan memerlukan siklus
+  stall atau jadwal yang diubah.
+- ALM: C2-K2-K1-L8 ada di 9.754 ALM, 724 di bawah anggaran 10.478 ALM ADR 0004; packing fitter saja pernah
+  menggeser total hingga sekitar 370 ALM (`k1_experiment.md`, catatan 1).
 
-Consequences of pipelining that hold for every option below:
-- Latency / cycles. For P ≤ 7 (no boundary stalls): NTT = 7 × 16 sub-cycles + P cycles to drain
-  the pipeline + the existing overhead, i.e. 113 + P cycles (ESTIMATE from the FSM structure, to be
-  measured in simulation). INTT additionally has the 256-cycle ×3303 scaling pass (369 cycles today);
-  it grows by P for the drain, and by more if the scaling pass reuses a pipelined multiplier. Cycle
-  counts stay data-independent (constant-time requirement) and are re-measured per P.
-- Throughput. What matters is time per transform = cycles(P) / Fmax(P). A deeper pipeline adds a
-  few cycles (about 1–6% at L = 8 for P ≤ 7) and is worth it only if Fmax rises by more than that.
-- Resources. Each stage that carries the datapath registers 2 × 12 data bits and 2 × 8 write-address
-  bits per lane, about 320 flip-flops per stage at L = 8 (ESTIMATE from signal widths; stages on the
-  address side carry less, stages inside the divider carry the partial remainder per lane). Registers
-  often pack into ALMs already in use, but that is not guaranteed; the 724-ALM margin can be consumed.
-- Memory ports. Today each port reads and writes the same address in the same cycle. With P > 0 a
-  cycle carries the reads of one set of butterflies and the writes of an earlier set, so a bank sees up
-  to 2 reads and 2 writes of different addresses per cycle. The flip-flop memory can serve that, but
-  `poly_mem_multiport` needs separate read and write addressing (a new variant file; the C2 memory stays
-  frozen), and the Phase 2/3 "at most 2 accesses per bank per cycle" proof then applies to reads and to
-  writes separately, not as one 2-port budget. A registered read (c3) is also the precondition for M10K
-  inference, but 2R + 2W per bank does not map onto one true-dual-port M10K; M10K remains a separate
-  question (not decided here).
-- Verification. New RTL files only (C2, C2-K2 and C2-K2-K1 stay frozen); bit-exact against the golden
-  model on both simulators for every P; dedicated tests at layer boundaries; constant cycle count; the
-  formal `bank_overflow_o` property restated for separate read and write schedules.
+Konsekuensi pipelining yang berlaku untuk setiap opsi di bawah:
+- Latensi / siklus. Untuk P ≤ 7 (tanpa stall batas): NTT = 7 x 16 sub-siklus + P siklus untuk mengosongkan
+  pipeline + overhead yang ada, yaitu 113 + P siklus (ESTIMATE dari struktur FSM, akan diukur di simulasi). INTT
+  juga punya lintasan skala 256 siklus x3303 (369 siklus hari ini); naik sebesar P untuk pengosongan, dan lebih
+  bila lintasan skala memakai ulang pengali yang di-pipeline. Jumlah siklus tetap tidak bergantung data (syarat
+  waktu-konstan) dan diukur ulang per P.
+- Throughput. Yang penting adalah waktu per transformasi = siklus(P) / Fmax(P). Pipeline lebih dalam menambah
+  beberapa siklus (sekitar 1-6 % pada L = 8 untuk P ≤ 7) dan hanya bermanfaat bila Fmax naik lebih dari itu.
+- Sumber daya. Setiap tahap yang membawa register datapath 2 x 12 bit data dan 2 x 8 bit alamat tulis per
+  lajur, sekitar 320 flip-flop per tahap pada L = 8 (ESTIMATE dari lebar sinyal; tahap di sisi alamat membawa
+  lebih sedikit, tahap di dalam pembagi membawa sisa parsial per lajur). Register sering masuk ke ALM yang sudah
+  terpakai, tetapi itu tidak dijamin; margin 724 ALM bisa habis.
+- Port memori. Hari ini tiap port membaca dan menulis alamat yang sama pada siklus yang sama. Dengan P > 0 satu
+  siklus membawa pembacaan satu himpunan butterfly dan penulisan himpunan sebelumnya, jadi satu bank melihat
+  hingga 2 pembacaan dan 2 penulisan alamat berbeda per siklus. Memori flip-flop bisa melayaninya, tetapi
+  `poly_mem_multiport` memerlukan pengalamatan baca dan tulis terpisah (file varian baru; memori C2 tetap
+  dibekukan), dan bukti Fase 2/3 "paling banyak 2 akses per bank per siklus" lalu berlaku untuk pembacaan dan
+  penulisan secara terpisah, bukan sebagai satu anggaran 2-port. Pembacaan teregistrasi (c3) juga prasyarat
+  inferensi M10K, tetapi 2R + 2W per bank tidak dipetakan ke satu M10K true-dual-port; M10K tetap pertanyaan
+  terpisah (tidak diputuskan di sini).
+- Verifikasi. Hanya file RTL baru (C2, C2-K2, dan C2-K2-K1 tetap dibekukan); bit-exact terhadap model acuan di
+  kedua simulator untuk setiap P; test khusus di batas layer; jumlah siklus konstan; properti formal
+  `bank_overflow_o` dinyatakan ulang untuk jadwal baca dan tulis terpisah.
 
-## Options considered
-### A. Which P values to build and measure
-1. P ∈ {0, 1, 2, 3}, registers at block boundaries only (c1, c3, c4, c6; none inside the memory
-   access path or the divider).
-   For: smallest RTL change; clearly within "no arithmetic changes"; 4 Quartus revisions.
-   Against: by the path breakdown the clock period cannot go below the longest single block, about
-   57 ns (about 17 MHz, ESTIMATE) - about 2× the current Fmax at best, far from 50 MHz and short of
+## Opsi yang dipertimbangkan
+### A. Nilai P mana yang dibangun dan diukur
+1. P ∈ {0, 1, 2, 3}, register hanya di batas blok (c1, c3, c4, c6; tidak ada di dalam jalur akses memori atau
+   pembagi).
+   Untuk: perubahan RTL terkecil; jelas dalam "tanpa perubahan aritmetika"; 4 revisi Quartus.
+   Melawan: menurut rincian jalur, periode clock tidak bisa turun di bawah blok tunggal terpanjang, sekitar
+   57 ns (sekitar 17 MHz, ESTIMATE) - paling banter sekitar 2x Fmax sekarang, jauh dari 50 MHz dan kurang dari
    25 MHz.
-2. P ∈ {0, 2, 4, 6}, registers also inside the memory access path (c2) and the divider (c5).
-   For: the only kind of set that can approach 20–40 ns by the estimate; all values ≤ 7, so no
-   boundary stalls; 4 revisions.
-   Against: larger RTL change (memory variant with staged slot arbitration; the `%` written as explicit
-   staged logic or an instantiated divider with pipeline stages). Needs a team ruling that registers
-   inside the reduction - same method, same results, exhaustively checked against `modmul_reduce` - are
-   not an "arithmetic change" in the ROADMAP's sense. More registers, so more ALM-budget risk.
-3. P ∈ {0, 1, 2, 4, 7}: a wider sweep up to the largest stall-free depth.
-   For: shows the whole curve, including where returns diminish.
-   Against: 5 revisions (about 16 minutes each at L = 8) and 5 RTL variants to verify; P = 7 sits
-   exactly at the hazard limit, so its boundary tests carry the most risk.
-4. Retiming-assisted: add P plain register stages at one boundary and let Quartus move them.
-   For: minimal RTL; cut positions chosen by the tool.
-   Against: results are tool-dependent and harder to explain; whether Quartus Prime Lite 25.1std retimes
-   across the inferred divider and the DSP block on this device has not been tried - it would need a
-   trial compile before anything is planned around it.
+2. P ∈ {0, 2, 4, 6}, register juga di dalam jalur akses memori (c2) dan pembagi (c5).
+   Untuk: satu-satunya jenis himpunan yang dapat mendekati 20-40 ns menurut estimasi; semua nilai ≤ 7, jadi tidak
+   ada stall batas; 4 revisi.
+   Melawan: perubahan RTL lebih besar (varian memori dengan arbitrasi slot bertahap; `%` ditulis sebagai logika
+   bertahap eksplisit atau pembagi yang diinstansiasi dengan tahap pipeline). Memerlukan keputusan tim bahwa
+   register di dalam reduksi - metode sama, hasil sama, diperiksa menyeluruh terhadap `modmul_reduce` - bukan
+   "perubahan aritmetika" dalam arti ROADMAP. Register lebih banyak, jadi risiko anggaran ALM lebih besar.
+3. P ∈ {0, 1, 2, 4, 7}: sapuan lebih lebar sampai kedalaman bebas-stall terbesar.
+   Untuk: menunjukkan seluruh kurva, termasuk di mana hasilnya menurun.
+   Melawan: 5 revisi (sekitar 16 menit masing-masing pada L = 8) dan 5 varian RTL untuk diverifikasi; P = 7 tepat
+   di batas hazard, jadi test batasnya paling berisiko.
+4. Dibantu retiming: tambahkan P tahap register biasa di satu batas dan biarkan Quartus memindahkannya.
+   Untuk: RTL minimal; posisi potongan dipilih alat.
+   Melawan: hasil bergantung alat dan lebih sulit dijelaskan; apakah Quartus Prime Lite 25.1std melakukan retiming
+   melewati pembagi yang diinferensi dan blok DSP pada device ini belum dicoba - perlu kompilasi percobaan sebelum
+   apa pun direncanakan di sekitarnya.
 
-Exact register positions for each P are part of the Phase 4 test plan (CRG-4), whichever set is chosen.
+Posisi register tepat untuk tiap P adalah bagian test plan Fase 4 (CRG-4), himpunan mana pun yang dipilih.
 
-### B. How to choose P once measured
-1. Smallest P that meets the ADR 0006 target clock (timing met at all corners), among P that are
-   bit-exact, constant-cycle and within the ALM budget. If no P meets it: report, select nothing, the
-   team decides. Needs ADR 0006 to set an absolute target.
-2. Minimum time per NTT, cycles(P) / Fmax(P) (Slow-corner Fmax from the Fmax Summary panel), among P
-   that are bit-exact, constant-cycle and within the ALM budget; INTT reported alongside; near-ties go
-   to the smaller P. Works without an absolute target, but quotes latency at a measured Fmax rather than
-   at a constrained clock.
-3. Highest Fmax within the ALM budget. Simple; ignores the added cycles.
+### B. Cara memilih P setelah diukur
+1. P terkecil yang memenuhi clock target ADR 0006 (timing terpenuhi di semua corner), di antara P yang
+   bit-exact, siklus konstan, dan dalam anggaran ALM. Bila tidak ada P yang memenuhi: laporkan, jangan pilih apa
+   pun, tim memutuskan. Memerlukan ADR 0006 menetapkan target mutlak.
+2. Waktu per NTT minimum, siklus(P) / Fmax(P) (Fmax Slow-corner dari panel Fmax Summary), di antara P yang
+   bit-exact, siklus konstan, dan dalam anggaran ALM; INTT dilaporkan di sampingnya; hasil hampir seri jatuh ke P
+   lebih kecil. Bekerja tanpa target mutlak, tetapi mengutip latensi pada Fmax terukur, bukan pada clock terbatas.
+3. Fmax tertinggi dalam anggaran ALM. Sederhana; mengabaikan siklus tambahan.
 
-*First-draft suggestion, superseded by the Decision below:* B.1 as the primary rule if ADR 0006 fixed an
-absolute target, B.2 otherwise. The team chose B.2, with "timing met at 40.000 ns" as a condition for
-being a candidate (see Decision).
+Saran draf pertama, digantikan oleh Keputusan di bawah: B.1 sebagai aturan utama bila ADR 0006 menetapkan target
+mutlak, B.2 bila tidak. Tim memilih B.2, dengan "timing terpenuhi pada 40,000 ns" sebagai syarat menjadi kandidat
+(lihat Keputusan).
 
-## Decision
-P set: option A.2 - P ∈ {0, 2, 4, 6}.
-- Register stages are allowed inside the memory access path and inside the divider, as well as at
-  block boundaries.
-- The mathematical function must not change: every P produces bit-for-bit the same NTT/INTT results
-  as the golden model (and as P = 0). Pipelining may change timing and latency only. No change to q,
-  the reduction method's results, the twiddle values or any other FIPS 203 quantity (ADR 0002).
-- P = 0 is the C2-K2-K1 L = 8 configuration, re-compiled with the Phase 4 constraint of ADR 0006
-  so that all four revisions share one constraint and seed.
+## Keputusan
+Himpunan P: opsi A.2 - P ∈ {0, 2, 4, 6}.
+- Tahap register diperbolehkan di dalam jalur akses memori dan di dalam pembagi, selain di batas blok.
+- Fungsi matematika tidak boleh berubah: setiap P menghasilkan hasil NTT/INTT yang sama bit demi bit dengan model
+  acuan (dan dengan P = 0). Pipelining hanya boleh mengubah timing dan latensi. Tidak ada perubahan pada q, hasil
+  metode reduksi, nilai twiddle, atau besaran FIPS 203 lain (ADR 0002).
+- P = 0 adalah konfigurasi C2-K2-K1 L = 8, dikompilasi ulang dengan batasan Fase 4 dari ADR 0006 agar keempat
+  revisi memakai satu batasan dan seed.
 
-Selection rule: option B.2 - minimum time per NTT - applied to qualified candidates only.
+Aturan seleksi: opsi B.2 - waktu per NTT minimum - diterapkan hanya pada kandidat yang memenuhi syarat.
 
-*Step 1 - measure everything.* All four P values are built, verified and compiled before the rule is
-applied; nothing is selected from a partial sweep.
+Langkah 1 - ukur semuanya. Keempat nilai P dibangun, diverifikasi, dan dikompilasi sebelum aturan diterapkan;
+tidak ada yang dipilih dari sapuan parsial.
 
-*Step 2 - candidate set.* A value of P is a candidate only if all four hold:
-  1. bit-exact: PASS (both simulators, against the golden model);
-  2. constant cycle count: PASS;
-  3. ALM ≤ 10,478 (Quartus fitter);
-  4. timing met at 40.000 ns (the ADR 0006 Phase 4 milestone): non-negative worst setup slack and
-     non-negative worst hold slack at every corner the Timing Analyzer reports.
+Langkah 2 - himpunan kandidat. Sebuah nilai P adalah kandidat hanya bila keempat syarat terpenuhi:
+  1. bit-exact: PASS (kedua simulator, terhadap model acuan);
+  2. jumlah siklus konstan: PASS;
+  3. ALM ≤ 10.478 (fitter Quartus);
+  4. timing terpenuhi pada 40,000 ns (milestone Fase 4 ADR 0006): slack setup terburuk tidak negatif dan slack
+     hold terburuk tidak negatif di setiap corner yang dilaporkan Timing Analyzer.
 
-*Step 3 - the quantity compared.*
-- cycles_NTT(P): the NTT cycle count measured in simulation (start to done; the same count on both
-  simulators and for every input, by condition 2).
-- Fmax(P): the lowest Fmax among the slow-corner results that the Timing Analyzer's Fmax Summary
-  actually reports for `clk_i` in that revision, i.e.
+Langkah 3 - besaran yang dibandingkan.
+- siklus_NTT(P): jumlah siklus NTT terukur di simulasi (start sampai done; jumlah sama di kedua simulator dan untuk
+  setiap masukan, menurut syarat 2).
+- Fmax(P): Fmax terendah di antara hasil slow-corner yang benar-benar dilaporkan Fmax Summary Timing Analyzer
+  untuk `clk_i` pada revisi itu, yaitu
 
-      Fmax(P) = min over every slow corner c reported of  Fmax_c(P)
+      Fmax(P) = min atas setiap slow corner c yang dilaporkan dari  Fmax_c(P)
 
-  (in the compiles so far the reported slow corners are Slow 1100mV 100C and Slow 1100mV −40C; no
-  corner is assumed that the report does not contain). This is chosen as the worst-case slow-corner
-  value: the clock the design can run at must hold at the slowest of the slow corners, so the more
-  pessimistic figure is the one used. Values are taken as printed in the report, in MHz.
-- Time per NTT, in microseconds (cycles divided by MHz):
+  (pada kompilasi sejauh ini slow corner yang dilaporkan adalah Slow 1100mV 100C dan Slow 1100mV −40C; tidak ada
+  corner yang diasumsikan bila tidak ada di laporan). Ini dipilih sebagai nilai slow-corner kasus terburuk: clock
+  yang bisa dijalankan desain harus bertahan di slow corner paling lambat, jadi angka yang lebih pesimistis yang
+  dipakai. Nilai diambil sebagaimana tercetak di laporan, dalam MHz.
+- Waktu per NTT, dalam mikrodetik (siklus dibagi MHz):
 
-      t_NTT(P) = cycles_NTT(P) / Fmax(P)
+      t_NTT(P) = siklus_NTT(P) / Fmax(P)
 
-- Reported alongside for every P, candidate or not, but not used for the selection:
+- Dilaporkan di samping untuk setiap P, kandidat atau bukan, tetapi tidak dipakai untuk seleksi:
 
-      t_INTT(P) = cycles_INTT(P) / Fmax(P)
+      t_INTT(P) = siklus_INTT(P) / Fmax(P)
 
-*Step 4 - selection with the near-tie rule.* Let C be the candidate set and
+Langkah 4 - seleksi dengan aturan hampir-seri. Misalkan C himpunan kandidat dan
 
-      t_min = min over P in C of t_NTT(P)
-      d(P)  = ( t_NTT(P) − t_min ) / t_min          for P in C
+      t_min = min atas P di C dari t_NTT(P)
+      d(P)  = ( t_NTT(P) − t_min ) / t_min          untuk P di C
 
-  A candidate is in a near-tie with the best one when d(P) ≤ 0.05 (its time per NTT is at most 5%
-  above the global minimum t_min over the candidate set; candidates are not compared pairwise). The selected depth is the smallest such P:
+  Sebuah kandidat hampir seri dengan yang terbaik bila d(P) ≤ 0,05 (waktu per NTT-nya paling banyak 5 % di atas
+  minimum global t_min pada himpunan kandidat; kandidat tidak dibandingkan berpasangan). Kedalaman terpilih adalah
+  P terkecil seperti itu:
 
-      P_selected = min { P in C : d(P) ≤ 0.05 }      (equivalently  t_NTT(P) ≤ 1.05 × t_min)
+      P_terpilih = min { P di C : d(P) ≤ 0,05 }      (setara  t_NTT(P) ≤ 1,05 x t_min)
 
-  So the candidate with the minimum t_NTT is selected unless a smaller P is within 5% of it, in which
-  case the smaller P is selected. The comparison uses the unrounded quotients.
+  Jadi kandidat dengan t_NTT minimum dipilih kecuali ada P lebih kecil dalam 5 % darinya, dalam hal itu P yang
+  lebih kecil dipilih. Perbandingan memakai hasil bagi yang tidak dibulatkan.
 
-*If C is empty* (no P satisfies all four conditions), no P is selected automatically: all measured
-results are reported and the team is asked for a decision.
+Bila C kosong (tidak ada P yang memenuhi keempat syarat), tidak ada P yang dipilih otomatis: semua hasil terukur
+dilaporkan dan tim dimintai keputusan.
 
-## Consequences
-- The rule is now consistent with ADR 0006: a P that does not meet timing at 40.000 ns cannot be
-  selected, so a selected P always meets the Phase 4 milestone (CRG-9 PASS for that revision).
-- P = 0 is measured and reported as the reference but is not expected to be a candidate: the starting
-  point's Fmax is 7.68 MHz at the provisional constraint (MEASURED,
-  `evidence/quartus/C2-K2-K1-L8.md`), far below the 25 MHz that 40.000 ns requires.
-- If no P satisfies the four conditions - for example no P ∈ {2, 4, 6} meets 40.000 ns, or every P > 0
-  exceeds 10,478 ALM - nothing is selected; the measurements are reported and the team decides. Both
-  are real possibilities: the path estimate suggests about 4 stages are needed for 40 ns, and the
-  724-ALM margin of the starting point is not far above the observed fitter-packing swing (about
-  370 ALM).
-- Because registers may go inside the divider, the `%` in `modmul_reduce.sv` has to be replaced, in a
-  new file, by a staged form that can hold registers. `modmul_reduce.sv`, `butterfly.sv`,
-  `butterfly_shared.sv`, `poly_mem_multiport.sv` and the C2 / C2-K2 / C2-K2-K1 cores stay frozen; the
-  staged reducer must be shown equal to `modmul_reduce` for every a, b in [0, q) (3329² = 11,082,241
-  input pairs, small enough to check exhaustively) before it is used.
-- Because registers may go inside the memory access path, a new memory variant with separate read and
-  write addressing is needed (Context, "Memory ports"); the bank-capacity property is re-proven for the
-  read schedule and the write schedule separately.
-- All chosen depths are ≤ 7, so by the schedule analysis no stall is needed at layer boundaries; the
-  expected cycle counts (NTT about 113 + P) are an ESTIMATE until measured, and the measured stall count
-  is reported per P as the ROADMAP requires.
-- Four Quartus revisions at L = 8 (about 16 minutes each on this machine, from the Phase 3 compiles),
-  named after the configuration IDs to be added to the ablation matrix.
-- The exact register positions for P = 2, 4, 6, the hazard tests at layer boundaries and the
-  equivalence checks are fixed in the Phase 4 test plan (CRG-4), written after this ADR is accepted and
-  before any RTL.
-- Options A.1, A.3, A.4 and B.1, B.3 above are not pursued.
+## Konsekuensi
+- Aturan kini konsisten dengan ADR 0006: P yang tidak memenuhi timing pada 40,000 ns tidak bisa dipilih, jadi
+  P terpilih selalu memenuhi milestone Fase 4 (CRG-9 PASS untuk revisi itu).
+- P = 0 diukur dan dilaporkan sebagai referensi tetapi tidak diharapkan menjadi kandidat: Fmax titik awal adalah
+  7,68 MHz pada batasan sementara (MEASURED, `evidence/quartus/C2-K2-K1-L8.md`), jauh di bawah 25 MHz yang
+  diperlukan 40,000 ns.
+- Bila tidak ada P yang memenuhi keempat syarat - misalnya tidak ada P ∈ {2, 4, 6} yang memenuhi 40,000 ns, atau
+  setiap P > 0 melewati 10.478 ALM - tidak ada yang dipilih; pengukuran dilaporkan dan tim memutuskan. Keduanya
+  mungkin terjadi: estimasi jalur menyarankan sekitar 4 tahap diperlukan untuk 40 ns, dan margin 724 ALM titik awal
+  tidak jauh di atas ayunan packing fitter yang teramati (sekitar 370 ALM).
+- Karena register boleh masuk ke pembagi, `%` di `modmul_reduce.sv` harus diganti, di file baru, dengan bentuk
+  bertahap yang dapat menampung register. `modmul_reduce.sv`, `butterfly.sv`, `butterfly_shared.sv`,
+  `poly_mem_multiport.sv`, dan inti C2 / C2-K2 / C2-K2-K1 tetap dibekukan; reducer bertahap harus ditunjukkan
+  sama dengan `modmul_reduce` untuk setiap a, b di [0, q) (3329² = 11.082.241 pasangan masukan, cukup kecil
+  untuk diperiksa menyeluruh) sebelum dipakai.
+- Karena register boleh masuk ke jalur akses memori, varian memori baru dengan pengalamatan baca dan tulis terpisah
+  diperlukan (Konteks, "Port memori"); properti kapasitas bank dibuktikan ulang untuk jadwal baca dan jadwal tulis
+  secara terpisah.
+- Semua kedalaman terpilih ≤ 7, jadi menurut analisis jadwal tidak ada stall di batas layer; jumlah siklus yang
+  diharapkan (NTT sekitar 113 + P) adalah ESTIMATE sampai diukur, dan jumlah stall terukur dilaporkan per P
+  seperti disyaratkan ROADMAP.
+- Empat revisi Quartus pada L = 8 (sekitar 16 menit masing-masing di mesin ini, dari kompilasi Fase 3), dinamai
+  menurut ID konfigurasi yang akan ditambahkan ke matriks ablasi.
+- Posisi register tepat untuk P = 2, 4, 6, test hazard di batas layer, dan pemeriksaan kesetaraan ditetapkan di
+  test plan Fase 4 (CRG-4), ditulis setelah ADR ini diterima dan sebelum RTL apa pun.
+- Opsi A.1, A.3, A.4 dan B.1, B.3 di atas tidak dikejar.
 
-## Evidence
+## Bukti
 - `evidence/phase04/k1_l8_worst_path_breakdown.md`
 - `evidence/phase04/layer_boundary_slack.txt` (`scripts/test/pipeline_hazard_slack.py`)
 - `evidence/quartus/C2-K2-K1-L8.md`, `evidence/phase03/k1_experiment.md`
-- `docs/ROADMAP.md` (Phase 4), `docs/decisions/adr/ADR-0006-phase-4-target-clock.md`
+- `docs/ROADMAP.md` (Fase 4), `docs/decisions/adr/ADR-0006-phase-4-target-clock.md`

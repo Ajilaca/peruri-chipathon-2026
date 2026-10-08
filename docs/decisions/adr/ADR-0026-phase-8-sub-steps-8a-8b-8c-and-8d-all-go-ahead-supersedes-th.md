@@ -1,31 +1,58 @@
-# ADR 0026: Phase 8 sub-steps 8a, 8b, 8c and 8d all go ahead (supersedes the skip of 8a, 8c and 8d in ADR 0019 point 2)
+# ADR 0026: Langkah bagian Fase 8 8a, 8b, 8c, dan 8d semuanya dikerjakan (menggantikan pelewatan 8a, 8c, dan 8d di ADR 0019 butir 2)
 
 - Status: Accepted
-- Date: 2026-10-03
-- Decided by: Jose, Team J5, chat 2026-10-03: '8a 8b 8c 8d dikerjakan , adr tolong diganti , approval fase 7 acc'
+- Tanggal: 2026-10-03
+- Diputuskan oleh: Jose, Team J5, chat 2026-10-03: "8a 8b 8c 8d dikerjakan , adr tolong diganti , approval fase 7 acc"
 
-## Context
-- ADR 0019 (Accepted 2026-10-02, Jevan) point 2 skipped Phase 6 and the Phase 8 sub-steps 8a (two rounds per cycle), 8c (matrix A on the fly) and 8d (overlap of Keccak with arithmetic) to reach a full ML-KEM before Thursday 2026-10-08. Phase 6 was reinstated by ADR 0024; the 8a/8c/8d part of the skip still stood.
-- Phase 7 (Keccak K0) is done technically and its Approval box was ticked by Jose on 2026-10-03 (commit 1154a20, `docs/results/phase07.md`). K0 measured (seed 1, kernel-only): 3,572 ALM, 1,653 registers, 0 M10K, 0 DSP, 26 cycles per permutation in the sponge (24 busy), Fmax 56.99 MHz at 40 ns.
-- The ROADMAP Phase 8 sub-steps are each "measured and reviewed separately": 8a two rounds per cycle (configuration C5), 8b streaming samplers (CBD from the PRF stream, SampleNTT from the XOF stream), 8c matrix A generated on the fly, 8d overlap of sampling with the kernel's arithmetic; 8b to 8d together form C6.
-- Estimate given to the team on 2026-10-03 (ESTIMATE, from the pace of Phases 6 and 7): 8a about 4-6 h, 8b about 3-5 h, 8c and 8d about 6-10 h each; with Phase 9 (19-32 h) the total exceeds what fits before 2026-10-08. The risk is stated in the chat of 2026-10-03: tier T3 (full ML-KEM against ACVP) is the item most likely to be cut.
+## Konteks
+- ADR 0019 (Accepted 2026-10-02, Jevan) butir 2 melewati Fase 6 dan langkah bagian Fase 8 8a (dua ronde per siklus),
+  8c (matriks A on-the-fly) dan 8d (tumpang-tindih Keccak dengan aritmetika) untuk mencapai ML-KEM penuh sebelum
+  Kamis 2026-10-08. Fase 6 dikembalikan oleh ADR 0024; bagian 8a/8c/8d dari pelewatan masih berlaku.
+- Fase 7 (Keccak K0) selesai secara teknis dan kotak Approval-nya dicentang Jose pada 2026-10-03 (commit 1154a20,
+  `docs/results/phase07.md`). K0 terukur (seed 1, kernel-only): 3.572 ALM, 1.653 register, 0 M10K, 0 DSP, 26 siklus
+  per permutasi di sponge (24 sibuk), Fmax 56,99 MHz pada 40 ns.
+- Langkah bagian Fase 8 di ROADMAP masing-masing "diukur dan ditinjau sendiri": 8a dua ronde per siklus (konfigurasi
+  C5), 8b sampler streaming (CBD dari aliran PRF, SampleNTT dari aliran XOF), 8c matriks A dibangkitkan on the fly,
+  8d tumpang-tindih sampling dengan aritmetika kernel; 8b sampai 8d bersama membentuk C6.
+- Estimasi yang diberikan ke tim pada 2026-10-03 (ESTIMATE, dari laju Fase 6 dan 7): 8a sekitar 4-6 jam, 8b sekitar
+  3-5 jam, 8c dan 8d sekitar 6-10 jam masing-masing; dengan Fase 9 (19-32 jam) totalnya melebihi apa yang muat
+  sebelum 2026-10-08. Risikonya dinyatakan di chat 2026-10-03: tingkat T3 (ML-KEM penuh terhadap ACVP) adalah butir
+  yang paling mungkin dipotong.
 
-## Options considered
-(a) Keep ADR 0019 as it stood: Phase 9 integration next, 8a/8c/8d only if time remains.
-(b) Do all four sub-steps 8a, 8b, 8c, 8d (the team's choice).
-(c) Do 8a and 8b only.
+## Opsi yang dipertimbangkan
+(a) Mempertahankan ADR 0019 seperti adanya: integrasi Fase 9 berikutnya, 8a/8c/8d hanya bila waktu tersisa.
+(b) Mengerjakan keempat langkah bagian 8a, 8b, 8c, 8d (pilihan tim).
+(c) Mengerjakan hanya 8a dan 8b.
 
-## Decision
-Option (b), by Jose (Team J5): 8a, 8b, 8c and 8d are all to be done. The skip of 8a, 8c and 8d in ADR 0019 point 2 is superseded (amendment note 5 of ADR 0019). Order: the ROADMAP order 8a, 8b, 8c, 8d, each with its own test plan and adoption rule or "no rule" statement written before measuring, each measured and reviewed separately (STOP after each sub-step by the suggested default of PENDING #26, which stays open). Everything else in ADR 0019 (reporting tiers, process lightening, evidence freeze Wednesday 2026-10-07 night) is unchanged.
+## Keputusan
+Opsi (b), oleh Jose (Team J5): 8a, 8b, 8c, dan 8d semuanya dikerjakan. Pelewatan 8a, 8c, dan 8d di ADR 0019 butir 2
+digantikan (catatan amandemen 5 ADR 0019). Urutan: urutan ROADMAP 8a, 8b, 8c, 8d, masing-masing dengan test plan dan
+aturan adopsi atau pernyataan "tanpa aturan" sendiri yang ditulis sebelum mengukur, masing-masing diukur dan ditinjau
+sendiri (STOP setelah tiap langkah bagian menurut default yang disarankan PENDING #26, yang tetap terbuka). Segala hal
+lain di ADR 0019 (tingkat pelaporan, peringanan proses, pembekuan evidence Rabu malam 2026-10-07) tidak berubah.
 
-## Consequences
-- Dependencies recorded now, not decided: 8c needs the matrix entries to reach the pointwise unit from the sampler stream (the Phase 6 store holds the matrix in slots today); 8d needs a scheduler interface between the Phase 6 sequencer and the sampler (ROADMAP: "scheduler interface"); neither is built. They are designed in their own test plans, and if 8c or 8d proves infeasible in the time left that is reported as "not completed", never as a result (C3).
-- Phase 9 (integration, tiers T2 and T3) moves behind the Phase 8 sub-steps unless the team reorders it; the schedule risk to T2/T3 before 2026-10-08 is the team's, stated here: the Phase 8 sub-steps estimated at 19-31 h (ESTIMATE) plus Phase 9 at 19-32 h do not fit the days left at 6-8 h per day. The team may stop or reorder at any STOP.
-- 8a replaces K0's permutation core, so it has an adoption rule (ADR 0012 style, seeds 1-6 at 40 ns, K0 seeds 2-6 compiled for the baseline) written before measuring; K0 files stay unedited, 8a is new files.
-- ROADMAP rows C5 and C6 (C6b, C6c, C6d) are filled as the sub-steps are measured. PENDING #25 and #26 remain open.
+## Konsekuensi
+- Ketergantungan dicatat sekarang, tidak diputuskan: 8c memerlukan entri matriks mencapai unit pointwise dari aliran
+  sampler (penyimpanan Fase 6 saat ini menyimpan matriks di slot); 8d memerlukan antarmuka penjadwal antara
+  sequencer Fase 6 dan sampler (ROADMAP: "antarmuka penjadwal"); keduanya belum dibangun. Keduanya dirancang di test
+  plan masing-masing, dan bila 8c atau 8d terbukti tidak layak dalam waktu tersisa, itu dilaporkan sebagai "tidak
+  selesai", tidak pernah sebagai hasil (C3).
+- Fase 9 (integrasi, tingkat T2 dan T3) pindah ke belakang langkah bagian Fase 8 kecuali tim mengurutkan ulang; risiko
+  jadwal untuk T2/T3 sebelum 2026-10-08 milik tim, dinyatakan di sini: langkah bagian Fase 8 diperkirakan 19-31 jam
+  (ESTIMATE) ditambah Fase 9 19-32 jam tidak muat di hari yang tersisa pada 6-8 jam per hari. Tim boleh berhenti atau
+  mengurutkan ulang di STOP mana pun.
+- 8a menggantikan inti permutasi K0, jadi punya aturan adopsi (gaya ADR 0012, seed 1-6 pada 40 ns, seed K0 2-6
+  dikompilasi untuk baseline) yang ditulis sebelum mengukur; file K0 tidak diedit, 8a adalah file baru.
+- Baris ROADMAP C5 dan C6 (C6b, C6c, C6d) diisi saat langkah bagian diukur. PENDING #25 dan #26 tetap terbuka.
 
-## Evidence
-- Chat 2026-10-03 (quoted in the header); `docs/results/phase07.md` (Approval ticked, commit 1154a20); `docs/decisions/adr/ADR-0019-minimal-path-to-a-full-ml-kem-768-core-before-thursday-2026-.md` point 2; `docs/ROADMAP.md` Phase 8.
+## Bukti
+- Chat 2026-10-03 (dikutip di header); `docs/results/phase07.md` (Approval dicentang, commit 1154a20);
+  `docs/decisions/adr/ADR-0019-minimal-path-to-a-full-ml-kem-768-core-before-thursday-2026-.md` butir 2;
+  `docs/ROADMAP.md` Fase 8.
 
-## Amendment note 1 (2026-10-03, chat, no name given: "8b melakukan keduanya saja jadi pertama kita test 1 siklus dan setelah itu 2 siklus setelah itu selesai baru kita mulai 8c"; "tidak perlu menanyakan permisi, lakukan hingga fase 8 beres semua hingga 8d selesai dan kemudian buat report dan result seperti biasa baru berhenti")
-Two things, recorded without editing the decision above: (1) sub-step 8b is done at two output widths, W1 (one coefficient per cycle) and then W2 (two), and a rule written before measuring chooses between them (`evidence/phase08/8b/test_plan_8b.md`); (2) the STOP after each sub-step of the Decision paragraph was not taken between 8b, 8c and 8d: they were done one after the other, each with its own plan written before its measurement, and the report and the result were written at the end. The questions PENDING #25 and #26 stay open.
+## Catatan amandemen 1 (2026-10-03, chat, tanpa nama: "8b melakukan keduanya saja jadi pertama kita test 1 siklus dan setelah itu 2 siklus setelah itu selesai baru kita mulai 8c"; "tidak perlu menanyakan permisi, lakukan hingga fase 8 beres semua hingga 8d selesai dan kemudian buat report dan result seperti biasa baru berhenti")
+Dua hal, dicatat tanpa mengedit keputusan di atas: (1) langkah bagian 8b dikerjakan pada dua lebar keluaran, W1 (satu
+koefisien per siklus) lalu W2 (dua), dan aturan yang ditulis sebelum mengukur memilih di antara keduanya
+(`evidence/phase08/8b/test_plan_8b.md`); (2) STOP setelah tiap langkah bagian pada paragraf Keputusan tidak diambil
+antara 8b, 8c, dan 8d: ketiganya dikerjakan berurutan, masing-masing dengan rencana sendiri yang ditulis sebelum
+pengukurannya, dan laporan serta hasil ditulis di akhir. Pertanyaan PENDING #25 dan #26 tetap terbuka.

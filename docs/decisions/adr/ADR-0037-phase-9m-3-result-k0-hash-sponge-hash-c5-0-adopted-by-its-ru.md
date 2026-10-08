@@ -1,21 +1,37 @@
-# ADR 0037: Phase 9M-3 result: K0 hash sponge (HASH_C5 = 0) adopted by its rule as the smaller option
+# ADR 0037: Hasil Fase 9M-3: sponge hash K0 (HASH_C5 = 0) diadopsi aturannya sebagai opsi yang lebih kecil
 
 - Status: Accepted
-- Date: 2026-10-04
-- Decided by: Jo (Team J5), 2026-10-05
+- Tanggal: 2026-10-04
+- Diputuskan oleh: Jo (Team J5), 2026-10-05
 
-## Context
-ADR 0034 (Accepted, Faza Dzil) made item 3 of Phase 9M the choice of the sponge of the hash instance (G, H, J): C5 (two rounds per cycle, ADR 0027, the Phase 9 default) or K0 (one round per cycle, Phase 7). The parameter `HASH_C5` already existed; item 3 changed no RTL. It was measured against the 9M-1 core under its own plan and rule (`evidence/phase9m/batch1/9m3/test_plan_9m3.md`, `result_9m3.md`). The rule was applied to files and is met. The sampler inside the K-PKE engine keeps its C5 sponge in both options.
+## Konteks
+ADR 0034 (Accepted, Faza Dzil) menjadikan butir 3 Fase 9M pilihan sponge untuk instans hash (G, H, J): C5 (dua ronde per
+siklus, ADR 0027, bawaan Fase 9) atau K0 (satu ronde per siklus, Fase 7). Parameter `HASH_C5` sudah ada; butir 3 tidak
+mengubah RTL. Diukur terhadap inti 9M-1 di bawah rencana dan aturannya sendiri
+(`evidence/phase9m/batch1/9m3/test_plan_9m3.md`, `result_9m3.md`). Aturan diterapkan pada file dan terpenuhi. Sampler di
+dalam mesin K-PKE mempertahankan sponge C5 pada kedua opsi.
 
-## Options considered
-1. Keep `HASH_C5 = 1` (C5, ADR 0027): 8,327 / 10,159 / 15,515 cycles (profile inputs, `CODEC_W2 = 1`), ALM median 17,654.0.
-2. Use `HASH_C5 = 0` (K0): 8,447 / 10,279 / 15,635 cycles (+120 each, +1.44 % / +1.18 % / +0.77 %), ALM median 15,917.5 (-1,736.5), Fmax median 48.935 against 48.855 MHz, latency at the median Fmax +1.28 % / +1.02 % / +0.61 %, timing met at 40 ns at 6 of 6 seeds, ACVP 100 % on both simulators (MEASURED, simulation and kernel-only Quartus; `batch1/9m3/selection_worksheet.md`).
+## Opsi yang dipertimbangkan
+1. Mempertahankan `HASH_C5 = 1` (C5, ADR 0027): 8.327 / 10.159 / 15.515 siklus (masukan profil, `CODEC_W2 = 1`), median
+   ALM 17.654,0.
+2. Memakai `HASH_C5 = 0` (K0): 8.447 / 10.279 / 15.635 siklus (+120 masing-masing, +1,44 % / +1,18 % / +0,77 %), median
+   ALM 15.917,5 (-1.736,5), median Fmax 48,935 lawan 48,855 MHz, latensi pada median Fmax +1,28 % / +1,02 % / +0,61 %,
+   timing terpenuhi pada 40 ns di 6 dari 6 seed, ACVP 100 % di kedua simulator (MEASURED, simulasi dan Quartus
+   kernel-only; `batch1/9m3/selection_worksheet.md`).
 
-## Decision
-Accepted by Jo (Team J5) on 2026-10-05 on the team's instruction to approve; the text below is the proposal as written. The rule of the plan says the numbers justify K0 (area saved at about 1 % latency); the team chooses. K0 is not a speed improvement: it frees about 1,700 ALM that the Fmax plan (ADR 0036) can spend. The default of `HASH_C5` stays 1 until an acceptance is recorded.
+## Keputusan
+Diterima oleh Jo (Team J5) pada 2026-10-05 atas instruksi tim untuk menyetujui; teks di bawah adalah usulan seperti
+tertulis. Aturan rencana menyatakan angka-angka membenarkan K0 (area dihemat dengan latensi sekitar 1 %); tim memilih.
+K0 bukan peningkatan kecepatan: ia membebaskan sekitar 1.700 ALM yang dapat dipakai rencana Fmax (ADR 0036). Nilai
+bawaan `HASH_C5` tetap 1 sampai penerimaan tercatat.
 
-## Consequences
-If accepted: the configuration of later steps (S1 onward) is `CODEC_W2 = 1`, `HASH_C5 = 0`, or K0 is superseded there by the S1 sampler work; ADR 0027 is not edited (a later ADR supersedes it if the team replaces C5 in the core). Latencies are perhitungan tim from kernel-only static timing. No board claim. If rejected: C5 stays, the K0 files remain a parameter.
+## Konsekuensi
+Bila diterima: konfigurasi langkah berikutnya (S1 dan seterusnya) adalah `CODEC_W2 = 1`, `HASH_C5 = 0`, atau K0
+digantikan di sana oleh pekerjaan sampler S1; ADR 0027 tidak diedit (ADR berikutnya menggantikannya bila tim mengganti
+C5 di inti). Latensi adalah perhitungan tim dari timing statis kernel-only. Tidak ada klaim papan. Bila ditolak: C5
+tetap, file K0 tetap sebagai parameter.
 
-## Evidence
-`evidence/phase9m/batch1/9m3/result_9m3.md`, `selection_worksheet.md`, `formal.md`, `sim_verilator.md`, `sim_icarus.md`, `regression_default.md`, `quartus_MK*.md`; profiles `batch1/9m3/profile_k0_w2_verilator.json` and `batch1/9m1/profile_w2_verilator.json`.
+## Bukti
+`evidence/phase9m/batch1/9m3/result_9m3.md`, `selection_worksheet.md`, `formal.md`, `sim_verilator.md`,
+`sim_icarus.md`, `regression_default.md`, `quartus_MK*.md`; profil `batch1/9m3/profile_k0_w2_verilator.json` dan
+`batch1/9m1/profile_w2_verilator.json`.

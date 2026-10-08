@@ -1,92 +1,81 @@
-# ADR 0004: Phase 3 lane-count (L) selection criterion
+# ADR 0004: Kriteria pemilihan jumlah lajur (L) Fase 3
 
 - Status: Accepted
-- Amended 2026-10-01 by ADR 0009: the 25% / 10,478 ALM value below is superseded for the NTT core from Phase 4
-  on by a 30% / 12,573 ALM design budget. The text below is kept unchanged as the record of the 2026-09-29 decision.
-- Date: 2026-09-29
-- Decided by: Faza Dzil, Team J5
+- Diubah 2026-10-01 oleh ADR 0009: nilai 25 % / 10.478 ALM di bawah digantikan untuk inti NTT mulai Fase 4
+  oleh anggaran desain 30 % / 12.573 ALM. Teks di bawah dibiarkan apa adanya sebagai catatan keputusan 2026-09-29.
+- Tanggal: 2026-09-29
+- Diputuskan oleh: Faza Dzil, Team J5
 
-## Context
-`docs/ROADMAP.md` Phase 3 sweeps lane count L in {1, 2, 4, 8} over the Phase 2 banked
-memory (config C2-L1..C2-L8), measuring ALM, registers, M10K, DSP, Fmax and cycle counts
-for each. The Phase 3 spec requires: "The selection criterion (for example, lowest AT
-within a stated resource budget) is written into an ADR before the sweep is measured."
-This record exists to fix that criterion *before* the four Quartus compiles run, so the
-choice of L is not made by eyeballing the comparison table after the fact.
+## Konteks
+`docs/ROADMAP.md` Fase 3 menyapu jumlah lajur L dalam {1, 2, 4, 8} di atas memori berbank Fase 2 (konfigurasi
+C2-L1..C2-L8), dan mengukur ALM, register, M10K, DSP, Fmax, dan jumlah siklus untuk tiap L. Spesifikasi Fase 3
+mensyaratkan: "Kriteria seleksi (misalnya AT terendah dalam anggaran sumber daya tertentu) ditulis di ADR
+sebelum sapuan diukur." Catatan ini ada untuk menetapkan kriteria itu sebelum empat kompilasi Quartus berjalan,
+supaya pilihan L tidak diambil dengan melihat tabel perbandingan setelahnya.
 
-Two prior conditions affect this decision and must be named, not hidden:
-1. Phase 1 (C0) and Phase 2 (C1) both FAILED timing (CRG-9) at the provisional 20.000 ns
-   clock; there is still no target-clock ADR. Any area x delay (AT) figure computed from
-   an unmet-timing Fmax is only a relative comparison across L, not an absolute claim the
-   design meets any real clock target.
-2. Phase 2's M10K goal was not achieved (0/553 M10K; async-read limitation). If this is
-   still unresolved when the L sweep runs, all four L configs will also show 0 M10K, and
-   ALM usage will scale with L largely through LUT-based memory replication rather than
-   block-RAM banking. That changes what "resource budget" means for this sweep and should
-   be decided together with this ADR, not silently absorbed into it.
+Dua kondisi sebelumnya memengaruhi keputusan ini dan harus disebut, bukan disembunyikan:
+1. Fase 1 (C0) dan Fase 2 (C1) sama-sama GAGAL timing (CRG-9) pada clock sementara 20,000 ns; belum ada ADR clock
+   target. Angka area x waktu (AT) yang dihitung dari Fmax yang tidak memenuhi timing hanya perbandingan relatif
+   antar L, bukan klaim mutlak bahwa desain memenuhi target clock apa pun.
+2. Target M10K Fase 2 tidak tercapai (0/553 M10K; keterbatasan pembacaan asinkron). Bila ini masih belum selesai
+   saat sapuan L berjalan, keempat konfigurasi L juga akan menunjukkan 0 M10K, dan pemakaian ALM akan naik
+   bersama L terutama lewat replikasi memori berbasis LUT, bukan banking block-RAM. Itu mengubah arti
+   "anggaran sumber daya" untuk sapuan ini dan harus diputuskan bersama ADR ini, bukan diserap diam-diam.
 
-## Options considered
-The Phase 3 spec's own example is "lowest AT within a stated resource budget." Concretely,
-for team J5 to decide:
+## Opsi yang dipertimbangkan
+Contoh dalam spesifikasi Fase 3 adalah "AT terendah dalam anggaran sumber daya tertentu". Konkretnya, untuk
+diputuskan tim J5:
 
-1. Lowest AT (Area x Time) product, no fixed budget - for each L, AT = ALM_used x
-   (1 / Fmax_measured). Pick the L with the smallest AT. Simple, single-number ranking;
-   but on a Cyclone V 5CSEBA6U23I7 (41,910 ALM datasheet ceiling) a large L could still win
-   on AT while eating an impractical fraction of the device, leaving no headroom for
-   Keccak, the sampler, or protocol logic sharing the same fabric.
-2. Lowest AT within a stated ALM budget (e.g. reserve X% of 41,910 ALM for the NTT/INTT
-   block; disqualify any L exceeding it, then rank the rest by AT). Matches the spec's
-   own example. Requires the team to state the budget percentage now, as part of this ADR,
-   not as a post-hoc filter.
-3. Highest throughput (lowest total cycles for NTT+INTT+pointwise) within the same ALM
-   budget, ignoring Fmax differences across L (since none of C0-C1 meet timing yet, a
-   throughput-in-cycles metric is arguably more honest than an Fmax-weighted one right now).
-4. Keep L configurable, defer the choice - ship all four configs, expose L as a
-   synthesis-time parameter, and let Phase 4+ (pipelining) or the final proposal pick per
-   context. Satisfies "keeping L configurable" allowed by the Phase 3 PASS criteria, but
-   defers a decision the spec asked to be fixed before measuring.
+1. AT (Area x Time) terendah, tanpa anggaran tetap - untuk tiap L, AT = ALM_terpakai x (1 / Fmax_terukur). Pilih L
+   dengan AT terkecil. Peringkat satu angka yang sederhana; tetapi pada Cyclone V 5CSEBA6U23I7 (batas datasheet
+   41.910 ALM), L besar masih bisa menang di AT sambil menghabiskan bagian device yang tidak praktis, tanpa menyisakan
+   ruang untuk Keccak, sampler, atau logika protokol di fabric yang sama.
+2. AT terendah dalam anggaran ALM tertentu (misalnya menyisihkan X % dari 41.910 ALM untuk blok NTT/INTT;
+   menggugurkan L yang melewatinya, lalu meranking sisanya dengan AT). Sesuai contoh spesifikasi. Memerlukan tim
+   menyatakan persentase anggaran sekarang, sebagai bagian ADR ini, bukan sebagai filter setelahnya.
+3. Throughput tertinggi (total siklus NTT+INTT+pointwise terendah) dalam anggaran ALM yang sama, mengabaikan
+   perbedaan Fmax antar L (karena C0-C1 belum memenuhi timing, metrik throughput dalam siklus bisa dibilang lebih
+   jujur daripada yang dibobot Fmax saat ini).
+4. Biarkan L dapat dikonfigurasi, tunda pilihan - kirim keempat konfigurasi, jadikan L parameter waktu sintesis, dan
+   biarkan Fase 4+ (pipelining) atau proposal akhir memilih sesuai konteks. Memenuhi "menjaga L tetap dapat
+   dikonfigurasi" yang diizinkan kriteria PASS Fase 3, tetapi menunda keputusan yang diminta spesifikasi untuk
+   ditetapkan sebelum pengukuran.
 
-None of these have been measured yet (no Quartus C2-L* evidence exists at time of writing);
-this ADR is about the *rule*, not the *result*.
+Belum ada yang diukur (belum ada evidence Quartus C2-L* saat ini ditulis); ADR ini tentang aturan, bukan hasil.
 
-## Decision
-Two-stage criterion, in priority order:
+## Keputusan
+Kriteria dua tahap, berurutan menurut prioritas:
 
-1. Primary - minimize cycle count, subject to an ALM budget of 25% of the target
-   device (5CSEBA6U23I7, 41,910 ALM datasheet ceiling) -> budget = 10,478 ALM. Any
-   L whose Quartus C2-L<n> compile exceeds 10,478 ALM is disqualified regardless of its
-   cycle count. Among the remaining (in-budget) L values, the one with the lowest total
-   cycle count (NTT + INTT + pointwise product, from cocotb, cycle-identical requirement
-   from Phase 2 still applies within each L) wins. This is option 3 from the list above,
-   chosen because C0/C1 timing is still unmet, so cycles are the more honest metric
-   right now than an Fmax-weighted AT product.
-2. Secondary - informational only, does not auto-override the primary pick. Once a
-   timing-valid constrained clock exists (i.e. once the target-clock ADR lands and a
-   config actually meets timing), re-evaluate the primary-selected L's AT product
-   (ALM x 1/Fmax) against the same 10,478 ALM budget, for the record. If this secondary
-   evaluation suggests a different L would have been better on AT, that is not applied
-   automatically - changing the selected L after this ADR requires an explicit new ADR
-   (or an update to this one) stating why.
+1. Utama - minimalkan jumlah siklus, dengan anggaran ALM 25 % dari device target (5CSEBA6U23I7, batas datasheet
+   41.910 ALM) -> anggaran = 10.478 ALM. Setiap L yang kompilasi Quartus C2-L<n>-nya melewati 10.478 ALM gugur
+   berapa pun jumlah siklusnya. Di antara L yang tersisa (dalam anggaran), yang punya total siklus terendah
+   (NTT + INTT + perkalian titik, dari cocotb; syarat siklus identik dari Fase 2 tetap berlaku di dalam tiap L)
+   menang. Ini opsi 3 dari daftar di atas, dipilih karena timing C0/C1 masih belum terpenuhi, sehingga siklus
+   adalah metrik yang lebih jujur saat ini daripada hasil kali AT berbobot Fmax.
+2. Sekunder - hanya informasi, tidak otomatis menimpa pilihan utama. Begitu ada clock terbatas yang valid secara
+   timing (yaitu begitu ADR clock target ada dan sebuah konfigurasi benar-benar memenuhi timing), evaluasi ulang
+   hasil kali AT (ALM x 1/Fmax) dari L terpilih utama terhadap anggaran 10.478 ALM yang sama, untuk catatan. Bila
+   evaluasi sekunder ini menyarankan L lain lebih baik di AT, itu tidak diterapkan otomatis - mengubah L terpilih
+   setelah ADR ini memerlukan ADR baru (atau pembaruan ADR ini) yang menyebut alasannya.
 
-If no L fits within the 10,478 ALM budget, or if Phase 2's M10K goal (async-read
-limitation, `docs/results/phase02.md`) is still unresolved when the sweep runs
-(all L configs then compete on LUT-based memory replication rather than block-RAM
-banking), that is reported as a finding in `docs/results/phase03.md`, not silently
-absorbed - this ADR does not pre-decide what happens if the budget is infeasible.
+Bila tidak ada L yang masuk anggaran 10.478 ALM, atau bila target M10K Fase 2 (keterbatasan pembacaan asinkron,
+`docs/results/phase02.md`) masih belum selesai saat sapuan berjalan (semua konfigurasi L lalu bersaing dengan
+replikasi memori berbasis LUT, bukan banking block-RAM), itu dilaporkan sebagai temuan di
+`docs/results/phase03.md`, bukan diserap diam-diam - ADR ini tidak memutuskan lebih dulu apa yang terjadi bila
+anggaran tidak layak.
 
-## Consequences
-- The Phase 3 sweep must run all four L in {1,2,4,8} through Quartus and cocotb
-  regardless of the primary criterion outcome (PASS criteria require all four measured
-  and compared), then apply the ALM-budget filter and cycle-count ranking to pick one.
-- `docs/results/phase03.md` must show: the ALM budget value (10,478), which L
-  values passed/failed the budget, the cycle counts for the in-budget candidates, the
-  selected L, and - once timing is valid at some later phase - the secondary AT
-  re-evaluation, explicitly marked as informational.
-- Any future change of the selected L must cite this ADR and either supersede it or add
-  a follow-up ADR; it must not be a silent change in `docs/ROADMAP.md` alone.
-- This does not resolve PENDING #3 (DMA vs memory-mapped transfer) or the missing
-  target-clock ADR; both remain open and are referenced, not decided, here.
+## Konsekuensi
+- Sapuan Fase 3 harus menjalankan keempat L dalam {1,2,4,8} lewat Quartus dan cocotb apa pun hasil kriteria
+  utama (kriteria PASS menuntut keempatnya diukur dan dibandingkan), lalu menerapkan filter anggaran ALM dan
+  peringkat jumlah siklus untuk memilih satu.
+- `docs/results/phase03.md` harus menunjukkan: nilai anggaran ALM (10.478), L mana yang lolos atau gagal anggaran,
+  jumlah siklus kandidat dalam anggaran, L terpilih, dan - begitu timing valid di fase berikutnya - evaluasi ulang
+  AT sekunder, ditandai eksplisit sebagai informasi.
+- Setiap perubahan L terpilih di masa depan harus menyebut ADR ini dan menggantikannya atau menambah ADR lanjutan;
+  tidak boleh berupa perubahan diam-diam di `docs/ROADMAP.md` saja.
+- Ini tidak menyelesaikan PENDING #3 (DMA lawan transfer memory-mapped) atau ADR clock target yang belum ada;
+  keduanya tetap terbuka dan disebut, bukan diputuskan, di sini.
 
-## Evidence
-Phase 3 spec (pasted by team, 2026-09-29, `docs/ROADMAP.md` Phase 3 section).
-Phase 1/2 timing status: `docs/results/phase01.md`, `docs/results/phase02.md`.
+## Bukti
+Spesifikasi Fase 3 (ditempel tim, 2026-09-29, bagian Fase 3 di `docs/ROADMAP.md`).
+Status timing Fase 1/2: `docs/results/phase01.md`, `docs/results/phase02.md`.

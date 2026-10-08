@@ -1,26 +1,46 @@
-# ADR 0033: Phase 9: C7-core as built (ML-KEM-768 in simulation, ACVP 100 percent) and the hash sponge core
+# ADR 0033: Fase 9: C7-core seperti dibangun (ML-KEM-768 di simulasi, ACVP 100 persen) dan inti sponge hash
 
 - Status: Proposed
-- Date: 2026-10-04
-- Decided by: pending team decision
+- Tanggal: 2026-10-04
+- Diputuskan oleh: menunggu keputusan tim
 
-## Context
-- Phase 9 built the ML-KEM-768 core in three blocks (ADR 0032): 9a codec, 9b hash wrapper and FO comparison, 9c the controller `mlkem_core` (`docs/results/phase09.md`, `evidence/phase09/`). Every pinned ACVP vector of ML-KEM-768 passes on both simulators (keyGen 25, encapsulation 25, decapsulation 10 including the modified ciphertexts). The FIPS 203 input checks are on the HPS (ADR 0031). Nothing here is a board result.
-- There was no adoption rule in Phase 9 (nothing was chosen between measured alternatives), so the result is recorded as a configuration for the team to accept; the one open design choice is the sponge core of the hash instance (the sampler inside the engine uses C5 by ADR 0027).
-- MEASURED (kernel-only Quartus, seeds 1-6; simulation cycles): `mlkem_core` 17,620.5 ALM median (42 % of 41,910), 54 RAM blocks, 28 DSP, Fmax median 49.280 MHz, timing met at 40.000 ns at every seed; KeyGen 9,035-9,076, Encaps 10,691, Decaps 16,623 cycles. The hash instance with the C5 sponge (wrapper and comparison) is 6,734.5 ALM; with the K0 sponge it is 4,221 ALM (seed 1, information, 9b).
+## Konteks
+- Fase 9 membangun inti ML-KEM-768 dalam tiga blok (ADR 0032): 9a codec, 9b pembungkus hash dan pembanding FO, 9c
+  pengendali `mlkem_core` (`docs/results/phase09.md`, `evidence/phase09/`). Setiap vektor ACVP terpatok ML-KEM-768
+  lolos di kedua simulator (keyGen 25, encapsulation 25, decapsulation 10 termasuk ciphertext yang diubah). Pemeriksaan
+  masukan FIPS 203 ada di HPS (ADR 0031). Tidak ada di sini yang merupakan hasil papan.
+- Tidak ada aturan adopsi di Fase 9 (tidak ada yang dipilih di antara alternatif terukur), jadi hasilnya dicatat
+  sebagai konfigurasi untuk diterima tim; satu-satunya pilihan desain yang terbuka adalah inti sponge instans hash
+  (sampler di dalam mesin memakai C5 menurut ADR 0027).
+- MEASURED (Quartus kernel-only, seed 1-6; siklus simulasi): `mlkem_core` median 17.620,5 ALM (42 % dari 41.910), 54
+  blok RAM, 28 DSP, median Fmax 49,280 MHz, timing terpenuhi pada 40,000 ns di setiap seed; KeyGen 9.035-9.076,
+  Encaps 10.691, Decaps 16.623 siklus. Instans hash dengan sponge C5 (pembungkus dan pembanding) adalah 6.734,5 ALM;
+  dengan sponge K0 adalah 4.221 ALM (seed 1, informasi, 9b).
 
-## Options considered
-(a) Accept the configuration as built: hash instance on the C5 sponge (the default of ADR 0027), serial encode and decode, input checks on the HPS.
-(b) Accept it with the K0 sponge in the hash instance (`HASH_C5 = 0`): about 2,500 ALM fewer in the 9b blocks (seed 1; not yet compiled for the whole core), 26 cycles per permutation instead of 14: about 100 cycles more per hash of a 1,184-byte key (MEASURED 389 against 282 for H(ek) at 9b), small against the 9,000-16,600 cycles of an operation.
-(c) Ask for an optimisation before the freeze (for example overlapping the encode or decode of polynomials with the engine, or a wider codec): not started; its cost is the team's time, the gain is a smaller cycle count (the pack and unpack of the polynomials is about 2,300-2,400 cycles of a KeyGen or Decaps, INFERENCE).
-(d) Reopen ADR 0031 and put the FIPS 203 input checks into the RTL.
+## Opsi yang dipertimbangkan
+(a) Menerima konfigurasi seperti dibangun: instans hash di sponge C5 (bawaan ADR 0027), encode dan decode serial,
+    pemeriksaan masukan di HPS.
+(b) Menerimanya dengan sponge K0 di instans hash (`HASH_C5 = 0`): sekitar 2.500 ALM lebih sedikit di blok 9b (seed 1;
+    belum dikompilasi untuk seluruh inti), 26 siklus per permutasi sebagai ganti 14: sekitar 100 siklus lebih banyak per
+    hash kunci 1.184 byte (MEASURED 389 lawan 282 untuk H(ek) di 9b), kecil dibanding 9.000-16.600 siklus satu operasi.
+(c) Meminta optimasi sebelum pembekuan (misalnya menumpangkan encode atau decode polinomial dengan mesin, atau codec
+    lebih lebar): belum dimulai; biayanya waktu tim, keuntungannya jumlah siklus lebih kecil (pack dan unpack
+    polinomial sekitar 2.300-2.400 siklus dari KeyGen atau Decaps, INFERENCE).
+(d) Membuka kembali ADR 0031 dan menaruh pemeriksaan masukan FIPS 203 ke RTL.
 
-## Decision
-Pending team decision (PENDING #33). The assistant's recommendation, not a decision: (a) or (b); (c) and (d) only if time remains and a board or a reason appears.
+## Keputusan
+Menunggu keputusan tim (PENDING #33). Rekomendasi asisten, bukan keputusan: (a) atau (b); (c) dan (d) hanya bila
+waktu tersisa dan ada papan atau alasan.
 
-## Consequences
-- Accepting (a) or (b) fixes the architecture for the proposal's Section 3 and for Phase 10 (HPS integration, blocked on a board, PENDING #8). Accepting does not allow any claim about the board, a speed-up against software, power or side-channel resistance: constant-time means a cycle count that does not depend on a secret (shown in simulation for a fixed encapsulation key; the length of the matrix sampling depends on the public rho).
-- (b) needs one more compile of the whole core (seeds 1-6, about an hour) and a rerun of the vector tests with `HASH_C5 = 0`.
+## Konsekuensi
+- Menerima (a) atau (b) menetapkan arsitektur untuk Bagian 3 proposal dan untuk Fase 10 (integrasi HPS, terhambat
+  papan, PENDING #8). Menerima tidak mengizinkan klaim apa pun tentang papan, percepatan terhadap perangkat lunak,
+  daya, atau ketahanan side-channel: waktu-konstan berarti jumlah siklus yang tidak bergantung pada rahasia
+  (ditunjukkan di simulasi untuk satu kunci enkapsulasi tetap; panjang sampling matriks bergantung pada rho publik).
+- (b) memerlukan satu kompilasi lagi untuk seluruh inti (seed 1-6, sekitar satu jam) dan menjalankan ulang uji vektor
+  dengan `HASH_C5 = 0`.
 
-## Evidence
-`docs/results/phase09.md`, `evidence/phase09/9a/result_9a.md`, `9b/result_9b.md`, `9c/result_9c.md`, `9c/selection_worksheet.md`, `9b/selection_worksheet.md`, `9c/sim_verilator.md`, `9c/sim_icarus.md`; ADR 0027, 0031, 0032.
+## Bukti
+`docs/results/phase09.md`, `evidence/phase09/9a/result_9a.md`, `9b/result_9b.md`, `9c/result_9c.md`,
+`9c/selection_worksheet.md`, `9b/selection_worksheet.md`, `9c/sim_verilator.md`, `9c/sim_icarus.md`; ADR 0027, 0031,
+0032.

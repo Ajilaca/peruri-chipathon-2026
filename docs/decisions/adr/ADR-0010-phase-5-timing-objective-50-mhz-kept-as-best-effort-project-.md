@@ -1,58 +1,58 @@
-# ADR 0010: Phase 5 timing objective: 50 MHz kept as best-effort project target; ADR 0006 expectation corrected
+# ADR 0010: Tujuan timing Fase 5: 50 MHz tetap sebagai target proyek terbaik-upaya; ekspektasi ADR 0006 dikoreksi
 
 - Status: Accepted
-- Date: 2026-10-01
-- Decided by: Faza Dzil, Team J5 (direction stated and confirmed in the session of 2026-10-01)
+- Tanggal: 2026-10-01
+- Diputuskan oleh: Faza Dzil, Team J5 (arah dinyatakan dan dikonfirmasi pada sesi 2026-10-01)
 
-## Context
-- ADR 0006 (Accepted) set 40.000 ns as the Phase 4 milestone and 20.000 ns (50 MHz) as the end goal "after Phase 5",
-  and expected reaching 50 MHz to need the Phase 5 arithmetic work as well as pipelining. That expectation came
-  from the P = 0 path breakdown, in which the divider (`%` in `modmul_reduce`) was about 44 ns
+## Konteks
+- ADR 0006 (Accepted) menetapkan 40,000 ns sebagai milestone Fase 4 dan 20,000 ns (50 MHz) sebagai tujuan akhir
+  "setelah Fase 5", dan mengharapkan pencapaian 50 MHz memerlukan kerja aritmetika Fase 5 selain pipelining.
+  Ekspektasi itu berasal dari rincian jalur P = 0, di mana pembagi (`%` di `modmul_reduce`) sekitar 44 ns
   (`evidence/phase04/k1_l8_worst_path_breakdown.md`).
-- Phase 5 (`docs/ROADMAP.md`) keeps the schedule, the memory, L and P fixed; only `rtl/arith/` units change.
-- New evidence on the selected C3-P6 (`evidence/phase05/baseline/c3p6_critical_path.md`):
-  - MEASURED: the 300 worst setup paths (Slow 1100mV 100C, default seed, 40.000 ns) all start at the memory's
-    slot-arbitration registers; the worst one (slack +10.753 ns) is memory read decode + read mux ≈ 21.3 ns, then the
-    butterfly input `sub_mod(b, a)` ≈ 4.3 ns, then the DSP multiplier ≈ 3.7 ns. No reducer-internal path is among
-    the 300; reducer segments have slack +23.6 to +24.5 ns.
-  - INFERENCE: the memory read part alone is longer than 20 ns, so with memory, schedule, L and P fixed, Phase 5
-    arithmetic changes cannot reach 20.000 ns. Removing the `sub_mod` entirely would leave that segment at about
-    25 ns (ESTIMATE), about 40 MHz.
+- Fase 5 (`docs/ROADMAP.md`) menjaga jadwal, memori, L, dan P tetap; hanya unit `rtl/arith/` yang berubah.
+- Bukti baru pada C3-P6 terpilih (`evidence/phase05/baseline/c3p6_critical_path.md`):
+  - MEASURED: 300 jalur setup terburuk (Slow 1100mV 100C, seed bawaan, 40,000 ns) semuanya mulai dari register
+    arbitrasi slot memori; yang terburuk (slack +10,753 ns) adalah decode baca memori + read mux sekitar 21,3 ns,
+    lalu masukan butterfly `sub_mod(b, a)` sekitar 4,3 ns, lalu pengali DSP sekitar 3,7 ns. Tidak ada jalur di dalam
+    reducer di antara 300 itu; segmen reducer punya slack +23,6 sampai +24,5 ns.
+  - INFERENCE: bagian pembacaan memori saja lebih panjang dari 20 ns, jadi dengan memori, jadwal, L, dan P tetap,
+    perubahan aritmetika Fase 5 tidak bisa mencapai 20,000 ns. Menghapus `sub_mod` seluruhnya akan menyisakan segmen
+    itu sekitar 25 ns (ESTIMATE), sekitar 40 MHz.
 
-## Options considered
-1. Keep 50 MHz as the project target, best-effort, not a Phase 5 gate; correct ADR 0006's expectation; do the
-   work that touches memory / P / schedule as a separate phase or sub-phase after 5a/5b, with its own ADR and test
-   plan.
-2. Drop 50 MHz and fix the project clock at the met 40.000 ns (25 MHz, experimental target per ADR 0006).
-3. Widen Phase 5's scope to include memory / P / schedule changes now. Conflicts with the roadmap's "schedule,
-   memory, L and P stay fixed" and mixes arithmetic and memory effects in one set of measurements.
+## Opsi yang dipertimbangkan
+1. Mempertahankan 50 MHz sebagai target proyek, terbaik-upaya, bukan gerbang Fase 5; koreksi ekspektasi ADR 0006;
+   kerjakan pekerjaan yang menyentuh memori / P / jadwal sebagai fase atau sub-fase terpisah setelah 5a/5b, dengan
+   ADR dan test plan sendiri.
+2. Meninggalkan 50 MHz dan menetapkan clock proyek di 40,000 ns yang terpenuhi (25 MHz, target eksperimen menurut
+   ADR 0006).
+3. Memperluas lingkup Fase 5 untuk mencakup perubahan memori / P / jadwal sekarang. Bertentangan dengan roadmap
+   "jadwal, memori, L, dan P tetap" dan mencampur efek aritmetika dan memori dalam satu himpunan pengukuran.
 
-## Decision
-1. 50 MHz (20.000 ns) stays the project's timing target, on a best-effort basis. It is neither a guarantee nor a
-   Phase 5 gate.
-2. ADR 0006's expectation is corrected: reaching 50 MHz is not expected from Phase 5 arithmetic alone, because the
-   critical path of C3-P6 lies in the memory read path (MEASURED, Context). ADR 0006's text is not changed; this ADR
-   records the correction.
-3. Work that changes the memory, P or the schedule (e.g. a register inside the read mux, P > 7 with stalls, a write-path
-   register, synchronous-read memory) is done as a separate phase or sub-phase after 5a/5b, with its own ADR and
-   test plan (selection rule written before measuring), bit-exact / constant-cycle / hazard re-verification (negative
-   controls beyond the slack must still fail) and compiles at 20.000 ns with slack reported per segment.
-   Its name and position in the roadmap are still open and will be decided by the team.
-4. Phase 5 (5a–5d) proceeds as in the roadmap: arithmetic correct and measured; Fmax, slack and ALM reported against
-   C3-P6. Phase 5 passes or fails on the roadmap's PASS criteria, not on 50 MHz.
+## Keputusan
+1. 50 MHz (20,000 ns) tetap menjadi target timing proyek, secara terbaik-upaya. Bukan jaminan dan bukan gerbang
+   Fase 5.
+2. Ekspektasi ADR 0006 dikoreksi: mencapai 50 MHz tidak diharapkan dari aritmetika Fase 5 saja, karena jalur kritis
+   C3-P6 ada di jalur pembacaan memori (MEASURED, Konteks). Teks ADR 0006 tidak diubah; ADR ini mencatat koreksinya.
+3. Pekerjaan yang mengubah memori, P, atau jadwal (misalnya register di dalam read mux, P > 7 dengan stall, register
+   jalur tulis, memori baca-sinkron) dikerjakan sebagai fase atau sub-fase terpisah setelah 5a/5b, dengan ADR dan
+   test plan sendiri (aturan seleksi ditulis sebelum mengukur), verifikasi ulang bit-exact / siklus konstan / hazard
+   (kontrol negatif di luar slack tetap harus gagal) dan kompilasi pada 20,000 ns dengan slack dilaporkan per segmen.
+   Nama dan posisinya di roadmap masih terbuka dan akan diputuskan tim.
+4. Fase 5 (5a-5d) berjalan seperti di roadmap: aritmetika benar dan terukur; Fmax, slack, dan ALM dilaporkan
+   terhadap C3-P6. Fase 5 lolos atau gagal pada kriteria PASS roadmap, bukan pada 50 MHz.
 
-## Consequences
-- "50 MHz after Phase 5" is no longer the stated expectation anywhere it appears (ADR 0006 consequences,
-  `HANDOFF.md`, result files, reports); new text must cite this ADR.
-- A follow-up decision is needed for the memory / P / schedule phase (name, position, levers, acceptable cycle
-  increase, ALM limit for added registers). Data prepared for it:
-  `evidence/phase05/baseline/stall_cycles.txt` (stall cycles per P, perhitungan tim) and
+## Konsekuensi
+- "50 MHz setelah Fase 5" tidak lagi menjadi ekspektasi yang dinyatakan di mana pun muncul (konsekuensi ADR 0006,
+  catatan serah terima, file hasil, laporan); teks baru harus mengutip ADR ini.
+- Keputusan lanjutan diperlukan untuk fase memori / P / jadwal (nama, posisi, tuas, kenaikan siklus yang boleh,
+  batas ALM untuk register tambahan). Data yang disiapkan untuknya:
+  `evidence/phase05/baseline/stall_cycles.txt` (siklus stall per P, perhitungan tim) dan
   `evidence/phase05/baseline/decision_package.md`.
-- The constant-cycle rule is unchanged; a later change of P may change the cycle counts (119 / 375), which would be
-  recorded in its own ADR.
-- No claim of 50 MHz may be made until a Quartus compile at 20.000 ns meets timing (CLAUDE.md §3).
+- Aturan siklus konstan tidak berubah; perubahan P kelak dapat mengubah jumlah siklus (119 / 375), yang akan dicatat
+  di ADR-nya sendiri.
+- Tidak boleh ada klaim 50 MHz sampai kompilasi Quartus pada 20,000 ns memenuhi timing.
 
-## Evidence
+## Bukti
 - `evidence/phase05/baseline/c3p6_critical_path.md`, `c3p6_top300_path_classes_slow100.txt`
 - `evidence/phase04/quartus_C3-P6.md`, `seed_sweep.md`
 - `evidence/phase04/k1_l8_worst_path_breakdown.md`

@@ -1,73 +1,66 @@
-# ADR 0003: FIPS 203 errata findings and golden-model handling
+# ADR 0003: Temuan errata FIPS 203 dan penanganan model acuan
 
 - Status: Accepted
-- Date: 2026-09-29
-- Decided by: Faza Dzil (Team J5), 2026-09-29, via Claude Code session instruction "accept adr3"
+- Tanggal: 2026-09-29
+- Diputuskan oleh: Faza Dzil (Team J5), 2026-09-29, lewat instruksi sesi "accept adr3"
 
-## Context
+## Konteks
 
-`docs/decisions/PENDING.md` item #9 blocked Phase 0: the content of NIST's FIPS 203
-"planning note" (dated 2025-11-17, seen on the publication page) about an issue to be
-corrected was not yet read. Phase 0 requires locking `tb/golden/params.py` and official
-KAT vectors before any RTL work, and the mlkem-guard verification process requires
-reading the errata before locking vectors. This ADR records what was found so the team
-can confirm the golden model may proceed as planned.
+Butir #9 di `docs/decisions/PENDING.md` menghambat Fase 0: isi "planning note" FIPS 203 dari NIST
+(bertanggal 2025-11-17, terlihat di halaman publikasi) tentang masalah yang akan dikoreksi belum dibaca.
+Fase 0 mengharuskan penguncian `tb/golden/params.py` dan vektor KAT resmi sebelum pekerjaan RTL, dan proses
+verifikasi mengharuskan errata dibaca sebelum vektor dikunci. ADR ini mencatat temuannya agar tim dapat
+mengonfirmasi bahwa model acuan boleh jalan sesuai rencana.
 
-## Options considered
+## Opsi yang dipertimbangkan
 
-1. Implement FIPS 203 literally as published (13 Aug 2024), treat the two errata items
-   as non-normative - cost: none if the errata truly change nothing testable; risk is
-   that a future NIST errata *update* (not yet issued) could add normative changes we'd
-   need to re-check.
-2. Wait for NIST to issue a formal errata update/revision before writing the golden
-   model - cost: indefinitely blocks Phase 0 with no announced timeline from NIST.
-3. Pre-emptively adopt the two potential corrections as if final - cost: unnecessary,
-   since NIST explicitly states these are not official changes and introduce no new
-   technical requirements; would add process overhead for zero behavioural difference.
+1. Mengimplementasikan FIPS 203 persis seperti yang diterbitkan (13 Agustus 2024), dan memperlakukan dua item
+   errata sebagai non-normatif. Biaya: tidak ada bila errata memang tidak mengubah apa pun yang bisa diuji; risikonya
+   adalah pembaruan errata NIST di masa depan (belum terbit) menambah perubahan normatif yang perlu dicek ulang.
+2. Menunggu NIST menerbitkan pembaruan atau revisi errata resmi sebelum menulis model acuan. Biaya: menghambat
+   Fase 0 tanpa batas karena NIST tidak mengumumkan jadwal.
+3. Menerapkan lebih dulu dua koreksi potensial seolah sudah final. Biaya: tidak perlu, karena NIST menyatakan
+   keduanya bukan perubahan resmi dan tidak menambah persyaratan teknis; hanya menambah beban proses tanpa
+   perbedaan perilaku.
 
-Evidence: `evidence/phase00/fips203_errata.md` (full quotes, source
-URLs, SHA-256 of the fetched PDF and errata spreadsheet, and the Table 2 parameter
-cross-check for ML-KEM-768).
+Bukti: `evidence/phase00/fips203_errata.md` (kutipan lengkap, URL sumber, SHA-256 PDF dan spreadsheet errata yang
+diambil, dan pemeriksaan silang parameter Tabel 2 untuk ML-KEM-768).
 
-## Decision
+## Keputusan
 
-Option 1: implement FIPS 203 literally as published, with no deviation motivated by the
-current errata. Findings:
+Opsi 1: implementasi FIPS 203 persis seperti diterbitkan, tanpa penyimpangan akibat errata saat ini. Temuan:
 
-- The "Potential Updates (Errata)" spreadsheet (accessed 2026-09-28 UTC) lists 2
-  items, both explicitly labelled by NIST as clarifications/typo corrections that "DO
-  NOT introduce new technical requirements" and "ARE NOT official changes":
-  1. Appendix A - clarifies why the zeta table includes the i=0 entry (value 1), used by
-     Algorithms 9/10 (NTT/NTT⁻¹) only for i=1..127. No algorithm step changes.
-  2. Section 5.3, Algorithm 15, line 7 - comment text says "polynomial v" but should say
-     "polynomial w"; the algorithm body already uses `w` correctly. Comment-only fix.
-- Neither item changes an algorithm step, a parameter, or a test vector. Neither affects
-  our golden model as planned: the NTT will compute zeta values from the BitRev_7 formula
-  (not copy an Appendix A table row-by-row), so it already agrees with the Appendix A
-  clarification for i=0 without any code change; K-PKE.Decrypt will follow the algorithm
-  body (`w`), not the erroneous comment.
-- Table 2 (Section 8) parameter values for ML-KEM-768 were read directly from the PDF and
-  cross-checked against the planned `tb/golden/params.py` values: k=3, η1=2, η2=2, du=10,
-  dv=4 - exact match, no discrepancy. n=256 and q=3329 confirmed as fixed constants.
-  Table 3 sizes (ek 1184 B, dk 2400 B, ct 1088 B, ss 32 B) also match.
+- Spreadsheet "Potential Updates (Errata)" (diakses 2026-09-28 UTC) memuat 2 item, keduanya diberi label NIST
+  sebagai klarifikasi atau koreksi salah ketik yang "DO NOT introduce new technical requirements" dan "ARE NOT
+  official changes":
+  1. Appendix A - menjelaskan mengapa tabel zeta memuat entri i=0 (nilai 1), yang dipakai Algoritma 9/10
+     (NTT/NTT⁻¹) hanya untuk i=1..127. Tidak ada langkah algoritma yang berubah.
+  2. Bagian 5.3, Algoritma 15, baris 7 - teks komentar menyebut "polynomial v" padahal seharusnya "polynomial w";
+     badan algoritma sudah memakai `w` dengan benar. Perbaikan hanya pada komentar.
+- Tidak satu pun item mengubah langkah algoritma, parameter, atau vektor uji. Tidak ada yang memengaruhi model
+  acuan seperti direncanakan: NTT akan menghitung nilai zeta dari rumus BitRev_7 (bukan menyalin baris tabel
+  Appendix A satu per satu), sehingga sudah sesuai dengan klarifikasi Appendix A untuk i=0 tanpa perubahan kode;
+  K-PKE.Decrypt mengikuti badan algoritma (`w`), bukan komentar yang keliru.
+- Nilai parameter ML-KEM-768 di Tabel 2 (Bagian 8) dibaca langsung dari PDF dan dicocokkan dengan nilai rencana
+  `tb/golden/params.py`: k=3, η1=2, η2=2, du=10, dv=4 - cocok persis, tidak ada selisih. n=256 dan q=3329
+  dikonfirmasi sebagai konstanta tetap. Ukuran di Tabel 3 (ek 1184 B, dk 2400 B, ct 1088 B, ss 32 B) juga cocok.
 
-Accepted 2026-09-29 by Faza Dzil (Team J5). Phase 0 golden-model work (`tb/golden/params.py`
-and the NTT/K-PKE golden model, already written against the literal FIPS 203 text without
-waiting on NIST) stands confirmed under this decision.
+Diterima 2026-09-29 oleh Faza Dzil (Team J5). Pekerjaan model acuan Fase 0 (`tb/golden/params.py` dan model
+acuan NTT/K-PKE, yang sudah ditulis berdasarkan teks FIPS 203 apa adanya tanpa menunggu NIST) dinyatakan sah
+oleh keputusan ini.
 
-## Consequences
+## Konsekuensi
 
-- `docs/decisions/PENDING.md` item #9 is closed by this acceptance.
-- No proposal text, claim, or roadmap item needs to change: no parameter or algorithm
-  deviates from FIPS 203 as published.
-- If NIST later issues a formal errata *update* or revision (beyond this "potential
-  updates" list), this ADR must be revisited and, if it changes anything normative,
-  superseded by a new ADR.
-- Re-check trigger: re-read the NIST FIPS 203 publication page before locking any KAT
-  vector batch, in case the list has grown since 2026-09-28.
+- Butir #9 di `docs/decisions/PENDING.md` ditutup oleh penerimaan ini.
+- Tidak ada teks proposal, klaim, atau item roadmap yang perlu berubah: tidak ada parameter atau algoritma yang
+  menyimpang dari FIPS 203 seperti diterbitkan.
+- Bila NIST kelak menerbitkan pembaruan atau revisi errata resmi (di luar daftar "potential updates" ini),
+  ADR ini harus ditinjau ulang dan, bila ada yang normatif berubah, digantikan oleh ADR baru.
+- Pemicu cek ulang: baca ulang halaman publikasi FIPS 203 NIST sebelum mengunci kumpulan vektor KAT, kalau-kalau
+  daftarnya bertambah sejak 2026-09-28.
 
-## Evidence
+## Bukti
 
-- `evidence/phase00/fips203_errata.md` - MEASURED: source URLs, access
-  date, SHA-256 of the fetched FIPS 203 PDF and errata spreadsheet, full quoted errata
-  items with per-item impact analysis, and the Table 2/Table 3 parameter cross-check.
+- `evidence/phase00/fips203_errata.md` - MEASURED: URL sumber, tanggal akses, SHA-256 PDF FIPS 203 dan
+  spreadsheet errata yang diambil, kutipan lengkap item errata dengan analisis dampak per item, dan pemeriksaan
+  silang parameter Tabel 2 / Tabel 3.

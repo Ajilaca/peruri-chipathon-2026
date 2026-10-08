@@ -1,22 +1,22 @@
-# ADR 0001: Project idea - ML-KEM-768 accelerator (HW/SW co-design) on DE10-Nano
+# ADR 0001: Ide proyek - akselerator ML-KEM-768 (HW/SW co-design) di DE10-Nano
 
 - Status: Accepted
-- Date: 2026-09-28
-- Decided by: team J5 (basis: the team's proposal draft, title and Sections 1-2 as written by the team)
+- Tanggal: 2026-09-28
+- Diputuskan oleh: tim J5 (dasar: draf proposal tim, judul dan Bagian 1-2 seperti yang ditulis tim)
 
-## Context
-Earlier screening compared many ideas across the four official subthemes. The team's proposal
-draft names "Akselerasi ML-KEM pada Hardware FPGA: Prototipe Kriptografi Pasca-Kuantum untuk
-Perlindungan Data" and describes ML-KEM-768 with Keccak-f[1600] and NTT/INTT in the fabric.
+## Konteks
+Penyaringan awal membandingkan banyak ide di empat subtema resmi. Draf proposal tim memakai judul
+"Akselerasi ML-KEM pada Hardware FPGA: Prototipe Kriptografi Pasca-Kuantum untuk
+Perlindungan Data" dan menjelaskan ML-KEM-768 dengan Keccak-f[1600] dan NTT/INTT di fabric.
 
-## Decision
-Build an ML-KEM-768 accelerator (HW/SW co-design) on the DE10-Nano. HPS: protocol flow,
-baseline, timing. Fabric: NTT/INTT+pointwise, Keccak, sampler, compress/encode, control.
+## Keputusan
+Membangun akselerator ML-KEM-768 (HW/SW co-design) di DE10-Nano. HPS: alur protokol,
+baseline, pengukuran waktu. Fabric: NTT/INTT + pointwise, Keccak, sampler, compress/encode, kendali.
 
-## Consequences
-- Roadmap: `docs/ROADMAP.md`. Locked parameters and rules: `/mlkem-guard`.
-- The *declared* competition subtheme is a separate open decision (see PENDING.md).
-- Other screened ideas are not pursued unless a new ADR reopens them.
+## Konsekuensi
+- Roadmap: `docs/ROADMAP.md`.
+- Subtema lomba yang dideklarasikan adalah keputusan terpisah (lihat PENDING.md).
+- Ide lain yang disaring tidak dikejar kecuali ADR baru membukanya kembali.
 
-## Evidence
-`docs/PROJECT_BRIEF.md`; `docs/proposal/references.md`.
+## Bukti
+`docs/proposal/references.md`.

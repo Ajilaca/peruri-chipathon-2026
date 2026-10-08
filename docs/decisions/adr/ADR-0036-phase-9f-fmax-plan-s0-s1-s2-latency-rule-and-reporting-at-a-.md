@@ -1,23 +1,43 @@
-# ADR 0036: Phase 9F Fmax plan S0-S1-S2: latency rule and reporting at a 15 ns constraint beside 40 ns
+# ADR 0036: Rencana Fmax Fase 9F S0-S1-S2: aturan latensi dan pelaporan pada batasan 15 ns di samping 40 ns
 
 - Status: Accepted
-- Date: 2026-10-04
-- Decided by: Faza Dzil (Team J5), chat 2026-10-04
+- Tanggal: 2026-10-04
+- Diputuskan oleh: Faza Dzil (Team J5), chat 2026-10-04
 
-## Context
-Faza Dzil asked for a plan to raise Fmax with an ALM budget of 20,000 (chat 2026-10-04). The critical paths of the 9M-1 core were measured (`evidence/phase9m/critical_paths_MW.md`, MEASURED): at 20 ns all 300 worst setup paths lie inside the two C5 Keccak-f[1600] permutations (195 in the hash instance, 105 in the sampler sponge of the engine; worst slack +4.355 ns); outside them the design would allow about 69 MHz (INFERENCE). ADR 0010 had named the memory read as the critical path of Phase 5; that is no longer the limit of the full core. K0 (one round per cycle) is faster as a block (67.7 MHz median at 40 ns, 76.3 MHz at 20 ns, MEASURED Phase 7 and 8a) but adds cycles. The reported Fmax depends on the constraint (48.9 MHz at 40 ns, 64.0 MHz at 20 ns, same design).
+## Konteks
+Faza Dzil meminta rencana untuk menaikkan Fmax dengan anggaran ALM 20.000 (chat 2026-10-04). Jalur kritis inti 9M-1
+diukur (`evidence/phase9m/critical_paths_MW.md`, MEASURED): pada 20 ns semua 300 jalur setup terburuk ada di dalam dua
+permutasi Keccak-f[1600] C5 (195 di instans hash, 105 di sponge sampler mesin; slack terburuk +4,355 ns); di luar
+keduanya desain mengizinkan sekitar 69 MHz (INFERENCE). ADR 0010 menyebut pembacaan memori sebagai jalur kritis Fase 5;
+itu tidak lagi menjadi batas inti penuh. K0 (satu ronde per siklus) lebih cepat sebagai blok (median 67,7 MHz pada
+40 ns, 76,3 MHz pada 20 ns, MEASURED Fase 7 dan 8a) tetapi menambah siklus. Fmax yang dilaporkan bergantung pada
+batasan (48,9 MHz pada 40 ns, 64,0 MHz pada 20 ns, desain sama).
 
-## Options considered
-Plan proposed in chat 2026-10-04 (all savings and Fmax values are ESTIMATE): S0 a sweep of the constraint (18, 16, 15 ns; seeds 1-2) and the Quartus high-performance effort on the 9M-1 core, no RTL change; S1 K0 sponge in both places (hash instance and the sampler of the engine), about 13,200-13,800 ALM, Fmax about 65-72 MHz at a 15 ns constraint, cycles about +450 per operation; S2 attack the next limit found after S1 (hash output to the register file, or the NTT memory read), +100 to +800 ALM; S3 (optional, after the freeze) a second K0 sampler (item 5). Options not taken: reporting Fmax only at 40 ns (hides the real limit); judging by Fmax alone (K0 adds cycles, so a higher Fmax need not give a lower latency).
+## Opsi yang dipertimbangkan
+Rencana yang diusulkan di chat 2026-10-04 (semua penghematan dan nilai Fmax adalah ESTIMATE): S0 sapuan batasan (18,
+16, 15 ns; seed 1-2) dan upaya kinerja-tinggi Quartus pada inti 9M-1, tanpa perubahan RTL; S1 sponge K0 di kedua
+tempat (instans hash dan sampler mesin), sekitar 13.200-13.800 ALM, Fmax sekitar 65-72 MHz pada batasan 15 ns, siklus
+sekitar +450 per operasi; S2 menyerang batas berikutnya yang ditemukan setelah S1 (keluaran hash ke register file, atau
+pembacaan memori NTT), +100 sampai +800 ALM; S3 (opsional, setelah pembekuan) sampler K0 kedua (butir 5). Opsi yang
+tidak diambil: melaporkan Fmax hanya pada 40 ns (menyembunyikan batas sebenarnya); menilai dari Fmax saja (K0 menambah
+siklus, jadi Fmax lebih tinggi belum tentu memberi latensi lebih rendah).
 
-## Decision
-Faza Dzil, chat 2026-10-04 (answering three questions): "saya setuju semua".
-1. The order S0 -> S1 (-> S2 conditional on what S1 shows) is agreed; S3 stays an idea for later work.
-2. The adoption rule of the Fmax steps is based on latency, t = cycles / Fmax, for KeyGen, Encaps and Decaps, not on Fmax alone.
-3. Fmax is reported at a 15 ns constraint beside the 40 ns gate (seeds 1-6, kernel-only static timing, labelled as such). This is a change of the reporting policy: the 40 ns result stays the gate of Phases 5-9 (ADR 0011 D1, ADR 0017); the 15 ns figure is information (as the 20 ns figure, ADR 0010) and is never presented as a board clock.
+## Keputusan
+Faza Dzil, chat 2026-10-04 (menjawab tiga pertanyaan): "saya setuju semua".
+1. Urutan S0 -> S1 (-> S2 bersyarat pada apa yang ditunjukkan S1) disetujui; S3 tetap ide untuk pekerjaan mendatang.
+2. Aturan adopsi langkah Fmax berdasarkan latensi, t = siklus / Fmax, untuk KeyGen, Encaps, dan Decaps, bukan Fmax saja.
+3. Fmax dilaporkan pada batasan 15 ns di samping gerbang 40 ns (seed 1-6, timing statis kernel-only, diberi label
+   demikian). Ini perubahan kebijakan pelaporan: hasil 40 ns tetap menjadi gerbang Fase 5-9 (ADR 0011 D1, ADR 0017);
+   angka 15 ns adalah informasi (seperti angka 20 ns, ADR 0010) dan tidak pernah disajikan sebagai clock papan.
 
-## Consequences
-Every step has its own test plan and rule written before its RTL or compile, the same verification as items 1-3 (ACVP 100 % on both simulators, constant cycles, formal, Quartus seeds 1-6), and a Proposed ADR for its adoption; the team accepts. The ALM budget of 20,000 is a limit of the plan (the 9M-1 core uses 17,654 ALM, median). Before freeze (2026-10-07) S0 and S1 are the target; S2 only if S1 exposes a simple limit. No claim about a board clock: a core that meets 15 ns in kernel-only static timing is not clocked faster by that fact, and the DE10-Nano system clock needs a PLL decision in Phase 10 (not part of this plan). Items 4 and 5 of ADR 0034 stay later work.
+## Konsekuensi
+Setiap langkah punya test plan dan aturan sendiri yang ditulis sebelum RTL atau kompilasinya, verifikasi yang sama
+seperti butir 1-3 (ACVP 100 % di kedua simulator, siklus konstan, formal, Quartus seed 1-6), dan ADR Proposed untuk
+adopsinya; tim menerima. Anggaran ALM 20.000 adalah batas rencana (inti 9M-1 memakai 17.654 ALM, median). Sebelum
+pembekuan (2026-10-07) sasarannya S0 dan S1; S2 hanya bila S1 menunjukkan batas sederhana. Tidak ada klaim clock papan:
+inti yang memenuhi 15 ns pada timing statis kernel-only tidak otomatis di-clock lebih cepat, dan clock sistem DE10-Nano
+memerlukan keputusan PLL di Fase 10 (bukan bagian rencana ini). Butir 4 dan 5 ADR 0034 tetap pekerjaan mendatang.
 
-## Evidence
-`evidence/phase9m/critical_paths_MW.md`, `evidence/phase9m/batch1/9m2/result_9m2.md` (20 ns, seeds 1-6), `evidence/phase08/8a/` and `evidence/phase07/` (K0 and C5 blocks), `docs/decisions/0010-*` and `0034-*`.
+## Bukti
+`evidence/phase9m/critical_paths_MW.md`, `evidence/phase9m/batch1/9m2/result_9m2.md` (20 ns, seed 1-6),
+`evidence/phase08/8a/` dan `evidence/phase07/` (blok K0 dan C5), `docs/decisions/adr/ADR-0010-*` dan `ADR-0034-*`.

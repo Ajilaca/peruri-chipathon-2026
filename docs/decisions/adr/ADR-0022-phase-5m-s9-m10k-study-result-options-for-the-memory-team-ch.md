@@ -1,33 +1,44 @@
-# ADR 0022: Phase 5M S9: M10K study result, options for the memory (team choice)
+# ADR 0022: Fase 5M S9: hasil studi M10K, opsi untuk memori (pilihan tim)
 
 - Status: Superseded by 0025
-- Date: 2026-10-03
-- Decided by: option (A) built as S10 and accepted in ADR 0025 (Jevan, Team J5, chat 2026-10-03: 'kan udah di adaptasi dan kita menggambil s10'; header was 'Proposed / pending team decision')
+- Tanggal: 2026-10-03
+- Diputuskan oleh: opsi (A) dibangun sebagai S10 dan diterima di ADR 0025 (Jevan, Team J5, chat 2026-10-03: "kan udah di adaptasi dan kita menggambil s10"; header sebelumnya "Proposed / menunggu keputusan tim")
 
-## Context
-- ADR 0017 defines S9 as a documentation-only study with no adoption rule ("the team chooses"); ADR 0019 had dropped it for the deadline; the team asked for it in chat on 2026-10-03
-  ("s9 sekalian dikerjain", recorded in ADR 0019 amendment note 3). Plan: `evidence/phase05m/test_plan_s9.md` (written before the analysis script).
-- The measured limit of the core is the memory read path (ADR 0010; S7 confirmed it: median Fmax 34.430 -> 38.720 MHz with one register in the read). Storage is flip-flops (no M10K).
+## Konteks
+- ADR 0017 mendefinisikan S9 sebagai studi hanya-dokumentasi tanpa aturan adopsi ("tim memilih"); ADR 0019 telah
+  melepasnya untuk batas waktu; tim memintanya di chat pada 2026-10-03 ("s9 sekalian dikerjain", dicatat di ADR 0019
+  catatan amandemen 3). Rencana: `evidence/phase05m/test_plan_s9.md` (ditulis sebelum skrip analisis).
+- Batas terukur inti adalah jalur pembacaan memori (ADR 0010; S7 mengonfirmasinya: median Fmax 34,430 -> 38,720 MHz
+  dengan satu register di pembacaan). Penyimpanan adalah flip-flop (tanpa M10K).
 
-## Options considered
-(A) 16 x 1R1W banks with the map `bank = (a1^a2^a3^a4, a7, a6, a5)`, `offset = a[3:0]`, one M10K per bank, crossbars, no slot arbitration (new step, "S10").
-(B) two coefficients per word (not useful: one layer per direction benefits); (C) double-pumping (needs a second clock domain and the M10K maximum frequency, NOT VERIFIED); (D) fewer lanes (cycles double);
-(E) keep the flip-flop memory of S7 and continue with Phase 6 / 7.
+## Opsi yang dipertimbangkan
+(A) 16 bank 1R1W dengan peta `bank = (a1^a2^a3^a4, a7, a6, a5)`, `offset = a[3:0]`, satu M10K per bank, crossbar,
+    tanpa arbitrasi slot (langkah baru, "S10").
+(B) dua koefisien per word (tidak berguna: hanya satu layer per arah yang diuntungkan); (C) double-pumping (memerlukan
+domain clock kedua dan frekuensi maksimum M10K, BELUM DIVERIFIKASI); (D) lajur lebih sedikit (siklus berlipat);
+(E) mempertahankan memori flip-flop S7 dan melanjutkan ke Fase 6 / 7.
 
-## Decision
-None made here (C5). Suggestion (not a decision): (E) now; open (A) as its own step after the deadline-critical blocks (Keccak, samplers), with a test plan and the ADR 0012 rule.
+## Keputusan
+Tidak ada yang dibuat di sini (C5). Saran (bukan keputusan): (E) sekarang; buka (A) sebagai langkah tersendiri setelah
+blok kritis batas waktu (Keccak, sampler), dengan test plan dan aturan ADR 0012.
 
-## Consequences
-- MEASURED by the model of the real address schedule (`evidence/phase05m/s9/port_analysis.txt`): the current 8-bank map needs 2 reads + 2 writes per bank in some cycles, which does not fit one
-  true-dual-port M10K per bank (device mode facts not re-verified here); the 16-bank map above needs exactly 1 read + 1 write per bank per cycle over the whole timeline of both directions, bijective and balanced;
-  the first hand-derived map was wrong and was refuted by the script (test plan Amendment A1); two negative controls conflict as required.
-- ESTIMATE (method in the study): option A uses 16 M10K (2.9 % of 553), removes about 3,000 storage flip-flops, adds crossbars of at most about 1,920 ALM (upper bound by LUT counting, not measured); Fmax effect NOT MEASURED.
-- Nothing in RTL, tests or proofs changed by S9; no regression needed for it.
-- Open before any RTL: M10K read-during-write mode, synchronous-read latency, Cyclone V Device Handbook check, crossbar ROM, new formal bank property.
+## Konsekuensi
+- MEASURED oleh model jadwal alamat nyata (`evidence/phase05m/s9/port_analysis.txt`): peta 8 bank saat ini
+  memerlukan 2 pembacaan + 2 penulisan per bank pada beberapa siklus, yang tidak muat di satu M10K true-dual-port per
+  bank (fakta mode device tidak diverifikasi ulang di sini); peta 16 bank di atas memerlukan tepat 1 pembacaan + 1
+  penulisan per bank per siklus di seluruh lini waktu kedua arah, bijektif dan seimbang; peta pertama yang diturunkan
+  tangan salah dan dibantah skrip (test plan Amandemen A1); dua kontrol negatif konflik sesuai syarat.
+- ESTIMATE (metode di studi): opsi A memakai 16 M10K (2,9 % dari 553), menghapus sekitar 3.000 flip-flop penyimpanan,
+  menambah crossbar paling banyak sekitar 1.920 ALM (batas atas dengan hitungan LUT, tidak diukur); efek Fmax BELUM DIUKUR.
+- Tidak ada yang berubah di RTL, test, atau bukti oleh S9; tidak perlu regresi untuknya.
+- Terbuka sebelum RTL apa pun: mode read-during-write M10K, latensi baca-sinkron, pemeriksaan Cyclone V Device
+  Handbook, ROM crossbar, properti bank formal baru.
 
-## Evidence
+## Bukti
 - `evidence/phase05m/test_plan_s9.md`, `s9/study_m10k.md`, `s9/port_analysis.txt`, `scripts/test/phase5m_s9_port_analysis.py`.
 
-## Amendment note 1 (2026-10-03, Jevan, Team J5)
-Consequence of ADR 0025 (Accepted 2026-10-03, Jevan, Team J5, chat 2026-10-03: 'kan udah di adaptasi dan kita menggambil s10'): S10 is the NTT/INTT core for the following phases. Option (A) of this study was built and measured as S10 (ADR 0024 order, ADR 0025 result). The study's crossbar ESTIMATE was too low (measured memory entity 3,343 ALM,
-`evidence/phase06/s10/resource_breakdown.md`). The study text above is unchanged.
+## Catatan amandemen 1 (2026-10-03, Jevan, Team J5)
+Konsekuensi ADR 0025 (Accepted 2026-10-03, Jevan, Team J5, chat 2026-10-03: "kan udah di adaptasi dan kita menggambil
+s10"): S10 adalah inti NTT/INTT untuk fase berikutnya. Opsi (A) studi ini dibangun dan diukur sebagai S10 (urutan ADR
+0024, hasil ADR 0025). ESTIMATE crossbar studi terlalu rendah (entitas memori terukur 3.343 ALM,
+`evidence/phase06/s10/resource_breakdown.md`). Teks studi di atas tidak berubah.

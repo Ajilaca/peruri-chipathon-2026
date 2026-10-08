@@ -1,136 +1,131 @@
-# ADR 0006: Phase 4 target clock
+# ADR 0006: Target clock Fase 4
 
 - Status: Accepted
-- Expectation corrected 2026-10-01 by ADR 0010: 50 MHz stays the project target on a best-effort basis but is
-  not expected from Phase 5 arithmetic alone (C3-P6 critical path lies in the memory read path). The text below is
-  kept unchanged as the record of 2026-09-30.
-- Date: 2026-09-30
-- Decided by: Faza Dzil, Team J5
+- Ekspektasi dikoreksi 2026-10-01 oleh ADR 0010: 50 MHz tetap menjadi target proyek secara terbaik-upaya tetapi tidak
+  diharapkan dari aritmetika Fase 5 saja (jalur kritis C3-P6 ada di jalur pembacaan memori). Teks di bawah dibiarkan
+  apa adanya sebagai catatan 2026-09-30.
+- Tanggal: 2026-09-30
+- Diputuskan oleh: Faza Dzil, Team J5
 
-## Context
-`docs/ROADMAP.md` ("Measurement protocol") requires a target clock to be recorded as an ADR at the
-Phase 1 gate. That ADR was never written: Phases 1, 2 and 3 were all compiled with a provisional
-`create_clock -period 20.000` (50 MHz) and approved as documented baselines with timing not met
-(`docs/results/phase01.md`, `phase02.md`, `phase03.md`).
+## Konteks
+`docs/ROADMAP.md` ("Protokol pengukuran") mensyaratkan clock target dicatat sebagai ADR pada gerbang Fase 1. ADR itu
+tidak pernah ditulis: Fase 1, 2, dan 3 semuanya dikompilasi dengan `create_clock -period 20.000` (50 MHz) sementara
+dan disetujui sebagai baseline terdokumentasi dengan timing tidak terpenuhi (`docs/results/phase01.md`,
+`phase02.md`, `phase03.md`).
 
-Phase 4's goal is to raise Fmax by pipelining the butterfly. Without a target there is no definition
-of "enough", and ADR 0004's secondary AT check cannot run.
+Tujuan Fase 4 adalah menaikkan Fmax dengan mem-pipeline butterfly. Tanpa target tidak ada definisi "cukup",
+dan pemeriksaan AT sekunder ADR 0004 tidak bisa dijalankan.
 
-MEASURED starting point, configuration C2-K2-K1 at L = 8 (ADR 0005), provisional 20.000 ns clock
+Titik awal MEASURED, konfigurasi C2-K2-K1 pada L = 8 (ADR 0005), clock sementara 20,000 ns
 (`evidence/quartus/C2-K2-K1-L8.md`):
-- Fmax 7.68 MHz (Slow 100C), worst setup slack −110.494 ns; hold is met.
-- Worst path, by block (`evidence/phase04/k1_l8_worst_path_breakdown.md`):
-  data delay 129.6 ns, of which the memory access path (bank slot arbitration, read mux) is about
-  57 ns, the divider (`%` in `modmul_reduce`) about 44 ns, address generation about 5 ns, multiplier
-  about 4 ns, write path about 9 ns.
+- Fmax 7,68 MHz (Slow 100C), slack setup terburuk −110,494 ns; hold terpenuhi.
+- Jalur terburuk, per blok (`evidence/phase04/k1_l8_worst_path_breakdown.md`):
+  delay data 129,6 ns, dengan jalur akses memori (arbitrasi slot bank, read mux) sekitar 57 ns, pembagi
+  (`%` di `modmul_reduce`) sekitar 44 ns, pembangkit alamat sekitar 5 ns, pengali sekitar 4 ns, jalur tulis
+  sekitar 9 ns.
 
-ESTIMATE from those segment lengths (ignores register overhead and re-routing; bounds expectations,
-does not predict Fmax): an even split needs about 7 pipeline stages for 20 ns and about 4 for 40 ns;
-any period below about 57 ns needs a register inside the memory access path, and below about 44 ns
-also one inside the divider chain.
+ESTIMATE dari panjang segmen itu (mengabaikan overhead register dan routing ulang; membatasi ekspektasi, tidak
+memprediksi Fmax): pembagian merata memerlukan sekitar 7 tahap pipeline untuk 20 ns dan sekitar 4 untuk 40 ns;
+periode di bawah sekitar 57 ns memerlukan register di dalam jalur akses memori, dan di bawah sekitar 44 ns juga
+satu di dalam rantai pembagi.
 
-Clock sources: what is actually documented.
-- *Board, 50 MHz - sourced.* Intel's DE10-Nano reference design (GHRD), repository
+Sumber clock: yang benar-benar terdokumentasi.
+- Board, 50 MHz - ada sumbernya. Reference design DE10-Nano dari Intel (GHRD), repository
   <https://github.com/intel/de10-nano-hardware>, commit `9b5fc81654c61922b625607d007933a69b5fdb52`
-  (2022-08-04): `hdl_src/top.v` declares the FPGA inputs `fpga_clk1_50`, `fpga_clk2_50`,
-  `fpga_clk3_50`, and `hdl_src/soc_system_timing.sdc` constrains the design with
-  `# 50MHz board input clock` / `create_clock -period 20 [get_ports fpga_clk1_50]`. So a 50 MHz clock
-  input to the FPGA fabric exists on the board. (Pin locations are not recorded here; when needed they
-  come from Terasic's documentation or that GHRD, never from memory - CLAUDE.md §6.2.)
-- *Board, 25 MHz to the FPGA fabric - not sourced.* No document checked for this ADR shows a 25 MHz
-  clock input to the fabric. Terasic's *DE10-Nano User Manual* could not be retrieved while writing
-  this record (download mirrors refused automated access or had an expired certificate), so nothing
-  is claimed from it; it should be read and cited before any board-level clock plan is written.
-- *Device.* The fitter reports 6 PLLs on this device (e.g. "Total PLLs 0 / 6" in
-  `evidence/quartus/C2-K2-K1-L8.md`), so a 25 MHz clock could be derived from the 50 MHz
-  input. That would be a design choice with its own spec and `.sdc` entry (CLAUDE.md §3 rule 7); no
-  such clock plan exists yet.
-- *Project.* No project specification defines a clock for the accelerator. Every compile so far is a
-  kernel-only compile with `clk_i` as a virtual pin and a `create_clock` period chosen by the team; the
-  HPS-to-FPGA interface clock is undecided (PENDING #3, #7). No board is attached (PENDING #8), so
-  every Fmax is a Quartus number, not a hardware measurement.
+  (2022-08-04): `hdl_src/top.v` mendeklarasikan input FPGA `fpga_clk1_50`, `fpga_clk2_50`,
+  `fpga_clk3_50`, dan `hdl_src/soc_system_timing.sdc` membatasi desain dengan
+  `# 50MHz board input clock` / `create_clock -period 20 [get_ports fpga_clk1_50]`. Jadi input clock 50 MHz ke
+  fabric FPGA ada di board. (Lokasi pin tidak dicatat di sini; bila perlu diambil dari dokumentasi Terasic atau
+  GHRD itu, tidak pernah dari ingatan - lihat aturan Quartus.)
+- Board, 25 MHz ke fabric FPGA - tidak ada sumbernya. Tidak ada dokumen yang diperiksa untuk ADR ini yang
+  menunjukkan input clock 25 MHz ke fabric. *DE10-Nano User Manual* Terasic tidak dapat diambil saat catatan ini
+  ditulis (mirror unduhan menolak akses otomatis atau sertifikatnya kedaluwarsa), jadi tidak ada yang diklaim
+  darinya; manual itu harus dibaca dan dikutip sebelum rencana clock tingkat board ditulis.
+- Device. Fitter melaporkan 6 PLL pada device ini (misalnya "Total PLLs 0 / 6" di
+  `evidence/quartus/C2-K2-K1-L8.md`), jadi clock 25 MHz dapat diturunkan dari input 50 MHz. Itu akan menjadi
+  pilihan desain dengan spesifikasi dan entri `.sdc` sendiri; rencana clock seperti itu belum ada.
+- Proyek. Tidak ada spesifikasi proyek yang mendefinisikan clock untuk akselerator. Setiap kompilasi sejauh ini
+  adalah kompilasi kernel-only dengan `clk_i` sebagai virtual pin dan periode `create_clock` yang dipilih tim;
+  clock antarmuka HPS-ke-FPGA belum diputuskan (PENDING #3, #7). Tidak ada papan (PENDING #8), jadi setiap Fmax
+  adalah angka Quartus, bukan pengukuran perangkat keras.
 
-Consequently: 50 MHz is the frequency of a real board clock input but is not a stated system
-requirement of this project; 25 MHz has no hardware or system requirement behind it at all.
+Akibatnya: 50 MHz adalah frekuensi input clock board yang nyata tetapi bukan persyaratan sistem yang dinyatakan
+proyek ini; 25 MHz tidak punya persyaratan perangkat keras atau sistem sama sekali.
 
-Constraint-comparability note: the fitter is timing-driven, so changing the SDC period changes
-placement and the reported numbers. Whatever period is chosen, the P = 0 reference (C2-K2-K1-L8)
-has to be re-compiled at that period so every Phase 4 row shares one constraint; the Phase 1–3 rows
-stay as measured at 20.000 ns.
+Catatan keterbandingan batasan: fitter digerakkan timing, jadi mengubah periode SDC mengubah penempatan dan
+angka yang dilaporkan. Periode apa pun yang dipilih, referensi P = 0 (C2-K2-K1-L8) harus dikompilasi ulang pada
+periode itu agar setiap baris Fase 4 memakai satu batasan; baris Fase 1-3 tetap seperti terukur pada 20,000 ns.
 
-## Options considered
-1. Keep 20.000 ns (50 MHz) as the absolute target.
-   Criterion: timing met (non-negative setup and hold slack, all corners) at 20 ns.
-   For: no constraint change, so Phase 4 rows are directly comparable with Phases 1–3; the most
-   demanding and therefore most informative target.
-   Against: needs about a 6.5× Fmax increase; by the estimate above that means about 7 stages with
-   registers inside both the memory access path and the divider. May not be reachable in Phase 4
-   alone (arithmetic optimisation, which shortens the divider, is Phase 5), in which case Phase 4
-   ends "timing not met" again by definition.
-2. Set a lower absolute target, e.g. 40.000 ns (25 MHz).
-   Criterion: timing met at 40 ns.
-   For: by the estimate about 4 stages; a target Phase 4 can plausibly meet, giving the first
-   timing-valid configuration and unblocking ADR 0004's AT check.
-   Against: requires a clock the design does not yet have a source for (a PLL-derived clock would
-   have to be defined in the spec and `.sdc`, CLAUDE.md rule 7); the P = 0 reference must be
-   re-compiled at 40 ns; the value 25 MHz is a convenience, not derived from a system requirement.
-3. No absolute target in Phase 4 (relative criterion only).
-   Keep 20.000 ns as the constraint, report Fmax per P, and judge Phase 4 by the ADR 0007 criterion
-   (for example latency in ns at each P's own Fmax). Fix the absolute target after Phase 5.
-   For: no unsupported number is committed to; no re-compile of references; honest about what is
-   known today.
-   Against: the ROADMAP's missing target-clock ADR stays open; CRG-9 stays FAIL for Phase 4 by
-   construction; "never state a latency without its clock" means latencies must be quoted at each
-   configuration's measured Fmax, which is not a clock the design is constrained to.
-4. Two-tier: a Phase 4 milestone plus a stated end goal.
-   For example: end goal 20 ns (50 MHz) after Phase 5; Phase 4 milestone 40 ns (25 MHz), or "at least
-   N× the P = 0 Fmax". Phase 4 passes or fails against the milestone; the end goal is recorded but not
-   gated here.
-   For: separates what pipelining alone should deliver from what needs arithmetic work.
-   Against: two numbers to keep consistent; needs a decision on which period the Phase 4 compiles are
-   constrained to (the milestone period makes Phase 4 self-consistent, the end-goal period keeps
-   comparability with Phases 1–3).
+## Opsi yang dipertimbangkan
+1. Mempertahankan 20,000 ns (50 MHz) sebagai target mutlak.
+   Kriteria: timing terpenuhi (slack setup dan hold tidak negatif, semua corner) pada 20 ns.
+   Untuk: tidak ada perubahan batasan, jadi baris Fase 4 langsung sebanding dengan Fase 1-3; target paling
+   menuntut dan karena itu paling informatif.
+   Melawan: memerlukan kenaikan Fmax sekitar 6,5x; menurut estimasi di atas itu berarti sekitar 7 tahap dengan
+   register di dalam jalur akses memori dan pembagi. Mungkin tidak tercapai di Fase 4 saja (optimasi aritmetika,
+   yang memperpendek pembagi, ada di Fase 5), dan dalam hal itu Fase 4 berakhir "timing tidak terpenuhi" lagi
+   menurut definisi.
+2. Menetapkan target mutlak lebih rendah, misalnya 40,000 ns (25 MHz).
+   Kriteria: timing terpenuhi pada 40 ns.
+   Untuk: menurut estimasi sekitar 4 tahap; target yang masuk akal dipenuhi Fase 4, memberi konfigurasi pertama
+   yang valid secara timing dan membuka pemeriksaan AT ADR 0004.
+   Melawan: memerlukan clock yang belum punya sumber di desain (clock turunan PLL harus didefinisikan di spesifikasi
+   dan `.sdc`); referensi P = 0 harus dikompilasi ulang pada 40 ns; nilai 25 MHz adalah kemudahan, tidak diturunkan
+   dari persyaratan sistem.
+3. Tanpa target mutlak di Fase 4 (hanya kriteria relatif).
+   Pertahankan 20,000 ns sebagai batasan, laporkan Fmax per P, dan nilai Fase 4 dengan kriteria ADR 0007
+   (misalnya latensi dalam ns pada Fmax tiap P). Tetapkan target mutlak setelah Fase 5.
+   Untuk: tidak ada angka tanpa dukungan yang dikomit; tidak ada kompilasi ulang referensi; jujur tentang apa yang
+   diketahui hari ini.
+   Melawan: ADR clock target yang hilang di ROADMAP tetap terbuka; CRG-9 tetap FAIL untuk Fase 4 menurut
+   konstruksi; "jangan menyebut latensi tanpa clock-nya" berarti latensi harus dikutip pada Fmax terukur tiap
+   konfigurasi, yang bukan clock yang dibatasi pada desain.
+4. Dua tingkat: milestone Fase 4 ditambah tujuan akhir yang dinyatakan.
+   Misalnya: tujuan akhir 20 ns (50 MHz) setelah Fase 5; milestone Fase 4 40 ns (25 MHz), atau "minimal Nx Fmax
+   P = 0". Fase 4 lolos atau gagal terhadap milestone; tujuan akhir dicatat tetapi tidak menjadi gerbang di sini.
+   Untuk: memisahkan apa yang seharusnya diberikan pipelining saja dari apa yang memerlukan kerja aritmetika.
+   Melawan: dua angka yang harus dijaga konsisten; perlu keputusan periode mana yang membatasi kompilasi Fase 4
+   (periode milestone membuat Fase 4 konsisten sendiri, periode tujuan akhir menjaga keterbandingan dengan Fase 1-3).
 
-Any option that names a frequency other than the provisional 50 MHz needs its source stated
-(board oscillator, PLL setting, or HPS bridge clock) in the spec and `.sdc` before RTL depends on it.
+Opsi apa pun yang menyebut frekuensi selain 50 MHz sementara harus menyebut sumbernya (osilator board, setelan PLL,
+atau clock jembatan HPS) di spesifikasi dan `.sdc` sebelum RTL bergantung padanya.
 
-## Decision
-Option 4, two-tier.
-1. Phase 4 milestone: 40.000 ns (25 MHz). This is an experimental target chosen to give Phase 4
-   a reachable, checkable goal. It is not a hardware requirement and not a system requirement: no
-   25 MHz clock to the fabric is documented for the board and no project specification asks for it
-   (see "Clock sources" above).
-2. End goal: 20.000 ns (50 MHz), after Phase 5. Recorded as the direction of travel; it corresponds
-   to the board's documented 50 MHz FPGA clock input. It is not a Phase 4 gate.
-3. One constraint for the whole of Phase 4. Every Phase 4 Quartus revision - including the P = 0
-   reference (C2-K2-K1 at L = 8, re-compiled) - uses the same SDC, `create_clock -period 40.000` on
-   `clk_i`, with the same device, seed and virtual-pin method as before.
-4. ADR 0004 is not changed.
+## Keputusan
+Opsi 4, dua tingkat.
+1. Milestone Fase 4: 40,000 ns (25 MHz). Ini target eksperimen yang dipilih agar Fase 4 punya tujuan yang dapat
+   dicapai dan diperiksa. Ini bukan persyaratan perangkat keras dan bukan persyaratan sistem: tidak ada clock
+   25 MHz ke fabric yang terdokumentasi untuk board dan tidak ada spesifikasi proyek yang memintanya
+   (lihat "Sumber clock" di atas).
+2. Tujuan akhir: 20,000 ns (50 MHz), setelah Fase 5. Dicatat sebagai arah perjalanan; sesuai dengan input clock FPGA
+   50 MHz board yang terdokumentasi. Bukan gerbang Fase 4.
+3. Satu batasan untuk seluruh Fase 4. Setiap revisi Quartus Fase 4 - termasuk referensi P = 0
+   (C2-K2-K1 pada L = 8, dikompilasi ulang) - memakai SDC yang sama, `create_clock -period 40.000` pada
+   `clk_i`, dengan device, seed, dan metode virtual pin yang sama seperti sebelumnya.
+4. ADR 0004 tidak diubah.
 
-## Consequences
-- "Timing met" in Phase 4 (CRG-9) means non-negative worst setup and hold slack at all corners at
-  40.000 ns. Fmax is still reported for every revision; whether a revision would also meet 20.000 ns
-  is reported as information only.
-- The P = 0 reference must be re-compiled at 40.000 ns. Phase 4 rows are then comparable with each
-  other; they are not directly comparable with the Phase 1–3 rows, which stay as measured at the
-  provisional 20.000 ns and are not re-measured. The ablation matrix has to state the constraint of
-  each row.
-- If a Phase 4 revision meets timing at 40 ns, ADR 0004's secondary (informational) AT check becomes
-  runnable for the first time; by ADR 0004 it still does not change the selected L without a new ADR.
-- Latencies are quoted with their clock (ROADMAP measurement protocol): at 40.000 ns only for revisions
-  that meet it; otherwise at the revision's measured Fmax, labelled as such.
-- Before the accelerator is connected on a board, a clock plan is still needed (which board input, PLL
-  settings if 25 MHz or any derived clock is used, relationship to the HPS bridge clock, reset per
-  domain) with a cited source - this ADR does not provide it.
-- Reaching 50 MHz is expected to need the Phase 5 arithmetic work as well as pipelining (ESTIMATE in
-  Context); if Phase 4 meets 40 ns but not 20 ns, that is the planned outcome, not a failure.
+## Konsekuensi
+- "Timing terpenuhi" di Fase 4 (CRG-9) berarti slack setup dan hold terburuk tidak negatif di semua corner pada
+  40,000 ns. Fmax tetap dilaporkan untuk setiap revisi; apakah suatu revisi juga akan memenuhi 20,000 ns dilaporkan
+  hanya sebagai informasi.
+- Referensi P = 0 harus dikompilasi ulang pada 40,000 ns. Baris Fase 4 lalu sebanding satu sama lain; tidak
+  langsung sebanding dengan baris Fase 1-3, yang tetap seperti terukur pada 20,000 ns sementara dan tidak diukur
+  ulang. Matriks ablasi harus menyatakan batasan tiap baris.
+- Bila revisi Fase 4 memenuhi timing pada 40 ns, pemeriksaan AT sekunder (informasi) ADR 0004 dapat dijalankan
+  untuk pertama kalinya; menurut ADR 0004 itu tetap tidak mengubah L terpilih tanpa ADR baru.
+- Latensi dikutip bersama clock-nya (protokol pengukuran ROADMAP): pada 40,000 ns hanya untuk revisi yang
+  memenuhinya; selain itu pada Fmax terukur revisi, dengan label demikian.
+- Sebelum akselerator dihubungkan di papan, rencana clock tetap diperlukan (input board mana, setelan PLL bila 25 MHz
+  atau clock turunan dipakai, hubungan dengan clock jembatan HPS, reset per domain) dengan sumber yang dikutip -
+  ADR ini tidak menyediakannya.
+- Mencapai 50 MHz diperkirakan memerlukan kerja aritmetika Fase 5 selain pipelining (ESTIMATE di Konteks); bila
+  Fase 4 memenuhi 40 ns tetapi tidak 20 ns, itu hasil yang direncanakan, bukan kegagalan.
 
-## Evidence
-- Intel DE10-Nano GHRD: <https://github.com/intel/de10-nano-hardware> at commit
-  `9b5fc81654c61922b625607d007933a69b5fdb52`, files `hdl_src/top.v`, `hdl_src/soc_system_timing.sdc`
-  (read 2026-09-30)
+## Bukti
+- GHRD DE10-Nano Intel: <https://github.com/intel/de10-nano-hardware> pada commit
+  `9b5fc81654c61922b625607d007933a69b5fdb52`, file `hdl_src/top.v`, `hdl_src/soc_system_timing.sdc`
+  (dibaca 2026-09-30)
 - `evidence/quartus/C2-K2-K1-L8.md`
 - `evidence/phase04/k1_l8_worst_path_breakdown.md`
 - `evidence/phase01/quartus_C0_timing_analysis.md`
-- `docs/ROADMAP.md` (Measurement protocol; Phase 4), `docs/decisions/adr/ADR-0004-phase-3-lane-count-l-selection-criterion.md`,
+- `docs/ROADMAP.md` (Protokol pengukuran; Fase 4), `docs/decisions/adr/ADR-0004-phase-3-lane-count-l-selection-criterion.md`,
   `docs/decisions/adr/ADR-0005-apply-adr-0004-l-selection-to-the-c2-k2-k1-supplementary-con.md`

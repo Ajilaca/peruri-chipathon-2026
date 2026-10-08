@@ -1,22 +1,35 @@
-# ADR 0032: Checkpoint protocol until 2026-10-08: one STOP per block (Phase 9 and later)
+# ADR 0032: Protokol checkpoint sampai 2026-10-08: satu STOP per blok (Fase 9 dan seterusnya)
 
 - Status: Accepted
-- Date: 2026-10-03
-- Decided by: Jo, Team J5, chat 2026-10-03: 'b' (option B, one STOP per block), and 'jangan commit terlebih dahulu' (commits are made at the end of the work, grouped by block)
+- Tanggal: 2026-10-03
+- Diputuskan oleh: Jo, Team J5, chat 2026-10-03: "b" (opsi B, satu STOP per blok), dan "jangan commit terlebih dahulu" (commit dibuat di akhir pekerjaan, dikelompokkan per blok)
 
-## Context
-- PENDING #26: how often the assistant stops and waits for the team until the deadline (2026-10-08, evidence freeze 2026-10-07 night). The team has about 6-8 hours of attention per day (ADR 0019). In Phase 8 the team asked for 8b, 8c and 8d to be run without stopping (chat 2026-10-03); the question stayed open for later phases.
+## Konteks
+- PENDING #26: seberapa sering asisten berhenti dan menunggu tim sampai batas waktu (2026-10-08, pembekuan evidence
+  malam 2026-10-07). Tim punya sekitar 6-8 jam perhatian per hari (ADR 0019). Di Fase 8 tim meminta 8b, 8c, dan 8d
+  dijalankan tanpa berhenti (chat 2026-10-03); pertanyaan tetap terbuka untuk fase berikutnya.
 
-## Options considered
-(A) a STOP after every step (ADR 0012 style): most control, most waiting. (B) one STOP per block: a report after each group of work. (C) no STOP until the end of the phase: least waiting, least control.
+## Opsi yang dipertimbangkan
+(A) STOP setelah setiap langkah (gaya ADR 0012): kendali paling banyak, menunggu paling banyak. (B) satu STOP per
+blok: laporan setelah tiap kelompok pekerjaan. (C) tanpa STOP sampai akhir fase: menunggu paling sedikit, kendali
+paling sedikit.
 
-## Decision
-(B), one STOP per block. Chat 2026-10-03 (Jo, Team J5): 'b'. The blocks of Phase 9 are the assistant's proposal and not part of the decision: 9a encode/decode and compress/decompress; 9b the FO pieces (re-encryption, constant-time comparison, implicit rejection); 9c the controller for KeyGen, Encaps and Decaps with all pinned ACVP groups and the Quartus compile. Chat 2026-10-03 (Jo): 'jangan commit terlebih dahulu': commits are made when the work is finished, grouped by block (not one commit per block-step during the work).
+## Keputusan
+(B), satu STOP per blok. Chat 2026-10-03 (Jo, Team J5): "b". Blok Fase 9 adalah usulan asisten dan bukan bagian
+keputusan: 9a encode/decode dan compress/decompress; 9b bagian FO (enkripsi ulang, pembandingan waktu konstan,
+implicit rejection); 9c pengendali KeyGen, Encaps, dan Decaps dengan semua grup ACVP terpatok dan kompilasi Quartus.
+Chat 2026-10-03 (Jo): "jangan commit terlebih dahulu": commit dibuat ketika pekerjaan selesai, dikelompokkan per blok
+(bukan satu commit per langkah-blok selama pekerjaan).
 
-## Consequences
-- After each block the assistant writes a short report and stops; the team says whether to continue. Within a block there is no stop. Each block still has its test plan and adoption rule written before RTL and before measuring.
-- Unchanged by this decision: the assistant never ticks an Approval box, never pushes, never decides an open PENDING item (it records a Proposed ADR), and never commits the status documents without being told.
-- Until the team says to commit, the work stays uncommitted in the working tree; a commit history made afterwards must follow the real order of the work (plan, golden, RTL, tests, evidence, ADR, result) and must not suggest a timing that did not happen.
+## Konsekuensi
+- Setelah tiap blok asisten menulis laporan singkat dan berhenti; tim menyatakan lanjut atau tidak. Di dalam blok
+  tidak ada stop. Tiap blok tetap punya test plan dan aturan adopsi yang ditulis sebelum RTL dan sebelum mengukur.
+- Tidak berubah oleh keputusan ini: asisten tidak pernah mencentang kotak Approval, tidak pernah push, tidak pernah
+  memutuskan butir PENDING yang terbuka (ia mencatat ADR Proposed), dan tidak pernah meng-commit dokumen status tanpa
+  diminta.
+- Sampai tim menyuruh commit, pekerjaan tetap tidak di-commit di working tree; riwayat commit yang dibuat sesudahnya
+  harus mengikuti urutan nyata pekerjaan (rencana, model acuan, RTL, test, evidence, ADR, hasil) dan tidak boleh
+  menyiratkan waktu yang tidak terjadi.
 
-## Evidence
-- `docs/decisions/PENDING.md` #26; `docs/decisions/0019-*.md` (checkpoint context); `docs/decisions/0012-*.md`.
+## Bukti
+- `docs/decisions/PENDING.md` #26; `docs/decisions/adr/ADR-0019-*.md` (konteks checkpoint); `docs/decisions/adr/ADR-0012-*.md`.

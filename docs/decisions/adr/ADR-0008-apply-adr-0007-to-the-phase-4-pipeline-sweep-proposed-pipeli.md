@@ -1,67 +1,68 @@
-# ADR 0008: Apply ADR 0007 to the Phase 4 pipeline sweep: proposed pipeline depth P
+# ADR 0008: Menerapkan ADR 0007 pada sapuan pipeline Fase 4: kedalaman pipeline P yang diusulkan
 
-- Status: Superseded by ADR 0009 (2026-10-01). Was Proposed and never accepted; its measurements remain valid
-  evidence. The text below is kept unchanged.
-- Date: 2026-09-30
-- Decided by: (pending: Team J5; not decided by the assistant)
+- Status: Superseded by ADR 0009 (2026-10-01). Sebelumnya Proposed dan tidak pernah diterima; pengukurannya tetap
+  bukti yang valid. Teks di bawah dibiarkan apa adanya.
+- Tanggal: 2026-09-30
+- Diputuskan oleh: (menunggu: Team J5; tidak diputuskan oleh asisten)
 
-## Context
-ADR 0007 fixed, before anything was measured, the candidate depths P in {0, 2, 4, 6}, the four candidate
-conditions (bit-exact PASS, constant-cycle PASS, ALM <= 10,478, timing met at 40.000 ns at every reported
-corner) and the selection rule (Fmax(P) = lowest slow-corner Fmax; t_NTT = cycles_NTT / Fmax; smallest P
-within 5% of the minimum t_NTT). ADR 0006 fixed the constraint (40.000 ns, an experimental milestone target,
-not a hardware or system requirement). All four revisions were then compiled with one SDC and the default
-seed (`quartus/phase04_pipeline_c3/`), and the rule was applied by `scripts/quartus/phase4_select_p.py`, which reads
-the evidence files (`evidence/phase04/selection_worksheet.md`).
+## Konteks
+ADR 0007 menetapkan, sebelum apa pun diukur, kedalaman kandidat P dalam {0, 2, 4, 6}, empat syarat kandidat
+(bit-exact PASS, siklus konstan PASS, ALM <= 10.478, timing terpenuhi pada 40,000 ns di setiap corner yang
+dilaporkan) dan aturan seleksi (Fmax(P) = Fmax slow-corner terendah; t_NTT = siklus_NTT / Fmax; P terkecil dalam
+5 % dari t_NTT minimum). ADR 0006 menetapkan batasan (40,000 ns, target milestone eksperimen, bukan persyaratan
+perangkat keras atau sistem). Keempat revisi lalu dikompilasi dengan satu SDC dan seed bawaan
+(`quartus/phase04_pipeline_c3/`), dan aturan diterapkan oleh `scripts/quartus/phase4_select_p.py`, yang membaca
+file evidence (`evidence/phase04/selection_worksheet.md`).
 
-## Options considered
-Measured results (MEASURED, `evidence/phase04/quartus_C3-P<n>.md`; cycles from
-simulation, `cocotb_regression.txt`):
+## Opsi yang dipertimbangkan
+Hasil terukur (MEASURED, `evidence/phase04/quartus_C3-P<n>.md`; siklus dari
+simulasi, `cocotb_regression.txt`):
 
-| P | ALM (of 41,910) | <= 10,478? | Worst setup / hold slack @ 40.000 ns | Timing met? | Fmax(P), lowest slow corner (MHz) | NTT / INTT cycles | t_NTT / t_INTT (us) | Candidate? |
+| P | ALM (dari 41.910) | <= 10.478? | Slack setup / hold terburuk @ 40,000 ns | Timing terpenuhi? | Fmax(P), slow corner terendah (MHz) | Siklus NTT / INTT | t_NTT / t_INTT (us) | Kandidat? |
 |---|---|---|---|---|---|---|---|---|
-| 0 | 9,723 | yes | -90.653 / 0.207 | no | 7.65 | 113 / 369 | 14.771 / 48.235 | no |
-| 2 | 9,696 | yes | -0.368 / 0.174 | no (slow -40C corner; slow 100C is +0.061) | 24.77 | 115 / 371 | 4.643 / 14.978 | no |
-| 4 | 10,439 | yes (39 below) | 8.734 / 0.157 | yes | 31.98 | 117 / 373 | 3.659 / 11.664 | yes |
-| 6 | 10,505 | no (27 over) | 10.753 / 0.140 | yes | 34.19 | 119 / 375 | 3.481 / 10.968 | no (ALM) |
+| 0 | 9.723 | ya | -90,653 / 0,207 | tidak | 7,65 | 113 / 369 | 14,771 / 48,235 | tidak |
+| 2 | 9.696 | ya | -0,368 / 0,174 | tidak (corner slow -40C; slow 100C +0,061) | 24,77 | 115 / 371 | 4,643 / 14,978 | tidak |
+| 4 | 10.439 | ya (39 di bawah) | 8,734 / 0,157 | ya | 31,98 | 117 / 373 | 3,659 / 11,664 | ya |
+| 6 | 10.505 | tidak (27 di atas) | 10,753 / 0,140 | ya | 34,19 | 119 / 375 | 3,481 / 10,968 | tidak (ALM) |
 
-Registers 3,097 / 3,817 / 4,145 / 4,168, DSP 9 / 112 in all four, M10K 0 / 16 / 26 / 29 of 553.
-Candidate set C = {4}; t_min = t_NTT(4); the rule yields P_selected = 4. P = 6 would have the lowest
-t_NTT of all (3.481 us, 4.9% below P = 4; equivalently P = 4 is 5.1% above P = 6) but is excluded by the ALM condition by 27 ALM.
+Register 3.097 / 3.817 / 4.145 / 4.168, DSP 9 / 112 di keempatnya, M10K 0 / 16 / 26 / 29 dari 553.
+Himpunan kandidat C = {4}; t_min = t_NTT(4); aturan menghasilkan P_terpilih = 4. P = 6 akan punya t_NTT terendah
+dari semuanya (3,481 us, 4,9 % di bawah P = 4; setara P = 4 adalah 5,1 % di atas P = 6) tetapi gugur oleh syarat
+ALM sebesar 27 ALM.
 
-## Decision
-Not decided. The rule of ADR 0007, applied as written, gives P = 4. This record is Proposed until the
-team accepts it, changes it, or asks for more measurement. Nothing else in the repository treats P = 4 as
-selected.
+## Keputusan
+Tidak diputuskan. Aturan ADR 0007, diterapkan apa adanya, memberi P = 4. Catatan ini Proposed sampai tim
+menerimanya, mengubahnya, atau meminta pengukuran lebih. Tidak ada hal lain di repository yang memperlakukan P = 4
+sebagai terpilih.
 
-## Consequences
-Points the team should weigh before accepting (stated, not resolved here):
-- Margins are thin; a seed sweep was run (2026-10-01) to measure how thin. Seeds 1–6, everything else identical
+## Konsekuensi
+Hal-hal yang perlu ditimbang tim sebelum menerima (dinyatakan, tidak diselesaikan di sini):
+- Margin tipis; sapuan seed dijalankan (2026-10-01) untuk mengukur setipis apa. Seed 1-6, yang lain identik
   (`evidence/phase04/seed_sweep.md`, MEASURED):
-  - P = 6 is over the 10,478 ALM budget at every seed (10,484–10,516 ALM). It is never a candidate.
-  - P = 4 is within budget at 4 of 6 seeds (10,439–10,503 ALM); at seeds 2 and 3 it is over by 25 and 1 ALM,
-    and then no P is a candidate.
-  - All 12 compiles meet 40.000 ns. P = 4 Fmax (lowest slow corner) 30.60–33.00 MHz across seeds.
-  - The per-seed rule either selects P = 4 or selects nothing; it never selects another P.
-  So the choice between P = 4 and P = 6 is settled by the measurements, but P = 4 meets the budget only by a few
-  tens of ALM and not at every seed. Accepting P = 4 means accepting that Phase 5 starts with almost no ALM room
-  (Phase 5's arithmetic changes are expected to change ALM; that must be measured, not assumed).
-- A tool effect changed the resource picture, not only the pipeline. With registers in the memory path
-  Quartus inferred `bank_map_rom` and some register chains (`altshift_taps`) into M10K blocks (16 / 26 / 29
-  blocks; 0 for P = 0). This is why P = 2 uses fewer ALM than P = 0 despite ~700 more registers. It was not
-  designed or requested (M10K mapping is out of scope for Phase 4) and is reported as observed; a different
-  inference in a later phase would change the ALM figures.
-- The 5% near-tie is on t_NTT only, and it is close (default seed). P = 6 is excluded by the ALM condition, so the near-tie
-  rule is not exercised. Were the ALM condition relaxed, C would be {4, 6}, t_min = t_NTT(6) = 3.481 us and
-  d(4) = 0.051 > 0.05, so the rule would then select P = 6, not P = 4. At the default seed the selection
-  depended on a 27-ALM difference; the seed sweep shows P = 6 over budget at every seed, so that dependence is gone.
-- 40.000 ns is met by P = 4 and P = 6 per Quartus static timing analysis only; no board run exists
-  and none is claimed. Fmax figures are kernel-only with virtual pins.
-- The P = 2 miss is small (-0.368 ns at one corner) and was measured as it stands; no exception was added.
-- If accepted, Phase 5 starts from C3-P4 and its 20.000 ns end goal (ADR 0006) is a separate check:
-  Fmax 31.98 MHz does not reach 50 MHz.
+  - P = 6 melewati anggaran 10.478 ALM di setiap seed (10.484-10.516 ALM). Tidak pernah menjadi kandidat.
+  - P = 4 dalam anggaran di 4 dari 6 seed (10.439-10.503 ALM); di seed 2 dan 3 melewati sebesar 25 dan 1 ALM, dan
+    saat itu tidak ada P yang menjadi kandidat.
+  - Kedua belas kompilasi memenuhi 40,000 ns. Fmax P = 4 (slow corner terendah) 30,60-33,00 MHz antar seed.
+  - Aturan per seed memilih P = 4 atau tidak memilih apa pun; tidak pernah memilih P lain.
+  Jadi pilihan antara P = 4 dan P = 6 ditetapkan oleh pengukuran, tetapi P = 4 memenuhi anggaran hanya dengan selisih
+  beberapa puluh ALM dan tidak di setiap seed. Menerima P = 4 berarti menerima bahwa Fase 5 mulai dengan hampir tanpa
+  ruang ALM (perubahan aritmetika Fase 5 diharapkan mengubah ALM; itu harus diukur, tidak diasumsikan).
+- Efek alat mengubah gambaran sumber daya, bukan hanya pipeline. Dengan register di jalur memori Quartus
+  menginferensi `bank_map_rom` dan beberapa rantai register (`altshift_taps`) ke blok M10K (16 / 26 / 29 blok; 0
+  untuk P = 0). Inilah sebabnya P = 2 memakai ALM lebih sedikit dari P = 0 meski sekitar 700 register lebih banyak.
+  Ini tidak dirancang atau diminta (pemetaan M10K di luar lingkup Fase 4) dan dilaporkan seperti teramati;
+  inferensi berbeda di fase berikutnya akan mengubah angka ALM.
+- Hampir-seri 5 % hanya pada t_NTT, dan tipis (seed bawaan). P = 6 gugur oleh syarat ALM, jadi aturan hampir-seri
+  tidak dijalankan. Bila syarat ALM dilonggarkan, C akan {4, 6}, t_min = t_NTT(6) = 3,481 us dan
+  d(4) = 0,051 > 0,05, jadi aturan akan memilih P = 6, bukan P = 4. Pada seed bawaan pemilihan bergantung pada
+  selisih 27 ALM; sapuan seed menunjukkan P = 6 melewati anggaran di setiap seed, jadi ketergantungan itu hilang.
+- 40,000 ns dipenuhi oleh P = 4 dan P = 6 hanya menurut analisis timing statis Quartus; tidak ada run papan dan
+  tidak ada yang diklaim. Angka Fmax adalah kernel-only dengan virtual pin.
+- Kekurangan P = 2 kecil (-0,368 ns di satu corner) dan diukur apa adanya; tidak ada pengecualian yang ditambahkan.
+- Bila diterima, Fase 5 mulai dari C3-P4 dan tujuan akhir 20,000 ns (ADR 0006) adalah pemeriksaan terpisah:
+  Fmax 31,98 MHz tidak mencapai 50 MHz.
 
-## Evidence
+## Bukti
 - `evidence/phase04/seed_sweep.md`, `evidence/phase04/seed_sweep/`,
   `scripts/quartus/phase4_seed_sweep_summary.py`
 - `evidence/phase04/selection_worksheet.md`, `scripts/quartus/phase4_select_p.py`,

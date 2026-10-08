@@ -1,21 +1,42 @@
-# ADR 0041: Phase 9F S2 result: register after the Barrett reducer (K2) adopted by its rule, no measurable Fmax gain
+# ADR 0041: Hasil Fase 9F S2: register setelah reducer Barrett (K2) diadopsi aturannya, tanpa kenaikan Fmax terukur
 
 - Status: Accepted
-- Date: 2026-10-04
-- Decided by: Jo (Team J5), 2026-10-05
+- Tanggal: 2026-10-04
+- Diputuskan oleh: Jo (Team J5), 2026-10-05
 
-## Context
-ADR 0036 (Accepted, Faza Dzil) listed S2 as the step that attacks the limit S1 exposes; ADR 0040 (Proposed) names the NTT core / memory as the wall of K1b at 15 ns. S2 adds the fourth multiplier cut (the register after the final Barrett correction, P = 5 -> 6) by the parameter `NTT_P6` (default 0), verified and measured under its own plan and rule (`evidence/phase9m/batch2/9s2/test_plan_9s2.md`, `result_9s2.md`). The rule was applied to files and is met. ADR 0039 (Accepted, Faza Dzil) fixed 15 ns as the reporting limit.
+## Konteks
+ADR 0036 (Accepted, Faza Dzil) mendaftar S2 sebagai langkah yang menyerang batas yang diungkap S1; ADR 0040 (ketika
+itu Proposed) menyebut inti NTT / memori sebagai dinding K1b pada 15 ns. S2 menambah potongan pengali keempat (register
+setelah koreksi Barrett akhir, P = 5 -> 6) lewat parameter `NTT_P6` (bawaan 0), diverifikasi dan diukur di bawah
+rencana dan aturannya sendiri (`evidence/phase9m/batch2/9s2/test_plan_9s2.md`, `result_9s2.md`). Aturan diterapkan pada
+file dan terpenuhi. ADR 0039 (Accepted, Faza Dzil) menetapkan 15 ns sebagai batas pelaporan.
 
-## Options considered
-1. Keep K1b (ADR 0040, `NTT_P6 = 0`): 8,404 / 10,236 / 15,597 cycles, ALM median 14,335.0 (40 ns), Fmax median 73.855 MHz at 15 ns, latency at 15 ns 113.8 / 138.6 / 211.2 us.
-2. Use K2 (`NTT_P6 = 1`): 8,416 / 10,250 / 15,619 cycles (+12 / +14 / +22), ALM median 14,213.0 (-122.0), registers about +120, Fmax median 74.125 MHz at 15 ns (+0.270 MHz, inside the seed spread of 3.38 / 2.94 MHz), latency at 15 ns 113.5 / 138.3 / 210.7 us (-0.2 %, below the noise of the seeds); timing met at 6 of 6 seeds at 40 ns and at 15 ns; ACVP 100 % on both simulators; formal control proof at P = 6 PASS (MEASURED, simulation, formal and kernel-only Quartus; `batch2/9s2/selection_worksheet.md`). The reducer-to-memory path moved from +1.170 to +2.349 ns, but the layer-counter address path (+1.910 ns in K1b) now limits at +1.404 ns in the seed analysed.
+## Opsi yang dipertimbangkan
+1. Mempertahankan K1b (ADR 0040, `NTT_P6 = 0`): 8.404 / 10.236 / 15.597 siklus, median ALM 14.335,0 (40 ns), median
+   Fmax 73,855 MHz pada 15 ns, latensi pada 15 ns 113,8 / 138,6 / 211,2 us.
+2. Memakai K2 (`NTT_P6 = 1`): 8.416 / 10.250 / 15.619 siklus (+12 / +14 / +22), median ALM 14.213,0 (-122,0), register
+   sekitar +120, median Fmax 74,125 MHz pada 15 ns (+0,270 MHz, di dalam sebaran seed 3,38 / 2,94 MHz), latensi pada
+   15 ns 113,5 / 138,3 / 210,7 us (-0,2 %, di bawah derau seed); timing terpenuhi di 6 dari 6 seed pada 40 ns dan pada
+   15 ns; ACVP 100 % di kedua simulator; bukti kontrol formal pada P = 6 PASS (MEASURED, simulasi, formal, dan Quartus
+   kernel-only; `batch2/9s2/selection_worksheet.md`). Jalur reducer ke memori bergeser dari +1,170 ke +2,349 ns, tetapi
+   jalur alamat penghitung layer (+1,910 ns di K1b) kini membatasi pada +1,404 ns di seed yang dianalisis.
 
-## Decision
-Accepted by Jo (Team J5) on 2026-10-05 on the team's instruction to approve; the text below is the proposal as written. The rule of the plan adopts option 2; the evidence says S2 is neutral for Fmax and latency (the plan's ESTIMATE of 76 to 80 MHz was not met). The team accepts or rejects it; S2 has value mainly as the first half of a step S2b (registering the per-layer address arithmetic), which is not planned or built yet.
+## Keputusan
+Diterima oleh Jo (Team J5) pada 2026-10-05 atas instruksi tim untuk menyetujui; teks di bawah adalah usulan seperti
+tertulis. Aturan rencana mengadopsi opsi 2; bukti menunjukkan S2 netral untuk Fmax dan latensi (ESTIMATE rencana 76
+sampai 80 MHz tidak tercapai). Tim menerima atau menolaknya; S2 bernilai terutama sebagai separuh pertama langkah S2b
+(meregistrasi aritmetika alamat per layer), yang belum direncanakan atau dibangun.
 
-## Consequences
-If accepted: the base for the next steps is `mlkem_core3` with `SMP_C5 = 0`, `HASH_C5 = 0`, `CODEC_W2 = 1`, `NTT_P6 = 1`; the NTT cycles per transform are 119; the wall at 15 ns is the issue-stage address path (`layer_q` to the memory ports), a candidate for S2b. If rejected: K1b stays (the default parameter value, no code to remove). Latencies are perhitungan tim from kernel-only static timing; seed noise is about 3 MHz. No board claim. ADR 0040 is not edited.
+## Konsekuensi
+Bila diterima: basis untuk langkah berikutnya adalah `mlkem_core3` dengan `SMP_C5 = 0`, `HASH_C5 = 0`, `CODEC_W2 = 1`,
+`NTT_P6 = 1`; siklus NTT per transformasi 119; dinding pada 15 ns adalah jalur alamat tahap issue (`layer_q` ke port
+memori), kandidat untuk S2b. Bila ditolak: K1b tetap (nilai parameter bawaan, tidak ada kode yang dihapus). Latensi
+adalah perhitungan tim dari timing statis kernel-only; derau seed sekitar 3 MHz. Tidak ada klaim papan. ADR 0040 tidak
+diedit.
 
-## Evidence
-`evidence/phase9m/batch2/9s2/result_9s2.md`, `selection_worksheet.md`, `sim.md`, `formal.md`, `critical_paths_K2-15.md`, `quartus_K2*.md`; `evidence/phase9m/batch1/9f1b/` (reference K1b); `docs/decisions/adr/ADR-0036-phase-9f-fmax-plan-s0-s1-s2-latency-rule-and-reporting-at-a-.md`, `ADR-0039-phase-9f-15-ns-is-the-fmax-reporting-limit-14-ns-is-kept-for.md`, `ADR-0040-phase-9f-s1b-result-background-hash-k1b-adopted-by-its-rule-.md`.
+## Bukti
+`evidence/phase9m/batch2/9s2/result_9s2.md`, `selection_worksheet.md`, `sim.md`, `formal.md`,
+`critical_paths_K2-15.md`, `quartus_K2*.md`; `evidence/phase9m/batch1/9f1b/` (acuan K1b);
+`docs/decisions/adr/ADR-0036-phase-9f-fmax-plan-s0-s1-s2-latency-rule-and-reporting-at-a-.md`,
+`ADR-0039-phase-9f-15-ns-is-the-fmax-reporting-limit-14-ns-is-kept-for.md`,
+`ADR-0040-phase-9f-s1b-result-background-hash-k1b-adopted-by-its-rule-.md`.

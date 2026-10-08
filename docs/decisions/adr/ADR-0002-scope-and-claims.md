@@ -1,27 +1,27 @@
-# ADR 0002: Scope and claim policy - the mathematics is locked
+# ADR 0002: Lingkup dan kebijakan klaim - matematika dikunci
 
 - Status: Accepted
-- Date: 2026-09-28
-- Decided by: team J5 (basis: statements in the team's proposal Sections 1-2: design principles, "Batasan", core / later-stage / out-of-scope table)
+- Tanggal: 2026-09-28
+- Diputuskan oleh: tim J5 (dasar: pernyataan di Bagian 1-2 proposal tim: prinsip desain, "Batasan", tabel inti / tahap lanjut / di luar lingkup)
 
-## Context
-The proposal claims FIPS 203 conformance and constant-time behaviour, and separates a core
-stage from later-stage work. Judges score evidence; unsupported claims are costly.
+## Konteks
+Proposal mengklaim kesesuaian dengan FIPS 203 dan perilaku waktu-konstan, dan memisahkan tahap inti
+dari pekerjaan tahap lanjut. Juri menilai bukti; klaim tanpa dukungan mahal akibatnya.
 
-## Decision
-1. ML-KEM-768 parameters (q, n, k, eta, du, dv, root of unity) and all arithmetic
-   definitions are not modified. Innovation is in hardware architecture only.
-2. Security wording: "designed to follow post-quantum standards", never "quantum-proof".
-3. Side-channel (power/EM) resistance is not claimed at core stage. Core claim:
-   constant-time by construction, shown by cycle-count invariance. TVLA and masking are
-   later stage.
-4. All resource, timing and performance numbers come from Quartus reports or board
-   measurements (`evidence/`); otherwise they are labelled ESTIMATE.
-5. Scope tiers as in `docs/PROJECT_BRIEF.md` (core / later / out of scope).
+## Keputusan
+1. Parameter ML-KEM-768 (q, n, k, eta, du, dv, akar satuan) dan semua definisi aritmetika
+   tidak diubah. Inovasi hanya di arsitektur perangkat keras.
+2. Kata-kata keamanan: "dirancang mengikuti standar pasca-kuantum", tidak pernah "quantum-proof".
+3. Ketahanan side-channel (daya/EM) tidak diklaim pada tahap inti. Klaim inti:
+   waktu-konstan secara konstruksi, ditunjukkan lewat invarian jumlah siklus. TVLA dan masking
+   adalah tahap lanjut.
+4. Semua angka sumber daya, timing, dan kinerja berasal dari laporan Quartus atau pengukuran papan
+   (`evidence/`); selain itu diberi label ESTIMATE.
+5. Tingkat lingkup: inti / lanjut / di luar lingkup.
 
-## Consequences
-`/mlkem-guard` (parameter lock), `/proposal-claims` (claim lint) and CLAUDE.md §3 enforce this.
-Any request to change a locked item requires a new ADR that supersedes this one.
+## Konsekuensi
+Aturan ini dijaga lewat pemeriksaan parameter terkunci dan pemeriksa klaim.
+Permintaan mengubah item yang dikunci memerlukan ADR baru yang menggantikan ADR ini.
 
-## Evidence
-Proposal Sections 1-2; `docs/AI_TOOLING_RESEARCH.md`.
+## Bukti
+Bagian 1-2 proposal.

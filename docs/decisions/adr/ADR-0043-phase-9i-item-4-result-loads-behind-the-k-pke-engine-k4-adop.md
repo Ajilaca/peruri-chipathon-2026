@@ -1,21 +1,45 @@
-# ADR 0043: Phase 9I item 4 result: loads behind the K-PKE engine (K4) adopted by its rule, Encaps -639 and Decaps -2,630 cycles
+# ADR 0043: Hasil Fase 9I butir 4: pemuatan di belakang mesin K-PKE (K4) diadopsi aturannya, Encaps -639 dan Decaps -2.630 siklus
 
 - Status: Accepted
-- Date: 2026-10-05
-- Decided by: Jo (Team J5), 2026-10-05
+- Tanggal: 2026-10-05
+- Diputuskan oleh: Jo (Team J5), 2026-10-05
 
-## Context
-ADR 0034 listed item 4 (overlap of polynomial loads with the engine) as the largest remaining cycle saving ("needs the engine host port to work while the engine runs, i.e. a new variant of frozen Phase 6-8 files; high risk"). It was built as a new variant (`mlkem_core4`, `kpke_sched_smp4`, `kpke_smp_top_s10o`, `mlkem_ldpoly2o`, `mlkem_ctl_rom3`; the Phase 6-8 files and `mlkem_core3` are not edited) and verified and measured under its own plan and rule (`evidence/phase9m/batch2/9i4/test_plan_9i4.md`, `result_9i4.md`). The base of the measurement is K3 (ADR 0042, Proposed); the K3 parameters (`NTT_P6 = 1`, `NTT_AR = 1`) are the parameters of K4.
+## Konteks
+ADR 0034 mendaftar butir 4 (tumpang-tindih muat polinomial dengan mesin) sebagai penghematan siklus terbesar yang
+tersisa ("memerlukan port host mesin bekerja saat mesin berjalan, yaitu varian baru dari file Fase 6-8 yang
+dibekukan; risiko tinggi"). Butir ini dibangun sebagai varian baru (`mlkem_core4`, `kpke_sched_smp4`,
+`kpke_smp_top_s10o`, `mlkem_ldpoly2o`, `mlkem_ctl_rom3`; file Fase 6-8 dan `mlkem_core3` tidak diedit) dan
+diverifikasi serta diukur di bawah rencana dan aturannya sendiri (`evidence/phase9m/batch2/9i4/test_plan_9i4.md`,
+`result_9i4.md`). Basis pengukuran adalah K3 (ADR 0042, ketika itu Proposed); parameter K3 (`NTT_P6 = 1`,
+`NTT_AR = 1`) adalah parameter K4.
 
-## Options considered
-1. Keep K3 (`mlkem_core3`): 8,416 / 10,250 / 15,619 cycles; Fmax median 77.555 MHz at 15 ns; latency 108.5 / 132.2 / 201.4 us; ALM median 14,115.5 (40 ns) and 14,293.0 (15 ns).
-2. Use K4 (`mlkem_core4`): 8,416 / 9,611 / 12,989 cycles (KeyGen equal, Encaps -639, Decaps -2,630); Fmax median 76.665 MHz at 15 ns (six seeds 69.43-80.99; -0.89 MHz, inside the spread); latency at 15 ns 109.8 / 125.4 / 169.4 us (+1.2 %, -5.1 %, -15.9 % against K3); ALM median 14,222.0 (40 ns, +106.5) and 14,480.0 (15 ns, +187.0); timing met at 6 of 6 seeds at 40 ns and at 15 ns (MEASURED, `batch2/9i4/selection_worksheet.md`). ACVP 100 % on both simulators; negative controls as required, including a throttled host port that must pass with the interlock and fail without it; formal: safety (E1, S1-S7, B1-B7) PASS and cover PASS, NC-JOIN4 FAIL as required, but P1 (bounded) and NC-E1-4 timed out and have no formal result (`formal.md`).
+## Opsi yang dipertimbangkan
+1. Mempertahankan K3 (`mlkem_core3`): 8.416 / 10.250 / 15.619 siklus; median Fmax 77,555 MHz pada 15 ns; latensi
+   108,5 / 132,2 / 201,4 us; median ALM 14.115,5 (40 ns) dan 14.293,0 (15 ns).
+2. Memakai K4 (`mlkem_core4`): 8.416 / 9.611 / 12.989 siklus (KeyGen sama, Encaps -639, Decaps -2.630); median Fmax
+   76,665 MHz pada 15 ns (enam seed 69,43-80,99; -0,89 MHz, di dalam sebaran); latensi pada 15 ns 109,8 / 125,4 /
+   169,4 us (+1,2 %, -5,1 %, -15,9 % terhadap K3); median ALM 14.222,0 (40 ns, +106,5) dan 14.480,0 (15 ns, +187,0);
+   timing terpenuhi di 6 dari 6 seed pada 40 ns dan pada 15 ns (MEASURED, `batch2/9i4/selection_worksheet.md`). ACVP
+   100 % di kedua simulator; kontrol negatif sesuai syarat, termasuk port host yang di-throttle yang harus lolos
+   dengan interlock dan gagal tanpanya; formal: keselamatan (E1, S1-S7, B1-B7) PASS dan cover PASS, NC-JOIN4 FAIL
+   sesuai syarat, tetapi P1 (terbatas) dan NC-E1-4 habis waktu dan tidak punya hasil formal (`formal.md`).
 
-## Decision
-Accepted by Jo (Team J5) on 2026-10-05 on the team's instruction to approve; the text below is the proposal as written. The rule of the plan adopts option 2. The team accepts or rejects it. The worst path of the K4 seed with the smallest slack is a path of S2b (ADR 0042), not of item 4; the low seed (69.43 MHz) belongs to that path. If K3 (ADR 0042) is rejected, K4 must be remeasured on the other base: the cycle savings do not depend on the NTT parameters, the Fmax does.
+## Keputusan
+Diterima oleh Jo (Team J5) pada 2026-10-05 atas instruksi tim untuk menyetujui; teks di bawah adalah usulan seperti
+tertulis. Aturan rencana mengadopsi opsi 2. Tim menerima atau menolaknya. Jalur terburuk pada seed K4 dengan slack
+terkecil adalah jalur S2b (ADR 0042), bukan butir 4; seed rendah (69,43 MHz) milik jalur itu. Bila K3 (ADR 0042)
+ditolak, K4 harus diukur ulang pada basis lain: penghematan siklus tidak bergantung pada parameter NTT, Fmax bergantung.
 
-## Consequences
-If accepted: the base is `mlkem_core4` with the K3 parameters; the controller has the micro-operations RUNS and RUNJ, the engine variant grants the host write port while it runs and starts an operation only after every slot it uses is loaded; KeyGen is unchanged (its stores stay in series); stores are not overlapped (a possible later step). `mlkem_core4` requires `CODEC_W2 = 1`. If rejected: `mlkem_core3` stays; `mlkem_core4` and its files remain unused. Latencies are perhitungan tim from kernel-only static timing. No board claim; constant time means cycle-count invariance only.
+## Konsekuensi
+Bila diterima: basisnya adalah `mlkem_core4` dengan parameter K3; pengendali punya micro-operation RUNS dan RUNJ,
+varian mesin memberi port tulis host selagi berjalan dan memulai operasi hanya setelah setiap slot yang dipakainya
+termuat penuh; KeyGen tidak berubah (penyimpanannya tetap berderet); penyimpanan tidak ditumpangkan (langkah
+mendatang yang mungkin). `mlkem_core4` memerlukan `CODEC_W2 = 1`. Bila ditolak: `mlkem_core3` tetap; `mlkem_core4`
+dan filenya tetap tidak dipakai. Latensi adalah perhitungan tim dari timing statis kernel-only. Tidak ada klaim papan;
+waktu-konstan berarti invarian jumlah siklus saja.
 
-## Evidence
-`evidence/phase9m/batch2/9i4/result_9i4.md`, `selection_worksheet.md`, `sim.md`, `formal.md`, `critical_paths_K4-15.md`, `profile_k4_verilator.json`, `quartus_K4*_2026100*.md`; `docs/decisions/adr/ADR-0042-phase-9f-s2b-result-registered-ntt-issue-address-k3-not-adop.md`, `0034-*.md`, `0039-*.md`.
+## Bukti
+`evidence/phase9m/batch2/9i4/result_9i4.md`, `selection_worksheet.md`, `sim.md`, `formal.md`,
+`critical_paths_K4-15.md`, `profile_k4_verilator.json`, `quartus_K4*.md`;
+`docs/decisions/adr/ADR-0042-phase-9f-s2b-result-registered-ntt-issue-address-k3-not-adop.md`, `ADR-0034-*.md`,
+`ADR-0039-*.md`.

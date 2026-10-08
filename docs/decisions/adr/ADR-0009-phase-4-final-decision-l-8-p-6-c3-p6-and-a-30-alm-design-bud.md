@@ -1,69 +1,70 @@
-# ADR 0009: Phase 4 final decision: L = 8, P = 6 (C3-P6) and a 30% ALM design budget for the NTT core
+# ADR 0009: Keputusan akhir Fase 4: L = 8, P = 6 (C3-P6) dan anggaran desain ALM 30 % untuk inti NTT
 
 - Status: Accepted
-- Date: 2026-10-01
-- Decided by: Faza Dzil, Team J5
+- Tanggal: 2026-10-01
+- Diputuskan oleh: Faza Dzil, Team J5
 
-## Context
-- ADR 0004 (Accepted 2026-09-29) set an ALM budget of 25% of the device (10,478 ALM) for the lane-count selection.
-  The review of 2026-10-01 found that 25% was a self-chosen design budget, not a documented requirement: the
-  number entered as an example ("misal 25%") in the question that produced ADR 0004, and no estimate of the rest
-  of the fabric content existed at the time.
-- ADR 0007 (Accepted) fixed the Phase 4 candidate depths, the candidate conditions (with "ALM <= 10,478") and the
-  selection rule. ADR 0008 (Proposed, never accepted) applied that rule with the 25% budget and proposed P = 4.
-- Evidence gathered after ADR 0008 (all in `evidence/phase04/`, MEASURED unless marked):
-  - seed sweep, seeds 1–6 (`seed_sweep.md`): P = 6 uses 10,484–10,516 ALM and is over 10,478 at every
-    seed; P = 4 uses 10,439–10,503 ALM and is within 10,478 at 4 of 6 seeds; all 12 compiles meet 40.000 ns;
-    lowest-slow-corner Fmax P = 4 30.60–33.00 MHz, P = 6 32.60–34.20 MHz;
-  - DE10-Nano GHRD shell alone (`ghrd_shell_measured.md`): 1,304–1,309 ALM, 35 M10K, 0 DSP; the HPS
-    hard block uses 0 fabric ALM;
-  - GHRD + C3-P4 in one compile (`ghrd_plus_c3p4_integration.md`): 12,754 ALM; integration delta +18 ALM
-    against the standalone parts compiled with the same settings; 40.000 ns met; packing difficulty Low; peak
-    interconnect 48.2 %. This is integration evidence with P = 4 as baseline; P = 6 + GHRD was not compiled.
-  - fabric-content draft (`fabric_estimate_DRAFT.md`, ESTIMATE, low confidence).
+## Konteks
+- ADR 0004 (Accepted 2026-09-29) menetapkan anggaran ALM 25 % dari device (10.478 ALM) untuk pemilihan jumlah
+  lajur. Tinjauan 2026-10-01 menemukan bahwa 25 % adalah anggaran desain yang dipilih sendiri, bukan persyaratan
+  terdokumentasi: angka itu masuk sebagai contoh ("misal 25%") dalam pertanyaan yang menghasilkan ADR 0004, dan
+  belum ada estimasi isi fabric lainnya saat itu.
+- ADR 0007 (Accepted) menetapkan kedalaman kandidat Fase 4, syarat kandidat (dengan "ALM <= 10.478") dan aturan
+  seleksi. ADR 0008 (Proposed, tidak pernah diterima) menerapkan aturan itu dengan anggaran 25 % dan mengusulkan
+  P = 4.
+- Bukti yang dikumpulkan setelah ADR 0008 (semuanya di `evidence/phase04/`, MEASURED kecuali ditandai):
+  - sapuan seed, seed 1-6 (`seed_sweep.md`): P = 6 memakai 10.484-10.516 ALM dan melewati 10.478 di setiap seed;
+    P = 4 memakai 10.439-10.503 ALM dan dalam 10.478 di 4 dari 6 seed; kedua belas kompilasi memenuhi 40,000 ns;
+    Fmax slow-corner terendah P = 4 30,60-33,00 MHz, P = 6 32,60-34,20 MHz;
+  - shell GHRD DE10-Nano saja (`ghrd_shell_measured.md`): 1.304-1.309 ALM, 35 M10K, 0 DSP; blok keras HPS memakai
+    0 ALM fabric;
+  - GHRD + C3-P4 dalam satu kompilasi (`ghrd_plus_c3p4_integration.md`): 12.754 ALM; delta integrasi +18 ALM
+    terhadap bagian mandiri yang dikompilasi dengan setelan sama; 40,000 ns terpenuhi; kesulitan packing Rendah;
+    interkoneksi puncak 48,2 %. Ini bukti integrasi dengan P = 4 sebagai baseline; P = 6 + GHRD tidak dikompilasi.
+  - draf isi fabric (`fabric_estimate_DRAFT.md`, ESTIMATE, keyakinan rendah).
 
-## Options considered
-1. Keep 25% and accept ADR 0008 (P = 4). P = 4 is within budget at only 4 of 6 seeds; the P = 4 / P = 6 split rests
-   on a few tens of ALM, within fitter noise.
-2. Raise the NTT-core design budget to 30% (12,573 ALM) and select by the ADR 0007 rule. Both P = 4 and P = 6
-   are within budget at every measured seed (margin ≥ 2,057 ALM).
-3. Larger budgets (35–40%). No additional P becomes a candidate; only the headroom for later phases changes, and no
-   estimate supports a specific larger number.
+## Opsi yang dipertimbangkan
+1. Mempertahankan 25 % dan menerima ADR 0008 (P = 4). P = 4 dalam anggaran hanya di 4 dari 6 seed; pembagian
+   P = 4 / P = 6 bertumpu pada beberapa puluh ALM, dalam derau fitter.
+2. Menaikkan anggaran desain inti NTT menjadi 30 % (12.573 ALM) dan memilih dengan aturan ADR 0007. Baik P = 4
+   maupun P = 6 dalam anggaran di setiap seed yang diukur (margin ≥ 2.057 ALM).
+3. Anggaran lebih besar (35-40 %). Tidak ada P tambahan yang menjadi kandidat; hanya ruang untuk fase berikutnya
+   yang berubah, dan tidak ada estimasi yang mendukung angka lebih besar tertentu.
 
-## Decision
-1. Design budget: 30% of the device's ALMs for the NTT core = 12,573 ALM (41,910 × 0.30, fitter denominator),
-   using the fitter's "Logic utilization (ALMs needed)" figure as in Phase 4. This replaces the 25% value of ADR 0004
-   for the NTT core from Phase 4 onward. It is a design budget for the NTT core, not a limit for the final
-   system, and it does not state that the remaining 70% is sufficient for the rest of ML-KEM.
-2. Selected configuration: L = 8 lanes, pipeline depth P = 6, implementation C3-P6
-   (`rtl/ntt/ntt_core_c3_p6.sv`, Quartus revision `C3-P6`). Phase 5 starts from C3-P6.
-3. Timing targets unchanged (ADR 0006): Phase 4 milestone 40.000 ns (25 MHz, experimental target, met by C3-P6);
-   Phase 5 target 20.000 ns (50 MHz, not yet met).
+## Keputusan
+1. Anggaran desain: 30 % ALM device untuk inti NTT = 12.573 ALM (41.910 x 0,30, penyebut fitter), memakai angka
+   "Logic utilization (ALMs needed)" fitter seperti di Fase 4. Ini menggantikan nilai 25 % ADR 0004 untuk inti NTT
+   mulai Fase 4. Ini anggaran desain untuk inti NTT, bukan batas untuk sistem akhir, dan tidak menyatakan bahwa 70 %
+   sisanya cukup untuk bagian ML-KEM lainnya.
+2. Konfigurasi terpilih: L = 8 lajur, kedalaman pipeline P = 6, implementasi C3-P6
+   (`rtl/ntt/ntt_core_c3_p6.sv`, revisi Quartus `C3-P6`). Fase 5 mulai dari C3-P6.
+3. Target timing tidak berubah (ADR 0006): milestone Fase 4 40,000 ns (25 MHz, target eksperimen, dipenuhi oleh
+   C3-P6); target Fase 5 20,000 ns (50 MHz, belum dipenuhi).
 
-Check against the ADR 0007 rule with the 30% budget (perhitungan tim from `selection_worksheet.md` and
-`seed_sweep.md`): at the default seed the candidates are {4, 6}; t_NTT(6) = 3.481 µs is the minimum and
-d(4) = 0.051 > 0.05, so the rule selects P = 6. Stated plainly: across seeds 1–6 the same rule selects P = 6 at
-seeds 1, 4, 5 and P = 4 at seeds 2, 3, 6 (the two are near the 5% tie line). The team's choice of P = 6 is
-consistent with the rule at the default seed used for all measured revisions; it is not claimed to be seed-independent.
+Pemeriksaan terhadap aturan ADR 0007 dengan anggaran 30 % (perhitungan tim dari `selection_worksheet.md` dan
+`seed_sweep.md`): pada seed bawaan kandidatnya {4, 6}; t_NTT(6) = 3,481 µs adalah minimum dan
+d(4) = 0,051 > 0,05, jadi aturan memilih P = 6. Dinyatakan terus terang: di seed 1-6 aturan yang sama memilih P = 6
+di seed 1, 4, 5 dan P = 4 di seed 2, 3, 6 (keduanya dekat garis seri 5 %). Pilihan tim P = 6 konsisten dengan aturan
+pada seed bawaan yang dipakai untuk semua revisi terukur; tidak diklaim bebas dari seed.
 
-## Relation to earlier ADRs (nothing rewritten)
-- ADR 0004: its 25% value is superseded for the NTT core from Phase 4 on by this ADR; ADR 0004's text and the
-  Phase 3 decisions taken under it (ADR 0005, L = 8) stay as recorded.
-- ADR 0007: rule, candidate set and conditions unchanged except that condition 3 now reads "ALM <= 12,573".
-- ADR 0008: Proposed, not accepted; superseded by this ADR. Its measurements remain valid evidence.
-- ADR 0006: unchanged.
+## Hubungan dengan ADR sebelumnya (tidak ada yang ditulis ulang)
+- ADR 0004: nilai 25 %-nya digantikan untuk inti NTT mulai Fase 4 oleh ADR ini; teks ADR 0004 dan keputusan Fase 3
+  yang diambil di bawahnya (ADR 0005, L = 8) tetap seperti tercatat.
+- ADR 0007: aturan, himpunan kandidat, dan syarat tidak berubah kecuali syarat 3 kini berbunyi "ALM <= 12.573".
+- ADR 0008: Proposed, tidak diterima; digantikan oleh ADR ini. Pengukurannya tetap bukti yang valid.
+- ADR 0006: tidak berubah.
 
-## Consequences
-- C3-P6 measured margin to 12,573 ALM: 2,057–2,089 ALM (seeds 1–6).
-- System-level resources are not settled: P = 6 + GHRD has not been compiled; Keccak, samplers, the KEM controller,
-  encode/compress, storage, bridge and SignalTap are not measured. The integration figures above use P = 4.
-- Compile settings matter: the GHRD's global settings raised C3-P4 from 10,439 to 11,432 ALM (MEASURED). Under those
-  settings C3-P6 has not been measured; a system build may need its own budget check.
-- Phase 5 (arithmetic) must keep C3-P6 within 12,573 ALM or record a new decision.
+## Konsekuensi
+- Margin terukur C3-P6 ke 12.573 ALM: 2.057-2.089 ALM (seed 1-6).
+- Sumber daya tingkat sistem belum tuntas: P = 6 + GHRD belum dikompilasi; Keccak, sampler, pengendali KEM,
+  encode/compress, penyimpanan, jembatan, dan SignalTap belum diukur. Angka integrasi di atas memakai P = 4.
+- Setelan kompilasi berpengaruh: setelan global GHRD menaikkan C3-P4 dari 10.439 menjadi 11.432 ALM (MEASURED). Di
+  bawah setelan itu C3-P6 belum diukur; build sistem mungkin memerlukan pemeriksaan anggaran sendiri.
+- Fase 5 (aritmetika) harus menjaga C3-P6 dalam 12.573 ALM atau mencatat keputusan baru.
 
-## Evidence
+## Bukti
 - `evidence/phase04/selection_worksheet.md`, `seed_sweep.md`,
   `quartus_C3-P6.md`, `seed_sweep/quartus_C3-P6-s{2..6}.md`
 - `evidence/phase04/ghrd_shell_measured.md`, `quartus_GHRD-de10-nano-base.md`,
   `ghrd_plus_c3p4_integration.md`, `fabric_estimate_DRAFT.md`
-- `docs/decisions/0004-*.md`, `0006-*.md`, `0007-*.md`, `0008-*.md`; `docs/results/phase04.md`
+- `docs/decisions/adr/ADR-0004-*.md`, `ADR-0006-*.md`, `ADR-0007-*.md`, `ADR-0008-*.md`; `docs/results/phase04.md`
